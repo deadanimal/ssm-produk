@@ -1,0 +1,385 @@
+<div class="wrapper">
+    <div class="cd-section">
+        <div class="section features-7">
+            <div class="container mt-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="display-3">Product Listing</h4>
+                        <h5 class="m-0">
+                            Entity name: {{entity.registration_no}} / {{entity.name}}
+                        </h5>
+
+                        <p class="lead">Available products and documents:</p>
+                    </div>
+                </div>
+
+                <tabset type="pills">
+					<tab>
+						<ng-template tabHeading> Products </ng-template>
+						<div class="row">
+							<div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">
+											Company Profile
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck1">
+															<label class="custom-control-label text-dark" for="customCheck1">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- <div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">Certificate of Incorporation / Registration
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck2">
+															<label class="custom-control-label text-dark" for="customCheck2">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">
+											Certificate of Change of Name
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck3">
+															<label class="custom-control-label text-dark" for="customCheck3">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">
+											Certificate of Conversion
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck4">
+															<label class="custom-control-label text-dark" for="customCheck4">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">
+											Particular of Directors/Officers
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck5">
+															<label class="custom-control-label text-dark" for="customCheck5">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-4 col-md-6">
+								<div class="card card-product">
+									<div class="card-image">
+										<a href="#pablo">
+											<img class="img rounded" src="assets/img/default/sample.png" />
+										</a>
+									</div>
+									<div class="card-body">
+										<h6 class="category text-warning">
+											Particular of Registered Address
+										</h6>
+										<div class="card-description opacity-8 mt-2">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+											sed do eiusmod tempor incididunt ut labore et dolore magna
+											aliqua.
+										</div>
+										<div class="card-footer">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control form-control-sm">
+															<option selected>BM</option>
+															<option>EN</option>
+															<option>Both</option>
+														</select>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox">
+															<input type="checkbox" class="custom-control-input" id="customCheck6">
+															<label class="custom-control-label text-dark" for="customCheck6">CTC</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="btn btn-primary mt-4" (click)="addCart()">
+												Add to cart
+											</a>
+										</div>
+									</div>
+								</div>
+							</div> -->
+						</div>
+                    </tab>
+                    
+					<tab>
+						<ng-template tabHeading> Document & Form Images </ng-template>
+						<div *ngIf="!isProceed">
+							<div class="row">
+								<div class="col-1">
+									<i class="fas fa-info"></i>
+								</div>
+								<div class="col-11">
+									<p class="description">
+										By requesting to view the Document & Form Images for 
+										Pipeline Engineering Sdn. Bhd., RM10.00. This viewing fee 
+										is valid up to 24 hours from date of purchase.
+									</p>
+								</div>
+							</div>
+							<div class="custom-control custom-checkbox mb-3">
+								<input class="custom-control-input" id="customCheckx" type="checkbox" checked>
+								<label class="custom-control-label" for="customCheckx">I accept the Terms and Condition above.</label>
+							</div>
+							<button class="btn btn-primary" type="button" (click)="proceed()">Proceed</button>
+						</div>
+
+						<div class="mt-2" *ngIf="isProceed">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Document Type</th>
+										<th>Document Description</th>
+										<th>Document Date</th>
+										<th>Total Pages</th>
+										<th>CTC</th>
+										<th>Add to Cart</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>559</td>
+										<td>Annual Return</td>
+										<td>12/10/2009</td>
+										<td>6</td>
+										<td>
+											<div class="form-group">
+                                                <select class="form-control form-control-sm">
+                                                    <option *ngFor="let option of ctcOpts">{{option.name}}</option>
+                                                </select>
+                                            </div>
+										</td>
+										<td class="td-actions text-right">
+											<button type="button" class="btn btn-primary btn-sm" (click)="addCart()">
+												Add to cart RM10.00
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>559</td>
+										<td>Annual Return</td>
+										<td>12/09/2009</td>
+										<td>6</td>
+										<td>
+											<div class="form-group">
+                                                <select class="form-control form-control-sm">
+                                                    <option *ngFor="let option of ctcOpts">{{option.name}}</option>
+                                                </select>
+                                            </div>
+										</td>
+										<td class="td-actions text-right">
+											<button type="button" class="btn btn-primary btn-sm" (click)="addCart()">
+												Add to cart RM10.00
+											</button>
+										</td>
+									</tr>
+									<tr>
+										<td>559</td>
+										<td>Annual Return</td>
+										<td>12/11/2009</td>
+										<td>6</td>
+										<td>
+											<div class="form-group">
+                                                <select class="form-control form-control-sm">
+                                                    <option *ngFor="let option of ctcOpts">{{option.name}}</option>
+                                                </select>
+                                            </div>
+										</td>
+										<td class="td-actions text-right">
+											<button type="button" class="btn btn-primary btn-sm" (click)="addCart()">
+												Add to cart RM10.00
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<br />
+						<br />
+						<br />
+					</tab>
+				</tabset>
+            </div>
+        </div>
+    </div>
+</div>

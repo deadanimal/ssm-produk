@@ -1,0 +1,122 @@
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-cart.jpg');"></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder mb-0">PAYMENT</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt--9">
+        <div class="row">
+            <div class="col">
+                <h3 class="title font-weight-bolder">Payment Methods</h3>
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="radioMethodCC" name="radioMethod" class="custom-control-input">
+                        <label class="custom-control-label" for="radioMethodCC">Credit Card</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="radioMethodDC" name="radioMethod" class="custom-control-input">
+                        <label class="custom-control-label" for="radioMethodDC">Debit Card</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="radioMethodFPX" name="radioMethod" class="custom-control-input">
+                        <label class="custom-control-label" for="radioMethodFPX">Debit Card</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="title font-weight-bolder">Payment Methods</h3>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Name</label>
+                    <input class="form-control" value="Amin Redzuan">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email address</label>
+                    <input class="form-control" value="amin@gmail.com">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Phone no.</label>
+                    <input class="form-control" value="0124125100">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address line 1</label>
+                    <input class="form-control" value="No. 10, Lorong Perdana">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address line 2</label>
+                    <input class="form-control" value="">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address line 3</label>
+                    <input class="form-control" value="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode</label>
+                    <input class="form-control" value="64100">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City</label>
+                    <input class="form-control" value="Petaling Jaya">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State</label>
+                    <input class="form-control" value="Selangor">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right py-4">
+            <button 
+                class="btn btn-ssm text-right mt-4 btn-round"
+                (click)="makePayment()"
+            >
+                Make Payment
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,168 @@
+<div class="wrapper">
+    <div class="cd-section" id="contact-us">
+        <div
+            class="contactus-1 bg-default"
+            style="background-image: url('assets/img/ill/1.svg')"
+        >
+            <div class="container">
+                <div class="row pt-8">
+                    <div class="col-lg-6 col-md-5 d-flex justify-content-center flex-column">
+                        <h2 class="title text-white">Get in Touch</h2>
+                        <h4 class="description text-white">
+                            You need more information? Check what other persons are saying
+                            about our product. They are very happy with their purchase.
+                        </h4>
+                        <div class="info info-horizontal">
+                            <div class="icon icon-shape icon-shape-primary shadow rounded-circle text-white">
+                                <i class="fas fa-map-marked-alt"> </i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title text-white">
+                                    Find us at the office
+                                </h4>
+                                <p class="description ml-3 text-white">
+                                    <strong>MENARA SSM @ SENTRAL</strong><br />
+
+                                    No. 7, Jalan Stesen Sentral 5,<br />
+
+                                    Kuala Lumpur Sentral,<br />
+
+                                    50623 Kuala Lumpur. <br />
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="info info-horizontal">
+                            <div class="icon icon-shape icon-shape-primary shadow rounded-circle text-white">
+                                <i class="fas fa-phone"> </i>
+                            </div>
+                            <div class="description">
+                                <h4 class="info-title text-white">Give us a ring</h4>
+                                <p class="description ml-3 text-white">
+                                    Tel: +603-7721 4000<br />
+
+                                    Fax: 03-7721 4001<br />
+
+                                    Email: enquiry@ssm.com.my
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-7 ml-auto mr-auto">
+                        <div class="card card-contact card-raised">
+                            <form id="contact-form" method="post" role="form">
+                                <div class="card-header text-center">
+                                    <h4 class="card-title">Contact Us</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form [formGroup]="contactForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group" [ngClass]="{ 'focused': focusFirstName === true }">
+                                                    <label> First name </label>
+                                                    <div class="input-group mb-4">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-user-circle"> </i>
+                                                            </span>
+                                                        </div>
+                                                        <input
+                                                            aria-label="First name"
+                                                            class="form-control"
+                                                            placeholder="First name"
+                                                            type="text"
+                                                            (blur)="focusFirstName = false"
+                                                            (focus)="focusFirstName = true"
+                                                            formControlName="first_name"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-2">
+                                                <div class="form-group" [ngClass]="{ 'focused': focusLastName === true }">
+                                                    <label> Last name </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="far fa-user-circle"> </i>
+                                                            </span>
+                                                        </div>
+                                                        <input
+                                                            aria-label="Last name"
+                                                            class="form-control"
+                                                            placeholder="Last name"
+                                                            type="text"
+                                                            (blur)="focusLastName = false"
+                                                            (focus)="focusLastName = true"
+                                                            formControlName="last_name"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-group" [ngClass]="{ 'focused': focusEmail === true }">
+                                            <label> Email address </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="far fa-envelope"> </i>
+                                                    </span>
+                                                </div>
+                                                <input
+                                                    class="form-control"
+                                                    placeholder="Email"
+                                                    type="text"
+                                                    (blur)="focusEmail = false"
+                                                    (focus)="focusEmail = true"
+                                                    formControlName="email"
+                                                />
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-group" [ngClass]="{ 'focused': focusMessage === true }">
+                                            <label> Message </label>
+                                            <textarea
+                                                class="form-control"
+                                                id="message"
+                                                name="message"
+                                                placeholder="Enter message"
+                                                (blur)="focusMessage = false"
+                                                (focus)="focusMessage = true"
+                                                formControlName="message"
+                                                rows="6"
+                                            ></textarea>
+                                        </div>
+                                    </form>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- <div class="custom-control custom-checkbox mt-2">
+                                                <input class="custom-control-input" id="customCheck" type="checkbox" />
+
+                                                <label class="custom-control-label" for="customCheck">
+                                                    <span> I'm not a robot </span>
+                                                </label>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button 
+                                                class="btn btn-primary pull-right"
+                                                type="submit"
+                                                (click)="submit()"
+                                                [disabled]="!contactForm.valid"
+                                            >
+                                                Send Message
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,247 @@
+<header class="header-3 bg-dark">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <carousel>
+                <slide>
+                    <!-- <img [src]="slider1" alt="first slide" style="display: block; width: 100%;"> -->
+                    <video width="1920" height="1080" autoplay loop>
+                        <source 
+                            src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/videos/portal_ssm_01.mp4"
+                            type="video/mp4"
+                        >
+                        Your browser does not support the video tag.
+                    </video>
+                </slide>
+            </carousel>
+        </div>
+    </div>
+</header>
+
+<div class="wrapper">
+
+    <div class="cd-section" id="blogs">
+        <section class="blogs-2">
+            <div class="container-fluid py-6">
+                <div class="row mb-md-5">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="title text-ssm text-center font-weight-bold">
+                            Get access to most accurate and comprehensive data
+                        </h2>
+
+                        <div class="row">
+                            <div class="col border-right">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    Sole Proprietorship
+                                                </p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    : {{totalSoleProprietorship}}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    Partnership
+                                                </p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    : {{totalPartnership}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <h1 class="text-ssm text-center mb-0">
+                                            <tm-ng-odometer [number]="totalCompanies"></tm-ng-odometer>
+                                        </h1>
+                                        <p class="text-center">Business</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h1 class="text-ssm text-center mb-0">
+                                            <tm-ng-odometer [number]="totalBusinessess"></tm-ng-odometer>
+                                        </h1>
+                                        <p class="text-center">Companies</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    Local
+                                                </p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="text-ssm text-left">
+                                                    : {{totalLocal}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-ssm text-left mb-0">
+                                                    Foreign
+                                                </p>
+                                            </div>
+
+                                            <div class="col">
+                                                <p class="text-ssm text-left">
+                                                    : {{totalForeign}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card card-blog card-background" data-animation="zooming">
+                            <div class="full-background"
+                                style="background-image: url('assets/img/background/menara_ssm.jpg');">
+                            </div>
+                            <a href="javascript:;" (click)="navigatePage('/about')">
+                                <div class="card-body">
+                                    <div class="content-bottom">
+                                        <h6 class="card-category text-white opacity-8"></h6>
+                                        <h5 class="card-title">ABOUT SSM PRODUCT</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card card-blog card-background" data-animation="zooming">
+                            <div class="full-background"
+                                style="background-image: url('assets/img/background/cart.jpg');">
+                            </div>
+                            <a href="javascript:;" (click)="navigatePage('/search-engine')">
+                                <div class="card-body">
+                                    <div class="content-bottom">
+                                        <h6 class="card-category text-white opacity-8"></h6>
+                                        <h5 class="card-title">PRODUCT PURCHASE</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card card-blog card-background" data-animation="zooming">
+                            <div class="full-background"
+                                style="background-image: url('assets/img/background/putrajaya.jpg');">
+                            </div>
+                            <a href="javascript:;" (click)="navigatePage('/egov')">
+                                <div class="card-body">
+                                    <div class="content-bottom">
+                                        <h6 class="card-category text-white opacity-8"></h6>
+                                        <h5 class="card-title">eGOV</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card card-blog card-background" data-animation="zooming">
+                            <div class="full-background"
+                                style="background-image: url('assets/img/background/faq.jpg');">
+                            </div>
+                            <a href="javascript:;" (click)="navigatePage('/enquiry')">
+                                <div class="card-body">
+                                    <div class="content-bottom">
+                                        <h6 class="card-category text-white opacity-8"></h6>
+                                        <h5 class="card-title">Enquiry</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card card-blog card-background" data-animation="zooming">
+                            <div class="full-background"
+                                style="background-image: url('assets/img/background/faq.jpg');">
+                            </div>
+                            <a href="javascript:;" (click)="navigatePage('/faq')">
+                                <div class="card-body">
+                                    <div class="content-bottom">
+                                        <h6 class="card-category text-white opacity-8"></h6>
+                                        <h5 class="card-title">FAQ</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mx-auto mb-3">
+            <carousel>
+                <slide>
+                    <div class="row">
+                        <div class="col pl-8">
+                            <p class="m-0"><strong>PRODUCT BANNER</strong></p>
+                            <h4 class="m-0 font-weight-bold">Our Products</h4>
+                            <h2 class="text-ssm font-weight-bolder">Business Profile</h2>
+
+                            <p class="text-dark">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                                voluptate velit esse cillum dolore eu fugiat nulla pariatur
+                            </p>
+
+                            <div class="my-4 float-right">
+                                <button 
+                                    class="btn btn-ssm btn-round mr-1"
+                                    type="button"
+                                    (click)="navigatePage('/about')"
+                                >
+                                    More Products
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col float-right">
+                            <img 
+                                src="assets/img/background/test2.png"
+                                alt="first slide"
+                                style="display: block; width: 70%;"
+                                class="ml-auto"
+                            >
+                        </div>
+                    </div>
+                </slide>
+
+                <slide>
+                    <img [src]="slider3" alt="first slide" style="display: block; width: 75%;" class="d-flex mx-auto">
+                </slide>
+
+                <slide>
+                    <img [src]="slider4" alt="first slide" style="display: block; width: 75%;" class="d-flex mx-auto">
+                </slide>
+            </carousel>
+        </div>
+    </div>
+</div>

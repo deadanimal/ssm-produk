@@ -1,0 +1,115 @@
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-tower.jpg');"></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder mb-0">Personal Involvement Purchase</h1>
+                            <h1 class="text-ssm font-weight-bolder mt-0">Company / Business</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt--9">
+        <h3 class="title font-weight-bolder">Company / Business Involvement</h3>
+
+        <div class="row">
+            <div class="col-sm-12 col-lg-auto">
+                <div class="form-group">
+                    <select class="form-control">
+                        <option>ID type</option>
+                        <option>New NRIC</option>
+                        <option>Old NRIC</option>
+                        <option>Passport no.</option>
+                        <option>Police ID</option>
+                        <option>Army ID</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-auto">
+                <div class="form-group">
+                    <input 
+                        class="form-control"
+                        placeholder="Type ID number to search"
+                        type="text" 
+                        (blur)="focus = false" 
+                        (focus)="focus = true"
+                    />
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-auto">
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="entities">
+                        <option>Entities</option>
+                        <option value='rob'>ROB</option>
+                        <option value='roc'>ROC</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-auto">
+                <div class="form-group" *ngIf="entities == 'roc'">
+                    <select class="form-control">
+                        <option>Involvement to purchase</option>
+                        <option>Director</option>
+                        <option>Shareholders</option>
+                        <option>Company secretary</option>
+                        <option>Liquidator</option>
+                        <option>Auditor</option>
+                    </select>
+                </div>
+
+                <div class="form-group" *ngIf="entities == 'rob'">
+                    <select class="form-control">
+                        <option>Business Ownership</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-auto">
+                <div class="form-group">
+                    <select class="form-control">
+                        <option>EN</option>
+                        <option>BM</option>
+                        <option>Both</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-lg-auto">
+                <div class="custom-control custom-checkbox" *ngIf="entities == 'roc'">
+                    <input type="checkbox" class="custom-control-input" id="addCTCROC">
+                    <label class="custom-control-label" for="addCTCROC">CTC (+RM10.00)</label>
+                </div>
+
+                <div class="custom-control custom-checkbox" *ngIf="entities == 'rob'">
+                    <input type="checkbox" class="custom-control-input" id="addCTCROB">
+                    <label class="custom-control-label" for="addCTCROB">CTC (+RM5.00)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-left">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="proceedCheckbox">
+                <label class="custom-control-label" for="proceedCheckbox">
+                    Please ensure the ID number given by the customer is correct. 
+                    By purchasing personal involvement, fee will be charged to any information.
+                </label>
+            </div>
+
+            <div class="text-right my-4">
+                <button class="btn btn-ssm btn-round">
+                    Add to Cart RM90.00
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

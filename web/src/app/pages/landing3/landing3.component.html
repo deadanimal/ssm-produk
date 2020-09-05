@@ -1,0 +1,222 @@
+<header class="header-3 bg-dark">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <carousel>
+            <slide>
+                <img src="assets/img/carousel/landscape-1.jpg" alt="first slide" style="display: block; width: 100%;">
+              </slide>
+              <slide>
+                <img src="assets/img/carousel/landscape-2.jpg" alt="second slide" style="display: block; width: 100%;">
+              </slide>
+            </carousel>
+        </div>
+      </div> 
+</header>
+
+<div class="wrapper">
+  <div class="subscribe-line">
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-lg-10 col-md-12 mx-auto">
+          <div class="text-center">
+            <h2 class="title">Search Company, Business or Audit Firm</h2>
+          </div>
+          <div class="card card-raised card-form-horizontal">
+            <div class="card-body">
+              <form action="" method="">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div
+                      class="input-group"
+                      [ngClass]="{ focused: focus === true }"
+                    >
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fas fa-info"> </i>
+                        </span>
+                      </div>
+                      <input
+                        class="form-control"
+                        placeholder="Please enter company, business or audit firm to search..."
+                        type="text"
+                        (blur)="focus = false"
+                        (focus)="focus = true"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <div class="input-group">
+                      <select class="form-control">
+                        <option selected>Business</option>
+                        <option>Company</option>
+                        <option>Audit Firm</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <button class="btn btn-primary" type="button" (click)="navigatePage('/product-listing')">
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cd-section" id="contact-us">
+    <div
+      class="contactus-1 bg-default"
+      style="background-image: url('assets/img/ill/1.svg');"
+    >
+      <div class="container py-7">
+        <h2 class="title text-white text-center">Total Registered With SSM</h2>
+        <div class="row">
+          <div
+            class="col-lg-5 col-md-5 d-flex justify-content-center flex-column"
+          >
+            <!-- <h4 class="description text-white">
+              You need more information? Check what other persons are saying
+              about our product. They are very happy with their purchase.
+            </h4> -->
+            <div class="info info-horizontal">
+              <div
+                class="icon icon-shape icon-shape-primary shadow rounded-circle text-white"
+              >
+                <i class="fas fa-building"> </i>
+              </div>
+              <div class="description">
+                <h3 class="info-title text-white">
+                  Companies : 
+                  <tm-ng-odometer [number]="totalCompanies"></tm-ng-odometer>
+                </h3>
+                <h4 class="description ml-3 text-white">
+                  Local: 1,356,052
+                </h4>
+                <h4 class="description ml-3 text-white">
+                  Foreign: 4,889
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-7 ml-auto mr-auto">
+            <div class="info info-horizontal text-right">
+              <div
+                class="icon icon-shape icon-shape-primary shadow rounded-circle text-white"
+              >
+                <i class="far fa-building"> </i>
+              </div>
+              <div class="description">
+                <h3 class="info-title text-white">
+                  Businesses:
+                  <tm-ng-odometer [number]="totalBusinessess"></tm-ng-odometer>
+                </h3>
+                <h4 class="description ml-3 text-white">
+                  Sole Proprietorship: 6,446,741
+                </h4>
+                <h4 class="description ml-3 text-white">
+                  Partnership: 1,363,471
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cd-section" id="blogs">
+    <section class="blogs-2">
+      <div class="container-fluid">
+        <div class="row mb-md-5">
+          <div class="col-md-8 mx-auto">
+            <h3 class="display-3 text-center">Site map</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="background-image: url('assets/img/carousel/1.jpg');"
+              ></div>
+              <a href="javascript:;">
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h6 class="card-category text-white opacity-8"></h6>
+                    <h5 class="card-title">About SSM Product</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="background-image: url('assets/img/carousel/2.jpg');"
+              ></div>
+              <a href="javascript:;">
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h6 class="card-category text-white opacity-8"></h6>
+                    <h5 class="card-title">SSM eShop</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="background-image: url('assets/img/carousel/3.jpg');"
+              ></div>
+              <a href="javascript:;">
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h6 class="card-category text-white opacity-8"></h6>
+                    <h5 class="card-title">eGov</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div
+              class="card card-blog card-background"
+              data-animation="zooming"
+            >
+              <div
+                class="full-background"
+                style="background-image: url('assets/img/carousel/4.jpg');"
+              ></div>
+              <a href="javascript:;">
+                <div class="card-body">
+                  <div class="content-bottom">
+                    <h6 class="card-category text-white opacity-8"></h6>
+                    <h5 class="card-title">Enquiry / FAQ</h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-cart.jpg');"></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder mb-0">CHECKOUT</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt--9">
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Product Details</th>
+                                <th>Search Criteria</th>
+                                <th>Total Pages</th>
+                                <th>Total Company</th>
+                                <th>Unit Price (RM)</th>
+                                <th>Total Price (RM)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list">
+                            <tr>
+                                <td>Company Profile - Pipeline Network Sdn. Bhd</td>
+                                <td>View Search Criteria</td>
+                                <td>6</td>
+                                <td>1</td>
+                                <td>20.00</td>
+                                <td>20.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="float-right py-4">
+                    <p class="m-0 text-right">Total Document: 2</p>
+                    <p class="m-0 text-right">Total exclude SST & Rounding Adj. (RM): 20.00</p>
+                    <p class="m-0 text-right">SST @ 6% for Service Fee & Rounding Adj. (RM): 1.20</p>
+                    <p class="m-0 text-right">Total Amount & Rounding Adj. (RM): 21.20</p>
+
+                    <button 
+                        class="btn btn-ssm float-right mt-4 btn-round"
+                        (click)="navigatePage('/payment')"
+                    >
+                        Continue to Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
