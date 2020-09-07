@@ -1,150 +1,156 @@
 <header class="header-2 skew-separator">
-    <div class="page-header">
-        <div class="page-header-image" style="background-image: url('assets/img/background/menara_ssm.jpg')"></div>
-        <div class="container pt-300">
-            <div class="cd-section">
-                <div class="section features-7">
-                    <div class="container mt-2">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="display-3 text-center">
-                                    <strong>Seach Company and Business Information</strong>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="page-header">
+    <div
+      class="page-header-image"
+      style="background-image: url('assets/img/background/menara_ssm.jpg')"
+    ></div>
+    <div class="container pt-300">
+      <div class="cd-section">
+        <div class="section features-7">
+          <div class="container mt-2">
+            <div class="row">
+              <div class="col">
+                <h4 class="display-3 text-center">
+                  <strong>Seach Company and Business Information</strong>
+                </h4>
+              </div>
             </div>
-        
-            <div class="container mb-9">
-                <div class="row">
-                    <div class="col">
-                        <div class="card card-raised card-form-horizontal">
-                            <div class="card-body">
-                                <form [formGroup]="productForm">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <div class="input-group" [ngClass]="{ focused: focus === true }">
-                                                <div class="input-group-prepend rounded-pill-left">
-                                                    <span class="input-group-text rounded-pill-left">
-                                                        <i class="fas fa-info"> </i>
-                                                    </span>
-                                                </div>
-                                                <input 
-                                                    class="form-control rounded-pill-right"
-                                                    placeholder="Type company, business or audit firm to search..."
-                                                    type="text" 
-                                                    (blur)="focus = false" 
-                                                    (focus)="focus = true"
-                                                    formControlName="registration_number"
-                                                />
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-sm-2">
-                                            <div class="input-group">
-                                                <select class="form-control rounded-pill">
-                                                    <option selected>Business</option>
-                                                    <option>Company</option>
-                                                    <option>Audit Firm</option>
-                                                </select>
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-sm-2">
-                                            <button 
-                                                class="btn btn-primary btn-round"
-                                                type="button"
-                                                (click)="search()"
-                                                [disabled]="!productForm.valid"
-                                            >
-                                                Search
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <span class="text-small text-light">Please exclude sysmbol ("-") and alphabet ("A") Example: "123" instead "1234-A".</span>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+
+      <div class="container mb-9">
+        <div class="row">
+          <div class="col">
+            <div class="card card-raised card-form-horizontal">
+              <div class="card-body">
+                <form [formGroup]="productForm">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div
+                        class="input-group"
+                        [ngClass]="{ focused: focus === true }"
+                      >
+                        <div class="input-group-prepend rounded-pill-left">
+                          <span class="input-group-text rounded-pill-left">
+                            <i class="fas fa-info"> </i>
+                          </span>
+                        </div>
+                        <input
+                          class="form-control rounded-pill-right"
+                          placeholder="Type company, business or audit firm to search..."
+                          type="text"
+                          (blur)="focus = false"
+                          (focus)="focus = true"
+                          formControlName="registration_number"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="input-group">
+                        <select class="form-control rounded-pill">
+                          <option selected>Business</option>
+                          <option>Company</option>
+                          <option>Audit Firm</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <button
+                        class="btn btn-primary btn-round"
+                        type="button"
+                        (click)="search()"
+                        [disabled]="!productForm.valid"
+                      >
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                  <span class="text-small text-light"
+                    >Please exclude sysmbol ("-") and alphabet ("A") Example:
+                    "123" instead "1234-A".</span
+                  >
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </header>
 
 <div class="wrapper">
-    <div class="container mb-7">
-        <div class="row">
-            <div class="col">
+  <div class="container mb-7">
+    <div class="row">
+      <div class="col">
+        <div class="card" *ngIf="!isEmpty && isNoResult">
+          <div class="card-header">
+            <h4 class="m-0">Search Result</h4>
+          </div>
 
-                <div class="card" *ngIf="!isEmpty && isNoResult">
-                    <div class="card-header">
-                        <h4 class="m-0">Search Result</h4>
-                    </div>
+          <div class="table-responsive" *ngIf="isNoResult">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th>Entity</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-                    <div class="table-responsive" *ngIf="isNoResult">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Entity</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="list">
-                                <div class="text-center p-5">
-                                    No match found
-                                </div>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card" *ngIf="!isEmpty && isGotResult">
-                    <div class="card-header">
-                        <h4 class="m-0">Search Result</h4>
-                    </div>
-
-                    <div class="table-responsive" *ngIf="isGotResult">
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Entity</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="list">
-                                <tr>
-                                    <td>Pipeline Network Sdn. Bhd.</td>
-                                    <td class="text-right">
-                                        <button 
-                                            class="btn btn-sm btn-ssm text-right"
-                                            (click)="viewResult()"
-                                        >
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+              <tbody class="list">
+                <div class="text-center p-5">No match found</div>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <img src="assets/img/background/how.png" style="width: 100%">
-            </div>
+        <div class="card" *ngIf="!isEmpty && isGotResult">
+          <div class="card-header">
+            <h4 class="m-0">Search Result</h4>
+          </div>
+
+          <div class="table-responsive" *ngIf="isGotResult">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th>Entity</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody class="list">
+                <tr>
+                  <td>Pipeline Network Sdn. Bhd.</td>
+                  <td class="text-right">
+                    <button
+                      class="btn btn-sm btn-ssm text-right"
+                      (click)="viewResult()"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12 mx-auto mb-3">
-            <carousel>
-                <slide>
+      <div class="col">
+        <img src="assets/img/background/how.png" style="width: 100%" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mx-auto mb-3">
+      <carousel>
+        <!-- <slide>
                     <div class="row">
                         <div class="col pl-8">
                             <p class="m-0"><strong>PRODUCT BANNER</strong></p>
@@ -174,18 +180,51 @@
                             >
                         </div>
                     </div>
-                </slide>
-            </carousel>
-        </div>
+                </slide> -->
+        <slide>
+          <img
+            [src]="slider1"
+            alt="first slide"
+            style="display: block; width: 75%"
+            class="d-flex mx-auto"
+          />
+        </slide>
+        <slide>
+          <img
+            [src]="slider2"
+            alt="first slide"
+            style="display: block; width: 75%"
+            class="d-flex mx-auto"
+          />
+        </slide>
+        <slide>
+          <img
+            [src]="slider3"
+            alt="first slide"
+            style="display: block; width: 75%"
+            class="d-flex mx-auto"
+          />
+        </slide>
+
+        <slide>
+          <img
+            [src]="slider4"
+            alt="first slide"
+            style="display: block; width: 75%"
+            class="d-flex mx-auto"
+          />
+        </slide>
+      </carousel>
     </div>
+  </div>
 </div>
 
 <ngx-spinner
-    bdColor="rgba(0, 0, 0, 0.8)"
-    size="medium" 
-    color = "#fff"
-    type="ball-fussion"
-    [fullScreen]="true"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-fussion"
+  [fullScreen]="true"
 >
-    <p style="color: white" > Loading... </p>
+  <p style="color: white">Loading...</p>
 </ngx-spinner>
