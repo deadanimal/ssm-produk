@@ -9,12 +9,21 @@ import {
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
 
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+
 @Component({
   selector: "app-search-engine",
   templateUrl: "./search-engine.component.html",
   styleUrls: ["./search-engine.component.scss"],
 })
 export class SearchEngineComponent implements OnInit {
+  view = {
+    isVisible: true,
+    // title: "hello 🤔",
+    // dateRangeText: "date RangeText 🔥🔥",
+    // data: "data ⚡",
+  };
+
   // Search field
   focus;
   searchField: string = "";
