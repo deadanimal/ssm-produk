@@ -1,121 +1,140 @@
 <div class="wrapper">
-    <section class="section-shaped title-bg bg-mini">
-        <div class="page-header page-header-small header-filter-white">
-            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-cart.jpg');"></div>
-            <div class="container">
-                <div class="header-body text-center mb-9">
-                    <div class="row justify-content-center">
-                        <div class="col">
-                            <h1 class="text-ssm font-weight-bolder mb-0">CART</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container mt--9">
-        <div class="row">
+  <section class="section-shaped title-bg bg-mini">
+    <div class="page-header page-header-small header-filter-white">
+      <div
+        class="page-header-image"
+        style="background-image: url('assets/img/banner/banner-cart.jpg')"
+      ></div>
+      <div class="container">
+        <div class="header-body text-center mb-9">
+          <div class="row justify-content-center">
             <div class="col">
-                <div class="">
-                    <div 
-                        *ngIf="isEmpty"
-                        class="empty-cart d-flex align-items-center justify-content-center"
-                    >
-                        <div class="">
-                            <img [src]="iconEmpty" class="empty-icon d-flex align-self-center">
-                            <p class="text-muted">You have an empty cart</p>
-                            <button
-                                class="btn btn-icon btn-3 btn-primary"
-                                type="button"
-                                (click)="navigatePage('/product')"
-                            >
-                                <span class="btn-inner--icon">
-                                <i class="fas fa-chevron-left"> </i>
-                                </span>
-                                <span class="btn-inner--text"> Go to Product </span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="table" *ngIf="!isEmpty">
-                        <div class="tools float-left">
-                            <div class="dropdown" dropdown>
-                                <button
-                                    class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    dropdownToggle type="button"
-                                >
-                                    <i class="fas fa-cog"> </i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
-                                    <a class="dropdown-item" href="#"> Remove </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead class="text-primary">
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Product</th>
-                                        <th>Entity</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <tr *ngFor="let item of items">
-                                        <td class="text-center">
-                                            <div class="custom-control custom-checkbox">
-                                                <input 
-                                                    class="custom-control-input"
-                                                    type="checkbox" 
-                                                    [(ngModel)]="item.checked"
-                                                    [name]="item.id"
-                                                />
-
-                                                <label class="custom-control-label">
-                                                </label>
-                                            </div>
-                                        </td>
-
-                                        <td>{{item.product}}</td>
-                                        <td>{{item.entity}}</td>
-                                        <td>{{item.quantity}}</td>
-                                        <td>RM {{item.price}}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-outline-danger btn-round mr-1" type="button">
-                                                Remove
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="3"></td>
-                                        <td class="td-total">Total</td>
-                                        <td class="td-price">RM 20.00</td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="float-right mb-1 mr-3 mb-3">
-                            <button 
-                                class="btn btn-ssm btn-round"
-                                (click)="navigatePage('/checkout')"
-                            >
-                                Checkout
-                            </button>
-                        </div>
-                    </div>
-                </div>
+              <h1 class="text-ssm font-weight-bolder mb-0">CART</h1>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </section>
+
+  <div class="container mt--9">
+    <div class="row">
+      <div class="col">
+        <div class="">
+          <div
+            *ngIf="isEmpty"
+            class="empty-cart d-flex align-items-center justify-content-center"
+          >
+            <div class="">
+              <img
+                [src]="iconEmpty"
+                class="empty-icon d-flex align-self-center"
+              />
+              <p class="text-muted">You have an empty cart</p>
+              <button
+                class="btn btn-icon btn-3 btn-primary"
+                type="button"
+                (click)="navigatePage('/product')"
+              >
+                <span class="btn-inner--icon">
+                  <i class="fas fa-chevron-left"> </i>
+                </span>
+                <span class="btn-inner--text"> Go to Product </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table" *ngIf="!isEmpty">
+            <div class="tools float-left">
+              <div class="dropdown" dropdown>
+                <button
+                  class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
+                  data-toggle="dropdown"
+                  dropdownToggle
+                  type="button"
+                >
+                  <i class="fas fa-cog"> </i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
+                  <a class="dropdown-item" href="#"> Remove </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="text-primary">
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>Product</th>
+                    <th>Entity</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let item of items">
+                    <td class="text-center">
+                      <div class="custom-control custom-checkbox">
+                        <input
+                          class="custom-control-input"
+                          type="checkbox"
+                          [(ngModel)]="item.checked"
+                          [name]="item.id"
+                        />
+
+                        <label class="custom-control-label"> </label>
+                      </div>
+                    </td>
+
+                    <td>{{ item.product }}</td>
+                    <td>{{ item.entity }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>RM {{ item.price }}</td>
+                    <td class="text-center">
+                      <button
+                        class="btn btn-sm btn-outline-danger btn-round mr-1"
+                        type="button"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- <tr>
+                    <td colspan="3"></td>
+                    <td class="td-total">Total</td>
+                    <td class="td-price">RM 20.00</td>
+                    <td></td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="float-right text-right py-4">
+              <p class="m-0 text-right">Total Document: 2</p>
+              <p class="m-0 text-right">
+                Total exclude SST & Rounding Adj. (RM): 20.00
+              </p>
+              <p class="m-0 text-right">
+                SST @ 6% for Service Fee & Rounding Adj. (RM): 1.20
+              </p>
+              <p class="m-0 text-right">
+                Total Amount & Rounding Adj. (RM): 21.20
+              </p>
+              <br />
+              <button
+                class="btn btn-ssm btn-round"
+                (click)="navigatePage('/checkout')"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
