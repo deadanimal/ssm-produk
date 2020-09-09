@@ -17,8 +17,14 @@
           <tab>
             <ng-template tabHeading> Products </ng-template>
             <div class="row">
+              <div class="col">
+                Profile, Chargers and Atestation
+                <hr style="width: 100% !important" />
+              </div>
+            </div>
+            <div class="row">
               <div class="col-lg-4 col-md-6">
-                <div class="card card-product roundCard">
+                <div class="card card-product card-lift--hover showborder">
                   <!-- <div class="card-image">
 							<a href="#pablo">
 								<img class="img rounded" src="assets/img/default/sample.png" />
@@ -63,12 +69,14 @@
                         <a
                           class="btn btn-primary mt-4 btn-sm"
                           (click)="addCart()"
+                          style="cursor: pointer"
                         >
                           <span class="text-sm">Add to cart</span> </a
                         >&nbsp;&nbsp;
                         <a
                           class="btn btn-primary mt-4 btn-sm"
-                          (click)="addCart()"
+                          (click)="openModalSample(productSample)"
+                          style="cursor: pointer"
                         >
                           <span class="text-sm">View Sample</span>
                         </a>
@@ -471,3 +479,29 @@
     </div>
   </div>
 </div>
+
+<ng-template #productSample>
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Product Sample
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModalSample()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body px-auto">
+    <img
+      style="width: 85%"
+      class="d-flex mx-auto"
+      src="assets/img/default/sample.png"
+    />
+  </div>
+</ng-template>
