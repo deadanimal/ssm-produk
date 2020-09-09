@@ -112,27 +112,127 @@
             >CTC (+RM5.00)</label
           >
         </div>
-        <br />
-        <button class="btn btn-default btn-sm">Add</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-default btn-sm" (click)="showSummary()">
+          Add
+        </button>
       </div>
     </div>
+    <div class="container pt-3" *ngIf="clicked">
+      <span class="text-center">
+        <br />
+        <h4 class="h3 mb-0">Summary Of Request</h4>
+        <br /><br />
+      </span>
 
-    <div class="text-left">
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="proceedCheckbox"
-        />
-        <label class="custom-control-label" for="proceedCheckbox">
-          Please ensure the ID number given by the customer is correct. By
-          purchasing personal involvement, fee will be charged to any
-          information.
-        </label>
+      <div class="dataTables_wrapper py-4">
+        <!-- <div class="dataTables_length" id="datatable_length">
+          <label>
+            Show
+            <select
+              name="datatable_length"
+              aria-controls="datatable"
+              class="form-control form-control-sm"
+              (change)="entriesChange($event)"
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="-1">All</option>
+            </select>
+            records
+          </label>
+        </div> -->
+
+        <ngx-datatable
+          class="bootstrap selection-cell"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [limit]="tableEntries != -1 ? tableEntries : undefined"
+          [rows]="data"
+          (activate)="onActivate($event)"
+        >
+          <ngx-datatable-column name="No">
+            <ng-template
+              let-rowIndex="rowIndex"
+              let-row="row"
+              ngx-datatable-cell-template
+            >
+              <strong>{{ rowIndex + 1 }}</strong>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column>
+            <ng-template ngx-datatable-header-template>
+              <span>ID Number</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.idnum }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column>
+            <ng-template ngx-datatable-header-template>
+              <span>Entities</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.entities }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column>
+            <ng-template ngx-datatable-header-template>
+              <span>Involvement To Purchase</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ row.involvement }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Expenses</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.expenses }}
+              </ng-template>
+            </ngx-datatable-column> -->
+
+          <ngx-datatable-column>
+            <ng-template ngx-datatable-header-template>
+              <span>Action</span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <a style="cursor: pointer">
+                <button class="btn btn-danger btn-sm">
+                  <i class="fas fa-trash"></i> Remove
+                </button></a
+              >
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
       </div>
 
-      <div class="text-right my-4">
-        <button class="btn btn-ssm btn-round">Add to Cart RM90.00</button>
+      <div class="text-left">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="proceedCheckbox"
+          />
+          <label class="custom-control-label" for="proceedCheckbox">
+            Please ensure the ID number given by the customer is correct. By
+            purchasing personal involvement, fee will be charged to any
+            information.
+          </label>
+        </div>
+
+        <div class="text-right my-4">
+          <button class="btn btn-ssm btn-round">Add to Cart RM90.00</button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
+
 @Component({
   selector: "app-cbid",
   templateUrl: "./cbid.component.html",
@@ -9,6 +17,13 @@ import { Router } from "@angular/router";
 export class CbidComponent implements OnInit {
   clicked = false;
 
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
   data: any = [
     {
       name: "Registration Of Businesses (ROB)",
@@ -41,5 +56,30 @@ export class CbidComponent implements OnInit {
 
   showSummary() {
     this.clicked = true;
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 }

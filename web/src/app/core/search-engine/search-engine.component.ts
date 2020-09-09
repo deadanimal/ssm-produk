@@ -1,16 +1,43 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import {
-  FormBuilder,
+  Component,
+  OnInit,
+  OnDestroy,
+  NgZone,
+  TemplateRef,
+} from "@angular/core";
+// import { AuditData } from 'src/assets/mock/admin-audit/audit.data.json'
+// import * as moment from "moment";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+am4core.useTheme(am4themes_animated);
+
+//
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import {
   FormGroup,
+  FormBuilder,
   Validators,
   FormControl,
 } from "@angular/forms";
+import swal from "sweetalert2";
+import { LoadingBarService } from "@ngx-loading-bar/core";
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { NotifyService } from "src/app/shared/handler/notify/notify.service";
+import { Router, ActivatedRoute } from "@angular/router";
+
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
 
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
 @Component({
   selector: "app-search-engine",
   templateUrl: "./search-engine.component.html",
@@ -23,6 +50,51 @@ export class SearchEngineComponent implements OnInit {
     // dateRangeText: "date RangeText 🔥🔥",
     // data: "data ⚡",
   };
+
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
+  dataSearch: any = [
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+    {
+      id: "1231231311233123",
+      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
+      entity: "Company",
+    },
+  ];
 
   // Search field
   focus;
@@ -90,8 +162,9 @@ export class SearchEngineComponent implements OnInit {
         this.isGotResult = true;
         this.isEmpty = false;
       } else {
-        this.isGotResult = true;
-        this.isEmpty = false;
+        this.confirm();
+        // this.isGotResult = false;
+        // this.isEmpty = true;
       }
     }, 2000);
     // this.productService.search(this.productForm.value).subscribe(
@@ -136,5 +209,61 @@ export class SearchEngineComponent implements OnInit {
       },
       () => {}
     );
+  }
+
+  confirm() {
+    swal.fire({
+      title: "Warning",
+      text:
+        "No entites found. For further search please insert company / business number without check digit and choose the entity type company / business from the dropdown list search box.",
+      icon: "warning",
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: "Close",
+      customClass: {
+        cancelButton: "btn btn-outline-warning ",
+        confirmButton: "btn btn-warning ",
+      },
+    });
+  }
+
+  successAlert() {
+    swal.fire({
+      title: "Success",
+      text: "Successfully export file.",
+      icon: "success",
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: "Close",
+      customClass: {
+        cancelButton: "btn btn-outline-success ",
+        confirmButton: "btn btn-success ",
+      },
+    });
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 }
