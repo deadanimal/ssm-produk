@@ -1,50 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-personal-involvement',
-  templateUrl: './personal-involvement.component.html',
-  styleUrls: ['./personal-involvement.component.scss']
+  selector: "app-personal-involvement",
+  templateUrl: "./personal-involvement.component.html",
+  styleUrls: ["./personal-involvement.component.scss"],
 })
 export class PersonalInvolvementComponent implements OnInit {
+  // hide div summary request
+  clicked = false;
 
   // Form
-  entities = 'rob'
-  
+  entities = "rob";
 
   // Search
-  focus
-  searchField: string = ''
+  focus;
+  searchField: string = "";
 
   // Checker
-  isEmpty
-  isNoResult = false
-  isGotResult
+  isEmpty;
+  isNoResult = false;
+  isGotResult;
 
   // Options
   searchOpts = [
-    { text: 'Audit Firm', value: 'audit-firm' },
-    { text: 'Business', value: 'business' },
-    { text: 'Company', value: 'company' }
-  ]
+    { text: "Audit Firm", value: "audit-firm" },
+    { text: "Business", value: "business" },
+    { text: "Company", value: "company" },
+  ];
 
-  constructor(
-    private router: Router
-  ) { }
+  data: any = [
+    {
+      idnum: "ROB",
+      entities: "123123123",
+      involvement: "Shareholder",
+      created_at: "2019-07-27T01:07:14Z",
+    },
+    {
+      idnum: "ROC",
+      entities: "2342342423",
+      involvement: "Business Ownership",
+      created_at: "2019-07-27T01:07:14Z",
+    },
+  ];
 
-  ngOnInit(): void {
-  }
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {}
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    this.router.navigate([path])
+    this.router.navigate([path]);
   }
 
   search() {
-    this.isNoResult = true
+    this.isNoResult = true;
     // if (this.searchField == '') {
 
     // }
   }
 
+  showSummary() {
+    this.clicked = true;
+  }
 }
