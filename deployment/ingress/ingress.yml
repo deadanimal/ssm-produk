@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ssm-product-my-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "ssm-product-my-prod"
+spec:
+  tls:
+  - hosts:
+    - ssm-product.pipe.my
+    - ssm-product-api.pipe.my
+
+    secretName: ssm-product-my-prod
+
+  rules:
+  - host: ssm-product-api.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: ssm-product-api
+          servicePort: 5000    
+  - host: ssm-product.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: ssm-product-webapp
+          servicePort: 80    

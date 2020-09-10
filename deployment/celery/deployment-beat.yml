@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssm-product-api-celery-beat
+  labels:
+    deployment: ssm-product-api-celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: ssm-product-api-celery-beat
+  template:
+    metadata:
+      labels:
+        pod: ssm-product-api-celery-beat
+    spec:
+      containers:
+        - name: ssm-product-api-celery-beat
+          image: afeezaziz/ssm-product-api
+          # celery -A ssm-productapi beat -l debug
+          command: ['celery', '-A', 'core', 'beat', '-l', 'debug']
+          envFrom:
+            - secretRef:
+                name: ssm-product-api-secret   
