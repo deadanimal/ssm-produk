@@ -18,41 +18,53 @@
           <br /><br />
           <div class="px-2">
             <!-- <div class=""> -->
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-control-label">Entities</label>
-                  <select class="form-control" placeholder="Enter entities">
-                    <option>Registration of Business (ROB)</option>
-                    <option>Registration of Company (ROC)</option>
-                  </select>
+            <form [formGroup]="addAppReqForm">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-label">Entities</label>
+                    <select
+                      class="form-control"
+                      formControlName="entity_type"
+                      placeholder="Registration Of Business"
+                    >
+                      <option value="ROB">
+                        Registration of Business (ROB)
+                      </option>
+                      <option value="ROC">Registration of Company (ROC)</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-control-label">Products</label>
-                  <select class="form-control" placeholder="Enter entities">
-                    <option>Statistic</option>
-                    <option>Listing</option>
-                    <option>Both</option>
-                  </select>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-label">Products</label>
+                    <select
+                      class="form-control"
+                      placeholder="Registration Of Company"
+                      formControlName="product_type"
+                    >
+                      <option value="BT">Both</option>
+                      <option value="PD">Product</option>
+                      <option value="LT">Listing</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="text-right py-3">
-                  <button
-                    class="btn btn-ssm btn-icon btn-round"
-                    (click)="showSummary()"
-                  >
-                    <span class="btn-inner--text"> Add</span>
-                    <!-- <span class="btn-inner--icon">
+                <div class="col-md-4">
+                  <div class="text-center py-3">
+                    <button
+                      class="btn btn-ssm btn-icon btn-round"
+                      (click)="newApplicationData()"
+                    >
+                      <span class="btn-inner--text"> Add</span>
+                      <!-- <span class="btn-inner--icon">
                     <i class="fas fa-search"> </i>
                   </span> -->
-                  </button>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
             <br />
             <hr style="width: 100%; color: black" />
             <div class="row">
@@ -79,7 +91,12 @@
               <div class="col-lg-6 col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Name</label>
-                  <input class="form-control" placeholder="Enter name" />
+                  <input
+                    class="form-control"
+                    placeholder="Enter name"
+                    disabled
+                    value="Syafiq"
+                  />
                 </div>
               </div>
               <!-- </div> -->
@@ -91,6 +108,8 @@
                   <input
                     class="form-control"
                     placeholder="Enter organization"
+                    disabled
+                    value="Pipeline Network SDN BHD"
                   />
                 </div>
               </div>
@@ -100,7 +119,12 @@
               <div class="col-lg-6 col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Address</label>
-                  <input class="form-control" placeholder="Enter address" />
+                  <input
+                    class="form-control"
+                    placeholder="Enter address"
+                    disabled
+                    value="2-37, PV 128, 128 ,JALAN GENTING KLANG,KUALA LUMPUR"
+                  />
                 </div>
               </div>
               <!-- </div> -->
@@ -112,6 +136,8 @@
                   <input
                     class="form-control"
                     placeholder="Enter email address"
+                    value="syafiq@pipeline.com.my"
+                    disabled
                   />
                 </div>
               </div>
@@ -119,7 +145,12 @@
               <div class="col-lg-6 col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Phone no.</label>
-                  <input class="form-control" placeholder="Enter phone no." />
+                  <input
+                    class="form-control"
+                    placeholder="Enter phone no."
+                    disabled
+                    value="201101032401"
+                  />
                 </div>
               </div>
             </div>
@@ -153,13 +184,13 @@
               </div> -->
 
               <ngx-datatable
-                class="bootstrap selection-cell"
+                class="bootstrap selection-cell bordered"
                 [columnMode]="'force'"
                 [headerHeight]="50"
                 [footerHeight]="50"
                 [rowHeight]="'auto'"
                 [limit]="tableEntries != -1 ? tableEntries : undefined"
-                [rows]="data"
+                [rows]="listEntity"
                 (activate)="onActivate($event)"
               >
                 <ngx-datatable-column name="No">
@@ -177,7 +208,12 @@
                     <span>Name</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.name }}
+                    <span *ngIf="row.entity_type == 'ROB'"
+                      >Registration Of Business</span
+                    >
+                    <span *ngIf="row.entity_type == 'ROC'"
+                      >Registration Of Company</span
+                    >
                   </ng-template>
                 </ngx-datatable-column>
 
@@ -186,34 +222,36 @@
                     <span>Type</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.type }}
+                    <span *ngIf="row.product_type == 'BT'">Both</span>
+                    <span *ngIf="row.product_type == 'LT'">Listing</span>
+                    <span *ngIf="row.product_type == 'PD'">Product</span>
                   </ng-template>
                 </ngx-datatable-column>
 
                 <ngx-datatable-column>
                   <ng-template ngx-datatable-header-template>
-                    <span>Amount</span>
+                    <span>Requestor</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.amount }}
+                    Syafiq
                   </ng-template>
                 </ngx-datatable-column>
-
-                <!-- <ngx-datatable-column>
-                    <ng-template ngx-datatable-header-template>
-                      <span>Expenses</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{ row.expenses }}
-                    </ng-template>
-                  </ngx-datatable-column> -->
+                <!-- 
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Date Created</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.created_date | date: "dd/MM/yyyy" }}
+                  </ng-template>
+                </ngx-datatable-column> -->
 
                 <ngx-datatable-column>
                   <ng-template ngx-datatable-header-template>
                     <span>Action</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a style="cursor: pointer">
+                    <a style="cursor: pointer" (click)="confirm(row.id)">
                       <button class="btn btn-danger btn-sm">
                         <i class="fas fa-trash"></i> Remove
                       </button></a

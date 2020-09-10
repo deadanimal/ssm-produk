@@ -1,57 +1,199 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-import { Router } from '@angular/router';
-import swal from 'sweetalert2';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import swal from "sweetalert2";
+import { Router, ActivatedRoute } from "@angular/router";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
+import { LoadingBarService } from "@ngx-loading-bar/core";
+
+// cart service
+import { Cart } from "src/app/shared/services/cart/cart.model";
+import { CartsService } from "src/app/shared/services/cart/cart.service";
+
+// const Items = [
+//   {
+//     id: "",
+//     noname: "Company Profile",
+//     product: "Financial Historical Comparison (2005 & 2019)",
+//     lang: "Bahasa English",
+//     price: 30.0,
+//     servicefee: 5.0,
+//     ctcservice: 5.0,
+//     discount: 0.0,
+//     totalprice: 40.0,
+//     isChecked: false,
+//   },
+// ];
 
 @Component({
-  selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss']
+  selector: "app-checkout",
+  templateUrl: "./checkout.component.html",
+  styleUrls: ["./checkout.component.scss"],
 })
 export class CheckoutComponent implements OnInit {
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered",
+  };
+
+  // Table
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
+  listCart: any;
 
   // Form
-  cartForm: FormGroup
+  searchForm: FormGroup;
+  searchField: FormGroup;
+  addAppReqForm: FormGroup;
+  editAppReqForm: FormGroup;
 
   // Data
-  items: any[] = []
-
+  data: any[] = [];
 
   // Icons
+  iconEmpty = "assets/img/default/shopping-bag.svg";
 
+  // declare variable
+  sum: number = 0;
+  total: number = 0;
 
   // Checker
-  isEmpty: boolean = true
+  isEmpty: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
-    private router: Router
-  ) { }
+    private cartsService: CartsService,
+    private modalService: BsModalService,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    // private loadingBar: LoadingBarService,
+    private router: Router,
+    private _route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.cartsService.getAll().subscribe((res) => {
+      this.listCart = res;
+      this.listCart.forEach((lisz) => {
+        this.total += lisz.total_price;
+      });
+      // this.sum = this.total + 1.2;
+      console.log(this.sum);
+
+      // var keys = Object.keys(this.listCart);
+      // var len = keys.length;
+      // console.log(len);
+    });
+  }
+
+  deleteApplicationData(row) {
+    console.log(row);
+    this.cartsService.delete(row).subscribe((res) => {
+      // this.listEntity = res;
+      // this.successAlert("Successfully delete entity.");
+      window.location.reload();
+    });
+  }
+
+  confirm(row) {
+    swal
+      .fire({
+        title: "Confirmation",
+        text: "Are you sure to delete this data ?",
+        icon: "info",
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: "Confirm",
+        customClass: {
+          cancelButton: "btn btn-outline-primary ",
+          confirmButton: "btn btn-primary ",
+        },
+      })
+      .then(() => {
+        this.deleteApplicationData(row);
+      });
+  }
+
+  successAlert(task) {
+    swal.fire({
+      title: "Success",
+      text: task,
+      icon: "success",
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: "Close",
+      customClass: {
+        cancelButton: "btn btn-outline-success",
+        confirmButton: "btn btn-success ",
+      },
+    });
+    console.log("confirm");
+  }
+
+  deleteCartData(row) {
+    console.log(row);
+    this.cartsService.delete(row).subscribe((res) => {
+      // this.listEntity = res;
+      // this.successAlert("Successfully delete entity.");
+      window.location.reload();
+    });
+  }
+
+  // getItems() {
+  //   console.log("Item loaded");
+  //   if (this.items.length > 0) {
+  //     this.isEmpty = false;
+  //   }
+  // }
+
+  makePayment() {
+    this.loadingBar.start();
+    this.loadingBar.complete();
+  }
+
+  remove() {
+    console.log("Item removed");
   }
 
   navigatePage(path: string) {
-    // console.log(path)
-    this.router.navigate([path])
+    // console.log('Path: ', path)
+    this.router.navigate([path]);
   }
 
-  confirm() {
-    swal.fire({
-      title: 'Confirmation',
-      text: 'Are you sure to continue to make payment?',
-      icon: 'info',
-      showCancelButton: true,
-      buttonsStyling: false,
-      confirmButtonText: 'Confirm',
-      customClass: {
-        cancelButton: 'btn btn-outline-primary ',
-        confirmButton: 'btn btn-primary '
-      }
-    })
-    console.log('confirm')
+  openModal(modalRef: TemplateRef<any>, row) {
+    if (row) {
+      console.log(row);
+      this.editAppReqForm.patchValue(row);
+    }
+    this.modal = this.modalService.show(
+      modalRef,
+      Object.assign({}, { class: "gray modal-lg" })
+    );
+    // this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
+  closeModal() {
+    this.modal.hide();
+    this.editAppReqForm.reset();
+  }
 }
