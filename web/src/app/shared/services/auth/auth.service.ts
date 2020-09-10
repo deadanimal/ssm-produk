@@ -1,68 +1,65 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { TokenResponse } from './auth.model';
-import { Form } from '@angular/forms';
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { TokenResponse } from "./auth.model";
+import { Form } from "@angular/forms";
 // import { JwtHelperService } from '@auth0/angular-jwt';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { JwtService } from '../../handler/jwt/jwt.service';
+import { tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { JwtService } from "../../handler/jwt/jwt.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-
   // URL
-  public urlRegister: string = environment.baseUrl + 'auth/registration/'
-  public urlPasswordChange: string = environment.baseUrl + 'auth/password/change/'
-  public urlPasswordReset: string = environment.baseUrl + 'auth/password/reset'
-  public urlTokenObtain: string = environment.baseUrl + 'auth/token/'
-  public urlTokenRefresh: string = environment.baseUrl + 'auth/refresh/'
-  public urlTokenVerify: string = environment.baseUrl + 'auth/token/verify/' 
-  public urlUser: string = environment.baseUrl + 'v1/users/'
+  public urlRegister: string = environment.baseUrl + "auth/registration/";
+  public urlPasswordChange: string =
+    environment.baseUrl + "auth/password/change/";
+  public urlPasswordReset: string = environment.baseUrl + "auth/password/reset";
+  public urlTokenObtain: string = environment.baseUrl + "auth/token/";
+  public urlTokenRefresh: string = environment.baseUrl + "auth/refresh/";
+  public urlTokenVerify: string = environment.baseUrl + "auth/token/verify/";
+  public urlUser: string = environment.baseUrl + "v1/users/";
 
   // Data
-  public token: TokenResponse
-  public tokenAccess: string
-  public tokenRefresh: string
-  public email: string
-  public userID: string
-  public username: string
-  public userType: string
-  public userRole: number = 1
+  public token: TokenResponse;
+  public tokenAccess: string;
+  public tokenRefresh: string;
+  public email: string;
+  public userID: string;
+  public username: string;
+  public userType: string;
+  public userRole: number = 1;
 
   // Temp
-  userDetail: any
-  retrievedUsers: any = []
-  
-  constructor(
-    private jwtService: JwtService,
-    private http: HttpClient
-  ) { }
+  userDetail: any;
+  retrievedUsers: any = [];
+
+  constructor(private jwtService: JwtService, private http: HttpClient) {}
 
   register(body: Form): Observable<any> {
     return this.http.post<any>(this.urlRegister, body).pipe(
       tap((res) => {
-        console.log('Registration: ', res)
+        console.log("Registration: ", res);
       })
-    )
+    );
   }
 
   changePassword(body: Form): Observable<any> {
     return this.http.post<any>(this.urlPasswordChange, body).pipe(
       tap((res) => {
-        console.log('Change password: ', res)
+        console.log("Change password: ", res);
       })
-    )
+    );
   }
 
   resetPassword(body: Form): Observable<any> {
     return this.http.post<any>(this.urlPasswordReset, body).pipe(
       tap((res) => {
-        console.log('Reset password: ', res)
+        console.log("Reset password: ", res);
       })
-    )
+    );
   }
 
   // obtainToken(body: Form): Observable<any> {
@@ -94,34 +91,33 @@ export class AuthService {
   // }
 
   refreshToken(): Observable<any> {
-    let refreshToken = this.jwtService.getToken('refreshToken')
+    let refreshToken = this.jwtService.getToken("refreshToken");
     let body = {
-      refresh: refreshToken
-    }
+      refresh: refreshToken,
+    };
     return this.http.post<any>(this.urlTokenRefresh, body).pipe(
       tap((res) => {
-        console.log('Token refresh: ', res)
+        console.log("Token refresh: ", res);
       })
-    )
+    );
   }
 
   verifyToken(body: Form): Observable<any> {
     return this.http.post<any>(this.urlTokenVerify, body).pipe(
       tap((res) => {
-        console.log('Token verify: ', res)
+        console.log("Token verify: ", res);
       })
-    )
+    );
   }
 
   getUserDetail(): Observable<any> {
-    console.log('getuserdetail')
-    let urlTemp = this.urlUser + this.userID + '/'
+    console.log("getuserdetail");
+    let urlTemp = this.urlUser + this.userID + "/";
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
-        this.userDetail = res
+        this.userDetail = res;
         // console.log('User detail', this.userDetail)
       })
-    )
+    );
   }
-
 }
