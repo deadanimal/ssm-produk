@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResupplyComponent implements OnInit {
 
+  // Image 
+  imgConstruction = 'assets/img/default/under-construction.png'
+  
   constructor() { }
 
   ngOnInit() {
