@@ -2,3 +2,13 @@
   border-radius: 100px;
   border: 1px solid #000000;
 }
+.showborder {
+  // background: #eee;
+  border-top: 1px solid transparent;
+}
+
+.showborder:hover {
+  // background: #e1e1e1;
+  border: 1px solid #000;
+  // border-top: 1px solid #000;
+}
