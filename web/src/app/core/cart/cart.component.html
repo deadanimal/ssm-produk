@@ -45,19 +45,37 @@
           </div>
 
           <div class="table" *ngIf="!isEmpty">
-            <div class="tools float-left">
-              <div class="dropdown" dropdown>
-                <button
-                  class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
-                  data-toggle="dropdown"
-                  dropdownToggle
-                  type="button"
-                >
-                  <i class="fas fa-cog"> </i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
-                  <a class="dropdown-item" href="#"> Remove </a>
+            <div class="row">
+              <div class="col">
+                <p style="font-size: 0.7em">
+                  Disclaimer:<br />
+                  1. Every product list will be kept in Add To Cart only for 30
+                  day(s) From the date added. Please proceed your payment to
+                  purchase,
+                </p>
+              </div>
+            </div>
+            <div class="row pb-2 text-right">
+              <div class="col">
+                <div class="tools float-left">
+                  <div class="dropdown" dropdown>
+                    <button
+                      class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
+                      data-toggle="dropdown"
+                      dropdownToggle
+                      type="button"
+                    >
+                      <i class="fas fa-cog"> </i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
+                      <a class="dropdown-item" href="#"> Remove </a>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="col">
+                <button class="btn btn-default">Buy Other Product</button>&nbsp;
+                <button class="btn btn-default">Empty Cart</button>
               </div>
             </div>
 
@@ -66,10 +84,14 @@
                 <thead class="text-primary">
                   <tr>
                     <th class="text-center">#</th>
-                    <th>Product</th>
-                    <th>Entity</th>
-                    <th>Qty</th>
-                    <th>Price</th>
+                    <th>Entity Number/ Name</th>
+                    <th>Product /Document Description /</th>
+                    <th>Language</th>
+                    <th>Price (RM)</th>
+                    <th>Service Fee (RM)</th>
+                    <th>CTC Service (RM)</th>
+                    <th>Discount(RM)</th>
+                    <th>Total Price (RM)</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
@@ -89,10 +111,19 @@
                       </div>
                     </td>
 
+                    <td>{{ item.noname }}</td>
                     <td>{{ item.product }}</td>
-                    <td>{{ item.entity }}</td>
-                    <td>{{ item.quantity }}</td>
+                    <td>
+                      <select>
+                        <option>BM</option>
+                        <option>EN</option>
+                      </select>
+                    </td>
                     <td>RM {{ item.price }}</td>
+                    <td>RM {{ item.servicefee }}</td>
+                    <td>RM {{ item.ctcservice }}</td>
+                    <td>RM {{ item.discount }}</td>
+                    <td>RM {{ item.totalprice }}</td>
                     <td class="text-center">
                       <button
                         class="btn btn-sm btn-outline-danger btn-round mr-1"
@@ -109,6 +140,7 @@
                     <td class="td-price">RM 20.00</td>
                     <td></td>
                   </tr> -->
+                  <tr></tr>
                 </tbody>
               </table>
             </div>
@@ -116,13 +148,13 @@
             <div class="float-right text-right py-4">
               <p class="m-0 text-right">Total Document: 2</p>
               <p class="m-0 text-right">
-                Total exclude SST & Rounding Adj. (RM): 20.00
+                Total exclude SST & Rounding Adj. (RM): 40.00
               </p>
               <p class="m-0 text-right">
                 SST @ 6% for Service Fee & Rounding Adj. (RM): 1.20
               </p>
               <p class="m-0 text-right">
-                Total Amount & Rounding Adj. (RM): 21.20
+                Total Amount & Rounding Adj. (RM): 41.20
               </p>
               <br />
               <button

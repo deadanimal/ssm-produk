@@ -50,7 +50,8 @@
                     <div class="col-sm-2">
                       <div class="input-group">
                         <select class="form-control rounded-pill">
-                          <option selected>Business</option>
+                          <option selected>All Entities</option>
+                          <option>Business</option>
                           <option>Company</option>
                           <option>Audit Firm</option>
                         </select>
@@ -86,55 +87,109 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <div class="card" *ngIf="!isEmpty && isNoResult">
-          <div class="card-header">
-            <h4 class="m-0">Search Result</h4>
-          </div>
-
-          <div class="table-responsive" *ngIf="isNoResult">
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th>Entity</th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody class="list">
-                <div class="text-center p-5">No match found</div>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
         <div class="card" *ngIf="!isEmpty && isGotResult">
           <div class="card-header">
-            <h4 class="m-0">Search Result</h4>
+            <div class="row">
+              <div class="col"><h4 class="m-0">Search Result</h4></div>
+              <div class="col text-right">
+                <button class="btn btn-default" (click)="successAlert()">
+                  Export
+                </button>
+              </div>
+            </div>
           </div>
-
-          <div class="table-responsive" *ngIf="isGotResult">
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th>Entity</th>
-                  <th></th>
-                </tr>
-              </thead>
-
-              <tbody class="list">
-                <tr>
-                  <td>Pipeline Network Sdn. Bhd.</td>
-                  <td class="text-right">
-                    <button
-                      class="btn btn-sm btn-ssm text-right"
-                      (click)="viewResult()"
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="isGotResult">
+              <div class="dataTables_wrapper py-4">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
                     >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="-1">All</option>
+                    </select>
+                    records
+                  </label>
+                </div>
+
+                <ngx-datatable
+                  class="bootstrap selection-cell"
+                  [columnMode]="'force'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'auto'"
+                  [limit]="tableEntries != -1 ? tableEntries : undefined"
+                  [rows]="dataSearch"
+                  (activate)="onActivate($event)"
+                >
+                  <!-- <ngx-datatable-column name="No">
+                  <ng-template
+                    let-rowIndex="rowIndex"
+                    let-row="row"
+                    ngx-datatable-cell-template
+                  >
+                    <strong>{{ rowIndex + 1 }}</strong>
+                  </ng-template>
+                </ngx-datatable-column> -->
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Company / Business / Audit Firm Number</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.id }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Company / Business / Audit Firm Name</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.name }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Entity Type</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.entity }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <!-- <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Expenses</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.expenses }}
+                    </ng-template>
+                  </ngx-datatable-column> -->
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Action</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <a style="cursor: pointer">
+                        <button class="btn btn-danger btn-sm">
+                          <i class="fas fa-trash"></i> Remove
+                        </button></a
+                      >
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -203,49 +258,6 @@
 
     <br /><br />
 
-    <div class="row text-center">
-      <div class="col" style="cursor: pointer">
-        <img
-          src="assets/img/icons/12.jpg"
-          style="width: 150px; height: 150px"
-          [tooltip]="tooltip4"
-        />
-        <br /><br />
-        <h1 style="color: #231e6d">
-          Corporate and Business Operated Data (CBID)
-        </h1>
-        <ng-template #tooltip4>
-          <div>
-            <p>
-              To purchase personal involvment information in any company or
-              business
-            </p>
-          </div>
-        </ng-template>
-      </div>
-      <div class="col" style="cursor: pointer">
-        <img
-          src="assets/img/icons/12.jpg"
-          style="width: 150px; height: 150px"
-          [tooltip]="tooltip5"
-        />
-        <br /><br />
-        <h1 style="color: #231e6d">
-          Corporate and Business Operated Data (CBID)
-        </h1>
-        <ng-template #tooltip5>
-          <div>
-            <p>
-              To purchase personal involvment information in any company or
-              business
-            </p>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-
-    <br /><br />
-
     <div class="row">
       <div class="col mt-3">
         <img src="assets/img/background/how.png" style="width: 100%" />
@@ -291,7 +303,7 @@
           <img
             [src]="slider1"
             alt="first slide"
-            style="display: block; width: 75%"
+            style="display: block; width: 100%"
             class="d-flex mx-auto"
           />
         </slide>
@@ -299,7 +311,7 @@
           <img
             [src]="slider2"
             alt="first slide"
-            style="display: block; width: 75%"
+            style="display: block; width: 100%"
             class="d-flex mx-auto"
           />
         </slide>
@@ -307,7 +319,7 @@
           <img
             [src]="slider3"
             alt="first slide"
-            style="display: block; width: 75%"
+            style="display: block; width: 100%"
             class="d-flex mx-auto"
           />
         </slide>
@@ -316,7 +328,7 @@
           <img
             [src]="slider4"
             alt="first slide"
-            style="display: block; width: 75%"
+            style="display: block; width: 100%"
             class="d-flex mx-auto"
           />
         </slide>
