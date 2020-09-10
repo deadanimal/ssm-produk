@@ -84,20 +84,21 @@
                 <thead class="text-primary">
                   <tr>
                     <th class="text-center">#</th>
-                    <th>Entity Number/ Name</th>
-                    <th>Product /Document Description /</th>
+                    <th>Search Criteria</th>
+                    <th>Total Pages /</th>
                     <th>Language</th>
-                    <th>Price (RM)</th>
-                    <th>Service Fee (RM)</th>
-                    <th>CTC Service (RM)</th>
-                    <th>Discount(RM)</th>
+                    <th>Unit Price (RM)</th>
                     <th>Total Price (RM)</th>
+                    <th>Total (RM)</th>
+                    <th>SST (RM)</th>
+                    <th>Total Amount (RM)</th>
+                    <th>Created Date</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let item of items">
+                  <tr *ngFor="let item of listCart">
                     <td class="text-center">
                       <div class="custom-control custom-checkbox">
                         <input
@@ -111,23 +112,25 @@
                       </div>
                     </td>
 
-                    <td>{{ item.noname }}</td>
-                    <td>{{ item.product }}</td>
+                    <td>{{ item.search_criteria }}</td>
+                    <td>{{ item.total_pages }}</td>
                     <td>
                       <select>
                         <option>BM</option>
                         <option>EN</option>
                       </select>
                     </td>
-                    <td>RM {{ item.price }}</td>
-                    <td>RM {{ item.servicefee }}</td>
-                    <td>RM {{ item.ctcservice }}</td>
-                    <td>RM {{ item.discount }}</td>
-                    <td>RM {{ item.totalprice }}</td>
+                    <td>RM {{ item.unit_price }}</td>
+                    <td>RM {{ item.total_price }}</td>
+                    <td>RM {{ item.total }}</td>
+                    <td>RM {{ item.sst }}</td>
+                    <td>RM {{ item.total_amount }}</td>
+                    <td>{{ item.created_date | date: "dd/MM/yyyy" }}</td>
                     <td class="text-center">
                       <button
                         class="btn btn-sm btn-outline-danger btn-round mr-1"
                         type="button"
+                        (click)="confirm(item.id)"
                       >
                         Remove
                       </button>
@@ -148,13 +151,13 @@
             <div class="float-right text-right py-4">
               <p class="m-0 text-right">Total Document: 2</p>
               <p class="m-0 text-right">
-                Total exclude SST & Rounding Adj. (RM): 40.00
+                Total exclude SST & Rounding Adj. (RM): {{ total }}
               </p>
               <p class="m-0 text-right">
                 SST @ 6% for Service Fee & Rounding Adj. (RM): 1.20
               </p>
               <p class="m-0 text-right">
-                Total Amount & Rounding Adj. (RM): 41.20
+                Total Amount & Rounding Adj. (RM): {{ total + 1.2 }}
               </p>
               <br />
               <button
