@@ -20,7 +20,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = [
-    'project_name_here.herokuapp.com',
+    'ssm-product-api.pipe.my',
     '127.0.0.1'
 ]
 
@@ -50,7 +50,10 @@ INSTALLED_APPS = [
 
     # 'assets',
     # 'operations',
+    'applications',
     'organisations',
+    'products',
+    'purchases',
     'users',
     # 'zones'
 ]
@@ -137,12 +140,12 @@ USE_TZ = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'https://project_name_here.herokuapp.com',
+    'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
     'http://localhost'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
-    'https://project_name_here.herokuapp.com',
+    'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
     'http://localhost'
 ]

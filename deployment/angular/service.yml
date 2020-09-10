@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssm-product-webapp
+  labels:
+    service: ssm-product-webapp
+  name: ssm-product-webapp
+spec:
+  selector:
+    app: ssm-product-webapp
+  ports:
+  - port: 80
+    targetPort: 80
