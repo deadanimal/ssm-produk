@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssm-product-api-redis
+  labels:
+    deployment: ssm-product-api-redis
+spec:
+  selector:
+    matchLabels:
+      pod: ssm-product-api-redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        pod: ssm-product-api-redis
+    spec:
+      containers:
+      - name: master
+        image: redis
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        ports:
+        - containerPort: 6379
