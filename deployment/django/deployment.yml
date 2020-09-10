@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssm-product-api-deployment
+  labels:
+    app: ssm-product-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssm-product-api
+  template:
+    metadata:
+      labels:
+        app: ssm-product-api
+    spec:
+      containers:
+      - name: ssm-product-api
+        image: syafiqpipe/ssm-product-api:1.0.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - secretRef:
+              name: ssm-product-api-secret        

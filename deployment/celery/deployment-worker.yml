@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssm-product-api-celery-worker
+  labels:
+    deployment: ssm-product-api-celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: ssm-product-api-celery-worker
+  template:
+    metadata:
+      labels:
+        pod: ssm-product-api-celery-worker
+    spec:
+      containers:
+        - name: ssm-product-api-celery-worker
+          image: syafiqpipe/ssm-product-api
+          # celery -A ssm-productapi worker -l debug
+          command: ['celery', '-A', 'core', 'worker', '-l', 'info']
+          envFrom:
+            - secretRef:
+                name: ssm-product-api-secret            

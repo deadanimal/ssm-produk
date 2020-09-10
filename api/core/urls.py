@@ -22,6 +22,16 @@ class NestedDefaultRouter(NestedRouterMixin, routers.DefaultRouter):
 
 router = NestedDefaultRouter()
 
+# Applications app
+
+from applications.views import (
+    CBIDApplicationViewSet
+)
+
+cbid_applications_router = router.register(
+    'cbid-applications', CBIDApplicationViewSet
+)
+
 # Organisations app
 
 from organisations.views import (
@@ -30,6 +40,26 @@ from organisations.views import (
 
 organisations_router = router.register(
     'organisations', OrganisationViewSet
+)
+
+# Products app
+
+from products.views import (
+    ProductViewSet
+)
+
+products_router = router.register(
+    'products', ProductViewSet
+)
+
+# Purchases app
+
+from purchases.views import (
+    CBIDCartViewSet
+)
+
+cbid_carts_router = router.register(
+    'cbid-carts', CBIDCartViewSet
 )
 
 # Users app
