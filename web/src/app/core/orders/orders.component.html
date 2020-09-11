@@ -12,7 +12,7 @@
     </div>
 
     <div class="container">
-        <div class="row">
+        <div class="row mb-7">
             <div class="col">
                 <div class="card">
                     <div class="table">
@@ -34,17 +34,12 @@
                                     <td>Company Profile </td>
                                     <td>BM</td>
                                     <td>
-                                        <button class="btn btn-sm btn-info">Download</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>SSM12421413</td>
-                                    <td>197801002771 (39761-K) / Pipeline Engineering Sdn. Bhd. </td>
-                                    <td>Certificate of Change of Name </td>
-                                    <td>EN</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info">Download</button>
+                                        <button 
+                                            class="btn btn-sm btn-info"
+                                            (click)="download()"
+                                        >
+                                            Download
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>

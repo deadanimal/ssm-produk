@@ -12,4 +12,8 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  download() {
+    window.open('https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/product/1599179232-96afbd34518b47af99a1fe4f488185d8.pdf', "_blank");
+  }
+
 }

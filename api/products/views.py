@@ -2,11 +2,22 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
 from django.core.files.storage import default_storage
+from django.utils.timezone import make_aware
+
+from django.template.loader import render_to_string
+from weasyprint import HTML, CSS
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
+from django.core.files.base import ContentFile
+from django.conf import settings
+
 
 # import datetime
 import json
 import uuid
 import tempfile
+import pytz
+import subprocess
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -91,7 +102,9 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_service_name = call_json['name']
         registration_number = call_json['registration_number']
 
-        now = datetime.now() 
+        tz = pytz.timezone('Asia/Kuala_Lumpur')
+        now = datetime.now(tz=tz) 
+        print(now)
         now_string = now.strftime("%Y-%m-%d %H:%M:%S")
         auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
 
@@ -99,7 +112,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         headers = {
             'content-type': "text/xml;charset=UTF-8",
             'authorization': auth_code
-        }        
+        }
         
         if request_service_name == 'getCompProfile':
             json_response = get_comp_prof(url, headers, registration_number)
@@ -167,4 +180,51 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         elif request_service_name == 'getCoPage':
             json_response = get_co_page(url, headers, registration_number)             
 
-        return JsonResponse(response_json)
+        return JsonResponse(json_response)
+
+    
+    @action(methods=['POST'], detail=False)
+    def create_pdf(self, request, *args, **kwargs):
+        product_data = json.loads(request.body)
+        
+        items = product_data['test']
+        # print(items)
+        # print(items['rocCompanyInfo']['dateOfChange'])
+        # items['rocCompanyInfo']['dateOfChange'] = make_aware(datetime.datetime.strptime(items['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        # print('qwerqwrq', items['rocCompanyInfo']['dateOfChange'])
+        date_format = "%Y-%m-%d"
+        time_zone = 'Asia/Kuala_Lumpur'
+
+        date_of_change = make_aware(datetime.datetime.strptime(items['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        incorp_date = make_aware(datetime.datetime.strptime(items['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        # officer_infos = (items['rocCompanyOfficerListInfo']['rocCompanyOfficerInfos']['rocCompanyOfficerInfos'])
+        # charge_infos = (items['rocChargesListInfo']['rocChargesInfos']['rocChargesInfos'])
+        # financial_year_end_date = (items['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']['financialYearEndDate'])
+        # date_of_tabling = (items['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']['dateOfTabling'])
+
+        date_format = "%d-%m-%Y"
+        time_zone = 'Asia/Kuala_Lumpur'
+        # localDatetime = hehe.astimezone(pytz.timezone(time_zone))
+        # print('qwrqwrqwrqwr124', localDatetime)
+
+        items['rocCompanyInfo']['dateOfChange'] = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        items['rocCompanyInfo']['incorpDate'] = incorp_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        print('doc', items['rocCompanyInfo']['dateOfChange'])
+        print('inc', items['rocCompanyInfo']['incorpDate'])
+
+
+        html_string = render_to_string('product/company_profile_nonctc_bi.html', {'items': items})
+        html = HTML(string=html_string)
+        pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+        
+        file_path = "ssm/product/" + datetime.datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+        saved_file = default_storage.save(
+            file_path, 
+            ContentFile(pdf_file)
+        )
+        
+        full_url_path = settings.MEDIA_ROOT + saved_file
+
+        serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
+        return Response(serializer)
+
