@@ -11,7 +11,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
-
+import { forkJoin } from 'rxjs';
 //
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
@@ -107,6 +107,7 @@ export class SearchEngineComponent implements OnInit {
 
   // Form
   productForm: FormGroup;
+  newIdentityForm: FormGroup
 
   // Data
   searchResults: any[] = [];
@@ -128,6 +129,13 @@ export class SearchEngineComponent implements OnInit {
   ngOnInit(): void {
     this.productForm = this.fb.group({
       name: new FormControl("getCompProfile"),
+      registration_number: new FormControl(
+        "",
+        Validators.compose([Validators.required])
+      ),
+    });
+    this.newIdentityForm = this.fb.group({
+      name: new FormControl("getNewFormatEntity"),
       registration_number: new FormControl(
         "",
         Validators.compose([Validators.required])
@@ -185,6 +193,15 @@ export class SearchEngineComponent implements OnInit {
     //     console.log(err)
     //   },
     //   () => {}
+    // )
+    // this.newIdentityForm.value['registration_number'] = this.productForm.value.registration_number
+    // forkJoin(
+    //   this.productService.search(this.productForm.value),
+    //   this.productService.search(this.newIdentityForm.value)
+    // ).subscribe(
+    //   (res) => {
+    //     console.log(res)
+    //   }
     // )
   }
 
