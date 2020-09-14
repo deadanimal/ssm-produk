@@ -1,0 +1,40 @@
+.font-small {
+  font-size: 0.8rem;
+}
+
+.icon-size {
+  max-width: 4rem;
+}
+// .presentation-page .section-cards .glide--carousel .glide__slide {
+//   width: 300px !important;
+// }
+.glide__slides .glide__slide img {
+  width: 250px;
+  margin: 50px auto;
+}
+.example {
+  width: 100%;
+  height: 440px;
+  opacity: 0.4;
+  background: url("../../../assets/img/background/putrajaya.jpg");
+  background-size: cover;
+  background-color: #005fed;
+}
+
+.example:before {
+  // content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #005fed;
+  opacity: 0;
+  position: relative;
+  transition: 0.3s all;
+}
+
+.example:hover {
+  opacity: 0.9;
+  background-color: #005fed;
+}
