@@ -274,6 +274,9 @@ SOFTWARE.
 
 
 
+ngx-captcha
+MIT
+
 ngx-chips
 MIT
 
