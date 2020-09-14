@@ -41,6 +41,7 @@ import { RenewComponent } from "./kjakp/customer-management/renew/renew.componen
 import { AddQuotaComponent } from "./kjakp/customer-management/add-quota/add-quota.component";
 import { CbidAuditTrailComponent } from "./cbid/audit-trail/audit-trail.component";
 import { CbidReportComponent } from "./cbid/report/report.component";
+import { FeeManagementComponent } from './product/fee-management/fee-management.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CbidReportComponent } from "./cbid/report/report.component";
     AddQuotaComponent,
     CbidAuditTrailComponent,
     CbidReportComponent,
+    FeeManagementComponent,
   ],
   imports: [
     CommonModule,
