@@ -81,13 +81,10 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'product',
     isCollapsed: true,
     children: [
+      { path: 'fee-management', title: 'Fee Management', type: 'link' },
       { path: 'resupply', title: 'Resupply', type: 'link' },
       { path: 'product-management', title: 'Product Management', type: 'link' },
-      {
-        path: 'involvement-management',
-        title: 'Involvement Management',
-        type: 'link',
-      },
+      { path: 'involvement-management', title: 'Involvement Management', type: 'link' },
       { path: 'foc-management', title: 'FOC Management', type: 'link' },
       { path: 'statistics', title: 'Statistics', type: 'link' },
     ],

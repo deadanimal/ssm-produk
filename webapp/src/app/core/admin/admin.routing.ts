@@ -1,86 +1,87 @@
-import { Routes } from "@angular/router";
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { ReportComponent } from "./report/report.component";
-import { UsersComponent } from "./utility/users/users.component";
-import { RbacComponent } from "./utility/rbac/rbac.component";
-import { AuditTrailComponent } from "./utility/audit-trail/audit-trail.component";
-import { ApplicationRequestsComponent } from "./cbid/application-requests/application-requests.component";
-import { ApprovalComponent } from "./super-admin/approval/approval.component";
-import { ReconcileComponent } from "./finance/reconcile/reconcile.component";
-import { FeesComponent } from "./finance/fees/fees.component";
-import { TicketManagementComponent } from "./enquiry/ticket-management/ticket-management.component";
-import { FormManagementComponent } from "./enquiry/form-management/form-management.component";
-import { OutstandingTasksComponent } from "./kjakp/outstanding-tasks/outstanding-tasks.component";
-import { UsagesComponent } from "./kjakp/usages/usages.component";
-import { AddComponent } from "./kjakp/customer-management/add/add.component";
-import { PackageComponent } from "./kjakp/customer-management/package/package.component";
-import { RenewComponent } from "./kjakp/customer-management/renew/renew.component";
-import { AddQuotaComponent } from "./kjakp/customer-management/add-quota/add-quota.component";
-import { ResupplyComponent } from "./product/resupply/resupply.component";
-import { ProductManagementComponent } from "./product/product-management/product-management.component";
-import { InvolvementManagementComponent } from "./product/involvement-management/involvement-management.component";
-import { FocManagementComponent } from "./product/foc-management/foc-management.component";
-import { StatisticsComponent } from "./product/statistics/statistics.component";
-import { CbidAuditTrailComponent } from "./cbid/audit-trail/audit-trail.component";
-import { CbidReportComponent } from "./cbid/report/report.component";
+import { Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReportComponent } from './report/report.component';
+import { UsersComponent } from './utility/users/users.component';
+import { RbacComponent } from './utility/rbac/rbac.component';
+import { AuditTrailComponent } from './utility/audit-trail/audit-trail.component';
+import { ApplicationRequestsComponent } from './cbid/application-requests/application-requests.component';
+import { ApprovalComponent } from './super-admin/approval/approval.component';
+import { ReconcileComponent } from './finance/reconcile/reconcile.component';
+import { FeesComponent } from './finance/fees/fees.component';
+import { TicketManagementComponent } from './enquiry/ticket-management/ticket-management.component';
+import { FormManagementComponent } from './enquiry/form-management/form-management.component';
+import { OutstandingTasksComponent } from './kjakp/outstanding-tasks/outstanding-tasks.component';
+import { UsagesComponent } from './kjakp/usages/usages.component';
+import { AddComponent } from './kjakp/customer-management/add/add.component';
+import { PackageComponent } from './kjakp/customer-management/package/package.component';
+import { RenewComponent } from './kjakp/customer-management/renew/renew.component';
+import { AddQuotaComponent } from './kjakp/customer-management/add-quota/add-quota.component';
+import { ResupplyComponent } from './product/resupply/resupply.component';
+import { ProductManagementComponent } from './product/product-management/product-management.component';
+import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
+import { FocManagementComponent } from './product/foc-management/foc-management.component';
+import { StatisticsComponent } from './product/statistics/statistics.component';
+import { CbidAuditTrailComponent } from './cbid/audit-trail/audit-trail.component';
+import { CbidReportComponent } from './cbid/report/report.component';
+import { FeeManagementComponent } from './product/fee-management/fee-management.component';
 
 export const AdminRoutes: Routes = [
   {
-    path: "",
+    path: '',
     children: [
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: DashboardComponent,
       },
       {
-        path: "report",
+        path: 'report',
         component: ReportComponent,
       },
       {
-        path: "utility",
+        path: 'utility',
         children: [
           {
-            path: "user-database",
+            path: 'user-database',
             component: UsersComponent,
           },
           {
-            path: "rbac",
+            path: 'rbac',
             component: RbacComponent,
           },
           {
-            path: "audit-trail",
+            path: 'audit-trail',
             component: AuditTrailComponent,
           },
         ],
       },
       {
-        path: "kjakp",
+        path: 'kjakp',
         children: [
           {
-            path: "outstanding-tasks",
+            path: 'outstanding-tasks',
             component: OutstandingTasksComponent,
           },
           {
-            path: "usages",
+            path: 'usages',
             component: UsagesComponent,
           },
           {
-            path: "customer-management",
+            path: 'customer-management',
             children: [
               {
-                path: "add",
+                path: 'add',
                 component: AddComponent,
               },
               {
-                path: "package",
+                path: 'package',
                 component: PackageComponent,
               },
               {
-                path: "renew",
+                path: 'renew',
                 component: RenewComponent,
               },
               {
-                path: "add-quota",
+                path: 'add-quota',
                 component: AddQuotaComponent,
               },
             ],
@@ -88,78 +89,82 @@ export const AdminRoutes: Routes = [
         ],
       },
       {
-        path: "product",
+        path: 'product',
         children: [
           {
-            path: "resupply",
+            path: 'resupply',
             component: ResupplyComponent,
           },
           {
-            path: "product-management",
+            path: 'product-management',
             component: ProductManagementComponent,
           },
           {
-            path: "involvement-management",
+            path: 'involvement-management',
             component: InvolvementManagementComponent,
           },
           {
-            path: "foc-management",
+            path: 'foc-management',
             component: FocManagementComponent,
           },
           {
-            path: "statistics",
+            path: 'statistics',
             component: StatisticsComponent,
           },
+          {
+            path: 'fee-management',
+            component: FeeManagementComponent
+          }
         ],
       },
       {
-        path: "enquiry",
+        path: 'enquiry',
         children: [
           {
-            path: "ticket-management",
+            path: 'ticket-management',
             component: TicketManagementComponent,
           },
           {
-            path: "form-management",
+            path: 'form-management',
             component: FormManagementComponent,
           },
         ],
       },
       {
-        path: "finance",
+        path: 'finance',
         children: [
           {
-            path: "reconcile",
+            path: 'reconcile',
             component: ReconcileComponent,
           },
           {
-            path: "fees",
+            path: 'fees',
             component: FeesComponent,
           },
         ],
       },
       {
-        path: "cbid",
+        path: 'cbid',
         children: [
           {
-            path: "application-requests",
+            path: 'application-requests',
             component: ApplicationRequestsComponent,
           },
           {
-            path: "audit-trail",
+            path: 'audit-trail',
             component: CbidAuditTrailComponent,
           },
           {
-            path: "report",
+            path: 'report',
             component: CbidReportComponent,
           },
         ],
       },
       {
-        path: "super-admin",
+        path: 'super-admin',
         children: [
           {
-            path: "approval",
+            path: 'approval',
             component: ApprovalComponent,
           },
         ],
