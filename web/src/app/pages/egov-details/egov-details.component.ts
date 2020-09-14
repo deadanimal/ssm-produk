@@ -12,11 +12,11 @@ import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "app-egov",
-  templateUrl: "./egov.component.html",
-  styleUrls: ["./egov.component.scss"],
+  selector: "app-egov-details",
+  templateUrl: "./egov-details.component.html",
+  styleUrls: ["./egov-details.component.scss"],
 })
-export class EgovComponent implements OnInit {
+export class EgovDetailsComponent implements OnInit {
   isSignUp: boolean = false;
   registerDiv: boolean = false;
 
@@ -29,6 +29,11 @@ export class EgovComponent implements OnInit {
     class: "modal-dialog-centered",
   };
 
+  slider1 = "assets/img/banner/banner portal-01.png";
+  slider2 = "assets/img/banner/banner portal-02.png";
+  slider3 = "assets/img/banner/banner portal-03.png";
+  slider4 = "assets/img/banner/banner portal-04.png";
+
   constructor(
     private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
@@ -37,7 +42,7 @@ export class EgovComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    new Glide(".presentation-cards", {
+    new Glide(".presentation-cards1", {
       type: "carousel",
       startAt: 1,
       focusAt: 1,
@@ -139,7 +144,7 @@ export class EgovComponent implements OnInit {
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    this.closeModal();
+    // this.closeModal();
     this.router.navigate([path]);
   }
 }
