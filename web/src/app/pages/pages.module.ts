@@ -22,6 +22,7 @@ import { AuditTrailComponent } from "./audit-trail/audit-trail.component";
 import { ChangelogComponent } from "./changelog/changelog.component";
 import { TmNgOdometerModule } from "tm-ng-odometer";
 import { NgxCaptchaModule } from "ngx-captcha";
+import { EgovDetailsComponent } from "./egov-details/egov-details.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { NgxCaptchaModule } from "ngx-captcha";
     Landing4Component,
     AuditTrailComponent,
     ChangelogComponent,
+    EgovDetailsComponent,
   ],
   imports: [
     CommonModule,

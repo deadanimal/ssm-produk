@@ -245,7 +245,12 @@
 
                   <div class="row">
                     <div class="col">
-                      <button class="btn btn-secondary btn-block">Login</button>
+                      <button
+                        class="btn btn-secondary btn-block"
+                        (click)="openModal(packageModal)"
+                      >
+                        Login
+                      </button>
                     </div>
                     <div class="col">
                       <button
@@ -511,7 +516,12 @@
       </div>
 
       <div class="text-left">
-        <button class="btn btn-primary">Apply</button>
+        <button
+          class="btn btn-primary"
+          (click)="successAlert('Application Successfully Submitted')"
+        >
+          Apply
+        </button>
       </div>
     </div>
     <!-- </div>
@@ -542,5 +552,52 @@
       class="d-flex mx-auto"
       src="assets/img/default/sample.png"
     />
+  </div>
+</ng-template>
+
+<ng-template #packageModal>
+  <!-- <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Product Sample
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div> -->
+
+  <div class="modal-body px-auto">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-body text-center"
+            (click)="navigatePage('/egov-details')"
+          >
+            <h1 class="text-ssm">Package 1 & 2</h1>
+            <h1 class="text-ssm">Only for reference on the flow</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-body text-center"
+            (click)="navigatePage('/egov-details')"
+          >
+            <h1 class="text-ssm">Package 3 & 4</h1>
+            <h1 class="text-ssm">Only for reference on the flow</h1>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>
