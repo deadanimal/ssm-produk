@@ -53,39 +53,42 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loadingBar.start()
-    this.loadingBar.complete()
-    this.successMessage()
-    if (this.loginForm.value.username == 'admin@prototype.com.my') {
-      this.authService.userRole = 1
-      this.navigatePage('dashboard-admin')
-    }
-    else if (this.loginForm.value.username == 'user') {
-      this.authService.userRole = 2
-      this.navigatePage('dashboard-user')
-    }
+    // this.loadingBar.complete()
+    // this.successMessage()
+    // if (this.loginForm.value.username == 'admin@prototype.com.my') {
+    //   this.authService.userRole = 1
+    //   this.navigatePage('dashboard-admin')
+    // }
+    // else if (this.loginForm.value.username == 'user') {
+    //   this.authService.userRole = 2
+    //   this.navigatePage('dashboard-user')
+    // }
+
+    this.authService.obtainToken(this.loginForm.value).subscribe(
+      () => {
+        //
+        this.authService.userRole = 1
+        this.loadingBar.complete()
+        this.successMessage()
+      },
+      () => {
+        // 
+        this.loadingBar.complete()
+      },
+      () => {
+        // 
+        this.navigatePage('/admin/dashboard')
+      }
+    )
   }
 
   navigatePage(path: String) {
-    if (path == 'login') {
-      return this.router.navigate(['/auth/login'])
-    }
-    else  if (path == 'forgot') {
-      return this.router.navigate(['/auth/forgot'])
-    }
-    else  if (path == 'register') {
-      return this.router.navigate(['/auth/register'])
-    }
-    else if (path == 'dashboard-admin') {
-      return this.router.navigate(['/admin/dashboard'])
-    }
-    else if (path == 'dashboard-user') {
-      return this.router.navigate(['/user/dashboard'])
-    }
+    return this.router.navigate([path])
   }
 
   successMessage() {
     let title = 'Success'
-    let message = 'Loging in right now'
+    let message = 'Logging in right now'
     this.notifyService.openToastr(title, message)
   }
 

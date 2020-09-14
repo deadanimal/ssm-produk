@@ -11,7 +11,6 @@ from django.http import HttpResponse
 from django.core.files.base import ContentFile
 from django.conf import settings
 
-
 # import datetime
 import json
 import uuid
