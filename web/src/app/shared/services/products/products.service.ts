@@ -13,8 +13,8 @@ import { tap } from 'rxjs/operators';
 export class ProductsService {
 
   // URL
-  public urlProduct: string = 'http://127.0.0.1:8000/v1/calls/services/'
-  public urlPDF: string = 'http://127.0.0.1:8000/v1/calls/create_product/'
+  public urlProduct: string = environment.baseUrl + 'v1/products/services/'
+  public urlPDF: string = environment.baseUrl + 'v1/products/create_product/'
 
   // Data
   public product: any
