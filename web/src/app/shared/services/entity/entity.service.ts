@@ -11,7 +11,7 @@ import { Entity } from "./entity.model";
 })
 export class EntitysService {
   // URL
-  public urlEntity: string = environment.baseUrl + "v1/cbid-applications/";
+  public urlEntity: string = environment.baseUrl + "v1/cbid-tickets/";
 
   // Data
   public Entity: Entity;

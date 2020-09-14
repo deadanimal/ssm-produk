@@ -60,30 +60,6 @@ export class CbidComponent implements OnInit {
   listProject: any;
   listEntity: any;
   listProduct: any;
-  // data: any = [
-  //   {
-  //     name: "Registration Of Businesses (ROB)",
-  //     type: "Statistics",
-  //     amount: "10",
-  //     created_at: "2019-07-27T01:07:14Z",
-  //   },
-  //   {
-  //     name: "Registration Of Company (ROC)",
-  //     type: "Listing",
-  //     amount: "20",
-  //     created_at: "2019-07-27T01:07:14Z",
-  //   },
-  //   {
-  //     name: "Both",
-  //     type: "Both",
-  //     amount: "30",
-  //     created_at: "2019-07-27T01:07:14Z",
-  //   },
-  // ];
-
-  // asd: string[] = {['val'=>'ROB','show'=>'Registration of Business (ROB)'],['val'=>'ROC','show'=>'Registration of Company (ROC)']};
-  // default: string = "ROB";
-
   // Form
   searchForm: FormGroup;
   searchField: FormGroup;
@@ -93,7 +69,6 @@ export class CbidComponent implements OnInit {
 
   constructor(
     private entityService: EntitysService,
-    private selectProdService: SelectProductsService,
     private cartsService: CartsService,
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
@@ -102,9 +77,11 @@ export class CbidComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private _route: ActivatedRoute
-  ) {}
+  ) {
+    this.getEntity();
+  }
 
-  ngOnInit(): void {
+  getEntity() {
     this.entityService.getAll().subscribe((res) => {
       this.listEntity = res;
       var keys = Object.keys(this.listEntity);
@@ -117,7 +94,9 @@ export class CbidComponent implements OnInit {
       }
       console.log("data = ", this.listProject);
     });
+  }
 
+  ngOnInit(): void {
     this.addAppReqForm = this.formBuilder.group({
       entity_type: new FormControl("ROB"),
       product_type: new FormControl("BT"),
@@ -138,21 +117,23 @@ export class CbidComponent implements OnInit {
   }
 
   newApplicationData() {
-    console.log(this.addAppReqForm.value);
+    // console.log(this.addAppReqForm.value);
     this.entityService.create(this.addAppReqForm.value).subscribe(
       (res) => {
         this.listEntity = res;
-        // console.log(res);
+        console.log(res);
         // console.log(res.id);
         // this.successAlert("Successfully add entity.");
         // window.location.reload();
-        console.log("data = ", this.listEntity);
+        // console.log("data = ", this.listEntity);
         if (this.listEntity) {
-          this.addCartForm.value.products = [res.id];
-          console.log(this.addCartForm.value);
+          this.addCartForm.value.products =
+            "d7abf307-4cf2-4fb9-a373-9d36d3ce7f4f";
+          console.log("addCartForm = ", this.addCartForm.value);
           this.cartsService.create(this.addCartForm.value).subscribe(() => {
             this.successAlert("Successfully add entity.");
-            window.location.reload();
+            // window.location.reload();
+            this.getEntity();
           });
         }
       },
