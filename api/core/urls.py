@@ -22,14 +22,14 @@ class NestedDefaultRouter(NestedRouterMixin, routers.DefaultRouter):
 
 router = NestedDefaultRouter()
 
-# Applications app
+# Freeforms app
 
-from applications.views import (
-    CBIDApplicationViewSet
+from freeforms.views import (
+    FreeformViewSet
 )
 
-cbid_applications_router = router.register(
-    'cbid-applications', CBIDApplicationViewSet
+freeforms_router = router.register(
+    'freeforms', FreeformViewSet
 )
 
 # Organisations app
@@ -42,6 +42,16 @@ organisations_router = router.register(
     'organisations', OrganisationViewSet
 )
 
+# Outfits app
+
+from outfits.views import (
+    OutfitViewSet
+)
+
+outfits_router = router.register(
+    'outfits', OutfitViewSet
+)
+
 # Products app
 
 from products.views import (
@@ -52,14 +62,44 @@ products_router = router.register(
     'products', ProductViewSet
 )
 
-# Purchases app
+# Tickets app
 
-from purchases.views import (
-    CBIDCartViewSet
+from tickets.views import (
+    TicketViewSet,
+    TicketCBIDViewSet,
+    TicketInvestigationViewSet
+)
+
+tickets_router = router.register(
+    'tickets', TicketViewSet
+)
+
+cbid_tickets_router = router.register(
+    'cbid-tickets', TicketCBIDViewSet
+)
+
+investigation_tickets_router = router.register(
+    'investigation-tickets', TicketInvestigationViewSet
+)
+
+# Transactions app
+
+from transactions.views import (
+    TransactionViewSet,
+    CartCBIDViewSet,
+    ReconcileViewSet
+)
+
+transactions_router = router.register(
+    'transactions', TransactionViewSet
 )
 
 cbid_carts_router = router.register(
-    'cbid-carts', CBIDCartViewSet
+    'cbid-carts', CartCBIDViewSet
+)
+
+reconciles_router = router.register(
+    'reconciles', ReconcileViewSet
 )
 
 # Users app

@@ -50,10 +50,12 @@ INSTALLED_APPS = [
 
     # 'assets',
     # 'operations',
-    'applications',
+    'freeforms',
     'organisations',
+    'outfits',
     'products',
-    'purchases',
+    'transactions',
+    'tickets',
     'users',
     # 'zones'
 ]
