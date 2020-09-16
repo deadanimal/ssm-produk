@@ -25,16 +25,16 @@
       </h5>
       <div class="row pt-3">
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 1</h3>
               <h4 class="mt-0 text-white">view only</h4>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Company Profile without Company
-                Charges
+                Charges and Financial charges
               </p>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Financial charges
+                <i class="fas fa-check"></i> Business Profile
               </p>
 
               <img
@@ -49,7 +49,11 @@
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button" (click)="openModal(productSample)">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)"
+                >
                   View Sample
                 </button>
               </div>
@@ -58,16 +62,15 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 2</h3>
               <h4 class="mt-0 text-white">view only</h4>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Company Profile without Company
-                Charges
+                <i class="fas fa-check"></i> Company Profile
               </p>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Financial charges
+                <i class="fas fa-check"></i> Business Profile
               </p>
 
               <img
@@ -82,7 +85,11 @@
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button" (click)="openModal(productSample)">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)"
+                >
                   View Sample
                 </button>
               </div>
@@ -91,12 +98,15 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 3</h3>
               <h4 class="mt-0 text-white">view & download</h4>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Company Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Business Profile
               </p>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Statutory Document Images
@@ -114,7 +124,11 @@
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button" (click)="openModal(productSample)">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)"
+                >
                   View Sample
                 </button>
               </div>
@@ -123,12 +137,19 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 4</h3>
               <h4 class="mt-0 text-white">view & download</h4>
-              <h2 class="text-white text-center my-4">COMING SOON</h2>
-
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Company Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Business Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Statutory Document Images
+              </p>
               <img
                 class="icon-size img-center"
                 src="assets/img/icons/statistics.svg"
@@ -141,7 +162,11 @@
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button" (click)="openModal(productSample)">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)"
+                >
                   View Sample
                 </button>
               </div>
@@ -255,200 +280,550 @@
         Register to access all the features of our service. Manage your place in
         one place. It's free!
       </h5>
-      <div class="px-2 row">
-        <div class="col-lg-6 col-sm-12">
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Full name</label>
-                <input class="form-control" placeholder="Enter full name" />
+      <form [formGroup]="signUpForm">
+        <div class="px-2 row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Title</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Title"
+                    formControlName="title"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Full name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter full name"
+                    formControlName="full_name"
+                  />
+                </div>
               </div>
             </div>
 
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Position & grade</label>
-                <input
-                  class="form-control"
-                  placeholder="Enter position & grade"
-                />
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Nationality</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter position & grade"
+                    formControlName="nationality"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Identification Type</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Identification Type"
+                    formControlName="identification_type"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">IC No.</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter IC no."
+                    formControlName="nric_number"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Tel. No.</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter tel. no."
+                    formControlName="nric_number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Gender</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Gender"
+                    formControlName="gender"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Race</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Race"
+                    formControlName="race"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">User Type</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter User Type"
+                    formControlName="user_type"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Email</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Email"
+                    formControlName="email"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Home Number</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Home Number"
+                    formControlName="home_number"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Office Number</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Office Number"
+                    formControlName="office_number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Fax Number</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Fax Number"
+                    formControlName="fax_number"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address 1</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Address 1"
+                    formControlName="address_1"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address 2</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Address 2"
+                    formControlName="address_2"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address 3</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Address 3"
+                    formControlName="address_3"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">City</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter City"
+                    formControlName="city"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Postcode</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Postcode"
+                    formControlName="postcode"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">State</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter State"
+                    formControlName="state"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Country</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Country"
+                    formControlName="country"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Password</label>
+                  <input
+                    class="form-control"
+                    placeholder="Password"
+                    type="password"
+                    formControlName="password"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Confirm password</label>
+                  <input
+                    class="form-control"
+                    placeholder="Password"
+                    type="password"
+                    formControlName="password2"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Username</label>
+                  <input
+                    class="form-control"
+                    placeholder="Username"
+                    type="username"
+                    formControlName="username"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12"></div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >By registering, you agree to our Terms of Service and
+                    Privacy Policy.</label
+                  >
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">IC No.</label>
-                <input class="form-control" placeholder="Enter IC no." />
+          <div class="col-lg-6 col-sm-12">
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label"
+                    >Head of department name</label
+                  >
+                  <input
+                    class="form-control"
+                    placeholder="Enter head of department name"
+                    formControlName="head_of_department_name"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label"
+                    >Head of department position</label
+                  >
+                  <input
+                    class="form-control"
+                    placeholder="Enter head of department position"
+                    formControlName="head_of_department_position"
+                  />
+                </div>
               </div>
             </div>
 
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Tel. No.</label>
-                <input class="form-control" placeholder="Enter tel. no." />
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label"
+                    >Head of department email</label
+                  >
+                  <input
+                    class="form-control"
+                    placeholder="Enter head of department email"
+                    formControlName="head_of_department_email"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Agency name</label>
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Confirm</label>
-                <input
-                  class="form-control"
-                  placeholder="Password"
-                  type="password"
-                />
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Ministry Name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Ministry Name"
+                    formControlName="ministry_name"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Division Name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Division Name"
+                    formControlName="division_name"
+                  />
+                </div>
               </div>
             </div>
 
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Confirm password</label>
-                <input
-                  class="form-control"
-                  placeholder="Password"
-                  type="password"
-                />
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Department Name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Department Name"
+                    formControlName="department_name"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Registration Name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Registration Name"
+                    formControlName="registration_number"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col">
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="customCheck1"
-                />
-                <label class="custom-control-label" for="customCheck1"
-                  >By registering, you agree to our Terms of Service and Privacy
-                  Policy.</label
-                >
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Company Name</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Company Name"
+                    formControlName="company_name"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Company number</label>
+                  <input
+                    class="form-control"
+                    placeholder="Company number"
+                    formControlName="company_number"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="row mt-2">
-            <div class="col">
-              <button class="btn btn-ssm btn-round" (click)="successAlert('Successfully Save Data')">Submit</button>
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Company Email</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Company Email"
+                    formControlName="company_email"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Position Or Grade</label>
+                  <input
+                    class="form-control"
+                    placeholder="Position Or Grade"
+                    formControlName="position_or_grade"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address line 1</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter address line 1"
+                    formControlName="company_address_1"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address line 2</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter address line 2"
+                    formControlName="company_address_2"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Address line 3</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter address line 3"
+                    formControlName="company_address_3"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Postcode</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter postcode"
+                    formControlName="company_postcode"
+                  />
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">City</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter city"
+                    formControlName="company_city"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">State</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter state"
+                    formControlName="company_state"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Country</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Country"
+                    formControlName="company_country"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col-lg-6 col-sm-12">
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label"
-                  >Head of department name</label
-                >
-                <input
-                  class="form-control"
-                  placeholder="Enter head of department name"
-                />
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label"
-                  >Head of department position</label
-                >
-                <input
-                  class="form-control"
-                  placeholder="Enter head of department position"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label"
-                  >Head of department email</label
-                >
-                <input
-                  class="form-control"
-                  placeholder="Enter head of department email"
-                />
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Agency name</label>
-                <select class="form-control">
-                  <option>Please select</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Address line 1</label>
-                <input
-                  class="form-control"
-                  placeholder="Enter address line 1"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Address line 2</label>
-                <input
-                  class="form-control"
-                  placeholder="Enter address line 2"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Address line 3</label>
-                <input
-                  class="form-control"
-                  placeholder="Enter address line 3"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Postcode</label>
-                <input class="form-control" placeholder="Enter postcode" />
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">City</label>
-                <input class="form-control" placeholder="Enter city" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">State</label>
-                <input class="form-control" placeholder="Enter state" />
-              </div>
-            </div>
-          </div>
+      </form>
+      <div class="row mt-2">
+        <div class="col">
+          <button class="btn btn-ssm btn-round" (click)="signUpUser()">
+            Submit
+          </button>
         </div>
       </div>
     </div>
