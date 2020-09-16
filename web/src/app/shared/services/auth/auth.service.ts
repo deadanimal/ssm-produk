@@ -39,6 +39,7 @@ export class AuthService {
   constructor(private jwtService: JwtService, private http: HttpClient) {}
 
   register(body: Form): Observable<any> {
+    console.log(this.urlRegister);
     return this.http.post<any>(this.urlRegister, body).pipe(
       tap((res) => {
         console.log("Registration: ", res);
@@ -62,33 +63,33 @@ export class AuthService {
     );
   }
 
-  // obtainToken(body: Form): Observable<any> {
-  //   let jwtHelper: JwtHelperService = new JwtHelperService()
-  //   return this.http.post<any>(this.urlTokenObtain, body).pipe(
-  //     tap((res) => {
-  //       this.token = res
-  //       this.tokenRefresh = res.refresh
-  //       this.tokenAccess = res.access
+  obtainToken(body: Form): Observable<any> {
+    let jwtHelper: JwtService = new JwtService();
+    return this.http.post<any>(this.urlTokenObtain, body).pipe(
+      tap((res) => {
+        this.token = res;
+        this.tokenRefresh = res.refresh;
+        this.tokenAccess = res.access;
 
-  //       let decodedToken = jwtHelper.decodeToken(this.tokenAccess)
-  //       this.email = decodedToken.email
-  //       this.username = decodedToken.username
-  //       this.userID = decodedToken.user_id
-  //       this.userType = decodedToken.user_type
-  //       // console.log('Decoded token: ', decodedToken)
-  //       // console.log('Post response: ', res)
-  //       // console.log('Refresh token', this.tokenRefresh)
-  //       // console.log('Access token', this.tokenAccess)
-  //       // console.log('Token: ', this.token)
-  //       // console.log('Email: ', this.email)
-  //       // console.log('Username: ', this.username)
-  //       // console.log('User ID: ', this.userID)
-  //       // console.log('User type: ', this.userType)
-  //       this.jwtService.saveToken('accessToken', this.tokenAccess)
-  //       this.jwtService.saveToken('refreshToken', this.tokenRefresh)
-  //     })
-  //   )
-  // }
+        // let decodedToken = jwtHelper.decodeToken(this.tokenAccess)
+        // this.email = decodedToken.email
+        // this.username = decodedToken.username
+        // this.userID = decodedToken.user_id
+        // this.userType = decodedToken.user_type
+        // console.log('Decoded token: ', decodedToken)
+        // console.log('Post response: ', res)
+        // console.log('Refresh token', this.tokenRefresh)
+        // console.log('Access token', this.tokenAccess)
+        // console.log('Token: ', this.token)
+        // console.log('Email: ', this.email)
+        // console.log('Username: ', this.username)
+        // console.log('User ID: ', this.userID)
+        // console.log('User type: ', this.userType)
+        this.jwtService.saveToken("accessToken", this.tokenAccess);
+        this.jwtService.saveToken("refreshToken", this.tokenRefresh);
+      })
+    );
+  }
 
   refreshToken(): Observable<any> {
     let refreshToken = this.jwtService.getToken("refreshToken");
