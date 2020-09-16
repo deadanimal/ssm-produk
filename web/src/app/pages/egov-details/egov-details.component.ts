@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import Glide from "@glidejs/glide";
-// import { ReCaptchaV3Service } from "ngx-captcha";
+import { ReCaptchaV3Service } from "ngx-captcha";
 import {
   FormGroup,
   FormBuilder,
@@ -12,11 +12,11 @@ import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: "app-kjakp",
-  templateUrl: "./kjakp.component.html",
-  styleUrls: ["./kjakp.component.scss"],
+  selector: "app-egov-details",
+  templateUrl: "./egov-details.component.html",
+  styleUrls: ["./egov-details.component.scss"],
 })
-export class KjakpComponent implements OnInit {
+export class EgovDetailsComponent implements OnInit {
   isSignUp: boolean = false;
   registerDiv: boolean = false;
 
@@ -28,14 +28,36 @@ export class KjakpComponent implements OnInit {
     keyboard: true,
     class: "modal-dialog-centered",
   };
+
+  slider1 = "assets/img/banner/banner portal-01.png";
+  slider2 = "assets/img/banner/banner portal-02.png";
+  slider3 = "assets/img/banner/banner portal-03.png";
+  slider4 = "assets/img/banner/banner portal-04.png";
+
   constructor(
-    // private reCaptchaV3Service: ReCaptchaV3Service,
+    private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    new Glide(".presentation-cards1", {
+      type: "carousel",
+      startAt: 1,
+      focusAt: 1,
+      perTouch: 1,
+      perView: 4,
+    }).mount();
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.add("presentation-page");
+    var navbar = document.getElementById("navbar-main");
+    navbar.classList.add("bg-primary");
+
+    this.aFormGroup = this.formBuilder.group({
+      recaptcha: ["", Validators.required],
+    });
+  }
 
   signUp() {
     this.isSignUp = true;
@@ -122,7 +144,7 @@ export class KjakpComponent implements OnInit {
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    this.closeModal();
+    // this.closeModal();
     this.router.navigate([path]);
   }
 }
