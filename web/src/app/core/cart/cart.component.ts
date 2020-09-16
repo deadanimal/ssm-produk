@@ -10,6 +10,12 @@ import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 
+import { LoadingBarService } from "@ngx-loading-bar/core";
+
+// cart service
+import { CbidCart } from "src/app/shared/services/cbid-carts/cbid-carts.model";
+import { CbidCartsService } from "src/app/shared/services/cbid-carts/cbid-carts.service";
+
 export enum SelectionType {
   single = "single",
   multi = "multi",
@@ -17,26 +23,6 @@ export enum SelectionType {
   cell = "cell",
   checkbox = "checkbox",
 }
-import { LoadingBarService } from "@ngx-loading-bar/core";
-
-// cart service
-import { Cart } from "src/app/shared/services/cart/cart.model";
-import { CartsService } from "src/app/shared/services/cart/cart.service";
-
-// const Items = [
-//   {
-//     id: "",
-//     noname: "Company Profile",
-//     product: "Financial Historical Comparison (2005 & 2019)",
-//     lang: "Bahasa English",
-//     price: 30.0,
-//     servicefee: 5.0,
-//     ctcservice: 5.0,
-//     discount: 0.0,
-//     totalprice: 40.0,
-//     isChecked: false,
-//   },
-// ];
 
 @Component({
   selector: "app-cart",
@@ -58,7 +44,69 @@ export class CartComponent implements OnInit {
   tableActiveRow: any;
   tableRows: any[] = [];
   SelectionType = SelectionType;
-  listCart: any;
+  // listCart: any;
+  listCart: any = [
+    {
+      search_criteria: "Bore Pile",
+      total_pages: "Afizi",
+      total_company: "AC",
+      unit_price: "RM 301,900.00",
+      total_price: "RM 150,000.00",
+      created_at: "2019-07-27T01:07:14Z",
+      total: "Bore Pile",
+      sst: "Afizi",
+      total_amount: "AC",
+      products: "RM 301,900.00",
+    },
+    {
+      search_criteria: "Micro Pile",
+      total_pages: "Amin",
+      total_company: "PE",
+      unit_price: "RM 165,800.00",
+      total_price: "70,000.00",
+      created_at: "2019-07-27T01:07:14Z",
+      total: "Bore Pile",
+      sst: "Afizi",
+      total_amount: "AC",
+      products: "RM 301,900.00",
+    },
+    {
+      search_criteria: "Crosshead",
+      total_pages: "Husaini",
+      total_company: "CA",
+      unit_price: "RM 139,900.00",
+      total_price: "RM 65,000.00",
+      created_at: "2019-07-27T01:07:14Z",
+      total: "Bore Pile",
+      sst: "Afizi",
+      total_amount: "AC",
+      products: "RM 301,900.00",
+    },
+    {
+      search_criteria: "Crosshead",
+      total_pages: "Husaini",
+      total_company: "CA",
+      unit_price: "RM 139,900.00",
+      total_price: "RM 65,000.00",
+      created_at: "2019-07-27T01:07:14Z",
+      total: "Bore Pile",
+      sst: "Afizi",
+      total_amount: "AC",
+      products: "RM 301,900.00",
+    },
+    {
+      search_criteria: "Crosshead",
+      total_pages: "Husaini",
+      total_company: "CA",
+      unit_price: "RM 139,900.00",
+      total_price: "RM 65,000.00",
+      created_at: "2019-07-27T01:07:14Z",
+      total: "Bore Pile",
+      sst: "Afizi",
+      total_amount: "AC",
+      products: "RM 301,900.00",
+    },
+  ];
 
   // Form
   searchForm: FormGroup;
@@ -82,7 +130,7 @@ export class CartComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
-    private cartsService: CartsService,
+    private cartsService: CbidCartsService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -195,5 +243,30 @@ export class CartComponent implements OnInit {
   closeModal() {
     this.modal.hide();
     this.editAppReqForm.reset();
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 }
