@@ -32,8 +32,8 @@ import { FillForm } from "src/app/shared/services/fill_form/fill_form.model";
 import { FillFormsService } from "src/app/shared/services/fill_form/fill_form.service";
 
 // cart service
-import { Cart } from "src/app/shared/services/cart/cart.model";
-import { CartsService } from "src/app/shared/services/cart/cart.service";
+import { CbidCart } from "src/app/shared/services/cbid-carts/cbid-carts.model";
+import { CbidCartsService } from "src/app/shared/services/cbid-carts/cbid-carts.service";
 
 @Component({
   selector: "app-cbid",
@@ -69,7 +69,7 @@ export class CbidComponent implements OnInit {
 
   constructor(
     private entityService: EntitysService,
-    private cartsService: CartsService,
+    private cartsService: CbidCartsService,
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
@@ -150,7 +150,7 @@ export class CbidComponent implements OnInit {
     console.log(row);
     this.entityService.delete(row).subscribe((res) => {
       // this.listEntity = res;
-      // this.successAlert("Successfully delete entity.");
+      this.successAlert("Successfully delete entity.");
       window.location.reload();
     });
   }

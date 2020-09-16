@@ -19,24 +19,21 @@ export enum SelectionType {
 }
 import { LoadingBarService } from "@ngx-loading-bar/core";
 
-// cart service
-import { Cart } from "src/app/shared/services/cart/cart.model";
-import { CartsService } from "src/app/shared/services/cart/cart.service";
+// entity
+import { Entity } from "src/app/shared/services/entity/entity.model";
+import { EntitysService } from "src/app/shared/services/entity/entity.service";
 
-// const Items = [
-//   {
-//     id: "",
-//     noname: "Company Profile",
-//     product: "Financial Historical Comparison (2005 & 2019)",
-//     lang: "Bahasa English",
-//     price: 30.0,
-//     servicefee: 5.0,
-//     ctcservice: 5.0,
-//     discount: 0.0,
-//     totalprice: 40.0,
-//     isChecked: false,
-//   },
-// ];
+// select Product
+import { SelectProduct } from "src/app/shared/services/select_product/select_product.model";
+import { SelectProductsService } from "src/app/shared/services/select_product/select_product.service";
+
+// fill form
+import { FillForm } from "src/app/shared/services/fill_form/fill_form.model";
+import { FillFormsService } from "src/app/shared/services/fill_form/fill_form.service";
+
+// cart service
+import { CbidCart } from "src/app/shared/services/cbid-carts/cbid-carts.model";
+import { CbidCartsService } from "src/app/shared/services/cbid-carts/cbid-carts.service";
 
 @Component({
   selector: "app-checkout",
@@ -82,7 +79,7 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
-    private cartsService: CartsService,
+    private cartsService: CbidCartsService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -176,8 +173,32 @@ export class CheckoutComponent implements OnInit {
   }
 
   navigatePage(path: string) {
-    // console.log('Path: ', path)
     this.router.navigate([path]);
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 
   openModal(modalRef: TemplateRef<any>, row) {

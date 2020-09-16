@@ -58,7 +58,7 @@
             <div class="row pb-2 text-right">
               <div class="col">
                 <div class="tools float-left">
-                  <div class="dropdown" dropdown>
+                  <!-- <div class="dropdown" dropdown>
                     <button
                       class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
                       data-toggle="dropdown"
@@ -70,7 +70,7 @@
                     <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
                       <a class="dropdown-item" href="#"> Remove </a>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col">
@@ -80,7 +80,141 @@
             </div>
 
             <div class="table-responsive">
-              <table class="table table-striped">
+              <div class="dataTables_wrapper py-4">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="-1">All</option>
+                    </select>
+                    records
+                  </label>
+                </div>
+
+                <ngx-datatable
+                  class="bootstrap selection-cell bordered"
+                  [columnMode]="'force'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'auto'"
+                  [limit]="tableEntries != -1 ? tableEntries : undefined"
+                  [rows]="listCart"
+                  (activate)="onActivate($event)"
+                >
+                  <ngx-datatable-column name="No">
+                    <ng-template
+                      let-rowIndex="rowIndex"
+                      let-row="row"
+                      ngx-datatable-cell-template
+                    >
+                      <strong>{{ rowIndex + 1 }}</strong>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Search Criteria</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.search_criteria }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Total Pages </span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.total_pages }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Language</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.total_company }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Unit Price (RM)</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.unit_price }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Total Price (RM)</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.total_price }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Total (RM)</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.total }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>SST (RM)</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.sst }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Total Amount (RM)</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.total_amount }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Created Date</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{ row.created_at | date: "dd/MM/yyyy" }}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column>
+                    <ng-template ngx-datatable-header-template>
+                      <span>Action</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <a style="cursor: pointer" (click)="confirm(row.id)">
+                        <button class="btn btn-danger btn-sm">
+                          <i class="fas fa-trash"></i> Remove
+                        </button></a
+                      >
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+              <!-- <table class="table table-striped">
                 <thead class="text-primary">
                   <tr>
                     <th class="text-center">#</th>
@@ -136,16 +270,9 @@
                       </button>
                     </td>
                   </tr>
-
-                  <!-- <tr>
-                    <td colspan="3"></td>
-                    <td class="td-total">Total</td>
-                    <td class="td-price">RM 20.00</td>
-                    <td></td>
-                  </tr> -->
                   <tr></tr>
                 </tbody>
-              </table>
+              </table> -->
             </div>
 
             <div class="float-right text-right py-4">

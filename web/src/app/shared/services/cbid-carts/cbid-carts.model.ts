@@ -1,8 +1,7 @@
-export class Cart {
+export class CbidCart {
   public id: string;
-  public total_pages: string;
   public search_criteria: string;
-  public total_page: string;
+  public total_pages: string;
   public total_company: string;
   public unit_price: string;
   public total_price: string;
@@ -17,7 +16,6 @@ export class Cart {
     id: string,
     total_pages: string,
     search_criteria: string,
-    total_page: string,
     total_company: string,
     unit_price: string,
     total_price: string,
@@ -31,7 +29,6 @@ export class Cart {
     this.id = id;
     this.total_pages = total_pages;
     this.search_criteria = search_criteria;
-    this.total_page = total_page;
     this.total_company = total_company;
     this.unit_price = unit_price;
     this.total_price = total_price;
