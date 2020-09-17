@@ -19,7 +19,7 @@ def get_details_of_share_capital(url, headers, registration_number):
             <request>
                 <req>
                     <checkDigit>M</checkDigit>
-                    <companyNo>""" + registration_number + """</companyNo>
+                    <companyNo>""" + str(registration_number) + """</companyNo>
                     <gstAmount>0</gstAmount>
                     <infoAmount>0</infoAmount>
                     <invoiceNo>0</invoiceNo>
