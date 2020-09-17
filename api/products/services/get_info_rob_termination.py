@@ -10,7 +10,7 @@ def get_info_rob_termination(url, headers, registration_number):
     <soapenv:Body>
         <inf:getInfoRobTermination>
             <header>
-                <customerId>{{ customerId }}</customerId>
+                <customerId>SSMProduk</customerId>
                 <customerReferenceNo></customerReferenceNo>
                 <customerRequestDate></customerRequestDate>
             </header>
