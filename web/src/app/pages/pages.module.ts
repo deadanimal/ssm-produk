@@ -23,6 +23,8 @@ import { ChangelogComponent } from "./changelog/changelog.component";
 import { TmNgOdometerModule } from "tm-ng-odometer";
 import { NgxCaptchaModule } from "ngx-captcha";
 import { EgovDetailsComponent } from "./egov-details/egov-details.component";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { EgovDetails2Component } from './egov-details2/egov-details2.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { EgovDetailsComponent } from "./egov-details/egov-details.component";
     AuditTrailComponent,
     ChangelogComponent,
     EgovDetailsComponent,
+    EgovDetails2Component,
   ],
   imports: [
     CommonModule,
@@ -52,6 +55,7 @@ import { EgovDetailsComponent } from "./egov-details/egov-details.component";
     RouterModule.forChild(PagesRoutes),
     TmNgOdometerModule,
     NgxCaptchaModule,
+    HttpClientModule,
   ],
 })
 export class PagesModule {}

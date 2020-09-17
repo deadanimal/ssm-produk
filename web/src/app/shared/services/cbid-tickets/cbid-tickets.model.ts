@@ -1,4 +1,4 @@
-export class Entity {
+export class CbidTicket {
   public id: string;
   public entity_type: string;
   public product_type: string;

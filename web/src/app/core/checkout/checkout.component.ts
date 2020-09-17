@@ -20,8 +20,8 @@ export enum SelectionType {
 import { LoadingBarService } from "@ngx-loading-bar/core";
 
 // entity
-import { Entity } from "src/app/shared/services/entity/entity.model";
-import { EntitysService } from "src/app/shared/services/entity/entity.service";
+import { CbidTicket } from "src/app/shared/services/cbid-tickets/cbid-tickets.model";
+import { CbidTicketsService } from "src/app/shared/services/cbid-tickets/cbid-tickets.service";
 
 // select Product
 import { SelectProduct } from "src/app/shared/services/select_product/select_product.model";
@@ -72,6 +72,7 @@ export class CheckoutComponent implements OnInit {
   // declare variable
   sum: number = 0;
   total: number = 0;
+  totaldocument: number = 0;
 
   // Checker
   isEmpty: boolean = false;
@@ -93,6 +94,7 @@ export class CheckoutComponent implements OnInit {
       this.listCart = res;
       this.listCart.forEach((lisz) => {
         this.total += lisz.total_price;
+        this.totaldocument++;
       });
       // this.sum = this.total + 1.2;
       console.log(this.sum);

@@ -20,8 +20,8 @@ export enum SelectionType {
 import { LoadingBarService } from "@ngx-loading-bar/core";
 
 // entity
-import { Entity } from "src/app/shared/services/entity/entity.model";
-import { EntitysService } from "src/app/shared/services/entity/entity.service";
+import { CbidTicket } from "src/app/shared/services/cbid-tickets/cbid-tickets.model";
+import { CbidTicketsService } from "src/app/shared/services/cbid-tickets/cbid-tickets.service";
 
 // select Product
 import { SelectProduct } from "src/app/shared/services/select_product/select_product.model";
@@ -68,7 +68,7 @@ export class CbidComponent implements OnInit {
   addCartForm: FormGroup;
 
   constructor(
-    private entityService: EntitysService,
+    private entityService: CbidTicketsService,
     private cartsService: CbidCartsService,
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
