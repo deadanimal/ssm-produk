@@ -77,29 +77,29 @@ export class EgovComponent implements OnInit {
       password: new FormControl(""),
       password2: new FormControl(""),
       email: new FormControl(""),
-      title: new FormControl(""),
-      birth_date: new FormControl(""),
-      nationality: new FormControl(""),
-      identification_type: new FormControl(""),
+      // title: new FormControl(""),
+      // birth_date: new FormControl(""),
+      // nationality: new FormControl(""),
+      // identification_type: new FormControl(""),
       nric_number: new FormControl(""),
-      gender: new FormControl(""),
-      race: new FormControl(""),
-      user_type: new FormControl(""),
+      // gender: new FormControl(""),
+      // race: new FormControl(""),
+      user_type: new FormControl("KJ"),
       phone_number: new FormControl(""),
-      home_number: new FormControl(""),
-      office_number: new FormControl(""),
-      fax_number: new FormControl(""),
-      address_1: new FormControl(""),
-      address_2: new FormControl(""),
-      address_3: new FormControl(""),
-      city: new FormControl(""),
-      postcode: new FormControl(""),
-      state: new FormControl(""),
-      country: new FormControl(""),
-      registration_number: new FormControl(""),
-      company_name: new FormControl(""),
-      company_number: new FormControl(""),
-      company_email: new FormControl(""),
+      // home_number: new FormControl(""),
+      // office_number: new FormControl(""),
+      // fax_number: new FormControl(""),
+      // address_1: new FormControl(""),
+      // address_2: new FormControl(""),
+      // address_3: new FormControl(""),
+      // city: new FormControl(""),
+      // postcode: new FormControl(""),
+      // state: new FormControl(""),
+      // country: new FormControl(""),
+      // registration_number: new FormControl(""),
+      // company_name: new FormControl(""),
+      // company_number: new FormControl(""),
+      // company_email: new FormControl(""),
       company_address_1: new FormControl(""),
       company_address_2: new FormControl(""),
       company_address_3: new FormControl(""),
@@ -144,17 +144,17 @@ export class EgovComponent implements OnInit {
   }
 
   signUpUser() {
-    console.log("login = ", this.signUpForm.value);
-    this.authSignUpForm.value.username = this.signUpForm.value.username;
-    this.authSignUpForm.value.email = this.signUpForm.value.email;
-    this.authSignUpForm.value.password1 = this.signUpForm.value.password;
-    this.authSignUpForm.value.password2 = this.signUpForm.value.password2;
-    console.log(this.authSignUpForm.value);
-    this.AuthService.register(this.authSignUpForm.value).subscribe(
+    let userid = "9f2ec615-a560-449c-bf2b-6b3faae72ec8";
+    // this.authSignUpForm.value.username = this.signUpForm.value.username;
+    // this.authSignUpForm.value.email = this.signUpForm.value.email;
+    // this.authSignUpForm.value.password1 = this.signUpForm.value.password;
+    // this.authSignUpForm.value.password2 = this.signUpForm.value.password2;
+    // console.log(this.authSignUpForm.value);
+    this.UsersService.update(userid, this.signUpForm.value).subscribe(
       (res) => {
         // this.listEntity = res;
         console.log(res);
-        this.successAlert("Success create new user");
+        this.successAlert("Successfully sign up eGOV");
         window.location.reload();
         // this.navigatePage("/egov");
       },
