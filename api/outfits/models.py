@@ -13,7 +13,6 @@ class Outfit(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, default='NA')
-    registration_number = models.CharField(max_length=15, default='NA')
 
     LOCAL_OR_FOREIGN = [
         ('LC', 'Local'),
@@ -36,6 +35,19 @@ class Outfit(models.Model):
         max_length=2,
         default='CP'
     )
+
+    check_digit = models.CharField(max_length=2, default='NA')
+
+    # Business
+    registration_number = models.CharField(max_length=20, default='NA')
+    registration_number_new = models.CharField(max_length=20, default='NA')
+
+    # Company
+    company_number = models.CharField(max_length=20, default='NA')
+    company_number_new = models.CharField(max_length=20, default='NA')
+
+    # Audit firm
+    audit_firm_number = models.CharField(max_length=20, default='NA')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

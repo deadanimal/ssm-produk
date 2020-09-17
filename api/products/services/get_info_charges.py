@@ -10,7 +10,7 @@ def get_info_charges(url, headers, registration_number):
     <soapenv:Body>
         <inf:getInfoCharges>
             <header>
-                <customerId>{{ customerId }}</customerId>
+                <customerId>SSMProduk</customerId>
                 <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
                 <!--Optional:-->
@@ -36,4 +36,4 @@ def get_info_charges(url, headers, registration_number):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getRocChangesRegisteredAddressResponse']['response']['getRocChangesRegisteredAddressReturn']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoChargesResponse']['response']['getInfoChargesReturn']
