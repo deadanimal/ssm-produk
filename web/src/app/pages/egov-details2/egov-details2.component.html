@@ -171,6 +171,7 @@
   <div class="section mt-4">
     <div class="container">
       <div class="row text-center pb-4">
+        <div class="col-md-1"></div>
         <div
           class="col"
           style="cursor: pointer"
@@ -189,19 +190,6 @@
         <div
           class="col"
           style="cursor: pointer"
-          (click)="navigatePage('/personal-involvement')"
-        >
-          <img
-            src="assets/img/icons/9.jpg"
-            style="width: 150px; height: 150px"
-          />
-          <br /><br />
-          <h1 style="color: #231e6d">Personal involvement</h1>
-          <!-- style="background-color: #231e6d !important" -->
-        </div>
-        <div
-          class="col"
-          style="cursor: pointer"
           (click)="navigatePage('/enquiry/kjakp')"
         >
           <img
@@ -211,21 +199,22 @@
           <br /><br />
           <h1 style="color: #231e6d">eGOV Enquiry</h1>
         </div>
+        <div class="col-md-1"></div>
       </div>
     </div>
   </div>
 
   <!-- <div class="section mt--9">
-    <div class="container">
-      <h3 class="title font-weight-bolder">eGOVERNMENT</h3>
-      <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
-      <h5>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
-      </h5>
-      <div class="row"></div>
-    </div>
-  </div> -->
+      <div class="container">
+        <h3 class="title font-weight-bolder">eGOVERNMENT</h3>
+        <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
+        <h5>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.
+        </h5>
+        <div class="row"></div>
+      </div>
+    </div> -->
 
   <div class="row">
     <div class="col-md-12 mx-auto mb-3">
@@ -291,46 +280,5 @@
       class="d-flex mx-auto"
       src="assets/img/default/sample.png"
     />
-  </div>
-</ng-template>
-
-<ng-template #packageModal>
-  <!-- <div class="modal-header bg-ssm">
-      <h4 class="modal-title text-white my-auto" id="modal-title-default">
-        Product Sample
-      </h4>
-  
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="modal"
-        type="button"
-        (click)="closeModal()"
-      >
-        <span aria-hidden="true" class="text-white my-auto"> × </span>
-      </button>
-    </div> -->
-
-  <div class="modal-body px-auto">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body text-center">
-            <h1 class="text-ssm">Package 1 & 2</h1>
-            <h1 class="text-ssm">Only for reference on the flow</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body text-center">
-            <h1 class="text-ssm">Package 3 & 4</h1>
-            <h1 class="text-ssm">Only for reference on the flow</h1>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </ng-template>

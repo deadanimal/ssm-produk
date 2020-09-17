@@ -10,6 +10,7 @@ import { Landing3Component } from "./landing3/landing3.component";
 import { Landing4Component } from "./landing4/landing4.component";
 import { ChangelogComponent } from "./changelog/changelog.component";
 import { EgovDetailsComponent } from "./egov-details/egov-details.component";
+import { EgovDetails2Component } from "./egov-details2/egov-details2.component";
 
 export const PagesRoutes: Routes = [
   {
@@ -38,6 +39,10 @@ export const PagesRoutes: Routes = [
       {
         path: "egov-details",
         component: EgovDetailsComponent,
+      },
+      {
+        path: "egov-details2",
+        component: EgovDetails2Component,
       },
       {
         path: "receipt",

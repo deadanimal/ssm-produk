@@ -108,10 +108,7 @@
                 <tbody class="list">
                   <td>Pipeline Network</td>
                   <td class="text-right">
-                    <button
-                      class="btn btn-ssm btn-sm"
-                      (click)="viewResult()"
-                    >
+                    <button class="btn btn-ssm btn-sm" (click)="viewResult()">
                       View
                     </button>
                   </td>
@@ -196,7 +193,7 @@
 
     <br /><br />
 
-    <div class="row text-center pb-4">
+    <div class="row text-center pb-4" *ngIf="user_type != 'KJ'">
       <div
         class="col"
         style="cursor: pointer"

@@ -5,16 +5,6 @@ import {
   NgZone,
   TemplateRef,
 } from "@angular/core";
-// import { AuditData } from 'src/assets/mock/admin-audit/audit.data.json'
-// import * as moment from "moment";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-am4core.useTheme(am4themes_animated);
-import { forkJoin } from 'rxjs';
-//
-import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import {
   FormGroup,
@@ -23,13 +13,14 @@ import {
   FormControl,
 } from "@angular/forms";
 import swal from "sweetalert2";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
-import { NotifyService } from "src/app/shared/handler/notify/notify.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
+
+// user service
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -104,10 +95,11 @@ export class SearchEngineComponent implements OnInit {
   isEmpty = true;
   isNoResult = false;
   isGotResult = false;
+  showIcondiv = true;
 
   // Form
   productForm: FormGroup;
-  newIdentityForm: FormGroup
+  newIdentityForm: FormGroup;
 
   // Data
   searchResults: any[] = [];
@@ -119,14 +111,30 @@ export class SearchEngineComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
+  userid = "9f2ec615-a560-449c-bf2b-6b3faae72ec8";
+  userdetails: any;
+  user_type = "PB";
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private productService: ProductsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private UsersService: UsersService
   ) {}
 
   ngOnInit(): void {
+    this.UsersService.getOne(this.userid).subscribe((res) => {
+      this.userdetails = res;
+      this.user_type = this.userdetails.user_type;
+      if (this.userdetails.user_type == "KJ") {
+        this.showIcondiv == false;
+      }
+
+      console.log("data = ", this.userdetails.user_type);
+      // console.log("Svc: ", this.tableRows);
+    });
+
     this.productForm = this.fb.group({
       name: new FormControl("getCompProfile"),
       registration_number: new FormControl(
