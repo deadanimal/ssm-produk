@@ -5,17 +5,6 @@ import {
   NgZone,
   TemplateRef,
 } from "@angular/core";
-// import { AuditData } from 'src/assets/mock/admin-audit/audit.data.json'
-// import * as moment from "moment";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-am4core.useTheme(am4themes_animated);
-import { forkJoin } from 'rxjs';
-//
-import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import {
   FormGroup,
   FormBuilder,
@@ -23,13 +12,12 @@ import {
   FormControl,
 } from "@angular/forms";
 import swal from "sweetalert2";
-import { LoadingBarService } from "@ngx-loading-bar/core";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
-import { NotifyService } from "src/app/shared/handler/notify/notify.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Outfit } from 'src/app/shared/services/outfits/outfits.model';
+import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service';
 
 export enum SelectionType {
   single = "single",
@@ -38,67 +26,29 @@ export enum SelectionType {
   cell = "cell",
   checkbox = "checkbox",
 }
+
 @Component({
   selector: "app-search-engine",
   templateUrl: "./search-engine.component.html",
   styleUrls: ["./search-engine.component.scss"],
 })
 export class SearchEngineComponent implements OnInit {
-  view = {
-    isVisible: true,
-    // title: "hello 🤔",
-    // dateRangeText: "date RangeText 🔥🔥",
-    // data: "data ⚡",
-  };
+
+  // Data
+  outfits: Outfit[] = []
 
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  tableRows: any[] = [];
+  tableRows: Outfit[] = []
   SelectionType = SelectionType;
-  dataSearch: any = [
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-  ];
 
   // Search field
   focus;
   searchField: string = "";
+  searchResult: Outfit[] = []
 
   // Checker
   isEmpty = true;
@@ -123,7 +73,8 @@ export class SearchEngineComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private productService: ProductsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private outfitService: OutfitsService,
   ) {}
 
   ngOnInit(): void {
@@ -141,6 +92,11 @@ export class SearchEngineComponent implements OnInit {
         Validators.compose([Validators.required])
       ),
     });
+    this.outfitService.getAll().subscribe(
+      () => {
+        this.outfits = this.outfitService.outfits
+      }
+    )
   }
 
   navigatePage(path: string) {
@@ -265,7 +221,7 @@ export class SearchEngineComponent implements OnInit {
 
   filterTable($event) {
     let val = $event.target.value;
-    this.tableTemp = this.tableRows.filter(function (d) {
+    this.tableTemp = this.outfits.filter(function (d) {
       for (var key in d) {
         if (d[key].toLowerCase().indexOf(val) !== -1) {
           return true;

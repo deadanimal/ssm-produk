@@ -62,7 +62,7 @@
                       <button
                         class="btn btn-primary btn-round"
                         type="button"
-                        (click)="search()"
+                        (click)="entriesChange($event)"
                         [disabled]="!productForm.valid"
                       >
                         Search
@@ -85,6 +85,9 @@
 
 <div class="wrapper">
   <div class="container">
+
+    
+
     <div class="row">
       <div class="col">
         <div class="card" *ngIf="!isEmpty && isGotResult">
