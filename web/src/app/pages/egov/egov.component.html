@@ -185,46 +185,50 @@
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col">
-                  <h1 class="display-3 mb-0 text-white">WELCOME BACK</h1>
-                  <p class="lead pb-4 mt-0 text-white">Login to continue</p>
-                  <div class="row row-input">
-                    <div class="col-sm-12 col-12">
-                      <div class="form-group">
-                        <label class="form-control-label text-white"
-                          >Email Address</label
-                        >
-                        <input
-                          aria-label="Email address"
-                          class="form-control"
-                          id="signupSrEmail"
-                          name="email"
-                          placeholder="Email address"
-                          type="email"
-                        />
+                  <form [formGroup]="authSignInForm">
+                    <h1 class="display-3 mb-0 text-white">WELCOME BACK</h1>
+                    <p class="lead pb-4 mt-0 text-white">Login to continue</p>
+                    <div class="row row-input">
+                      <div class="col-sm-12 col-12">
+                        <div class="form-group">
+                          <label class="form-control-label text-white"
+                            >Username</label
+                          >
+                          <input
+                            aria-label="Username"
+                            class="form-control"
+                            id="signupSrEmail"
+                            name="email"
+                            placeholder="Username"
+                            type="email"
+                            formControlName="username"
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="col-sm-12 col-12">
-                      <div class="form-group">
-                        <label class="form-control-label text-white"
-                          >Password</label
-                        >
-                        <input
-                          aria-label="Password"
-                          class="form-control"
-                          id="signupSrEmail"
-                          placeholder="Password"
-                          type="password"
-                        />
+                      <div class="col-sm-12 col-12">
+                        <div class="form-group">
+                          <label class="form-control-label text-white"
+                            >Password</label
+                          >
+                          <input
+                            aria-label="Password"
+                            class="form-control"
+                            id="signupSrEmail"
+                            placeholder="Password"
+                            type="password"
+                            formControlName="password"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </form>
 
                   <div class="row">
                     <div class="col">
                       <button
                         class="btn btn-secondary btn-block"
-                        (click)="openModal(packageModal)"
+                        (click)="signInUser()"
                       >
                         Login
                       </button>
@@ -342,6 +346,16 @@
                   />
                 </div>
               </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Username</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter username"
+                    formControlName="username"
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -362,7 +376,7 @@
                   <label class="form-control-label">Confirm password</label>
                   <input
                     class="form-control"
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     type="password"
                     formControlName="password2"
                   />
@@ -383,6 +397,31 @@
                     Privacy Policy.</label
                   >
                 </div>
+              </div>
+            </div>
+            <div class="row mt-2 text-right">
+              <div class="col-12">
+                <ngx-recaptcha2
+                  #captchaElem
+                  [siteKey]="siteKey"
+                  (reset)="handleReset()"
+                  (expire)="handleExpire()"
+                  (load)="handleLoad()"
+                  (success)="handleSuccess($event)"
+                  [useGlobalDomain]="false"
+                  [size]="size"
+                  [hl]="lang"
+                  [theme]="theme"
+                  [type]="type"
+                  formControlName="recaptcha"
+                  required
+                >
+                </ngx-recaptcha2>
+              </div>
+              <div class="col-12 text-left pt-3">
+                <button class="btn btn-ssm btn-round" (click)="signUpUser()">
+                  Submit
+                </button>
               </div>
             </div>
           </div>
@@ -432,23 +471,69 @@
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label">Ministry Name</label>
-                  <input
+                  <select
                     class="form-control"
                     placeholder="Enter Ministry Name"
                     formControlName="ministry_name"
-                  />
+                    [(ngModel)]="ministry"
+                    (checkAgency)="onChange($event.target.value)"
+                  >
+                    <option [value]="1">JABATAN PERDANA MENTERI (JPM)</option>
+                    <option [value]="2">KEMENTERIAN BELIA DAN SUKAN</option>
+                    <option [value]="3">KEMENTERIAN DALAM NEGERI</option>
+                  </select>
                 </div>
               </div>
             </div>
 
             <div class="row">
               <div class="col-lg-6 col-sm-12">
-                <div class="form-group">
+                <div class="form-group" *ngIf="ministry == '0'">
                   <label class="form-control-label"
                     >Department / Agency name</label
                   >
                   <select class="form-control" formControlName="agency_name">
                     <option>Please select</option>
+                  </select>
+                </div>
+                <div class="form-group" *ngIf="ministry == '1'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>AGENSI PENGURUSAN BENCANA NEGARA (NADMA)</option>
+                    <option>ANGKATAN PERTAHANAN AWAM MALAYSIA (APM)</option>
+                    <option>BAHAGIAN HAL EHWAL UNDANG-UNDANG (BHEUU)</option>
+                  </select>
+                </div>
+
+                <div class="form-group" *ngIf="ministry == '2'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>
+                      INSTITUT KEMAHIRAN BELIA NEGARA (IKBN) ALOR GAJAH
+                    </option>
+                    <option>
+                      INSTITUT PENYELIDIKAN PEMBANGUNAN BELIA MALAYSIA (IYRES)
+                    </option>
+                    <option>INSTITUT SUKAN NEGARA(ISN)</option>
+                  </select>
+                </div>
+                <div class="form-group" *ngIf="ministry == '3'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>AGENSI ANTIDADAH KEBANGSAAN (AADK)</option>
+                    <option>AGENSI KAWALAN SEMPADAN MALAYSIA (AKSEM)</option>
+                    <option>
+                      AGENSI PENGUATKUASAAN MARITIM MALAYSIA (APMM)
+                    </option>
                   </select>
                 </div>
               </div>
@@ -554,7 +639,7 @@
             </div>
 
             <div class="row">
-              <div class="col-lg-6 col-sm-12">
+              <div class="col-lg-12 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label"
                     >Attachment (Official Letter from eGov</label
@@ -570,13 +655,6 @@
           </div>
         </div>
       </form>
-      <div class="row mt-2 text-right">
-        <div class="col">
-          <button class="btn btn-ssm btn-round" (click)="signUpUser()">
-            Submit
-          </button>
-        </div>
-      </div>
     </div>
   </section>
 </div>
@@ -586,7 +664,6 @@
     <h4 class="modal-title text-white my-auto" id="modal-title-default">
       Product Sample
     </h4>
-
     <button
       aria-label="Close"
       class="close"
@@ -599,6 +676,14 @@
   </div>
 
   <div class="modal-body px-auto">
+    <div class="row mt-2 mb-3">
+      <div class="col text-center">
+        <button class="btn btn-ssm">ROC</button>
+      </div>
+      <div class="col text-center">
+        <button class="btn btn-ssm">ROB</button>
+      </div>
+    </div>
     <img
       style="width: 85%"
       class="d-flex mx-auto"
