@@ -190,6 +190,7 @@
           class="col"
           style="cursor: pointer"
           (click)="navigatePage('/personal-involvement')"
+          *ngIf="user_type >= '3'"
         >
           <img
             src="assets/img/icons/9.jpg"

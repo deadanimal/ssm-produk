@@ -83,13 +83,13 @@ export class EgovComponent implements OnInit {
     this.signUpForm = this.formBuilder.group({
       id: new FormControl(""),
       recaptcha: new FormControl("", Validators.required),
-      full_name: new FormControl("Nur Shariman"),
+      full_name: new FormControl("Admin"),
       password: new FormControl(""),
       password2: new FormControl(""),
-      email: new FormControl("shariman@email.com.my"),
+      email: new FormControl("admin@email.com.my"),
       phone_number: new FormControl("0123456789"),
       nric_number: new FormControl("910920114544"),
-      username: new FormControl("Shariman111"),
+      username: new FormControl("admintest"),
       egov_request: new FormControl("PD"),
       // birth_date: new FormControl(""),
       // nationality: new FormControl(""),
@@ -158,7 +158,7 @@ export class EgovComponent implements OnInit {
     // this.authSignUpForm.value.username = this.signUpForm.value.username;
     // this.authSignUpForm.value.email = this.signUpForm.value.email;
     // this.authSignUpForm.value.password1 = this.signUpForm.value.password;
-    this.signUpForm.value.id = "9f2ec615-a560-449c-bf2b-6b3faae72ec8";
+    this.signUpForm.value.id = "8695666e-166e-4812-a8fd-83c958d3efd7";
     // console.log(this.signUpForm.value.id);
     this.UsersService.update(
       this.signUpForm.value.id,
