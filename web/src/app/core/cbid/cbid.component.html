@@ -230,10 +230,17 @@
 
                 <ngx-datatable-column>
                   <ng-template ngx-datatable-header-template>
-                    <span>Requestor</span>
+                    <span>Price</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    Syafiq
+                    <span *ngIf="row.entity_type == 'ROB'">RM10.00</span>
+                    <span *ngIf="row.entity_type == 'ROC'">RM20.00</span>
+                    <span
+                      *ngIf="
+                        row.entity_type != 'ROB' && row.entity_type != 'ROC'
+                      "
+                      >RM30.00</span
+                    >
                   </ng-template>
                 </ngx-datatable-column>
                 <!-- 
@@ -264,7 +271,7 @@
             <div class="text-right py-3">
               <button
                 class="btn btn-ssm btn-icon btn-round"
-                (click)="navigatePage('/checkout')"
+                (click)="navigatePage('/cart')"
               >
                 <span class="btn-inner--text"> Checkout </span>
                 <!-- <span class="btn-inner--icon">
