@@ -74,6 +74,7 @@ export class SearchEngineComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
+  /// hardcode user
   userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
   userdetails: any;
   user_type = "PB";

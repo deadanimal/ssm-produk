@@ -164,7 +164,7 @@
               <br /><br />
             </span>
 
-            <div class="dataTables_wrapper py-4">
+            <!-- <div class="dataTables_wrapper py-4">
               <div class="dataTables_length" id="datatable_length">
                 <label>
                   Show
@@ -243,15 +243,6 @@
                     >
                   </ng-template>
                 </ngx-datatable-column>
-                <!-- 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Date Created</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.created_date | date: "dd/MM/yyyy" }}
-                  </ng-template>
-                </ngx-datatable-column> -->
 
                 <ngx-datatable-column>
                   <ng-template ngx-datatable-header-template>
@@ -266,7 +257,68 @@
                   </ng-template>
                 </ngx-datatable-column>
               </ngx-datatable>
-            </div>
+            </div> -->
+
+            <table class="table table-striped">
+              <thead class="text-primary">
+                <tr>
+                  <th class="text-center">#</th>
+                  <th>Name</th>
+                  <th>Type /</th>
+                  <th>Price</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of listEntity">
+                  <td class="text-center">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        class="custom-control-input"
+                        type="checkbox"
+                        [(ngModel)]="item.checked"
+                        [name]="item.id"
+                      />
+
+                      <label class="custom-control-label"> </label>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span *ngIf="item.entity_type == 'ROB'"
+                      >Registration Of Business
+                    </span>
+                    <span *ngIf="item.entity_type == 'ROC'"
+                      >Registration Of Company
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.product_type == 'BT'">Both</span>
+                    <span *ngIf="item.product_type == 'LT'">Listing</span>
+                    <span *ngIf="item.product_type == 'PD'">Product</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.entity_type == 'ROB'">RM10.00</span>
+                    <span *ngIf="item.entity_type == 'ROC'">RM20.00</span>
+                    <span
+                      *ngIf="
+                        item.entity_type != 'ROB' && item.entity_type != 'ROC'
+                      "
+                      >RM30.00</span
+                    >
+                  </td>
+                  <td>
+                    <a style="cursor: pointer" (click)="confirm(item.id)">
+                      <button class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Remove
+                      </button></a
+                    >
+                  </td>
+                </tr>
+                <tr></tr>
+              </tbody>
+            </table>
 
             <div class="text-right py-3">
               <button
@@ -274,9 +326,6 @@
                 (click)="navigatePage('/cart')"
               >
                 <span class="btn-inner--text"> Checkout </span>
-                <!-- <span class="btn-inner--icon">
-                <i class="fas fa-search"> </i>
-              </span> -->
               </button>
             </div>
           </div>
