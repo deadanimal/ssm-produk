@@ -18,6 +18,8 @@ import { Router } from "@angular/router";
 
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Outfit } from "src/app/shared/services/outfits/outfits.model";
+import { OutfitsService } from "src/app/shared/services/outfits/outfits.service";
 
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -29,67 +31,28 @@ export enum SelectionType {
   cell = "cell",
   checkbox = "checkbox",
 }
+
 @Component({
   selector: "app-search-engine",
   templateUrl: "./search-engine.component.html",
   styleUrls: ["./search-engine.component.scss"],
 })
 export class SearchEngineComponent implements OnInit {
-  view = {
-    isVisible: true,
-    // title: "hello 🤔",
-    // dateRangeText: "date RangeText 🔥🔥",
-    // data: "data ⚡",
-  };
+  // Data
+  outfits: Outfit[] = [];
 
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  tableRows: any[] = [];
+  tableRows: Outfit[] = [];
   SelectionType = SelectionType;
-  dataSearch: any = [
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-    {
-      id: "1231231311233123",
-      name: "DUET & PIPE SYSTEM ENGINEERING SDN BHD",
-      entity: "Company",
-    },
-  ];
 
   // Search field
   focus;
   searchField: string = "";
+  searchResult: Outfit[] = [];
 
   // Checker
   isEmpty = true;
@@ -111,7 +74,7 @@ export class SearchEngineComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
-  userid = "9f2ec615-a560-449c-bf2b-6b3faae72ec8";
+  userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
   userdetails: any;
   user_type = "PB";
 
@@ -120,14 +83,15 @@ export class SearchEngineComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductsService,
     private spinner: NgxSpinnerService,
-    private UsersService: UsersService
+    private UsersService: UsersService,
+    private outfitService: OutfitsService
   ) {}
 
   ngOnInit(): void {
     this.UsersService.getOne(this.userid).subscribe((res) => {
       this.userdetails = res;
       this.user_type = this.userdetails.user_type;
-      if (this.userdetails.user_type == "KJ") {
+      if (this.userdetails.user_type == "EG") {
         this.showIcondiv == false;
       }
 
@@ -148,6 +112,9 @@ export class SearchEngineComponent implements OnInit {
         "",
         Validators.compose([Validators.required])
       ),
+    });
+    this.outfitService.getAll().subscribe(() => {
+      this.outfits = this.outfitService.outfits;
     });
   }
 
@@ -273,7 +240,7 @@ export class SearchEngineComponent implements OnInit {
 
   filterTable($event) {
     let val = $event.target.value;
-    this.tableTemp = this.tableRows.filter(function (d) {
+    this.tableTemp = this.outfits.filter(function (d) {
       for (var key in d) {
         if (d[key].toLowerCase().indexOf(val) !== -1) {
           return true;

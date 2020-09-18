@@ -22,6 +22,11 @@ class OutfitViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Outfit.objects.all()
     serializer_class = OutfitSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'local_or_foreign',
+        'type_of_entity',
+        'check_digit'
+    ]
 
     def get_permissions(self):
         if self.action == 'list':

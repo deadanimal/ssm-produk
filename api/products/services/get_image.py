@@ -55,5 +55,5 @@ def get_image(url, headers, registration_number):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   return middleware_response_json['takdaresponse lagi']
-   #return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getRocBusinessOfficersResponse']['response']['getRocBusinessOfficersReturn']
+#    return middleware_response_json['takdaresponse lagi']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getImageResponse']['response']['getImageReturn']

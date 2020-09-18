@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Outfit } from 'src/app/shared/services/outfits/outfits.model';
+import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service';
 
 @Component({
   selector: 'app-product-purchase',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductPurchaseComponent implements OnInit {
 
-  constructor() { }
+  // Data
+  outfits: Outfit[] = []
+
+  constructor(
+    private outfitService: OutfitsService
+  ) { }
 
   ngOnInit(): void {
+    this.outfitService.getAll().subscribe(
+      () => {
+        this.outfits = this.outfitService.outfits
+      }
+    )
   }
 
 }

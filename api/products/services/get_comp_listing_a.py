@@ -34,5 +34,5 @@ def get_comp_listing_a(url, headers, registration_number):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   return middleware_response_json['middleware tak response lagi']
-   #return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoFin2Response']['response']['getInfoFin2Return']
+#    return middleware_response_json['middleware tak response lagi']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['listing:getCompListingAResponse']['response']['getCompListingAReturn']
