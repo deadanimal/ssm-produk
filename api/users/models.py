@@ -28,7 +28,7 @@ class CustomUser(AbstractUser):
     USER_TYPE = [
         ('AD', 'Admin'),
         ('CB', 'CBID'),
-        ('KJ', 'KJAKP'),
+        ('EG', 'eGovernment'),
         ('PB', 'Public')
     ]
     user_type = models.CharField(choices=USER_TYPE, max_length=2, default='PB')
@@ -62,6 +62,14 @@ class CustomUser(AbstractUser):
     company_country = models.CharField(max_length=20, blank=True, null=True)
 
     # KJAKP
+    EGOV_REQUEST = [
+        ('NA', 'NA'),
+        ('AP', 'Approved'),
+        ('PD', 'Pending')
+    ]
+    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='NA')
+
+    egov_package = models.IntegerField(default=0, null=False)
     position_or_grade = models.CharField(max_length=30, blank=True, null=True)
 
     head_of_department_name = models.CharField(max_length=50, blank=True, null=True)
