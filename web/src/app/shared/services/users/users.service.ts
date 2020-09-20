@@ -47,7 +47,7 @@ export class UsersService {
 
   update(id: String, body: Form): Observable<User> {
     let urlUserOne = this.urlUser + id + "/";
-    console.log(urlUserOne);
+    console.log(body);
     return this.http.put<User>(urlUserOne, body).pipe(
       tap((res) => {
         console.log("User", res);

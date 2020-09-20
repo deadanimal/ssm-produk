@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { TokenResponse } from "./auth.model";
 import { Form } from "@angular/forms";
-// import { JwtHelperService } from '@auth0/angular-jwt';
+// import { JwtHelperService } from "@auth0/angular-jwt";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { JwtService } from "../../handler/jwt/jwt.service";
@@ -17,7 +17,7 @@ export class AuthService {
   public urlPasswordChange: string =
     environment.baseUrl + "auth/password/change/";
   public urlPasswordReset: string = environment.baseUrl + "auth/password/reset";
-  public urlTokenObtain: string = environment.baseUrl + "auth/token/";
+  public urlTokenObtain: string = environment.baseUrl + "auth/obtain/";
   public urlTokenRefresh: string = environment.baseUrl + "auth/refresh/";
   public urlTokenVerify: string = environment.baseUrl + "auth/token/verify/";
   public urlUser: string = environment.baseUrl + "v1/users/";
@@ -64,19 +64,21 @@ export class AuthService {
   }
 
   obtainToken(body: Form): Observable<any> {
-    let jwtHelper: JwtService = new JwtService();
+    // let jwtHelper: JwtHelperService = new JwtHelperService();
     return this.http.post<any>(this.urlTokenObtain, body).pipe(
       tap((res) => {
         this.token = res;
         this.tokenRefresh = res.refresh;
         this.tokenAccess = res.access;
 
-        // let decodedToken = jwtHelper.decodeToken(this.tokenAccess)
-        // this.email = decodedToken.email
-        // this.username = decodedToken.username
-        // this.userID = decodedToken.user_id
-        // this.userType = decodedToken.user_type
-        // console.log('Decoded token: ', decodedToken)
+        // console.log(res);
+
+        // let decodedToken = jwtHelper.decodeToken(this.tokenAccess);
+        // this.email = decodedToken.email;
+        // this.username = decodedToken.username;
+        // this.userID = decodedToken.user_id;
+        // this.userType = decodedToken.user_type;
+        // console.log("Decoded token: ", decodedToken);
         // console.log('Post response: ', res)
         // console.log('Refresh token', this.tokenRefresh)
         // console.log('Access token', this.tokenAccess)

@@ -5,6 +5,7 @@ import {
   NgZone,
   TemplateRef,
 } from "@angular/core";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import {
   FormGroup,
   FormBuilder,
@@ -12,12 +13,16 @@ import {
   FormControl,
 } from "@angular/forms";
 import swal from "sweetalert2";
-import { Router, ActivatedRoute } from "@angular/router";
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { Router } from "@angular/router";
 
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { NgxSpinnerService } from "ngx-spinner";
-import { Outfit } from 'src/app/shared/services/outfits/outfits.model';
-import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service';
+import { Outfit } from "src/app/shared/services/outfits/outfits.model";
+import { OutfitsService } from "src/app/shared/services/outfits/outfits.service";
+
+// user service
+import { UsersService } from "src/app/shared/services/users/users.service";
 
 export enum SelectionType {
   single = "single",
@@ -33,31 +38,31 @@ export enum SelectionType {
   styleUrls: ["./search-engine.component.scss"],
 })
 export class SearchEngineComponent implements OnInit {
-
   // Data
-  outfits: Outfit[] = []
+  outfits: Outfit[] = [];
 
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  tableRows: Outfit[] = []
+  tableRows: Outfit[] = [];
   SelectionType = SelectionType;
 
   // Search field
   focus;
   searchField: string = "";
-  searchResult: Outfit[] = []
+  searchResult: Outfit[] = [];
 
   // Checker
   isEmpty = true;
   isNoResult = false;
   isGotResult = false;
+  showIcondiv = true;
 
   // Form
   productForm: FormGroup;
-  newIdentityForm: FormGroup
+  newIdentityForm: FormGroup;
 
   // Data
   searchResults: any[] = [];
@@ -69,15 +74,32 @@ export class SearchEngineComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
+  /// hardcode user
+  userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
+  userdetails: any;
+  user_type = "PB";
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private productService: ProductsService,
     private spinner: NgxSpinnerService,
-    private outfitService: OutfitsService,
+    private UsersService: UsersService,
+    private outfitService: OutfitsService
   ) {}
 
   ngOnInit(): void {
+    this.UsersService.getOne(this.userid).subscribe((res) => {
+      this.userdetails = res;
+      this.user_type = this.userdetails.user_type;
+      if (this.userdetails.user_type == "EG") {
+        this.showIcondiv == false;
+      }
+
+      console.log("data = ", this.userdetails.user_type);
+      // console.log("Svc: ", this.tableRows);
+    });
+
     this.productForm = this.fb.group({
       name: new FormControl("getCompProfile"),
       registration_number: new FormControl(
@@ -92,11 +114,9 @@ export class SearchEngineComponent implements OnInit {
         Validators.compose([Validators.required])
       ),
     });
-    this.outfitService.getAll().subscribe(
-      () => {
-        this.outfits = this.outfitService.outfits
-      }
-    )
+    this.outfitService.getAll().subscribe(() => {
+      this.outfits = this.outfitService.outfits;
+    });
   }
 
   navigatePage(path: string) {

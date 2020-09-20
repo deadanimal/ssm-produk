@@ -80,7 +80,7 @@
             </div>
 
             <div class="table-responsive">
-              <div class="dataTables_wrapper py-4">
+              <!-- <div class="dataTables_wrapper py-4">
                 <div class="dataTables_length" id="datatable_length">
                   <label>
                     Show
@@ -213,8 +213,8 @@
                     </ng-template>
                   </ngx-datatable-column>
                 </ngx-datatable>
-              </div>
-              <!-- <table class="table table-striped">
+              </div> -->
+              <table class="table table-striped">
                 <thead class="text-primary">
                   <tr>
                     <th class="text-center">#</th>
@@ -224,7 +224,7 @@
                     <th>Unit Price (RM)</th>
                     <th>Total Price (RM)</th>
                     <th>Total (RM)</th>
-                    <th>SST (RM)</th>
+                    <!-- <th>SST (RM)</th> -->
                     <th>Total Amount (RM)</th>
                     <th>Created Date</th>
                     <th class="text-center">Action</th>
@@ -257,7 +257,7 @@
                     <td>RM {{ item.unit_price }}</td>
                     <td>RM {{ item.total_price }}</td>
                     <td>RM {{ item.total }}</td>
-                    <td>RM {{ item.sst }}</td>
+                    <!-- <td>RM {{ item.sst }}</td> -->
                     <td>RM {{ item.total_amount }}</td>
                     <td>{{ item.created_date | date: "dd/MM/yyyy" }}</td>
                     <td class="text-center">
@@ -272,11 +272,11 @@
                   </tr>
                   <tr></tr>
                 </tbody>
-              </table> -->
+              </table>
             </div>
 
             <div class="float-right text-right py-4">
-              <p class="m-0 text-right">Total Document: 2</p>
+              <p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
               <p class="m-0 text-right">
                 Total exclude SST & Rounding Adj. (RM): {{ total }}
               </p>

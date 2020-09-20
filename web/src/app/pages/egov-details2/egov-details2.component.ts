@@ -11,15 +11,12 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 
-// user service
-import { UsersService } from "src/app/shared/services/users/users.service";
-
 @Component({
-  selector: "app-egov-details",
-  templateUrl: "./egov-details.component.html",
-  styleUrls: ["./egov-details.component.scss"],
+  selector: "app-egov-details2",
+  templateUrl: "./egov-details2.component.html",
+  styleUrls: ["./egov-details2.component.scss"],
 })
-export class EgovDetailsComponent implements OnInit {
+export class EgovDetails2Component implements OnInit {
   isSignUp: boolean = false;
   registerDiv: boolean = false;
 
@@ -37,29 +34,14 @@ export class EgovDetailsComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
-  /// hardcode user
-  userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
-  userdetails: any;
-  user_type = "PB";
-  showIcondiv = false;
-
   constructor(
     private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private router: Router,
-    private UsersService: UsersService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.UsersService.getOne(this.userid).subscribe((res) => {
-      this.userdetails = res;
-      this.user_type = this.userdetails.egov_package;
-
-      console.log("data = ", this.userdetails.egov_package);
-      // console.log("Svc: ", this.tableRows);
-    });
-
     new Glide(".presentation-cards1", {
       type: "carousel",
       startAt: 1,
