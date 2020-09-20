@@ -35,6 +35,7 @@ import { CustomizedDataComponent } from "./customized-data/customized-data.compo
 import { ProductPurchaseComponent } from "./product-purchase/product-purchase.component";
 
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { SearchCustomizeDataComponent } from "./search-customize-data/search-customize-data.component";
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     CompanyDetailComponent,
     CustomizedDataComponent,
     ProductPurchaseComponent,
+    SearchCustomizeDataComponent,
   ],
   imports: [
     CommonModule,

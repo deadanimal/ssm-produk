@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import Glide from "@glidejs/glide";
-// import { ReCaptchaV3Service } from "ngx-captcha";
+import { ReCaptchaV3Service } from "ngx-captcha";
 import {
   FormGroup,
   FormBuilder,
@@ -10,6 +10,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -25,8 +26,12 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 export class EgovComponent implements OnInit {
   isSignUp: boolean = false;
   registerDiv: boolean = false;
+  ministry: number = 0;
+  listAgency: any;
 
   public aFormGroup: FormGroup;
+
+  public readonly siteKey = "6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1";
 
   // Modal
   modal: BsModalRef;
@@ -40,17 +45,18 @@ export class EgovComponent implements OnInit {
   // form
   addUserForm: FormGroup;
   loginForm: FormGroup;
-  authSignUpForm: FormGroup;
+  authSignInForm: FormGroup;
   signUpForm: FormGroup;
   signInForm: FormGroup;
 
   constructor(
-    // private reCaptchaV3Service: ReCaptchaV3Service,
+    private reCaptchaV3Service: ReCaptchaV3Service,
     private UsersService: UsersService,
     private AuthService: AuthService,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +64,7 @@ export class EgovComponent implements OnInit {
     //   recaptcha: ["", Validators.required],
     // });
 
-    this.loginForm = this.formBuilder.group({
+    this.authSignInForm = this.formBuilder.group({
       username: new FormControl("", Validators.compose([Validators.required])),
       password: new FormControl(
         "",
@@ -66,26 +72,31 @@ export class EgovComponent implements OnInit {
       ),
     });
 
-    this.authSignUpForm = this.formBuilder.group({
-      username: new FormControl(""),
-      password1: new FormControl(""),
-      password2: new FormControl(""),
-      email: new FormControl(""),
-    });
+    // this.authSignInForm = this.formBuilder.group({
+    //   recaptcha: new FormControl(""),
+    //   username: new FormControl(""),
+    //   password1: new FormControl(""),
+    //   password2: new FormControl(""),
+    //   email: new FormControl("test@gmail.com"),
+    // });
+
     this.signUpForm = this.formBuilder.group({
-      full_name: new FormControl(""),
+      id: new FormControl(""),
+      recaptcha: new FormControl("", Validators.required),
+      full_name: new FormControl("Admin"),
       password: new FormControl(""),
       password2: new FormControl(""),
-      email: new FormControl(""),
-      // title: new FormControl(""),
+      email: new FormControl("admin@email.com.my"),
+      phone_number: new FormControl("0123456789"),
+      nric_number: new FormControl("910920114544"),
+      username: new FormControl("admintest"),
+      egov_request: new FormControl("PD"),
       // birth_date: new FormControl(""),
       // nationality: new FormControl(""),
       // identification_type: new FormControl(""),
-      nric_number: new FormControl(""),
+
       // gender: new FormControl(""),
       // race: new FormControl(""),
-      user_type: new FormControl("KJ"),
-      phone_number: new FormControl(""),
       // home_number: new FormControl(""),
       // office_number: new FormControl(""),
       // fax_number: new FormControl(""),
@@ -100,6 +111,7 @@ export class EgovComponent implements OnInit {
       // company_name: new FormControl(""),
       // company_number: new FormControl(""),
       // company_email: new FormControl(""),
+
       company_address_1: new FormControl(""),
       company_address_2: new FormControl(""),
       company_address_3: new FormControl(""),
@@ -115,42 +127,43 @@ export class EgovComponent implements OnInit {
       division_name: new FormControl(""),
       agency_name: new FormControl(""),
       department_name: new FormControl(""),
-      username: new FormControl(""),
-      is_active: new FormControl(""),
+      // is_active: new FormControl(""),
     });
   }
 
   signInUser() {
-    // console.log("login = ", this.signInForm.value);
-    // this.authSignUpForm.value.username = this.signInForm.value.username;
-    // this.authSignUpForm.value.email = this.signInForm.value.email;
-    // this.authSignUpForm.value.password = this.signInForm.value.password;
-    // this.authSignUpForm.value.password2 = this.signInForm.value.password2;
-    // console.log(this.authSignUpForm.value);
-    // this.AuthService.obtainToken(this.loginForm.value).subscribe(
-    //   (res) => {
-    //     // this.loadingBar.complete();
-    //     // this.successMessage();
-    //     this.navigatePage("dashboard-admin");
-    //     this.successAlert('Successfully Save Data')
-    //   },
-    //   (err) => {
-    //     // this.loadingBar.complete();
-    //     // this.errorMessage();
-    //     // console.log("HTTP Error", err), this.errorMessage();
-    //   },
-    //   () => console.log("HTTP request completed.")
-    // );
+    console.log("login = ", this.authSignInForm.value);
+    // this.authSignInForm.value.username = this.signInForm.value.username;
+    // this.authSignInForm.value.email = this.signInForm.value.email;
+    // this.authSignInForm.value.password = this.signInForm.value.password;
+    // this.authSignInForm.value.password2 = this.signInForm.value.password2;
+    console.log(this.authSignInForm.value);
+    this.AuthService.obtainToken(this.authSignInForm.value).subscribe(
+      (res) => {
+        console.log(res);
+        // this.successAlert("Successfully Save Data");
+        this.navigatePage("/egov-details");
+      },
+      (err) => {
+        console.log(err);
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
   }
 
   signUpUser() {
-    let userid = "9f2ec615-a560-449c-bf2b-6b3faae72ec8";
     // this.authSignUpForm.value.username = this.signUpForm.value.username;
     // this.authSignUpForm.value.email = this.signUpForm.value.email;
     // this.authSignUpForm.value.password1 = this.signUpForm.value.password;
-    // this.authSignUpForm.value.password2 = this.signUpForm.value.password2;
-    // console.log(this.authSignUpForm.value);
-    this.UsersService.update(userid, this.signUpForm.value).subscribe(
+    this.signUpForm.value.id = "8695666e-166e-4812-a8fd-83c958d3efd7";
+    // console.log(this.signUpForm.value.id);
+    this.UsersService.update(
+      this.signUpForm.value.id,
+      this.signUpForm.value
+    ).subscribe(
       (res) => {
         // this.listEntity = res;
         console.log(res);
@@ -158,7 +171,8 @@ export class EgovComponent implements OnInit {
         window.location.reload();
         // this.navigatePage("/egov");
       },
-      () => {
+      (err) => {
+        console.error(err);
         // Activityed
         // this.isLoading = false
         // this.successMessage();
@@ -252,7 +266,7 @@ export class EgovComponent implements OnInit {
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    this.closeModal();
+    // this.closeModal();
     this.router.navigate([path]);
   }
 }

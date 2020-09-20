@@ -123,6 +123,7 @@ export class CartComponent implements OnInit {
   // declare variable
   sum: number = 0;
   total: number = 0;
+  totaldocument: number = 0;
 
   // Checker
   isEmpty: boolean = false;
@@ -144,6 +145,7 @@ export class CartComponent implements OnInit {
       this.listCart = res;
       this.listCart.forEach((lisz) => {
         this.total += lisz.total_price;
+        this.totaldocument++;
       });
       // this.sum = this.total + 1.2;
       console.log(this.sum);

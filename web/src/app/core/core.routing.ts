@@ -18,6 +18,7 @@ import { SharesDirectorsComponent } from "./shares-directors/shares-directors.co
 import { CompanyDetailComponent } from "./company-detail/company-detail.component";
 import { CustomizedDataComponent } from "./customized-data/customized-data.component";
 import { ProductPurchaseComponent } from "./product-purchase/product-purchase.component";
+import { SearchCustomizeDataComponent } from "./search-customize-data/search-customize-data.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -44,6 +45,10 @@ export const CoreRoutes: Routes = [
         component: CustomizedDataComponent,
       },
       {
+        path: "search-customized-data",
+        component: SearchCustomizeDataComponent,
+      },
+      {
         path: "enquiry",
         children: [
           {
@@ -55,7 +60,7 @@ export const CoreRoutes: Routes = [
             component: EnquiryGeneralComponent,
           },
           {
-            path: "kjakp",
+            path: "egov",
             component: EnquiryKjakpComponent,
           },
         ],
