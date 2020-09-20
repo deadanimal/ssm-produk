@@ -2,13 +2,13 @@ import requests
 import json
 import xmltodict
 
-def get_fin2(url, headers, registration_number):
+def get_info_fin10(url, headers, registration_number):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
     <soapenv:Header />
     <soapenv:Body>
-        <inf:getInfoFin2>
+        <inf:getInfoFin10>
             <!--Optional:-->
             <header>
                 <!--Optional:-->
@@ -21,22 +21,22 @@ def get_fin2(url, headers, registration_number):
             <!--Optional:-->
             <request>
                 <!--Optional:-->
-                <supplyFin2Req>
+                <supplyFin10Req>
                     <!--Optional:-->
                     <coNo>""" + str(registration_number) + """</coNo>
                     <!--Optional:-->
-                    <endYear></endYear>
+                    <endYear>2019</endYear>
                     <!--Optional:-->
                     <ipaddress></ipaddress>
                     <!--Optional:-->
                     <remark></remark>
                     <!--Optional:-->
-                    <startYear></startYear>
+                    <startYear>2009</startYear>
                     <!--Optional:-->
                     <type>INFOFINHISTY</type>
-                </supplyFin2Req>
+                </supplyFin10Req>
             </request>
-        </inf:getInfoFin2>
+        </inf:getInfoFin10>
     </soapenv:Body>
 </soapenv:Envelope>
 """
@@ -44,4 +44,4 @@ def get_fin2(url, headers, registration_number):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoFin2Response']['response']['getInfoFin2Return']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoFin10Response']['response']['getInfoFin10Return']
