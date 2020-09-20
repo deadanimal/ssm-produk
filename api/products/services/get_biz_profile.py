@@ -33,7 +33,7 @@ def get_biz_profile(url, headers, registration_number):
                     <!--Optional:-->
                     <lastUpdateDate></lastUpdateDate>
                     <!--Optional:-->
-                    <regNo>960536</regNo>
+                    <regNo>""" + str(registration_number) + """</regNo>
                     <!--Optional:-->
                     <remark>Diana Test</remark>
                     <!--Optional:-->

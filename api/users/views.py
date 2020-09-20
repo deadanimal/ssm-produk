@@ -72,3 +72,31 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         return queryset    
  
+    @action(methods=['POST'], detail=True)
+    def register_egov(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.egov_request = 'PD'
+        user.save()
+
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+    
+    @action(methods=['POST'], detail=True)
+    def approve_egov(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.egov_request = 'AP'
+        user.user_type = 'EG'
+        user.save()
+
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+    
+    @action(methods=['POST'], detail=True)
+    def reject_egov(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.egov_request = 'NA'
+        user.save()
+
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+    
