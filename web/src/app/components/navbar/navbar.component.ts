@@ -32,7 +32,8 @@ export class NavbarComponent implements OnInit {
     private AuthService: AuthService
   ) {
     this.user_obj = this.AuthService.decodedToken();
-    console.log(this.user_obj);
+    console.log("====> ", this.user_obj);
+    let userType = this.user_obj.user_type;
 
     router.events.subscribe((val) => {
       this.isCollapsed = true;
@@ -47,10 +48,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     // change image
-    if (this.userType != "EG") {
-      this.imgAvatar = "assets/img/default/avatar.png";
-    } else {
+    if (this.userType == "EG") {
       this.imgAvatar = "assets/img/faces/christian.jpg";
+    } else {
+      this.imgAvatar = "assets/img/default/avatar.png";
     }
 
     console.log("user type => ", this.userType);
