@@ -136,7 +136,7 @@ export class SearchEngineComponent implements OnInit {
     //   }
     // )
     this.spinner.show();
-    console.log(this.productForm.value.registration_number);
+    console.log(this.productForm.value);
     setTimeout(() => {
       this.spinner.hide();
       if (
@@ -146,7 +146,7 @@ export class SearchEngineComponent implements OnInit {
         this.isGotResult = true;
         this.isEmpty = false;
       } else {
-        this.confirm();
+        this.notFound();
         // this.isGotResult = false;
         // this.isEmpty = true;
       }
@@ -204,7 +204,7 @@ export class SearchEngineComponent implements OnInit {
     );
   }
 
-  confirm() {
+  notFound() {
     swal.fire({
       title: "Warning",
       text:

@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { TokenResponse } from "./auth.model";
 import { Form } from "@angular/forms";
-// import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { JwtService } from "../../handler/jwt/jwt.service";
@@ -30,7 +30,9 @@ export class AuthService {
   public userID: string;
   public username: string;
   public userType: string;
-  public userRole: number = 1;
+  public userRole: number;
+  public egovRequest: string;
+  public egovPackage: string;
 
   // Temp
   userDetail: any;
@@ -64,21 +66,23 @@ export class AuthService {
   }
 
   obtainToken(body: Form): Observable<any> {
-    // let jwtHelper: JwtHelperService = new JwtHelperService();
+    let jwtHelper: JwtHelperService = new JwtHelperService();
     return this.http.post<any>(this.urlTokenObtain, body).pipe(
       tap((res) => {
         this.token = res;
         this.tokenRefresh = res.refresh;
         this.tokenAccess = res.access;
 
-        // console.log(res);
+        console.log(res);
 
-        // let decodedToken = jwtHelper.decodeToken(this.tokenAccess);
-        // this.email = decodedToken.email;
-        // this.username = decodedToken.username;
-        // this.userID = decodedToken.user_id;
-        // this.userType = decodedToken.user_type;
-        // console.log("Decoded token: ", decodedToken);
+        let decodedToken = jwtHelper.decodeToken(this.tokenAccess);
+        this.email = decodedToken.email;
+        this.username = decodedToken.username;
+        this.userID = decodedToken.user_id;
+        this.userType = decodedToken.user_type;
+        this.egovRequest = decodedToken.egov_request;
+        this.egovPackage = decodedToken.egov_package;
+        console.log("Decoded token: ", decodedToken);
         // console.log('Post response: ', res)
         // console.log('Refresh token', this.tokenRefresh)
         // console.log('Access token', this.tokenAccess)
@@ -122,5 +126,18 @@ export class AuthService {
         // console.log('User detail', this.userDetail)
       })
     );
+  }
+
+  decodedToken() {
+    let accessToken = localStorage.getItem("accessToken");
+    let jwtHelper: JwtHelperService = new JwtHelperService();
+    let decodedToken = jwtHelper.decodeToken(accessToken);
+    let user_obj = {
+      user_id: decodedToken.user_id,
+      username: decodedToken.username,
+      email: decodedToken.email,
+      user_type: decodedToken.user_type,
+    };
+    return user_obj;
   }
 }
