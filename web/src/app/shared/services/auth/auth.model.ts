@@ -42,6 +42,8 @@ export class User {
   public department_name: string;
   public username: string;
   public is_active: boolean;
+  public egov_package: string;
+  public egov_request: string;
 
   constructor(
     id: string,
@@ -85,8 +87,9 @@ export class User {
     agency_name: string,
     department_name: string,
     username: string,
-    is_active: boolean
-    // date_joined: string
+    is_active: boolean,
+    egov_package: string,
+    egov_request: string
   ) {
     this.id = id;
     this.title = title;
@@ -130,6 +133,8 @@ export class User {
     this.department_name = department_name;
     this.username = username;
     this.is_active = is_active;
+    this.egov_package = egov_package;
+    this.egov_request = egov_request;
   }
 }
 

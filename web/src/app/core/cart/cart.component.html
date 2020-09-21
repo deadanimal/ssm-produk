@@ -218,13 +218,17 @@
                 <thead class="text-primary">
                   <tr>
                     <th class="text-center">#</th>
-                    <th>Search Criteria</th>
-                    <th>Total Pages /</th>
+                    <th>Product</th>
+                    <th>
+                      Entity Number /<br />Name/ IC /<br />
+                      Search Criteria
+                    </th>
+                    <th>Type</th>
                     <th>Language</th>
+                    <th>Total<br />Company</th>
                     <th>Unit Price (RM)</th>
                     <th>Total Price (RM)</th>
                     <th>Total (RM)</th>
-                    <!-- <th>SST (RM)</th> -->
                     <th>Total Amount (RM)</th>
                     <th>Created Date</th>
                     <th class="text-center">Action</th>
@@ -245,15 +249,25 @@
                         <label class="custom-control-label"> </label>
                       </div>
                     </td>
-
+                    <td>
+                      {{ item.entity_type }}
+                      <span *ngIf="item.entity_type == 'ROC'">ROC</span>
+                      <span *ngIf="item.entity_type == 'ROB'">ROB</span>
+                    </td>
                     <td>{{ item.search_criteria }}</td>
-                    <td>{{ item.total_pages }}</td>
+                    <td>
+                      {{ item.product_type }}
+                      <span *ngIf="item.product_type == 'BT'">Both</span>
+                      <span *ngIf="item.product_type == 'LT'">Listing</span>
+                      <span *ngIf="item.product_type == 'PD'">Product</span>
+                    </td>
                     <td>
                       <select>
                         <option>BM</option>
                         <option>EN</option>
                       </select>
                     </td>
+                    <td>{{ item.total_company }}</td>
                     <td>RM {{ item.unit_price }}</td>
                     <td>RM {{ item.total_price }}</td>
                     <td>RM {{ item.total }}</td>
@@ -277,12 +291,12 @@
 
             <div class="float-right text-right py-4">
               <p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
-              <p class="m-0 text-right">
+              <!-- <p class="m-0 text-right">
                 Total exclude SST & Rounding Adj. (RM): {{ total }}
               </p>
               <p class="m-0 text-right">
                 SST @ 6% for Service Fee & Rounding Adj. (RM): 1.20
-              </p>
+              </p> -->
               <p class="m-0 text-right">
                 Total Amount & Rounding Adj. (RM): {{ total + 1.2 }}
               </p>
