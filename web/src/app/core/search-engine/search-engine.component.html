@@ -62,7 +62,7 @@
                       <button
                         class="btn btn-primary btn-round"
                         type="button"
-                        (click)="entriesChange($event)"
+                        (click)="search()"
                         [disabled]="!productForm.valid"
                       >
                         Search
@@ -196,7 +196,7 @@
 
     <br /><br />
 
-    <div class="row text-center pb-4" *ngIf="user_type != 'KJ'">
+    <div class="row text-center pb-4" *ngIf="user_type != 'EG'">
       <div
         class="col"
         style="cursor: pointer"
