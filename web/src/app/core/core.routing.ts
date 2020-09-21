@@ -19,6 +19,7 @@ import { CompanyDetailComponent } from "./company-detail/company-detail.componen
 import { CustomizedDataComponent } from "./customized-data/customized-data.component";
 import { ProductPurchaseComponent } from "./product-purchase/product-purchase.component";
 import { SearchCustomizeDataComponent } from "./search-customize-data/search-customize-data.component";
+import { RequestInvestigationDocumentComponent } from "./request-investigation-document/request-investigation-document.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -108,6 +109,10 @@ export const CoreRoutes: Routes = [
       {
         path: "shares-directors",
         component: SharesDirectorsComponent,
+      },
+      {
+        path: "request-investigation-document",
+        component: RequestInvestigationDocumentComponent,
       },
     ],
   },
