@@ -5,10 +5,10 @@ import xmltodict
 def get_image(url, headers, registration_number):
 
    payload = """
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://doc.ssm.com.my">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/DocufloService/1/WS">
     <soapenv:Header />
     <soapenv:Body>
-        <doc:getImage>
+        <ws:getImage>
             <!--Optional:-->
             <header>
                 <!--Optional:-->
@@ -47,7 +47,7 @@ def get_image(url, headers, registration_number):
                     <verId>3412175</verId>
                 </docufloImg>
             </request>
-        </doc:getImage>
+        </ws:getImage>
     </soapenv:Body>
 </soapenv:Envelope>
 """
@@ -56,4 +56,4 @@ def get_image(url, headers, registration_number):
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
 #    return middleware_response_json['takdaresponse lagi']
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getImageResponse']['response']['getImageReturn']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageResponse']['response']['getImageReturn']
