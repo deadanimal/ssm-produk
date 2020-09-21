@@ -14,6 +14,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
 
+// auth service
+import { AuthService } from "src/app/shared/services/auth/auth.service";
+
 @Component({
   selector: "app-egov-details",
   templateUrl: "./egov-details.component.html",
@@ -22,6 +25,7 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 export class EgovDetailsComponent implements OnInit {
   isSignUp: boolean = false;
   registerDiv: boolean = false;
+  AuthDetails: any;
 
   public aFormGroup: FormGroup;
 
@@ -37,43 +41,37 @@ export class EgovDetailsComponent implements OnInit {
   slider3 = "assets/img/banner/banner portal-03.png";
   slider4 = "assets/img/banner/banner portal-04.png";
 
-  /// hardcode user
-  userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
-  userdetails: any;
-  user_type = "PB";
+  // get data from auth service
+  egovPackage: string;
+  userType = this.AuthService.userType;
+  userID = this.AuthService.userID;
   showIcondiv = false;
+  userdetails: any;
+  userPackage: string;
 
   constructor(
     private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
-    private UsersService: UsersService
+    private UsersService: UsersService,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.UsersService.getOne(this.userid).subscribe((res) => {
+    this.UsersService.getOne(this.userID).subscribe((res) => {
       this.userdetails = res;
-      this.user_type = this.userdetails.egov_package;
+      this.userPackage = this.userdetails.egov_package;
+      console.log("this.egovPackage -> ", this.userPackage);
+      console.log("this.userType -> ", this.userType);
+      console.log("this.userID -> ", this.userID);
+      this.egovPackage = this.userdetails.egov_package;
+      if (this.userdetails.user_type == "EG") {
+        this.showIcondiv == false;
+      }
 
-      console.log("data = ", this.userdetails.egov_package);
+      console.log("data = ", this.userdetails.user_type);
       // console.log("Svc: ", this.tableRows);
-    });
-
-    new Glide(".presentation-cards1", {
-      type: "carousel",
-      startAt: 1,
-      focusAt: 1,
-      perTouch: 1,
-      perView: 4,
-    }).mount();
-    var body = document.getElementsByTagName("body")[0];
-    body.classList.add("presentation-page");
-    var navbar = document.getElementById("navbar-main");
-    navbar.classList.add("bg-primary");
-
-    this.aFormGroup = this.formBuilder.group({
-      recaptcha: ["", Validators.required],
     });
   }
 
@@ -157,7 +155,7 @@ export class EgovDetailsComponent implements OnInit {
         confirmButton: "btn btn-success ",
       },
     });
-    console.log("confirm");
+    // console.log("confirm");
   }
 
   navigatePage(path: string) {

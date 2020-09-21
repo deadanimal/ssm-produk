@@ -24,6 +24,7 @@
     "@glidejs/glide": "3.4.1",
     "@ngx-loading-bar/core": "^5.1.0",
     "@swimlane/ngx-datatable": "^17.1.0",
+    "@auth0/angular-jwt": "^4.0.0",
     "choices.js": "7.0.2",
     "core-js": "3.6.4",
     "flatpickr": "4.6.3",
