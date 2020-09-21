@@ -13,7 +13,6 @@ import {
   FormControl,
 } from "@angular/forms";
 import swal from "sweetalert2";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { Router } from "@angular/router";
 
 import { ProductsService } from "src/app/shared/services/products/products.service";
@@ -23,6 +22,7 @@ import { OutfitsService } from "src/app/shared/services/outfits/outfits.service"
 
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { AuthService } from "src/app/shared/services/auth/auth.service";
 
 export enum SelectionType {
   single = "single",
@@ -76,6 +76,8 @@ export class SearchEngineComponent implements OnInit {
 
   /// hardcode user
   userid = "8695666e-166e-4812-a8fd-83c958d3efd7";
+  userType = this.AuthService.userType;
+  userID = this.AuthService.userID;
   userdetails: any;
   user_type = "PB";
 
@@ -85,18 +87,19 @@ export class SearchEngineComponent implements OnInit {
     private productService: ProductsService,
     private spinner: NgxSpinnerService,
     private UsersService: UsersService,
-    private outfitService: OutfitsService
+    private outfitService: OutfitsService,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.UsersService.getOne(this.userid).subscribe((res) => {
+    this.UsersService.getOne(this.userID).subscribe((res) => {
       this.userdetails = res;
       this.user_type = this.userdetails.user_type;
       if (this.userdetails.user_type == "EG") {
         this.showIcondiv == false;
       }
 
-      console.log("data = ", this.userdetails.user_type);
+      console.log("se = ", this.userdetails);
       // console.log("Svc: ", this.tableRows);
     });
 
