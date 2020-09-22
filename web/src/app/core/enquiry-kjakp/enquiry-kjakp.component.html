@@ -21,7 +21,7 @@
 
   <div class="section mt--9">
     <div class="container">
-      <h3 class="title font-weight-bolder">SERVICES</h3>
+      <h3 class="title font-weight-bolder">SERVICES / PRODUCTS / OPERATION</h3>
       <h1 class="title font-weight-bolder text-ssm">ENQUIRY FORM</h1>
       <h5>INSTRUCTION</h5>
       <ul>
@@ -29,208 +29,151 @@
         <li>
           Under the law, the scope of SSM role is to address complaint on
           matters that might potentially be in breach of the laws that we
-          govern, primarily the Companies Act 1965 and the Registration of
-          Businesses Act 1956.
+          govern, primarily the Companies Act 1965, the Registration of
+          Businesses Act 1956 and the Limited Liability Parnership Act 2012.
         </li>
       </ul>
-
-      <div class="px-5">
-        <div class="form-group">
-          <label class="form-control-label">Agreement</label>
-          <div class="custom-control custom-radio mb-3">
-            <input
-              type="radio"
-              id="radioAgreement1"
-              name="radioAgreement"
-              class="custom-control-input"
-            />
-            <label class="custom-control-label" for="radioAgreement1"
-              >Yes</label
-            >
+      <form [formGroup]="addNewInquiryForm">
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label">Name</label>
+              <input class="form-control" placeholder="Enter Name" />
+            </div>
           </div>
-          <div class="custom-control custom-radio">
-            <input
-              type="radio"
-              id="radioAgreement2"
-              name="radioAgreement"
-              class="custom-control-input"
-            />
-            <label class="custom-control-label" for="radioAgreement2">No</label>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label">Email Address</label>
+              <input class="form-control" placeholder="Enter Email Address" />
+            </div>
           </div>
         </div>
 
-        <div>
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Form type (general)</label>
-                <select class="form-control">
-                  <option>Please select</option>
-                </select>
-              </div>
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Telephone Number<span class="text-red">*</span></label
+              >
+              <input
+                class="form-control"
+                placeholder="Enter Telephone Number"
+              />
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Product name</label>
-                <input class="form-control" placeholder="Enter product name" />
-              </div>
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label">Receipt Number</label>
+              <input class="form-control" placeholder="Enter Receipt Number" />
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Full name</label>
-                <input class="form-control" placeholder="Enter full name" />
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Email</label>
-                <input class="form-control" placeholder="Enter email" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Tel. no.</label>
-                <input class="form-control" placeholder="Enter tel. no." />
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Ticket title</label>
-                <input class="form-control" placeholder="Enter ticket title" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Description</label>
-                <textarea
-                  class="form-control"
-                  placeholder="Enter description"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Attach files</label>
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="files"
-                    lang="en"
-                  />
-                  <label class="custom-file-label" for="files"
-                    >Select file</label
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label">Error screenshot</label>
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="errorScreenshot"
-                    lang="en"
-                  />
-                  <label class="custom-file-label" for="errorScreenshot"
-                    >Select file</label
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label"
-                  >Error supporting document</label
-                >
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="errorSupportingDocument"
-                    lang="en"
-                  />
-                  <label class="custom-file-label" for="errorSupportingDocument"
-                    >Select file</label
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-4 col-sm-12">
-              <div class="form-group">
-                <label class="form-control-label"
-                  >Error purchased receipt</label
-                >
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="errorPurchasedReceipt"
-                    lang="en"
-                  />
-                  <label class="custom-file-label" for="errorPurchasedReceipt"
-                    >Select file</label
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <h3>
-                Maximum number of attachments is 5. Maximum size for each 2MB
-                file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)
-              </h3>
-              <b>Notes</b>
-              <h3>
-                If you have any problems related to the payment of the
-                application transaction, please provide the documents below for
-                further action :
-              </h3>
-              <ul>
-                <li>Application transaction payment set.</li>
-                <li>Receipt</li>
-                <li>Proof of payment from e-statement or e-banking</li>
-              </ul>
-              <h3>Disclaimer</h3>
-              <span><input type="checkbox" /></span>I declare that all of the
-              above information has been reviewed and is correct and true
-            </div>
-          </div>
-
-          <div class="text-right">
-            <button class="btn btn-ssm">Submit</button>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Topic<span class="text-red">*</span></label
+              >
+              <select class="form-control" formControlName="topic">
+                <option value="product">Product</option>
+                <option value="imageDoc">Image Document</option>
+                <option value="webIssues">
+                  Web Issues (Portal Related Issues)
+                </option>
+                <option value="others">Others</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Subject List<span class="text-red">*</span></label
+              >
+              <select class="form-control" formControlName="subject">
+                <option>Please Select</option>
+                <option value="searchnotfound">Search Not Found</option>
+                <option value="paymenterror">Payment Error</option>
+                <option value="receiptnotgenerated">
+                  Receipt Not Generated
+                </option>
+                <option value="notreceivingpurcahsedoc">
+                  Not Receiving Purchase Document
+                </option>
+                <option value="paymenterror">
+                  Purchase Document / Image Not Clear
+                </option>
+                <option value="paymenterror">Get Wrong Image / Document</option>
+                <option>Others</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Description<span class="text-red">*</span></label
+              >
+              <textarea
+                class="form-control"
+                placeholder="Enter description"
+                formControlName="description"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+            <div class="form-group">
+              <label class="form-control-label">Attachment</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  row="5"
+                  class="custom-file-input"
+                  id="files"
+                  lang="en"
+                  formControlName="attached_document"
+                  (change)="onImageChange($event)"
+                />
+                <label class="custom-file-label" for="files">Select file</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <h3>
+            Maximum number of attachments is 5. Maximum size for each 2MB file
+            (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)
+          </h3>
+          <b>Notes</b>
+          <h3>
+            If you have any problems related to the payment of the application
+            transaction, please provide the documents below for further action :
+          </h3>
+          <ul>
+            <li>Application transaction payment set.</li>
+            <li>Receipt</li>
+            <li>Proof of payment from e-statement or e-banking</li>
+          </ul>
+          <h3>Disclaimer</h3>
+          <span class="my-1"><input type="checkbox" /></span>I declare that all
+          of the above information has been reviewed and is correct and true
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button class="btn btn-ssm" (click)="newApplicationData()">
+          Submit
+        </button>
       </div>
     </div>
   </div>
