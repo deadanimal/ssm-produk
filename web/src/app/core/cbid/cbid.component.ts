@@ -23,10 +23,6 @@ import { LoadingBarService } from "@ngx-loading-bar/core";
 import { CbidTicket } from "src/app/shared/services/cbid-tickets/cbid-tickets.model";
 import { CbidTicketsService } from "src/app/shared/services/cbid-tickets/cbid-tickets.service";
 
-// select Product
-import { SelectProduct } from "src/app/shared/services/select_product/select_product.model";
-import { SelectProductsService } from "src/app/shared/services/select_product/select_product.service";
-
 // fill form
 import { FillForm } from "src/app/shared/services/fill_form/fill_form.model";
 import { FillFormsService } from "src/app/shared/services/fill_form/fill_form.service";
