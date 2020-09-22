@@ -11,6 +11,8 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtService } from "src/app/shared/handler/jwt/jwt.service";
 
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
@@ -132,17 +134,18 @@ export class EgovComponent implements OnInit {
   }
 
   signInUser() {
+    let jwtHelper: JwtHelperService = new JwtHelperService();
     console.log("login = ", this.authSignInForm.value);
     // this.authSignInForm.value.username = this.signInForm.value.username;
     // this.authSignInForm.value.email = this.signInForm.value.email;
     // this.authSignInForm.value.password = this.signInForm.value.password;
     // this.authSignInForm.value.password2 = this.signInForm.value.password2;
-    console.log(this.authSignInForm.value);
+    // console.log(this.authSignInForm.value);
     this.AuthService.obtainToken(this.authSignInForm.value).subscribe(
       (res) => {
-        console.log(res);
-        // this.successAlert("Successfully Save Data");
-        this.navigatePage("/egov-details");
+        let decodedToken = jwtHelper.decodeToken(res.access);
+        console.log("login ==>", decodedToken);
+        this.successAlert("Successfully Login To eGOV");
       },
       (err) => {
         console.log(err);
@@ -261,7 +264,8 @@ export class EgovComponent implements OnInit {
         confirmButton: "btn btn-success ",
       },
     });
-    console.log("confirm");
+    // console.log("confirm");
+    this.navigatePage("/egov-details");
   }
 
   navigatePage(path: string) {

@@ -11,6 +11,8 @@ export class CbidCart {
   public date_created: string;
   public date_modified: string;
   public products: string;
+  public entity_type: string;
+  public product_type: string;
 
   constructor(
     id: string,
@@ -24,7 +26,9 @@ export class CbidCart {
     total_amount: string,
     date_created: string,
     date_modified: string,
-    products: string
+    products: string,
+    entity_type: string,
+    product_type: string
   ) {
     this.id = id;
     this.total_pages = total_pages;
@@ -38,5 +42,7 @@ export class CbidCart {
     this.date_created = date_created;
     this.date_modified = date_modified;
     this.products = products;
+    this.entity_type = entity_type;
+    this.product_type = product_type;
   }
 }
