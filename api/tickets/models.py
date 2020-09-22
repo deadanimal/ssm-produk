@@ -57,6 +57,7 @@ class TicketCBID(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     requestor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)
     
     ENTITY_TYPE = [
         ('ROB', 'Registration of Business'),
