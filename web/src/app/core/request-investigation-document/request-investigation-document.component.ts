@@ -31,6 +31,9 @@ export class RequestInvestigationDocumentComponent implements OnInit {
     class: "modal-dialog-centered modal-xl",
   };
 
+  showpiv = false;
+  showdoc = true;
+
   // array
   user_obj: any;
 
@@ -139,6 +142,17 @@ export class RequestInvestigationDocumentComponent implements OnInit {
         // window.location.reload();
         this.navigatePage("/request-investigation-document");
       });
+  }
+
+  summaryRequest(task) {
+    console.log(task);
+    if (task == "doc") {
+      this.showpiv = false;
+      this.showdoc = true;
+    } else {
+      this.showpiv = true;
+      this.showdoc = false;
+    }
   }
 
   navigatePage(path: string) {
