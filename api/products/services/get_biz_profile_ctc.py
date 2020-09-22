@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_biz_profile_ctc(url, headers, registration_number):
+def get_biz_profile_ctc(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -37,7 +37,7 @@ def get_biz_profile_ctc(url, headers, registration_number):
                     <!--Optional:-->
                     <remark>Diana Test</remark>
                     <!--Optional:-->
-                    <tableId>ROCINFO</tableId>
+                    <tableId>ROBINFO</tableId>
                     <!--Optional:-->
                     <type>INFOPROFILE</type>
                 </supplyBizCtcReq>

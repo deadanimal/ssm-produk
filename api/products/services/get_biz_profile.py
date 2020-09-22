@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_biz_profile(url, headers, registration_number):
+def get_biz_profile(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -23,8 +23,8 @@ def get_biz_profile(url, headers, registration_number):
                 <!--Optional:-->
                 <supplyBizReq>
                     <!--Optional:-->
-                    <checkDigit>V</checkDigit>
-                    <gstAmount>10</gstAmount>
+                    <checkDigit></checkDigit>
+                    <gstAmount>0</gstAmount>
                     <infoAmount>0</infoAmount>
                     <!--Optional:-->
                     <invoiceNo>0</invoiceNo>
@@ -35,9 +35,9 @@ def get_biz_profile(url, headers, registration_number):
                     <!--Optional:-->
                     <regNo>""" + str(registration_number) + """</regNo>
                     <!--Optional:-->
-                    <remark>Diana Test</remark>
+                    <remark></remark>
                     <!--Optional:-->
-                    <tableId>ROCINFO</tableId>
+                    <tableId>ROBINFO</tableId>
                     <!--Optional:-->
                     <type>INFOPROFILE</type>
                 </supplyBizReq>
