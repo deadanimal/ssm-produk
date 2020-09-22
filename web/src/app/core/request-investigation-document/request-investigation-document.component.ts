@@ -59,9 +59,8 @@ export class RequestInvestigationDocumentComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log("asdasdad -> ", this.AuthService.userID);
-    this.user_obj = this.AuthService.decodedToken();
-    // console.log("rid => ", this.user_obj);
-    let userType = this.user_obj.user_;
+    // this.user_obj = this.AuthService.decodedToken();
+    // let userType = this.user_obj.user_;
 
     this.UsersService.getOne(this.userID).subscribe((res) => {
       this.userdetails = res;
