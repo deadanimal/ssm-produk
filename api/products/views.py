@@ -74,6 +74,10 @@ from products.services.get_co_page import get_co_page
 
 from .helpers.info_acgs import info_acgs
 from .helpers.roc_business_officers import roc_business_officers
+from .helpers.biz_profile import biz_profile
+from .helpers.biz_profile_ctc import biz_profile_ctc
+from .helpers.particular_address import particular_address
+
 from .models import (
     Product
 )
@@ -122,6 +126,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         call_json = json.loads(request.body)        
         request_service_name = call_json['name']
         registration_number = call_json['registration_number']
+        entity_type = call_json['entity_type']
 
         tz = pytz.timezone('Asia/Kuala_Lumpur')
         now = datetime.now(tz=tz) 
@@ -140,184 +145,184 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         # New format entity
         if request_service_name == 'getNewFormatEntity': 
-            json_response = get_new_format_entity(url_info, headers, registration_number)
+            json_response = get_new_format_entity(url_info, headers, registration_number, entity_type)
 
         # Attestation of Company Good Standing (ACGS) - Non CTC / MS EN
         elif request_service_name == 'getInfoAcgs': 
-            json_response = get_info_acgs(url_info, headers, registration_number)
+            json_response = get_info_acgs(url_info, headers, registration_number, entity_type)
         
         # Sijil Pemerbadanan Syarikat Persendirian di bawah AS 2016 - Non CTC / MS EN
         # Sijil Pemerbadanan Syarikat Awam di bawah AS 2016 - Non CTC / MS EN
         # Sijil Pemerbadanan Syarikat Awam di bawah AS 2016 - Non CTC / MS EN (menurut jaminan)
         elif request_service_name == 'getCertIncorp':
-            json_response = get_cert_incorp(url_info, headers, registration_number)
+            json_response = get_cert_incorp(url_info, headers, registration_number, entity_type)
 
         # Sijil Pemerbadanan Syarikat Persendirian di bawah AS 2016 - CTC / MS EN
         # Sijil Pemerbadanan Syarikat Awam di bawah AS 2016 - CTC / MS EN
         # Sijil Pemerbadanan Syarikat Awam di bawah AS 2016 - CTC / MS EN (menurut jaminan)
         elif request_service_name == 'getCertIncorpCtc':
-            json_response = get_cert_incorp_ctc(url_info, headers, registration_number)
+            json_response = get_cert_incorp_ctc(url_info, headers, registration_number, entity_type)
         
         # Sijil Pendaftaran Syarikat Asing di bawah AS 2016 - Non CTC / MS EN
         elif request_service_name == 'getCertRegForeign':
-            json_response = get_cert_reg_foreign(url_info, headers, registration_number)
+            json_response = get_cert_reg_foreign(url_info, headers, registration_number, entity_type)
 
         # Sijil Pendaftaran Syarikat Asing di bawah AS 2016 - CTC / MS EN
         elif request_service_name == 'getCertRegForeignCtc':
-            json_response = get_cert_reg_foreign_ctc(url_info, headers, registration_number)  
+            json_response = get_cert_reg_foreign_ctc(url_info, headers, registration_number, entity_type)  
 
         # Sijil Pertukaran Nama Syarikat AS 2016 - Non CTC / MS EN
         elif request_service_name == 'getInfoCompNameChg':
-            json_response = get_info_comp_name_chg(url_info, headers, registration_number)      
+            json_response = get_info_comp_name_chg(url_info, headers, registration_number, entity_type)      
         
         # Sijil Pertukaran Nama Syarikat AS 2016 - CTC / MS EN
         elif request_service_name == 'getInfoCompNameChgCtc':
-            json_response = get_info_comp_name_chg_ctc(url_info, headers, registration_number)  
+            json_response = get_info_comp_name_chg_ctc(url_info, headers, registration_number, entity_type)  
 
         # Sijil Pertukaran Status Syarikat AS 2016 - Non CTC / MS EN
         elif request_service_name == 'getCertConversion':            
-            json_response = get_cert_conversion(url_info, headers, registration_number)  
+            json_response = get_cert_conversion(url_info, headers, registration_number, entity_type)  
         
         # Sijil Pertukaran Status Syarikat AS 2016 - CTC / MS EN
         elif request_service_name == 'getCertConversionCtc':            
-            json_response = get_cert_conversion_ctc(url_info, headers, registration_number) 
+            json_response = get_cert_conversion_ctc(url_info, headers, registration_number, entity_type) 
 
         # Financial Historical 2 Years - Non CTC / MS EN
         elif request_service_name == 'getInfoFinancial':            
-            json_response = get_info_financial(url_info, headers, registration_number)
+            json_response = get_info_financial(url_info, headers, registration_number, entity_type)
         
         # Financial Historical 2 Years - CTC / MS EN
         elif request_service_name == 'getInfoFinancialCtc':            
-            json_response = get_info_financial_ctc(url_info, headers, registration_number)  
+            json_response = get_info_financial_ctc(url_info, headers, registration_number, entity_type)  
         
         # Financial Comparison 2 Years - Non CTC  / MS EN
         elif request_service_name == 'getInfoFin2':            
-            json_response = get_info_fin2(url_info, headers, registration_number)  
+            json_response = get_info_fin2(url_info, headers, registration_number, entity_type)  
          
         # Financial Comparison 3 Years - Non CTC / MS EN
         elif request_service_name == 'getInfoFin3':            
-            json_response = get_info_fin3(url_info, headers, registration_number)  
+            json_response = get_info_fin3(url_info, headers, registration_number, entity_type)  
 
         # Financial Comparison 5 Years - Non CTC / MS EN
         elif request_service_name == 'getInfoFin5':            
-            json_response = get_info_fin5(url_info, headers, registration_number)
+            json_response = get_info_fin5(url_info, headers, registration_number, entity_type)
         
         # Financial Comparison 10 Years - Non CTC / MS EN
         elif request_service_name == 'getInfoFin10':            
-            json_response = get_info_fin10(url_info, headers, registration_number) 
+            json_response = get_info_fin10(url_info, headers, registration_number, entity_type) 
 
         # Particulars of Directors/Officers - Non CTC / MS EN
         elif request_service_name == 'getRocBusinessOfficers':            
-            json_response = get_roc_business_officers(url_info, headers, registration_number)    
+            json_response = get_roc_business_officers(url_info, headers, registration_number, entity_type)    
 
         # Particulars of Directors/Officers - CTC / MS EN
         elif request_service_name == 'getRocBizOfficersCtc':            
-            json_response = get_roc_business_officers_ctc(url_info, headers, registration_number)  
+            json_response = get_roc_business_officers_ctc(url_info, headers, registration_number, entity_type)  
 
         # Particulars of Registered Address - Non CTC / MS EN
         elif request_service_name == 'getRocChangesRegisteredAddress':            
-            json_response = get_roc_changes_registered_address(url_info, headers, registration_number)      
+            json_response = get_roc_changes_registered_address(url_info, headers, registration_number, entity_type)      
 
         # Particulars of Registered Address - CTC / MS EN
         elif request_service_name == 'getRocChgRegAddrCtc':            
-            json_response = get_roc_changes_registered_address_ctc(url_info, headers, registration_number) 
+            json_response = get_roc_changes_registered_address_ctc(url_info, headers, registration_number, entity_type) 
 
         # Particular of Shareholders - Non CTC / MS EN
         elif request_service_name == 'getDetailsOfShareholders':            
-            json_response = get_details_of_shareholders(url_info, headers, registration_number) 
+            json_response = get_details_of_shareholders(url_info, headers, registration_number, entity_type) 
 
         # Particular of Shareholders - CTC / MS EN
         elif request_service_name == 'getDtlsOfShareholdersCtc':            
-            json_response = get_details_of_shareholders_ctc(url_info, headers, registration_number)    
+            json_response = get_details_of_shareholders_ctc(url_info, headers, registration_number, entity_type)    
         
         # Particulars of Share Capital - Non CTC / MS EN
         elif request_service_name == 'getDetailsOfShareCapital':            
-            json_response = get_details_of_share_capital(url_info, headers, registration_number)     
+            json_response = get_details_of_share_capital(url_info, headers, registration_number, entity_type)     
 
         # Particulars of Share Capital - CTC / MS EN
         elif request_service_name == 'getDtlsOfShareCapCtc':            
-            json_response = get_details_of_share_capital_ctc(url_info, headers, registration_number) 
+            json_response = get_details_of_share_capital_ctc(url_info, headers, registration_number, entity_type) 
 
         # Company Profile - Non CTC / MS EN
         elif request_service_name == 'getCompProfile':
-            json_response = get_comp_prof(url_info, headers, registration_number)
+            json_response = get_comp_prof(url_info, headers, registration_number, entity_type)
         
         # Company Profile - CTC / MS EN
         elif request_service_name == 'getCompProfileCtc':
-            json_response = get_comp_prof_ctc(url_info, headers, registration_number)
+            json_response = get_comp_prof_ctc(url_info, headers, registration_number, entity_type)
         
         # Business Profile – Non CTC / MS EN
         elif request_service_name == 'getBizProfile':            
-            json_response = get_biz_profile(url_info, headers, registration_number)      
+            json_response = get_biz_profile(url_info, headers, registration_number, entity_type)      
         
         # Business Profile – CTC / MS EN
         elif request_service_name == 'getBizProfileCtc':            
-            json_response = get_biz_profile_ctc(url_info, headers, registration_number)   
+            json_response = get_biz_profile_ctc(url_info, headers, registration_number, entity_type)   
 
         # Business Certificate - Digital CTC / MS EN
 
         # Particulars of Company Secretary - Non CTC / MS EN
         elif request_service_name == 'getParticularsOfCosec':            
-            json_response = get_particulars_of_cosec(url_info, headers, registration_number)         
+            json_response = get_particulars_of_cosec(url_info, headers, registration_number, entity_type)         
 
         # Particulars of Company Secretary - CTC / MS EN
         elif request_service_name == 'getParticularsOfCosecCtc':            
-            json_response = get_particulars_of_cosec_ctc(url_info, headers, registration_number)  
+            json_response = get_particulars_of_cosec_ctc(url_info, headers, registration_number, entity_type)  
         
         # Audit Firm Profile – Non CTC / MS EN
         elif request_service_name == 'getParticularsOfAdtFirm':            
-            json_response = get_particulars_of_adt_firm(url_info, headers, registration_number) 
+            json_response = get_particulars_of_adt_firm(url_info, headers, registration_number, entity_type) 
 
         # Audit Firm Profile – CTC / MS EN
         elif request_service_name == 'getParticularsOfAdtFirmCtc':            
-            json_response = get_particulars_of_adt_firm_ctc(url_info, headers, registration_number) 
+            json_response = get_particulars_of_adt_firm_ctc(url_info, headers, registration_number, entity_type) 
 
         # Business Termination Letter (BTL) - Non CTC / MS EN
         elif request_service_name == 'getInfoRobTermination':            
-            json_response = get_info_rob_termination(url_info, headers, registration_number)                                                               
+            json_response = get_info_rob_termination(url_info, headers, registration_number, entity_type)                                                               
         
         # Company Charges - Non CTC / MS EN
         elif request_service_name == 'getInfoCharges':            
-            json_response = get_info_charges(url_info, headers, registration_number)  
+            json_response = get_info_charges(url_info, headers, registration_number, entity_type)  
 
         # Company Charges - CTC / MS EN
         elif request_service_name == 'getInfoChargesCtc':            
-            json_response = get_info_charges_ctc(url_info, headers, registration_number)  
+            json_response = get_info_charges_ctc(url_info, headers, registration_number, entity_type)  
 
         # Company Listing
         elif request_service_name == 'getCompListingCnt':            
-            json_response = get_comp_listing_cnt(url_listing, headers, registration_number)          
+            json_response = get_comp_listing_cnt(url_listing, headers, registration_number, entity_type)          
 
         # Company Listing Package A
         elif request_service_name == 'getCompListingA':            
-            json_response = get_comp_listing_a(url_listing, headers, registration_number)      
+            json_response = get_comp_listing_a(url_listing, headers, registration_number, entity_type)      
 
         # Company Listing Package B
         elif request_service_name == 'getCompListingB':            
-            json_response = get_comp_listing_b(url_listing, headers, registration_number)  
+            json_response = get_comp_listing_b(url_listing, headers, registration_number, entity_type)  
 
         # Document and Form View + Download getImageView / getImageList
         elif request_service_name == 'getImage':            
-            json_response = get_image(url_docu, headers, registration_number)  
+            json_response = get_image(url_docu, headers, registration_number, entity_type)  
 
         elif request_service_name == 'getImageList':            
-            json_response = get_image_list(url_docu, headers, registration_number) 
+            json_response = get_image_list(url_docu, headers, registration_number, entity_type) 
 
         # Document and Form View + Download + CTC getImageViewCTC
 
         elif request_service_name == 'getImageView':            
-            json_response = get_image_list(url_docu, headers, registration_number) 
+            json_response = get_image_list(url_docu, headers, registration_number, entity_type) 
 
         # Document and Form View (Statutory Docs)  getImageCtc
 
         elif request_service_name == 'getImageCtc':            
-            json_response = get_image_ctc(url_docu, headers, registration_number)    
+            json_response = get_image_ctc(url_docu, headers, registration_number, entity_type)    
 
         elif request_service_name == 'getCoCount':
-            json_response = get_co_count(url_info, headers, registration_number) 
+            json_response = get_co_count(url_info, headers, registration_number, entity_type) 
 
         elif request_service_name == 'getCoPage':
-            json_response = get_co_page(url_info, headers, registration_number)             
+            json_response = get_co_page(url_info, headers, registration_number, entity_type)             
 
         return JsonResponse(json_response)
 
@@ -414,6 +419,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_name = product_request['name']
         request_language = product_request['language']
         request_registration_no = product_request['registraton_no']
+        request_entity_type = product_request['entity_type']
 
         url_info = 'http://integrasistg.ssm.com.my/InfoService/1'
         url_listing = 'http://integrasistg.ssm.com.my/ListingService/1'
@@ -434,8 +440,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         # Attestation of Company Good Standing (ACGS) - Non CTC 
         if request_name == 'getInfoAcgs': 
-            mdw_1_response = get_info_acgs(url_info, headers, request_registration_no)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no)
+            mdw_1_response = get_info_acgs(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
 
             # print(mdw_1_response)
             data_loaded = info_acgs(mdw_1_response, mdw_2_response)
@@ -460,8 +466,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         # Particulars of Directors/Officers - Non CTC / MS EN
         elif request_name == 'getRocBusinessOfficers': 
-            mdw_1_response = get_roc_business_officers(url_info, headers, request_registration_no)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no)
+            mdw_1_response = get_roc_business_officers(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
    
             data_loaded = roc_business_officers(mdw_1_response, mdw_2_response)
 
@@ -485,8 +491,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         # Particulars of Directors/Officers - CTC / MS EN
         elif request_name == 'getRocBizOfficersCtc': 
-            mdw_1_response = get_roc_business_officers_ctc(url_info, headers, request_registration_no)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no)
+            mdw_1_response = get_roc_business_officers_ctc(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
             
             data_loaded = info_acgs(mdw_1_response, mdw_2_response)
 
@@ -508,6 +514,111 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
             serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
         
+        # Particulars of Registered Address - Non CTC / MS EN
+        elif request_name == 'getRocChangesRegisteredAddress':            
+            mdw_1_response = get_roc_changes_registered_address(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
+            
+            data_loaded = particular_address(mdw_1_response, mdw_2_response, request_language)
+
+            if request_language == 'en':
+                 html_string = render_to_string('product/particular_address_nonctc_en.html', {'data': data_loaded})
+            elif request_language == 'ms':
+                 html_string = render_to_string('product/particular_address_nonctc_ms.html', {'data': data_loaded})
+            
+            html = HTML(string=html_string)
+            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+            
+            file_path = "ssm/product/particular-address-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+            saved_file = default_storage.save(
+                file_path, 
+                ContentFile(pdf_file)
+            )
+            
+            full_url_path = settings.MEDIA_ROOT + saved_file
+
+            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path     
+
+        # Particulars of Registered Address - CTC / MS EN
+        elif request_name == 'getRocChgRegAddrCtc':            
+            json_response = get_roc_changes_registered_address_ctc(url_info, headers, request_registration_no, entity_type) 
+
+
+        # Business Profile – Non CTC / MS EN
+        elif request_name == 'getBizProfile': 
+            mdw_1_response = get_biz_profile(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
+            
+            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
+
+            if request_language == 'en':
+                 html_string = render_to_string('product/business_profile_nonctc_en.html', {'data': data_loaded})
+            elif request_language == 'ms':
+                 html_string = render_to_string('product/business_profile_nonctc_ms.html', {'data': data_loaded})
+            
+            html = HTML(string=html_string)
+            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+            
+            file_path = "ssm/product/business-profile-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+            saved_file = default_storage.save(
+                file_path, 
+                ContentFile(pdf_file)
+            )
+            
+            full_url_path = settings.MEDIA_ROOT + saved_file
+
+            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
+
+        # Business Profile – CTC / MS EN
+        elif request_name == 'getBizProfileCtc': 
+            mdw_1_response = get_biz_profile_ctc(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
+            
+            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
+
+            if request_language == 'en':
+                 html_string = render_to_string('product/business_profile_ctc_en.html', {'data': data_loaded})
+            elif request_language == 'ms':
+                 html_string = render_to_string('product/business_profile_ctc_ms.html', {'data': data_loaded})
+            
+            html = HTML(string=html_string)
+            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+            
+            file_path = "ssm/product/business-profile-ctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+            saved_file = default_storage.save(
+                file_path, 
+                ContentFile(pdf_file)
+            )
+            
+            full_url_path = settings.MEDIA_ROOT + saved_file
+
+            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
+        
+        # Audit Firm Profile – Non CTC / MS EN
+        elif request_service_name == 'getParticularsOfAdtFirm':
+            mdw_1_response = get_particulars_of_adt_firm(url_info, headers, request_registration_no, request_entity_type)
+            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
+            
+            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
+
+            if request_language == 'en':
+                 html_string = render_to_string('product/particulars_of_adt_firm_en.html', {'data': data_loaded})
+            elif request_language == 'ms':
+                 html_string = render_to_string('product/particulars_of_adt_firm_ms.html', {'data': data_loaded})
+            
+            html = HTML(string=html_string)
+            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+            
+            file_path = "ssm/product/particulars-of-adt-firm-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+            saved_file = default_storage.save(
+                file_path, 
+                ContentFile(pdf_file)
+            )
+            
+            full_url_path = settings.MEDIA_ROOT + saved_file
+
+            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
+
         else:
             serializers = 'Wrong request'
         
