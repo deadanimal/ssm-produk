@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-def info_acgs(mdw_1, mdw_2):
+def info_acgs(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
