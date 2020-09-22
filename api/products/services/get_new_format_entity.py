@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_new_format_entity(url, headers, registration_number):
+def get_new_format_entity(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -33,7 +33,7 @@ def get_new_format_entity(url, headers, registration_number):
                     <!--Optional:-->
                     <tableId></tableId>
                     <!--Optional:-->
-                    <type>ROC</type>
+                    <type>""" + entity_type + """</type>
                 </newFormatEntityNoReq>
             </request>
         </inf:getNewFormatEntityNo>

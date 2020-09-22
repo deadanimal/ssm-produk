@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_roc_changes_registered_address_ctc(url, headers, registration_number):
+def get_roc_changes_registered_address_ctc(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my"> 
