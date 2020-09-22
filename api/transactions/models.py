@@ -17,6 +17,10 @@ from users.models import (
     CustomUser
 )
 
+from tickets.models import (
+    TicketCBID
+)
+
 class Transaction(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -36,7 +40,7 @@ class CartCBID(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(TicketCBID, on_delete=models.CASCADE, null=True)
     search_criteria = models.CharField(max_length=255, default='NA')
     total_pages = models.IntegerField(default=51)
     total_company = models.IntegerField(default=1360941)
