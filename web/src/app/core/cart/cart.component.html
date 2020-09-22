@@ -275,13 +275,9 @@
                     <td>RM {{ item.total_amount }}</td>
                     <td>{{ item.created_date | date: "dd/MM/yyyy" }}</td>
                     <td class="text-center">
-                      <button
-                        class="btn btn-sm btn-outline-danger btn-round mr-1"
-                        type="button"
-                        (click)="confirm(item.id)"
-                      >
-                        Remove
-                      </button>
+                      <a (click)="confirm(item.id)">
+                        <i class="fas fa-trash text-red"></i>
+                      </a>
                     </td>
                   </tr>
                   <tr></tr>

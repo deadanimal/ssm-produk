@@ -145,7 +145,7 @@ export class EgovComponent implements OnInit {
       (res) => {
         let decodedToken = jwtHelper.decodeToken(res.access);
         console.log("login ==>", decodedToken);
-        this.successAlert("Successfully Save Data");
+        this.successAlert("Successfully Login To eGOV");
       },
       (err) => {
         console.log(err);
