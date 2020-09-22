@@ -31,9 +31,11 @@ export class NavbarComponent implements OnInit {
     private productService: ProductsService,
     private AuthService: AuthService
   ) {
-    this.user_obj = this.AuthService.decodedToken();
-    console.log("====> ", this.user_obj);
-    let userType = this.user_obj.user_type;
+    if (this.AuthService.decodedToken) {
+      this.user_obj = this.AuthService.decodedToken();
+      console.log("====> ", this.user_obj);
+      let userType = this.user_obj.user_type;
+    }
 
     router.events.subscribe((val) => {
       this.isCollapsed = true;

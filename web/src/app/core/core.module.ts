@@ -37,6 +37,7 @@ import { ProductPurchaseComponent } from "./product-purchase/product-purchase.co
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { SearchCustomizeDataComponent } from "./search-customize-data/search-customize-data.component";
 import { RequestInvestigationDocumentComponent } from './request-investigation-document/request-investigation-document.component';
+import { EnquiryHistoryComponent } from './enquiry-history/enquiry-history.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { RequestInvestigationDocumentComponent } from './request-investigation-d
     ProductPurchaseComponent,
     SearchCustomizeDataComponent,
     RequestInvestigationDocumentComponent,
+    EnquiryHistoryComponent,
   ],
   imports: [
     CommonModule,

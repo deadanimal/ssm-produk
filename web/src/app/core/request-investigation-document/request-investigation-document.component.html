@@ -395,6 +395,7 @@
                             id="document"
                             name="radioMethod"
                             class="custom-control-input"
+                            (change)="summaryRequest('doc')"
                           />
                           <label class="custom-control-label" for="document"
                             >Document</label
@@ -408,6 +409,7 @@
                             id="personelInvolve"
                             name="radioMethod"
                             class="custom-control-input"
+                            (change)="summaryRequest('piv')"
                           />
                           <label
                             class="custom-control-label"
@@ -415,6 +417,91 @@
                             >Personel Involvement</label
                           >
                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="showdoc">
+                    <div class="col">
+                      <span class="mt-3 mb-3">
+                        <button
+                          class="btn text-ssm"
+                          (click)="navigatePage('/personal-involvement')"
+                        >
+                          Add NRIC / Passport Number
+                        </button>
+                      </span>
+                      <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr>
+                              <!-- <th scope="col">No</th> -->
+                              <th scope="col">ID Number</th>
+                              <th scope="col">Entities</th>
+                              <th scope="col">Involvement<br />Information</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody class="list">
+                            <tr>
+                              <!-- <td></td> -->
+                              <td>qweqweqwe</td>
+                              <td>qweqweqw</td>
+                              <td>qweqweqw</td>
+                              <td>
+                                <a style="cursor: pointer">
+                                  <i class="fas fa-trash text-red"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="showpiv">
+                    <div class="col">
+                      <span class="mt-3 mb-3">
+                        <button
+                          class="btn text-ssm"
+                          (click)="navigatePage('/personal-involvement')"
+                        >
+                          Add Document
+                        </button>
+                      </span>
+                      <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr>
+                              <!-- <th scope="col">No</th> -->
+                              <th scope="col">Entity Number</th>
+                              <th scope="col">Entity Name</th>
+                              <th scope="col">Document Type</th>
+                              <th scope="col">Document</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody class="list">
+                            <tr>
+                              <!-- <td></td> -->
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>
+                                <a
+                                  style="cursor: pointer"
+                                  (click)="confirm(item.id)"
+                                >
+                                  <i class="fas fa-trash text-red"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
