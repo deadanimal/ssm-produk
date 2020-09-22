@@ -20,6 +20,7 @@ import { CustomizedDataComponent } from "./customized-data/customized-data.compo
 import { ProductPurchaseComponent } from "./product-purchase/product-purchase.component";
 import { SearchCustomizeDataComponent } from "./search-customize-data/search-customize-data.component";
 import { RequestInvestigationDocumentComponent } from "./request-investigation-document/request-investigation-document.component";
+import { EnquiryHistoryComponent } from "./enquiry-history/enquiry-history.component";
 
 export const CoreRoutes: Routes = [
   {
@@ -63,6 +64,10 @@ export const CoreRoutes: Routes = [
           {
             path: "egov",
             component: EnquiryKjakpComponent,
+          },
+          {
+            path: "history",
+            component: EnquiryHistoryComponent,
           },
         ],
       },
