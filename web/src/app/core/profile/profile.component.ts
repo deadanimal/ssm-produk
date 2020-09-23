@@ -50,17 +50,27 @@ export class ProfileComponent implements OnInit {
   userID: String;
   userEmail: String;
   userFullname: string;
+  userNric: String;
+  UserHOD: string;
   showIcondiv = false;
   userdetails: any;
   userPackage: string;
+  userQuota: any;
   formStatus = true;
   showSubmitButton = false;
   showRequestQuotaButton = false;
   showRequestInvestigationList = true;
   showRequestInvestigationAdd = false;
+  InvestigationList: any;
+  listNp = "0";
+  runningNo = "2020061001";
+  id = "b4d3fc09-2523-40f9-81bf-333960bbd611";
+  intervalLogin: any;
+  infodata: any;
 
   /// form
   requestInvestigationDocForm: FormGroup;
+  updateUserInfoForm: FormGroup;
 
   constructor(
     private modalService: BsModalService,
@@ -72,19 +82,34 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.intervalLogin = setInterval(() => {
+      this.autoLogin();
+    }, 1000);
     // console.log("asdasdad -> ", this.AuthService.userID);
-    // this.user_obj = this.AuthService.decodedToken();
-    // let userType = this.user_obj.user_;
-    if (this.AuthService.userID != undefined) {
-      this.userType = this.AuthService.userType;
-      this.userID = this.AuthService.userID;
+    this.user_obj = this.AuthService.decodedToken();
+    console.log("user_obj => ", this.user_obj);
 
-      this.UsersService.getOne(this.userID).subscribe((res) => {
+    if (
+      this.AuthService.userID != undefined ||
+      this.user_obj.user_id != undefined
+    ) {
+      this.userType = this.AuthService.userType;
+
+      if (this.AuthService.userID != undefined) {
+        this.userID = this.AuthService.userID;
+      } else {
+        this.userID = this.user_obj.user_id;
+      }
+
+      this.UsersService.getOne(this.id).subscribe((res) => {
         this.userdetails = res;
         console.log("userdata = ", this.userdetails);
         this.egovPackage = this.userdetails.egov_package;
         this.userFullname = this.userdetails.full_name;
         this.userEmail = this.userdetails.email;
+        this.userNric = this.userdetails.nric_number;
+        this.UserHOD = this.userdetails.head_of_department_name;
+        this.userQuota = this.userdetails.egov_quota + " / 1000";
         console.log(this.egovPackage);
 
         if (this.egovPackage <= "2") {
@@ -94,7 +119,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.InvestigationTicketsService.getAll().subscribe((res) => {
-      this.userdetails = res;
+      this.InvestigationList = res;
     });
 
     this.requestInvestigationDocForm = this.formBuilder.group({
@@ -108,6 +133,27 @@ export class ProfileComponent implements OnInit {
       // submit_request: new FormControl(""),
       officer: new FormControl(this.userID),
     });
+
+    this.updateUserInfoForm = this.formBuilder.group({
+      id: new FormControl(""),
+      full_name: new FormControl(""),
+      email: new FormControl(""),
+      egov_package: new FormControl(""),
+      nric_number: new FormControl(""),
+      phone_number: new FormControl(""),
+      // submit_request: new FormControl(""),
+      // officer: new FormControl(this.userID),
+    });
+  }
+
+  autoLogin() {
+    let username = "admin2";
+    let password = "PabloEscobar";
+    this.infodata = {
+      username: username,
+      password: password,
+    };
+    this.AuthService.obtainToken(this.infodata).subscribe((res) => {});
   }
 
   addNewRequestData() {
@@ -117,6 +163,41 @@ export class ProfileComponent implements OnInit {
     ).subscribe(
       (res) => {
         console.log(res);
+        this.closeModal();
+        this.successAlert("Successfully Save Data");
+      },
+      (err) => {
+        console.log(err);
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+  }
+
+  changeUserInfo() {
+    this.UsersService.update(this.id, this.updateUserInfoForm.value).subscribe(
+      (res) => {
+        console.log(res);
+        // this.closeModal();
+        this.successAlert("Successfully Save Data");
+      },
+      (err) => {
+        console.log(err);
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+  }
+
+  addNewRequestQuota() {
+    this.UsersService.addQuota(this.userID).subscribe(
+      (res) => {
+        console.log(res);
+        this.closeModal();
         this.successAlert("Successfully Save Data");
       },
       (err) => {
@@ -176,8 +257,9 @@ export class ProfileComponent implements OnInit {
       })
       .then((result) => {
         // console.log("confirm");
-        // window.location.reload();
-        this.navigatePage("/profile");
+        this.closeModal();
+        window.location.reload();
+        // this.navigatePage("/profile");
       });
   }
 
