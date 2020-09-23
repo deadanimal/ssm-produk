@@ -31,13 +31,13 @@
                         class="input-group"
                         [ngClass]="{ focused: focus === true }"
                       >
-                        <div class="input-group-prepend rounded-pill-left">
-                          <span class="input-group-text rounded-pill-left">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
                             <i class="fas fa-info"> </i>
                           </span>
                         </div>
                         <input
-                          class="form-control rounded-pill-right"
+                          class="form-control"
                           placeholder="Type company, business or audit firm to search..."
                           type="text"
                           (blur)="focus = false"
@@ -49,7 +49,7 @@
 
                     <div class="col-sm-2">
                       <div class="input-group">
-                        <select class="form-control rounded-pill">
+                        <select class="form-control">
                           <option selected>All Entities</option>
                           <option>Business</option>
                           <option>Company</option>
@@ -60,7 +60,7 @@
 
                     <div class="col-sm-2">
                       <button
-                        class="btn btn-primary btn-round"
+                        class="btn btn-ssm btn-round"
                         type="button"
                         (click)="search()"
                         [disabled]="!productForm.valid"

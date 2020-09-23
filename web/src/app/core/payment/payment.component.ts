@@ -11,6 +11,8 @@ import {
 import { TransactionsService } from "src/app/shared/services/transactions/transactions.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
+import { IpService } from 'src/app/shared/services/ip/ip.service';
+import { Ip } from 'src/app/shared/services/ip/ip.model';
 
 @Component({
   selector: "app-payment",
@@ -18,6 +20,7 @@ import { UsersService } from "src/app/shared/services/users/users.service";
   styleUrls: ["./payment.component.scss"],
 })
 export class PaymentComponent implements OnInit {
+  
   // get data from auth service
   egovPackage: string;
   userType: string;
@@ -25,14 +28,18 @@ export class PaymentComponent implements OnInit {
   showIcondiv = false;
   userdetails: any;
   userPackage: string;
+  clientIP: Ip
 
+  // Form
   newBillingForm: FormGroup;
+  transactionForm: FormGroup
 
   constructor(
     private router: Router,
     private TransactionsService: TransactionsService,
     private formBuilder: FormBuilder,
     private AuthService: AuthService,
+    private IpService: IpService,
     private UsersService: UsersService
   ) {
     this.userType = this.AuthService.userType;
@@ -58,7 +65,31 @@ export class PaymentComponent implements OnInit {
     this.newBillingForm = this.formBuilder.group({
       // id: new FormControl(""),
       name: new FormControl("", Validators.required),
+      payment_method: new FormControl('DD', Validators.required),
+      amount: new FormControl('', Validators.required)
     });
+
+    this.transactionForm = this.formBuilder.group({
+      TransactionType: new FormControl('SALE', Validators.required),
+      PymtMethod: new FormControl('', Validators.required),
+      ServiceID: new FormControl('', Validators.required),
+      PaymentID: new FormControl('', Validators.required),
+      OrderNumber: new FormControl('', Validators.required),
+      PaymentDesc: new FormControl('', Validators.required),
+      MerchantName: new FormControl('', Validators.required),
+      MerchantReturnURL: new FormControl('', Validators.required),
+      MerchantCallbackURL: new FormControl('', Validators.required),
+      Amount: new FormControl('', Validators.required),
+      CurrencyCode: new FormControl('MYR', Validators.required),
+      CustIP: new FormControl('', Validators.required),
+      CustName: new FormControl('', Validators.required),
+      CustEmail: new FormControl('', Validators.required),
+      CustPhone: new FormControl('', Validators.required),
+      HashValue: new FormControl(Validators.required),
+      MerchantTermsURL: new FormControl('http://merchA.merchdomain.com/terms.html', Validators.required),
+      LanguageCode: new FormControl('en', Validators.required),
+      PageTimeout: new FormControl('780', Validators.required),
+    })
   }
 
   addNewBillingData() {
@@ -124,4 +155,34 @@ export class PaymentComponent implements OnInit {
         // this.navigatePage("/egov-details");
       });
   }
+
+  calculateAmount() {
+    console.log('Amount calculated')
+  }
+
+  tryMakePayment() {
+    console.log('Payment made')
+    this.transactionForm.setValue['PymtMethod'] = this.newBillingForm.get('payment_method').value
+    this.transactionForm.setValue['ServiceID'] = 'SM2'
+    this.transactionForm.setValue['PaymentID'] = ''
+    this.transactionForm.setValue['OrderNumber'] = ''
+    this.transactionForm.setValue['PaymentDesc'] = ''
+    this.transactionForm.setValue['MerchantCallbackURL'] = ''
+    this.transactionForm.setValue['Amount'] = ''
+    this.transactionForm.setValue['CustName'] = ''
+    this.transactionForm.setValue['CustIP'] = this.clientIP.ip
+    this.transactionForm.setValue['CustEmail'] = ''
+    this.transactionForm.setValue['CustPhone'] = ''
+    this.transactionForm.setValue['HashValue'] = ''
+    this.transactionForm.setValue['MerchantTermsURL'] = 'http://localhost:4200/#/terms-conditions'
+  }
+
+  getClientIP() {
+    this.IpService.get().subscribe(
+      () => {
+        this.clientIP = this.IpService.ip
+      }
+    )
+  }
+
 }

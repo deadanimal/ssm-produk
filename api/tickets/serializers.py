@@ -9,10 +9,30 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
+    TicketTopic,
+    TicketSubject,
     Ticket,
     TicketCBID,
     TicketInvestigation
 )
+
+from users.serializers import (
+    CustomUserSerializer
+)
+
+class TicketTopicSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TicketTopic
+        fields = '__all__'
+
+
+class TicketSubjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TicketSubject
+        fields = '__all__'
+
 
 class TicketSerializer(serializers.ModelSerializer):
 
@@ -21,7 +41,25 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TicketExtendedSerializer(serializers.ModelSerializer):
+    topic = TicketTopicSerializer(read_only=True)
+    subject = TicketSubjectSerializer(read_only=True)
+    user = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+
+
 class TicketCBIDSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = TicketCBID
+        fields = '__all__'
+
+
+class TicketCBIDExtendedSerializer(serializers.ModelSerializer):
+    requestor = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = TicketCBID
