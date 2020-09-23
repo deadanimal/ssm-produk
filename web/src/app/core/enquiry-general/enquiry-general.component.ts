@@ -31,13 +31,13 @@ export class EnquiryGeneralComponent implements OnInit {
       title: new FormControl("qwew"),
       description: new FormControl(""),
       ticket_type: new FormControl("GN"),
-      // attached_document: new FormControl(this.fileToUpload),
+      // attached_document: new FormControl(""),
       // error_screenshot: new FormControl(""),
       // error_supporting_document: new FormControl(""),
       // error_product: new FormControl("qweqe"),
       // topic: new FormControl("asd"),
       // subject: new FormControl(""),
-      user: new FormControl(""),
+      user: new FormControl("38be90e7-9720-47bd-904e-2dff34c07aba"),
     });
   }
 
@@ -51,7 +51,7 @@ export class EnquiryGeneralComponent implements OnInit {
   onDocumentChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.addNewInquiryForm.get("document").setValue(file);
+      this.addNewInquiryForm.get("attached_document").setValue(file);
     }
   }
 
@@ -62,6 +62,15 @@ export class EnquiryGeneralComponent implements OnInit {
 
   newApplicationData() {
     console.log(this.addNewInquiryForm.value);
+
+    // const formData = new FormData();
+    // formData.append(
+    //   "attached_document",
+    //   this.addNewInquiryForm.get("attached_document").value
+    // );
+    // formData.append("image", this.addNewInquiryForm.get("image").value);
+    // formData.append("document", this.addNewInquiryForm.get("document").value);
+
     // this.addNewInquiryForm.value.attached_document = this.fileToUpload;
     this.TicketsService.create(this.addNewInquiryForm.value).subscribe(
       (res) => {
@@ -69,14 +78,9 @@ export class EnquiryGeneralComponent implements OnInit {
         // console.log(res.id);
         this.successAlert("Successfully submit inquiry.");
         // window.location.reload();
-        // console.log("data = ", this.listEntity);
       },
       (err) => {
         console.log(err);
-        // Activityed
-        // this.isLoading = false
-        // this.successMessage();
-        // this.errorAlert("edit");
       }
     );
   }

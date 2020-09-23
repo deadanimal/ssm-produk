@@ -6,7 +6,7 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 /// get ticket service
 import { TicketsService } from "src/app/shared/services/ticket/ticket.service";
 
@@ -30,7 +30,7 @@ export class EnquiryKjakpComponent implements OnInit {
       id: new FormControl(""),
       title: new FormControl("qwew"),
       description: new FormControl(""),
-      ticket_type: new FormControl("GN"),
+      ticket_type: new FormControl("EG"),
       // attached_document: new FormControl(this.fileToUpload),
       // error_screenshot: new FormControl(""),
       // error_supporting_document: new FormControl(""),
