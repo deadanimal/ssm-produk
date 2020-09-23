@@ -134,11 +134,10 @@ export class AuthService {
     let decodedToken = jwtHelper.decodeToken(accessToken);
     console.log("decodedToken --> ", decodedToken);
     let user_obj = {
-      // user_id: decodedToken.user_id,
-      // username: decodedToken.username,
-      // email: decodedToken.email,
-      // user_type: decodedToken.user_type,
-      // user_type: decodedToken.user_type,
+      user_id: decodedToken.user_id,
+      username: decodedToken.username,
+      email: decodedToken.email,
+      user_type: decodedToken.user_type,
     };
     return user_obj;
   }

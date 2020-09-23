@@ -1,313 +1,349 @@
 <div class="wrapper">
-    <div class="section">
-        <div class="container pt-6">
-            <div class="nav-wrapper">
-                <tabset type="pills" class="tab-space">
-                    <tab heading="My Account">
-                        <div class="card">
-                            <div class="card-body bg-secondary">
-                                <h6 class="heading-small text-muted mb-4">User information</h6>
+  <div class="section">
+    <div class="container pt-6" *ngIf="userType != 'EG'">
+      <div class="nav-wrapper">
+        <tabset type="pills" class="tab-space">
+          <tab heading="My Account">
+            <div class="card">
+              <div class="card-body bg-secondary">
+                <h6 class="heading-small text-muted mb-4">User information</h6>
 
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Name</label>
-                                            <input class="form-control" placeholder="Enter name">
-                                        </div>
-                                    </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Name</label>
+                      <input class="form-control" placeholder="Enter name" />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Email address</label>
-                                            <input class="form-control" placeholder="Enter email address">
-                                        </div>
-                                    </div>
-                                </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Email address</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter email address"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Username</label>
-                                            <input class="form-control" placeholder="Enter username">
-                                        </div>
-                                    </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Username</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter username"
+                      />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Phone number</label>
-                                            <input class="form-control" placeholder="Enter phone number">
-                                        </div>
-                                    </div>
-                                </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Phone number</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter phone number"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                                <hr class="my-4" />
+                <hr class="my-4" />
 
-                                <h6 class="heading-small text-muted mb-4">Billing Information</h6>
+                <h6 class="heading-small text-muted mb-4">
+                  Billing Information
+                </h6>
 
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Address line 1</label>
-                                            <input class="form-control" placeholder="Enter address line 1">
-                                        </div>
-                                    </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Address line 1</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter address line 1"
+                      />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Address line 2</label>
-                                            <input class="form-control" placeholder="Enter address line 2">
-                                        </div>
-                                    </div>
-                                </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Address line 2</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter address line 2"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Address line 3</label>
-                                            <input class="form-control" placeholder="Enter address line 3">
-                                        </div>
-                                    </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Address line 3</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter address line 3"
+                      />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label">City</label>
-                                            <input class="form-control" placeholder="Enter city">
-                                        </div>
-                                    </div>
-                                </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">City</label>
+                      <input class="form-control" placeholder="Enter city" />
+                    </div>
+                  </div>
+                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Postcode</label>
-                                            <input class="form-control" placeholder="Enter postcode">
-                                        </div>
-                                    </div>
+                <div class="row">
+                  <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Postcode</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter postcode"
+                      />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">State</label>
-                                            <input class="form-control" placeholder="Enter state">
-                                        </div>
-                                    </div>
+                  <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">State</label>
+                      <input class="form-control" placeholder="Enter state" />
+                    </div>
+                  </div>
 
-                                    <div class="col-sm-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Country</label>
-                                            <input class="form-control" placeholder="Enter country">
-                                        </div>
-                                    </div>
-                                </div>
+                  <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Country</label>
+                      <input class="form-control" placeholder="Enter country" />
+                    </div>
+                  </div>
+                </div>
 
-                                <div>
-                                    <button class="btn btn-ssm float-right btn-round">Save</button>
-                                </div>
-                            </div>
+                <div>
+                  <button class="btn btn-ssm float-right btn-round">
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="My Transactions">
+            <div class="card">
+              <div class="card-body bg-secondary">
+                <h6 class="heading-small text-muted mb-4">
+                  Transactions Information
+                </h6>
+
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Start date</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-calendar-alt"> </i>
+                          </span>
                         </div>
-                    </tab>
+                        <input class="form-control" type="date" />
+                      </div>
+                    </div>
+                  </div>
 
-                    <tab heading="My Transactions">
-                        <div class="card">
-                            <div class="card-body bg-secondary">
-                                <h6 class="heading-small text-muted mb-4">Transactions Information</h6>
-
-                                <div class="row">
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Start date</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="fas fa-calendar-alt"> </i>
-                                                  </span>
-                                                </div>
-                                                <input class="form-control" type="date">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">End date</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="far fa-calendar-alt"> </i>
-                                                  </span>
-                                                </div>
-                                                <input class="form-control" type="date">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Transaction type</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="far fa-list-alt"> </i>
-                                                  </span>
-                                                </div>
-                                                <select class="form-control">
-                                                    <option>Purchase document</option>
-                                                    <option>Topup credit</option>
-                                                    <option>Refund credit</option>
-                                                    <option>Remove credit</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Account name</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="fas fa-user-alt"> </i>
-                                                  </span>
-                                                </div>
-                                                <input class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Username</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="far fa-user"> </i>
-                                                  </span>
-                                                </div>
-                                                <input class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-lg-4">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Billing name</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">
-                                                    <i class="fas fa-file-invoice"> </i>
-                                                  </span>
-                                                </div>
-                                                <input class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table align-items-center table-flush">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">Details</th>
-                                                <th scope="col">Invoice</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Transaction Type</th>
-                                                <th scope="col">Method</th>
-                                                <th scope="col">Reference</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Discount</th>
-                                                <th scope="col">Tax</th>
-                                                <th scope="col">Total</th>
-                                                <th scope="col">Receipt</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody class="list">
-                                            <tr>
-                                                <td>
-                                                    <button 
-                                                        class="btn btn-ssm btn-sm"
-                                                        (click)="openTransactionDetail(transactionDetail)"
-                                                    >
-                                                        View
-                                                    </button>
-                                                </td>
-                                                <td>PP2020061001</td>
-                                                <td>04/09/2020</td>
-                                                <td>Aiman</td>
-                                                <td>Online</td>
-                                                <td>FPX</td>
-                                                <td>PP202008310001</td>
-                                                <td>RM20.00</td>
-                                                <td>RM0.00</td>
-                                                <td>RM1.20</td>
-                                                <td>RM21.20</td>
-                                                <td>
-                                                    <button
-                                                        class="btn btn-ssm btn-sm"
-                                                        (click)="successDownload()"
-                                                    >
-                                                        Download
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">End date</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="far fa-calendar-alt"> </i>
+                          </span>
                         </div>
-                    </tab>
+                        <input class="form-control" type="date" />
+                      </div>
+                    </div>
+                  </div>
 
-                    <tab heading="My Orders">
-                        <div class="card">
-                            <div class="card-body bg-secondary">
-                                <h6 class="heading-small text-muted mb-4">My orders</h6>
-                                <p class="my-0">
-                                    Disclaimer:
-                                </p>
-                                <ol>
-                                    <li class="font-smaller">
-                                        Every successful purchase will be kept in order menu for 7 
-                                        day(s) from the date purchased. Please download your document 
-                                        accordingly.
-                                    </li>
-                                    <li class="font-smaller">
-                                        If customer are unable to download product purchased within 7 
-                                        day(s). Please contact SSM Enquiry.
-                                    </li>
-                                </ol> 
-
-                                <div class="table-responsive">
-                                    <table class="table align-items-center table-flush">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Order Number</th>
-                                                <th>Date & Time Purchased</th>
-                                                <th>Entity Name</th>
-                                                <th>Product Description</th>
-                                                <th>Language</th>
-                                                <th>Status</th>
-                                                <th>Document Output</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody class="list">
-                                            <tr>
-                                                <td>SSMA2020061001</td>
-                                                <td>04/09/2020 10:20:12</td>
-                                                <td>201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.</td>
-                                                <td>Company Profile non-CTC</td>
-                                                <td><span class="badge badge-primary">EN</span></td>
-                                                <td><span class="badge badge-success">Success</span></td>
-                                                <td><button class="btn btn-ssm btn-sm" (click)="successDownload()">Download</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Transaction type</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="far fa-list-alt"> </i>
+                          </span>
                         </div>
-                    </tab>
+                        <select class="form-control">
+                          <option>Purchase document</option>
+                          <option>Topup credit</option>
+                          <option>Refund credit</option>
+                          <option>Remove credit</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
-                    <!-- <tab heading="My Wishlists">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Account name</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-user-alt"> </i>
+                          </span>
+                        </div>
+                        <input class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Username</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="far fa-user"> </i>
+                          </span>
+                        </div>
+                        <input class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label">Billing name</label>
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-file-invoice"> </i>
+                          </span>
+                        </div>
+                        <input class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Details</th>
+                        <th scope="col">Invoice</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Transaction Type</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Reference</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Discount</th>
+                        <th scope="col">Tax</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Receipt</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="list">
+                      <tr>
+                        <td>
+                          <button
+                            class="btn btn-ssm btn-sm"
+                            (click)="openTransactionDetail(transactionDetail)"
+                          >
+                            View
+                          </button>
+                        </td>
+                        <td>PP2020061001</td>
+                        <td>04/09/2020</td>
+                        <td>Aiman</td>
+                        <td>Online</td>
+                        <td>FPX</td>
+                        <td>PP202008310001</td>
+                        <td>RM20.00</td>
+                        <td>RM0.00</td>
+                        <td>RM1.20</td>
+                        <td>RM21.20</td>
+                        <td>
+                          <button
+                            class="btn btn-ssm btn-sm"
+                            (click)="successDownload()"
+                          >
+                            Download
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="My Orders">
+            <div class="card">
+              <div class="card-body bg-secondary">
+                <h6 class="heading-small text-muted mb-4">My orders</h6>
+                <p class="my-0">Disclaimer:</p>
+                <ol>
+                  <li class="font-smaller">
+                    Every successful purchase will be kept in order menu for 7
+                    day(s) from the date purchased. Please download your
+                    document accordingly.
+                  </li>
+                  <li class="font-smaller">
+                    If customer are unable to download product purchased within
+                    7 day(s). Please contact SSM Enquiry.
+                  </li>
+                </ol>
+
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Order Number</th>
+                        <th>Date & Time Purchased</th>
+                        <th>Entity Name</th>
+                        <th>Product Description</th>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Document Output</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="list">
+                      <tr>
+                        <td>SSMA2020061001</td>
+                        <td>04/09/2020 10:20:12</td>
+                        <td>
+                          201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.
+                        </td>
+                        <td>Company Profile non-CTC</td>
+                        <td><span class="badge badge-primary">EN</span></td>
+                        <td>
+                          <span class="badge badge-success">Success</span>
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-ssm btn-sm"
+                            (click)="successDownload()"
+                          >
+                            Download
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <!-- <tab heading="My Wishlists">
                         <div class="card">
                             <div class="card-body bg-secondary">
                                 <h6 class="heading-small text-muted mb-4">My wishlists2</h6>
@@ -375,83 +411,1145 @@
                             </div>
                         </div>
                     </tab> -->
-                </tabset>
-            </div>
-        </div>
+        </tabset>
+      </div>
     </div>
+    <!-- container egov -->
+    <div class="container pt-6" *ngIf="userType == 'EG'">
+      <div class="nav-wrapper">
+        <tabset type="pills" class="tab-space">
+          <tab heading="My Account">
+            <div class="card">
+              <div class="card-body bg-secondary">
+                <div class="row">
+                  <div class="col col-auto">
+                    <h6 class="heading-small text-muted mb-4">
+                      User information
+                    </h6>
+                  </div>
+                  <div class="col col-auto" style="float: right">
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="openModal(renewAccount)"
+                    >
+                      <span style="color: white"> Renew Account</span>
+                    </button>
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="openModal(requestQuota)"
+                      *ngIf="showRequestQuotaButton"
+                    >
+                      <span style="color: white"> Request Quota </span>
+                    </button>
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="disableFormAccount()"
+                    >
+                      <span style="color: white"> Edit Information </span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Name</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Email address</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter email address"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Username</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter username"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Phone number</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter phone number"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <h6 class="heading-small text-muted mb-4">Work Information</h6>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Head Of Department Name</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Head Of Department Name"
+                        value="Admin3"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Head Of Department Position</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Head Of Department Position"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Head Of Department Email</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Head Of Department Email"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Ministry Name</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter Ministry Name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Department / Agency Name</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Department / Agency Name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Division / Section / Unit Name</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Division / Section / Unit Name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 1</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 1"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 2</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 2"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 3</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 3"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Postcode</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter Postcode"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">City</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter City"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">State</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter State"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Attachment Official Letter from KJAKP
+                        <span class="text-red">*</span></label
+                      >
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-file-invoice"> </i>
+                          </span>
+                        </div>
+                        <input
+                          class="form-control"
+                          type="file"
+                          [disabled]="formStatus"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="showSubmitButton">
+                  <button
+                    class="btn btn-ssm float-right btn-round"
+                    (click)="successAlert('Successfully Edit Information')"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="Request Investigation Document">
+            <div class="card" *ngIf="showRequestInvestigationAdd">
+              <div class="card-body bg-secondary">
+                <h2 class="heading-small text-muted mb-4">
+                  New Request Investigation Document
+                </h2>
+                <p class="text-muted text-sm mt--3">
+                  1. SAMPLE : Every application is subjected to SSM approval.
+                </p>
+                <h6 class="heading-small text-muted mb-4">
+                  Account Holder Details
+                </h6>
+                <hr style="width: 100%" />
+
+                <form [formGroup]="requestInvestigationDocForm">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Email Address <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-calendar-alt"> </i>
+                            </span>
+                          </div>
+                          <input
+                            class="form-control"
+                            type="text"
+                            [value]="userEmail"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Full Name <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="far fa-calendar-alt"> </i>
+                            </span>
+                          </div>
+                          <input
+                            class="form-control"
+                            type="text"
+                            [value]="userFullname"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="mt-2 mb-3" style="width: 100%" />
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Officer Name <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-calendar-alt"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" type="text" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Designation <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="far fa-calendar-alt"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" type="text" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Account name <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-user-alt"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-control-label"
+                              >Office Tel. No.
+                              <span class="text-red">*</span></label
+                            >
+                            <div class="input-group mb-4">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="far fa-list-alt"> </i>
+                                </span>
+                              </div>
+                              <input class="form-control" type="text" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-control-label"
+                              >Mobile Phone No
+                              <span class="text-red">*</span></label
+                            >
+                            <div class="input-group mb-4">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="far fa-list-alt"> </i>
+                                </span>
+                              </div>
+                              <input class="form-control" type="text" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >NRIC No./Officer Authority Card
+                          <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="far fa-user"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Officer Email Address
+                          <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-file-invoice"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Reference Letter No.
+                          <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-file-invoice"> </i>
+                            </span>
+                          </div>
+                          <input
+                            class="form-control"
+                            formControlName="reference_letter_number"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >IP No. <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-file-invoice"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" formControlName="ip_no" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Court Case No. <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-file-invoice"> </i>
+                            </span>
+                          </div>
+                          <input
+                            class="form-control"
+                            formControlName="court_case_number"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="form-control-label"
+                          >Attachment Official Letter from KJAKP
+                          <span class="text-red">*</span></label
+                        >
+                        <div class="input-group mb-4">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-file-invoice"> </i>
+                            </span>
+                          </div>
+                          <input class="form-control" type="file" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <h3 class="title font-weight-bolder">Select Search</h3>
+                      <div class="form-group">
+                        <div
+                          class="custom-control custom-radio custom-control-inline"
+                        >
+                          <input
+                            type="radio"
+                            id="document"
+                            name="radioMethod"
+                            class="custom-control-input"
+                            (change)="summaryRequest('doc')"
+                          />
+                          <label class="custom-control-label" for="document"
+                            >Document</label
+                          >
+                        </div>
+                        <div
+                          class="custom-control custom-radio custom-control-inline"
+                        >
+                          <input
+                            type="radio"
+                            id="personelInvolve"
+                            name="radioMethod"
+                            class="custom-control-input"
+                            (change)="summaryRequest('piv')"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="personelInvolve"
+                            >Personel Involvement</label
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="showdoc">
+                    <div class="col">
+                      <span class="mt-3 mb-3">
+                        <button
+                          class="btn text-ssm"
+                          (click)="navigatePage('/personal-involvement')"
+                        >
+                          Add NRIC / Passport Number
+                        </button>
+                      </span>
+                      <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr>
+                              <!-- <th scope="col">No</th> -->
+                              <th scope="col">ID Number</th>
+                              <th scope="col">Entities</th>
+                              <th scope="col">Involvement<br />Information</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody class="list">
+                            <tr>
+                              <!-- <td></td> -->
+                              <td>qweqweqwe</td>
+                              <td>qweqweqw</td>
+                              <td>qweqweqw</td>
+                              <td>
+                                <a style="cursor: pointer">
+                                  <i class="fas fa-trash text-red"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="showpiv">
+                    <div class="col">
+                      <span class="mt-3 mb-3">
+                        <button
+                          class="btn text-ssm"
+                          (click)="navigatePage('/personal-involvement')"
+                        >
+                          Add Document
+                        </button>
+                      </span>
+                      <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                          <thead class="thead-light">
+                            <tr>
+                              <!-- <th scope="col">No</th> -->
+                              <th scope="col">Entity Number</th>
+                              <th scope="col">Entity Name</th>
+                              <th scope="col">Document Type</th>
+                              <th scope="col">Document</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody class="list">
+                            <tr>
+                              <!-- <td></td> -->
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>asdasd</td>
+                              <td>
+                                <a
+                                  style="cursor: pointer"
+                                  (click)="confirm(item.id)"
+                                >
+                                  <i class="fas fa-trash text-red"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="row">
+                  <div class="col text-right">
+                    <button
+                      class="btn btn-ssm float-right btn-round"
+                      (click)="successAlert('Successfully Submit Application')"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" *ngIf="showRequestInvestigationList">
+              <div class="card-body bg-secondary">
+                  <div class="row">
+                      <div class="col">
+                        <h6 class="heading-small text-muted mb-4">Request Investigation Document</h6>
+                        <p class="my-0">Notes:</p>
+                        <ol>
+                          <li class="font-smaller">
+                            Every application is subjected to ssm approval.
+                          </li>
+                        </ol>
+                      </div>
+                      <div class="col text-right">
+                          <button class="btn bg-ssm" (click)="addInvestigationReqForm()">Add New Request</button>
+                      </div>
+                  </div>
+
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Order Number</th>
+                        <th>Date & Time Purchased</th>
+                        <th>Entity Name</th>
+                        <th>Product Description</th>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Document Output</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="list">
+                      <tr>
+                        <td>SSMA2020061001</td>
+                        <td>04/09/2020 10:20:12</td>
+                        <td>
+                          201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.
+                        </td>
+                        <td>Company Profile non-CTC</td>
+                        <td><span class="badge badge-primary">EN</span></td>
+                        <td>
+                          <span class="badge badge-success">Success</span>
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-ssm btn-sm"
+                            (click)="successDownload()"
+                          >
+                            Download
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="My Request">
+            <div class="card">
+              <div class="card-body bg-secondary">
+                <h6 class="heading-small text-muted mb-4">My Request</h6>
+                <p class="my-0">Disclaimer:</p>
+                <ol>
+                  <li class="font-smaller">
+                    Every successful purchase will be kept in order menu for 7
+                    day(s) from the date purchased. Please download your
+                    document accordingly.
+                  </li>
+                  <li class="font-smaller">
+                    If customer are unable to download product purchased within
+                    7 day(s). Please contact SSM Enquiry.
+                  </li>
+                </ol>
+
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Order Number</th>
+                        <th>Date & Time Purchased</th>
+                        <th>Entity Name</th>
+                        <th>Product Description</th>
+                        <th>Language</th>
+                        <th>Status</th>
+                        <th>Document Output</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="list">
+                      <tr>
+                        <td>SSMA2020061001</td>
+                        <td>04/09/2020 10:20:12</td>
+                        <td>
+                          201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.
+                        </td>
+                        <td>Company Profile non-CTC</td>
+                        <td><span class="badge badge-primary">EN</span></td>
+                        <td>
+                          <span class="badge badge-success">Success</span>
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-ssm btn-sm"
+                            (click)="successDownload()"
+                          >
+                            Download
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
 </div>
 
 <ng-template #transactionDetail>
-    <div class="modal-header bg-ssm">
-        <h4 class="modal-title text-white my-auto" id="modal-title-default">
-            Transaction detail
-        </h4>
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Transaction detail
+    </h4>
 
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeTransactionDetail()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeTransactionDetail()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+          <tr>
+            <th>Order Number</th>
+            <th>Product Description</th>
+            <th>Entity Name</th>
+            <th>Language</th>
+            <th>Status</th>
+            <th>Price</th>
+            <th>Service Fee</th>
+            <th>CTC Service Fee</th>
+            <th>Discount</th>
+            <th>Total</th>
+            <th>Buy Again?</th>
+          </tr>
+        </thead>
+        <tbody class="list">
+          <tr>
+            <td>SSMA2020082500001</td>
+            <td>Certificates of Incorporation / Registration</td>
+            <td>197201000557 (1211-D) / Yong Peng Batu Pahat Sdn. Bhd.</td>
+            <td><span class="badge badge-primary">EN</span></td>
+            <td><span class="badge badge-success">Success</span></td>
+            <td>RM20.00</td>
+            <td>RM0.00</td>
+            <td>RM0.00</td>
+            <td>RM0.00</td>
+            <td>RM25.00</td>
+            <td>
+              <button class="btn btn-ssm btn-sm">Add to cart</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="modal-body">
-        <div class="table-responsive">
-            <table class="table align-items-center table-flush">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Order Number</th>
-                        <th>Product Description</th>
-                        <th>Entity Name</th>
-                        <th>Language</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Service Fee</th>
-                        <th>CTC Service Fee</th>
-                        <th>Discount</th>
-                        <th>Total</th>
-                        <th>Buy Again?</th>
-                    </tr>
-                </thead>
-                <tbody class="list">
-                    <tr>
-                        <td>SSMA2020082500001</td>
-                        <td>Certificates of Incorporation / Registration </td>
-                        <td>197201000557 (1211-D) / Yong Peng Batu Pahat Sdn. Bhd.</td>
-                        <td><span class="badge badge-primary">EN</span></td>
-                        <td><span class="badge badge-success">Success</span></td>
-                        <td>RM20.00</td>
-                        <td>RM0.00</td>
-                        <td>RM0.00</td>
-                        <td>RM0.00</td>
-                        <td>RM25.00</td>
-                        <td>
-                            <button class="btn btn-ssm btn-sm">Add to cart</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="float-right text-right">
+      <p class="mb-0">Total document: 1</p>
+      <p class="m-0">Total (excluded SST): RM25.00</p>
+      <p class="m-0">SST @ 6% for Service Fee: RM0.00</p>
+      <p class="mt-0">Total amount: RM25.00</p>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeTransactionDetail()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #renewAccount class="mt-7">
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Renew Account
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h6 class="heading-small text-muted mb-4">User information</h6>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Name</label>
+          <input class="form-control" placeholder="Enter name" />
         </div>
+      </div>
 
-        <div class="float-right text-right">
-            <p class="mb-0">Total document: 1</p>
-            <p class="m-0">Total (excluded SST): RM25.00</p>
-            <p class="m-0">SST @ 6% for Service Fee: RM0.00</p>
-            <p class="mt-0">Total amount: RM25.00</p>
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Email address</label>
+          <input class="form-control" placeholder="Enter email address" />
         </div>
+      </div>
     </div>
 
-    <div class="modal-footer">
-        <button
-            class="btn btn-outline-danger ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeTransactionDetail()"
-        >
-            Close
-        </button>
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Username</label>
+          <input class="form-control" placeholder="Enter username" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Phone number</label>
+          <input class="form-control" placeholder="Enter phone number" />
+        </div>
+      </div>
     </div>
+
+    <hr class="my-4" />
+
+    <h6 class="heading-small text-muted mb-4">Work Information</h6>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Name</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Name"
+            value="Admin3"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Position</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Position"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Email</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Email"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Ministry Name</label>
+          <input class="form-control" placeholder="Enter Ministry Name" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Department / Agency Name</label>
+          <input
+            class="form-control"
+            placeholder="Enter Department / Agency Name"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label"
+            >Division / Section / Unit Name</label
+          >
+          <input
+            class="form-control"
+            placeholder="Enter Division / Section / Unit Name"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 1</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 1"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 2</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 2"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 3</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Postcode</label>
+          <input class="form-control" placeholder="Enter Postcode" />
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">City</label>
+          <input class="form-control" placeholder="Enter City" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">State</label>
+          <input class="form-control" placeholder="Enter State" />
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">
+            Attachment Official Letter from KJAKP
+          </label>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-file-invoice"> </i>
+              </span>
+            </div>
+            <input class="form-control" type="file" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <btn
+      class="btn bg-ssm"
+      (click)="successAlert('Successfully Submit Application')"
+      ><span style="color: white"> Save</span></btn
+    >
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #requestQuota>
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Request Quota
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Fullname</label>
+          <input class="form-control" placeholder="Enter Fullname" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">User Id</label>
+          <input class="form-control" placeholder="Enter User Id" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department</label>
+          <input class="form-control" placeholder="Enter Head Of Department" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label"
+            >Attachment (Official Letter From KJAKP)</label
+          >
+          <input
+            class="form-control"
+            placeholder="Enter Attachment (Official Letter From KJAKP)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn bg-ssm">Submit</button>
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
 </ng-template>
