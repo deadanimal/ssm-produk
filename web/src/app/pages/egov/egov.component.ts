@@ -1,4 +1,9 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ChangeDetectorRef,
+} from "@angular/core";
 import Glide from "@glidejs/glide";
 import { ReCaptchaV3Service } from "ngx-captcha";
 import {
@@ -12,13 +17,14 @@ import swal from "sweetalert2";
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { JwtService } from "src/app/shared/handler/jwt/jwt.service";
 
 // user service
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 // auth service
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+
+import { NavbarComponent } from "src/app/components/navbar/navbar.component";
 
 @Component({
   selector: "app-egov",
@@ -58,8 +64,9 @@ export class EgovComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
-    private http: HttpClient
-  ) {}
+    private cdRef: ChangeDetectorRef
+  ) // public navBar: NavbarComponent
+  {}
 
   ngOnInit(): void {
     // this.aFormGroup = this.formBuilder.group({
@@ -143,8 +150,10 @@ export class EgovComponent implements OnInit {
     // console.log(this.authSignInForm.value);
     this.AuthService.obtainToken(this.authSignInForm.value).subscribe(
       (res) => {
+        this.cdRef.detectChanges();
         let decodedToken = jwtHelper.decodeToken(res.access);
         console.log("login ==>", decodedToken);
+        // this.navBar.checkChanges();
         this.successAlert("Successfully Login To eGOV");
       },
       (err) => {

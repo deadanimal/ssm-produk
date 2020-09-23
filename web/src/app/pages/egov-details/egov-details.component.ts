@@ -43,8 +43,8 @@ export class EgovDetailsComponent implements OnInit {
 
   // get data from auth service
   egovPackage: string;
-  userType = this.AuthService.userType;
-  userID = this.AuthService.userID;
+  userType: string;
+  userID: String;
   showIcondiv = false;
   userdetails: any;
   userPackage: string;
@@ -59,20 +59,24 @@ export class EgovDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.UsersService.getOne(this.userID).subscribe((res) => {
-      this.userdetails = res;
-      this.userPackage = this.userdetails.egov_package;
-      console.log("this.egovPackage -> ", this.userPackage);
-      console.log("this.userType -> ", this.userType);
-      console.log("this.userID -> ", this.userID);
-      this.egovPackage = this.userdetails.egov_package;
-      if (this.userdetails.user_type == "EG") {
-        this.showIcondiv == false;
-      }
+    if (this.AuthService.userID != undefined) {
+      this.userType = this.AuthService.userType;
+      this.userID = this.AuthService.userID;
+      this.UsersService.getOne(this.userID).subscribe((res) => {
+        this.userdetails = res;
+        this.userPackage = this.userdetails.egov_package;
+        console.log("this.egovPackage -> ", this.userPackage);
+        console.log("this.userType -> ", this.userType);
+        console.log("this.userID -> ", this.userID);
+        this.egovPackage = this.userdetails.egov_package;
+        if (this.userdetails.user_type == "EG") {
+          this.showIcondiv == false;
+        }
 
-      console.log("data = ", this.userdetails.user_type);
-      // console.log("Svc: ", this.tableRows);
-    });
+        console.log("data = ", this.userdetails.user_type);
+        // console.log("Svc: ", this.tableRows);
+      });
+    }
   }
 
   signUp() {
