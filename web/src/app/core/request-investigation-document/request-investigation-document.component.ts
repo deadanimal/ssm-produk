@@ -25,22 +25,30 @@ import { InvestigationTicketsService } from "src/app/shared/services/investigati
 })
 export class RequestInvestigationDocumentComponent implements OnInit {
   // Modal
-  modalTransactionDetail: BsModalRef;
+  modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered modal-xl",
+    // class: "modal-dialog-centered",
   };
+
+  showpiv = false;
+  showdoc = true;
 
   // array
   user_obj: any;
 
   // get data from auth service
   egovPackage: string;
-  userType = this.AuthService.userType;
-  userID = this.AuthService.userID;
+  userType: String;
+  userID: String;
+  userEmail: String;
+  userFullname: string;
   showIcondiv = false;
   userdetails: any;
   userPackage: string;
+  formStatus = true;
+  showSubmitButton = false;
+  showRequestQuotaButton = false;
 
   /// form
   requestInvestigationDocForm: FormGroup;
@@ -56,15 +64,26 @@ export class RequestInvestigationDocumentComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log("asdasdad -> ", this.AuthService.userID);
-    this.user_obj = this.AuthService.decodedToken();
-    // console.log("rid => ", this.user_obj);
-    let userType = this.user_obj.user_;
+    // this.user_obj = this.AuthService.decodedToken();
+    // let userType = this.user_obj.user_;
+    if (this.AuthService.userID != undefined) {
+      this.userType = this.AuthService.userType;
+      this.userID = this.AuthService.userID;
 
-    this.UsersService.getOne(this.userID).subscribe((res) => {
+      this.UsersService.getOne(this.userID).subscribe((res) => {
+        this.userdetails = res;
+        console.log("userdata = ", this.userdetails);
+        this.egovPackage = this.userdetails.egov_package;
+        console.log(this.egovPackage);
+
+        if (this.egovPackage <= "2") {
+          this.showRequestQuotaButton = true;
+        }
+      });
+    }
+
+    this.InvestigationTicketsService.getAll().subscribe((res) => {
       this.userdetails = res;
-      console.log("data = ", this.userdetails);
-      this.egovPackage = this.userdetails.egov_package;
-      // console.log("Svc: ", this.tableRows);
     });
 
     this.requestInvestigationDocForm = this.formBuilder.group({
@@ -120,6 +139,11 @@ export class RequestInvestigationDocumentComponent implements OnInit {
     console.log("confirm");
   }
 
+  disableFormAccount() {
+    this.formStatus = false;
+    this.showSubmitButton = true;
+  }
+
   successAlert(task) {
     swal
       .fire({
@@ -141,21 +165,39 @@ export class RequestInvestigationDocumentComponent implements OnInit {
       });
   }
 
+  summaryRequest(task) {
+    console.log(task);
+    if (task == "doc") {
+      this.showpiv = false;
+      this.showdoc = true;
+    } else {
+      this.showpiv = true;
+      this.showdoc = false;
+    }
+  }
+
   navigatePage(path: string) {
     // console.log('Path: ', path)
     // this.closeModal();
     this.router.navigate([path]);
   }
 
-  openTransactionDetail(modalRef: TemplateRef<any>) {
-    this.modalTransactionDetail = this.modalService.show(
+  // openTransactionDetail(modalRef: TemplateRef<any>) {
+  //   this.modalTransactionDetail = this.modalService.show(
+  //     modalRef,
+  //     this.modalConfig
+  //   );
+  // }
+
+  openModal(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(
       modalRef,
-      this.modalConfig
+      Object.assign({}, { class: "modal-dialog-centered gray modal-lg" })
     );
   }
 
-  closeTransactionDetail() {
-    this.modalTransactionDetail.hide();
+  closeModal() {
+    this.modal.hide();
   }
 
   downloadReceipt() {}

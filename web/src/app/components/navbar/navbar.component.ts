@@ -1,10 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { ProductsService } from "src/app/shared/services/products/products.service";
 
 // auth service
 import { AuthService } from "src/app/shared/services/auth/auth.service";
-import { any } from "@amcharts/amcharts4/.internal/core/utils/Array";
 
 @Component({
   selector: "app-navbar",
@@ -20,8 +19,8 @@ export class NavbarComponent implements OnInit {
 
   // get data from auth service
   egovPackage: string;
-  userType = this.AuthService.userType;
-  userID = this.AuthService.userID;
+  userType: string;
+  userID: string;
   showIcondiv = false;
   userdetails: any;
   user_obj: any;
@@ -29,21 +28,29 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private productService: ProductsService,
-    private AuthService: AuthService
+    private AuthService: AuthService,
+    public cdRef: ChangeDetectorRef
   ) {
-    this.user_obj = this.AuthService.decodedToken();
-    console.log("====> ", this.user_obj);
-    let userType = this.user_obj.user_type;
+    // if (this.AuthService.decodedToken) {
+    //   this.user_obj = this.AuthService.decodedToken();
+    //   console.log("====> ", this.user_obj);
+    //   let userType = this.user_obj.user_type;
+    // }
+
+    if (this.AuthService.userType) {
+      this.userType = this.AuthService.userType;
+      this.userID = this.AuthService.userID;
+      console.log("user type ====> ", this.userType);
+      console.log("user id ====> ", this.userID);
+    }
 
     router.events.subscribe((val) => {
       this.isCollapsed = true;
     });
     this.cartz = this.productService.cart;
-
-    console.log(this.AuthService.userType);
     // get data from auth service
-    this.userType = this.AuthService.userType;
-    this.userID = this.AuthService.userID;
+    // this.userType = this.AuthService.userType;
+    // this.userID = this.AuthService.userID;
   }
 
   ngOnInit() {
@@ -54,13 +61,22 @@ export class NavbarComponent implements OnInit {
       this.imgAvatar = "assets/img/default/avatar.png";
     }
 
-    console.log("user type => ", this.userType);
-    console.log("user id => ", this.userID);
     console.log(this.imgAvatar);
 
     setInterval(() => {
       this.cartz = this.productService.cart;
     });
+  }
+
+  checkChanges() {
+    this.userType = this.AuthService.userType;
+    this.userID = this.AuthService.userID;
+    if (this.userType == "EG") {
+      this.imgAvatar = "assets/img/faces/christian.jpg";
+    } else {
+      this.imgAvatar = "assets/img/default/avatar.png";
+    }
+    this.cdRef.detectChanges();
   }
 
   mobileView() {
