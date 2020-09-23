@@ -138,7 +138,6 @@ export class AuthService {
       username: decodedToken.username,
       email: decodedToken.email,
       user_type: decodedToken.user_type,
-      // user_type: decodedToken.user_type,
     };
     return user_obj;
   }
