@@ -70,6 +70,7 @@ class CustomUser(AbstractUser):
     egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='NA')
 
     egov_package = models.IntegerField(default=0, null=False)
+    egov_quota = models.IntegerField(default=0, null=True)
     position_or_grade = models.CharField(max_length=30, blank=True, null=True)
 
     head_of_department_name = models.CharField(max_length=50, blank=True, null=True)

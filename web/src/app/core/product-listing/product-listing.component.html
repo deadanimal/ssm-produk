@@ -6,7 +6,16 @@
           <div class="col-md-8">
             <h4 class="display-3">Product Listing</h4>
             <h5 class="m-0">
-              Entity name: {{ entity.registration_no }} / {{ entity.name }}
+			  Entity name:
+			  <div *ngIf="entity.type_of_entity == 'AD'">
+				{{ entity.audit_firm_number }}
+			  </div>
+			  <div *ngIf="entity.type_of_entity == 'BS'">
+				{{ entity.registration_number_new }} / {{entity.name}}
+			  </div>
+			  <div *ngIf="entity.type_of_entity == 'CP'">
+				{{ entity.company_number_new }} / {{entity.name}}
+			  </div>
             </h5>
 
             <p class="lead">Available products and documents:</p>
@@ -361,7 +370,7 @@
                 <div class="col-11">
                   <p class="description">
                     By requesting to view the Document & Form Images for
-                    Pipeline Engineering Sdn. Bhd., RM10.00. This viewing fee is
+                    {{entity.name}}, RM10.00. This viewing fee is
                     valid up to 24 hours from date of purchase.
                   </p>
                 </div>

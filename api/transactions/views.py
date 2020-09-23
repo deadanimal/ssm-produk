@@ -13,12 +13,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     Transaction,
     CartCBID,
+    CartProduct,
     Reconcile
 )
 
 from .serializers import (
     TransactionSerializer,
     CartCBIDSerializer,
+    CartProductSerializer,
     ReconcileSerializer
 )
 
@@ -86,6 +88,40 @@ class CartCBIDViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = CartCBID.objects.all()
             else:
                 queryset = CartCBID.objects.filter(company=company.id)
+        """
+        return queryset    
+ 
+
+class CartProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = CartProduct.objects.all()
+    serializer_class = CartProductSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = CartProduct.objects.all()
+
+        """
+        if self.request.user.is_anonymous:
+            queryset = Company.objects.none()
+
+        else:
+            user = self.request.user
+            company_employee = CompanyEmployee.objects.filter(employee=user)
+            company = company_employee[0].company
+            
+            if company.company_type == 'AD':
+                queryset = CartProduct.objects.all()
+            else:
+                queryset = CartProduct.objects.filter(company=company.id)
         """
         return queryset    
  

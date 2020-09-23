@@ -42,7 +42,7 @@ export class SearchEngineComponent implements OnInit {
   outfits: Outfit[] = [];
 
   // Table
-  tableEntries: number = 5;
+  tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
@@ -121,17 +121,34 @@ export class SearchEngineComponent implements OnInit {
         Validators.compose([Validators.required])
       ),
     });
-    this.outfitService.getAll().subscribe(() => {
-      this.outfits = this.outfitService.outfits;
-    });
+    this.outfitService.getAll().subscribe(
+      () => {
+        this.outfits = this.outfitService.outfits;
+        this.tableRows = this.outfits
+        console.log(this.tableRows)
+      },
+      () => {},
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          };
+        });
+        console.log(this.tableTemp)
+      }
+    );
   }
 
-  navigatePage(path: string) {
+  navigatePage(path: string, selectedHouse) {
     // console.log('Path: ', path)
-    this.router.navigate([path]);
+    let extras = selectedHouse
+    this.router.navigate([path], extras);
   }
 
   search() {
+    this.isEmpty = false
+    this.isGotResult = true
     // if (this.searchField == '') {
 
     // }
@@ -142,22 +159,25 @@ export class SearchEngineComponent implements OnInit {
     //     () => {}
     //   }
     // )
-    this.spinner.show();
-    console.log(this.productForm.value);
-    setTimeout(() => {
-      this.spinner.hide();
-      if (
-        this.productForm.value.registration_number == "Pipeline Network" ||
-        this.productForm.value.registration_number == "960536"
-      ) {
-        this.isGotResult = true;
-        this.isEmpty = false;
-      } else {
-        this.notFound();
-        // this.isGotResult = false;
-        // this.isEmpty = true;
-      }
-    }, 2000);
+    // SINI
+    // this.spinner.show();
+    // console.log(this.productForm.value);
+    // setTimeout(() => {
+    //   this.spinner.hide();
+    //   if (
+    //     this.productForm.value.registration_number == "Pipeline Network" ||
+    //     this.productForm.value.registration_number == "960536"
+    //   ) {
+    //     this.isGotResult = true;
+    //     this.isEmpty = false;
+    //   } else {
+    //     this.notFound();
+    //     // this.isGotResult = false;
+    //     // this.isEmpty = true;
+    //   }
+    // }, 2000);
+
+    // SINI habis
     // this.productService.search(this.productForm.value).subscribe(
     //   (res) => {
     //     this.spinner.hide();
@@ -247,14 +267,9 @@ export class SearchEngineComponent implements OnInit {
   }
 
   filterTable($event) {
-    let val = $event.target.value;
-    this.tableTemp = this.outfits.filter(function (d) {
-      for (var key in d) {
-        if (d[key].toLowerCase().indexOf(val) !== -1) {
-          return true;
-        }
-      }
-      return false;
+    let val = $event.target.value.toLowerCase();
+    this.tableTemp = this.tableRows.filter(function(d) {
+      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
   }
 

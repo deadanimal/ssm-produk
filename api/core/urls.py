@@ -65,9 +65,19 @@ products_router = router.register(
 # Tickets app
 
 from tickets.views import (
+    TicketTopicViewSet,
+    TicketSubjectViewSet,
     TicketViewSet,
     TicketCBIDViewSet,
     TicketInvestigationViewSet
+)
+
+ticket_topics_router = router.register(
+    'ticket-topics', TicketTopicViewSet
+)
+
+ticket_subjects_router = router.register(
+    'ticket-subjects', TicketSubjectViewSet
 )
 
 tickets_router = router.register(
@@ -87,6 +97,7 @@ investigation_tickets_router = router.register(
 from transactions.views import (
     TransactionViewSet,
     CartCBIDViewSet,
+    CartProductViewSet,
     ReconcileViewSet
 )
 
@@ -96,6 +107,10 @@ transactions_router = router.register(
 
 cbid_carts_router = router.register(
     'cbid-carts', CartCBIDViewSet
+)
+
+product_carts_router = router.register(
+    'product-carts', CartProductViewSet
 )
 
 reconciles_router = router.register(

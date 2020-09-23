@@ -17,27 +17,88 @@ from users.models import (
     CustomUser
 )
 
+class TicketTopic(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
+
+    TOPIC_CATEGORY = [
+        ('GN', 'General'),
+        ('EG', 'eGovernment')
+    ]
+    topic_category = models.CharField(
+        choices=TOPIC_CATEGORY,
+        max_length=2,
+        default='GN'
+    )
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+class TicketSubject(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
+
+    SUBJECT_CATEGORY = [
+        ('GN', 'General'),
+        ('EG', 'eGovernment')
+    ]
+    subject_category = models.CharField(
+        choices=SUBJECT_CATEGORY,
+        max_length=2,
+        default='GN'
+    )
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
 class Ticket(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, default='NA')
     description = models.TextField(default='NA')
 
-    TOPIC_TYPE = [
-        ('PD', 'Product'),
-        ('ID', 'Image Document'),
-        ('WI', 'Web Issues'),
-        ('OT', 'Others')
+    TICKET_TYPE = [
+        ('GN', 'General'),
+        ('EG', 'eGovernment')
     ]
-    topic_type = models.CharField(
-        choices=TOPIC_TYPE,
+    ticket_type = models.CharField(
+        choices=TICKET_TYPE,
         max_length=2,
-        default='OT'
+        default='GN'
     )
+    
+    TICKET_STATUS = [
+        ('RS', 'Resolved'),
+        ('US', 'Unresolved')
+    ]
+    ticket_status = models.CharField(
+        choices=TICKET_STATUS,
+        max_length=2,
+        default='US'
+    )
+    
+    topic = models.ForeignKey(TicketTopic, on_delete=models.CASCADE, null=True)
+    subject = models.ForeignKey(TicketSubject, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
+    receipt_number = models.CharField(max_length=100, default='NA')
     attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))
     error_screenshot = models.ImageField(null=True, upload_to=PathAndRename('enquiry-error-screenshot'))
     error_supporting_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-supporting-document'))
@@ -58,6 +119,7 @@ class TicketCBID(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     requestor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
+    remarks = models.TextField(default='NA')
     
     ENTITY_TYPE = [
         ('ROB', 'Registration of Business'),
@@ -74,13 +136,16 @@ class TicketCBID(models.Model):
 
     STATUS_TYPE = [
         ('PG', 'Pending'),
-        ('PD', 'Paid')
+        ('PD', 'Paid'),
+        ('CP', 'Completed')
     ]
     status = models.CharField(choices=STATUS_TYPE, max_length=2, default='PG')
     
+    pending_date = models.DateTimeField(blank=True, null=True)
+    completed_date = models.DateTimeField(blank=True, null=True)
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    paid_date = models.DateTimeField(blank=True, null=True)
 
     class meta:
         ordering = ['requestor']
@@ -110,4 +175,4 @@ class TicketInvestigation(models.Model):
     def __str__(self):
         return self.entity_type
 
-    
+
