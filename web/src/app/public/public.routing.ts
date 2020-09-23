@@ -4,6 +4,7 @@ import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { HomeComponent } from './home/home.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 
 export const PublicRoutes: Routes = [
     {
@@ -28,6 +29,10 @@ export const PublicRoutes: Routes = [
             {
                 path: 'user-guide',
                 component: UserGuideComponent
+            },
+            {
+                path: 'terms-conditions',
+                component: TermsConditionsComponent
             }
         ]
     }

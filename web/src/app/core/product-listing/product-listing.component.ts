@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { ProductsService } from "src/app/shared/services/products/products.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { Router } from '@angular/router';
 class Entity {
   name: string;
   registration_no: string;
@@ -13,8 +14,9 @@ class Entity {
   styleUrls: ["./product-listing.component.scss"],
 })
 export class ProductListingComponent implements OnInit {
+
   // Data
-  entity: Entity;
+  entity: any;
   products: any[] = [];
 
   // Checker
@@ -37,14 +39,19 @@ export class ProductListingComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private productService: ProductsService,
-    private modalService: BsModalService
-  ) {}
+    private modalService: BsModalService,
+    private router: Router
+  ) {
+    this.entity = this.router.getCurrentNavigation().extras as any
+    console.log(this.entity)
+  }
 
   ngOnInit(): void {
-    this.entity = {
-      name: "PIPELINE NETWORK SDN. BHD.",
-      registration_no: "201101032401 (960536-K)",
-    };
+    // this.entity = {
+    //   name: "PIPELINE NETWORK SDN. BHD.",
+    //   registration_no: "201101032401 (960536-K)",
+    // };
+    console.log(this.entity)
   }
 
   proceed() {

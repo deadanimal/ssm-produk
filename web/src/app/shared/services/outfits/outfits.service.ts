@@ -32,6 +32,7 @@ export class OutfitsService {
   getAll(): Observable<Outfit[]> {
     return this.http.get<Outfit[]>(this.urlOutfits).pipe(
       tap((res) => {
+        this.outfits = res
         console.log("Outfits: ", res);
       })
     );

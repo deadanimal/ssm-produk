@@ -59,6 +59,20 @@ class CartCBID(models.Model):
     def __str__(self):
         return self.id
 
+class CartProduct(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    product = models.ManyToManyField(Product)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']
+    
+    def __str__(self):
+        return self.id
+
 
 class Reconcile(models.Model):
 
