@@ -422,12 +422,12 @@
             <div class="card">
               <div class="card-body bg-secondary">
                 <div class="row">
-                  <div class="col col-auto">
+                  <div class="col col-md-4">
                     <h6 class="heading-small text-muted mb-4">
                       User information
                     </h6>
                   </div>
-                  <div class="col col-auto" style="float: right">
+                  <div class="col col-md-8" style="float: right">
                     <button
                       class="btn bg-ssm"
                       style="cursor: pointer"
@@ -461,6 +461,7 @@
                         class="form-control"
                         placeholder="Enter name"
                         [disabled]="formStatus"
+                        [value]="userFullname"
                       />
                     </div>
                   </div>
@@ -472,6 +473,7 @@
                         class="form-control"
                         placeholder="Enter email address"
                         [disabled]="formStatus"
+                        [value]="userEmail"
                       />
                     </div>
                   </div>
@@ -480,22 +482,74 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">Username</label>
+                      <label class="form-control-label">IC. No.</label>
                       <input
                         class="form-control"
-                        placeholder="Enter username"
+                        placeholder="Enter name"
                         [disabled]="formStatus"
+                        [value]="userNric"
                       />
                     </div>
                   </div>
 
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">Phone number</label>
+                      <label class="form-control-label">Position & Grade</label>
                       <input
                         class="form-control"
-                        placeholder="Enter phone number"
+                        placeholder="Enter email address"
                         [disabled]="formStatus"
+                        [value]="userdetails.position_or_grade"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Tel Number</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter Tel Number"
+                        [disabled]="formStatus"
+                        [value]="userdetails.phone_number"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Package Type</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter username"
+                        [disabled]="formStatus"
+                        [value]="egovPackage"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Expiry Date</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter Tel Number"
+                        [disabled]="formStatus"
+                        value="30/9/2020"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">Balance Quota</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter username"
+                        disabled
+                        [value]="userQuota"
                       />
                     </div>
                   </div>
@@ -657,16 +711,10 @@
                   </div>
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label"
-                        >Attachment Official Letter from KJAKP
-                        <span class="text-red">*</span></label
-                      >
+                      <label class="form-control-label">
+                        Attachment Official Letter from KJAKP
+                      </label>
                       <div class="input-group mb-4">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-file-invoice"> </i>
-                          </span>
-                        </div>
                         <input
                           class="form-control"
                           type="file"
@@ -1080,44 +1128,49 @@
 
             <div class="card" *ngIf="showRequestInvestigationList">
               <div class="card-body bg-secondary">
-                  <div class="row">
-                      <div class="col">
-                        <h6 class="heading-small text-muted mb-4">Request Investigation Document</h6>
-                        <p class="my-0">Notes:</p>
-                        <ol>
-                          <li class="font-smaller">
-                            Every application is subjected to ssm approval.
-                          </li>
-                        </ol>
-                      </div>
-                      <div class="col text-right">
-                          <button class="btn bg-ssm" (click)="addInvestigationReqForm()">Add New Request</button>
-                      </div>
+                <div class="row">
+                  <div class="col">
+                    <h6 class="heading-small text-muted mb-4">
+                      Request Investigation Document
+                    </h6>
+                    <p class="my-0">Notes:</p>
+                    <ol>
+                      <li class="font-smaller">
+                        Every application is subjected to ssm approval.
+                      </li>
+                    </ol>
                   </div>
+                  <div class="col text-right">
+                    <button
+                      class="btn bg-ssm"
+                      (click)="addInvestigationReqForm()"
+                    >
+                      <spam class="text-white">Add New Request</spam>
+                    </button>
+                  </div>
+                </div>
 
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
-                        <th>Order Number</th>
-                        <th>Date & Time Purchased</th>
-                        <th>Entity Name</th>
-                        <th>Product Description</th>
-                        <th>Language</th>
+                        <!-- <th>Number</th> -->
+                        <th>Reference Number</th>
+                        <th>Application Date</th>
+                        <th>Officer</th>
+                        <th>Updated Status Date</th>
                         <th>Status</th>
-                        <th>Document Output</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
 
                     <tbody class="list">
-                      <tr>
-                        <td>SSMA2020061001</td>
-                        <td>04/09/2020 10:20:12</td>
-                        <td>
-                          201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.
-                        </td>
-                        <td>Company Profile non-CTC</td>
-                        <td><span class="badge badge-primary">EN</span></td>
+                      <tr *ngFor="let item of InvestigationList">
+                        <!-- <td>{{ listNp += 1 }}</td> -->
+                        <td>REF{{ runningNo }}</td>
+                        <td>{{ item.created_date | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ item.officer }}</td>
+                        <td>{{ item.modified_date | date: "dd/MM/yyyy" }}</td>
                         <td>
                           <span class="badge badge-success">Success</span>
                         </td>
@@ -1295,38 +1348,82 @@
 
   <div class="modal-body">
     <h6 class="heading-small text-muted mb-4">User information</h6>
+    <form [formGroup]="updateUserInfoForm">
+      <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">Name</label>
+            <input
+              class="form-control"
+              placeholder="Enter name"
+              formControlName="full_name"
+              [value]="userFullname"
+            />
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col-sm-12 col-lg-6">
-        <div class="form-group">
-          <label class="form-control-label">Name</label>
-          <input class="form-control" placeholder="Enter name" />
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">Email address</label>
+            <input
+              class="form-control"
+              placeholder="Enter email address"
+              formControlName="email"
+              [value]="userEmail"
+            />
+          </div>
         </div>
       </div>
 
-      <div class="col-sm-12 col-lg-6">
-        <div class="form-group">
-          <label class="form-control-label">Email address</label>
-          <input class="form-control" placeholder="Enter email address" />
+      <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">IC. No.</label>
+            <input
+              class="form-control"
+              placeholder="Enter name"
+              formControlName="nric_number"
+              [value]="userNric"
+            />
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-sm-12 col-lg-6">
-        <div class="form-group">
-          <label class="form-control-label">Username</label>
-          <input class="form-control" placeholder="Enter username" />
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">Position & Grade</label>
+            <input
+              class="form-control"
+              placeholder="Enter email address"
+              [value]="userdetails.position_or_grade"
+            />
+          </div>
         </div>
       </div>
 
-      <div class="col-sm-12 col-lg-6">
-        <div class="form-group">
-          <label class="form-control-label">Phone number</label>
-          <input class="form-control" placeholder="Enter phone number" />
+      <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">Tel Number</label>
+            <input
+              class="form-control"
+              placeholder="Enter Tel Number"
+              formControlName="phone_number"
+              [value]="userdetails.phone_number"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-6">
+          <div class="form-group">
+            <label class="form-control-label">Package Type</label>
+            <input
+              class="form-control"
+              placeholder="Enter username"
+              [value]="egovPackage"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </form>
 
     <hr class="my-4" />
 
@@ -1469,9 +1566,7 @@
   </div>
 
   <div class="modal-footer">
-    <btn
-      class="btn bg-ssm"
-      (click)="successAlert('Successfully Submit Application')"
+    <btn class="btn bg-ssm" (click)="changeUserInfo()"
       ><span style="color: white"> Save</span></btn
     >
     <button
@@ -1507,14 +1602,22 @@
       <div class="col-sm-12 col-lg-6">
         <div class="form-group">
           <label class="form-control-label">Fullname</label>
-          <input class="form-control" placeholder="Enter Fullname" />
+          <input
+            class="form-control"
+            placeholder="Enter Fullname"
+            value="userFullname"
+          />
         </div>
       </div>
 
       <div class="col-sm-12 col-lg-6">
         <div class="form-group">
-          <label class="form-control-label">User Id</label>
-          <input class="form-control" placeholder="Enter User Id" />
+          <label class="form-control-label">NRIC Number</label>
+          <input
+            class="form-control"
+            placeholder="Enter User Id"
+            value="userNric"
+          />
         </div>
       </div>
     </div>
@@ -1523,7 +1626,11 @@
       <div class="col-sm-12 col-lg-6">
         <div class="form-group">
           <label class="form-control-label">Head Of Department</label>
-          <input class="form-control" placeholder="Enter Head Of Department" />
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department"
+            value="UserHOD"
+          />
         </div>
       </div>
 
@@ -1534,6 +1641,7 @@
           >
           <input
             class="form-control"
+            type="file"
             placeholder="Enter Attachment (Official Letter From KJAKP)"
           />
         </div>
@@ -1541,8 +1649,10 @@
     </div>
   </div>
 
-  <div class="modal-footer">
-    <button class="btn bg-ssm">Submit</button>
+  <div class="modal-footer text-right">
+    <button class="btn bg-ssm" (click)="addNewRequestQuota()">
+      <span class="text-white">Submit</span>
+    </button>
     <button
       class="btn btn-outline-danger ml-auto"
       data-dismiss="modal"
