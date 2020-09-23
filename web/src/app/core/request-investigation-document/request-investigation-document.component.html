@@ -6,13 +6,47 @@
           <tab heading="My Account">
             <div class="card">
               <div class="card-body bg-secondary">
-                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="row">
+                  <div class="col col-auto">
+                    <h6 class="heading-small text-muted mb-4">
+                      User information
+                    </h6>
+                  </div>
+                  <div class="col col-auto" style="float: right">
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="openModal(renewAccount)"
+                    >
+                      <span style="color: white"> Renew Account</span>
+                    </button>
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="openModal(requestQuota)"
+                      *ngIf="showRequestQuotaButton"
+                    >
+                      <span style="color: white"> Request Quota </span>
+                    </button>
+                    <button
+                      class="btn bg-ssm"
+                      style="cursor: pointer"
+                      (click)="disableFormAccount()"
+                    >
+                      <span style="color: white"> Edit Information </span>
+                    </button>
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                       <label class="form-control-label">Name</label>
-                      <input class="form-control" placeholder="Enter name" />
+                      <input
+                        class="form-control"
+                        placeholder="Enter name"
+                        [disabled]="formStatus"
+                      />
                     </div>
                   </div>
 
@@ -22,6 +56,7 @@
                       <input
                         class="form-control"
                         placeholder="Enter email address"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
@@ -34,6 +69,7 @@
                       <input
                         class="form-control"
                         placeholder="Enter username"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
@@ -44,6 +80,7 @@
                       <input
                         class="form-control"
                         placeholder="Enter phone number"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
@@ -51,27 +88,32 @@
 
                 <hr class="my-4" />
 
-                <h6 class="heading-small text-muted mb-4">
-                  Billing Information
-                </h6>
+                <h6 class="heading-small text-muted mb-4">Work Information</h6>
 
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">Address line 1</label>
+                      <label class="form-control-label"
+                        >Head Of Department Name</label
+                      >
                       <input
                         class="form-control"
-                        placeholder="Enter address line 1"
+                        placeholder="Enter Head Of Department Name"
+                        value="Admin3"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
 
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">Address line 2</label>
+                      <label class="form-control-label"
+                        >Head Of Department Position</label
+                      >
                       <input
                         class="form-control"
-                        placeholder="Enter address line 2"
+                        placeholder="Enter Head Of Department Position"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
@@ -80,50 +122,151 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">Address line 3</label>
+                      <label class="form-control-label"
+                        >Head Of Department Email</label
+                      >
                       <input
                         class="form-control"
-                        placeholder="Enter address line 3"
+                        placeholder="Enter Head Of Department Email"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
 
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">City</label>
-                      <input class="form-control" placeholder="Enter city" />
+                      <label class="form-control-label">Ministry Name</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter Ministry Name"
+                        [disabled]="formStatus"
+                      />
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Department / Agency Name</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Department / Agency Name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Division / Section / Unit Name</label
+                      >
+                      <input
+                        class="form-control"
+                        placeholder="Enter Division / Section / Unit Name"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 1</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 1"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 2</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 2"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label">Address 3</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Enter Address 3"
+                        [disabled]="formStatus"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                       <label class="form-control-label">Postcode</label>
                       <input
                         class="form-control"
-                        placeholder="Enter postcode"
+                        placeholder="Enter Postcode"
+                        [disabled]="formStatus"
                       />
                     </div>
                   </div>
-
-                  <div class="col-sm-12">
+                  <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label">State</label>
-                      <input class="form-control" placeholder="Enter state" />
-                    </div>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <label class="form-control-label">Country</label>
-                      <input class="form-control" placeholder="Enter country" />
+                      <label class="form-control-label">City</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter City"
+                        [disabled]="formStatus"
+                      />
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <button class="btn btn-ssm float-right btn-round">
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label">State</label>
+                      <input
+                        class="form-control"
+                        placeholder="Enter State"
+                        [disabled]="formStatus"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label"
+                        >Attachment Official Letter from KJAKP
+                        <span class="text-red">*</span></label
+                      >
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-file-invoice"> </i>
+                          </span>
+                        </div>
+                        <input
+                          class="form-control"
+                          type="file"
+                          [disabled]="formStatus"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="showSubmitButton">
+                  <button
+                    class="btn btn-ssm float-right btn-round"
+                    (click)="successAlert('Successfully Edit Information')"
+                  >
                     Save
                   </button>
                 </div>
@@ -161,7 +304,7 @@
                           <input
                             class="form-control"
                             type="text"
-                            [value]="userdetails.email"
+                            [value]="userEmail"
                           />
                         </div>
                       </div>
@@ -181,7 +324,7 @@
                           <input
                             class="form-control"
                             type="text"
-                            [value]="userdetails.full_name"
+                            [value]="userFullname"
                           />
                         </div>
                       </div>
@@ -511,64 +654,12 @@
                   <div class="col text-right">
                     <button
                       class="btn btn-ssm float-right btn-round"
-                      (click)="requestInvestigationDoc()"
+                      (click)="successAlert('Successfully Submit Application')"
                     >
                       Save
                     </button>
                   </div>
                 </div>
-
-                <!-- <div class="table-responsive">
-                  <table class="table align-items-center table-flush">
-                    <thead class="thead-light">
-                      <tr>
-                        <th scope="col">Details</th>
-                        <th scope="col">Invoice</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Transaction Type</th>
-                        <th scope="col">Method</th>
-                        <th scope="col">Reference</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Discount</th>
-                        <th scope="col">Tax</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Receipt</th>
-                      </tr>
-                    </thead>
-
-                    <tbody class="list">
-                      <tr>
-                        <td>
-                          <button
-                            class="btn btn-ssm btn-sm"
-                            (click)="openTransactionDetail(transactionDetail)"
-                          >
-                            View
-                          </button>
-                        </td>
-                        <td>PP2020061001</td>
-                        <td>04/09/2020</td>
-                        <td>Aiman</td>
-                        <td>Online</td>
-                        <td>FPX</td>
-                        <td>PP202008310001</td>
-                        <td>RM20.00</td>
-                        <td>RM0.00</td>
-                        <td>RM1.20</td>
-                        <td>RM21.20</td>
-                        <td>
-                          <button
-                            class="btn btn-ssm btn-sm"
-                            (click)="successDownload()"
-                          >
-                            Download
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div> -->
               </div>
             </div>
           </tab>
@@ -717,7 +808,7 @@
       class="close"
       data-dismiss="modal"
       type="button"
-      (click)="closeTransactionDetail()"
+      (click)="closeModal()"
     >
       <span aria-hidden="true" class="text-white my-auto"> × </span>
     </button>
@@ -774,7 +865,285 @@
       class="btn btn-outline-danger ml-auto"
       data-dismiss="modal"
       type="button"
-      (click)="closeTransactionDetail()"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #renewAccount class="mt-7">
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Renew Account
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h6 class="heading-small text-muted mb-4">User information</h6>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Name</label>
+          <input class="form-control" placeholder="Enter name" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Email address</label>
+          <input class="form-control" placeholder="Enter email address" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Username</label>
+          <input class="form-control" placeholder="Enter username" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Phone number</label>
+          <input class="form-control" placeholder="Enter phone number" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <h6 class="heading-small text-muted mb-4">Work Information</h6>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Name</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Name"
+            value="Admin3"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Position</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Position"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department Email</label>
+          <input
+            class="form-control"
+            placeholder="Enter Head Of Department Email"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Ministry Name</label>
+          <input class="form-control" placeholder="Enter Ministry Name" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Department / Agency Name</label>
+          <input
+            class="form-control"
+            placeholder="Enter Department / Agency Name"
+          />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label"
+            >Division / Section / Unit Name</label
+          >
+          <input
+            class="form-control"
+            placeholder="Enter Division / Section / Unit Name"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 1</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 1"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 2</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 2"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label class="form-control-label">Address 3</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Address 3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Postcode</label>
+          <input class="form-control" placeholder="Enter Postcode" />
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">City</label>
+          <input class="form-control" placeholder="Enter City" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">State</label>
+          <input class="form-control" placeholder="Enter State" />
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">
+            Attachment Official Letter from KJAKP
+          </label>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-file-invoice"> </i>
+              </span>
+            </div>
+            <input class="form-control" type="file" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <btn
+      class="btn bg-ssm"
+      (click)="successAlert('Successfully Submit Application')"
+      ><span style="color: white"> Save</span></btn
+    >
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #requestQuota>
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Request Quota
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Fullname</label>
+          <input class="form-control" placeholder="Enter Fullname" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">User Id</label>
+          <input class="form-control" placeholder="Enter User Id" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label">Head Of Department</label>
+          <input class="form-control" placeholder="Enter Head Of Department" />
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-6">
+        <div class="form-group">
+          <label class="form-control-label"
+            >Attachment (Official Letter From KJAKP)</label
+          >
+          <input
+            class="form-control"
+            placeholder="Enter Attachment (Official Letter From KJAKP)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn bg-ssm">Submit</button>
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
     >
       Close
     </button>
