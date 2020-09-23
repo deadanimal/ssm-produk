@@ -100,3 +100,13 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
     
+    @action(methods=['POST'], detail=True)
+    def add_egov_quota(self, request, *args, **kwargs):
+        user = self.get_object()
+
+        if user.user_type == 'EG':
+            user.egov_quota = 5
+        user.save()
+
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
