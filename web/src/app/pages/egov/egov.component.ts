@@ -64,9 +64,8 @@ export class EgovComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
-    private cdRef: ChangeDetectorRef
-  ) // public navBar: NavbarComponent
-  {}
+    private cdRef: ChangeDetectorRef // public navBar: NavbarComponent
+  ) {}
 
   ngOnInit(): void {
     // this.aFormGroup = this.formBuilder.group({
