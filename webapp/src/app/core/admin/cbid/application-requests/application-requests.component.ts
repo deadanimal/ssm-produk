@@ -39,7 +39,7 @@ export class ApplicationRequestsComponent implements OnInit {
   };
 
   // Table
-  tableEntries: number = 5;
+  tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
