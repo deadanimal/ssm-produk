@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from .models import (
     Transaction,
     CartCBID,
+    CartProduct,
     Reconcile
 )
 
@@ -25,6 +26,13 @@ class CartCBIDSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartCBID
+        fields = '__all__'
+
+
+class CartProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CartProduct
         fields = '__all__'
 
 
