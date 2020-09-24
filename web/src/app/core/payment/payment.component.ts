@@ -14,6 +14,10 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 import { IpService } from 'src/app/shared/services/ip/ip.service';
 import { Ip } from 'src/app/shared/services/ip/ip.model';
 
+import { tap } from "rxjs/operators";
+import * as sjcl from 'sjcl';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: "app-payment",
   templateUrl: "./payment.component.html",
@@ -40,7 +44,8 @@ export class PaymentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private AuthService: AuthService,
     private IpService: IpService,
-    private UsersService: UsersService
+    private UsersService: UsersService,
+    private http: HttpClient
   ) {
     this.userType = this.AuthService.userType;
     this.userID = this.AuthService.userID;
@@ -90,6 +95,8 @@ export class PaymentComponent implements OnInit {
       LanguageCode: new FormControl('en', Validators.required),
       PageTimeout: new FormControl('780', Validators.required),
     })
+
+    this.clientIP = this.getClientIP()
   }
 
   addNewBillingData() {
@@ -115,24 +122,25 @@ export class PaymentComponent implements OnInit {
   }
 
   makePayment() {
-    swal
-      .fire({
-        title: "Confirmation",
-        text: "Payment successfully been made!",
-        icon: "info",
-        buttonsStyling: false,
-        confirmButtonText: "Okay",
-        customClass: {
-          confirmButton: "btn btn-primary ",
-        },
-      })
-      .then((result) => {
-        // if (result.value) {
-        //   this.router.navigate(["/orders"]);
-        // }
-        this.addNewBillingData();
-      });
-    console.log("confirm");
+    // swal
+    //   .fire({
+    //     title: "Confirmation",
+    //     text: "Payment successfully been made!",
+    //     icon: "info",
+    //     buttonsStyling: false,
+    //     confirmButtonText: "Okay",
+    //     customClass: {
+    //       confirmButton: "btn btn-primary ",
+    //     },
+    //   })
+    //   .then((result) => {
+    //     // if (result.value) {
+    //     //   this.router.navigate(["/orders"]);
+    //     // }
+    //     this.addNewBillingData();
+    //   });
+    // console.log("confirm");
+    this.tryMakePayment()
   }
 
   successAlert(task) {
@@ -162,27 +170,57 @@ export class PaymentComponent implements OnInit {
 
   tryMakePayment() {
     console.log('Payment made')
-    this.transactionForm.setValue['PymtMethod'] = this.newBillingForm.get('payment_method').value
+    this.transactionForm.setValue['PymtMethod'] = 'ANY'
     this.transactionForm.setValue['ServiceID'] = 'SM2'
-    this.transactionForm.setValue['PaymentID'] = ''
-    this.transactionForm.setValue['OrderNumber'] = ''
-    this.transactionForm.setValue['PaymentDesc'] = ''
-    this.transactionForm.setValue['MerchantCallbackURL'] = ''
-    this.transactionForm.setValue['Amount'] = ''
-    this.transactionForm.setValue['CustName'] = ''
+    this.transactionForm.setValue['PaymentID'] = 'ajfka14891'
+    this.transactionForm.setValue['OrderNumber'] = 'ODD124123'
+    this.transactionForm.setValue['PaymentDesc'] = 'Testing 1 2 3'
+    this.transactionForm.setValue['MerchantCallbackURL'] = 'http://localhost:4200/#/terms-conditions'
+    this.transactionForm.setValue['Amount'] = '100'
+    this.transactionForm.setValue['CustName'] = 'Yusliadi'
     this.transactionForm.setValue['CustIP'] = this.clientIP.ip
-    this.transactionForm.setValue['CustEmail'] = ''
-    this.transactionForm.setValue['CustPhone'] = ''
-    this.transactionForm.setValue['HashValue'] = ''
+    this.transactionForm.setValue['CustEmail'] = 'test@prototype.com.my'
+    this.transactionForm.setValue['CustPhone'] = '0192846541'
+    this.transactionForm.setValue['HashValue'] = this.hashTheShit()
     this.transactionForm.setValue['MerchantTermsURL'] = 'http://localhost:4200/#/terms-conditions'
+
+    this.pay()
   }
 
-  getClientIP() {
+
+  pay() {
+    let serviceUrl = 'https://test2pay.ghl.com/IPGSG/Payment.aspx'
+    return this.http.post<any>(serviceUrl, this.transactionForm.value, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+    }).pipe(
+      tap((res) => {
+        console.log("Payment", res);
+      })
+    );
+  }
+
+  getClientIP(): any {
     this.IpService.get().subscribe(
       () => {
         this.clientIP = this.IpService.ip
       }
     )
+  }
+
+  hashTheShit() {
+    let merchantPwd = 'sm212345'
+    let merchantID = 'SM2'
+    let paymentID = 'ajfka14891'
+    let merchantReturnURL = 'http://localhost:4200/#/terms-conditions'
+    let amount = '100'
+    let currencyCode = 'MYR'
+    let custIP = this.clientIP
+    let pageTimeout = '780'
+    // Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
+    let valueToHash = merchantPwd+merchantID+paymentID+merchantReturnURL+amount+currencyCode+custIP+pageTimeout
+
+    return sjcl.hash.sha256.hash(valueToHash)
   }
 
 }
