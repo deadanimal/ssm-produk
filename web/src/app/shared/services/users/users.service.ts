@@ -63,4 +63,19 @@ export class UsersService {
       })
     );
   }
+
+  addQuota(id: String): Observable<User> {
+    let urlAddQuota = this.urlUser + id + "/add_egov_quota/";
+    console.log("url --> ", urlAddQuota);
+    return this.http.post<any>(urlAddQuota, id).pipe(
+      tap(
+        (res) => {
+          console.log("User: ", res);
+        },
+        (err) => {
+          console.log("User: ", err);
+        }
+      )
+    );
+  }
 }
