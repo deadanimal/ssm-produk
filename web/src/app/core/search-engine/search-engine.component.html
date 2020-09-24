@@ -1,230 +1,244 @@
 <header class="header-2 skew-separator">
-  <div class="page-header">
-    <div class="page-header-image" style="background-image: url('assets/img/background/menara_ssm.jpg')"></div>
-    <div class="container pt-300">
-      <div class="cd-section">
-        <div class="section features-7">
-          <div class="container mt-2">
-            <div class="row">
-              <div class="col">
-                <h4 class="display-3 text-center">
-                  <strong>Search Company and Business Information</strong>
-                </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+	<div class="page-header">
+		<div class="page-header-image" style="background-image: url('assets/img/background/menara_ssm.jpg')"></div>
+		<div class="container pt-300">
+			<div class="cd-section">
+				<div class="section features-7">
+					<div class="container mt-2">
+						<div class="row">
+							<div class="col">
+								<h4 class="display-3 text-center">
+									<strong>Search Company and Business Information</strong>
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-      <div class="container mb-9">
-        <div class="row">
-          <div class="col">
-            <div class="card card-raised card-form-horizontal">
-              <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <div class="input-group" [ngClass]="{ focused: focus === true }">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-info"> </i>
-                          </span>
-                        </div>
-                        <input placeholder="Type company, business or audit firm to search..." type="text"
-                          (blur)="focus = false" (focus)="focus = true" name="datatable_length"
-                          aria-controls="datatable" class="form-control" (change)="filterTable($event)" />
-                      </div>
-                    </div>
+			<div class="container mb-9">
+				<div class="row">
+					<div class="col">
+						<div class="card card-raised card-form-horizontal">
+							<div class="card-body">
+								<form>
+									<div class="row">
+										<div class="col-sm-8">
+											<div class="input-group" [ngClass]="{ focused: focus === true }">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-info"> </i>
+													</span>
+												</div>
+												<input placeholder="Type company, business or audit firm to search..."
+													type="text" (blur)="focus = false" (focus)="focus = true"
+													name="datatable_length" aria-controls="datatable"
+													class="form-control" (change)="filterTable($event)" />
+											</div>
+										</div>
 
-                    <div class="col-sm-2">
-                      <div class="input-group">
-                        <select class="form-control">
-                          <option selected>All Entities</option>
-                          <option>Business</option>
-                          <option>Company</option>
-                          <option>Audit Firm</option>
-                        </select>
-                      </div>
-                    </div>
+										<div class="col-sm-2">
+											<div class="input-group">
+												<select class="form-control">
+													<option selected>All Entities</option>
+													<option>Business</option>
+													<option>Company</option>
+													<option>Audit Firm</option>
+												</select>
+											</div>
+										</div>
 
-                    <div class="col-sm-2">
-                      <button class="btn btn-ssm btn-round" type="button" (click)="search()">
-                        Search
-                      </button>
-                    </div>
-                  </div>
-                  <span class="text-small text-light">Please exclude sysmbol ("-") and alphabet ("A") Example:
-                    "123" instead "1234-A".</span>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+										<div class="col-sm-2">
+											<button class="btn btn-ssm btn-round" type="button" (click)="search()">
+												Search
+											</button>
+										</div>
+									</div>
+									<span class="text-small text-light">Please exclude sysmbol ("-") and alphabet ("A")
+										Example:
+										"123" instead "1234-A".</span>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </header>
 
 <div class="wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="card" *ngIf="!isEmpty && isGotResult">
-          <div class="card-header">
-            <div class="row">
-              <div class="col">
-                <h4 class="m-0">Search Result</h4>
-              </div>
-              <div class="col text-right">
-                <button class="btn btn-default" (click)="successAlert()">
-                  Export
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="dataTables_wrapper py-4">
-              <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined"
-                [rows]="tableTemp" (activate)="onActivate($event)">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="card" *ngIf="!isEmpty && isGotResult">
+					<div class="card-header">
+						<div class="row">
+							<div class="col">
+								<h4 class="m-0">Search Result</h4>
+							</div>
+							<div class="col text-right">
+								<button class="btn btn-default rounded-pill" (click)="successAlert()">
+									Export
+								</button>
+							</div>
+						</div>
+					</div>
 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Entity No.</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div *ngIf="row.type_of_entity == 'AD'">
-                      {{ row.audit_firm_number }}
-                    </div>
-                    <div *ngIf="row.type_of_entity == 'BS'">
-                      {{ row.registration_number_new }} / ({{ row.registration_number }} - {{row.check_digit}})
-                      </div>
-                      <div *ngIf="row.type_of_entity == 'CP'">
-                      {{ row.company_number_new }} / ({{ row.company_number }} - {{row.check_digit}})
-                      </div>
-                  </ng-template>
-                </ngx-datatable-column>
+					<div class="card-body">
+						<div class="dataTables_wrapper py-4">
+							<ngx-datatable 
+								class="bootstrap selection-cell"
+								[columnMode]="'force'"
+								[headerHeight]="50"
+								[footerHeight]="50"
+								[rowHeight]="'auto'"
+								[limit]="tableEntries != -1 ? tableEntries : undefined" 
+								[rows]="tableTemp"
+								(activate)="onActivate($event)"
+							>
 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Entity Name</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.name }}
-                  </ng-template>
-                </ngx-datatable-column>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Entity No.</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<div *ngIf="row.type_of_entity == 'AD'">
+											{{ row.audit_firm_number }}
+										</div>
+										<div *ngIf="row.type_of_entity == 'BS'">
+											{{ row.registration_number_new }} / ({{ row.registration_number }} -
+											{{row.check_digit}})
+										</div>
+										<div *ngIf="row.type_of_entity == 'CP'">
+											{{ row.company_number_new }} / ({{ row.company_number }} -
+											{{row.check_digit}})
+										</div>
+									</ng-template>
+								</ngx-datatable-column>
 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Entity Type</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div *ngIf="row.type_of_entity == 'AD'">
-                      Audit Firm
-                    </div>
-                    <div *ngIf="row.type_of_entity == 'BS'">
-                      Business
-                    </div>
-                    <div *ngIf="row.type_of_entity == 'CP'">
-                      Company
-                    </div>
-                  </ng-template>
-                </ngx-datatable-column>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Entity Name</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										{{ row.name }}
+									</ng-template>
+								</ngx-datatable-column>
 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span></span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button 
-                      class="btn btn-icon btn-3 btn-sm btn-primary"
-                      type="button"
-                      (click)="navigatePage('/product-listing', row)"
-                    >
-                      <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
-                      <span class="btn-inner--text">View</span>
-                    </button>
-                  </ng-template>
-                </ngx-datatable-column>
-              </ngx-datatable>
-              <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <div class="dataTables_length" id="datatable_submitted_length">
-                    <label>
-                      Show
-                      <select name="datatable_submitted_length" aria-controls="datatable"
-                        class="form-control form-control-sm" (change)="entriesChange($event)">
-                        <option value="10" [selected]="tableEntries == 10">10</option>
-                        <option value="25" [selected]="tableEntries == 25">25</option>
-                        <option value="50" [selected]="tableEntries == 50">50</option>
-                        <option value="100" [selected]="tableEntries == 100">100</option>
-                        <option value="-1" [selected]="tableEntries == -1">All</option>
-                      </select>
-                      record
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Entity Type</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<div *ngIf="row.type_of_entity == 'AD'">
+											Audit Firm
+										</div>
+										<div *ngIf="row.type_of_entity == 'BS'">
+											Business
+										</div>
+										<div *ngIf="row.type_of_entity == 'CP'">
+											Company
+										</div>
+									</ng-template>
+								</ngx-datatable-column>
 
-    <br /><br />
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span></span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<button class="btn btn-icon btn-3 btn-sm btn-primary" type="button"
+											(click)="navigatePage('/product-listing', row)">
+											<span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
+											<span class="btn-inner--text">View</span>
+										</button>
+									</ng-template>
+								</ngx-datatable-column>
+							</ngx-datatable>
 
-    <div class="row text-center pb-4" *ngIf="user_type != 'EG'">
-      <div class="col" style="cursor: pointer" (click)="navigatePage('/customized-data')">
-        <img src="assets/img/icons/12.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip1" />
-        <br /><br />
-        <h1 style="color: #231e6d">Customized Data</h1>
-        <!-- style="background-color: #231e6d !important" -->
-        <ng-template #tooltip1 style="width: 200px; height: 200px">
-          <div>
-            <p>To purchase company data according to package.</p>
-          </div>
-        </ng-template>
-      </div>
-      <div class="col" style="cursor: pointer" (click)="navigatePage('/cbid')">
-        <img src="assets/img/icons/5.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip2" />
-        <br /><br />
-        <h1 style="color: #231e6d">
-          Corporate and Business Operated Data (CBID)
-        </h1>
-        <ng-template #tooltip2>
-          <div>
-            <p>To purchase company data in bulk.</p>
-          </div>
-        </ng-template>
-      </div>
-      <div class="col" style="cursor: pointer" (click)="navigatePage('/personal-involvement')">
-        <img src="assets/img/icons/9.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip3" />
-        <br /><br />
-        <h1 style="color: #231e6d">Personal Involvement</h1>
-        <ng-template #tooltip3>
-          <div>
-            <p>
-              To purchase personal involvment information in any company or
-              business
-            </p>
-          </div>
-        </ng-template>
-      </div>
-    </div>
+							<div class="row">
+								<div class="col-sm-12 col-md-6">
+									<div class="dataTables_length" id="datatable_submitted_length">
+										<label>
+											Show
+											<select 
+												name="datatable_submitted_length" 
+												aria-controls="datatable"
+												class="form-control form-control-sm" 
+												(change)="entriesChange($event)"
+											>
+												<option value="10" [selected]="tableEntries == 10">10</option>
+												<option value="25" [selected]="tableEntries == 25">25</option>
+												<option value="50" [selected]="tableEntries == 50">50</option>
+												<option value="100" [selected]="tableEntries == 100">100</option>
+												<option value="-1" [selected]="tableEntries == -1">All</option>
+											</select>
+											record
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <br /><br />
+		<br /><br />
 
-    <div class="row">
-      <div class="col mt-3">
-        <img src="assets/img/background/how.png" style="width: 100%" />
-      </div>
-    </div>
-  </div>
+		<div class="row text-center pb-4" *ngIf="user_type != 'EG'">
+			<div class="col" style="cursor: pointer" (click)="navigatePage('/customized-data')">
+				<img src="assets/img/icons/12.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip1" />
+				<br /><br />
+				<h1 style="color: #231e6d">Customized Data</h1>
+				<!-- style="background-color: #231e6d !important" -->
+				<ng-template #tooltip1 style="width: 200px; height: 200px">
+					<div>
+						<p>To purchase company data according to package.</p>
+					</div>
+				</ng-template>
+			</div>
+			<div class="col" style="cursor: pointer" (click)="navigatePage('/cbid')">
+				<img src="assets/img/icons/5.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip2" />
+				<br /><br />
+				<h1 style="color: #231e6d">
+					Corporate and Business Operated Data (CBID)
+				</h1>
+				<ng-template #tooltip2>
+					<div>
+						<p>To purchase company data in bulk.</p>
+					</div>
+				</ng-template>
+			</div>
+			<div class="col" style="cursor: pointer" (click)="navigatePage('/personal-involvement')">
+				<img src="assets/img/icons/9.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip3" />
+				<br /><br />
+				<h1 style="color: #231e6d">Personal Involvement</h1>
+				<ng-template #tooltip3>
+					<div>
+						<p>
+							To purchase personal involvment information in any company or
+							business
+						</p>
+					</div>
+				</ng-template>
+			</div>
+		</div>
 
-  <div class="row">
-    <div class="col-md-12 mx-auto mb-3 pt-6">
-      <carousel>
-        <!-- <slide>
+		<br /><br />
+
+		<div class="row">
+			<div class="col mt-3">
+				<img src="assets/img/background/how.png" style="width: 100%" />
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 mx-auto mb-3 pt-6">
+			<carousel>
+				<!-- <slide>
                     <div class="row">
                         <div class="col pl-8">
                             <p class="m-0"><strong>PRODUCT BANNER</strong></p>
@@ -255,24 +269,24 @@
                         </div>
                     </div>
                 </slide> -->
-        <slide>
-          <img [src]="slider1" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
-        </slide>
-        <slide>
-          <img [src]="slider2" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
-        </slide>
-        <slide>
-          <img [src]="slider3" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
-        </slide>
+				<slide>
+					<img [src]="slider1" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+				</slide>
+				<slide>
+					<img [src]="slider2" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+				</slide>
+				<slide>
+					<img [src]="slider3" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+				</slide>
 
-        <slide>
-          <img [src]="slider4" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
-        </slide>
-      </carousel>
-    </div>
-  </div>
+				<slide>
+					<img [src]="slider4" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+				</slide>
+			</carousel>
+		</div>
+	</div>
 </div>
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
-  <p style="color: white">Loading...</p>
+	<p style="color: white">Loading...</p>
 </ngx-spinner>
