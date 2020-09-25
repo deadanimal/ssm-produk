@@ -306,7 +306,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             json_response = get_image(url_docu, headers, registration_number, entity_type)  
 
         elif request_service_name == 'getImageList':            
-            json_response = get_image_list(url_docu, headers, registration_number, entity_type) 
+            json_response = get_image_list(url_docu, headers, registration_number) 
 
         # Document and Form View + Download + CTC getImageViewCTC
 

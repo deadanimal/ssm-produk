@@ -147,8 +147,21 @@ export class SearchEngineComponent implements OnInit {
   }
 
   search() {
-    this.isEmpty = false
-    this.isGotResult = true
+    // this.isEmpty = false
+    // this.isGotResult = true
+    
+    this.spinner.show()
+    // console.log(this.tableTemp.length)
+    setTimeout(() => {
+      this.spinner.hide()
+      if (this.tableTemp.length >= 1) {
+        this.isEmpty = false
+        this.isGotResult = true
+      }
+      else {
+        this.notFound()
+      }
+    }, 2000)
     // if (this.searchField == '') {
 
     // }
@@ -269,6 +282,8 @@ export class SearchEngineComponent implements OnInit {
   filterTable($event) {
     let val = $event.target.value.toLowerCase();
     this.tableTemp = this.tableRows.filter(function(d) {
+      // console.log(this.tableTemp)
+      // console.log(d.name.toLowerCase().indexOf(val) !== -1 || !val)
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
   }

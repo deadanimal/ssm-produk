@@ -62,7 +62,10 @@ class CartCBID(models.Model):
 class CartProduct(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    product = models.ManyToManyField(Product)
+    entity = models.CharField(null=True, max_length=255)
+    product_type = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    entity_registration_number = models.CharField(null=True, max_length=255)
+    # product = models.ManyToManyField(Product)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

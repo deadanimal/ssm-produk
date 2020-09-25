@@ -4,11 +4,19 @@
 }
 .showborder {
   // background: #eee;
-  border-top: 1px solid transparent;
+  border-top: 0.0625rem solid #e9ecef !important;
 }
 
 .showborder:hover {
   // background: #e1e1e1;
-  border: 1px solid #000;
+  border: 0.0625rem solid #000;
   // border-top: 1px solid #000;
+}
+
+.rounded-extra {
+  border-radius: 0.75rem !important;
+}
+
+.cursor-p {
+  cursor: pointer;
 }
