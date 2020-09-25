@@ -50,13 +50,13 @@ export class CartComponent implements OnInit {
       search_criteria: "Bore Pile",
       total_pages: "Afizi",
       total_company: "AC",
-      unit_price: "RM 301,900.00",
+      unit_price: "RM 100,000.00",
       total_price: "RM 150,000.00",
       created_at: "2019-07-27T01:07:14Z",
       total: "Bore Pile",
       sst: "Afizi",
       total_amount: "AC",
-      products: "RM 301,900.00",
+      products: "RM 100,000.00",
     },
     {
       search_criteria: "Micro Pile",
@@ -68,7 +68,7 @@ export class CartComponent implements OnInit {
       total: "Bore Pile",
       sst: "Afizi",
       total_amount: "AC",
-      products: "RM 301,900.00",
+      products: "RM 100,000.00",
     },
     {
       search_criteria: "Crosshead",
@@ -80,7 +80,7 @@ export class CartComponent implements OnInit {
       total: "Bore Pile",
       sst: "Afizi",
       total_amount: "AC",
-      products: "RM 301,900.00",
+      products: "RM 100,000.00",
     },
     {
       search_criteria: "Crosshead",
@@ -92,7 +92,7 @@ export class CartComponent implements OnInit {
       total: "Bore Pile",
       sst: "Afizi",
       total_amount: "AC",
-      products: "RM 301,900.00",
+      products: "RM 100,000.00",
     },
     {
       search_criteria: "Crosshead",
@@ -104,7 +104,7 @@ export class CartComponent implements OnInit {
       total: "Bore Pile",
       sst: "Afizi",
       total_amount: "AC",
-      products: "RM 301,900.00",
+      products: "RM 100,000.00",
     },
   ];
 

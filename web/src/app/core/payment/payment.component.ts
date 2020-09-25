@@ -17,6 +17,7 @@ import { Ip } from 'src/app/shared/services/ip/ip.model';
 import { tap } from "rxjs/operators";
 import * as sjcl from 'sjcl';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as sha from 'js-sha256'
 
 @Component({
   selector: "app-payment",
@@ -122,25 +123,25 @@ export class PaymentComponent implements OnInit {
   }
 
   makePayment() {
-    // swal
-    //   .fire({
-    //     title: "Confirmation",
-    //     text: "Payment successfully been made!",
-    //     icon: "info",
-    //     buttonsStyling: false,
-    //     confirmButtonText: "Okay",
-    //     customClass: {
-    //       confirmButton: "btn btn-primary ",
-    //     },
-    //   })
-    //   .then((result) => {
-    //     // if (result.value) {
-    //     //   this.router.navigate(["/orders"]);
-    //     // }
-    //     this.addNewBillingData();
-    //   });
-    // console.log("confirm");
-    this.tryMakePayment()
+    swal
+      .fire({
+        title: "Confirmation",
+        text: "Payment successfully been made!",
+        icon: "info",
+        buttonsStyling: false,
+        confirmButtonText: "Okay",
+        customClass: {
+          confirmButton: "btn btn-primary ",
+        },
+      })
+      .then((result) => {
+        // if (result.value) {
+        //   this.router.navigate(["/orders"]);
+        // }
+        this.addNewBillingData();
+      });
+    console.log("confirm");
+    // this.tryMakePayment()
   }
 
   successAlert(task) {
@@ -170,33 +171,38 @@ export class PaymentComponent implements OnInit {
 
   tryMakePayment() {
     console.log('Payment made')
-    this.transactionForm.setValue['PymtMethod'] = 'ANY'
-    this.transactionForm.setValue['ServiceID'] = 'SM2'
-    this.transactionForm.setValue['PaymentID'] = 'ajfka14891'
-    this.transactionForm.setValue['OrderNumber'] = 'ODD124123'
-    this.transactionForm.setValue['PaymentDesc'] = 'Testing 1 2 3'
-    this.transactionForm.setValue['MerchantCallbackURL'] = 'http://localhost:4200/#/terms-conditions'
-    this.transactionForm.setValue['Amount'] = '100'
-    this.transactionForm.setValue['CustName'] = 'Yusliadi'
-    this.transactionForm.setValue['CustIP'] = this.clientIP.ip
-    this.transactionForm.setValue['CustEmail'] = 'test@prototype.com.my'
-    this.transactionForm.setValue['CustPhone'] = '0192846541'
-    this.transactionForm.setValue['HashValue'] = this.hashTheShit()
-    this.transactionForm.setValue['MerchantTermsURL'] = 'http://localhost:4200/#/terms-conditions'
+    this.transactionForm.controls['PymtMethod'].setValue('ANY')
+    this.transactionForm.controls['ServiceID'].setValue('SM2')
+    this.transactionForm.controls['PaymentID'].setValue('ajfka14891')
+    this.transactionForm.controls['OrderNumber'].setValue('ODD124123')
+    this.transactionForm.controls['PaymentDesc'].setValue('Testing 1 2 3')
+    this.transactionForm.controls['MerchantCallbackURL'].setValue('https://portal.ssm.prototype.com.my//#/payment')
+    this.transactionForm.controls['Amount'].setValue('100')
+    this.transactionForm.controls['CustName'].setValue('Yusliadi')
+    this.transactionForm.controls['CustIP'].setValue('1.1.1.1')
+    this.transactionForm.controls['CustEmail'].setValue('test@prototype.com.my')
+    this.transactionForm.controls['CustPhone'].setValue('0192846541')
+    this.transactionForm.controls['HashValue'].setValue(this.hashTheShit())
+    this.transactionForm.controls['MerchantTermsURL'].setValue('https://portal.ssm.prototype.com.my/#/terms-conditions')
 
-    this.pay()
+    this.pay().subscribe()
   }
 
 
   pay() {
     let serviceUrl = 'https://test2pay.ghl.com/IPGSG/Payment.aspx'
-    return this.http.post<any>(serviceUrl, this.transactionForm.value, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-    }).pipe(
-      tap((res) => {
+    const headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/x-www-form-urlencoded')
+    headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+    return this.http.post<any>(serviceUrl, this.transactionForm.value, {headers: headers}).pipe(
+      tap(
+        (res) => {
         console.log("Payment", res);
-      })
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
     );
   }
 
@@ -212,15 +218,15 @@ export class PaymentComponent implements OnInit {
     let merchantPwd = 'sm212345'
     let merchantID = 'SM2'
     let paymentID = 'ajfka14891'
-    let merchantReturnURL = 'http://localhost:4200/#/terms-conditions'
+    let merchantReturnURL = 'https://portal.ssm.prototype.com.my/#/terms-conditions'
     let amount = '100'
     let currencyCode = 'MYR'
-    let custIP = this.clientIP
+    let custIP = '1.1.1.1'
     let pageTimeout = '780'
     // Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
     let valueToHash = merchantPwd+merchantID+paymentID+merchantReturnURL+amount+currencyCode+custIP+pageTimeout
-
-    return sjcl.hash.sha256.hash(valueToHash)
+    console.log('val', sha.sha256(valueToHash))
+    return sha.sha256(valueToHash)
   }
 
 }

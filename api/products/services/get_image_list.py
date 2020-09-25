@@ -5,25 +5,25 @@ import xmltodict
 def get_image_list(url, headers, registration_number):
 
    payload = """
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/DocufloService/1/WS"> 
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://integrasistg.ssm.com.my/DocufloService/1/WS"> 
     <soapenv:Header/>
     <soapenv:Body>
-        <ws:getImage> 
+        <doc:getImageList> 
             <!--Optional:--> 
             <header>
                 <!--Optional:-->
                 <customerId>SSMProduk</customerId>
                 <!--Optional:--> 
-                <customerReferenceNo>SSMProduk_123</customerReferenceNo> 
+                <customerReferenceNo>SSMProduk</customerReferenceNo> 
                 <!--Optional:--> 
-                <customerRequestDate>2020-09-18T04:05:01</customerRequestDate>
+                <customerRequestDate></customerRequestDate>
             </header> 
             <!--Optional:--> 
             <request>
                 <!--Optional:--> 
-                <docufloImg>
+                <docufloImgList>
                     <!--Optional:--> 
-                    <companyNo>1097967-P</companyNo> 
+                    <companyNo>""" + str(registration_number) + """</companyNo> 
                     <!--Optional:--> 
                     <docProfile>ROC1</docProfile> 
                     <!--Optional:--> 
@@ -33,21 +33,21 @@ def get_image_list(url, headers, registration_number):
                     <!--Optional:--> 
                     <invoiceNo></invoiceNo> 
                     <!--Optional:--> 
-                    <ipaddress></ipaddress> 
+                    <ipaddress>?</ipaddress> 
                     <!--Optional:-->
                     <remark></remark>
                     <!--Optional:--> 
-                    <tableId></tableId> 
+                    <tableId>ROCINFO</tableId> 
                     <!--Optional:--> 
                     <type>INFODOCPURC</type> 
                     <!--Optional:-->
                     <userName>appadmin</userName> 
                     <!--Optional:--> 
                     <userPwd>p@ss1234</userPwd> 
-                    <verId>3961586</verId>
-                </docufloImg> 
+                    <verId>3412175</verId>
+                </docufloImgList> 
             </request>
-        </ws:getImage> 
+        </doc:getImageList> 
     </soapenv:Body>
 </soapenv:Envelope>
 """
@@ -56,5 +56,5 @@ def get_image_list(url, headers, registration_number):
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
 #    return middleware_response_json['takdaresponse lagi']
-   print(middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageResponse']['response'])
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageResponse']['response']['getImageReturn']
+   print(middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageListResponse']['response'])
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageListResponse']['response']['getImageListReturn']
