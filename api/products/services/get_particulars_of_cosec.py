@@ -2,30 +2,22 @@ import requests
 import json
 import xmltodict
 
-def get_particulars_of_cosec(url, headers, registration_number):
+def get_particulars_of_cosec(url, headers, registration_number, designation):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
     <soapenv:Header/>
     <soapenv:Body>
         <inf:getParticularsOfCosec> 
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
-                <customerId>SSMProduk</customerId>
-                <!--Optional:--> 
-                <customerReferenceNo></customerReferenceNo> 
-                <!--Optional:--> 
-                <customerRequestDate>2019-09-10T00:00:00Z</customerRequestDate>
-            </header> 
-            <!--Optional:--> 
-            <request>
-                <!--Optional:--> 
-                <req>
-                    <!--Optional:--> 
-                    <companyNo>""" + str(registration_number) + """</companyNo> 
-                    <!--Optional:--> 
-                    <designation>S</designation>
+                <customerId>SSMProduk</customerId> 
+                <customerReferenceNo></customerReferenceNo>  
+                <customerRequestDate></customerRequestDate>
+            </header>  
+            <request> 
+                <req> 
+                    <companyNo>""" + str(registration_number) + """</companyNo>  
+                    <designation>""" + str(designation) + """</designation>
                 </req> 
             </request>
         </inf:getParticularsOfCosec> 

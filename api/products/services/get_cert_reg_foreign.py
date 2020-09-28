@@ -9,28 +9,18 @@ def get_cert_reg_foreign(url, headers, registration_number):
     <soapenv:Header />
     <soapenv:Body>
         <inf:getCertRegForeign>
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
-            <!--Optional:-->
             <request>
-                <!--Optional:-->
                 <supplyCertRegForeignReq>
-                    <!--Optional:-->
                     <checkDigit>V</checkDigit>
-                    <!--Optional:-->
                     <companyNo>""" + str(registration_number) + """</companyNo>
                     <gstAmount>0</gstAmount>
                     <infoAmount>0</infoAmount>
-                    <!--Optional:-->
                     <invoiceNo>0</invoiceNo>
-                    <!--Optional:-->
                     <type></type>
                 </supplyCertRegForeignReq>
             </request>

@@ -21,10 +21,34 @@ from tickets.models import (
     TicketCBID
 )
 
+class CartProduct(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    entity = models.CharField(null=True, max_length=255)
+    product_type = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    entity_registration_number = models.CharField(null=True, max_length=255)
+    # product = models.ManyToManyField(Product)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']
+    
+    # def __str__(self):
+    #     return self.id
+
+
 class Transaction(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, default='NA')
+
+    total_amount = models.IntegerField(null=True)
+    reference_no = models.CharField(null=True, max_length=255)
+    is_paid = models.BooleanField(default=False)
+
+    cart = models.ForeignKey(CartProduct, on_delete=models.CASCADE, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -32,8 +56,8 @@ class Transaction(models.Model):
     class meta:
         ordering = ['name']
     
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.id
 
 
 class CartCBID(models.Model):
@@ -49,23 +73,6 @@ class CartCBID(models.Model):
     total = models.IntegerField(default=1)
     sst = models.FloatField(default=1.8)
     total_amount = models.FloatField(default=31.8)
-
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-
-    class meta:
-        ordering = ['created_date']
-    
-    def __str__(self):
-        return self.id
-
-class CartProduct(models.Model):
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    entity = models.CharField(null=True, max_length=255)
-    product_type = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    entity_registration_number = models.CharField(null=True, max_length=255)
-    # product = models.ManyToManyField(Product)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

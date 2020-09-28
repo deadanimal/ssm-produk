@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_info_rob_termination(url, headers, registration_number, entity_type):
+def get_info_rob_termination(url, headers, registration_number):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -22,7 +22,7 @@ def get_info_rob_termination(url, headers, registration_number, entity_type):
                     <invoiceNo></invoiceNo>
                     <ipaddress></ipaddress>
                     <lastUpdateDate></lastUpdateDate>
-                    <regNo>JM0283860</regNo>
+                    <regNo>""" + registration_number + """</regNo>
                     <remark></remark>
                     <tableId>ROBINFO</tableId>
                     <type>INFOROBTERLT</type>

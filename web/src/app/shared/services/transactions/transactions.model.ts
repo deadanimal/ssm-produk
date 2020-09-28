@@ -13,6 +13,8 @@ export class Transaction {
   // public discount_charge: string;
   // public net_amount: string;
   // public ca_charge: string;
+  public cart: string;
+  public total_amount: string;
   public created_date: string;
   public modified_date: string;
 
@@ -31,6 +33,8 @@ export class Transaction {
     // discount_charge: string,
     // net_amount: string,
     // ca_charge: string,
+    cart: string,
+    total_amount: string,
     created_date: string,
     modified_date: string
   ) {
@@ -48,6 +52,8 @@ export class Transaction {
     // this.discount_charge = discount_charge;
     // this.net_amount = net_amount;
     // this.ca_charge = ca_charge;
+    this.cart = cart
+    this.total_amount = total_amount
     this.created_date = created_date;
     this.modified_date = modified_date;
   }

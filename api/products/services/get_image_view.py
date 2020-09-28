@@ -9,43 +9,25 @@ def get_image_view(url, headers, registration_number):
     <soapenv:Header/>
     <soapenv:Body>
         <doc:getImageView> 
-            <!--Optional:--> 
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:--> 
-                <customerRequestDate>2020-09-29T00:00:00Z</customerRequestDate>
+                <customerRequestDate></customerRequestDate>
             </header> 
-            <!--Optional:--> 
             <request>
-                <!--Optional:--> 
                 <docufloReq>
-                    <!--Optional:--> 
                     <criteria>CompanyNo</criteria>
-                    <!--Optional:--> 
                     <docProfile></docProfile> 
-                    <!--Optional:--> 
                     <gstAmount>0</gstAmount> 
-                    <!--Optional:--> 
                     <infoAmount>0</infoAmount> 
-                    <!--Optional:--> 
                     <invoiceNo>0</invoiceNo> 
-                    <!--Optional:--> 
                     <ipaddress></ipaddress> 
                     <maxResult>1</maxResult>
-                     <!--Optional:-->
                     <remark></remark>
-                    <!--Optional:--> 
                     <searchValue>""" + str(registration_number) + """</searchValue> 
-                    <!--Optional:--> 
                     <tableId></tableId> 
-                    <!--Optional:--> 
                     <type></type> 
-                    <!--Optional:--> 
                     <userName>appadmin</userName> 
-                    <!--Optional:--> 
                     <userPwd>p@ss1234</userPwd>
                 </docufloReq>
             </request> 

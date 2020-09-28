@@ -9,12 +9,9 @@ def get_info_comp_name_chg(url, headers, registration_number):
     <soapenv:Header />
     <soapenv:Body>
         <inf:getInfoCompNameChg>
-            <!--Optional:-->
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>

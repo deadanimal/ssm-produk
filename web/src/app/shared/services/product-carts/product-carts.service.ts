@@ -31,6 +31,7 @@ export class ProductCartsService {
   getAll(): Observable<ProductCart[]> {
     return this.http.get<ProductCart[]>(this.urlProductCart).pipe(
       tap((res) => {
+        this.ProductCarts = res
         console.log("ProductCarts: ", res);
       })
     );
