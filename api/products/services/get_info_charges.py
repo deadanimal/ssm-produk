@@ -11,16 +11,14 @@ def get_info_charges(url, headers, registration_number):
         <inf:getInfoCharges>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>
                 <supplyChargesReq>
                     <coNo>""" + str(registration_number) + """</coNo>
-                    <gstAmount></gstAmount>
-                    <infoAmount></infoAmount>
+                    <gstAmount>0</gstAmount>
+                    <infoAmount>0</infoAmount>
                     <invoiceNo></invoiceNo>
                     <ipaddress></ipaddress>
                     <remark></remark>

@@ -13,7 +13,12 @@ def info_fin_2(mdw_1, mdw_2, lang):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
-    temp_comp_status_old = data_mdw_1['compStatus']
+
+    import pprint
+    pp = pprint.PrettyPrinter(indent=1)
+    #pp.pprint(mdw_1)
+
+    temp_comp_status_old = data_mdw_1['rocCompanyInfo']['companyStatus']
     
     if temp_comp_status_old == 'E':
         temp_comp_status_new = 'Existing'
@@ -22,12 +27,11 @@ def info_fin_2(mdw_1, mdw_2, lang):
     elif temp_comp_status_old == 'D':
         temp_comp_status_new = 'Dissolved'
 
-    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-
-
+    
     temp_comp_info_change_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_comp_info_change_date_new = temp_comp_info_change_date_old(pytz.timezone(time_zone)).strftime(date_format)
+    temp_comp_info_change_date_new = temp_comp_info_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
     temp_comp_info_incorp_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_comp_info_incorp_date_new = temp_comp_info_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
@@ -245,122 +249,178 @@ def info_fin_2(mdw_1, mdw_2, lang):
     else:
         temp_biz_town_new = temp_biz_town_old
 
-    financial_1 = data_mdw_1['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']
-    financial_2 = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
+    balance_sheet_list = data_mdw_1['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']
+    profit_loss_list = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
+
+    balance_sheet_data = []
+
+    for bs_item in balance_sheet_list:
     
-    temp_audit_address_1_old = financial_1['auditFirmAddress1']
-    temp_audit_address_2_old = financial_1['auditFirmAddress2']
-    temp_audit_address_3_old = financial_1['auditFirmAddress3']
-    temp_audit_postcode_old = financial_1['auditFirmPostcode']
-    temp_audit_town_old = financial_1['auditFirmTown']
-    temp_audit_state_old = financial_1['auditFirmState']
+        temp_audit_address_1_old = bs_item['auditFirmAddress1']
+        temp_audit_address_2_old = bs_item['auditFirmAddress2']
+        temp_audit_address_3_old = bs_item['auditFirmAddress3']
+        temp_audit_postcode_old = bs_item['auditFirmPostcode']
+        temp_audit_town_old = bs_item['auditFirmTown']
+        temp_audit_state_old = bs_item['auditFirmState']
 
-    if temp_audit_address_1_old == 'TIADA FAIL':
-        temp_audit_address_1_new = None
-    elif temp_audit_address_1_old == None:
-        temp_audit_address_1_new = None
-    else:
-        temp_audit_address_1_new = temp_audit_address_1_old
+        if temp_audit_address_1_old == 'TIADA FAIL':
+            temp_audit_address_1_new = None
+        elif temp_audit_address_1_old == None:
+            temp_audit_address_1_new = None
+        else:
+            temp_audit_address_1_new = temp_audit_address_1_old
 
-    if temp_audit_address_2_old == 'TIADA FAIL':
-        temp_audit_address_2_new = None
-    elif temp_audit_address_2_old == None:
-        temp_audit_address_2_new = None
-    else:
-        temp_audit_address_2_new = temp_audit_address_2_old
+        if temp_audit_address_2_old == 'TIADA FAIL':
+            temp_audit_address_2_new = None
+        elif temp_audit_address_2_old == None:
+            temp_audit_address_2_new = None
+        else:
+            temp_audit_address_2_new = temp_audit_address_2_old
 
-    if temp_audit_address_3_old == 'TIADA FAIL':
-        temp_audit_address_3_new = None
-    elif temp_audit_address_3_old == None:
-        temp_audit_address_3_new = None
-    else:
-        temp_audit_address_3_new = temp_audit_address_3_old
+        if temp_audit_address_3_old == 'TIADA FAIL':
+            temp_audit_address_3_new = None
+        elif temp_audit_address_3_old == None:
+            temp_audit_address_3_new = None
+        else:
+            temp_audit_address_3_new = temp_audit_address_3_old
 
-    if temp_audit_state_old == 'TIADA FAIL':
-        temp_audit_state_new = None
-    elif temp_audit_state_old == None:
-        temp_audit_state_new = None
-    else:
-        temp_audit_state_new = temp_audit_state_old
+        if temp_audit_state_old == 'TIADA FAIL':
+            temp_audit_state_new = None
+        elif temp_audit_state_old == None:
+            temp_audit_state_new = None
+        else:
+            temp_audit_state_new = temp_audit_state_old
 
-    if temp_audit_state_old == 'R':
-        temp_audit_state_new = 'PERLIS'
-    elif temp_audit_state_old == 'K':
-        temp_audit_state_new = 'KEDAH'
-    elif temp_audit_state_old == 'P':
-        temp_audit_state_new = 'PULAU PINANG'
-    elif temp_audit_state_old == 'D':
-        temp_audit_state_new = 'KELANTAN'
-    elif temp_audit_state_old == 'T':
-        temp_audit_state_new = 'TERENGGANU'
-    elif temp_audit_state_old == 'A':
-        temp_audit_state_new = 'PERAK'
-    elif temp_audit_state_old == 'B':
-        temp_audit_state_new = 'SELANGOR'
-    elif temp_audit_state_old == 'C':
-        temp_audit_state_new = 'PAHANG'
-    elif temp_audit_state_old == 'M':
-        temp_audit_state_new = 'MELAKA'
-    elif temp_audit_state_old == 'J':
-        temp_audit_state_new = 'JOHOR'
-    elif temp_audit_state_old == 'X':
-        temp_audit_state_new = 'SABAH'
-    elif temp_audit_state_old == 'Y':
-        temp_audit_state_new = 'SARAWAK'
-    elif temp_audit_state_old == 'L':
-        temp_audit_state_new = 'LABUAN'
-    elif temp_audit_state_old == 'W':
-        temp_audit_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_audit_state_old == 'Q':
-        temp_audit_state_new = 'SINGAPURA'
-    elif temp_audit_state_old == 'U':
-        temp_audit_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_audit_state_old == 'F':
-        temp_audit_state_new = 'FOREIGN'
-    elif temp_audit_state_old == 'I':
-        temp_audit_state_new = 'INTERNET'
-    elif temp_audit_state_old == 'S':
-        temp_audit_state_new = 'SABAH'
-    elif temp_audit_state_old == 'E':
-        temp_audit_state_new = 'SARAWAK'
+        if temp_audit_state_old == 'R':
+            temp_audit_state_new = 'PERLIS'
+        elif temp_audit_state_old == 'K':
+            temp_audit_state_new = 'KEDAH'
+        elif temp_audit_state_old == 'P':
+            temp_audit_state_new = 'PULAU PINANG'
+        elif temp_audit_state_old == 'D':
+            temp_audit_state_new = 'KELANTAN'
+        elif temp_audit_state_old == 'T':
+            temp_audit_state_new = 'TERENGGANU'
+        elif temp_audit_state_old == 'A':
+            temp_audit_state_new = 'PERAK'
+        elif temp_audit_state_old == 'B':
+            temp_audit_state_new = 'SELANGOR'
+        elif temp_audit_state_old == 'C':
+            temp_audit_state_new = 'PAHANG'
+        elif temp_audit_state_old == 'M':
+            temp_audit_state_new = 'MELAKA'
+        elif temp_audit_state_old == 'J':
+            temp_audit_state_new = 'JOHOR'
+        elif temp_audit_state_old == 'X':
+            temp_audit_state_new = 'SABAH'
+        elif temp_audit_state_old == 'Y':
+            temp_audit_state_new = 'SARAWAK'
+        elif temp_audit_state_old == 'L':
+            temp_audit_state_new = 'LABUAN'
+        elif temp_audit_state_old == 'W':
+            temp_audit_state_new = 'WILAYAH PERSEKUTUAN'
+        elif temp_audit_state_old == 'Q':
+            temp_audit_state_new = 'SINGAPURA'
+        elif temp_audit_state_old == 'U':
+            temp_audit_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
+        elif temp_audit_state_old == 'F':
+            temp_audit_state_new = 'FOREIGN'
+        elif temp_audit_state_old == 'I':
+            temp_audit_state_new = 'INTERNET'
+        elif temp_audit_state_old == 'S':
+            temp_audit_state_new = 'SABAH'
+        elif temp_audit_state_old == 'E':
+            temp_audit_state_new = 'SARAWAK'
     
-    if temp_audit_postcode_old == 'TIADA FAIL':
-        temp_audit_postcode_new = None
-    elif temp_audit_postcode_old == None:
-        temp_audit_postcode_new = None
-    else:
-        temp_audit_postcode_new = temp_audit_postcode_old
+        if temp_audit_postcode_old == 'TIADA FAIL':
+            temp_audit_postcode_new = None
+        elif temp_audit_postcode_old == None:
+            temp_audit_postcode_new = None
+        else:
+            temp_audit_postcode_new = temp_audit_postcode_old
 
-    if temp_audit_town_old == 'TIADA FAIL':
-        temp_audit_town_new = None
-    elif temp_audit_town_old == None:
-        temp_audit_town_new = None
-    else:
-        temp_audit_town_new = temp_audit_town_old
+        if temp_audit_town_old == 'TIADA FAIL':
+            temp_audit_town_new = None
+        elif temp_audit_town_old == None:
+            temp_audit_town_new = None
+        else:
+            temp_audit_town_new = temp_audit_town_old
     
-    financial_year_end_1_old = make_aware(datetime.strptime(financial_1['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_1_new = financial_year_end_1_old(pytz.timezone(time_zone)).strftime(date_format)
+        financial_year_end_old = make_aware(datetime.strptime(bs_item['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-    financial_year_end_2_old = make_aware(datetime.strptime(financial_2['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_2_new = financial_year_end_2_old(pytz.timezone(time_zone)).strftime(date_format)
+        date_of_tabling_old = make_aware(datetime.strptime(bs_item['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        date_of_tabling_new = date_of_tabling_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-    date_of_tabling_1_old = make_aware(datetime.strptime(financial_1['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    date_of_tabling_1_new = date_of_tabling_1_old(pytz.timezone(time_zone)).strftime(date_format)
+        year_data = {
+            'auditor_name': bs_item['auditFirmName'],
+            'auditor_address1': temp_audit_address_1_new,
+            'auditor_address2': temp_audit_address_2_new,
+            'auditor_address3': temp_audit_address_3_new,
+            'auditor_postcode': temp_audit_postcode_new,
+            'auditor_town': temp_audit_town_new,
+            'auditor_state': temp_audit_state_new,
+            'financial_year_end': financial_year_end_new,
+            'financialReportType': bs_item['financialReportType'],
+            'accrualAccType': bs_item['accrualAccType'],
+            'dateOfTabling': date_of_tabling_new,
+            'nonCurrAsset': float(bs_item['nonCurrAsset']),
+            'currentAsset': float(bs_item['currentAsset']),
+            'nonCurrentLiability': bs_item['nonCurrentLiability'],
+            'liability': bs_item['liability'],
+            'paidUpCapital': bs_item['paidUpCapital'],
+            'reserves': bs_item['reserves'],
+            'minorityInterest': bs_item['minorityInterest'],
+        }
+        
+        balance_sheet_data.append(year_data)
 
-    date_of_tabling_2_old = make_aware(datetime.strptime(financial_1['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    date_of_tabling_2_new = date_of_tabling_2_old(pytz.timezone(time_zone)).strftime(date_format)
+    profit_loss_data = []
+
+    for pl_item in profit_loss_list:    
+    
+        financial_year_end_old = make_aware(datetime.strptime(pl_item['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+        year_data = {
+            'extraOrdinaryItem': pl_item['extraOrdinaryItem'],
+            'financialReportType': pl_item['financialReportType'],
+            'financialYearEndDate': pl_item['financialYearEndDate'],
+            'grossDividendRate': pl_item['grossDividendRate'],
+            'inappropriateProfitBf': pl_item['inappropriateProfitBf'],
+            'inappropriateProfitCf': pl_item['inappropriateProfitCf'],
+            'minorityInterest': pl_item['minorityInterest'],
+            'netDividend': pl_item['netDividend'],
+            'others': pl_item['others'],
+            'priorAdjustment': pl_item['priorAdjustment'],
+            'profitAfterTax': pl_item['profitAfterTax'],
+            'profitBeforeTax': pl_item['profitBeforeTax'],
+            'profitShareholder': pl_item['profitShareholder'],
+            'revenue': pl_item['revenue'],
+            'surplusAfterTax': pl_item['surplusAfterTax'],
+            'surplusBeforeTax': pl_item['surplusBeforeTax'],
+            'surplusDeficitAfterTax': pl_item['surplusDeficitAfterTax'],
+            'surplusDeficitBeforeTax': pl_item['surplusDeficitBeforeTax'],
+            'totalExpenditure': pl_item['totalExpenditure'],
+            'totalIncome': pl_item['totalIncome'],
+            'totalRevenue': pl_item['totalRevenue'],
+            'transferred': pl_item['transferred'],
+            'turnover': pl_item['turnover']
+        }
+        
+        profit_loss_data.append(year_data)
 
     data_ready = {
         'corpInfo': {
-            'compName': data_mdw_1['rocCompanyInfo']['companyName']
-            'compOldName': data_mdw_1['rocCompanyInfo']['companyOldName']
+            'compName': data_mdw_1['rocCompanyInfo']['companyName'],
+            'compOldName': data_mdw_1['rocCompanyInfo']['companyOldName'],
             'changeDate': temp_comp_info_change_date_new,
             'compNoNew': data_mdw_2['newFormatNo'],
             'compNoOld': data_mdw_2['oldFormatNo'],
             'checkDigit': data_mdw_1['rocCompanyInfo']['checkDigit'],
             'incorpDate': temp_comp_info_incorp_date_new,
-            'companyType': temp_comp_type_new,
-            'companyStatus': temp_comp_status_new,
+            'companyType': temp_comp_type_old,
+            'companyStatus': temp_comp_status_old,
             'statusOfCompany': temp_status_of_comp_new,
             'reg_address1': temp_reg_address_1_new,
             'reg_address2': temp_reg_address_2_new,
@@ -370,48 +430,15 @@ def info_fin_2(mdw_1, mdw_2, lang):
             'reg_postcode': temp_reg_postcode_new,
             'reg_origin': temp_comp_origin_new,
             'biz_address1': temp_biz_address_1_new,
-            'biz_address3': temp_biz_address_2_new,
+            'biz_address2': temp_biz_address_2_new,
             'biz_address3': temp_biz_address_3_new,
             'biz_state': temp_biz_state_new,
             'biz_town': temp_biz_town_new,
             'biz_postcode': temp_biz_postcode_new,
             'biz_nature': data_mdw_1['rocCompanyInfo']['businessDescription']
         },
-        'keyFinancial': {
-            'auditor_name': financial_1['auditFirmName'],
-            'auditor_address1': temp_audit_address_1_new,
-            'auditor_address2': temp_audit_address_2_new,
-            'auditor_address3': temp_audit_address_3_new,
-            'auditor_postcode': temp_audit_postcode_new,
-            'auditor_town': temp_audit_town_new,
-            'auditor_state': temp_audit_state_new,
-            'exempt': 'N',
-            'financial_year_end_1': financial_year_end_1_new,
-            'financial_year_end_2': financial_year_end_2_new,
-            'financialReportType_1': financial_1['financialReportType'],
-            'financialReportType_2': financial_2['financialReportType'],
-            'accrualAccType_1': financial_1['accrualAccount'],
-            'accrualAccType_2': financial_2['accrualAccount'],
-            'dateOfTabling_1': date_of_tabling_2_new,
-            'dateOfTabling_2': date_of_tabling_2_new,
-            'nonCurrAsset_1': financial_1['nonCurrAsset'],
-            'nonCurrAsset_2': financial_2['nonCurrAsset'],
-            'currentAsset_1': financial_1['currentAsset'],
-            'currentAsset_2': financial_2['currentAsset'],
-            'nonCurrentLiability_1': financial_1['nonCurrentLiability'],
-            'nonCurrentLiability_2': financial_2['nonCurrentLiability'],
-            'liability_1': financial_1['liability'],
-            'liability_2': financial_2['liability'],
-            'paidUpCapital_1': financial_1['paidUpCapital'],
-            'paidUpCapital_2': financial_2['paidUpCapital'],
-            'reserves_1': financial_1['reserves'],
-            'reserves_2': financial_2['reserves'],
-
-            'minorityInterest_1': financial_1['minorityInterest'],
-            'minorityInterest_2': financial_2['minorityInterest'],
-            'revenue_1': financial_1['revenue'],
-            'revenue_2': financial_2['revenue'],
-        }
+        'balance_sheet': balance_sheet_data,
+        'profit_loss': profit_loss_data
     }
 
     return data_ready

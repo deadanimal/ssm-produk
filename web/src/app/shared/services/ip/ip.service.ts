@@ -10,7 +10,7 @@ import { Ip } from './ip.model';
 export class IpService {
 
   // URL
-  public urlIp: string = ''
+  public urlIp: string = 'http://api.ipify.org/?format=json'
 
   // Data
   public ip: Ip

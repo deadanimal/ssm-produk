@@ -1,154 +1,89 @@
 <div class="wrapper">
-  <section class="section-shaped title-bg bg-mini">
-    <div class="page-header page-header-small header-filter-white">
-      <div
-        class="page-header-image"
-        style="background-image: url('assets/img/banner/banner-cart.jpg')"
-      ></div>
-      <div class="container">
-        <div class="header-body text-center mb-9">
-          <div class="row justify-content-center">
-            <div class="col">
-              <h1 class="text-ssm font-weight-bolder mb-0">CHECKOUT</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+	<section class="section-shaped title-bg bg-mini">
+		<div class="page-header page-header-small header-filter-white">
+			<div class="page-header-image" style="background-image: url('assets/img/banner/banner-cart.jpg')"></div>
+			<div class="container">
+				<div class="header-body text-center mb-9">
+					<div class="row justify-content-center">
+						<div class="col">
+							<h1 class="text-ssm font-weight-bolder mb-0">CHECKOUT</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-  <div class="container mt--9">
-    <div class="row">
-      <div class="col">
-        <div class="">
-          <div
-            *ngIf="isEmpty"
-            class="empty-cart d-flex align-items-center justify-content-center"
-          >
-            <div class="">
-              <img
-                [src]="iconEmpty"
-                class="empty-icon d-flex align-self-center"
-              />
-              <p class="text-muted">You have an empty cart</p>
-              <button
-                class="btn btn-icon btn-3 btn-primary"
-                type="button"
-                (click)="navigatePage('/product')"
-              >
-                <span class="btn-inner--icon">
-                  <i class="fas fa-chevron-left"> </i>
-                </span>
-                <span class="btn-inner--text"> Go to Product </span>
-              </button>
-            </div>
-          </div>
+	<div class="container mt--9">
+		<div class="row">
+			<div class="col">
+				<div class="">
+					<div class="table" *ngIf="!isEmpty">
+						<div class="dataTables_wrapper py-4">
+							<ngx-datatable 
+								class="bootstrap selection-cell"
+								[columnMode]="'force'"
+								[headerHeight]="50"
+								[footerHeight]="50"
+								[rowHeight]="'auto'"
+								[limit]="tableEntries != -1 ? tableEntries : undefined" 
+								[rows]="tableTemp"
+								(activate)="onActivate($event)"
+							>
 
-          <div class="table" *ngIf="!isEmpty">
-            <!-- <div class="row">
-              <div class="col">
-                <p style="font-size: 0.7em">
-                  Disclaimer:<br />
-                  1. Every product list will be kept in Add To Cart only for 30
-                  day(s) From the date added. Please proceed your payment to
-                  purchase,
-                </p> 
-              </div>
-            </div> -->
-            <div class="row pb-2 text-right">
-              <div class="col">
-                <!-- <div class="tools float-left">
-                  <div class="dropdown" dropdown>
-                    <button
-                      class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
-                      data-toggle="dropdown"
-                      dropdownToggle
-                      type="button"
-                    >
-                      <i class="fas fa-cog"> </i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
-                      <a class="dropdown-item" href="#"> Remove </a>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-              <!-- <div class="col">
-                <button class="btn btn-default">Buy Other Product</button>&nbsp;
-                <button class="btn btn-default">Empty Cart</button>
-              </div> -->
-            </div>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Product</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<div *ngIf="row.product_type == 'f941af40-ba69-441c-ab93-e328101c192b'">
+											Company Profile
+										</div>
+									</ng-template>
+								</ngx-datatable-column>
 
-            <div class="table-responsive">
-              <div class="dataTables_wrapper py-4">
-                <table class="table table-striped">
-                  <thead class="text-primary">
-                    <tr>
-                      <th class="text-center">#</th>
-                      <th>Product</th>
-                      <th>
-                        Entity
-                      </th>
-                      <th>Qty</th>
-                      <th>Language</th>
-                      <th>Price</th>
-                      <th class="text-center">Action</th>
-                    </tr>
-                  </thead>
-  
-                  <tbody>
-                    <tr *ngFor="let item of listCart">
-                      <td class="text-center">
-                        <div class="custom-control custom-checkbox">
-                          <input
-                            class="custom-control-input"
-                            type="checkbox"
-                            [(ngModel)]="item.checked"
-                            [name]="item.id"
-                          />
-  
-                          <label class="custom-control-label"> </label>
-                        </div>
-                      </td>
-                      <td>
-                        Company Profile
-                      </td>
-                      <td></td>
-                      <td>1</td>
-                      <td>
-                        <select>
-                          <option>BM</option>
-                          <option>EN</option>
-                        </select>
-                      </td>
-                      <td>RM {{ item.total }}0</td>
-                      <!-- <td>RM {{ item.sst }}</td> -->
-                      <td class="text-center">
-                        <a (click)="confirm(item.id)">
-                          <i class="fas fa-trash text-red"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Entity</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										{{ row.entity }}
+									</ng-template>
+								</ngx-datatable-column>
 
-            <div class="float-right text-right py-4">
-              <p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
-              <p class="m-0 text-right">Total Amount : (RM) {{ total }}</p>
-              <br />
-              <button
-                class="btn btn-ssm btn-round"
-                (click)="navigatePage('/payment')"
-              >
-                Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Quantity</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										1
+									</ng-template>
+								</ngx-datatable-column>
+
+								<ngx-datatable-column>
+									<ng-template ngx-datatable-header-template>
+										<span>Language</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										BM
+									</ng-template>
+								</ngx-datatable-column>
+							</ngx-datatable>
+						</div>
+
+						<div class="float-right text-right py-4">
+							<p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
+							<p class="m-0 text-right">
+								Total Amount & Rounding Adj. (RM): {{ total + 1.2 }}
+							</p>
+							<br />
+							<button class="btn btn-ssm btn-round" (click)="navigatePage('/payment')">
+								PROCEED TO PAYMENT
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

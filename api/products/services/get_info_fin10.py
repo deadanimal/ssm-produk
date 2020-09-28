@@ -2,37 +2,25 @@ import requests
 import json
 import xmltodict
 
-def get_info_fin10(url, headers, registration_number):
+def get_info_fin10(url, headers, registration_number, entity_type, start_year, end_year):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
     <soapenv:Header />
     <soapenv:Body>
         <inf:getInfoFin10>
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
-            <!--Optional:-->
             <request>
-                <!--Optional:-->
                 <supplyFin10Req>
-                    <!--Optional:-->
                     <coNo>""" + str(registration_number) + """</coNo>
-                    <!--Optional:-->
-                    <endYear>2019</endYear>
-                    <!--Optional:-->
+                    <startYear>2013</startYear>
                     <ipaddress></ipaddress>
-                    <!--Optional:-->
                     <remark></remark>
-                    <!--Optional:-->
-                    <startYear>2009</startYear>
-                    <!--Optional:-->
+                    <endYear>2022</endYear>
                     <type>INFOFINHISTY</type>
                 </supplyFin10Req>
             </request>

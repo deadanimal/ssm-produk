@@ -1,28 +1,48 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import swal from "sweetalert2";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
+} from '@angular/forms';
 
-import { TransactionsService } from "src/app/shared/services/transactions/transactions.service";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
 import { IpService } from 'src/app/shared/services/ip/ip.service';
 import { Ip } from 'src/app/shared/services/ip/ip.model';
 
-import { tap } from "rxjs/operators";
-import * as sjcl from 'sjcl';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha from 'js-sha256'
+import swal from 'sweetalert2';
+import { ProductCartsService } from 'src/app/shared/services/product-carts/product-carts.service';
+
+class PGInformation {
+  transactionType: string
+  paymentMethod: string
+  serviceID: string
+  paymentID: string
+  orderNumber: string
+  paymentDesc: string
+  merchantName: string
+  merchantReturnUrl: string
+  merchantCallbackUrl: string
+  amount: string
+  currencyCode: string
+  custIP: string
+  custName: string
+  custEmail: string
+  custPhone: string
+  hashValue: string
+  merchantTermsUrl: string
+  languageCode: string
+  pageTimeout: string
+}
 
 @Component({
-  selector: "app-payment",
-  templateUrl: "./payment.component.html",
-  styleUrls: ["./payment.component.scss"],
+  selector: 'app-payment',
+  templateUrl: './payment.component.html',
+  styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent implements OnInit {
   
@@ -46,7 +66,7 @@ export class PaymentComponent implements OnInit {
     private AuthService: AuthService,
     private IpService: IpService,
     private UsersService: UsersService,
-    private http: HttpClient
+    private cartService: ProductCartsService
   ) {
     this.userType = this.AuthService.userType;
     this.userID = this.AuthService.userID;
@@ -56,64 +76,47 @@ export class PaymentComponent implements OnInit {
     this.UsersService.getOne(this.userID).subscribe((res) => {
       this.userdetails = res;
       this.userPackage = this.userdetails.egov_package;
-      console.log("this.egovPackage -> ", this.userPackage);
-      console.log("this.userType -> ", this.userType);
-      console.log("this.userID -> ", this.userID);
+      console.log('this.egovPackage -> ', this.userPackage);
+      console.log('this.userType -> ', this.userType);
+      console.log('this.userID -> ', this.userID);
       this.egovPackage = this.userdetails.egov_package;
-      if (this.userdetails.user_type == "EG") {
+      if (this.userdetails.user_type == 'EG') {
         this.showIcondiv == false;
       }
 
-      console.log("data = ", this.userdetails.user_type);
-      // console.log("Svc: ", this.tableRows);
+      console.log('data = ', this.userdetails.user_type);
+      // console.log('Svc: ', this.tableRows);
     });
 
     this.newBillingForm = this.formBuilder.group({
-      // id: new FormControl(""),
-      name: new FormControl("", Validators.required),
+      // id: new FormControl(''),
+      name: new FormControl('', Validators.required),
       payment_method: new FormControl('DD', Validators.required),
       amount: new FormControl('', Validators.required)
     });
 
     this.transactionForm = this.formBuilder.group({
-      TransactionType: new FormControl('SALE', Validators.required),
-      PymtMethod: new FormControl('', Validators.required),
-      ServiceID: new FormControl('', Validators.required),
-      PaymentID: new FormControl('', Validators.required),
-      OrderNumber: new FormControl('', Validators.required),
-      PaymentDesc: new FormControl('', Validators.required),
-      MerchantName: new FormControl('', Validators.required),
-      MerchantReturnURL: new FormControl('', Validators.required),
-      MerchantCallbackURL: new FormControl('', Validators.required),
-      Amount: new FormControl('', Validators.required),
-      CurrencyCode: new FormControl('MYR', Validators.required),
-      CustIP: new FormControl('', Validators.required),
-      CustName: new FormControl('', Validators.required),
-      CustEmail: new FormControl('', Validators.required),
-      CustPhone: new FormControl('', Validators.required),
-      HashValue: new FormControl(Validators.required),
-      MerchantTermsURL: new FormControl('http://merchA.merchdomain.com/terms.html', Validators.required),
-      LanguageCode: new FormControl('en', Validators.required),
-      PageTimeout: new FormControl('780', Validators.required),
+      name: new FormControl('Test'),
+      cart: new FormControl('')
     })
 
-    this.clientIP = this.getClientIP()
+    // this.getClientIP()
   }
 
   addNewBillingData() {
-    console.log("payment data -> ", this.newBillingForm);
+    console.log('payment data -> ', this.newBillingForm);
     this.TransactionsService.create(this.newBillingForm.value).subscribe(
       (res) => {
         console.log(res);
-        // this.successAlert("Successfully Save Data");
+        // this.successAlert('Successfully Save Data');
       },
       (err) => {
         console.log(err);
         // this.loadingBar.complete();
         // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
+        // console.log('HTTP Error', err), this.errorMessage();
       },
-      () => console.log("HTTP request completed.")
+      () => console.log('HTTP request completed.')
     );
   }
 
@@ -125,43 +128,43 @@ export class PaymentComponent implements OnInit {
   makePayment() {
     swal
       .fire({
-        title: "Confirmation",
-        text: "Payment successfully been made!",
-        icon: "info",
+        title: 'Confirmation',
+        text: 'Payment successfully been made!',
+        icon: 'info',
         buttonsStyling: false,
-        confirmButtonText: "Okay",
+        confirmButtonText: 'Okay',
         customClass: {
-          confirmButton: "btn btn-primary ",
+          confirmButton: 'btn btn-primary ',
         },
       })
       .then((result) => {
         // if (result.value) {
-        //   this.router.navigate(["/orders"]);
+        //   this.router.navigate(['/orders']);
         // }
         this.addNewBillingData();
       });
-    console.log("confirm");
+    console.log('confirm');
     // this.tryMakePayment()
   }
 
   successAlert(task) {
     swal
       .fire({
-        title: "Success",
+        title: 'Success',
         text: task,
-        icon: "success",
+        icon: 'success',
         // showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Close",
+        confirmButtonText: 'Close',
         customClass: {
-          cancelButton: "btn btn-outline-success",
-          confirmButton: "btn btn-success ",
+          cancelButton: 'btn btn-outline-success',
+          confirmButton: 'btn btn-success ',
         },
       })
       .then((result) => {
-        // console.log("confirm");
+        // console.log('confirm');
         window.location.reload();
-        // this.navigatePage("/egov-details");
+        // this.navigatePage('/egov-details');
       });
   }
 
@@ -170,63 +173,117 @@ export class PaymentComponent implements OnInit {
   }
 
   tryMakePayment() {
-    console.log('Payment made')
-    this.transactionForm.controls['PymtMethod'].setValue('ANY')
-    this.transactionForm.controls['ServiceID'].setValue('SM2')
-    this.transactionForm.controls['PaymentID'].setValue('ajfka14891')
-    this.transactionForm.controls['OrderNumber'].setValue('ODD124123')
-    this.transactionForm.controls['PaymentDesc'].setValue('Testing 1 2 3')
-    this.transactionForm.controls['MerchantCallbackURL'].setValue('https://portal.ssm.prototype.com.my//#/payment')
-    this.transactionForm.controls['Amount'].setValue('100')
-    this.transactionForm.controls['CustName'].setValue('Yusliadi')
-    this.transactionForm.controls['CustIP'].setValue('1.1.1.1')
-    this.transactionForm.controls['CustEmail'].setValue('test@prototype.com.my')
-    this.transactionForm.controls['CustPhone'].setValue('0192846541')
-    this.transactionForm.controls['HashValue'].setValue(this.hashTheShit())
-    this.transactionForm.controls['MerchantTermsURL'].setValue('https://portal.ssm.prototype.com.my/#/terms-conditions')
 
-    this.pay().subscribe()
+    // this.pay().subscribe()
   }
 
 
-  pay() {
-    let serviceUrl = 'https://test2pay.ghl.com/IPGSG/Payment.aspx'
-    const headers = new HttpHeaders();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded')
-    headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    return this.http.post<any>(serviceUrl, this.transactionForm.value, {headers: headers}).pipe(
-      tap(
-        (res) => {
-        console.log("Payment", res);
-        },
-        (err) => {
-          console.log(err)
+  create() {
+    let cart
+    // console.log('gege', cart)
+    this.cartService.ProductCarts.forEach(
+      (product) => {
+        if (!cart) {
+          cart = product
         }
-      )
-    );
-  }
+      }
+    )
+    console.log('gege', cart)
+    this.transactionForm.controls['cart'].setValue(cart.id)
+    // let hashhhhhh = this.hashTheShit()
 
-  getClientIP(): any {
-    this.IpService.get().subscribe(
+    // this.navigatePage('/payment')
+    this.TransactionsService.create(this.transactionForm.value).subscribe(
+      () => {},
+      () => {},
       () => {
-        this.clientIP = this.IpService.ip
+        this.encode(this.TransactionsService.transaction.id)
       }
     )
   }
 
-  hashTheShit() {
-    let merchantPwd = 'sm212345'
-    let merchantID = 'SM2'
-    let paymentID = 'ajfka14891'
-    let merchantReturnURL = 'https://portal.ssm.prototype.com.my/#/terms-conditions'
-    let amount = '100'
-    let currencyCode = 'MYR'
-    let custIP = '1.1.1.1'
-    let pageTimeout = '780'
-    // Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
-    let valueToHash = merchantPwd+merchantID+paymentID+merchantReturnURL+amount+currencyCode+custIP+pageTimeout
-    console.log('val', sha.sha256(valueToHash))
-    return sha.sha256(valueToHash)
+  encode(paymentID) {
+    console.log('asd')
+    console.log(paymentID)
+    let itemz = {
+      transactionType: 'SALE',
+      paymentMethod: 'ANY',
+      serviceID: 'SM2',
+      paymentID: paymentID,
+      orderNumber: 'ORDE124',
+      paymentDesc: 'f13412412njndjsf',
+      merchantName: 'SSM',
+      merchantCallbackUrl: 'https://portal.ssm.prototype.com.my/#/payment/callback/',
+      merchantReturnUrl: 'https://syafiqbasri.ngrok.io/v1/transactions/pg_return/',
+      amount: '20.00',
+      currencyCode: 'MYR',
+      custIP: '1.1.1.1',
+      custName: 'Amin',
+      custEmail: 'aminredzuan@gmail.com',
+      custPhone: '0176866917',
+      merchantTermsUrl: 'https://portal.ssm.prototype.com.my/#/terms/',
+      languageCode: 'MS',
+      pageTimeout: '780'
+    }
+
+    this.TransactionsService.encode(itemz).subscribe(
+      () => {},
+      () => {},
+      () => {
+        // let dataz: any = {
+        //   transactionType: 'SALE',
+        //   paymentMethod: 'ANY',
+        //   serviceID: 'SM2',
+        //   paymentID: itemz.paymentID,
+        //   orderNumber: 'ORDE124',
+        //   paymentDesc: 'f13412412njndjsf',
+        //   merchantName: 'SSM',
+        //   merchantCallbackUrl: 'https://portal.ssm.prototype.com.my/#/payment/callback/',
+        //   merchantReturnUrl: 'https://portal.ssm.prototype.com.my/#/payment/return',
+        //   amount: '20.00',
+        //   currencyCode: 'MYR',
+        //   custIP: '1.1.1.1',
+        //   custName: 'Amin',
+        //   custEmail: 'aminredzuan@gmail.com',
+        //   custPhone: '0176866917',
+        //   hashValue: this.TransactionsService.encodedData,
+        //   merchantTermsUrl: 'https://portal.ssm.prototype.com.my/#/terms/',
+        //   languageCode: 'MS',
+        //   pageTimeout: '780'
+        // }
+        let dataz = this.TransactionsService.encodedData
+        console.log(dataz)
+
+        this.router.navigate(['/payment/to-confirm'], dataz)
+      }
+    )
+
   }
 
 }
+
+  // getClientIP(): any {
+  //   console.log('Nak dapat ip')
+  //   this.IpService.get().subscribe(
+  //     () => {
+  //       this.clientIP = this.IpService.ip
+  //       console.log(this.clientIP)
+  //     }
+  //   )
+  // }
+
+  // hashTheShit() {
+  //   let merchantPwd = 'sm212345'
+  //   let merchantID = 'SM2'
+  //   let paymentID = 'ajfka14891'
+  //   let merchantReturnURL = 'http://localhost:4200/#/terms-conditions'
+  //   let amount = '100'
+  //   let currencyCode = 'MYR'
+  //   let custIP = '1.1.1.1'
+  //   let pageTimeout = '780'
+  //   // Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
+  //   let valueToHash = merchantPwd+merchantID+paymentID+merchantReturnURL+amount+currencyCode+custIP+pageTimeout
+  //   console.log('val', sha.sha256(valueToHash))
+  //   return sha.sha256(valueToHash)
+  // }
+

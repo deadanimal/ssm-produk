@@ -28,15 +28,19 @@
                             </thead>
                             
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let data of cartNew">
                                     <td>SSM12421412</td>
-                                    <td>197801002771 (39761-K) / Pipeline Engineering Sdn. Bhd. </td>
-                                    <td>Company Profile </td>
+                                    <td>{{data.entity_number}} / {{data.entity}}</td>
+                                    <td>
+                                        <span *ngIf="data.product_id == 'f941af40-ba69-441c-ab93-e328101c192b'">
+                                            Company Profile 
+                                        </span>
+                                    </td>
                                     <td>BM</td>
                                     <td>
                                         <button 
                                             class="btn btn-sm btn-info"
-                                            (click)="download()"
+                                            (click)="downloadFile(data)"
                                         >
                                             Download
                                         </button>

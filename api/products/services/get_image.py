@@ -9,40 +9,23 @@ def get_image(url, headers, registration_number):
     <soapenv:Header />
     <soapenv:Body>
         <ws:getImage>
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
-            <!--Optional:-->
             <request>
-                <!--Optional:-->
                 <docufloImg>
-                    <!--Optional:-->
                     <companyNo>1097967-P</companyNo>
-                    <!--Optional:-->
                     <docProfile>ROC7</docProfile>
-                    <!--Optional:-->
                     <gstAmount>0</gstAmount>
-                    <!--Optional:-->
                     <infoAmount>0</infoAmount>
-                    <!--Optional:-->
-                    <invoiceNo>1234</invoiceNo>
-                    <!--Optional:-->
+                    <invoiceNo>0</invoiceNo>
                     <ipaddress></ipaddress>
-                    <!--Optional:-->
                     <remark>test</remark>
-                    <!--Optional:-->
                     <tableId>ROCINFO</tableId>
-                    <!--Optional:-->
                     <type>INFODOCPURC</type>
-                    <!--Optional:-->
                     <userName>appadmin</userName>
-                    <!--Optional:-->
                     <userPwd>p@ss1234</userPwd>
                     <verId>3412175</verId>
                 </docufloImg>
