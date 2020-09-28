@@ -11,9 +11,7 @@ def get_details_of_shareholders(url, headers, registration_number):
         <inf:getRocChangesRegisteredAddress>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>

@@ -2,7 +2,9 @@ import requests
 import json
 import xmltodict
 
-def get_info_acgs(url, headers, registration_number):
+def get_info_acgs(url, headers, registration_number, date_applied):
+
+    #date_applied = '2020-08-31T00:00:00'
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -11,9 +13,7 @@ def get_info_acgs(url, headers, registration_number):
         <inf:getInfoAcgs>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>

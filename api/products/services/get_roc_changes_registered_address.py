@@ -11,9 +11,7 @@ def get_roc_changes_registered_address(url, headers, registration_number, entity
         <inf:getRocChangesRegisteredAddress>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>

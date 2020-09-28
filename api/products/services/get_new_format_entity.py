@@ -9,30 +9,18 @@ def get_new_format_entity(url, headers, registration_number, entity_type):
     <soapenv:Header />
     <soapenv:Body>
         <inf:getNewFormatEntityNo>
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
-            <!--Optional:-->
             <request>
-                <!--Optional:-->
                 <newFormatEntityNoReq>
-                    <!--Optional:-->
                     <agencyId>SSMProduk</agencyId>
-                    <!--Optional:-->
                     <checkDigit>H</checkDigit>
-                    <!--Optional:-->
                     <formatType></formatType>
-                    <!--Optional:-->
                     <regNo>""" + str(registration_number) + """</regNo>
-                    <!--Optional:-->
                     <tableId></tableId>
-                    <!--Optional:-->
                     <type>""" + entity_type + """</type>
                 </newFormatEntityNoReq>
             </request>

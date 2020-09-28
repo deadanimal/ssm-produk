@@ -1,40 +1,43 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
-import swal from "sweetalert2";
-import { Router, ActivatedRoute } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+} from '@angular/forms';
+import swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 // cart service
-import { CbidCart } from "src/app/shared/services/cbid-carts/cbid-carts.model";
-import { CbidCartsService } from "src/app/shared/services/cbid-carts/cbid-carts.service";
+// import { CbidCart } from 'src/app/shared/services/cbid-carts/cbid-carts.model';
+// import { CbidCartsService } from 'src/app/shared/services/cbid-carts/cbid-carts.service';
+import { ProductCartsService } from 'src/app/shared/services/product-carts/product-carts.service';
+import { ProductCart } from 'src/app/shared/services/product-carts/product-carts.model';
 
 export enum SelectionType {
-  single = "single",
-  multi = "multi",
-  multiClick = "multiClick",
-  cell = "cell",
-  checkbox = "checkbox",
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
 }
 
 @Component({
-  selector: "app-cart",
-  templateUrl: "./cart.component.html",
-  styleUrls: ["./cart.component.scss"],
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
+
   // Modal
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: 'modal-dialog-centered',
   };
 
   // Table
@@ -44,67 +47,68 @@ export class CartComponent implements OnInit {
   tableActiveRow: any;
   tableRows: any[] = [];
   SelectionType = SelectionType;
+
   // listCart: any;
   listCart: any = [
     {
-      search_criteria: "Bore Pile",
-      total_pages: "Afizi",
-      total_company: "AC",
-      unit_price: "RM 100,000.00",
-      total_price: "RM 150,000.00",
-      created_at: "2019-07-27T01:07:14Z",
-      total: "Bore Pile",
-      sst: "Afizi",
-      total_amount: "AC",
-      products: "RM 100,000.00",
+      search_criteria: 'Bore Pile',
+      total_pages: 'Afizi',
+      total_company: 'AC',
+      unit_price: 'RM 100,000.00',
+      total_price: 'RM 150,000.00',
+      created_at: '2019-07-27T01:07:14Z',
+      total: 'Bore Pile',
+      sst: 'Afizi',
+      total_amount: 'AC',
+      products: 'RM 100,000.00',
     },
     {
-      search_criteria: "Micro Pile",
-      total_pages: "Amin",
-      total_company: "PE",
-      unit_price: "RM 165,800.00",
-      total_price: "70,000.00",
-      created_at: "2019-07-27T01:07:14Z",
-      total: "Bore Pile",
-      sst: "Afizi",
-      total_amount: "AC",
-      products: "RM 100,000.00",
+      search_criteria: 'Micro Pile',
+      total_pages: 'Amin',
+      total_company: 'PE',
+      unit_price: 'RM 165,800.00',
+      total_price: '70,000.00',
+      created_at: '2019-07-27T01:07:14Z',
+      total: 'Bore Pile',
+      sst: 'Afizi',
+      total_amount: 'AC',
+      products: 'RM 100,000.00',
     },
     {
-      search_criteria: "Crosshead",
-      total_pages: "Husaini",
-      total_company: "CA",
-      unit_price: "RM 139,900.00",
-      total_price: "RM 65,000.00",
-      created_at: "2019-07-27T01:07:14Z",
-      total: "Bore Pile",
-      sst: "Afizi",
-      total_amount: "AC",
-      products: "RM 100,000.00",
+      search_criteria: 'Crosshead',
+      total_pages: 'Husaini',
+      total_company: 'CA',
+      unit_price: 'RM 139,900.00',
+      total_price: 'RM 65,000.00',
+      created_at: '2019-07-27T01:07:14Z',
+      total: 'Bore Pile',
+      sst: 'Afizi',
+      total_amount: 'AC',
+      products: 'RM 100,000.00',
     },
     {
-      search_criteria: "Crosshead",
-      total_pages: "Husaini",
-      total_company: "CA",
-      unit_price: "RM 139,900.00",
-      total_price: "RM 65,000.00",
-      created_at: "2019-07-27T01:07:14Z",
-      total: "Bore Pile",
-      sst: "Afizi",
-      total_amount: "AC",
-      products: "RM 100,000.00",
+      search_criteria: 'Crosshead',
+      total_pages: 'Husaini',
+      total_company: 'CA',
+      unit_price: 'RM 139,900.00',
+      total_price: 'RM 65,000.00',
+      created_at: '2019-07-27T01:07:14Z',
+      total: 'Bore Pile',
+      sst: 'Afizi',
+      total_amount: 'AC',
+      products: 'RM 100,000.00',
     },
     {
-      search_criteria: "Crosshead",
-      total_pages: "Husaini",
-      total_company: "CA",
-      unit_price: "RM 139,900.00",
-      total_price: "RM 65,000.00",
-      created_at: "2019-07-27T01:07:14Z",
-      total: "Bore Pile",
-      sst: "Afizi",
-      total_amount: "AC",
-      products: "RM 100,000.00",
+      search_criteria: 'Crosshead',
+      total_pages: 'Husaini',
+      total_company: 'CA',
+      unit_price: 'RM 139,900.00',
+      total_price: 'RM 65,000.00',
+      created_at: '2019-07-27T01:07:14Z',
+      total: 'Bore Pile',
+      sst: 'Afizi',
+      total_amount: 'AC',
+      products: 'RM 100,000.00',
     },
   ];
 
@@ -115,10 +119,10 @@ export class CartComponent implements OnInit {
   editAppReqForm: FormGroup;
 
   // Data
-  data: any[] = [];
+  items: ProductCart[] = [];
 
   // Icons
-  iconEmpty = "assets/img/default/shopping-bag.svg";
+  iconEmpty = 'assets/img/default/shopping-bag.svg';
 
   // declare variable
   sum: number = 0;
@@ -131,90 +135,60 @@ export class CartComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
-    private cartsService: CbidCartsService,
+    private cartService: ProductCartsService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
-    private http: HttpClient,
-    // private loadingBar: LoadingBarService,
     private router: Router,
-    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.cartsService.getAll().subscribe((res) => {
-      this.listCart = res;
-      this.listCart.forEach((lisz) => {
-        this.total += lisz.total_price;
-        this.totaldocument++;
-      });
-      // this.sum = this.total + 1.2;
-      console.log(this.sum);
-
-      // var keys = Object.keys(this.listCart);
-      // var len = keys.length;
-      // console.log(len);
-    });
+    this.getData()
   }
 
-  deleteApplicationData(row) {
-    console.log(row);
-    this.cartsService.delete(row).subscribe((res) => {
-      // this.listEntity = res;
-      // this.successAlert("Successfully delete entity.");
-      window.location.reload();
-    });
+  getData() {
+    this.cartService.getAll().subscribe(
+      () => {
+        this.items = this.cartService.ProductCarts
+        this.tableRows = this.items
+        console.log(this.tableRows)
+      },
+      () => {},
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          }
+        })
+      }
+    )
   }
 
-  confirm(row) {
-    swal
-      .fire({
-        title: "Confirmation",
-        text: "Are you sure to delete this data ?",
-        icon: "info",
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: "Confirm",
-        customClass: {
-          cancelButton: "btn btn-outline-primary ",
-          confirmButton: "btn btn-primary ",
-        },
-      })
-      .then(() => {
-        this.deleteApplicationData(row);
-      });
+  removeItem(id: string) {
+    this.cartService.delete(id).subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.getData()
+      }
+    )
   }
 
   successAlert(task) {
     swal.fire({
-      title: "Success",
+      title: 'Success',
       text: task,
-      icon: "success",
+      icon: 'success',
       // showCancelButton: true,
       buttonsStyling: false,
-      confirmButtonText: "Close",
+      confirmButtonText: 'Close',
       customClass: {
-        cancelButton: "btn btn-outline-success",
-        confirmButton: "btn btn-success ",
+        cancelButton: 'btn btn-outline-success',
+        confirmButton: 'btn btn-success ',
       },
     });
-    console.log("confirm");
+    console.log('confirm');
   }
-
-  deleteCartData(row) {
-    console.log(row);
-    this.cartsService.delete(row).subscribe((res) => {
-      // this.listEntity = res;
-      // this.successAlert("Successfully delete entity.");
-      window.location.reload();
-    });
-  }
-
-  // getItems() {
-  //   console.log("Item loaded");
-  //   if (this.items.length > 0) {
-  //     this.isEmpty = false;
-  //   }
-  // }
 
   makePayment() {
     this.loadingBar.start();
@@ -222,7 +196,7 @@ export class CartComponent implements OnInit {
   }
 
   remove() {
-    console.log("Item removed");
+    console.log('Item removed');
   }
 
   navigatePage(path: string) {
@@ -237,7 +211,7 @@ export class CartComponent implements OnInit {
     }
     this.modal = this.modalService.show(
       modalRef,
-      Object.assign({}, { class: "gray modal-lg" })
+      Object.assign({}, { class: 'gray modal-lg' })
     );
     // this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
@@ -271,4 +245,5 @@ export class CartComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
+
 }

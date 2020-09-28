@@ -30,53 +30,47 @@ from django_filters.rest_framework import DjangoFilterBackend
 from datetime import datetime
 
 from products.services.get_comp_prof import get_comp_prof
-from products.services.get_comp_prof_ctc import get_comp_prof_ctc
 from products.services.get_info_acgs import get_info_acgs
 from products.services.get_new_format_entity import get_new_format_entity
 from products.services.get_cert_incorp import get_cert_incorp
-from products.services.get_cert_incorp_ctc import get_cert_incorp_ctc
 from products.services.get_cert_reg_foreign import get_cert_reg_foreign
-from products.services.get_cert_reg_foreign_ctc import get_cert_reg_foreign_ctc
 from products.services.get_info_comp_name_chg import get_info_comp_name_chg
-from products.services.get_info_comp_name_chg_ctc import get_info_comp_name_chg_ctc
 from products.services.get_info_fin2 import get_info_fin2
 from products.services.get_info_fin3 import get_info_fin3
 from products.services.get_info_fin5 import get_info_fin5
 from products.services.get_info_fin10 import get_info_fin10
+from products.services.get_info_hist2 import get_info_hist2
 from products.services.get_cert_conversion import get_cert_conversion
-from products.services.get_cert_conversion_ctc import get_cert_conversion_ctc
 from products.services.get_info_financial import get_info_financial
-from products.services.get_info_financial_ctc import get_info_financial_ctc
 from products.services.get_roc_business_officers import get_roc_business_officers
-from products.services.get_roc_business_officers_ctc import get_roc_business_officers_ctc
 from products.services.get_roc_changes_registered_address import get_roc_changes_registered_address
-from products.services.get_roc_changes_registered_address_ctc import get_roc_changes_registered_address_ctc
 from products.services.get_details_of_shareholders import get_details_of_shareholders
-from products.services.get_details_of_shareholders_ctc import get_details_of_shareholders_ctc
 from products.services.get_details_of_share_capital import get_details_of_share_capital
-from products.services.get_details_of_share_capital_ctc import get_details_of_share_capital_ctc
 from products.services.get_biz_profile import get_biz_profile
-from products.services.get_biz_profile_ctc import get_biz_profile_ctc
 from products.services.get_particulars_of_cosec import get_particulars_of_cosec
-from products.services.get_particulars_of_cosec_ctc import get_particulars_of_cosec_ctc
 from products.services.get_info_rob_termination import get_info_rob_termination
 from products.services.get_info_charges import get_info_charges
-from products.services.get_info_charges_ctc import get_info_charges_ctc
 from products.services.get_comp_listing_cnt import get_comp_listing_cnt
 from products.services.get_comp_listing_a import get_comp_listing_a
 from products.services.get_image import get_image
 from products.services.get_image_list import get_image_list
 from products.services.get_image_ctc import get_image_ctc
 from products.services.get_particulars_of_adt_firm import get_particulars_of_adt_firm
-from products.services.get_particulars_of_adt_firm_ctc import get_particulars_of_adt_firm_ctc
 from products.services.get_co_count import get_co_count
 from products.services.get_co_page import get_co_page
 
 from .helpers.info_acgs import info_acgs
 from .helpers.roc_business_officers import roc_business_officers
 from .helpers.biz_profile import biz_profile
-from .helpers.biz_profile_ctc import biz_profile_ctc
 from .helpers.particular_address import particular_address
+from .helpers.cert_incorp import cert_incorp
+from .helpers.info_fin_2 import info_fin_2
+from .helpers.info_hist_2 import info_hist_2
+from .helpers.comp_prof import comp_prof
+
+from .helpers.acgs import acgs
+from .helpers.change_name import change_name
+from .helpers.particular_audit_firm import particular_audit_firm
 
 from .models import (
     Product
@@ -306,7 +300,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             json_response = get_image(url_docu, headers, registration_number, entity_type)  
 
         elif request_service_name == 'getImageList':            
-            json_response = get_image_list(url_docu, headers, registration_number) 
+            json_response = get_image_list(url_docu, headers, registration_number, entity_type) 
 
         # Document and Form View + Download + CTC getImageViewCTC
 
@@ -327,90 +321,6 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return JsonResponse(json_response)
 
     
-    @action(methods=['POST'], detail=False)
-    def create_pdf_comp_prof(self, request, *args, **kwargs):
-        product_data = json.loads(request.body)
-        
-        items = product_data['test']
-        language = product_data['lang']
- 
-        date_format = "%d-%m-%Y"
-        time_zone = 'Asia/Kuala_Lumpur'
-
-        if items['rocCompanyInfo']['companyType'] == 'B':
-            companyType = 'Limited by Share and Guarantee'
-        elif items['rocCompanyInfo']['companyType'] == 'G':
-            companyType =' Limited by Guarantee'
-        elif items['rocCompanyInfo']['companyType'] == 'S': 
-            companyType = 'Limited by Shares'
-        elif items['rocCompanyInfo']['companyType'] == 'U': 
-            companyType = 'Unlimited'
-        elif items['rocCompanyInfo']['companyType'] == 'R': 
-            companyType = 'Private Limited'
-        elif items['rocCompanyInfo']['companyType'] == 'U': 
-            companyType = 'Public Limited'
-        
-        if items['rocCompanyInfo']['statusOfCompany'] == 'B':
-            companyStatus = 'Dissolved Conversion to LLP'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'C':
-            companyStatus ='Ceased Business'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'D': 
-            companyStatus = 'Dissolved'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'E': 
-            companyStatus = 'Existing'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'R': 
-            companyStatus = 'Removed'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'W': 
-            companyStatus = 'Winding Up'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'X': 
-            companyStatus = 'Null and Void by Court Order'
-        elif items['rocCompanyInfo']['statusOfCompany'] == 'Y': 
-            companyStatus = 'Struck-off & Winding-up via Court Order'
-        
-        data_lol = {
-            'CIName': items['rocCompanyInfo']['companyName'],
-            'CILastOldName': items['rocCompanyInfo']['companyOldName'],
-            'CIDateOfChange': date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format),
-            'CIRegistrationNo': 'a',
-            'CIIncorpDate': incorp_date.astimezone(pytz.timezone(time_zone)).strftime(date_format),
-            'CICompanyType': companyType,
-            'CICompanyStatus': companyStatus,
-            'CIRegAddress1': items['rocCompanyInfo']['statusOfCompany']
-        }
-
-        date_of_change = make_aware(datetime.datetime.strptime(items['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
-        incorp_date = make_aware(datetime.datetime.strptime(items['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-        # officer_infos = (items['rocCompanyOfficerListInfo']['rocCompanyOfficerInfos']['rocCompanyOfficerInfos'])
-        # charge_infos = (items['rocChargesListInfo']['rocChargesInfos']['rocChargesInfos'])
-        # financial_year_end_date = (items['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']['financialYearEndDate'])
-        # date_of_tabling = (items['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']['dateOfTabling'])
-
-        # date_format = "%d-%m-%Y"
-        # time_zone = 'Asia/Kuala_Lumpur'
-        # localDatetime = hehe.astimezone(pytz.timezone(time_zone))
-        # print('qwrqwrqwrqwr124', localDatetime)
-
-        # items['rocCompanyInfo']['dateOfChange'] = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-        # items['rocCompanyInfo']['incorpDate'] = incorp_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-        # print('doc', items['rocCompanyInfo']['dateOfChange'])
-        print('inc', items['rocCompanyInfo']['incorpDate'])
-
-
-        html_string = render_to_string('product/company_profile_nonctc_bi.html', {'items': items})
-        html = HTML(string=html_string)
-        pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-        
-        file_path = "ssm/product/" + datetime.datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-        saved_file = default_storage.save(
-            file_path, 
-            ContentFile(pdf_file)
-        )
-        
-        full_url_path = settings.MEDIA_ROOT + saved_file
-
-        serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-        return Response(serializer)
-
 
     @action(methods=['POST'], detail=False)
     def create_pdf(self, request, *args, **kwargs):
@@ -444,7 +354,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
 
             # print(mdw_1_response)
-            data_loaded = info_acgs(mdw_1_response, mdw_2_response)
+            data_loaded = info_acgs(mdw_1_response, mdw_2_response, 'en')
 
             if request_language == 'en':
                  html_string = render_to_string('product/acgs_nonctc_en.html', {'data': data_loaded})
@@ -625,3 +535,175 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         return Response(serializer)
 
+
+    @action(methods=['POST'], detail=False)
+    def generate_product(self, request, *args, **kwargs):
+
+        product_request_json = json.loads(request.body)
+
+        name_ = product_request_json['name']
+        language_ = product_request_json['language']
+        ctc_ = product_request_json['ctc']
+        registration_ = product_request_json['registration_no']
+        entity_type_ = product_request_json['entity_type']
+
+        information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+        listing_url = 'http://integrasistg.ssm.com.my/ListingService/1'
+        document_url = 'http://integrasistg.ssm.com.my/DocufloService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
+
+        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+
+        request_headers = {
+            'content-type': "text/xml;charset=UTF-8",
+            'authorization': auth_code
+        }
+
+        css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
+
+        new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)
+
+        if name_ == 'acgs':
+            middleware_data = get_info_acgs(information_url, request_headers, registration_, entity_type_)
+            data_loaded = acgs(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'private_incorp_cert':
+            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'public_incorp_cert':
+            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'public_guarantee_incorp_cert':
+            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'foreign_incorp_cert':
+            middleware_data = get_cert_reg_foreign(information_url, request_headers, registration_)
+            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'private_change_name':
+            middleware_data = get_cert_incorp(information_url, request_headers, registration_, entity_type_)
+            data_loaded = change_name(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'private_change_status':
+            middleware_data = get_cert_conversion(information_url, request_headers, registration_, entity_type_)
+            data_loaded = change_name(middleware_data, new_entity_id)
+
+        elif name_ == 'financial_history':
+            year1 = product_request_json['year1']
+            year2 = product_request_json['year2']
+            middleware_data_year1 = get_info_hist2(information_url, request_headers, registration_, entity_type_, year1)
+            middleware_data_year2 = get_info_hist2(information_url, request_headers, registration_, entity_type_, year2)
+            data_loaded_1 = info_hist_2(middleware_data_year1,new_entity_id, language_)
+            data_loaded_2 = info_hist_2(middleware_data_year2,new_entity_id, language_)
+            data_loaded = data_loaded_1
+
+            
+            balance_sheet_year1 = data_loaded_1['balance_sheet'][0]
+            balance_sheet_year2 = data_loaded_2['balance_sheet'][0]
+            
+            profit_loss_year1 = data_loaded_1['profit_loss'][0]
+            profit_loss_year2 = data_loaded_2['profit_loss'][0]
+
+            del data_loaded['balance_sheet']
+            del data_loaded['profit_loss']
+            data_loaded['balance_sheet'] = []
+            data_loaded['profit_loss'] = []
+
+            data_loaded['balance_sheet'].append(balance_sheet_year1)
+            data_loaded['balance_sheet'].append(balance_sheet_year2)
+            data_loaded['profit_loss'].append(profit_loss_year1)
+            data_loaded['profit_loss'].append(profit_loss_year2)
+
+            print(data_loaded)
+
+        elif name_ == 'financial_comparison_2':
+            now = datetime.now()
+            middleware_data = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_3':
+            now = datetime.now()
+            middleware_data = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_5':
+            now = datetime.now()
+            middleware_data = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_10':
+            now = datetime.now()
+            middleware_data = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'particular_directors':
+            middleware_data = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
+            data_loaded = roc_business_officers(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particular_registered_address':
+            middleware_data = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_address(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particular_shareholders':
+            middleware_data = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_shareholders(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particular_sharecapital':
+            middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_sharecapital(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'company_profile':
+            now = datetime.now()
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'business_profile':
+            middleware_data = get_biz_profile(information_url, request_headers, registration_)
+            data_loaded = biz_profile(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'particular_cosec':
+            middleware_data = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_cosec(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particular_audit_firm':
+            middleware_data = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_audit_firm(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'btl':
+            middleware_data = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
+            data_loaded = info_rob_termination(middleware_data, new_entity_id, language_, entity_type_)
+
+        elif name_ == 'company_charges':
+            middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
+            data_loaded = company_charges(middleware_data, new_entity_id, language_, entity_type_)
+
+        else:
+            pass
+        
+
+        if language_ == 'en':
+            html_string = render_to_string('product/'+ name_ +'_en.html', {'data': data_loaded})
+
+        elif language_ == 'ms':
+            html_string = render_to_string('product/'+ name_ +'_ms.html', {'data': data_loaded})
+
+            
+        html = HTML(string=html_string)
+        pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+            
+        file_path = "ssm/product/" + name_ + "-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
+        saved_file = default_storage.save(
+            file_path, 
+            ContentFile(pdf_file)
+        )
+            
+        full_url_path = settings.MEDIA_ROOT + saved_file
+
+        serializer = data_loaded
+        serializer['pdflink'] = 'https://pipeline-project.sgp1.digitaloceanspaces.com/' + file_path
+        return Response(serializer)

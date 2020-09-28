@@ -2,27 +2,20 @@ import requests
 import json
 import xmltodict
 
-def get_particulars_of_adt_firm(url, headers, registration_number):
+def get_particulars_of_adt_firm(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my"> 
     <soapenv:Header/>
     <soapenv:Body>
         <inf:getParticularsOfAdtFirm> 
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
-                <customerId>SSMProduk</customerId>
-                <!--Optional:--> 
-                <customerReferenceNo></customerReferenceNo> 
-                <!--Optional:--> 
+                <customerId>SSMProduk</customerId> 
+                <customerReferenceNo></customerReferenceNo>  
                 <customerRequestDate></customerRequestDate>
-            </header> 
-            <!--Optional:--> 
-            <request>
-                <!--Optional:--> 
+            </header>  
+            <request> 
                 <req>
-                    <!--Optional:-->
                     <adtFirmNo>""" + str(registration_number) + """</adtFirmNo> 
                 </req>
             </request> 

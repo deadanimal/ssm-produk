@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>
+            @charset "UTF-8";
+            @page {
+                /* padding: 2cm; */
+                /* size: A4; Change from the default size of A4 */
+                /* padding: 2.0cm; Set margin on each page */
+                size: A4 portait;
+                margin: 27mm 10mm 27mm 10mm;
+                @top-right{
+                    content: "Page " counter(page) " of " counter(pages);
+                }
+            }
+
+            header#header {
+                position: fixed;
+                top: 0;
+                left: 0;
+
+                height: 14.5rem;
+                width: 100%;
+            }
+            img.logo {
+                height: 14rem !important;
+            }
+            html {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            .default-template {
+                color: #333;
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            table tr.top table td.title {
+                color: #333;
+            }
+            table tr.heading td {
+                color: #333;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header">
+            <div class="text-center">
+                <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
+            </div>
+        </header>
+        
+
+        <div class="default-template container" style="margin-top: 15rem;">
+            <p>Although all efforts has been carried out to ensure that the information provided is 
+                accurate and up to date, the Registrat of Companies will not be liable for any losses 
+                arising from any inaccurate or omitted information.</p>
+            <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;">** CORPORATE INFORMATION **</h3>
+
+                <div class="table-responsive">
+                    <table class="table text-left borderless">
+        
+                        <tbody>
+                            <tr>
+                                <td>Name:</td>
+                                <td>{{items.rocCompanyInfo.companyName}}</td>                            
+                            </tr>
+                            <tr>
+                                <td>Last Old Name:</td>
+                                <td>{{items.rocCompanyInfo.companyOldName}}</td>                            
+                            </tr> 
+                            <tr>       
+                                <td>Date Of Change:</td>
+                                <td>{{items.rocCompanyInfo.dateOfChange}}</td>                            
+                            </tr>         
+                            <tr>       
+                                <td>Registration No.:</td>
+                                <td><strong>201101032401 (960536-K)</strong></td>                            
+                            </tr>         
+                            <tr>       
+                                <td>Incorporation Date:</td>
+                                <td>{{items.rocCompanyInfo.incorpDate}}</td>                            
+                            </tr>   
+                                <td>Registration Date:</td>
+                                <td>Nil</td>                            
+                            </tr>       
+                            <tr>       
+                                <td>Type:</td>
+                                <td>
+                                    {% if 'B' in items.rocCompanyInfo.companyType %}
+                                        <p>: Limited by Share and Guarantee</p>
+                                    {% endif %}
+                                    {% if 'G' in items.rocCompanyInfo.companyType %}
+                                        <p>: Limited by Guarantee</p>
+                                    {% endif %}
+                                    {% if 'S' in items.rocCompanyInfo.companyType %}
+                                        <p>: Limited by Shares</p>
+                                    {% endif %}
+                                    {% if 'U' in items.rocCompanyInfo.companyType %}
+                                        <p>: Unlimited</p>
+                                    {% endif %}
+                                    {% if 'R' in items.rocCompanyInfo.companyStatus %}
+                                        <p>: Private Limited</p>
+                                    {% endif %}
+                                    {% if 'U' in items.rocCompanyInfo.companyStatus %}
+                                        <p>: Public Limited</p></td>                            
+                            </tr>     
+                            <tr>       
+                                <td>Status:</td>
+                                <td>
+                                    [{% if 'B' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Dissolved Conversion to LLP</p>
+                                    {% endif %}
+                                    {% if 'C' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Ceased Business</p>
+                                    {% endif %}
+                                    {% if 'D' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Dissolved</p>
+                                    {% endif %}
+                                    {% if 'E' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Existing</p>
+                                    {% endif %}
+                                    {% if 'R' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Removed</p>
+                                    {% endif %}
+                                    {% if 'W' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Winding Up</p>
+                                    {% endif %}
+                                    {% if 'X' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Null and Void by Court Order</p>
+                                    {% endif %}
+                                    {% if 'Y' in items.rocCompanyInfo.statusOfCompany %}
+                                        <p>: Struck-off & Winding-up via Court Order</p>
+                                    {% endif %}</td>                            
+                            </tr>  
+                            <tr>       
+                                <td>Registered Address:</td>
+                                <td><p class="mb-0">: {{items.rocRegAddressInfo.address1}}</p>
+                                    {% if items.rocRegAddressInfo.address2 %}
+                                        <p class="my-0">  {{items.rocRegAddressInfo.address2}}</p>
+                                    {% endif %}
+                                    {% if items.rocRegAddressInfo.address3 %}
+                                        <p class="my-0">  {{items.rocRegAddressInfo.address3}}</p>
+                                    {% endif %}
+                                    <p class="my-0"> </p>
+                                    <p class="my-0">  {{items.rocRegAddressInfo.town}}</p>
+                                    {% if 'J' in items.rocRegAddressInfo.state %}
+                                        <p class="mt-0"> Johor</p> 
+                                    {% endif %}</td>                            
+                            </tr> 
+                            <tr>       
+                                <td>Postcode:</td>
+                                <td>{{items.rocRegAddressInfo.postcode}}</td>                            
+                            </tr> 
+                                <td>Origin:</td>
+                                <td>{% if 'MAL' in items.rocCompanyInfo.companyCountry %}
+                                    <p class="mt-0">: Malaysia</p> 
+                                    {% endif %}</td>                            
+                            </tr> 
+                                <td>Business Address:</td>
+                                <td>>[<p class="mb-0">:  {{items.rocBusinessAddressInfo.address1}} </p>
+                                    <p class="my-0">  {{items.rocBusinessAddressInfo.address2}}</p>
+                                    {% if items.rocBusinessAddressInfo.address3 %}
+                                        <p class="my-0">  {{items.rocBusinessAddressInfo.address3}}</p>
+                                    {% endif %}
+                                    <p class="my-0">  {{items.rocBusinessAddressInfo.town}} </p>
+                                    {% if 'J' in items.rocBusinessAddressInfo.state %}
+                                        <p class="mt-0"> Johor</p> 
+                                    {% endif %}</td>
+
+                             <tr>       
+                                 <td>Postcode:</td>
+                                 <td>{{items.rocBusinessAddressInfo.postcode}}</td>
+                                                              
+                            </tr> 
+                            <tr>       
+                                <td>Nature Of Business:</td>
+                                <td>{% if items.rocCompanyInfo.businessDescription %}
+                                    {{items.rocCompanyInfo.businessDescription}}
+                                    {% else %}
+                                    NIL
+                                    {% endif %}</td>                            
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+            
+
+
+
+            <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;">** KEY FINANCIAL INFORMATION **</h3>
+            <p>Name: {{ data.corpInfo.compName }}</p>
+            <p>Registration No.: {{data.corpInfo.compNoNew }}{{data.corpInfo.compNoOld }}</p>
+            <p>Auditor: {{ data.balance_sheet.auditor_name }} </p>
+            <p>Auditor Address: {{ data.balance_sheet.auditor_address1 }}{{ data.balance_sheet.auditor_address2 }}
+                {{ data.balance_sheet.auditor_address3 }}{{ data.balance_sheet.auditor_postcode }}
+                {{ data.balance_sheet.auditor_town }}{{ data.balance_sheet.auditor_state }}</p>
+            <div class="table-responsive">
+                <table class="table text-left borderless">
+    
+                    <tbody>
+                        <tr>
+                            
+                            <td>Exempt Private Company (Y/N):</td>
+                            <td>{{ data.balance_sheet.auditor_name }}[0]</td>
+                            <td>{{ data.balance_sheet.auditor_name }}[1]</td>
+                        </tr>
+                        <tr>
+                            <td>Financial Year End:</td>
+                            <td>{{ data.balance_sheet.financial_year_end }}[1]</td>
+                            <td>{{ data.balance_sheet.financial_year_end }}[0]</td>
+                        </tr>
+                            <td>Unqualified Reports (Y/N):</td>
+                            <td>{{ data.balance_sheet.financialReportType }}[1]</td>
+                            <td>{{ data.balance_sheet.financialReportType }}[0]</td>
+                        </tr>
+                            <td>Consolidated Accounts (Y/N):</td>
+                            <td>{{ data.balance_sheet.accrualAccType }}[1][</td>
+                            <td>{{ data.balance_sheet.accrualAccType }}[0][</td>
+                        </tr>
+                            <td>Date of Tabling:</td>
+                            <td>{{ data.balance_sheet.dateOfTabling }}[1]</td>
+                            <td>{{ data.balance_sheet.dateOfTabling }}[0]</td>
+                        </tr>
+                            
+
+                        <tr>
+                            <td>BALANCE SHEET ITEMS</td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                        <tr>
+                            <td>Non Current Asset:</td>
+                            <td>{{ data.balance_sheet.nonCurrAsset }}[1]</td>
+                            <td>{{ data.balance_sheet.nonCurrAsset }}[0]</td>
+                        </tr>
+                            <td>Current Asset:</td>
+                            <td>{{ data.balance_sheet.currentAsset }}[1]</td>
+                            <td>{{ data.balance_sheet.currentAsset }}[0]</td>
+                        </tr>
+                            <td>Non Current Liabilities:</td>
+                            <td>{{ data.balance_sheet.nonCurrentLiability }}[1]</td>
+                            <td>{{ data.balance_sheet.nonCurrentLiability }}[0]</td>
+                    </tr>
+                            <td>Current Liabilities:</td>
+                            <td>{{ data.balance_sheet.liability }}[1]</td>
+                            <td>{{ data.balance_sheet.liability }}[0]</td>
+                    </tr>
+                            <td>Share Capital:</td>
+                            <td>{{ data.balance_sheet.paidUpCapital }}[1]</td>
+                            <td>{{ data.balance_sheet.paidUpCapital }}[0]</td>
+                    </tr>
+                            <td>Reserves:</td>
+                            <td>{{ data.balance_sheet.reserves }}[1]</td>
+                            <td>{{ data.balance_sheet.reserves }}[0]</td>
+                    </tr>
+                            <td>Retained Earning:</td>
+                            <td>{{ data.profit_loss.inappropriateProfitCf }}[1]</td>
+                            <td>{{ data.profit_loss.inappropriateProfitCf }}[0]</td>
+                    </tr>
+                            <td>Minority Interests:</td>
+                            <td>{{ data.profit_loss.minorityInterest }}[1]</td>
+                            <td>{{ data.profit_loss.minorityInterest }}[0]</td>
+                    </tr>
+
+                    <td>INCOME STATEMENT ITEMS</td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                        <tr>
+                            <td>Revenue:</td>
+                            <td>{{ data.profit_loss.revenue }}[1]</td>
+                            <td>{{ data.profit_loss.revenue }}[0]</td>
+                        </tr>
+                            <td>Profit/(Loss) before tax:</td>
+                            <td>{{ data.profit_loss.profitBeforeTax }}[1]</td>
+                            <td>{{ data.profit_loss.profitBeforeTax }}[0]</td>
+                        </tr>
+                            <td>Profit/(Loss) after tax:</td>
+                            <td>{{ data.profit_loss.profitAfterTax }}[1]</td>
+                            <td>{{ data.profit_loss.profitAfterTax }}[0]</td>
+                        </tr>
+                            <td>Net dividend:</td>
+                            td>{{ data.profit_loss.netDividend }}[1]</td>
+                            <td>{{ data.profit_loss.netDividend }}[0]</td>
+                        </tr>
+                            <td>Minority Interests:</td>
+                            <td>{{ data.profit_loss.minorityInterest }}[1]</td>
+                            <td>{{ data.profit_loss.minorityInterest }}[0]</td>
+                        </tr>
+              
+                    </tbody>
+                </table>
+            </div>
+        
+
+        </div>
+    </body>
+
+    <footer>
+        <p></p>
+    </footer>
+</html>
+

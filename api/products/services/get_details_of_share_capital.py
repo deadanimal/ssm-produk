@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_details_of_share_capital(url, headers, registration_number):
+def get_details_of_share_capital(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -11,9 +11,7 @@ def get_details_of_share_capital(url, headers, registration_number):
         <inf:getDetailsOfShareCapital>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>
