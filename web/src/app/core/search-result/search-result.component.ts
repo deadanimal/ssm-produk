@@ -47,6 +47,10 @@ export class SearchResultComponent implements OnInit {
   companyChargesForm: FormGroup
   acgsForm: FormGroup
   certIncorpForm: FormGroup
+  certChangeNameForm: FormGroup
+  certConversionForm: FormGroup
+  finHistoricalForm: FormGroup
+  businessProfileForm: FormGroup
 
   constructor(
     private toastr: ToastrService,
@@ -106,6 +110,34 @@ export class SearchResultComponent implements OnInit {
 
     this.certIncorpForm = this.fb.group({
       name: new FormControl('Cert Incorp'),
+      language: new FormControl('BM'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.certChangeNameForm = this.fb.group({
+      name: new FormControl('Cert Change Name'),
+      language: new FormControl('BM'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.certConversionForm = this.fb.group({
+      name: new FormControl('Cert Conversion'),
+      language: new FormControl('BM'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.finHistoricalForm = this.fb.group({
+      name: new FormControl('Fin Historical'),
+      language: new FormControl('BM'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.businessProfileForm = this.fb.group({
+      name: new FormControl('Business Profile'),
       language: new FormControl('BM'),
       isCtc: new FormControl(false),
       price: new FormControl(10.00)
@@ -171,6 +203,46 @@ export class SearchResultComponent implements OnInit {
       }
     }
     else if (product == 'Cert Incorp') {
+      if (this.certIncorpForm.value['isCtc']) {
+        let newPrice = this.certIncorpForm.value['price'] + 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+      else {
+        let newPrice = this.certIncorpForm.value['price'] - 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+    }
+    else if (product == 'Cert Change Name') {
+      if (this.certIncorpForm.value['isCtc']) {
+        let newPrice = this.certIncorpForm.value['price'] + 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+      else {
+        let newPrice = this.certIncorpForm.value['price'] - 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+    }
+    else if (product == 'Cert Conversion') {
+      if (this.certIncorpForm.value['isCtc']) {
+        let newPrice = this.certIncorpForm.value['price'] + 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+      else {
+        let newPrice = this.certIncorpForm.value['price'] - 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+    }
+    else if (product == 'Fin Historical') {
+      if (this.certIncorpForm.value['isCtc']) {
+        let newPrice = this.certIncorpForm.value['price'] + 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+      else {
+        let newPrice = this.certIncorpForm.value['price'] - 10
+        this.certIncorpForm.controls['price'].setValue(newPrice)
+      }
+    }
+    else if (product == 'Business Profile') {
       if (this.certIncorpForm.value['isCtc']) {
         let newPrice = this.certIncorpForm.value['price'] + 10
         this.certIncorpForm.controls['price'].setValue(newPrice)
