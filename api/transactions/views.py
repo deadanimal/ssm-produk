@@ -68,8 +68,9 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=False)
     def pg_return(self, request, *args, **kwargs):  
 
+        # url = 'http://localhost:4200/#/payment/return?transactionId=' + transaction_id
         transaction_id = request.POST.get("PaymentID", "")   
-        url = 'http://localhost:4200/#/payment/return?transactionId=' + transaction_id
+        url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + transaction_id
 
         return redirect(url)      
     
@@ -77,7 +78,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def encode(self, request, *args, **kwargs):
         
         merchant_pwd = 'sm212345'
-
+        # 'https://syafiqbasri.ngrok.io/v1/transactions/pg_return/'
         encode_request = json.loads(request.body)
         transaction = self.get_object()
         payment_id = int(transaction.created_date.timestamp() * 1000)
@@ -85,7 +86,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             merchant_pwd 
             + 'SM2'
             + str(payment_id) 
-            + 'https://syafiqbasri.ngrok.io/v1/transactions/pg_return/'
+            + 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/'
             #+ encode_request['merchantReturnUrl']        
             + encode_request['amount'] 
             + encode_request['currencyCode'] 
