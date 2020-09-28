@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://ssm-product-api.pipe.my/",
+  baseUrl: "https://syafiqbasri.ngrok.io/",
 };
 
 /*

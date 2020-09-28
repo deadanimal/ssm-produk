@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_comp_prof(url, headers, registration_number):
+def get_comp_prof(url, headers, registration_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -11,25 +11,18 @@ def get_comp_prof(url, headers, registration_number):
         <inf:getCompProfile>
             <header>
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
                 <customerRequestDate></customerRequestDate>
             </header>
             <request>
                 <supplyCompReq>
-                    <!--Optional:-->
                     <checkDigit></checkDigit>
                     <gstAmount>0</gstAmount>
                     <infoAmount>0</infoAmount>
-                    <!--Optional:-->
                     <invoiceNo></invoiceNo>
-                    <!--Optional:-->
                     <ipaddress></ipaddress>
-                    <!--Optional:-->
                     <lastUpdateDate></lastUpdateDate>
                     <regNo>""" + str(registration_number) + """</regNo>
-                    <!--Optional:-->
                     <remark></remark>
                     <tableId>ROCINFO</tableId>
                     <type>INFOPROFILE</type>

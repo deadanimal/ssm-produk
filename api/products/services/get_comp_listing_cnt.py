@@ -2,67 +2,43 @@ import requests
 import json
 import xmltodict
 
-def get_comp_listing_cnt(url, headers, registration_number):
+def get_comp_listing_cnt(url, headers, ):
 
-   payload = """
+    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lis="http://listing.ssm.com.my"> 
     <soapenv:Header/>
     <soapenv:Body>
-        <lis:getCompListingCnt> 
-            <!--Optional:--> 
-            <header>
-                <!--Optional:--> 
-                <customerId>SSMProduk</customerId> 
-                <!--Optional:--> 
-                <customerReferenceNo></customerReferenceNo> 
-                <!--Optional:--> 
+        <lis:getCompListingCnt>  
+            <header> 
+                <customerId>SSMProduk</customerId>  
+                <customerReferenceNo></customerReferenceNo>  
                 <customerRequestDate></customerRequestDate>
-            </header> 
-            <!--Optional:--> 
+            </header>  
             <request>
-                <!--Optional:-->
                 <compListingCntReq>
-                    <!--Optional:-->
-                    <bizCode>10799,10712</bizCode>
-                    <!--Optional:-->
-                    <chargeStatus>D</chargeStatus>
-                    <!--Optional:-->
-                    <chargeType>O</chargeType>
-                    <!--Optional:-->
-                    <compLocation>B</compLocation>
-                    <!--Optional:-->
-                    <compOrigin>L</compOrigin>
-                    <!--Optional:-->
-                    <compStatus>E</compStatus>
-                    <!--Optional:-->
-                    <compType>R</compType>
-                    <!--Optional:-->
-                    <directorNat>MAL,SIN</directorNat>
-                    <!--Optional:--> 
-                    <finYrEndMax>2017-10-31T00:00:00</finYrEndMax> 
-                    <!--Optional:--> 
-                    <finYrEndMin>2017-06-01T00:00:00</finYrEndMin> 
-                    <!--Optional:--> 
-                    <incorpDtFrom>2018-01-01T00:00:00</incorpDtFrom> 
-                    <!--Optional:--> 
-                    <incorpDtTo>2018-01-31T00:00:00</incorpDtTo> 
-                    <!--Optional:--> 
-                    <netProfRangeMax>10000</netProfRangeMax> 
-                    <!--Optional:--> 
-                    <netProfRangeMin>0</netProfRangeMin> 
-                    <packageType>C,D</packageType>
-                    <!--Optional:-->
-                    <shareholderNat>MAL,SIN</shareholderNat> 
+                    <bizCode>""" + business_code + """</bizCode>
+                    <chargeStatus>""" + charge_status + """</chargeStatus>
+                    <chargeType>""" + charge_type + """</chargeType>
+                    <compLocation>""" + company_location + """</compLocation> 
+                    <compOrigin>""" + company_origin + """</compOrigin> 
+                    <compStatus>""" + company_status + """</compStatus> 
+                    <compType>""" + company_type + """</compType> 
+                    <directorNat>""" + director_nationality + """</directorNat> 
+                    <finYrEndMax>""" + year_end_max + """</finYrEndMax>  
+                    <finYrEndMin>""" + year_end_min + """</finYrEndMin>  
+                    <incorpDtFrom>""" + date_from + """</incorpDtFrom> 
+                    <incorpDtTo>""" + date_to + """</incorpDtTo> 
+                    <netProfRangeMax>""" + profit_range_max + """</netProfRangeMax>  
+                    <netProfRangeMin>""" + profit_range_min + """</netProfRangeMin> 
+                    <packageType>""" + package_type + """</packageType>
+                    <shareholderNat>""" + shareholder_nationality + """</shareholderNat> 
                 </compListingCntReq>
             </request> 
         </lis:getCompListingCnt>
     </soapenv:Body> 
-</soapenv:Envelope>
-"""
-
-   response = requests.request("POST", url, data=payload, headers=headers)
-   response_xml = response.content
-   middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   print( middleware_response_json['soapenv:Envelope']['soapenv:Body']['lis:getCompListingCnt']['response'])
-#    return middleware_response_json['middleware tak bagi response lagi']
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['lis:getCompListingCnt']['response']['getCompListingCntReturn']
+</soapenv:Envelope>"""
+    
+    response = requests.request("POST", url, data=payload, headers=headers)
+    response_xml = response.content
+    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
+    return middleware_response_json['soapenv:Envelope']['soapenv:Body']['lis:getCompListingCnt']['response']['getCompListingCntReturn']

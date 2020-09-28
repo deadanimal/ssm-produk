@@ -1,4 +1,9 @@
-from django.shortcuts import render
+import hashlib
+import json
+import datetime
+
+from django.http import JsonResponse
+from django.shortcuts import render,redirect
 from django.db.models import Q
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -28,6 +33,9 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'reference_no'
+    ]
 
     def get_permissions(self):
         if self.action == 'list':
@@ -55,7 +63,67 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = Transaction.objects.filter(company=company.id)
         """
-        return queryset    
+        return queryset
+
+    @action(methods=['POST'], detail=False)
+    def pg_return(self, request, *args, **kwargs):  
+
+        transaction_id = request.POST.get("PaymentID", "")   
+        url = 'http://localhost:4200/#/payment/return?transactionId=' + transaction_id
+
+        return redirect(url)      
+    
+    @action(methods=['POST'], detail=True)
+    def encode(self, request, *args, **kwargs):
+        
+        merchant_pwd = 'sm212345'
+
+        encode_request = json.loads(request.body)
+        transaction = self.get_object()
+        payment_id = int(transaction.created_date.timestamp() * 1000)
+        encoding_string = (
+            merchant_pwd 
+            + 'SM2'
+            + str(payment_id) 
+            + 'https://syafiqbasri.ngrok.io/v1/transactions/pg_return/'
+            #+ encode_request['merchantReturnUrl']        
+            + encode_request['amount'] 
+            + encode_request['currencyCode'] 
+            + encode_request['custIP'] 
+            + encode_request['pageTimeout']
+        )
+        
+        encoding_string = encoding_string.encode('utf-8')
+        encoded_string = hashlib.sha256(encoding_string).hexdigest()
+
+        encode_request['order_number'] = transaction.id
+        encode_request['hash_value'] = encoded_string
+        encode_request['payment_id'] = str(payment_id)
+
+        transaction.reference_no = str(payment_id)
+        transaction.save()
+        
+        return Response(encode_request)
+
+    @action(methods=['GET'], detail=False)
+    def encode_test(self, request, *args, **kwargs):
+        
+        merchant_pwd = 'sm212345'
+
+        # encode_request = json.loads(request.body)
+        # transaction = self.get_object()
+        # Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
+
+        encoding_string = 'thebrocodeisourrule'
+        encoding_string = encoding_string.encode('utf-8')
+
+        encoded_string = hashlib.sha256(encoding_string).hexdigest()
+
+        json_encoded_message = {
+            'hashed': encoded_string
+        }
+
+        return Response(json_encoded_message)
  
 
 class CartCBIDViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

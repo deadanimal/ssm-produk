@@ -9,40 +9,23 @@ def get_image_ctc(url, headers, registration_number):
     <soapenv:Header />
     <soapenv:Body>
         <ws:getImageCtc>
-            <!--Optional:-->
             <header>
-                <!--Optional:-->
                 <customerId>SSMProduk</customerId>
-                <!--Optional:-->
                 <customerReferenceNo></customerReferenceNo>
-                <!--Optional:-->
-                <customerRequestDate>2020-09-01T15:13:40</customerRequestDate>
+                <customerRequestDate></customerRequestDate>
             </header>
-            <!--Optional:-->
             <request>
-                <!--Optional:-->
                 <docufloImgCtc>
-                    <!--Optional:-->
                     <companyNo>""" + str(registration_number) + """</companyNo>
-                    <!--Optional:-->
                     <docProfile></docProfile>
-                    <!--Optional:-->
                     <gstAmount></gstAmount>
-                    <!--Optional:-->
                     <infoAmount></infoAmount>
-                    <!--Optional:-->
                     <invoiceNo></invoiceNo>
-                    <!--Optional:-->
                     <ipaddress></ipaddress>
-                    <!--Optional:-->
-                    <remark>test</remark>
-                    <!--Optional:-->
+                    <remark></remark>
                     <tableId></tableId>
-                    <!--Optional:-->
                     <type></type>
-                    <!--Optional:-->
                     <userName>appadmin</userName>
-                    <!--Optional:-->
                     <userPwd>p@ss1234</userPwd>
                     <verId>3412175</verId>
                 </docufloImgCtc>

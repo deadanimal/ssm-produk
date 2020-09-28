@@ -12,6 +12,7 @@ def biz_profile(mdw_1, mdw_2, lang):
 
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
+    print(mdw_1)
 
     temp_main_address_1 = data_mdw_1['robBusinessInfo']['mainAddress1']
     temp_main_address_2 = data_mdw_1['robBusinessInfo']['mainAddress2']
