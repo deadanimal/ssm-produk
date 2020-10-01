@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FaqComponent implements OnInit {
 
+  faqs: any[] = []
+
   // Accordian
   isCollapsed = false;
   isCollapsed1 = true;

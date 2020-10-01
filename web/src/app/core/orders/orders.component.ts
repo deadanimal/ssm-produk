@@ -87,28 +87,28 @@ export class OrdersComponent implements OnInit {
       let a_json = JSON.parse(JSON.stringify(_json))
       console.log(a_json)
 
-      this.productService.getPDF(a_json).subscribe(
-        (res) => {
-          console.log(res)
-          window.open(res.pdflink)
-        }
-      )
+      // this.productService.getPDF(a_json).subscribe(
+      //   (res) => {
+      //     console.log(res)
+      //     window.open(res.pdflink)
+      //   }
+      // )
     }
     else if (row.product_id == 'f941af40-ba69-441c-ab93-e328101c192b') {
-      this.productService.getPDF(
-        {
-          "name": "acgs",
-          "language": "ms",
-          "ctc": "False",
-          "registration_no": row.entity_number,
-          "entity_type": "ROC"
-        }
-      ).subscribe(
-        (res) => {
-          console.log(res)
-          window.open(res.pdflink)
-        }
-      )
+      // this.productService.getPDF(
+      //   {
+      //     "name": "acgs",
+      //     "language": "ms",
+      //     "ctc": "False",
+      //     "registration_no": row.entity_number,
+      //     "entity_type": "ROC"
+      //   }
+      // ).subscribe(
+      //   (res) => {
+      //     console.log(res)
+      //     window.open(res.pdflink)
+      //   }
+      // )
     }
   }
 

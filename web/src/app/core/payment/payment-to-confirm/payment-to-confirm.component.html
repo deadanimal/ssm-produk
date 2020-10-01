@@ -1,0 +1,41 @@
+<div class="wrapper">
+	<section class="section-shaped title-bg bg-mini">
+		<div class="page-header page-header-small header-filter-white">
+			<div class="page-header-image" style="background-image: url('assets/img/banner/banner-cart.jpg')"></div>
+			<div class="container">
+				<div class="header-body text-center mb-9">
+					<div class="row justify-content-center">
+						<div class="col">
+							<h1 class="text-ssm font-weight-bolder mb-0">PAYMENT CONFIRMATION</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="container mt--9">
+		<form name="frmPayment" method="POST" action="https://test2pay.ghl.com/IPGSG/Payment.aspx">
+			<input type="hidden" name="TransactionType" [value]="paymentInfo.transactionType">
+			<input type="hidden" name="PymtMethod" [value]="paymentInfo.serviceID">
+			<input type="hidden" name="ServiceID" [value]="paymentInfo.paymentID">
+			<input type="hidden" name="PaymentID" [value]="paymentInfo.paymentDesc">
+			<input type="hidden" name="OrderNumber" [value]="paymentInfo.orderNumber">
+			<input type="hidden" name="PaymentDesc" [value]="paymentInfo.paymentDesc">
+			<input type="hidden" name="MerchantName" [value]="paymentInfo.merchantName">
+			<input type="hidden" name="MerchantReturnURL" [value]="paymentInfo.merchantReturnUrl">
+			<input type="hidden" name="MerchantCallbackURL" [value]="paymentInfo.merchantCallbackUrl">
+			<input type="hidden" name="Amount" [value]="paymentInfo.amount">
+			<input type="hidden" name="CurrencyCode" [value]="paymentInfo.currencyCode">
+			<input type="hidden" name="CustIP" [value]="paymentInfo.custIP">
+			<input type="hidden" name="CustName" [value]="paymentInfo.custName">
+			<input type="hidden" name="CustEmail" [value]="paymentInfo.custEmail">
+			<input type="hidden" name="CustPhone" [value]="paymentInfo.custPhone">
+			<input type="hidden" name="HashValue" [value]="paymentInfo.hashValue">
+			<input type="hidden" name="MerchantTermsURL" [value]="paymentInfo.merchantTermsUrl">
+			<input type="hidden" name="LanguageCode" [value]="paymentInfo.languageCode">
+            <input type="hidden" name="PageTimeout" [value]="paymentInfo.pageTimeout">
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+</div>

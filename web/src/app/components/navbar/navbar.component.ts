@@ -1,14 +1,14 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Router, NavigationEnd } from "@angular/router";
-import { ProductsService } from "src/app/shared/services/products/products.service";
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
 
 // auth service
-import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   // Checker
@@ -33,15 +33,15 @@ export class NavbarComponent implements OnInit {
   ) {
     // if (this.AuthService.decodedToken) {
     //   this.user_obj = this.AuthService.decodedToken();
-    //   console.log("====> ", this.user_obj);
+    //   console.log('====> ', this.user_obj);
     //   let userType = this.user_obj.user_type;
     // }
 
     if (this.AuthService.userType) {
       this.userType = this.AuthService.userType;
       this.userID = this.AuthService.userID;
-      console.log("user type ====> ", this.userType);
-      console.log("user id ====> ", this.userID);
+      console.log('user type ====> ', this.userType);
+      console.log('user id ====> ', this.userID);
     }
 
     router.events.subscribe((val) => {
@@ -55,10 +55,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     // change image
-    if (this.userType == "EG") {
-      this.imgAvatar = "assets/img/faces/christian.jpg";
+    if (this.userType == 'EG') {
+      this.imgAvatar = 'assets/img/faces/christian.jpg';
     } else {
-      this.imgAvatar = "assets/img/default/avatar.png";
+      this.imgAvatar = 'assets/img/default/avatar.png';
     }
 
     console.log(this.imgAvatar);
@@ -71,10 +71,10 @@ export class NavbarComponent implements OnInit {
   checkChanges() {
     this.userType = this.AuthService.userType;
     this.userID = this.AuthService.userID;
-    if (this.userType == "EG") {
-      this.imgAvatar = "assets/img/faces/christian.jpg";
+    if (this.userType == 'EG') {
+      this.imgAvatar = 'assets/img/faces/christian.jpg';
     } else {
-      this.imgAvatar = "assets/img/default/avatar.png";
+      this.imgAvatar = 'assets/img/default/avatar.png';
     }
     this.cdRef.detectChanges();
   }

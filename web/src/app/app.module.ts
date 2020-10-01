@@ -24,7 +24,6 @@ import { TmNgOdometerModule } from 'tm-ng-odometer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PresentationModule } from './presentation/presentation.module';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -46,7 +45,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     FormsModule,
     HttpClientModule,
     LoadingBarModule,
-    PresentationModule,
     RouterModule,
     TagInputModule,
     AlertModule.forRoot(),
