@@ -208,8 +208,8 @@ export class ProfileComponent implements OnInit {
       () => {
         this.orders = this.cartService.cart.cart_item
         console.log(this.cartService.cart)
-        this.tableRows = this.orders
-        this.tableRows.forEach(
+        this.tableOrderRows = this.orders
+        this.tableOrderRows.forEach(
           (item) => {
             item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
           }
@@ -217,13 +217,13 @@ export class ProfileComponent implements OnInit {
       },
       () => {},
       () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
+        this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
           return {
             ...prop,
             id_index: key+1
           }
         })
-        console.log(this.tableTemp)
+        console.log(this.tableOrderTemp)
       }
     )
   }
@@ -251,6 +251,82 @@ export class ProfileComponent implements OnInit {
 
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  downloadOutput(row) { 
+    if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
+      let body = {
+        "name": "company_profile",
+        "language": "ms",
+        "ctc": "False",
+        "registration_no": row.entity.company_number,
+        "entity_type": "ROC"
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // window.location.href =url;
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '74a97598-c817-4c06-971f-3197c4c12165') {
+      let body = {
+        "name": "company_profile",
+        "language": "en",
+        "ctc": "False",
+        "registration_no": row.entity.company_number,
+        "entity_type": "ROC"
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // window.location.href =url;
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '1eca2caf-a8c7-4327-a37f-394f4dd9c78e') {
+      let body = {
+        "name": "business_profile",
+        "language": "ms",
+        "ctc": "False",
+        "registration_no": row.entity.registration_number,
+        "entity_type": "ROB"
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    // else if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
+    //   let body = {
+    //     "name": "company_profile",
+    //     "language": "ms",
+    //     "ctc": "False",
+    //     "registration_no": row.entity.company_number,
+    //     "entity_type": "ROC"
+    //   }   
+    //   this.productService.generateDocument(body).subscribe()
+    // }
   }
 
 
@@ -470,56 +546,5 @@ export class ProfileComponent implements OnInit {
     console.log("confirm");
   }
 
-  downloadOutput(row) { 
-    if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
-      let body = {
-        "name": "company_profile",
-        "language": "ms",
-        "ctc": "False",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC"
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // window.location.href =url;
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '1eca2caf-a8c7-4327-a37f-394f4dd9c78e') {
-      let body = {
-        "name": "business_profile",
-        "language": "ms",
-        "ctc": "False",
-        "registration_no": row.entity.registration_number,
-        "entity_type": "ROB"
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    // else if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
-    //   let body = {
-    //     "name": "company_profile",
-    //     "language": "ms",
-    //     "ctc": "False",
-    //     "registration_no": row.entity.company_number,
-    //     "entity_type": "ROC"
-    //   }   
-    //   this.productService.generateDocument(body).subscribe()
-    // }
-  }
+  
 }
