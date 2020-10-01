@@ -27,12 +27,13 @@ def comp_prof(mdw_1, mdw_2, lang):
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     
+    """
     if data_mdw_1["rocCompanyInfo"]['dateOfChange']:
         date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
         date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         date_of_change_str = 'NIL'
-
+    """
     total_issued = float(mdw_1["rocShareCapitalInfo"]['totalIssued'])
 
     ordinary_issue_cash = float(mdw_1["rocShareCapitalInfo"]["ordIssuedCash"]["#text"])
@@ -173,7 +174,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         'bs_data': bs_data ,
         'pl_data': pl_data,
         'incorp_date': temp_incorpDate_new,
-        'date_of_change': date_of_change_str,
+        #'date_of_change': date_of_change_str,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %H:%M:%S"),
     }
 
