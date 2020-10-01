@@ -7,15 +7,13 @@
     <button
       *ngIf="file === null && avatar"
       class="btn btn-round btn-file mt-2"
-      (click)="handleClick()"
-    >
+      (click)="handleClick()">
       Add Photo
     </button>
     <button
       *ngIf="file === null && !avatar"
       class="btn btn-round btn-file mt-2"
-      (click)="handleClick()"
-    >
+      (click)="handleClick()">
       Select image
     </button>
     <span *ngIf="file !== null">
