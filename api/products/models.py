@@ -13,11 +13,19 @@ class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, default='NA')
     description = models.TextField(default='NA')
-    middleware_service = models.CharField(max_length=15, null=True)
     fee = models.IntegerField(default=0)
-    is_document = models.BooleanField(default=True)
     is_ctc = models.BooleanField(default=True)
-    is_bilingual = models.BooleanField(default=True)
+    slug = models.CharField(max_length=100, default='NA')
+
+    LANGUAGE = [
+        ('BM', 'Bahasa Malaysia'),
+        ('EN', 'English')
+    ]
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE,
+        default='BM'
+    )
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

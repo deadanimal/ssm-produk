@@ -23,7 +23,7 @@ with open('data/audit.txt', mode='r') as txt_file:
         }
         # print(audit)
 
-        r_reg = requests.post(base_url + 'v1/outfits/', data=audit)
+        r_reg = requests.post(base_url + 'v1/entities/', data=audit)
         print(index_counter, r_reg.status_code)
         # res_reg = r_reg.json()
 

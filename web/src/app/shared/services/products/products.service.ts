@@ -13,15 +13,17 @@ import { tap } from 'rxjs/operators';
 export class ProductsService {
 
   // URL
-  public urlProduct: string = environment.baseUrl + 'v1/products/services/'
-  public urlPDF: string = environment.baseUrl + 'v1/products/generate_product/'
+  public urlProducts: string = environment.baseUrl + 'v1/products/'
+  public urlServices: string = environment.baseUrl + 'v1/services/'
 
   // Data
-  public product: any
-  public products: any[] = []
-  public productsFiltered: any[] = []
+  public product: Product
+  public products: Product[] = []
+  public productsFiltered: Product[] = []
   public pdfProduct: any
-
+  public productDocument: any
+  public productImage: any
+  public productListing: any
 
   public cart: boolean = false
 
@@ -30,7 +32,7 @@ export class ProductsService {
   ) { }
 
   search(body: Form): Observable<any> {
-    return  this.http.post<any>(this.urlProduct, body).pipe(
+    return  this.http.post<any>(this.urlProducts, body).pipe(
       tap((res) => {
         this.product = res
         console.log('Product: ', this.product)
@@ -38,13 +40,51 @@ export class ProductsService {
     )
   }
 
-  getPDF(body: any): Observable<any> {
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json')
-    return this.http.post<any>(this.urlPDF, body, {headers: headers}).pipe(
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.urlProducts).pipe(
       tap((res) => {
-        this.pdfProduct = res
-        console.log(this.pdfProduct)
+        this.products = res
+        console.log('Products: ', this.products);
+      })
+    );
+  }
+
+  getOne(id: string): Observable<Product> {
+    let urlTemp = this.urlProducts + id + '/';
+    return this.http.get<Product>(urlTemp).pipe(
+      tap((res) => {
+        this.product = res
+        console.log('Product: ', this.product);
+      })
+    );
+  }
+
+  generateDocument(body: any): Observable<any> {
+    let urlTemp = this.urlProducts + 'generate_product/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        this.productDocument = res
+        console.log(this.productDocument)
+      })
+    )
+  }
+
+  generateImage(body: any): Observable<any> {
+    let urlTemp = this.urlServices + 'generate_image/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        this.productImage = res
+        console.log(this.productImage)
+      })
+    )
+  }
+
+  generateListing(body: any): Observable<any> {
+    let urlTemp = this.urlServices + 'generate_listing/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        this.productListing = res
+        console.log(this.productListing)
       })
     )
   }

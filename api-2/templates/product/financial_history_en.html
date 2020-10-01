@@ -1,0 +1,433 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>
+            @charset "UTF-8";
+            @page {
+                /* padding: 2cm; */
+                /* size: A4; Change from the default size of A4 */
+                /* padding: 2.0cm; Set margin on each page */
+                size: A4 portait;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                @top-right{
+                    content: "Page " counter(page) " of " counter(pages);
+                }
+            }
+
+            header#header {
+                position: fixed;
+                top: 0;
+                left: 0;
+
+                height: 14.5rem;
+                width: 100%;
+            }
+            img.logo {
+                height: 14rem !important;
+            }
+            html {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            .default-template {
+                color: #333;
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            .default-template p#secondary {
+                font-size: 16px;
+            }
+            .default-template p#disclaimer {
+                font-size: 18px;
+            }
+            .default-template p#primary {
+                word-spacing: 7pt;
+                font-size: 22px;
+                text-align: justify;
+            }
+            table {border: 0;} 
+            table tr.top table td.title {
+                color: #333;
+            }
+            table tr.heading td {
+                color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
+            }
+            .pg-break {
+                page-break-before: always; 
+                margin-top: 15rem;
+            }
+            .pg-start {
+                margin-top: 15rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header">
+            <div class="text-center">
+                <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
+            </div>
+        </header>
+        
+        <div class="default-template container pg-start">
+            <p style="font-size:8pt;text-align:justify;">
+                <b>ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
+                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
+                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
+                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
+                INFORMATION.</b>
+            </p>            
+            <h2 class="font-weight-bold text-center"><u> CORPORATE INFORMATION </u></h2>
+
+            <div class="table-responsive">
+                <table class="table text-left">
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.compName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">LAST OLD NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.compOldName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">DATE OF CHANGE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.changeDate }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">INCORPORATION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.incorpDate }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">TYPE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if 'B' in data.corpInfo.companyType %}
+                                LIMITED BY SHARE AND GUARANTEE
+                            {% endif %}
+                            {% if 'G' in data.corpInfo.companyType %}
+                                LIMITED BY GUARANTEE
+                            {% endif %}
+                            {% if 'S' in data.corpInfo.companyType %}
+                                LIMITED BY SHARES
+                            {% endif %}
+                            {% if 'U' in data.corpInfo.companyType %}
+                                UNLIMITED
+                            {% endif %}
+                            {% if 'R' in data.corpInfo.companyStatus %}
+                            <br>
+                                PRIVATE LIMITED
+                            {% endif %}
+                            {% if 'U' in data.corpInfo.companyStatus %}
+                            <br>
+                                PUBLIC LIMITED
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">STATUS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary">
+                            {% if 'B' in data.corpInfo.statusOfCompany %}
+                                DISSOLVED CONVERSION TO LLP
+                            {% endif %}
+                            {% if 'C' in data.corpInfo.statusOfCompany %}
+                                CEASED BUSINESS
+                            {% endif %}
+                            {% if 'D' in data.corpInfo.statusOfCompany %}
+                                DISSOLVED
+                            {% endif %}
+                            {% if 'E' in data.corpInfo.statusOfCompany %}
+                                EXISTING
+                            {% endif %}
+                            {% if 'R' in data.corpInfo.statusOfCompany %}
+                                REMOVED
+                            {% endif %}
+                            {% if 'W' in data.corpInfo.statusOfCompany %}
+                                WINDING UP
+                            {% endif %}
+                            {% if 'X' in data.corpInfo.statusOfCompany %}
+                                NULL AND VOID BY COURT ORDER
+                            {% endif %}
+                            {% if 'Y' in data.corpInfo.statusOfCompany %}
+                                STRUCK-OFF & WINDING-UP VIA COURT ORDER
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">REGISTERED ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                                <p id="secondary">{{data.corpInfo.reg_address1}}</p>
+                            {% if data.corpInfo.reg_address2 %}
+                                <p id="secondary">  {{data.corpInfo.reg_address2}}</p>
+                            {% endif %}
+                            {% if data.corpInfo.reg_address3 %}
+                                <p id="secondary">  {{data.corpInfo.reg_address3}}</p>
+                            {% endif %}
+                                <p id="secondary">  {{data.corpInfo.reg_town}}</p>
+                            {% if 'J' in data.corpInfo.reg_state %}
+                                <p class="mt-0"> Johor</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.reg_postcode}}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">ORIGIN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if 'MAL' in data.corpInfo.reg_origin %}
+                                <p id="secondary">MALAYSIA</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">BUSINESS ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary">{{data.corpInfo.biz_address1}} </p>
+                            <p id="secondary">  {{data.corpInfo.biz_address2}}</p>
+                            {% if data.corpInfo.biz_address3 %}
+                                <p id="secondary">  {{data.corpInfo.biz_address3}}</p>
+                            {% endif %}
+                            <p id="secondary">  {{data.corpInfo.biz_town}} </p>
+                            {% if 'J' in data.corpInfo.biz_state %}
+                                <p id="secondary"> JOHOR</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.biz_postcode}}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">NATURE OF BUSINESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.biz_nature %}
+                                {{data.corpInfo.biz_nature}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+
+            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> FINANCIAL HISTORICAL COMPARISON </u></h2>
+
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.corpInfo.compName }}</p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</p></td>
+                    </tr>                    
+                </table>
+            </div>                 
+            <div class="table-responsive">
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:36%; border: 0;"></th>
+                        <th style="width:32%; border: 0;"></th>
+                        <th style="width:32%; border: 0;"></th>
+                      </tr>
+                    <tbody>
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>                         
+
+                        <tr style="height:20px;">
+                            <td><p id="secondary">AUDITOR</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}</p></td>    
+                            <td><p id="secondary">{{data.balance_sheet.1.auditor_name}}</p></td>
+                        </tr>                        
+                        <tr>
+                            <td><p id="secondary">AUDITOR ADDRESS</td></p>
+                            <td><p id="secondary">{{data.balance_sheet.0.auditor_address1}}
+                                {{data.balance_sheet.0.auditor_address2}}
+                                {% if data.balance_sheet.0.auditor_address3 != None %}
+                                    {{ data.balance_sheet.0.auditor_address3 }}
+                                {% endif %}
+                                {{data.balance_sheet.0.auditor_postcode}}
+                                {{data.balance_sheet.0.auditor_town}}
+                                {{data.balance_sheet.0.auditor_state}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.1.auditor_address1}}
+                                {{data.balance_sheet.1.auditor_address2}}
+                                {% if data.balance_sheet.1.auditor_address3 != None %}
+                                    {{ data.balance_sheet.1.auditor_address3}}
+                                {% endif %}
+                                {{data.balance_sheet.1.auditor_postcode}}
+                                {{data.balance_sheet.1.auditor_town}}
+                                {{data.balance_sheet.1.auditor_state}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">EXEMPT PRIVATE COMPANY</p></td>
+                            <td><p id="secondary">N/A</p></td>
+                            <td><p id="secondary">N/A</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">FINANCIAL YEAR END</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.financial_year_end}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.1.financial_year_end}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">UNQUALIFIED REPORT (Y/N)</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.financialReportType}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.1.financialReportType}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">CONSOLIDATED REPORT (Y/N)</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.accrualAccType}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.1.accrualAccType}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">DATE OF TABLING</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.dateOfTabling}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.1.dateOfTabling}}</p></td>
+                        </tr>
+                            
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>                            
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary"><b>BALANCE SHEET ITEMS</b></p></td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                        <tr style="height:20px;">
+                            <td><p id="secondary">NON CURRENT ASST</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">CURRENT ASST</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.currentAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.currentAsset | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">NON CURRENT LIABILITIES</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">CURRENT LIABILITIES</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.liability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.liability | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">SHARE CAPITAL</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.paidUpCapital | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.paidUpCapital | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">                        
+                            <td><p id="secondary">RESERVE</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.reserves | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.reserves | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">RETAINED EARNING</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">MINORITY INTEREST</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.minorityInterest | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.minorityInterest | floatformat:2 | intcomma }}</p></td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>                            
+                        </tr>                        
+                        <tr style="height:20px;">
+                            <td><p id="secondary"><b>INCOME STATEMENT ITEMS</b></p></td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                        <tr style="height:20px;">
+                            <td><p id="secondary">REVENUE</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.revenue| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.revenue| floatformat:2 | intcomma }}</p></td>                          
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">PROFIT/(LOSS) BEFORE TAX</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.profitBeforeTax| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.profitBeforeTax| floatformat:2 | intcomma }}</p></td>                         
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">PROFIT/(LOSS) AFTER TAX</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.profitAfterTax| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.profitAfterTax| floatformat:2 | intcomma }}</p></td>                        
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">NET DIVIDENT</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.netDividend| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.netDividend| floatformat:2 | intcomma }}</p></td>                      
+                        </tr>
+                        <tr style="height:20px;">
+                            <td><p id="secondary">MINORITY INTEREST</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.minorityInterest| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.minorityInterest| floatformat:2 | intcomma }}</p></td>
+                        </tr>
+              
+                    </tbody>
+                </table>
+            </div>
+        
+
+        </div>
+    </body>
+
+    <footer>
+        <p></p>
+    </footer>
+</html>
+

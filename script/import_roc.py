@@ -6,7 +6,7 @@ import xlrd
 import csv
 
 
-with open('data/roc-v1.1.txt', mode='r') as txt_file:
+with open('data/roc.txt', mode='r') as txt_file:
     txt_reader = csv.reader(txt_file, delimiter='|')
     fields = [next(txt_reader)]
     base_url = 'https://ssm-product-api.pipe.my/'
@@ -25,7 +25,7 @@ with open('data/roc-v1.1.txt', mode='r') as txt_file:
         }
         # print(company)
 
-        r_reg = requests.post(base_url + 'v1/outfits/', data=company)
+        r_reg = requests.post(base_url + 'v1/entities/', data=company)
         print(index_counter, r_reg.status_code)
         # res_reg = r_reg.json()
 

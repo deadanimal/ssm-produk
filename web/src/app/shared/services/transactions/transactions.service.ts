@@ -1,80 +1,100 @@
-import { Injectable } from "@angular/core";
-import { environment } from "src/environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { Form } from "@angular/forms";
-import { tap } from "rxjs/operators";
-import { Observable } from "rxjs";
-import { Transaction } from "./transactions.model";
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Form } from '@angular/forms';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Transaction } from './transactions.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class TransactionsService {
-  // URL
-  public urlTransaction: string = environment.baseUrl + "v1/transactions/";
 
+  // URL
+  public urlTransactions: string = environment.baseUrl + 'v1/transactions/';
+  public urlTransactionsExtended: string = environment.baseUrl + 'v1/transactions/with_cart/';
   // Data
-  public transaction: Transaction;
-  public transactions: Transaction[] = [];
-  public transactionsFiltered: Transaction[] = [];
+  public transaction: any;
+  public transactions: any[] = [];
+  public transactionsFiltered: any[] = [];
   public encodedData: any
 
   constructor(private http: HttpClient) {}
 
-  create(body: Form): Observable<Transaction> {
-    return this.http.post<any>(this.urlTransaction, body).pipe(
+  create(body: Form): Observable<any> {
+    return this.http.post<any>(this.urlTransactions, body).pipe(
       tap((res) => {
         this.transaction = res
-        console.log("Transaction: ", res);
+        console.log('Created: ', res);
       })
     );
   }
 
-  getAll(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(this.urlTransaction).pipe(
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlTransactions).pipe(
       tap((res) => {
         this.transactions = res
-        console.log("Transactions: ", res);
+        console.log('Transactions: ', res);
       })
     );
   }
 
-  getOne(id: String): Observable<Transaction> {
-    let urlTransactionOne = this.urlTransaction + id + "/";
-    return this.http.get<Transaction>(urlTransactionOne).pipe(
+  getExtended(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlTransactionsExtended).pipe(
+      tap((res) => {
+        this.transactions = res
+        console.log('Transactions: ', res);
+      })
+    );
+  }
+
+  getOne(id: String): Observable<any> {
+    let urlTransactionsOne = this.urlTransactions + id + '/';
+    return this.http.get<any>(urlTransactionsOne).pipe(
       tap((res) => {
         this.transaction = res
-        console.log("Transaction: ", res);
+        console.log('Transaction: ', res);
       })
     );
   }
 
-  update(id: String, body: Form): Observable<Transaction> {
-    let urlTransactionOne = this.urlTransaction + id + "/";
-    return this.http.put<Transaction>(urlTransactionOne, body).pipe(
+  update(id: String, body: Form): Observable<any> {
+    let urlTransactionsOne = this.urlTransactions + id + '/';
+    return this.http.put<any>(urlTransactionsOne, body).pipe(
       tap((res) => {
         this.transaction = res
-        console.log("Transaction", res);
+        console.log('Transaction', res);
       })
     );
   }
 
-  filter(field: String): Observable<Transaction[]> {
-    let urlFilter = this.urlTransaction + "?" + field;
-    return this.http.get<Transaction[]>(urlFilter).pipe(
+  filter(field: String): Observable<any[]> {
+    let urlFilter = this.urlTransactions + '?' + field;
+    return this.http.get<any[]>(urlFilter).pipe(
       tap((res) => {
         this.transactionsFiltered = res
-        console.log("Transactions", res);
+        console.log('Filtered', res);
       })
     );
   }
 
   encode(body): Observable<any> {
-    let urlTemp = this.urlTransaction + this.transaction.id + '/encode/'
+    let urlTemp = this.urlTransactions + this.transaction.id + '/encode/'
     return this.http.post(urlTemp, body).pipe(
       tap((res) => {
         this.encodedData = res
         console.log(this.encodedData)
+      })
+    )
+  }
+
+  updateStatus(id: string, body: Form): Observable<any> {
+    let urlTemp = this.urlTransactions + id + '/update_payment_status/'
+    return this.http.put(urlTemp, body).pipe(
+      tap((res) => {
+        // this. = res
+        console.log('Updated: ', res)
       })
     )
   }

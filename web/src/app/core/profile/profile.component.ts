@@ -17,6 +17,20 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 
 // request
 import { InvestigationTicketsService } from "src/app/shared/services/investigation-tickets/investigation-tickets.service";
+import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
+
+import * as moment from 'moment';
+import { CartsService } from 'src/app/shared/services/carts/carts.service';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
+}
 
 @Component({
   selector: "app-profile",
@@ -24,12 +38,7 @@ import { InvestigationTicketsService } from "src/app/shared/services/investigati
   styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
-  // Modal
-  // modalTransactionDetail: BsModalRef;
-  // modalConfig = {
-  //   keyboard: true,
-  //   class: "modal-dialog-centered modal-xl"
-  // };
+
   // Modal
   modal: BsModalRef;
   modalTransactionDetail: BsModalRef;
@@ -72,55 +81,77 @@ export class ProfileComponent implements OnInit {
   requestInvestigationDocForm: FormGroup;
   updateUserInfoForm: FormGroup;
 
+  // Table
+  tableEntries: number = 10
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: any[] = []
+  SelectionType = SelectionType
+
+  tableOrderEntries: number = 10
+  tableOrderSelected: any[] = []
+  tableOrderTemp = []
+  tableOrderActiveRow: any
+  tableOrderRows: any[] = []
+
+  // Data
+  transactions: any[] = []
+  orders: any[] = []
+
   constructor(
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private AuthService: AuthService,
     private UsersService: UsersService,
     private InvestigationTicketsService: InvestigationTicketsService,
-    private router: Router
+    private router: Router,
+    private transactionService: TransactionsService,
+    private cartService: CartsService,
+    private productService: ProductsService,
+    private spinner: NgxSpinnerService,
   ) {}
 
   ngOnInit(): void {
-    this.intervalLogin = setInterval(() => {
-      this.autoLogin();
-    }, 1000);
+    // this.intervalLogin = setInterval(() => {
+    //   this.autoLogin();
+    // }, 1000);
     // console.log("asdasdad -> ", this.AuthService.userID);
     this.user_obj = this.AuthService.decodedToken();
-    console.log("user_obj => ", this.user_obj);
+    // console.log("user_obj => ", this.user_obj);
 
-    if (
-      this.AuthService.userID != undefined ||
-      this.user_obj.user_id != undefined
-    ) {
-      this.userType = this.AuthService.userType;
+    // if (
+    //   this.AuthService.userID != undefined ||
+    //   this.user_obj.user_id != undefined
+    // ) {
+    //   this.userType = this.AuthService.userType;
 
-      if (this.AuthService.userID != undefined) {
-        this.userID = this.AuthService.userID;
-      } else {
-        this.userID = this.user_obj.user_id;
-      }
+    //   if (this.AuthService.userID != undefined) {
+    //     this.userID = this.AuthService.userID;
+    //   } else {
+    //     this.userID = this.user_obj.user_id;
+    //   }
 
-      this.UsersService.getOne(this.id).subscribe((res) => {
-        this.userdetails = res;
-        console.log("userdata = ", this.userdetails);
-        this.egovPackage = this.userdetails.egov_package;
-        this.userFullname = this.userdetails.full_name;
-        this.userEmail = this.userdetails.email;
-        this.userNric = this.userdetails.nric_number;
-        this.UserHOD = this.userdetails.head_of_department_name;
-        this.userQuota = this.userdetails.egov_quota + " / 1000";
-        console.log(this.egovPackage);
+    //   // this.UsersService.getOne(this.id).subscribe((res) => {
+    //   //   this.userdetails = res;
+    //   //   console.log("userdata = ", this.userdetails);
+    //   //   this.egovPackage = this.userdetails.egov_package;
+    //   //   this.userFullname = this.userdetails.full_name;
+    //   //   this.userEmail = this.userdetails.email;
+    //   //   this.userNric = this.userdetails.nric_number;
+    //   //   this.UserHOD = this.userdetails.head_of_department_name;
+    //   //   this.userQuota = this.userdetails.egov_quota + " / 1000";
+    //   //   console.log(this.egovPackage);
 
-        if (this.egovPackage <= "2") {
-          this.showRequestQuotaButton = true;
-        }
-      });
-    }
+    //   //   if (this.egovPackage <= "2") {
+    //   //     this.showRequestQuotaButton = true;
+    //   //   }
+    //   // });
+    // }
 
-    this.InvestigationTicketsService.getAll().subscribe((res) => {
-      this.InvestigationList = res;
-    });
+    // this.InvestigationTicketsService.getAll().subscribe((res) => {
+    //   this.InvestigationList = res;
+    // });
 
     this.requestInvestigationDocForm = this.formBuilder.group({
       id: new FormControl(""),
@@ -144,7 +175,96 @@ export class ProfileComponent implements OnInit {
       // submit_request: new FormControl(""),
       // officer: new FormControl(this.userID),
     });
+
+    this.getData()
   }
+
+
+  // SB start
+
+  getData() {
+    this.transactionService.getExtended().subscribe(
+      () => {
+        this.transactions = this.transactionService.transactions
+        this.tableRows = this.transactions
+        this.tableRows.forEach(
+          (item) => {
+            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+          }
+        )
+      },
+      () => {},
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          }
+        })
+      }
+    )
+
+    this.cartService.getOne('2210c8ea-ae65-480f-af82-5ee1c49b7e06').subscribe(
+      () => {
+        this.orders = this.cartService.cart.cart_item
+        console.log(this.cartService.cart)
+        this.tableRows = this.orders
+        this.tableRows.forEach(
+          (item) => {
+            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+          }
+        )
+      },
+      () => {},
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          }
+        })
+        console.log(this.tableTemp)
+      }
+    )
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }
+
+
+
+  // SB end
+
+
+
+
+
+
+
+
+
 
   autoLogin() {
     let username = "admin2";
@@ -153,7 +273,7 @@ export class ProfileComponent implements OnInit {
       username: username,
       password: password,
     };
-    this.AuthService.obtainToken(this.infodata).subscribe((res) => {});
+    // this.AuthService.obtainToken(this.infodata).subscribe((res) => {});
   }
 
   addNewRequestData() {
@@ -348,5 +468,58 @@ export class ProfileComponent implements OnInit {
       },
     });
     console.log("confirm");
+  }
+
+  downloadOutput(row) { 
+    if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
+      let body = {
+        "name": "company_profile",
+        "language": "ms",
+        "ctc": "False",
+        "registration_no": row.entity.company_number,
+        "entity_type": "ROC"
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // window.location.href =url;
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '1eca2caf-a8c7-4327-a37f-394f4dd9c78e') {
+      let body = {
+        "name": "business_profile",
+        "language": "ms",
+        "ctc": "False",
+        "registration_no": row.entity.registration_number,
+        "entity_type": "ROB"
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    // else if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
+    //   let body = {
+    //     "name": "company_profile",
+    //     "language": "ms",
+    //     "ctc": "False",
+    //     "registration_no": row.entity.company_number,
+    //     "entity_type": "ROC"
+    //   }   
+    //   this.productService.generateDocument(body).subscribe()
+    // }
   }
 }

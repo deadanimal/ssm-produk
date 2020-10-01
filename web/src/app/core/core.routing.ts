@@ -1,82 +1,49 @@
 import { Routes } from '@angular/router';
-import { CartComponent } from './cart/cart.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+
+
 import { NotificationsComponent } from './notifications/notifications.component';
 import { OrdersComponent } from './orders/orders.component';
-import { PersonalInvolvementComponent } from './personal-involvement/personal-involvement.component';
-import { ProductListingComponent } from './product-listing/product-listing.component';
-import { SearchEngineComponent } from './search-engine/search-engine.component';
+
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ProfileComponent } from './profile/profile.component';
-import { EnquiryComponent } from './enquiry/enquiry.component';
-import { EnquiryGeneralComponent } from './enquiry-general/enquiry-general.component';
-import { EnquiryKjakpComponent } from './enquiry-kjakp/enquiry-kjakp.component';
+
 import { KjakpComponent } from './kjakp/kjakp.component';
-import { CbidComponent } from './cbid/cbid.component';
-import { PaymentComponent } from './payment/payment.component';
-import { SharesDirectorsComponent } from './shares-directors/shares-directors.component';
+
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
-import { CustomizedDataComponent } from './customized-data/customized-data.component';
-import { ProductPurchaseComponent } from './product-purchase/product-purchase.component';
-import { SearchCustomizeDataComponent } from './search-customize-data/search-customize-data.component';
 import { RequestInvestigationDocumentComponent } from './request-investigation-document/request-investigation-document.component';
-import { EnquiryHistoryComponent } from './enquiry-history/enquiry-history.component';
-import { PaymentToConfirmComponent } from './payment-to-confirm/payment-to-confirm.component';
-import { PaymentCallbackComponent } from './payment-callback/payment-callback.component';
-import { SearchComponent } from './search/search.component';
-import { SearchDataComponent } from './search-data/search-data.component';
-import { SearchResultComponent } from './search-result/search-result.component';
-import { SearchDataResultComponent } from './search-data-result/search-data-result.component';
-import { PaymentReturnComponent } from './payment-return/payment-return.component';
+
+
+import { PaymentComponent } from './payment/payment/payment.component';
+import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
+import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component';
+import { PaymentCallbackComponent } from './payment/payment-callback/payment-callback.component';
+
+import { ProductSearchComponent } from './products/product-search/product-search.component';
+import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
+import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
+import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
+import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
+
+import { EnquiryComponent } from './enquiry/enquiry/enquiry.component';
+import { EnquiryGeneralComponent } from './enquiry/enquiry-general/enquiry-general.component';
+import { EnquiryHistoryComponent } from './enquiry/enquiry-history/enquiry-history.component';
+import { EnquiryEgovComponent } from './enquiry/enquiry-egov/enquiry-egov.component';
+
+import { CartComponent } from './cart/cart/cart.component';
+import { CheckoutComponent } from './cart/checkout/checkout.component';
+
+import { CbidComponent } from './cbid/cbid/cbid.component';
+import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
+import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
+
 
 export const CoreRoutes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'cart',
-        component: CartComponent,
-      },
-      {
-        path: 'cbid',
-        component: CbidComponent,
-      },
-      {
-        path: 'checkout',
-        component: CheckoutComponent,
-      },
-      {
         path: 'company-detail',
         component: CompanyDetailComponent,
-      },
-      {
-        path: 'customized-data',
-        component: CustomizedDataComponent,
-      },
-      {
-        path: 'search-customized-data',
-        component: SearchCustomizeDataComponent,
-      },
-      {
-        path: 'enquiry',
-        children: [
-          {
-            path: '',
-            component: EnquiryComponent,
-          },
-          {
-            path: 'general',
-            component: EnquiryGeneralComponent,
-          },
-          {
-            path: 'egov',
-            component: EnquiryKjakpComponent,
-          },
-          {
-            path: 'history',
-            component: EnquiryHistoryComponent,
-          },
-        ],
       },
       {
         path: 'kjakp',
@@ -90,6 +57,48 @@ export const CoreRoutes: Routes = [
         path: 'orders',
         component: OrdersComponent,
       },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
+      },
+      {
+        path: 'request-investigation-document',
+        component: RequestInvestigationDocumentComponent,
+      },
+
+
+      // Products
+      {
+        path: 'products',
+        children: [
+          {
+            path: 'search',
+            component: ProductSearchComponent
+          },
+          {
+            path: 'search-personal-involvement',
+            component: ProductSearchPiComponent
+          },
+          {
+            path: 'search-shares-directors',
+            component: ProductSearchSdComponent
+          },
+          {
+            path: 'search-result',
+            component: ProductSearchResultComponent
+          },
+          {
+            path: 'search-custom-data',
+            component: ProductSearchCustomComponent
+          }
+        ]
+      },
+
+      // Payment
       {
         path: 'payment',
         children: [
@@ -111,54 +120,63 @@ export const CoreRoutes: Routes = [
           }
         ]
       },
+
+      //
       {
-        path: 'personal-involvement',
-        component: PersonalInvolvementComponent,
+        path: 'cbid',
+        children: [
+          {
+            path: '',
+            component: CbidComponent
+          },
+          {
+            path: 'search',
+            component: CbidSearchComponent
+          },
+          {
+            path: 'search-result',
+            component: CbidSearchResultComponent
+          }
+        ]
       },
+
+      // Enquiry
       {
-        path: 'product-listing',
-        component: ProductListingComponent,
+        path: 'enquiry',
+        children: [
+          {
+            path: '',
+            component: EnquiryComponent,
+          },
+          {
+            path: 'general',
+            component: EnquiryGeneralComponent,
+          },
+          {
+            path: 'egov',
+            component: EnquiryEgovComponent,
+          },
+          {
+            path: 'history',
+            component: EnquiryHistoryComponent,
+          },
+        ],
       },
+
+      // Cart
       {
-        path: 'product-purchase',
-        component: ProductPurchaseComponent,
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-      },
-      {
-        path: 'transactions',
-        component: TransactionsComponent,
-      },
-      {
-        path: 'search',
-        component: SearchComponent
-      },
-      {
-        path: 'search-data',
-        component: SearchDataComponent
-      },
-      {
-        path: 'search-result',
-        component: SearchResultComponent
-      },
-      {
-        path: 'search-data-result',
-        component: SearchDataResultComponent
-      },
-      {
-        path: 'search-engine',
-        component: SearchEngineComponent,
-      },
-      {
-        path: 'shares-directors',
-        component: SharesDirectorsComponent,
-      },
-      {
-        path: 'request-investigation-document',
-        component: RequestInvestigationDocumentComponent,
-      },
+        path: 'cart',
+        children: [
+          {
+            path: '',
+            component: CartComponent
+          },
+          {
+            path: 'checkout',
+            component: CheckoutComponent
+          }
+        ]
+      }
     ],
   },
 ];
