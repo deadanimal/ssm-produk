@@ -158,6 +158,23 @@ export class ProductSearchResultComponent implements OnInit {
   addCart(product: string) {
     let title = 'Success';
     let message = 'Item is added to the cart';
+    let product_id;
+
+    // if (product.slug == 'company_profile') {
+    //   if(product.ctc) {
+    //     if(product.language == 'en') {
+    //         product_id = 'A'
+    //     } else {
+    //       product_id = 'B'
+    //     }
+    //   } else {
+    //     if(product.language == 'en') {
+    //       product_id = 'C'
+    //     } else {
+    //       product_id = 'D'
+    //     }
+    //   }
+    // }
 
     if (product == 'Company Profile') {
       if (this.companyProfileForm.value['language'] == 'MS' && this.companyProfileForm.value['isCtc'] == false) {
