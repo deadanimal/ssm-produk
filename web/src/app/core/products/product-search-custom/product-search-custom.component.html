@@ -23,15 +23,15 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label class="form-control-label">Incorp/Reg Date From</label>
-                    <input class="form-control" placeholder="Enter Email Address" formControlName="email" />
+                    <label class="form-control-label">Incorporation Date, From</label>
+                    <input class="form-control" placeholder="Enter incorporation date, from"  />
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
-                    <label class="form-control-label">Incorp/Reg Date To</label>
-                    <input class="form-control" placeholder="Enter full name" />
+                    <label class="form-control-label">Incorporation Date, To</label>
+                    <input class="form-control" placeholder="Enter incorporation date, to"  />
                 </div>
             </div>
             <div class="col">
@@ -57,7 +57,7 @@
             <div class="col">
                 <div class="form-group">
                     <label class="form-control-label">Company Type</label>
-                    <select class="form-control" placeholder="Enter full name" formControlName="full_name">
+                    <select class="form-control" placeholder="Enter full name">
                         <option>Private</option>
                         <option>Public</option>
                     </select>
@@ -69,14 +69,14 @@
             <div class="col">
                 <div class="form-group">
                     <label class="form-control-label">Company Origin</label>
-                    <input class="form-control" placeholder="Enter Email Address" formControlName="email" />
+                    <input class="form-control" placeholder="Enter origin of company" />
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label class="form-control-label">Company Location</label>
-                    <select class="form-control" placeholder="Enter full name" formControlName="full_name">
+                    <select class="form-control" placeholder="Enter location of company">
                         <option>Local</option>
                         <option>Foreign</option>
                     </select>
@@ -85,7 +85,7 @@
             <div class="col">
                 <div class="form-group">
                     <label class="form-control-label">Director Nationality</label>
-                    <input class="form-control" placeholder="Enter Director Nationality" formControlName="email" />
+                    <input class="form-control" placeholder="Enter Director Nationality"  />
                 </div>
             </div>
 
@@ -93,14 +93,17 @@
                 <div class="form-group">
                     <label class="form-control-label">Shareholder Nationality</label>
                     <input class="form-control" placeholder="Enter Shareholder Nationality"
-                        formControlName="full_name" />
+                         />
                 </div>
             </div>
         </div>
         <div class="row pb-4 pt-3">
             <div class="col text-right">
-                <button class="btn btn-default" style="cursor: pointer" (click)="confirm()">
-                    Search</button>&nbsp;<button class="btn btn-default round" style="cursor: pointer"
+                <button class="btn btn-default" 
+                    style="cursor: pointer" 
+                    (click)="confirm()">Search</button>&nbsp;
+                <button class="btn btn-default round" 
+                    style="cursor: pointer"
                     (click)="navigatePage('/customized-data')">
                     Change Package
                 </button>

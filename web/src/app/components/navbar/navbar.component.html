@@ -27,193 +27,16 @@
 				</div>
 			</div>
 
-			<!-- <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto" *ngIf="mobileView()">
-				<li class="nav-item dropdown" dropdown>
-					<a class="nav-link" data-toggle="dropdown" dropdownToggle href="javascript:;" role="button">
-						<i class="ni ni-ui-04 d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Elements </span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-xl" *dropdownMenu>
-						<div class="dropdown-menu-inner">
-							<a class="media d-flex align-items-center" [routerLink]="['/landing']">
-								<div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
-									<i class="ni ni-spaceship"> </i>
-								</div>
-								<div class="media-body ml-3">
-									<h6 class="heading text-primary mb-md-1">Elements</h6>
-									<p class="description d-none d-md-inline-block mb-0">
-										Learn how to use compiling Scss, change brand colors and
-										more.
-									</p>
-								</div>
-							</a>
-							<a class="media d-flex align-items-center" [routerLink]="['/presentation']">
-								<div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
-									<i class="ni ni-palette"> </i>
-								</div>
-								<div class="media-body ml-3">
-									<h6 class="heading text-primary mb-md-1">Presentation</h6>
-									<p class="description d-none d-md-inline-block mb-0">
-										Learn more about colors, typography, icons and the grid
-										system we used for .
-									</p>
-								</div>
-							</a>
-						</div>
-						<div class="dropdown-menu-footer">
-							<a class="dropdown-item"
-								href="https://demos.creative-tim.com/argon-design-system-pro-angular/documentation/overview">
-								<i class="ni ni-atom"> </i> Getting Started
-							</a>
-							<a class="dropdown-item"
-								href="https://demos.creative-tim.com/argon-design-system-pro-angular/documentation/colors">
-								<i class="ni ni-ui-04"> </i> Foundation
-							</a>
-							<a class="dropdown-item"
-								href="https://demos.creative-tim.com/argon-design-system-pro-angular/documentation/alerts">
-								<i class="ni ni-archive-2"> </i> Components
-							</a>
-						</div>
-					</div>
-				</li>
-				<li class="nav-item dropdown" dropdown>
-					<a class="nav-link" data-toggle="dropdown" dropdownToggle href="javascript:;" role="button">
-						<i class="ni ni-app d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Design Blocks </span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu" *dropdownMenu>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'headers'">
-							<i class="ni ni-album-2 text-info"> </i> Headers
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'features'">
-							<i class="ni ni-settings text-danger"> </i> Features
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'blogs'">
-							<i class="ni ni-align-left-2 text-primary"> </i> Blogs
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'teams'">
-							<i class="ni ni-user-run text-danger"> </i> Teams
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'projects'">
-							<i class="ni ni-paper-diploma text-purple"> </i> Projects
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'pricing'">
-							<i class="ni ni-money-coins text-pink"> </i> Pricing
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'testimonials'">
-							<i class="ni ni-chat-round text-muted"> </i> Testimonials
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'contactus'">
-							<i class="ni ni-mobile-button text-success"> </i> Contact Us
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'tables'">
-							<i class="ni ni-chart-bar-32 text-default"> </i> Tables
-						</a>
-						<a class="dropdown-item" [routerLink]="['sections']" [fragment]="'accordion'">
-							<i class="ni ni-collection text-yellow"> </i> Accordion
-						</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown" dropdown>
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" dropdownToggle role="button">
-						<i class="ni ni-single-copy-04 d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Examples </span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu" *dropdownMenu>
-						<a class="dropdown-item" [routerLink]="['/examples/about-us']">
-							<i class="ni ni-tie-bow text-warning"> </i> About-us
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/blog-post']">
-							<i class="ni ni-align-center text-info"> </i> Blog Post
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/blog-posts']">
-							<i class="ni ni-chart-bar-32 text-yellow"> </i> Blog Posts
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/contact-us']">
-							<i class="ni ni-square-pin text-danger"> </i> Contact Us
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/landing-page']">
-							<i class="ni ni-planet text-purple"> </i> Landing Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/pricing-page']">
-							<i class="ni ni-money-coins text-success"> </i> Pricing
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/ecommerce']">
-							<i class="ni ni-box-2 text-pink"> </i> Ecommerce Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/product-page']">
-							<i class="ni ni-bag-17 text-primary"> </i> Product Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/profile-page']">
-							<i class="ni ni-circle-08 text-info"> </i> Profile Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/error']">
-							<i class="ni ni-button-power text-warning"> </i> 404 Error Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/500-error']">
-							<i class="ni ni-ungroup text-yellow"> </i> 500 Error Page
-						</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown" dropdown>
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" dropdownToggle role="button">
-						<i class="ni ni-tablet-button d-lg-none"> </i>
-						<span class="nav-link-inner--text"> App Pages </span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu" *dropdownMenu>
-						<a class="dropdown-item" [routerLink]="['/examples/account-settings']">
-							<i class="ni ni-lock-circle-open text-muted"> </i> Account
-							Settings
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/login-page']">
-							<i class="ni ni-tv-2 text-danger"> </i> Login Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/register-page']">
-							<i class="ni ni-air-baloon text-pink"> </i> Register Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/reset-page']">
-							<i class="ni ni-atom text-info"> </i> Reset Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/invoice-page']">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Invoice Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/checkout-page']">
-							<i class="ni ni-basket text-orange"> </i> Checkout Page
-						</a>
-						<a class="dropdown-item" [routerLink]="['/examples/chat-page']">
-							<i class="ni ni-chat-round text-primary"> </i> Chat Page
-						</a>
-					</div>
-				</li>
-			</ul> -->
 
 			<ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-lg-auto" *ngIf="!mobileView()">
+	
 				<li class="nav-item">
 					<a class="nav-link cursor-pointer" (click)="navigatePage('/home')">
 						Home
 					</a>
 				</li>
 
-				<!-- <li class="nav-item dropdown">
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
-						<i class="ni ni-app d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Landing</span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
-						<a class="dropdown-item" (click)="navigatePage('/landing')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 1
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing2')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 2
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing3')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 3
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing4')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 4
-						</a>
-					</div>
-				</li> -->
+	
 				<li class="nav-item dropdown">
 					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
 						<i class="ni ni-single-copy-04 d-lg-none"> </i>
@@ -232,7 +55,7 @@
 						<a class="dropdown-item" (click)="navigatePage('/enquiry')">
 							<i class="ni ni-align-center text-info"> </i> Enquiry
 						</a>
-						<a class="dropdown-item" (click)="navigatePage('/customized-detail')">
+						<a class="dropdown-item" (click)="navigatePage('/products/search-custom-data')">
 							<i class="ni ni-align-center text-info"> </i> Customized Data
 						</a>
 					</div>
@@ -245,53 +68,47 @@
 					</a>
 					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
 						<a class="dropdown-item" (click)="navigatePage('/about')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> About SSM
-							Product
+							About SSM Product
 						</a>
-						<!-- <a class="dropdown-item" (click)="navigatePage('/contact-us')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Contact Us
-						</a> -->
 						<a class="dropdown-item" (click)="navigatePage('/faq')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> FAQ
+							FAQ
 						</a>
 
 						<a class="dropdown-item" (click)="navigatePage('/product-listing')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Product Listing
+							Product Listing
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/cart')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Cart
+							Cart
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/checkout')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Checkout
+							Checkout
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/payment')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Payment
+							Payment
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/receipt')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Invoice
+							Invoice
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/orders')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Orders
+							Orders
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/notifications')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Notifications
+							Notifications
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/transactions')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Transactions
+							Transactions
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/personal-involvement')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Personal
-							Involvement
+							Personal Involvement
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/profile')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Profile
+							Profile
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/shares-directors')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Shares &
-							Directors
+							Shares & Directors
 						</a>
 						<a class="dropdown-item" (click)="navigatePage('/payment')">
-							<i class="ni ni-bullet-list-67 text-success"> </i> Payment
+							Payment
 						</a>
 					</div>
 				</li>
@@ -367,12 +184,12 @@
 						<!-- Dropdown header -->
 						<div class="px-3 py-3" *ngIf="cartz == true">
 							<h5 class="text-sm text-muted m-0">
-								You have <strong class="text-primary">1</strong> items in cart.
+								You have <strong class="text-primary">{{ cart | json }}</strong> items in cart.
 							</h5>
 						</div>
 						<div class="px-3 py-3" *ngIf="cartz == false">
 							<h5 class="text-sm text-muted m-0">
-								You have <strong class="text-primary">0</strong> items in cart.
+								You have <strong class="text-primary"> 0 </strong> items in cart.
 							</h5>
 						</div>
 
@@ -411,15 +228,11 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right py-0 overflow-hidden">
 						<div class="dropdown-header noti-title">
-							<h6 class="text-overflow m-0">Welcome!</h6>
+							<h6 class="text-overflow m-0">Welcome </h6>
 						</div>
 						<a class="dropdown-item" (click)="navigatePage('profile')">
-							<i class="fas fa-user fa-fw"></i> <span>My profile</span>
+							<i class="fas fa-user fa-fw"></i> <span>Profile</span>
 						</a>
-						<a class="dropdown-item" (click)="navigatePage('settings')">
-							<i class="fas fa-cogs fa-fw"></i> <span>Settings</span>
-						</a>
-						<div class="dropdown-divider"></div>
 						<a class="dropdown-item">
 							<i class="fas fa-sign-out-alt fa-fw"></i>
 							<span>Logout</span>
