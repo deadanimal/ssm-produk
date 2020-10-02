@@ -135,12 +135,7 @@ export class CbidComponent implements OnInit {
           });
         }
       },
-      () => {
-        // Activityed
-        // this.isLoading = false
-        // this.successMessage();
-        // this.errorAlert("edit");
-      }
+      () => {}
     );
   }
 
