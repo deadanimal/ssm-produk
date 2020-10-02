@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+
+import { CartsService } from '../../shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 
 // auth service
@@ -24,9 +26,11 @@ export class NavbarComponent implements OnInit {
   showIcondiv = false;
   userdetails: any;
   user_obj: any;
+  cart: any;
 
   constructor(
     private router: Router,
+    private cartService: CartsService,
     private productService: ProductsService,
     private AuthService: AuthService,
     public cdRef: ChangeDetectorRef
@@ -54,6 +58,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     // change image
     if (this.userType == 'EG') {
       this.imgAvatar = 'assets/img/faces/christian.jpg';
@@ -66,6 +71,13 @@ export class NavbarComponent implements OnInit {
     setInterval(() => {
       this.cartz = this.productService.cart;
     });
+
+    setInterval(() => {
+      this.cart = this.cartService.carts;
+      console.log(this.cart)
+    }, 1000);
+    
+
   }
 
   checkChanges() {
