@@ -56,7 +56,7 @@ export class PaymentReturnComponent implements OnInit {
       },
     }).then((res) => {
       if (res) {
-        this.router.navigate(['/profile'])
+        this.router.navigate(['/orders'])
       } 
     })
   }

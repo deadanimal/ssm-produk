@@ -1,62 +1,64 @@
 <div class="wrapper">
-    <div class="container pt-9 pb-3">
-        <h3 class="title font-weight-bolder">CUSTOMIZED DATA</h3>
-        <h1 class="title font-weight-bolder text-ssm">CBID Application Form</h1>
-        <p>
-            Customisable data for both companies and business that you can customize
-            at affordable prize!! Data includes list of companies or statistical data.
-        </p>
-    </div>
-    <section class="pricing-3 bg-filter-white" style="background-image: url('assets/img/background/menara_ssm.jpg')">
-        <div class="container pt-5 pb-5">
-            <div class="card">
-                <div class="py-5 pl-4">
-                    <h2 class="title font-weight-bolder text-left">Select Product</h2>
-                    <br /><br />
-                    <div class="px-2">
-                        <!-- <div class=""> -->
-                        <form [formGroup]="addAppReqForm">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Entities</label>
-                                        <select class="form-control" formControlName="entity_type"
-                                            placeholder="Registration Of Business">
-                                            <option value="ROB">
-                                                Registration of Business (ROB)
-                                            </option>
-                                            <option value="ROC">Registration of Company (ROC)</option>
-                                        </select>
-                                    </div>
-                                </div>
+	<div class="container pt-9 pb-3">
+		<h3 class="title font-weight-bolder">CUSTOMIZED DATA</h3>
+		<h1 class="title font-weight-bolder text-ssm">CBID Application Form</h1>
+		<p>
+			Customisable data for both companies and business that you can customize
+			at affordable prize!! Data includes list of companies or statistical data.
+		</p>
+	</div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Products</label>
-                                        <select class="form-control" placeholder="Registration Of Company"
-                                            formControlName="product_type">
-                                            <option value="BT">Both</option>
-                                            <option value="PD">Product</option>
-                                            <option value="LT">Listing</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="text-center py-3">
-                                        <button class="btn btn-ssm btn-icon btn-round" (click)="newApplicationData()">
-                                            <span class="btn-inner--text"> Add</span>
-                                            <!-- <span class="btn-inner--icon">
+	<section class="pricing-3 bg-filter-white" style="background-image: url('assets/img/background/menara_ssm.jpg')">
+		<div class="container pt-5 pb-5">
+			<div class="card">
+				<div class="py-5 pl-4">
+					<h2 class="title font-weight-bolder text-left">Select Product</h2>
+					<br /><br />
+					<div class="px-2">
+						<!-- <div class=""> -->
+						<form [formGroup]="addAppReqForm">
+							<div class="row d-flex">
+								<div class="col-md-5">
+									<div class="form-group">
+										<label class="form-control-label">Entities</label>
+										<select class="form-control" formControlName="entity_type"
+											placeholder="Registration Of Business">
+											<option value="ROB">
+												Registration of Business (ROB)
+											</option>
+											<option value="ROC">Registration of Company (ROC)</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-5">
+									<div class="form-group">
+										<label class="form-control-label">Products</label>
+										<select class="form-control" placeholder="Registration Of Company"
+											formControlName="product_type">
+											<option value="BT">Both</option>
+											<option value="PD">Product</option>
+											<option value="LT">Listing</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-2 flex-column">
+									<div class="text-center pt-4">
+										<button class="btn btn-ssm btn-icon btn-round m-0" (click)="newApplicationData()">
+											<span class="btn-inner--text"> Add</span>
+											<!-- <span class="btn-inner--icon">
                       <i class="fas fa-search"> </i>
                     </span> -->
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <br />
-                        <hr style="width: 100%; color: black" />
-                        <div class="row">
-                            <!-- <div class="col-lg-6 col-sm-6">
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<br />
+						<hr style="width: 100%; color: black" />
+						<div class="row">
+							<!-- <div class="col-lg-6 col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Company status</label>
                   <select class="form-control" placeholder="Enter company status">
@@ -73,225 +75,120 @@
                   </select>
                 </div>
               </div> -->
-                            <!-- </div> -->
+							<!-- </div> -->
 
-                            <!-- <div class="row"> -->
-                            <div class="col-lg-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-control-label">Name</label>
-                                    <input class="form-control" placeholder="Enter name" disabled value="Syafiq" />
-                                </div>
-                            </div>
-                            <!-- </div> -->
+							<!-- <div class="row"> -->
+							<div class="col-lg-6 col-sm-6">
+								<div class="form-group">
+									<label class="form-control-label">Name</label>
+									<input class="form-control" placeholder="Enter name" disabled value="Syafiq" />
+								</div>
+							</div>
+							<!-- </div> -->
 
-                            <!-- <div class="row"> -->
-                            <div class="col-lg-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-control-label">Organization</label>
-                                    <input class="form-control" placeholder="Enter organization" disabled
-                                        value="Pipeline Network SDN BHD" />
-                                </div>
-                            </div>
-                            <!-- </div> -->
+							<!-- <div class="row"> -->
+							<div class="col-lg-6 col-sm-6">
+								<div class="form-group">
+									<label class="form-control-label">Organization</label>
+									<input class="form-control" placeholder="Enter organization" disabled
+										value="Pipeline Network SDN BHD" />
+								</div>
+							</div>
+							<!-- </div> -->
 
-                            <!-- <div class="row"> -->
-                            <div class="col-lg-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-control-label">Address</label>
-                                    <input class="form-control" placeholder="Enter address" disabled
-                                        value="2-37, PV 128, 128 ,JALAN GENTING KLANG,KUALA LUMPUR" />
-                                </div>
-                            </div>
-                            <!-- </div> -->
+							<!-- <div class="row"> -->
+							<div class="col-lg-6 col-sm-6">
+								<div class="form-group">
+									<label class="form-control-label">Address</label>
+									<input class="form-control" placeholder="Enter address" disabled
+										value="2-37, PV 128, 128 ,JALAN GENTING KLANG,KUALA LUMPUR" />
+								</div>
+							</div>
+							<!-- </div> -->
 
-                            <!-- <div class="row"> -->
-                            <div class="col-lg-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-control-label">Email address</label>
-                                    <input class="form-control" placeholder="Enter email address"
-                                        value="syafiq@pipeline.com.my" disabled />
-                                </div>
-                            </div>
+							<!-- <div class="row"> -->
+							<div class="col-lg-6 col-sm-6">
+								<div class="form-group">
+									<label class="form-control-label">Email address</label>
+									<input class="form-control" placeholder="Enter email address"
+										value="syafiq@pipeline.com.my" disabled />
+								</div>
+							</div>
 
-                            <div class="col-lg-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-control-label">Phone no.</label>
-                                    <input class="form-control" placeholder="Enter phone no." disabled
-                                        value="201101032401" />
-                                </div>
-                            </div>
-                        </div>
+							<div class="col-lg-6 col-sm-6">
+								<div class="form-group">
+									<label class="form-control-label">Phone no.</label>
+									<input class="form-control" placeholder="Enter phone no." disabled
+										value="201101032401" />
+								</div>
+							</div>
+						</div>
 
-                        <!-- </div> -->
-                    </div>
-                    <div class="container pt-3" *ngIf="clicked">
-                        <span class="text-center">
-                            <br />
-                            <h4 class="h3 mb-0">Summary Of Request</h4>
-                            <br /><br />
-                        </span>
+						<!-- </div> -->
+					</div>
+					<div class="container pt-3" *ngIf="clicked">
+						<span class="text-center">
+							<br />
+							<h4 class="h3 mb-0">Summary Of Request</h4>
+							<br /><br />
+						</span>
 
-                        <!-- <div class="dataTables_wrapper py-4">
-                <div class="dataTables_length" id="datatable_length">
-                  <label>
-                    Show
-                    <select
-                      name="datatable_length"
-                      aria-controls="datatable"
-                      class="form-control form-control-sm"
-                      (change)="entriesChange($event)"
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="-1">All</option>
-                    </select>
-                    records
-                  </label>
-                </div>
-  
-                <ngx-datatable
-                  class="bootstrap selection-cell bordered"
-                  [columnMode]="'force'"
-                  [headerHeight]="50"
-                  [footerHeight]="50"
-                  [rowHeight]="'auto'"
-                  [limit]="tableEntries != -1 ? tableEntries : undefined"
-                  [rows]="listEntity"
-                  (activate)="onActivate($event)"
-                >
-                  <ngx-datatable-column name="No">
-                    <ng-template
-                      let-rowIndex="rowIndex"
-                      let-row="row"
-                      ngx-datatable-cell-template
-                    >
-                      <strong>{{ rowIndex + 1 }}</strong>
-                    </ng-template>
-                  </ngx-datatable-column>
-  
-                  <ngx-datatable-column>
-                    <ng-template ngx-datatable-header-template>
-                      <span>Name</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <span *ngIf="row.entity_type == 'ROB'"
-                        >Registration Of Business</span
-                      >
-                      <span *ngIf="row.entity_type == 'ROC'"
-                        >Registration Of Company</span
-                      >
-                    </ng-template>
-                  </ngx-datatable-column>
-  
-                  <ngx-datatable-column>
-                    <ng-template ngx-datatable-header-template>
-                      <span>Type</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <span *ngIf="row.product_type == 'BT'">Both</span>
-                      <span *ngIf="row.product_type == 'LT'">Listing</span>
-                      <span *ngIf="row.product_type == 'PD'">Product</span>
-                    </ng-template>
-                  </ngx-datatable-column>
-  
-                  <ngx-datatable-column>
-                    <ng-template ngx-datatable-header-template>
-                      <span>Price</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <span *ngIf="row.entity_type == 'ROB'">RM10.00</span>
-                      <span *ngIf="row.entity_type == 'ROC'">RM20.00</span>
-                      <span
-                        *ngIf="
-                          row.entity_type != 'ROB' && row.entity_type != 'ROC'
-                        "
-                        >RM30.00</span
-                      >
-                    </ng-template>
-                  </ngx-datatable-column>
-  
-                  <ngx-datatable-column>
-                    <ng-template ngx-datatable-header-template>
-                      <span>Action</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <a style="cursor: pointer" (click)="confirm(row.id)">
-                        <button class="btn btn-danger btn-sm">
-                          <i class="fas fa-trash"></i> Remove
-                        </button></a
-                      >
-                    </ng-template>
-                  </ngx-datatable-column>
-                </ngx-datatable>
-              </div> -->
+						<table class="table table-striped">
+							<thead class="text-primary">
+								<tr>
+									<th>Name</th>
+									<th>Type /</th>
+									<th>Price</th>
+									<th class="text-center">Action</th>
+								</tr>
+							</thead>
 
-                        <table class="table table-striped">
-                            <thead class="text-primary">
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th>Name</th>
-                                    <th>Type /</th>
-                                    <th>Price</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr *ngFor="let item of listEntity">
-                                    <td class="text-center">
-                                        <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" type="checkbox"
-                                                [(ngModel)]="item.checked" [name]="item.id" />
-
-                                            <label class="custom-control-label"> </label>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <span *ngIf="item.entity_type == 'ROB'">Registration Of Business
-                                        </span>
-                                        <span *ngIf="item.entity_type == 'ROC'">Registration Of Company
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="item.product_type == 'BT'">Both</span>
-                                        <span *ngIf="item.product_type == 'LT'">Listing</span>
-                                        <span *ngIf="item.product_type == 'PD'">Product</span>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="item.entity_type == 'ROB'">RM10.00</span>
-                                        <span *ngIf="item.entity_type == 'ROC'">RM20.00</span>
-                                        <span *ngIf="
+							<tbody>
+								<tr *ngFor="let item of listEntity">
+									<td>
+										<span *ngIf="item.entity_type == 'ROB'">Registration Of Business
+										</span>
+										<span *ngIf="item.entity_type == 'ROC'">Registration Of Company
+										</span>
+									</td>
+									<td>
+										<span *ngIf="item.product_type == 'BT'">Both</span>
+										<span *ngIf="item.product_type == 'LT'">Listing</span>
+										<span *ngIf="item.product_type == 'PD'">Product</span>
+									</td>
+									<td>
+										<span *ngIf="item.entity_type == 'ROB'">RM10.00</span>
+										<span *ngIf="item.entity_type == 'ROC'">RM20.00</span>
+										<span *ngIf="
                           item.entity_type != 'ROB' && item.entity_type != 'ROC'
                         ">RM30.00</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a style="cursor: pointer" (click)="confirm(item.id)">
-                                            <i class="fas fa-trash text-red"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr></tr>
-                            </tbody>
-                        </table>
+									</td>
+									<td class="text-center">
+										<a style="cursor: pointer" (click)="confirm(item.id)">
+											<i class="fas fa-trash text-red"></i>
+										</a>
+									</td>
+								</tr>
+								<tr></tr>
+							</tbody>
+						</table>
 
-                        <div class="text-right py-3">
-                            <button class="btn btn-ssm btn-icon btn-round" (click)="navigatePage('/cart')">
-                                <span class="btn-inner--text"> Checkout </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+						<div class="text-right py-3">
+							<button class="btn btn-ssm btn-icon btn-round" (click)="navigatePage('/cart')">
+								<span class="btn-inner--text"> Checkout </span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-    <div class="container">
-        <div class="row py-4">
-            <div class="col">
-                <img src="assets/img/background/how.png" style="width: 100%" />
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row py-4">
+			<div class="col">
+				<img src="assets/img/background/how.png" style="width: 100%" />
+			</div>
+		</div>
+	</div>
 </div>
