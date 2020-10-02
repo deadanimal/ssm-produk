@@ -80,6 +80,7 @@ export class CbidComponent implements OnInit {
   }
 
   getEntity() {
+    /*
     this.entityService.getAll().subscribe((res) => {
       this.listEntity = res;
       var keys = Object.keys(this.listEntity);
@@ -92,6 +93,7 @@ export class CbidComponent implements OnInit {
       }
       console.log("data = ", this.listProject);
     });
+    */
   }
 
   ngOnInit(): void {
