@@ -66,7 +66,7 @@
 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Order Number</p>
+                                        <span class="table-header">Order Number</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <!-- {{row.product.name}} -->
@@ -76,7 +76,7 @@
 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Date & Time Purchased</p>
+                                        <span class="table-header">Date & Time Purchased</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         {{ row.created_date }}
@@ -85,7 +85,7 @@
 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Entity Name</p>
+                                        <span class="table-header">Entity Name</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         {{row.entity?.name}}
@@ -94,16 +94,16 @@
                                 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Language</p>
+                                        <span class="table-header">Language</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.entity?.language}}
+                                        {{row.product?.language}}
                                     </ng-template>
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Product</p>
+                                        <span class="table-header">Product</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         {{row.product?.name}}
@@ -112,7 +112,7 @@
 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Status</p>
+                                        <span class="table-header">Status</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <span class="badge badge-success">Success</span>
@@ -121,7 +121,7 @@
                                 
                                 <ngx-datatable-column>
                                     <ng-template ngx-datatable-header-template>
-                                        <p>Document Output</p>
+                                        <span class="table-header">Document Output</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <button class="btn btn-ssm btn-sm" (click)="downloadOutput(row)">
@@ -137,3 +137,7 @@
         </div>
     </div>
 </div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
+	<p style="color: white">Loading...</p>
+</ngx-spinner>
