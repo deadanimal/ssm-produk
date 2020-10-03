@@ -461,6 +461,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  navigatePage(path: string) {
+    return this.router.navigate([path]);
+  }
+
+
 
 
   // SB end
@@ -492,12 +497,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  navigatePage(path: string) {
-    // console.log('Path: ', path)
-    // this.closeModal();
-    this.router.navigate([path]);
-  }
-
+  
   openModal(modalRef: TemplateRef<any>) {
     this.modal = this.modalService.show(
       modalRef,
