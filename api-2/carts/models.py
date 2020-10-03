@@ -18,7 +18,7 @@ from products.models import (
 )
 
 from services.models import (
-    Service
+    ServiceRequest
 )
 
 from users.models import (
@@ -59,7 +59,7 @@ class CartItem(models.Model):
 
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
+    service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
