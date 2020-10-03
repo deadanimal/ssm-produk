@@ -112,13 +112,14 @@
 												<option value="25" [selected]="tableEntries == 25">25</option>
 												<option value="50" [selected]="tableEntries == 50">50</option>
 												<option value="100" [selected]="tableEntries == 100">100</option>
-												<option value="-1" [selected]="tableEntries == -1">All</option>
+												<!-- <option value="-1" [selected]="tableEntries == -1">All</option> -->
 											</select>
 											record
 										</label>
 									</div>
 								</div>
 							</div>
+							
 							<ngx-datatable 
 								class="bootstrap selection-cell"
 								[columnMode]="'force'"
@@ -130,7 +131,7 @@
 								(activate)="onActivate($event)"
 							>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column maxWidth="220">
 									<ng-template ngx-datatable-header-template>
 										<span>Entity No.</span>
 									</ng-template>
@@ -156,7 +157,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column maxWidth="120">
 									<ng-template ngx-datatable-header-template>
 										<span>Entity Type</span>
 									</ng-template>
@@ -173,7 +174,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column maxWidth="120" [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span></span>
 									</ng-template>

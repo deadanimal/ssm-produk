@@ -12,13 +12,15 @@ import { Transaction } from './transactions.model';
 export class TransactionsService {
 
   // URL
-  public urlTransactions: string = environment.baseUrl + 'v1/transactions/';
-  public urlTransactionsExtended: string = environment.baseUrl + 'v1/transactions/with_cart/';
+  public urlTransactions: string = environment.baseUrl + 'v1/transactions/'
+  public urlTransactionsExtended: string = environment.baseUrl + 'v1/transactions/with_cart/'
+
   // Data
-  public transaction: any;
-  public transactions: any[] = [];
-  public transactionsFiltered: any[] = [];
+  public transaction: any
+  public transactions: any[] = []
+  public transactionsFiltered: any[] = []
   public encodedData: any
+  public transactionLatest: any
 
   constructor(private http: HttpClient) {}
 
@@ -38,6 +40,16 @@ export class TransactionsService {
         console.log('Transactions: ', res);
       })
     );
+  }
+
+  getLatest(): Observable<any> {
+    let urlTemp = this.urlTransactions + ''
+    return this.http.get<any>(urlTemp).pipe(
+      tap((res) => {
+        this.transactionLatest = res
+        console.log('Lates: ', this.transactionLatest)
+      })
+    )
   }
 
   getExtended(): Observable<any[]> {

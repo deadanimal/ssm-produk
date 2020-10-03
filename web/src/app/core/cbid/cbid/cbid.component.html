@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <div class="wrapper">
 	<div class="container pt-9 pb-3">
 		<h3 class="title font-weight-bolder">CUSTOMIZED DATA</h3>
@@ -9,180 +10,224 @@
 	</div>
 
 	<section class="pricing-3 bg-filter-white" style="background-image: url('assets/img/background/menara_ssm.jpg')">
-		<div class="container pt-5 pb-5">
-			<div class="card">
-				<div class="py-5 pl-4">
-					<h2 class="title font-weight-bolder text-left">Select Product</h2>
-					<br /><br />
-					<div class="px-2">
-						<!-- <div class=""> -->
-						<form [formGroup]="addAppReqForm">
-							<div class="row d-flex">
-								<div class="col-md-5">
-									<div class="form-group">
-										<label class="form-control-label">Entities</label>
-										<select class="form-control" formControlName="entity_type"
-											placeholder="Registration Of Business">
-											<option value="ROB">
-												Registration of Business (ROB)
-											</option>
-											<option value="ROC">Registration of Company (ROC)</option>
-										</select>
-									</div>
-								</div>
+        <div class="container pt-5 pb-5">
+            <div class="card">
+                <div class="py-5 pl-4">
+                    <h2 class="title font-weight-bolder text-left mb-2">Select Product</h2>
+                    <div class="px-2">
+                        <form [formGroup]="serviceForm">
+                            <div class="row d-flex">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Entities</label>
+                                        <select 
+                                            class="form-control" 
+                                            formControlName="entity_type"
+                                        >
+                                            <option value="RB">Registration of Business (ROB)</option>
+                                            <option value="RC">Registration of Company (ROC)</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-								<div class="col-md-5">
-									<div class="form-group">
-										<label class="form-control-label">Products</label>
-										<select class="form-control" placeholder="Registration Of Company"
-											formControlName="product_type">
-											<option value="BT">Both</option>
-											<option value="PD">Product</option>
-											<option value="LT">Listing</option>
-										</select>
-									</div>
-								</div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Products</label>
+                                        <select 
+                                            class="form-control" 
+                                            formControlName="product_type"
+                                        >
+                                            <option value="PR">Product</option>
+                                            <option value="LS">Listing</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-								<div class="col-md-2 flex-column">
-									<div class="text-center pt-4">
-										<button class="btn btn-ssm btn-icon btn-round m-0" (click)="newApplicationData()">
-											<span class="btn-inner--text"> Add</span>
-											<!-- <span class="btn-inner--icon">
-                      <i class="fas fa-search"> </i>
-                    </span> -->
-										</button>
-									</div>
-								</div>
-							</div>
-						</form>
-						<br />
-						<hr style="width: 100%; color: black" />
-						<div class="row">
-							<!-- <div class="col-lg-6 col-sm-6">
-                <div class="form-group">
-                  <label class="form-control-label">Company status</label>
-                  <select class="form-control" placeholder="Enter company status">
-                    <option>Please select</option>
-                  </select>
+                                <div class="col-md-2 flex-column">
+                                    <div class="text-center pt-4">
+                                        <button 
+                                            class="btn btn-ssm btn-icon btn-round m-0" 
+                                            (click)="addRequest()"
+                                        >
+                                            <span class="btn-inner--text"> Add</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <hr style="width: 100%; color: black" class="mt-2" />
+                        
+                        <form [formGroup]="requestForm">
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Name</label>
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Enter name"
+                                            formControlName="name"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Organisation</label>
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Enter organisation"
+                                            formControlName="organisation" 
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Address</label>
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Enter address"
+                                            formControlName="address" 
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Email address</label>
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Enter email address"
+                                            formControlName="email" 
+                                        />
+                                    </div>
+                                </div>
+    
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Phone no.</label>
+                                        <input 
+                                            class="form-control" 
+                                            placeholder="Enter phone no." 
+                                            formControlName="phone_number"    
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Remarks</label>
+                                        <textarea 
+                                            class="form-control" 
+                                            placeholder="Remarks" 
+                                            formControlName="remarks"    
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="container pt-3" *ngIf="requestToAdd.length > 0">
+                        <span class="text-center">
+                            <h3 class="py-2">Summary Of Request</h3>
+                        </span>
+
+                        <ngx-datatable 
+                            class="bootstrap selection-cell"
+                            [columnMode]="'force'"
+                            [headerHeight]="50"
+                            [footerHeight]="50"
+                            [rowHeight]="'auto'"
+                            [limit]="tableEntries != -1 ? tableEntries : undefined" 
+                            [rows]="tableTemp"
+                            (activate)="onActivate($event)"
+                        >
+
+                            <ngx-datatable-column>
+                                <ng-template ngx-datatable-header-template>
+                                    <span>No.</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.id_index}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column>
+                                <ng-template ngx-datatable-header-template>
+                                    <span>Entity</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div *ngIf="row.entity_type == 'RB'">
+                                        Registration of Business (ROB)
+                                    </div>
+                                    <div *ngIf="row.entity_type == 'RC'">
+                                        Registration of Business (ROC)
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column>
+                                <ng-template ngx-datatable-header-template>
+                                    <span>Type</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div *ngIf="row.product_type == 'PR'">
+                                        Product
+                                    </div>
+                                    <div *ngIf="row.product_type == 'LS'">
+                                        Listing
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column>
+                                <ng-template ngx-datatable-header-template>
+                                    <span>Price</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div *ngIf="row.entity_type == 'RB'">
+                                        RM10.00
+                                    </div>
+                                    <div *ngIf="row.entity_type == 'RC'">
+                                        RM20.00
+                                    </div>
+                                    <div *ngIf="row.entity_type == 'BT'">
+                                        RM30.00
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column maxWidth="60">
+                                <ng-template ngx-datatable-header-template>
+                                    <span class="table-header"></span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <a 
+                                        class="nav-link nav-link-icon cursor-pointer"
+                                        (click)="removeItem(row.id)"
+                                    >
+                                        <i 
+                                            class="fas fa-trash-alt text-danger"
+                                            placement="top" 
+                                            tooltip="Remove from cart"
+                                        > 
+                                        </i>
+                                    </a>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+
+                        <div class="text-right py-3">
+                            <button class="btn btn-ssm btn-icon btn-round" (click)="addToCart()">
+                                <span class="btn-inner--text"> Checkout </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-  
-              <div class="col-lg-6 col-sm-6">
-                <div class="form-group">
-                  <label class="form-control-label">Company type</label>
-                  <select class="form-control" placeholder="Enter company type">
-                    <option>Please select</option>
-                  </select>
-                </div>
-              </div> -->
-							<!-- </div> -->
-
-							<!-- <div class="row"> -->
-							<div class="col-lg-6 col-sm-6">
-								<div class="form-group">
-									<label class="form-control-label">Name</label>
-									<input class="form-control" placeholder="Enter name" disabled value="Syafiq" />
-								</div>
-							</div>
-							<!-- </div> -->
-
-							<!-- <div class="row"> -->
-							<div class="col-lg-6 col-sm-6">
-								<div class="form-group">
-									<label class="form-control-label">Organization</label>
-									<input class="form-control" placeholder="Enter organization" disabled
-										value="Pipeline Network SDN BHD" />
-								</div>
-							</div>
-							<!-- </div> -->
-
-							<!-- <div class="row"> -->
-							<div class="col-lg-6 col-sm-6">
-								<div class="form-group">
-									<label class="form-control-label">Address</label>
-									<input class="form-control" placeholder="Enter address" disabled
-										value="2-37, PV 128, 128 ,JALAN GENTING KLANG,KUALA LUMPUR" />
-								</div>
-							</div>
-							<!-- </div> -->
-
-							<!-- <div class="row"> -->
-							<div class="col-lg-6 col-sm-6">
-								<div class="form-group">
-									<label class="form-control-label">Email address</label>
-									<input class="form-control" placeholder="Enter email address"
-										value="syafiq@pipeline.com.my" disabled />
-								</div>
-							</div>
-
-							<div class="col-lg-6 col-sm-6">
-								<div class="form-group">
-									<label class="form-control-label">Phone no.</label>
-									<input class="form-control" placeholder="Enter phone no." disabled
-										value="201101032401" />
-								</div>
-							</div>
-						</div>
-
-						<!-- </div> -->
-					</div>
-					<div class="container pt-3" *ngIf="clicked">
-						<span class="text-center">
-							<br />
-							<h4 class="h3 mb-0">Summary Of Request</h4>
-							<br /><br />
-						</span>
-
-						<table class="table table-striped">
-							<thead class="text-primary">
-								<tr>
-									<th>Name</th>
-									<th>Type /</th>
-									<th>Price</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								<tr *ngFor="let item of listEntity">
-									<td>
-										<span *ngIf="item.entity_type == 'ROB'">Registration Of Business
-										</span>
-										<span *ngIf="item.entity_type == 'ROC'">Registration Of Company
-										</span>
-									</td>
-									<td>
-										<span *ngIf="item.product_type == 'BT'">Both</span>
-										<span *ngIf="item.product_type == 'LT'">Listing</span>
-										<span *ngIf="item.product_type == 'PD'">Product</span>
-									</td>
-									<td>
-										<span *ngIf="item.entity_type == 'ROB'">RM10.00</span>
-										<span *ngIf="item.entity_type == 'ROC'">RM20.00</span>
-										<span *ngIf="
-                          item.entity_type != 'ROB' && item.entity_type != 'ROC'
-                        ">RM30.00</span>
-									</td>
-									<td class="text-center">
-										<a style="cursor: pointer" (click)="confirm(item.id)">
-											<i class="fas fa-trash text-red"></i>
-										</a>
-									</td>
-								</tr>
-								<tr></tr>
-							</tbody>
-						</table>
-
-						<div class="text-right py-3">
-							<button class="btn btn-ssm btn-icon btn-round" (click)="navigatePage('/cart')">
-								<span class="btn-inner--text"> Checkout </span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+            </div>
+        </div>
+    </section>
 
 	<div class="container">
 		<div class="row py-4">
@@ -191,5 +236,4 @@
 			</div>
 		</div>
 	</div>
-	
 </div>

@@ -61,7 +61,7 @@ export class PaymentToConfirmComponent implements OnInit {
         + '&PaymentID=' + this.paymentInfo.payment_id
         + '&OrderNumber=' + this.paymentInfo.orderNumber
         + '&PaymentDesc=' + this.paymentInfo.paymentDesc
-        + '&MerchantReturnURL=' + 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/'
+        + '&MerchantReturnURL=' + 'https://afeezaziz.ngrok.io/v1/transactions/pg_return/'
         // + '&MerchantCallbackURL=' + this.paymentInfo.merchantCallbackUrl
         + '&Amount=' + this.paymentInfo.amount
         + '&CurrencyCode=' + this.paymentInfo.currencyCode
@@ -74,7 +74,7 @@ export class PaymentToConfirmComponent implements OnInit {
         //+ '&LanguageCode=' + this.paymentInfo.languageCode
         + '&PageTimeout='+ this.paymentInfo.pageTimeout
     );
-    }, 100)
+    }, 10)
     //window.location.href = url;
   }
 

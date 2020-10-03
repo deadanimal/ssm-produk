@@ -15,12 +15,13 @@ import { Cart } from 'src/app/shared/services/carts/carts.model';
 })
 export class NavbarComponent implements OnInit {
 
+  // Image
+  imgAvatar = 'assets/img/default/avatar.png'
+
   // Checker
   isCollapsed = true;
   isEmpty: boolean = true
   cartz: boolean = false;
-
-  imgAvatar: any;
 
   // get data from auth service
   egovPackage: string;
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
     )
     this.cartz = this.productService.cart;
     this.checkUser()
+    this.getData()
   }
 
   ngOnInit() {
@@ -105,6 +107,10 @@ export class NavbarComponent implements OnInit {
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    return this.router.navigate([path])
+    if (path == 'profile') {
+      return this.router.navigate([path], { queryParams: { tab: 'profile' } })
+    } else {
+      return this.router.navigate([path])
+    }
   }
 }
