@@ -13,9 +13,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { IpService } from 'src/app/shared/services/ip/ip.service';
 import { Ip } from 'src/app/shared/services/ip/ip.model';
 
-import * as sha from 'js-sha256'
 import swal from 'sweetalert2';
-import { ProductCartsService } from 'src/app/shared/services/product-carts/product-carts.service';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 
 class PGInformation {
@@ -57,100 +55,123 @@ export class PaymentComponent implements OnInit {
   clientIP: Ip
 
   // Form
-  newBillingForm: FormGroup;
   transactionForm: FormGroup
+  billingForm: FormGroup
 
   constructor(
+    private authService: AuthService,
+    private cartService: CartsService,
+    private ipService: IpService,
+    private transactionService: TransactionsService,
+    private userService: UsersService,
+    private fb: FormBuilder,
     private router: Router,
-    private TransactionsService: TransactionsService,
-    private formBuilder: FormBuilder,
-    private AuthService: AuthService,
-    private IpService: IpService,
-    private UsersService: UsersService,
-    private cartService: CartsService
   ) {
-    if (this.AuthService.userType) {
-      this.userType = this.AuthService.userType;
+    if (this.authService.userType) {
+      this.userType = this.authService.userType;
     }
 
-    if (this.AuthService.userID) {
-      this.userID = this.AuthService.userID;
+    if (this.authService.userID) {
+      this.userID = this.authService.userID;
     }
   }
 
   ngOnInit(): void {
-    // this.UsersService.getOne(this.userID).subscribe((res) => {
-    //   this.userdetails = res;
-    //   this.userPackage = this.userdetails.egov_package;
-    //   console.log('this.egovPackage -> ', this.userPackage);
-    //   console.log('this.userType -> ', this.userType);
-    //   console.log('this.userID -> ', this.userID);
-    //   this.egovPackage = this.userdetails.egov_package;
-    //   if (this.userdetails.user_type == 'EG') {
-    //     this.showIcondiv == false;
-    //   }
-
-    //   console.log('data = ', this.userdetails.user_type);
-    //   // console.log('Svc: ', this.tableRows);
-    // });
-
-    this.newBillingForm = this.formBuilder.group({
-      // id: new FormControl(''),
-      name: new FormControl('Amin Redzuan', Validators.required),
-      payment_method: new FormControl('DD', Validators.required),
-      amount: new FormControl('', Validators.required)
-    });
-
-    this.transactionForm = this.formBuilder.group({
+    this.transactionForm = this.fb.group({
       cart: new FormControl(''),
       total_amount: new FormControl(0)
     })
 
-    // this.getClientIP()
+    this.billingForm = this.fb.group({
+      name: new FormControl('', Validators.required),
+      email_address: new FormControl('', Validators.required),
+      phone_number: new FormControl('', Validators.required),
+      address1: new FormControl('', Validators.required),
+      address2: new FormControl('', Validators.required),
+      address3: new FormControl('', Validators.required),
+      postcode: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      state: new FormControl('', Validators.required),
+      country: new FormControl('', Validators.required),
+      ip: new FormControl('', Validators.required),
+      cart: new FormControl('', Validators.required),
+      total_amount: new FormControl(0)
+    })
+    console.log(this.billingForm)
+
+    this.getClientIP()
   }
 
-  addNewBillingData() {
-    console.log('payment data -> ', this.newBillingForm);
-    this.TransactionsService.create(this.newBillingForm.value).subscribe(
-      (res) => {
-        console.log(res);
-        // this.successAlert('Successfully Save Data');
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log('HTTP Error', err), this.errorMessage();
-      },
-      () => console.log('HTTP request completed.')
-    );
+  create() {
+    console.log('Cart', this.cartService.cart)
+    this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
+    this.billingForm.controls['total_amount'].setValue(this.cartService.cart.total_price_before_tax)
+    // let hashhhhhh = this.hashTheShit()
+
+    // this.navigatePage('/payment')
+    this.transactionService.create(this.billingForm.value).subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.encode(this.transactionService.transaction.id)
+      }
+    )
   }
 
-  navigatePage(path: string) {
-    // console.log('Path: ', path)
-    this.router.navigate([path]);
-  }
+  encode(paymentID) {
+    console.log('asd')
+    console.log(paymentID)
+    let itemz = {
+      transactionType: 'SALE',
+      paymentMethod: 'ANY',
+      serviceID: 'SM2',
+      paymentID: paymentID,
+      orderNumber: 'OrderNumber',
+      paymentDesc: 'PaymentDescription',
+      merchantName: 'SSM',
+      merchantReturnUrl: 'https://afeezaziz.ngrok.io/v1/transactions/pg_return/',
+      amount: ((this.cartService.cart.total_price_before_tax/100).toFixed(2)).toString(),
+      currencyCode: 'MYR',
+      custIP: this.clientIP.ip,
+      custName: this.billingForm.value['name'],
+      custEmail: this.billingForm.value['email_address'],
+      custPhone: this.billingForm.value['phone_number'],
+      languageCode: 'MS',
+      pageTimeout: '780'
+    }
 
-  makePayment() {
-    swal
-      .fire({
-        title: 'Confirmation',
-        text: 'Payment successfully been made!',
-        icon: 'info',
-        buttonsStyling: false,
-        confirmButtonText: 'Okay',
-        customClass: {
-          confirmButton: 'btn btn-primary ',
-        },
-      })
-      .then((result) => {
-        // if (result.value) {
-        //   this.router.navigate(['/orders']);
+    this.transactionService.encode(itemz).subscribe(
+      () => {},
+      () => {},
+      () => {
+        // let dataz: any = {
+        //   transactionType: 'SALE',
+        //   paymentMethod: 'ANY',
+        //   serviceID: 'SM2',
+        //   paymentID: itemz.paymentID,
+        //   orderNumber: 'ORDE124',
+        //   paymentDesc: 'f13412412njndjsf',
+        //   merchantName: 'SSM',
+        //   merchantCallbackUrl: 'https://portal.ssm.prototype.com.my/#/payment/callback/',
+        //   merchantReturnUrl: 'https://portal.ssm.prototype.com.my/#/payment/return',
+        //   amount: '20.00',
+        //   currencyCode: 'MYR',
+        //   custIP: '1.1.1.1',
+        //   custName: 'Amin',
+        //   custEmail: 'aminredzuan@gmail.com',
+        //   custPhone: '0176866917',
+        //   hashValue: this.transactionService.encodedData,
+        //   merchantTermsUrl: 'https://portal.ssm.prototype.com.my/#/terms/',
+        //   languageCode: 'MS',
+        //   pageTimeout: '780'
         // }
-        this.addNewBillingData();
-      });
-    console.log('confirm');
-    // this.tryMakePayment()
+        let dataz = this.transactionService.encodedData
+        // console.log(dataz)
+
+        this.router.navigate(['/payment/to-confirm'], dataz)
+      }
+    )
+
   }
 
   successAlert(task) {
@@ -171,115 +192,26 @@ export class PaymentComponent implements OnInit {
         // console.log('confirm');
         window.location.reload();
         // this.navigatePage('/egov-details');
-      });
+      }
+    );
   }
 
-  calculateAmount() {
-    console.log('Amount calculated')
-  }
-
-  tryMakePayment() {
-
-    // this.pay().subscribe()
-  }
-
-
-  create() {
-    console.log('Cart', this.cartService.cart)
-    this.transactionForm.controls['cart'].setValue(this.cartService.cart.id)
-    this.transactionForm.controls['total_amount'].setValue(this.cartService.cart.total_price_before_tax)
-    // let hashhhhhh = this.hashTheShit()
-
-    // this.navigatePage('/payment')
-    this.TransactionsService.create(this.transactionForm.value).subscribe(
-      () => {},
-      () => {},
+  getClientIP(): any {
+    // console.log('Nak dapat ip')
+    this.ipService.get().subscribe(
       () => {
-        this.encode(this.TransactionsService.transaction.id)
+        this.clientIP = this.ipService.ip
+        this.billingForm.controls['ip'].setValue(this.clientIP.ip)
+        // console.log(this.clientIP.ip)
       }
     )
   }
 
-  encode(paymentID) {
-    console.log('asd')
-    console.log(paymentID)
-    let itemz = {
-      transactionType: 'SALE',
-      paymentMethod: 'ANY',
-      serviceID: 'SM2',
-      paymentID: 'AFE002', //paymentID,
-      orderNumber: 'OrderNumber',
-      paymentDesc: 'PaymentDescription',
-      merchantName: 'SSM',
-      merchantReturnUrl: 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/',
-      amount: ((this.cartService.cart.total_price_before_tax/100).toFixed(2)).toString(),
-      currencyCode: 'MYR',
-      custIP: '1.1.1.1',
-      custName: 'Amin',
-      custEmail: 'aminredzuan@gmail.com',
-      custPhone: '0123456789',
-      languageCode: 'MS',
-      pageTimeout: '780'
-    }
-
-    this.TransactionsService.encode(itemz).subscribe(
-      () => {},
-      () => {},
-      () => {
-        // let dataz: any = {
-        //   transactionType: 'SALE',
-        //   paymentMethod: 'ANY',
-        //   serviceID: 'SM2',
-        //   paymentID: itemz.paymentID,
-        //   orderNumber: 'ORDE124',
-        //   paymentDesc: 'f13412412njndjsf',
-        //   merchantName: 'SSM',
-        //   merchantCallbackUrl: 'https://portal.ssm.prototype.com.my/#/payment/callback/',
-        //   merchantReturnUrl: 'https://portal.ssm.prototype.com.my/#/payment/return',
-        //   amount: '20.00',
-        //   currencyCode: 'MYR',
-        //   custIP: '1.1.1.1',
-        //   custName: 'Amin',
-        //   custEmail: 'aminredzuan@gmail.com',
-        //   custPhone: '0176866917',
-        //   hashValue: this.TransactionsService.encodedData,
-        //   merchantTermsUrl: 'https://portal.ssm.prototype.com.my/#/terms/',
-        //   languageCode: 'MS',
-        //   pageTimeout: '780'
-        // }
-        let dataz = this.TransactionsService.encodedData
-        console.log(dataz)
-
-        this.router.navigate(['/payment/to-confirm'], dataz)
-      }
-    )
-
+  navigatePage(path: string) {
+    // console.log('Path: ', path)
+    this.router.navigate([path]);
   }
 
 }
 
-  // getClientIP(): any {
-  //   console.log('Nak dapat ip')
-  //   this.IpService.get().subscribe(
-  //     () => {
-  //       this.clientIP = this.IpService.ip
-  //       console.log(this.clientIP)
-  //     }
-  //   )
-  // }
-
-  // hashTheShit() {
-  //   let merchantPwd = 'sm212345'
-  //   let merchantID = 'SM2'
-  //   let paymentID = 'ajfka14891'
-  //   let merchantReturnURL = 'http://localhost:4200/#/terms-conditions'
-  //   let amount = '100'
-  //   let currencyCode = 'MYR'
-  //   let custIP = '1.1.1.1'
-  //   let pageTimeout = '780'
-  //   // Password + ServiceID + PaymentID + MerchantReturnURL + MerchantApprovalURL + MerchantUnApprovalURL + MerchantCallBackURL + Amount + CurrencyCode + CustIP + PageTimeout + CardNo + Token
-  //   let valueToHash = merchantPwd+merchantID+paymentID+merchantReturnURL+amount+currencyCode+custIP+pageTimeout
-  //   console.log('val', sha.sha256(valueToHash))
-  //   return sha.sha256(valueToHash)
-  // }
-
+  

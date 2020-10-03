@@ -64,6 +64,7 @@ import { PersonalInvolvementSearchComponent } from './personal-involvement/perso
 import { CbidComponent } from './cbid/cbid/cbid.component';
 import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
+import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search
     ProductSearchPiComponent,
     ProductSearchSdComponent,
     ProductSearchCustomComponent,
+    PaymentReceiptComponent,
   ],
   imports: [
     CommonModule,

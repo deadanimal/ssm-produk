@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 import Swal from 'sweetalert2';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-payment-return',
   templateUrl: './payment-return.component.html',
@@ -33,12 +35,20 @@ export class PaymentReturnComponent implements OnInit {
     let filter = 'reference_no=' + val
     this.transactionService.filter(filter).subscribe(
       () => {
-        this.loadedData = this.transactionService.transactionsFiltered
+        this.loadedData = this.transactionService.transactionsFiltered[0]
+        // console.log('ini lah data yang di load itu', this.loadedData)
+        this.loadedData.created_date = moment(this.loadedData.created_date).format('DD/MM/YYYY hh:mm a')
       },
       () => {},
       () => {
-        this.success()
+        // this.success()
         // this.router.navigate(['/orders'])
+        if (this.loadedData.payment_status == 'OK') {
+          this.success()
+        }
+        else {
+          this.failed()
+        }
       }
     )
   }
@@ -48,16 +58,51 @@ export class PaymentReturnComponent implements OnInit {
       title: 'Success',
       text: 'Payment succesful',
       icon: 'success',
-      // showCancelButton: true,
+      html: '<div class="row"><div class="col"><div class="row"><div class="col"><p class="mb-0 text-light">Date time</p>'+
+            '<p claass="mt-0">'+ this.loadedData.created_date +'</p></div></div><div class="row"><div class="col">'+
+            '<p class="mb-0 text-light">Status</p><p claass="mt-0">Success</p></div></div></div><div class="col">'+
+            '<div class="row"><div class="col"><p class="mb-0 text-light">Reference</p><p claass="mt-0">'+
+            'TRA'+ this.loadedData.reference_no +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
+            '<p class="mt-0">Purchase of product</p></div></div></div></div>',
       buttonsStyling: false,
-      confirmButtonText: 'Go to transaction',
+      confirmButtonText: 'Go to orders',
       customClass: {
         confirmButton: 'btn btn-success rounded-pill',
       },
     }).then((res) => {
       if (res) {
-        this.router.navigate(['/orders'])
+        this.router.navigate(['/payment/receipt'])
+        // this.router.navigate(['/profile'], {queryParams: {tab: 'order'}})
       } 
+    })
+  }
+
+  failed() {
+    Swal.fire({
+      title: 'Unsuccessful',
+      text: 'Payment unsuccesful',
+      icon: 'error',
+      html: '<div class="row"><div class="col"><div class="row"><div class="col"><p class="mb-0 text-light">Date time</p>'+
+            '<p claass="mt-0">'+ this.loadedData.created_date +'</p></div></div><div class="row"><div class="col">'+
+            '<p class="mb-0 text-light">Status</p><p claass="mt-0">Unsuccessful</p></div></div></div><div class="col">'+
+            '<div class="row"><div class="col"><p class="mb-0 text-light">Reference</p><p claass="mt-0">'+
+            'TRA'+ this.loadedData.reference_no +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
+            '<p class="mt-0">Purchase of product</p></div></div></div></div>',
+      buttonsStyling: false,
+      showCancelButton: true,
+      confirmButtonText: 'Retry',
+      cancelButtonText: 'Cancel',
+      customClass: {
+        confirmButton: 'btn btn-warning rounded-pill',
+        cancelButton: 'btn btn-outline-warning rounded-pill'
+      },
+    }).then((res) => {
+      if (res) {
+        this.router.navigate(['/cart/checkout'])
+      }
+      else {
+        this.router.navigate(['/home'])
+      }
     })
   }
 
