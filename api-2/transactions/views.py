@@ -1,6 +1,7 @@
 import hashlib
 import json
 import datetime
+import pytz
 
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
@@ -30,6 +31,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['reference_no']
 
 
 
@@ -61,7 +63,28 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def pg_return(self, request, *args, **kwargs):  
 
         transaction_id = request.POST.get("PaymentID", "")   
-        url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + transaction_id
+
+        transaction_status = request.POST.get("TxnStatus", "")[0]
+        transaction = Transaction.objects.filter(reference_no=transaction_id).first()
+
+        # transaction 0 - successful
+        if transaction_status == '0':
+            transaction.payment_status = 'OK'
+            transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.save()
+        # transaction 1 - failed
+        elif transaction_status == '1':
+            transaction.payment_status = 'FL'
+            transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.save()
+        # transaction 2 - pending
+        elif transaction_status == '2':
+            transaction.payment_status = 'PD'
+            transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.save()
+    
+
+        url = 'http://syafiqbasri.ngrok.io/#/payment/return?transactionId=' + transaction_id
         return redirect(url)      
 
 
@@ -112,6 +135,22 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         
         serializer = TransactionSerializer(transaction)
+        return Response(serializer.data)
+
+    @action(methods=['GET'], detail=False)
+    def latest_successful(self, request, *args, **kwargs):  
+
+        delta = datetime.timedelta(days=7)      
+        current_time = datetime.datetime.now()
+        date_filter = current_time - delta
+
+        all_latest_successful_transactions = Transaction.objects.filter(
+            payment_status='OK',
+            payment_gateway_update_date__lte=current_time,
+            payment_gateway_update_date__gte=date_filter
+        ).all()
+
+        serializer = TransactionSerializer(all_latest_successful_transactions, many=True)
         return Response(serializer.data)
 
 
