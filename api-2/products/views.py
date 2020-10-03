@@ -319,9 +319,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             json_response = get_co_page(url_info, headers, registration_number, entity_type)             
 
         return JsonResponse(json_response)
-
     
-
     @action(methods=['POST'], detail=False)
     def create_pdf(self, request, *args, **kwargs):
 
@@ -535,7 +533,6 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         return Response(serializer)
 
-
     @action(methods=['POST'], detail=False)
     def generate_product(self, request, *args, **kwargs):
 
@@ -711,3 +708,76 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = data_loaded
         serializer['pdflink'] = 'https://pipeline-project.sgp1.digitaloceanspaces.com/' + file_path
         return Response(serializer)
+
+    @action(methods=['POST'], detail=False)
+    def check_availability(self, request, *args, **kwargs):
+
+        product_request_json = json.loads(request.body)
+
+        registration_ = product_request_json['registration_no']
+        entity_type_ = product_request_json['entity_type']
+
+        information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
+
+        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+
+        request_headers = {
+            'content-type': "text/xml;charset=UTF-8",
+            'authorization': auth_code
+        }
+
+        css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
+
+        new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)        
+        info_acgs = get_info_acgs(information_url, request_headers, registration_, entity_type_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_reg_foreign = get_cert_reg_foreign(information_url, request_headers, registration_)
+        info_comp_name_chg = get_info_comp_name_chg(information_url, request_headers, registration_)
+        cert_conversion = get_cert_conversion(information_url, request_headers, registration_)
+        info_fin2 = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
+        info_fin3 = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
+        info_fin5 = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
+        info_fin10 = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
+        roc_business_officers = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
+        roc_changes_registered_address = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
+        details_of_shareholders = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
+        details_of_share_capital = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
+        comp_prof = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+        biz_profile = get_biz_profile(information_url, request_headers, registration_)
+        particulars_of_cosec = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
+        particulars_of_adt_firm = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
+        info_rob_termination = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
+        info_charges = get_info_charges(information_url, request_headers, registration_, entity_type_)
+        info_charges = get_info_charges(information_url, request_headers, registration_)   
+
+        data_json = {
+            'info_acgs': '',
+            'cert_incorp': '',
+            'cert_incorp': '',
+            'cert_incorp': '',
+            'cert_reg_foreign': '',
+            'info_comp_name_chg': '',
+            'cert_conversion': '',
+            'info_fin2': '',
+            'info_fin3': '',
+            'info_fin5': '',
+            'info_fin10': '',
+            'roc_business_officers': '',
+            'roc_changes_registered_address': '',
+            'details_of_shareholders': '',
+            'details_of_share_capital': '',
+            'comp_prof': '',
+            'biz_profile': '',
+            'particulars_of_cosec': '',
+            'particulars_of_adt_firm': '',
+            'info_rob_termination': '',
+            'info_charges': '',
+            'info_charges': '',
+        }     
+
+        return JsonResponse(data_json)
