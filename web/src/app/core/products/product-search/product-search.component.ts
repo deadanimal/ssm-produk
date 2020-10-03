@@ -182,6 +182,9 @@ export class ProductSearchComponent implements OnInit {
   }
 
   query($event) {
+///////!!!!!!!!!!!!!!
+    /// 3 digit and above = ROC 
+    
     // this.spinner.show()
     let val = $event.target.value
     this.entityService.query(val).subscribe(

@@ -1,36 +1,30 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
-import swal from "sweetalert2";
-import { Router, ActivatedRoute } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+} from '@angular/forms';
+import swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
-export enum SelectionType {
-  single = "single",
-  multi = "multi",
-  multiClick = "multiClick",
-  cell = "cell",
-  checkbox = "checkbox",
-}
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 // entity
-import { CbidTicket } from "src/app/shared/services/cbid-tickets/cbid-tickets.model";
-import { CbidTicketsService } from "src/app/shared/services/cbid-tickets/cbid-tickets.service";
+import { CbidTicket } from 'src/app/shared/services/cbid-tickets/cbid-tickets.model';
+import { CbidTicketsService } from 'src/app/shared/services/cbid-tickets/cbid-tickets.service';
 
-// fill form
-import { FillForm } from "src/app/shared/services/fill_form/fill_form.model";
-import { FillFormsService } from "src/app/shared/services/fill_form/fill_form.service";
+import { CbidCartsService } from 'src/app/shared/services/cbid-carts/cbid-carts.service';
+import { CartsService } from 'src/app/shared/services/carts/carts.service';
 
-// cart service
-import { CbidCart } from "src/app/shared/services/cbid-carts/cbid-carts.model";
-import { CbidCartsService } from "src/app/shared/services/cbid-carts/cbid-carts.service";
-
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
+}
 
 @Component({
   selector: 'app-cbid',
@@ -45,7 +39,7 @@ export class CbidComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: 'modal-dialog-centered',
   };
 
   // Table
@@ -65,134 +59,88 @@ export class CbidComponent implements OnInit {
   editAppReqForm: FormGroup;
   addCartForm: FormGroup;
 
+  // SB start
+
+  // Form
+  serviceForm: FormGroup
+  requestToAdd: any[] = []
+
+  // Checker
+  isGotRequest: boolean = true
+
   constructor(
-    private entityService: CbidTicketsService,
+    private cartService: CartsService,
     private cartsService: CbidCartsService,
+    private entityService: CbidTicketsService,
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
     private router: Router,
-    private _route: ActivatedRoute
+    
   ) {
     this.getEntity();
   }
 
-  getEntity() {
-    /*
-    this.entityService.getAll().subscribe((res) => {
-      this.listEntity = res;
-      var keys = Object.keys(this.listEntity);
-      var len = keys.length;
-      console.log(len);
-      if (len == 0) {
-        this.clicked = false;
-      } else {
-        this.clicked = true;
-      }
-      console.log("data = ", this.listProject);
-    });
-    */
-  }
-
   ngOnInit(): void {
-    this.addAppReqForm = this.formBuilder.group({
-      entity_type: new FormControl("ROB"),
-      product_type: new FormControl("BT"),
-      requestor: new FormControl("426adae9-1921-4960-afc6-935efd788db4"),
+    this.addAppReqForm = this.fb.group({
+      entity_type: new FormControl('ROB'),
+      product_type: new FormControl('BT'),
+      requestor: new FormControl('426adae9-1921-4960-afc6-935efd788db4'),
     });
 
-    this.addCartForm = this.formBuilder.group({
-      // search_criteria: new FormControl(""),
-      // total_pages: new FormControl(""),
-      // total_company: new FormControl(""),
-      // unit_price: new FormControl(""),
-      // total_price: new FormControl(""),
-      // total: new FormControl(""),
-      // sst: new FormControl(""),
-      // total_amount: new FormControl(""),
-      products: new FormControl(""),
+    this.addCartForm = this.fb.group({
+      // search_criteria: new FormControl(''),
+      // total_pages: new FormControl(''),
+      // total_company: new FormControl(''),
+      // unit_price: new FormControl(''),
+      // total_price: new FormControl(''),
+      // total: new FormControl(''),
+      // sst: new FormControl(''),
+      // total_amount: new FormControl(''),
+      products: new FormControl(''),
     });
+
+    this.serviceForm = this.fb.group({
+      entity_type: new FormControl('ROB'),
+      service_type: new FormControl('statistics'),
+      price: new FormControl(10.00)
+    })
   }
 
-  newApplicationData() {
-    // console.log(this.addAppReqForm.value);
-    this.entityService.create(this.addAppReqForm.value).subscribe(
-      (res) => {
-        this.listEntity = res;
-        console.log(res);
-        // console.log(res.id);
-        // this.successAlert("Successfully add entity.");
-        // window.location.reload();
-        // console.log("data = ", this.listEntity);
-        if (this.listEntity) {
-          this.addCartForm.value.products =
-            "d7abf307-4cf2-4fb9-a373-9d36d3ce7f4f";
-          console.log("addCartForm = ", this.addCartForm.value);
-          this.cartsService.create(this.addCartForm.value).subscribe(() => {
-            this.successAlert("Successfully add entity.");
-            // window.location.reload();
-            this.getEntity();
-          });
-        }
-      },
-      () => {}
-    );
+  // SB start
+
+  updatePrice() {
+    if (this.serviceForm.value['entity_type'] == 'ROB') {
+      this.serviceForm.controls['price'].setValue(10.00)
+    }
+    else if (this.serviceForm.value['entity_type'] == 'ROC') {
+      this.serviceForm.controls['price'].setValue(20.00)
+    }
+    else if (this.serviceForm.value['entity_type'] == 'Both') {
+      this.serviceForm.controls['price'].setValue(30.00)
+    }
   }
 
-  deleteApplicationData(row) {
-    console.log(row);
-    this.entityService.delete(row).subscribe((res) => {
-      // this.listEntity = res;
-      this.successAlert("Successfully delete entity.");
-      window.location.reload();
-    });
+  addRequest() {
+    let item = {
+      'entity_type': this.serviceForm.value['entity_type'],
+      'service_type': this.serviceForm.value['service_type'],
+      'price': this.serviceForm.value['price']
+    }
+    // console.log('To add: ', item)
+    this.requestToAdd.push(item)
   }
 
-  confirm(row) {
-    swal
-      .fire({
-        title: "Confirmation",
-        text: "Are you sure to delete this data ?",
-        icon: "info",
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: "Confirm",
-        customClass: {
-          cancelButton: "btn btn-outline-primary ",
-          confirmButton: "btn btn-primary ",
-        },
-      })
-      .then(() => {
-        this.deleteApplicationData(row);
-      });
+  removeRequest(row) {
+    // console.log('To remove', row)
+    this.requestToAdd.pop()
   }
 
-  successAlert(task) {
-    swal.fire({
-      title: "Success",
-      text: task,
-      icon: "success",
-      // showCancelButton: true,
-      buttonsStyling: false,
-      confirmButtonText: "Close",
-      customClass: {
-        cancelButton: "btn btn-outline-success",
-        confirmButton: "btn btn-success ",
-      },
-    });
-    console.log("confirm");
+  addToCart() {
+    // console.log('Service to add: ')
+    // this.cartService
   }
-
-  navigatePage(path: string) {
-    this.router.navigate([path]);
-  }
-
-  showSummary() {
-    this.clicked = true;
-  }
-
+  
   entriesChange($event) {
     this.tableEntries = $event.target.value;
   }
@@ -218,6 +166,107 @@ export class CbidComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  navigatePage(path: string) {
+    return this.router.navigate([path])
+  }
+
+
+
+
+
+
+
+  getEntity() {
+    /*
+    this.entityService.getAll().subscribe((res) => {
+      this.listEntity = res;
+      var keys = Object.keys(this.listEntity);
+      var len = keys.length;
+      console.log(len);
+      if (len == 0) {
+        this.clicked = false;
+      } else {
+        this.clicked = true;
+      }
+      console.log('data = ', this.listProject);
+    });
+    */
+  }
+
+  newApplicationData() {
+    // console.log(this.addAppReqForm.value);
+    this.entityService.create(this.addAppReqForm.value).subscribe(
+      (res) => {
+        this.listEntity = res;
+        console.log(res);
+        // console.log(res.id);
+        // this.successAlert('Successfully add entity.');
+        // window.location.reload();
+        // console.log('data = ', this.listEntity);
+        if (this.listEntity) {
+          this.addCartForm.value.products =
+            'd7abf307-4cf2-4fb9-a373-9d36d3ce7f4f';
+          console.log('addCartForm = ', this.addCartForm.value);
+          this.cartsService.create(this.addCartForm.value).subscribe(() => {
+            this.successAlert('Successfully add entity.');
+            // window.location.reload();
+            this.getEntity();
+          });
+        }
+      },
+      () => {}
+    );
+  }
+
+  deleteApplicationData(row) {
+    console.log(row);
+    this.entityService.delete(row).subscribe((res) => {
+      // this.listEntity = res;
+      this.successAlert('Successfully delete entity.');
+      window.location.reload();
+    });
+  }
+
+  confirm(row) {
+    swal
+      .fire({
+        title: 'Confirmation',
+        text: 'Are you sure to delete this data ?',
+        icon: 'info',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Confirm',
+        customClass: {
+          cancelButton: 'btn btn-outline-primary ',
+          confirmButton: 'btn btn-primary ',
+        },
+      })
+      .then(() => {
+        this.deleteApplicationData(row);
+      });
+  }
+
+  successAlert(task) {
+    swal.fire({
+      title: 'Success',
+      text: task,
+      icon: 'success',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        cancelButton: 'btn btn-outline-success',
+        confirmButton: 'btn btn-success ',
+      },
+    });
+    console.log('confirm');
+  }
+
+
+  showSummary() {
+    this.clicked = true;
+  }
+
   openModal(modalRef: TemplateRef<any>, row) {
     if (row) {
       console.log(row);
@@ -225,7 +274,7 @@ export class CbidComponent implements OnInit {
     }
     this.modal = this.modalService.show(
       modalRef,
-      Object.assign({}, { class: "gray modal-lg" })
+      Object.assign({}, { class: 'gray modal-lg' })
     );
     // this.modal = this.modalService.show(modalRef, this.modalConfig);
   }

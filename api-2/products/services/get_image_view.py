@@ -4,6 +4,10 @@ import xmltodict
 
 def get_image_view(url, headers, registration_number):
 
+    criteria = ''
+    document_profile = ''
+    search_value = ''
+
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://integrasistg.ssm.com.my/DocufloService/1/WS"> 
     <soapenv:Header/>
@@ -16,15 +20,15 @@ def get_image_view(url, headers, registration_number):
             </header> 
             <request>
                 <docufloReq>
-                    <criteria>CompanyNo</criteria>
-                    <docProfile></docProfile> 
+                    <criteria>""" + criteria + """</criteria>
+                    <docProfile>""" + document_profile + """</docProfile> 
                     <gstAmount>0</gstAmount> 
                     <infoAmount>0</infoAmount> 
                     <invoiceNo>0</invoiceNo> 
                     <ipaddress></ipaddress> 
-                    <maxResult>1</maxResult>
+                    <maxResult>100</maxResult>
                     <remark></remark>
-                    <searchValue>""" + str(registration_number) + """</searchValue> 
+                    <searchValue>""" + search_value + """</searchValue> 
                     <tableId></tableId> 
                     <type></type> 
                     <userName>appadmin</userName> 

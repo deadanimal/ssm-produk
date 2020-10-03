@@ -1,11 +1,14 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ProductsService } from 'src/app/shared/services/products/products.service';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductCartsService } from 'src/app/shared/services/product-carts/product-carts.service';
+
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
+import { Product } from 'src/app/shared/services/products/products.model';
 
 class Entity {
   name: string;
@@ -21,7 +24,7 @@ export class ProductSearchResultComponent implements OnInit {
 
   // Data
   entity: any;
-  products: any[] = [];
+  products: Product[] = [];
 
   // Checker
   isProceed: boolean = false;
@@ -71,7 +74,8 @@ export class ProductSearchResultComponent implements OnInit {
     private cartService: CartsService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
-    console.log(this.entity)
+    this.getData()
+    // console.log(this.entity)
   }
 
   ngOnInit(): void {
@@ -149,6 +153,18 @@ export class ProductSearchResultComponent implements OnInit {
       price: new FormControl(10.00)
     })
 
+  }
+
+  getData() {
+    this.productService.getAll().subscribe(
+      () => {
+        this.products = this.productService.products
+      },
+      () => {},
+      () => {}
+    )
+    // Ada API untuk call middleware untuk check product apa available untuk dirinya
+    
   }
 
   proceed() {
@@ -328,6 +344,7 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   checkLanguage(product: string) {
+
   }
 
   openModalSample(modalRef: TemplateRef<any>) {

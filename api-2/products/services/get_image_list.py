@@ -2,9 +2,13 @@ import requests
 import json
 import xmltodict
 
-def get_image_list(url, headers, registration_number):
+def get_image_list(url, headers, entity_number, entity_type):
 
     # companyNo 1097967-P
+
+    company_number = ''
+    document_profile = ''
+    table_id = ''
 
     payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/DocufloService/1/WS"> 
@@ -18,8 +22,8 @@ def get_image_list(url, headers, registration_number):
             </header>  
             <request> 
                 <docufloImg> 
-                    <companyNo>""" + registration_number + """</companyNo>  
-                    <docProfile>ROC1</docProfile>  
+                    <companyNo>""" + company_number + """</companyNo>  
+                    <docProfile>""" + document_profile + """</docProfile>  
                     <gstAmount>0</gstAmount>  
                     <infoAmount>0</infoAmount>  
                     <invoiceNo></invoiceNo>  

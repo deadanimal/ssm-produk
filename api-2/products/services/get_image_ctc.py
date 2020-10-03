@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_image_ctc(url, headers, registration_number):
+def get_image_ctc(url, headers, entity_number, entity_type):
 
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/DocufloService/1/WS">
@@ -16,11 +16,11 @@ def get_image_ctc(url, headers, registration_number):
             </header>
             <request>
                 <docufloImgCtc>
-                    <companyNo>""" + str(registration_number) + """</companyNo>
-                    <docProfile></docProfile>
-                    <gstAmount></gstAmount>
-                    <infoAmount></infoAmount>
-                    <invoiceNo></invoiceNo>
+                    <companyNo>""" + entity_number + """</companyNo>
+                    <docProfile>""" + entity_type + """"</docProfile>
+                    <gstAmount>0</gstAmount>
+                    <infoAmount>0</infoAmount>
+                    <invoiceNo>0</invoiceNo>
                     <ipaddress></ipaddress>
                     <remark></remark>
                     <tableId></tableId>

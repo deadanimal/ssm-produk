@@ -74,7 +74,7 @@ export class PaymentToConfirmComponent implements OnInit {
         //+ '&LanguageCode=' + this.paymentInfo.languageCode
         + '&PageTimeout='+ this.paymentInfo.pageTimeout
     );
-    }, 1000)
+    }, 100)
     //window.location.href = url;
   }
 
