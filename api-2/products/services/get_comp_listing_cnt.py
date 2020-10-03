@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_comp_listing_cnt(url, headers, ):
+def get_comp_listing_cnt(url, headers, business_code,charge_status,charge_type,company_location,company_origin,company_status,company_type,director_nationality,year_end_max,year_end_min,date_from,date_to,profit_range_max,profit_range_min,package_type,shareholder_nationality):
 
     payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lis="http://listing.ssm.com.my"> 
