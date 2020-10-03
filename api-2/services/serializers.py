@@ -10,6 +10,7 @@ from django.utils.timezone import now
 
 from .models import (
     Service,
+    ServiceRequest
 )
 
 
@@ -18,4 +19,12 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
+        fields = '__all__'
+
+class ServiceRequestSerializer(serializers.ModelSerializer):
+
+    service = ServiceSerializer()
+
+    class Meta:
+        model = ServiceRequest
         fields = '__all__'

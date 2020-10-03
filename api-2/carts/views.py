@@ -17,6 +17,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from entities.models import Entity
 from products.models import Product
+from services.models import Service, ServiceRequest
 
 from .models import (
     Cart,
@@ -77,6 +78,18 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 product=product, 
                 cart= cart,
                 cart_item_type='PR')
+
+        if cart_item_request['item_type'] == 'service':
+            
+            service_request_id = str(cart_item_request['service_request_id'])
+            service_request = ServiceRequest.objects.filter(id=service_request_id).first()
+
+            cart = self.get_object()
+
+            new_cart_item = CartItem.objects.create(
+                service_request=service_request, 
+                cart= cart,
+                cart_item_type='SE')                
         else:
             pass
 

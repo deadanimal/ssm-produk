@@ -15,7 +15,7 @@ from .models import (
 
 from entities.serializers import EntitySerializer
 from products.serializers import ProductSerializer
-
+from services.serializers import ServiceRequestSerializer
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -29,6 +29,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     entity = EntitySerializer()
     product = ProductSerializer()
+    service_request = ServiceRequestSerializer()
 
     class Meta:
         model = CartItem

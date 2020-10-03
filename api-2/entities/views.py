@@ -60,8 +60,11 @@ class EntityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def search(self, request, *args, **kwargs):    
 
         name = request.GET.get('name', '')
-
-        entities = Entity.objects.filter(name__icontains=name).all()
+        entities = Entity.objects.filter(
+            Q(name__icontains=name) | 
+            Q(company_number__icontains=name) |
+            Q(registration_number__icontains=name) |
+            Q(audit_firm_number__icontains=name)).all()
 
         serializer = EntitySerializer(entities, many=True)
         return Response(serializer.data)
