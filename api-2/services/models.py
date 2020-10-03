@@ -20,6 +20,7 @@ class Service(models.Model):
 
     SERVICE_TYPE = [
         ('CB', 'CBID'),
+        ('IN', 'Investigation'),
 
         ('NA', 'Not Available')
     ]
