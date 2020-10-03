@@ -15,7 +15,7 @@ import { RequestInvestigationDocumentComponent } from './request-investigation-d
 
 import { PaymentComponent } from './payment/payment/payment.component';
 import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
-import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component';
+import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component'
 import { PaymentCallbackComponent } from './payment/payment-callback/payment-callback.component';
 
 import { ProductSearchComponent } from './products/product-search/product-search.component';
@@ -35,6 +35,7 @@ import { CheckoutComponent } from './cart/checkout/checkout.component';
 import { CbidComponent } from './cbid/cbid/cbid.component';
 import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
+import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
 
 
 export const CoreRoutes: Routes = [
@@ -117,6 +118,10 @@ export const CoreRoutes: Routes = [
           {
             path: 'return',
             component: PaymentReturnComponent
+          },
+          {
+            path: 'receipt',
+            component: PaymentReceiptComponent
           }
         ]
       },

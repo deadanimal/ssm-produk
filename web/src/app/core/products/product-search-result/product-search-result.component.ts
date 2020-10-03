@@ -58,12 +58,12 @@ export class ProductSearchResultComponent implements OnInit {
   partiDirOfficerForm: FormGroup
   partiShareCapForm: FormGroup
   partiShareholderForm: FormGroup
-  partiCompSec: FormGroup
-  partiRegAddr: FormGroup
+  partiCompSecForm: FormGroup
+  partiRegAddrForm: FormGroup
   businessProfileForm: FormGroup
   businessCertForm: FormGroup
-  businessTerminationLetterForm: FormGroup
-  auditFirmForm: FormGroup
+  businessTerminateForm: FormGroup
+  auditProfileForm: FormGroup
   
   constructor(
     private toastr: ToastrService,
@@ -146,6 +146,41 @@ export class ProductSearchResultComponent implements OnInit {
       price: new FormControl(20.00)
     })
 
+    this.partiDirOfficerForm = this.fb.group({
+      name: new FormControl('Cert Incorp'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.partiShareCapForm = this.fb.group({
+      name: new FormControl('Cert Incorp'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.partiShareholderForm = this.fb.group({
+      name: new FormControl('Cert Incorp'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.partiCompSecForm = this.fb.group({
+      name: new FormControl('Cert Incorp'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.partiRegAddrForm = this.fb.group({
+      name: new FormControl('Cert Incorp'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
     this.businessProfileForm = this.fb.group({
       name: new FormControl('Business Profile'),
       language: new FormControl('MS'),
@@ -153,6 +188,30 @@ export class ProductSearchResultComponent implements OnInit {
       price: new FormControl(10.00)
     })
 
+    this.businessCertForm = this.fb.group({
+      name: new FormControl('Business Profile'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.businessTerminateForm = this.fb.group({
+      name: new FormControl('Business Profile'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    this.auditProfileForm = this.fb.group({
+      name: new FormControl('Business Profile'),
+      language: new FormControl('MS'),
+      isCtc: new FormControl(false),
+      price: new FormControl(10.00)
+    })
+
+    if (!this.entity.id) {
+      this.navigatePage('/products/search')
+    }
   }
 
   getData() {
@@ -343,8 +402,187 @@ export class ProductSearchResultComponent implements OnInit {
     }
   }
 
-  checkLanguage(product: string) {
-
+  checker(product: string) {
+    if (product == 'Company Profile') {
+      if (this.companyProfileForm.value['isCtc']) {
+        if (this.companyProfileForm.value['language'] == 'BT') {
+          this.companyProfileForm.controls['price'].setValue(40)
+        }
+        else {
+          this.companyProfileForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.companyProfileForm.value['language'] == 'BT') {
+          this.companyProfileForm.controls['price'].setValue(20)
+        }
+        else {
+          this.companyProfileForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Company Charges') {
+      if (this.companyChargesForm.value['isCtc']) {
+        if (this.companyChargesForm.value['language'] == 'BT') {
+          this.companyChargesForm.controls['price'].setValue(40)
+        }
+        else {
+          this.companyChargesForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.companyChargesForm.value['language'] == 'BT') {
+          this.companyChargesForm.controls['price'].setValue(20)
+        }
+        else {
+          this.companyChargesForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'ACGS') {
+      if (this.acgsForm.value['isCtc']) {
+        if (this.acgsForm.value['language'] == 'BT') {
+          this.acgsForm.controls['price'].setValue(40)
+        }
+        else {
+          this.acgsForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.acgsForm.value['language'] == 'BT') {
+          this.acgsForm.controls['price'].setValue(20)
+        }
+        else {
+          this.acgsForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Cert Incorp') {
+      if (this.certIncorpForm.value['isCtc']) {
+        if (this.certIncorpForm.value['language'] == 'BT') {
+          this.certIncorpForm.controls['price'].setValue(40)
+        }
+        else {
+          this.certIncorpForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.certIncorpForm.value['language'] == 'BT') {
+          this.certIncorpForm.controls['price'].setValue(20)
+        }
+        else {
+          this.certIncorpForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Cert Change Name') {
+      if (this.certChangeNameForm.value['isCtc']) {
+        if (this.certChangeNameForm.value['language'] == 'BT') {
+          this.certChangeNameForm.controls['price'].setValue(40)
+        }
+        else {
+          this.certChangeNameForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.certChangeNameForm.value['language'] == 'BT') {
+          this.certChangeNameForm.controls['price'].setValue(20)
+        }
+        else {
+          this.certChangeNameForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Cert Conversion') {
+      if (this.certConversionForm.value['isCtc']) {
+        if (this.certConversionForm.value['language'] == 'BT') {
+          this.certConversionForm.controls['price'].setValue(40)
+        }
+        else {
+          this.certConversionForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.certConversionForm.value['language'] == 'BT') {
+          this.certConversionForm.controls['price'].setValue(20)
+        }
+        else {
+          this.certConversionForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Financial Comparison') {
+      if (this.finComparisonForm.value['isCtc']) {
+        if (this.finComparisonForm.value['language'] == 'BT') {
+          this.finComparisonForm.controls['price'].setValue(40)
+        }
+        else {
+          this.finComparisonForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.finComparisonForm.value['language'] == 'BT') {
+          this.finComparisonForm.controls['price'].setValue(20)
+        }
+        else {
+          this.finComparisonForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Financial Historical') {
+      if (this.finHistoricalForm.value['isCtc']) {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(40)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Financial Historical') {
+      if (this.finHistoricalForm.value['isCtc']) {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(40)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(10)
+        }
+      }
+    }
+    else if (product == 'Financial Historical') {
+      if (this.finHistoricalForm.value['isCtc']) {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(40)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+      }
+      else {
+        if (this.finHistoricalForm.value['language'] == 'BT') {
+          this.finHistoricalForm.controls['price'].setValue(20)
+        }
+        else {
+          this.finHistoricalForm.controls['price'].setValue(10)
+        }
+      }
+    }
   }
 
   openModalSample(modalRef: TemplateRef<any>) {
@@ -353,6 +591,11 @@ export class ProductSearchResultComponent implements OnInit {
 
   closeModalSample() {
     this.modalSample.hide();
+  }
+
+  navigatePage(path: string) {
+    // console.log('Path: ', path)
+    return this.router.navigate([path])
   }
 
 }

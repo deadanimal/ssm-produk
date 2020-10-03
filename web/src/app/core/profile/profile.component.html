@@ -3,7 +3,7 @@
 		<div class="container-fluid pt-6 px-6">
 			<div class="nav-wrapper">
 				<tabset type="pills" class="tab-space">
-					<tab heading="My Account">
+					<tab heading="My Account" [active]="accountTabActive">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">User information</h6>
@@ -110,7 +110,7 @@
 						</div>
 					</tab>
 
-					<tab heading="My Transactions" active="true">
+					<tab heading="My Transactions" [active]="transactionTabActive">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">
@@ -253,6 +253,7 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<a 
 													class="nav-link nav-link-icon cursor-pointer"
+													(click)="navigatePage('receipt')"
 												>
 													<i 
 														class="fas fa-file-download text-info"
@@ -269,7 +270,7 @@
 						</div>
 					</tab>
 
-					<tab heading="My Orders">
+					<tab heading="My Orders" [active]="orderTabActive">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">My orders</h6>

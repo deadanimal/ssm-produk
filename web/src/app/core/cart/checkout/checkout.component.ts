@@ -36,11 +36,22 @@ export class CheckoutComponent implements OnInit {
   };
 
   // Table
-  tableEntries: number = 5;
+  tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
   tableRows: any[] = [];
+  tableMessages = {
+    // Message to show when array is presented
+    // but contains no values
+    emptyMessage: 'Empty checkout',
+  
+    // Footer total message
+    totalMessage: '',
+  
+    // Footer selected message
+    selectedMessage: 'selected'
+  }
   SelectionType = SelectionType;
 
   // Form
@@ -87,7 +98,12 @@ export class CheckoutComponent implements OnInit {
         this.total = 0
         this.tableRows.forEach(
           (item) => {
-            this.total += item.product.fee
+            if (item.product) {
+              this.total += item.product.fee
+            }
+            else if(item.service_request) {
+              this.total += item.service_request.service.fee
+            }
           }
         )
       },
@@ -103,6 +119,8 @@ export class CheckoutComponent implements OnInit {
         })
         this.totaldocument = this.tableRows.length
         // this.updatePrice()
+        console.log('a', this.tableRows)
+        console.log('b', this.tableTemp)
       }
     )
   }
