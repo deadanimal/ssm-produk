@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 
 @Component({
-  selector: 'app-receipt',
-  templateUrl: './receipt.component.html',
-  styleUrls: ['./receipt.component.scss']
+  selector: 'app-payment-receipt',
+  templateUrl: './payment-receipt.component.html',
+  styleUrls: ['./payment-receipt.component.scss']
 })
-export class ReceiptComponent implements OnInit {
+export class PaymentReceiptComponent implements OnInit {
 
   transaction: any
 

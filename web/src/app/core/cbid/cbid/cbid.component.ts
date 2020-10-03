@@ -1,22 +1,15 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import swal from 'sweetalert2';
-import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap';
 
+import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
-// entity
-import { CbidTicket } from 'src/app/shared/services/cbid-tickets/cbid-tickets.model';
-import { CbidTicketsService } from 'src/app/shared/services/cbid-tickets/cbid-tickets.service';
 
-import { CbidCartsService } from 'src/app/shared/services/cbid-carts/cbid-carts.service';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
+import { ServicesService } from 'src/app/shared/services/services/services.service';
+
 
 export enum SelectionType {
   single = 'single',
@@ -33,15 +26,6 @@ export enum SelectionType {
 })
 export class CbidComponent implements OnInit {
 
-  clicked = false;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: 'modal-dialog-centered',
-  };
-
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -52,71 +36,74 @@ export class CbidComponent implements OnInit {
   listProject: any;
   listEntity: any;
   listProduct: any;
-  // Form
-  searchForm: FormGroup;
-  searchField: FormGroup;
-  addAppReqForm: FormGroup;
-  editAppReqForm: FormGroup;
-  addCartForm: FormGroup;
-
-  // SB start
 
   // Form
   serviceForm: FormGroup
+  requestForm: FormGroup
+  cartForm: FormGroup
   requestToAdd: any[] = []
 
   // Checker
   isGotRequest: boolean = true
+  clicked
+
+  // HC
+  service1 = '949ea0bc-1c1c-417a-8683-145de5ef6976'
+  service2 = 'cb839e88-f045-4f5a-97ec-18e488f02405'
+  service3 = 'e65d94be-0b37-4d7c-8f72-301a038346c3'
+  service4 = 'd80eeecb-dd4d-4219-b641-0aa2a2fa7fbb'
 
   constructor(
     private cartService: CartsService,
-    private cartsService: CbidCartsService,
-    private entityService: CbidTicketsService,
+    private productService: ProductsService,
     private fb: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
-    private router: Router,
-    
-  ) {
-    this.getEntity();
-  }
+    private serviceService: ServicesService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.addAppReqForm = this.fb.group({
-      entity_type: new FormControl('ROB'),
-      product_type: new FormControl('BT'),
-      requestor: new FormControl('426adae9-1921-4960-afc6-935efd788db4'),
-    });
-
-    this.addCartForm = this.fb.group({
-      // search_criteria: new FormControl(''),
-      // total_pages: new FormControl(''),
-      // total_company: new FormControl(''),
-      // unit_price: new FormControl(''),
-      // total_price: new FormControl(''),
-      // total: new FormControl(''),
-      // sst: new FormControl(''),
-      // total_amount: new FormControl(''),
-      products: new FormControl(''),
-    });
-
     this.serviceForm = this.fb.group({
-      entity_type: new FormControl('ROB'),
-      service_type: new FormControl('statistics'),
+      entity_type: new FormControl('RB'),
+      product_type: new FormControl('PR'),
       price: new FormControl(10.00)
+    })
+
+    this.requestForm = this.fb.group({
+      service_id: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
+      product_type: new FormControl('', Validators.required),
+      organisation: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.email
+      ])),
+      phone_number: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]*$')
+      ])),
+      remarks: new FormControl(''),
+      completed: new FormControl(false)
+    })
+    
+    this.cartForm = this.fb.group({
+      item_type: new FormControl('service'),
+      service_request_id: new FormControl('', Validators.compose([
+        Validators.required
+      ]))
     })
   }
 
-  // SB start
-
   updatePrice() {
-    if (this.serviceForm.value['entity_type'] == 'ROB') {
+    if (this.serviceForm.value['entity_type'] == 'RB') {
       this.serviceForm.controls['price'].setValue(10.00)
     }
-    else if (this.serviceForm.value['entity_type'] == 'ROC') {
+    else if (this.serviceForm.value['entity_type'] == 'RC') {
       this.serviceForm.controls['price'].setValue(20.00)
     }
-    else if (this.serviceForm.value['entity_type'] == 'Both') {
+    else if (this.serviceForm.value['entity_type'] == 'BT') {
       this.serviceForm.controls['price'].setValue(30.00)
     }
   }
@@ -124,11 +111,14 @@ export class CbidComponent implements OnInit {
   addRequest() {
     let item = {
       'entity_type': this.serviceForm.value['entity_type'],
-      'service_type': this.serviceForm.value['service_type'],
+      'product_type': this.serviceForm.value['product_type'],
       'price': this.serviceForm.value['price']
     }
     // console.log('To add: ', item)
+    // if (this.serviceForm.value['entity_type'] == 'BT')
     this.requestToAdd.push(item)
+    this.getTableData()
+
   }
 
   removeRequest(row) {
@@ -136,11 +126,72 @@ export class CbidComponent implements OnInit {
     this.requestToAdd.pop()
   }
 
+  getTableData() {
+    this.tableRows = this.requestToAdd
+    this.tableTemp = this.tableRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      }
+    })
+  }
+
   addToCart() {
     // console.log('Service to add: ')
     // this.cartService
+    let reqCnt = this.requestToAdd.length
+    let processCnt = 0
+
+    this.requestToAdd.forEach(
+      (req) => {
+        if (req.entity_type == 'RB' && req.product_type == 'PR') {
+          this.requestForm.controls['service_id'].setValue(this.service1)
+        }
+        else if (req.entity_type == 'RB' && req.product_type == 'LS') {
+          this.requestForm.controls['service_id'].setValue(this.service2)
+        }
+        else if (req.entity_type == 'RC' && req.product_type == 'PR') {
+          this.requestForm.controls['service_id'].setValue(this.service3)
+        }
+        else if (req.entity_type == 'RC' && req.product_type == 'LS') {
+          this.requestForm.controls['service_id'].setValue(this.service4)
+        }
+
+        processCnt += 1
+        this.loadingBar.useRef('http').start()
+
+        this.serviceService.requestService(this.requestForm.value).subscribe(
+          (res) => {
+            this.cartForm.controls['service_request_id'].setValue(res.id)
+            this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
+              () => {},
+              () => {
+                this.loadingBar.useRef('http').complete()
+              },
+              () => {
+                this.loadingBar.useRef('http').complete()
+                if (processCnt == reqCnt) {
+                  delete this.requestToAdd
+                  this.navigatePage('/cart')
+                }
+              }
+            )
+          },
+          () => {
+            this.loadingBar.useRef('http').complete()
+          },
+          () => {
+            this.loadingBar.useRef('http').complete()
+          }
+        )
+      }
+    )
   }
-  
+
+  sendRequest() {
+    
+  }
+
   entriesChange($event) {
     this.tableEntries = $event.target.value;
   }
@@ -168,120 +219,6 @@ export class CbidComponent implements OnInit {
 
   navigatePage(path: string) {
     return this.router.navigate([path])
-  }
-
-
-
-
-
-
-
-  getEntity() {
-    /*
-    this.entityService.getAll().subscribe((res) => {
-      this.listEntity = res;
-      var keys = Object.keys(this.listEntity);
-      var len = keys.length;
-      console.log(len);
-      if (len == 0) {
-        this.clicked = false;
-      } else {
-        this.clicked = true;
-      }
-      console.log('data = ', this.listProject);
-    });
-    */
-  }
-
-  newApplicationData() {
-    // console.log(this.addAppReqForm.value);
-    this.entityService.create(this.addAppReqForm.value).subscribe(
-      (res) => {
-        this.listEntity = res;
-        console.log(res);
-        // console.log(res.id);
-        // this.successAlert('Successfully add entity.');
-        // window.location.reload();
-        // console.log('data = ', this.listEntity);
-        if (this.listEntity) {
-          this.addCartForm.value.products =
-            'd7abf307-4cf2-4fb9-a373-9d36d3ce7f4f';
-          console.log('addCartForm = ', this.addCartForm.value);
-          this.cartsService.create(this.addCartForm.value).subscribe(() => {
-            this.successAlert('Successfully add entity.');
-            // window.location.reload();
-            this.getEntity();
-          });
-        }
-      },
-      () => {}
-    );
-  }
-
-  deleteApplicationData(row) {
-    console.log(row);
-    this.entityService.delete(row).subscribe((res) => {
-      // this.listEntity = res;
-      this.successAlert('Successfully delete entity.');
-      window.location.reload();
-    });
-  }
-
-  confirm(row) {
-    swal
-      .fire({
-        title: 'Confirmation',
-        text: 'Are you sure to delete this data ?',
-        icon: 'info',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Confirm',
-        customClass: {
-          cancelButton: 'btn btn-outline-primary ',
-          confirmButton: 'btn btn-primary ',
-        },
-      })
-      .then(() => {
-        this.deleteApplicationData(row);
-      });
-  }
-
-  successAlert(task) {
-    swal.fire({
-      title: 'Success',
-      text: task,
-      icon: 'success',
-      // showCancelButton: true,
-      buttonsStyling: false,
-      confirmButtonText: 'Close',
-      customClass: {
-        cancelButton: 'btn btn-outline-success',
-        confirmButton: 'btn btn-success ',
-      },
-    });
-    console.log('confirm');
-  }
-
-
-  showSummary() {
-    this.clicked = true;
-  }
-
-  openModal(modalRef: TemplateRef<any>, row) {
-    if (row) {
-      console.log(row);
-      this.editAppReqForm.patchValue(row);
-    }
-    this.modal = this.modalService.show(
-      modalRef,
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
-    // this.modal = this.modalService.show(modalRef, this.modalConfig);
-  }
-
-  closeModal() {
-    this.modal.hide();
-    this.editAppReqForm.reset();
   }
 
 }

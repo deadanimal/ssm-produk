@@ -196,18 +196,23 @@
 					</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li 
+					class="nav-item dropdown" 
+					(mouseenter)="getData()"
+					(mouseover)="getData()"
+					(click)="getData()"
+				>
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
 						<i class="fas fa-shopping-cart"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
 						<!-- Dropdown header -->
-						<div class="px-3 py-3" *ngIf="cartz == true">
+						<div class="px-3 py-3" *ngIf="!isEmpty">
 							<h5 class="text-sm text-muted m-0">
-								You have <strong class="text-primary">{{ cart | json }}</strong> items in cart.
+								You have <strong class="text-primary">{{ cartItems.length }}</strong> items in cart.
 							</h5>
 						</div>
-						<div class="px-3 py-3" *ngIf="cartz == false">
+						<div class="px-3 py-3" *ngIf="isEmpty">
 							<h5 class="text-sm text-muted m-0">
 								You have <strong class="text-primary"> 0 </strong> items in cart.
 							</h5>
@@ -215,26 +220,57 @@
 
 						<!-- List group -->
 
-						<div class="list-group list-group-flush" *ngIf="cartz == true">
-							<a href="javascript:void()" class="list-group-item list-group-item-action">
-								<div class="row align-items-center">
+						<div class="list-group list-group-flush" *ngIf="!isEmpty">
+							<a class="list-group-item list-group-item-action" *ngFor="let item of cartItems">
+								<div class="row">
 									<div class="col">
-										<div class="d-flex justify-content-between align-items-center">
+										<div *ngIf="item.service_request">
+											<p class="text-sm mb-0">
+												<span *ngIf="item.service_request.service.service_type == 'CB'">
+													CBID
+												</span>
+											</p>
+										</div>
+
+										<div *ngIf="item.product">
+											<small>
+												{{item.entity.name}}
+											</small>
+											<p class="text-sm mb-0">
+												<span>
+													{{item.product.name}}
+												</span>
+											</p>
+										</div>
+									</div>
+									<div class="col-4 text-right">
+										<div class="">
 											<!-- <div>
 												<h6 class="mb-0 text-sm"></h6>
 											</div> -->
 											<div class="text-right text-muted">
-												<small>RM10.00</small>
+												<small *ngIf="item.service_request">
+													<span>
+														RM{{item.service_request.service.fee/100 | number : '1.2-2'}}
+													</span>
+												</small>
+		
+												<small *ngIf="item.product">
+													<span>
+														RM{{item.product.fee/100 | number : '1.2-2'}}
+													</span>
+												</small>
 											</div>
 										</div>
-										<p class="text-sm mb-0">Company Profile</p>
 									</div>
 								</div>
 							</a>
 						</div>
 						<!-- View all -->
 						<a (click)="navigatePage('/cart')"
-							class="dropdown-item text-center text-primary font-weight-bold py-3" *ngIf="cartz == true">
+							class="dropdown-item text-center text-primary font-weight-bold py-3"
+							*ngIf="!isEmpty"
+						>
 							View shopping cart
 						</a>
 					</div>

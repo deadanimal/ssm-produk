@@ -1,22 +1,22 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import swal from "sweetalert2";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import swal from 'sweetalert2';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // user service
-import { UsersService } from "src/app/shared/services/users/users.service";
+import { UsersService } from 'src/app/shared/services/users/users.service';
 
 // auth service
-import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 // request
-import { InvestigationTicketsService } from "src/app/shared/services/investigation-tickets/investigation-tickets.service";
+import { InvestigationTicketsService } from 'src/app/shared/services/investigation-tickets/investigation-tickets.service';
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 
 import * as moment from 'moment';
@@ -33,9 +33,9 @@ export enum SelectionType {
 }
 
 @Component({
-  selector: "app-profile",
-  templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.scss"],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
 
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
   modalTransactionDetail: BsModalRef;
   modalConfig = {
     keyboard: true,
-    // class: "modal-dialog-centered",
+    // class: 'modal-dialog-centered',
   };
 
   showpiv = false;
@@ -71,9 +71,9 @@ export class ProfileComponent implements OnInit {
   showRequestInvestigationList = true;
   showRequestInvestigationAdd = false;
   InvestigationList: any;
-  listNp = "0";
-  runningNo = "2020061001";
-  id = "b4d3fc09-2523-40f9-81bf-333960bbd611";
+  listNp = '0';
+  runningNo = '2020061001';
+  id = 'b4d3fc09-2523-40f9-81bf-333960bbd611';
   intervalLogin: any;
   infodata: any;
 
@@ -99,84 +99,52 @@ export class ProfileComponent implements OnInit {
   transactions: any[] = []
   orders: any[] = []
 
+  accountTabActive: boolean = false
+  transactionTabActive: boolean = false
+  orderTabActive: boolean = false
+
   constructor(
-    private modalService: BsModalService,
-    private formBuilder: FormBuilder,
-    private AuthService: AuthService,
-    private UsersService: UsersService,
-    private InvestigationTicketsService: InvestigationTicketsService,
-    private router: Router,
-    private transactionService: TransactionsService,
+    private authService: AuthService,
     private cartService: CartsService,
     private productService: ProductsService,
+    private transactionService: TransactionsService,
+    private userService: UsersService,
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private modalService: BsModalService,
+    private router: Router,
     private spinner: NgxSpinnerService,
-  ) {}
+  ) {
+    this.activatedRoute.queryParams.subscribe(
+      (p: any) => {
+        console.log(p['tab'])
+        this.tabChecker(p['tab'])
+      }
+    )
+  }
 
   ngOnInit(): void {
-    // this.intervalLogin = setInterval(() => {
-    //   this.autoLogin();
-    // }, 1000);
-    // console.log("asdasdad -> ", this.AuthService.userID);
-    this.user_obj = this.AuthService.decodedToken();
-    // console.log("user_obj => ", this.user_obj);
-
-    // if (
-    //   this.AuthService.userID != undefined ||
-    //   this.user_obj.user_id != undefined
-    // ) {
-    //   this.userType = this.AuthService.userType;
-
-    //   if (this.AuthService.userID != undefined) {
-    //     this.userID = this.AuthService.userID;
-    //   } else {
-    //     this.userID = this.user_obj.user_id;
-    //   }
-
-    //   // this.UsersService.getOne(this.id).subscribe((res) => {
-    //   //   this.userdetails = res;
-    //   //   console.log("userdata = ", this.userdetails);
-    //   //   this.egovPackage = this.userdetails.egov_package;
-    //   //   this.userFullname = this.userdetails.full_name;
-    //   //   this.userEmail = this.userdetails.email;
-    //   //   this.userNric = this.userdetails.nric_number;
-    //   //   this.UserHOD = this.userdetails.head_of_department_name;
-    //   //   this.userQuota = this.userdetails.egov_quota + " / 1000";
-    //   //   console.log(this.egovPackage);
-
-    //   //   if (this.egovPackage <= "2") {
-    //   //     this.showRequestQuotaButton = true;
-    //   //   }
-    //   // });
-    // }
-
-    // this.InvestigationTicketsService.getAll().subscribe((res) => {
-    //   this.InvestigationList = res;
-    // });
+    this.user_obj = this.authService.decodedToken();
 
     this.requestInvestigationDocForm = this.formBuilder.group({
-      id: new FormControl(""),
-      reference_letter_number: new FormControl(""),
-      ip_no: new FormControl(""),
-      court_case_number: new FormControl(""),
-      // official_attachment: new FormControl(""),
-      offense: new FormControl("qwee"),
-      // document_request: new FormControl(""),
-      // submit_request: new FormControl(""),
+      id: new FormControl(''),
+      reference_letter_number: new FormControl(''),
+      ip_no: new FormControl(''),
+      court_case_number: new FormControl(''),
+      offense: new FormControl('qwee'),
       officer: new FormControl(this.userID),
     });
 
     this.updateUserInfoForm = this.formBuilder.group({
-      id: new FormControl(""),
-      full_name: new FormControl(""),
-      email: new FormControl(""),
-      egov_package: new FormControl(""),
-      nric_number: new FormControl(""),
-      phone_number: new FormControl(""),
-      // submit_request: new FormControl(""),
-      // officer: new FormControl(this.userID),
+      id: new FormControl(''),
+      full_name: new FormControl(''),
+      email: new FormControl(''),
+      egov_package: new FormControl(''),
+      nric_number: new FormControl(''),
+      phone_number: new FormControl('')
     });
 
-    this.getData()
+    this.getData();
   }
 
 
@@ -256,11 +224,11 @@ export class ProfileComponent implements OnInit {
   downloadOutput(row) { 
     if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
       let body = {
-        "name": "company_profile",
-        "language": "ms",
-        "ctc": "False",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC"
+        'name': 'company_profile',
+        'language': 'ms',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -277,11 +245,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '74a97598-c817-4c06-971f-3197c4c12165') {
       let body = {
-        "name": "company_profile",
-        "language": "en",
-        "ctc": "False",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC"
+        'name': 'company_profile',
+        'language': 'en',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -298,11 +266,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == 'f636d9f7-29f6-4d85-bf21-417c7496193d') {
       let body = {
-        "name": "company_profile",
-        "language": "ms",
-        "ctc": "True",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC"
+        'name': 'company_profile',
+        'language': 'ms',
+        'ctc': 'True',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -319,11 +287,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '5b381e56-dc2f-4476-986e-ecb247d48499') {
       let body = {
-        "name": "company_profile",
-        "language": "en",
-        "ctc": "True",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC"
+        'name': 'company_profile',
+        'language': 'en',
+        'ctc': 'True',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -340,11 +308,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '1eca2caf-a8c7-4327-a37f-394f4dd9c78e') {
       let body = {
-        "name": "business_profile",
-        "language": "ms",
-        "ctc": "False",
-        "registration_no": row.entity.registration_number,
-        "entity_type": "ROB"
+        'name': 'business_profile',
+        'language': 'ms',
+        'ctc': 'False',
+        'registration_no': row.entity.registration_number,
+        'entity_type': 'ROB'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -361,11 +329,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '539aaa55-a0f6-4af4-b476-acc03bae8f62') {
       let body = {
-        "name": "business_profile",
-        "language": "en",
-        "ctc": "False",
-        "registration_no": row.entity.registration_number,
-        "entity_type": "ROB"
+        'name': 'business_profile',
+        'language': 'en',
+        'ctc': 'False',
+        'registration_no': row.entity.registration_number,
+        'entity_type': 'ROB'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -382,11 +350,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == 'f1dc2664-f55d-4012-a4fe-556da76eb32c') {
       let body = {
-        "name": "business_profile",
-        "language": "ms",
-        "ctc": "True",
-        "registration_no": row.entity.registration_number,
-        "entity_type": "ROB"
+        'name': 'business_profile',
+        'language': 'ms',
+        'ctc': 'True',
+        'registration_no': row.entity.registration_number,
+        'entity_type': 'ROB'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -403,11 +371,11 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '8df319e5-0bed-435d-81d4-03856870195d') {
       let body = {
-        "name": "business_profile",
-        "language": "en",
-        "ctc": "True",
-        "registration_no": row.entity.registration_number,
-        "entity_type": "ROB"
+        'name': 'business_profile',
+        'language': 'en',
+        'ctc': 'True',
+        'registration_no': row.entity.registration_number,
+        'entity_type': 'ROB'
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -424,13 +392,13 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == 'aeb73efa-b89e-4e15-b1a7-3ba2409f7ec1') {
       let body = {
-        "name": "financial_history",
-        "language": "ms",
-        "ctc": "False",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC",
-        "year1": 2016,
-	      "year2": 2017
+        'name': 'financial_history',
+        'language': 'ms',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC',
+        'year1': 2016,
+	      'year2': 2017
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -447,13 +415,13 @@ export class ProfileComponent implements OnInit {
     }
     else if (row.product.id == '6420ad7f-8639-451e-99c7-76a02ac2763c') {
       let body = {
-        "name": "financial_history",
-        "language": "en",
-        "ctc": "False",
-        "registration_no": row.entity.company_number,
-        "entity_type": "ROC",
-        "year1": 2016,
-	      "year2": 2017
+        'name': 'financial_history',
+        'language': 'en',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC',
+        'year1': 2016,
+	      'year2': 2017
       }
       this.spinner.show()
       this.productService.generateDocument(body).subscribe(
@@ -470,6 +438,29 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  tabChecker(path: string) {
+    if (path == 'account') {
+      this.accountTabActive = true;
+      this.transactionTabActive = false;
+      this.orderTabActive = false;      
+    } 
+    else if (path == 'transaction') {
+      this.accountTabActive = false;
+      this.transactionTabActive = true;
+      this.orderTabActive = false;     
+    }
+    else if (path == 'order') {
+      this.accountTabActive = false;
+      this.transactionTabActive = false;
+      this.orderTabActive = true;     
+    }
+    else {
+      this.accountTabActive = true
+      this.transactionTabActive = false;
+      this.orderTabActive = false;      
+    }
+  }
+
 
 
   // SB end
@@ -479,136 +470,26 @@ export class ProfileComponent implements OnInit {
 
 
 
-
-
-
-
-  autoLogin() {
-    let username = "admin2";
-    let password = "PabloEscobar";
-    this.infodata = {
-      username: username,
-      password: password,
-    };
-    // this.AuthService.obtainToken(this.infodata).subscribe((res) => {});
-  }
-
-  addNewRequestData() {
-    console.log("payment data -> ", this.requestInvestigationDocForm.value);
-    this.InvestigationTicketsService.create(
-      this.requestInvestigationDocForm.value
-    ).subscribe(
-      (res) => {
-        console.log(res);
-        this.closeModal();
-        this.successAlert("Successfully Save Data");
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => console.log("HTTP request completed.")
-    );
-  }
-
-  changeUserInfo() {
-    this.UsersService.update(this.id, this.updateUserInfoForm.value).subscribe(
-      (res) => {
-        console.log(res);
-        // this.closeModal();
-        this.successAlert("Successfully Save Data");
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => console.log("HTTP request completed.")
-    );
-  }
-
-  addNewRequestQuota() {
-    this.UsersService.addQuota(this.userID).subscribe(
-      (res) => {
-        console.log(res);
-        this.closeModal();
-        this.successAlert("Successfully Save Data");
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => console.log("HTTP request completed.")
-    );
-  }
-
-  addInvestigationReqForm() {
-    this.showRequestInvestigationList = false;
-    this.showRequestInvestigationAdd = true;
-  }
-
-  requestInvestigationDoc() {
-    swal
-      .fire({
-        title: "Confirmation",
-        text: "Are you sure to submit Application !",
-        icon: "info",
-        buttonsStyling: false,
-        confirmButtonText: "Confirm",
-        customClass: {
-          confirmButton: "btn btn-primary ",
-        },
-      })
-      .then((result) => {
-        // if (result.value) {
-        //   this.router.navigate(["/orders"]);
-        // }
-        this.addNewRequestData();
-      });
-    console.log("confirm");
-  }
-
-  disableFormAccount() {
-    this.formStatus = false;
-    this.showSubmitButton = true;
-  }
-
   successAlert(task) {
     swal
       .fire({
-        title: "Success",
+        title: 'Success',
         text: task,
-        icon: "success",
+        icon: 'success',
         // showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Close",
+        confirmButtonText: 'Close',
         customClass: {
-          cancelButton: "btn btn-outline-success",
-          confirmButton: "btn btn-success ",
+          cancelButton: 'btn btn-outline-success',
+          confirmButton: 'btn btn-success ',
         },
       })
       .then((result) => {
-        // console.log("confirm");
+        // console.log('confirm');
         this.closeModal();
         window.location.reload();
-        // this.navigatePage("/profile");
+        // this.navigatePage('/profile');
       });
-  }
-
-  summaryRequest(task) {
-    console.log(task);
-    if (task == "doc") {
-      this.showpiv = false;
-      this.showdoc = true;
-    } else {
-      this.showpiv = true;
-      this.showdoc = false;
-    }
   }
 
   navigatePage(path: string) {
@@ -617,17 +498,10 @@ export class ProfileComponent implements OnInit {
     this.router.navigate([path]);
   }
 
-  // openTransactionDetail(modalRef: TemplateRef<any>) {
-  //   this.modalTransactionDetail = this.modalService.show(
-  //     modalRef,
-  //     this.modalConfig
-  //   );
-  // }
-
   openModal(modalRef: TemplateRef<any>) {
     this.modal = this.modalService.show(
       modalRef,
-      Object.assign({}, { class: "modal-dialog-centered gray modal-lg" })
+      Object.assign({}, { class: 'modal-dialog-centered gray modal-lg' })
     );
   }
 
@@ -651,40 +525,40 @@ export class ProfileComponent implements OnInit {
   successDownload() {
     swal
       .fire({
-        title: "Success",
-        text: "Successfully downloaded",
-        icon: "success",
+        title: 'Success',
+        text: 'Successfully downloaded',
+        icon: 'success',
         buttonsStyling: false,
-        confirmButtonText: "Ok",
+        confirmButtonText: 'Ok',
         customClass: {
-          confirmButton: "btn btn-outline-success ",
+          confirmButton: 'btn btn-outline-success ',
         },
       })
       .then((result) => {
         if (result.value) {
           window.open(
-            "https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/product/1599179232-96afbd34518b47af99a1fe4f488185d8.pdf",
-            "_blank"
+            'https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/product/1599179232-96afbd34518b47af99a1fe4f488185d8.pdf',
+            '_blank'
           );
         }
       });
-    console.log("confirm");
+    console.log('confirm');
   }
 
   failedDownload() {
     swal.fire({
-      title: "Receipt failed to generate",
-      text: "Please contact SSM Enquiry",
-      icon: "warning",
+      title: 'Receipt failed to generate',
+      text: 'Please contact SSM Enquiry',
+      icon: 'warning',
       showCancelButton: true,
       buttonsStyling: false,
-      confirmButtonText: "Confirm",
+      confirmButtonText: 'Confirm',
       customClass: {
-        cancelButton: "btn btn-outline-primary ",
-        confirmButton: "btn btn-primary ",
+        cancelButton: 'btn btn-outline-primary ',
+        confirmButton: 'btn btn-primary ',
       },
     });
-    console.log("confirm");
+    console.log('confirm');
   }
 
   
