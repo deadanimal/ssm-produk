@@ -22,6 +22,7 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
+import { ServicesService } from 'src/app/shared/services/services/services.service';
 
 export enum SelectionType {
   single = "single",
@@ -37,8 +38,14 @@ export enum SelectionType {
   styleUrls: ["./report.component.scss"],
 })
 export class CbidReportComponent implements OnInit {
-  // Chart
-  chart: any;
+  // Table
+  tableEntries: number = 10;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  tableRows: any[] = [];
+  SelectionType = SelectionType;
+  requestList: any;
 
   // Modal
   modal: BsModalRef;
@@ -61,19 +68,22 @@ export class CbidReportComponent implements OnInit {
     private mockService: MocksService,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
-    private zone: NgZone
+    private zone: NgZone,
+    private servicesService: ServicesService,
   ) {
     // this.getData()
   }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      name: new FormControl("", Validators.compose([Validators.required])),
-      email: new FormControl(
-        "",
-        Validators.compose([Validators.required, Validators.email])
-      ),
-    });
+    // this.registerForm = this.formBuilder.group({
+    //   name: new FormControl("", Validators.compose([Validators.required])),
+    //   email: new FormControl(
+    //     "",
+    //     Validators.compose([Validators.required, Validators.email])
+    //   ),
+    // });
+
+    this.initData();
   }
 
   ngOnDestroy() {
@@ -130,4 +140,48 @@ export class CbidReportComponent implements OnInit {
         }
       });
   }
+
+  initData() {
+    this.servicesService.getReport().subscribe(
+      (res) => {
+        this.tableRows = res;
+        this.tableRows.forEach(
+          (row) => {
+            if(row.pending_date) {
+              row.pending_date = moment(row.pending_date).format('DD/MM/YYYY')
+            }
+
+            if(row.completed_date) {
+              row.completed_date = moment(row.completed_date).format('DD/MM/YYYY')
+            }
+
+            if(row.created_date) {
+              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
+            }
+
+            if(row.modified_date) {
+              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
+            }
+          }
+        )        
+      },
+      (err) => {
+
+      },
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          };
+        });        
+        console.log(this.tableTemp)
+      }
+    )
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }  
+
 }

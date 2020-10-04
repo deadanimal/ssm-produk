@@ -14,7 +14,11 @@ from entities.models import (
 )
 
 from products.models import (
-    Product
+    Product, ProductSearchCriteria
+)
+
+from quotas.models import (
+    Quota
 )
 
 from services.models import (
@@ -48,8 +52,10 @@ class CartItem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     CART_ITEM_TYPE = [
+        ('PS', 'Product Search Criteria'),
         ('PR', 'Product'),
         ('SE', 'Service'),
+        ('QU', 'Quota'),
 
         ('NA', 'Not Available')
     ]
@@ -57,9 +63,22 @@ class CartItem(models.Model):
 
     cart = models.ForeignKey(Cart, related_name='cart_item', on_delete=models.CASCADE, null=True)
 
+    # PRODUCT
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    
+    # PRODUCT IMAGE
+    image_form_type = models.CharField(max_length=100, default='NA', null=True)
+    image_version_id = models.CharField(max_length=100, default='NA', null=True)
+
+    # SERVICE
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, null=True)
+
+    # QUOTA
+    quota = models.ForeignKey(Quota, on_delete=models.CASCADE, null=True)
+
+    # PRODUCT SEARCH CRITERIA
+    product_search_criteria = models.ForeignKey(ProductSearchCriteria, on_delete=models.CASCADE, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

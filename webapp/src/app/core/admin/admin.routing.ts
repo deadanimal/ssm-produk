@@ -12,10 +12,11 @@ import { TicketManagementComponent } from './enquiry/ticket-management/ticket-ma
 import { FormManagementComponent } from './enquiry/form-management/form-management.component';
 import { OutstandingTasksComponent } from './kjakp/outstanding-tasks/outstanding-tasks.component';
 import { UsagesComponent } from './kjakp/usages/usages.component';
-import { AddComponent } from './kjakp/customer-management/add/add.component';
-import { PackageComponent } from './kjakp/customer-management/package/package.component';
-import { RenewComponent } from './kjakp/customer-management/renew/renew.component';
-import { AddQuotaComponent } from './kjakp/customer-management/add-quota/add-quota.component';
+import { CustomerManagementComponent } from './kjakp/customer-management/customer-management.component';
+//import { AddComponent } from './kjakp/customer-management/add/add.component';
+// import { PackageComponent } from './kjakp/customer-management/package/package.component';
+// import { RenewComponent } from './kjakp/customer-management/renew/renew.component';
+// import { AddQuotaComponent } from './kjakp/customer-management/add-quota/add-quota.component';
 import { ResupplyComponent } from './product/resupply/resupply.component';
 import { ProductManagementComponent } from './product/product-management/product-management.component';
 import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
@@ -67,24 +68,25 @@ export const AdminRoutes: Routes = [
           },
           {
             path: 'customer-management',
-            children: [
-              {
-                path: 'add',
-                component: AddComponent,
-              },
-              {
-                path: 'package',
-                component: PackageComponent,
-              },
-              {
-                path: 'renew',
-                component: RenewComponent,
-              },
-              {
-                path: 'add-quota',
-                component: AddQuotaComponent,
-              },
-            ],
+            component: CustomerManagementComponent,
+            // children: [
+            //   {
+            //     path: 'add',
+            //     component: AddComponent,
+            //   },
+            //   {
+            //     path: 'package',
+            //     component: PackageComponent,
+            //   },
+            //   {
+            //     path: 'renew',
+            //     component: RenewComponent,
+            //   },
+            //   {
+            //     path: 'add-quota',
+            //     component: AddQuotaComponent,
+            //   },
+            // ],
           },
         ],
       },
