@@ -301,6 +301,17 @@ export class ProductSearchResultComponent implements OnInit {
       }
     )
 
+    let checkBody = {
+      'registration_no': this.registration_no,
+      'entity_type': 'ROC'
+    }
+
+    this.productService.check(checkBody).subscribe(
+      () => {},
+      () => {},
+      () => {}
+    )
+
   }
 
   updateTable() {

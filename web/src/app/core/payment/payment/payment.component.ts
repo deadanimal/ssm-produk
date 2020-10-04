@@ -128,7 +128,7 @@ export class PaymentComponent implements OnInit {
       orderNumber: 'OrderNumber',
       paymentDesc: 'PaymentDescription',
       merchantName: 'SSM',
-      merchantReturnUrl: 'https://afeezaziz.ngrok.io/v1/transactions/pg_return/',
+      merchantReturnUrl: 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/',
       amount: ((this.cartService.cart.total_price_before_tax/100).toFixed(2)).toString(),
       currencyCode: 'MYR',
       custIP: this.clientIP.ip,

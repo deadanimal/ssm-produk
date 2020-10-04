@@ -1,0 +1,34 @@
+[
+    {
+        "code": "E",
+        "desc": "EXISTING"
+    },
+    {
+        "code": "W",
+        "desc": "WINDING UP"
+    },
+    {
+        "code": "D",
+        "desc": "DISSOLVED"
+    },
+    {
+        "code": "R",
+        "desc": "REMOVED"
+    },
+    {
+        "code": "C",
+        "desc": "CEASED BUSINESS"
+    },
+    {
+        "code": "X",
+        "desc": "NULL AND VOID BY COURT ORDER"
+    },
+    {
+        "code": "B",
+        "desc": "DISSOLVED CONVERSION TO LLP"
+    },
+    {
+        "code": "Y",
+        "desc": "STRUCK-OFF & WINDING-UP VIA COURT ORDER"
+    }
+]
