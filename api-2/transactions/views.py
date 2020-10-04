@@ -24,7 +24,8 @@ from .models import (
 
 from .serializers import (
     TransactionSerializer,
-    TransactionWithCartSerializer
+    TransactionWithCartSerializer,
+    TransactionExtendedSerializer
 )
 
 class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -161,3 +162,10 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         for tran in all_t:
             tran.delete()
+
+    @action(methods=['GET'], detail=False)
+    def report(self, request, *args, **kwargs):        
+
+        all_ok_transactions = Transaction.objects.filter(payment_status='OK').filter()
+        serializer = TransactionExtendedSerializer(all_ok_transactions, many=True)
+        return Response(serializer.data)
