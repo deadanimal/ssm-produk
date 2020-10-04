@@ -1,0 +1,10 @@
+[
+    {
+        "code": "L",
+        "desc": "LOCAL"
+    },
+    {
+        "code": "F",
+        "desc": "FOREIGN"
+    }
+]

@@ -1,0 +1,350 @@
+<div class="wrapper">
+    <section class="pricing-3 bg-filter-white" style="background-image: url('assets/img/background/menara_ssm.jpg')">
+        <div class="container">
+            <div class="pt-9 pb-5">
+                <h3 class="title font-weight-bolder mb-0">CUSTOMIZED DATA</h3>
+                <h1 class="title font-weight-bolder text-ssm mt-0">COMPANY DETAIL</h1>
+                <h5>Package A - Company Information, Registered Address, Business Address, Business Code.</h5>
+                <h2 class="title font-weight-bolder text-center mt-6">Search Customized Data</h2>
+                <div class="px-2">
+                    <form [formGroup]="customForm">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Incorp / Reg Date From</label>
+                                    <input 
+                                        class="form-control" 
+                                        formControlName="incorpDtFrom"
+                                        type="date"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Incorp / Reg Date To</label>
+                                    <input 
+                                        class="form-control" 
+                                        formControlName="incorpDtTo"
+                                        type="date"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Company Status</label>
+                                    <select class="form-control" formControlName="compStatus">
+                                        <option hidden select>Please select</option>
+                                        <option 
+                                            *ngFor="let status of companyStatus"
+                                            value="{{status.code}}"
+                                        >
+                                            {{status.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Company Type</label>
+                                    <select class="form-control" formControlName="compType">
+                                        <option hidden select>Please select</option>
+                                        <option 
+                                            *ngFor="let type of companyTypes"
+                                            value="{{type.code}}"
+                                        >
+                                            {{type.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Sector</label>
+                                    <select class="form-control" formControlName="sector">
+                                        <option hidden select>Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Division</label>
+                                    <select class="form-control" formControlName="division">
+                                        <option hidden select>Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Business Code</label>
+                                    <select 
+                                        class="custom-select" 
+                                        [(ngModel)]="bizCodes"
+                                        [ngModelOptions]="{standalone: true}"
+                                        multiple
+                                    >
+                                        <option hidden select>Please select</option>
+                                        <option 
+                                            *ngFor="let business of businessCodes"
+                                            value="{{business.business_code}}"
+                                        >
+                                           <span class="text-light">{{business.business_code}}</span> - {{business.desc_en}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Company Origin</label>
+                                    <select class="form-control" formControlName="compOrigin">
+                                        <option hidden select>Please select</option>
+                                        <option 
+                                            *ngFor="let origin of companyOrigins"
+                                            value="{{origin.code}}"
+                                        >
+                                            {{origin.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Company Location</label>
+                                    <select class="form-control" formControlName="compLocation">
+                                        <option hidden select>Please select</option>
+                                        <option 
+                                            *ngFor="let state of stateCodes"
+                                            value="{{state.code}}"
+                                        >
+                                            {{state.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-right py-3">
+                            <button 
+                                class="btn btn-ssm btn-icon btn-round mr-2"
+                                (click)="confirm()"
+                            >
+                                <span class="btn-inner--text"> Search </span>
+                                <span class="btn-inner--icon">
+                                    <i class="fas fa-search"> </i>
+                                </span>
+                            </button>
+
+                            <button class="btn btn-ssm btn-round">
+                                Change Package
+                            </button>
+                            
+                            <p class="text-red">*You have {{quota?.quota}} remaining searches.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="tableTemp.length != 0">
+        <div class="container-fluid">
+            <h4 class="text-center py-3">SUMMARY OF SELECTED COMPANY SEARCH CRITERIA</h4>
+
+            <div class="dataTables_wrapper py-4 px-5">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="datatable_submitted_length">
+                            <label>
+                                Show
+                                <select 
+                                    name="datatable_submitted_length" 
+                                    aria-controls="datatable"
+                                    class="form-control form-control-sm" 
+                                    (change)="entriesChange($event)"
+                                >
+                                    <option value="10" [selected]="tableEntries == 10">10</option>
+                                    <option value="25" [selected]="tableEntries == 25">25</option>
+                                    <option value="50" [selected]="tableEntries == 50">50</option>
+                                    <option value="100" [selected]="tableEntries == 100">100</option>
+                                    <!-- <option value="-1" [selected]="tableEntries == -1">All</option> -->
+                                </select>
+                                record
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <ngx-datatable 
+                    class="bootstrap selection-cell"
+                    [columnMode]="'force'"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    [rowHeight]="'auto'"
+                    [limit]="tableEntries != -1 ? tableEntries : undefined" 
+                    [rows]="tableTemp"
+                    [messages]="tableMessages"
+                    (activate)="onActivate($event)"
+                >
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Reference No.</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            -
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column maxWidth="120">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Package</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            Package A
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Search Criteria</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            -
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column maxWidth="100" [sortable]="false">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Total Page</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.errorMsg">
+                                0 pages
+                            </div>
+                            <div *ngIf="!row.errorMsg && row.successCode=='00'">
+                                1 pages
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column maxWidth="130" [sortable]="false">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Total Company</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div *ngIf="row.errorMsg">
+                                0 companies
+                            </div>
+                            <div *ngIf="!row.errorMsg && row.successCode=='00'">
+                                {{row.company.length}} companies
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Price</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <!-- <div *ngIf="row.errorMsg">
+                                RM0.00/company
+                            </div>
+                            <div *ngIf="!row.errorMsg">
+                                RM4.00/company
+                            </div> -->
+                            RM4.00/company
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Total Price</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <!-- <div *ngIf="row.product">
+                                RM{{row.product.fee/100 | number : '1.2-2'}}
+                            </div>
+                            <div *ngIf="row.service_request">
+                                <div *ngIf="row.service_request">
+                                RM{{row.service_request.service.fee/100 | number : '1.2-2'}}
+                                </div>
+                            </div> -->
+                            
+                            <div *ngIf="row.errorMsg">
+                                RM0.00
+                            </div>
+                            <div *ngIf="!row.errorMsg && row.successCode=='00'">
+                                RM{{row.company.length * 4 | number : '1.2-2'}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column maxWidth="100">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header">Status</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span class="badge badge-pill badge-success">Success</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [sortable]="false">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="table-header"></span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button
+                                class="btn btn-ssm btn-sm"
+                                (click)="addToCart(row)"
+                            >
+                                Add to cart
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-footer>
+                        <ng-template 
+                            ngx-datatable-footer-template 
+                            let-rowCount="rowCount"
+                            let-pageSize="pageSize"
+                            let-selectedCount="selectedCount"
+                            let-curPage="curPage"
+                            let-offset="offset"
+                        >
+                            <datatable-pager
+                                [pagerLeftArrowIcon]="'datatable-icon-left'"
+                                [pagerRightArrowIcon]="'datatable-icon-right'"
+                                [pagerPreviousIcon]="'datatable-icon-prev'"
+                                [pagerNextIcon]="'datatable-icon-skip'"
+                                [page]="curPage"
+                                [size]="pageSize"
+                                [count]="rowCount"
+                                [hidden]="!((rowCount / pageSize) > 1)"
+                                (change)="table.onFooterPage($event)"
+                            >
+                            </datatable-pager>
+                        </ng-template>
+                      </ngx-datatable-footer>
+                </ngx-datatable>
+            </div>
+        </div>
+    </section>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
+	<p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 export class MocksService {
 
   // URL
-  public urlMock: string = 'assets/mock/';
+  public urlMock: string = 'assets/json/';
 
   // Data
   public datas: any = []
@@ -18,7 +18,7 @@ export class MocksService {
     private http: HttpClient
   ) { }
 
-  getAll(path: string): Observable<any> {
+  get(path: string): Observable<any> {
     let urlPath = this.urlMock + path
     return this.http.get<any>(urlPath).pipe(
       tap((res) => {
