@@ -9,10 +9,19 @@ import { ProductCartsService } from 'src/app/shared/services/product-carts/produ
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { Product } from 'src/app/shared/services/products/products.model';
+import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 
 class Entity {
   name: string;
   registration_no: string;
+}
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
 }
 
 @Component({
@@ -25,6 +34,10 @@ export class ProductSearchResultComponent implements OnInit {
   // Data
   entity: any;
   products: Product[] = [];
+  lastDigit = ''
+  registration_no: any
+  formTypes: any[] = []
+  imageList: any[] = []
 
   // Checker
   isProceed: boolean = false;
@@ -64,16 +77,37 @@ export class ProductSearchResultComponent implements OnInit {
   businessCertForm: FormGroup
   businessTerminateForm: FormGroup
   auditProfileForm: FormGroup
+
+  // Table
+  tableEntries: number = 10
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: any[] = []
+  SelectionType = SelectionType
+  tableMessages = {
+    // Message to show when array is presented
+    // but contains no values
+    emptyMessage: 'Empty search',
+  
+    // Footer total message
+    totalMessage: '',
+  
+    // Footer selected message
+    selectedMessage: 'selected'
+  }
   
   constructor(
     private toastr: ToastrService,
     private productService: ProductsService,
+    private mockService: MocksService,
     private modalService: BsModalService,
     private router: Router,
     private fb: FormBuilder,
     private cartService: CartsService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
+    this.getLastDigit()
     this.getData()
     // console.log(this.entity)
   }
@@ -215,6 +249,15 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   getData() {
+    console.log('1')
+
+    this.mockService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        console.log(this.formTypes)
+      }
+    )
+
     this.productService.getAll().subscribe(
       () => {
         this.products = this.productService.products
@@ -223,7 +266,95 @@ export class ProductSearchResultComponent implements OnInit {
       () => {}
     )
     // Ada API untuk call middleware untuk check product apa available untuk dirinya
-    
+    let imageBody = {
+      'name': 'list',
+      'registration_no': this.registration_no,
+      'entity_type': 'ROC'
+    }
+    console.log(imageBody)
+    this.productService.generateImage(imageBody).subscribe(
+      (res) => {
+        console.log('Image list', res)
+        this.imageList = res
+      },
+      () => {},
+      () => {
+        this.imageList.forEach(
+          (img) => {
+            this.formTypes.forEach(
+              (form) => {
+                if (img.formType == form.code) {
+                  img['formName'] = form.desc_en
+                  img['isCtc'] = false
+                  img['price'] = 1000
+                  this.updateTable()
+                }
+              }
+            )
+          }
+        )
+      }
+    )
+
+  }
+
+  updateTable() {
+    this.tableRows = this.imageList
+    this.tableTemp = this.tableRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      }
+    })
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key].toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }
+
+  checkCtcImg(row) {
+    if (row['isCtc']) {
+      row['price'] = 2000
+    }
+    else {
+      row['price'] = 1000
+    }
+  }
+
+  getLastDigit() {
+    if (this.entity.type_of_entity == 'CP') {
+      this.lastDigit = this.entity.company_number.substr(this.entity.company_number.length - 1)
+      this.registration_no = Number(this.entity.company_number)
+    }
+    else if (this.entity.type_of_entity == 'BS') {
+      this.lastDigit = this.entity.registration_number.substr(this.entity.registration_number.length - 1)
+      this.registration_no = Number(this.entity.registration_number)
+    }
+    else if (this.entity.type_of_entity == 'AD') {
+      this.lastDigit = this.entity.audit_firm_number.substr(this.entity.audit_firm_number.length - 1)
+      this.registration_no = Number(this.entity.audit_firm_number)
+    }
   }
 
   proceed() {

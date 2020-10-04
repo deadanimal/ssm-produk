@@ -3,3 +3,5 @@ node_modules
 misc
 
 *.pyc
+
+*.DS_Store
