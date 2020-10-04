@@ -10,6 +10,8 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.core.files.base import ContentFile
 from django.conf import settings
+from wsgiref.util import FileWrapper
+
 
 # import datetime
 import json
@@ -17,6 +19,8 @@ import uuid
 import tempfile
 import pytz
 import subprocess
+import io
+import xlsxwriter
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -52,7 +56,11 @@ from products.services.get_info_rob_termination import get_info_rob_termination
 from products.services.get_info_charges import get_info_charges
 from products.services.get_comp_listing_cnt import get_comp_listing_cnt
 from products.services.get_comp_listing_a import get_comp_listing_a
+from products.services.get_comp_listing_b import get_comp_listing_b
+from products.services.get_comp_listing_c import get_comp_listing_c
+from products.services.get_comp_listing_d import get_comp_listing_d
 from products.services.get_image import get_image
+from products.services.get_image_view import get_image_view
 from products.services.get_image_list import get_image_list
 from products.services.get_image_ctc import get_image_ctc
 from products.services.get_particulars_of_adt_firm import get_particulars_of_adt_firm
@@ -67,6 +75,7 @@ from .helpers.cert_incorp import cert_incorp
 from .helpers.info_fin_2 import info_fin_2
 from .helpers.info_hist_2 import info_hist_2
 from .helpers.comp_prof import comp_prof
+from .helpers.mapping import status_of_comp_mapping, comp_type_mapping, state_mapping
 
 from .helpers.acgs import acgs
 from .helpers.change_name import change_name
@@ -319,219 +328,80 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             json_response = get_co_page(url_info, headers, registration_number, entity_type)             
 
         return JsonResponse(json_response)
-    
+
     @action(methods=['POST'], detail=False)
-    def create_pdf(self, request, *args, **kwargs):
+    def check_availability(self, request, *args, **kwargs):
 
-        product_request = json.loads(request.body)
-        request_name = product_request['name']
-        request_language = product_request['language']
-        request_registration_no = product_request['registraton_no']
-        request_entity_type = product_request['entity_type']
+        product_request_json = json.loads(request.body)
 
-        url_info = 'http://integrasistg.ssm.com.my/InfoService/1'
-        url_listing = 'http://integrasistg.ssm.com.my/ListingService/1'
-        url_docu = 'http://integrasistg.ssm.com.my/DocufloService/1'
+        registration_ = product_request_json['registration_no']
+        entity_type_ = product_request_json['entity_type']
 
-        tz = pytz.timezone('Asia/Kuala_Lumpur')
-        now = datetime.now(tz=tz) 
+        information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
 
         now_string = now.strftime("%Y-%m-%d %H:%M:%S")
         auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
 
-        headers = {
+        request_headers = {
             'content-type': "text/xml;charset=UTF-8",
             'authorization': auth_code
         }
 
-        css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'
+        css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
 
-        # Attestation of Company Good Standing (ACGS) - Non CTC 
-        if request_name == 'getInfoAcgs': 
-            mdw_1_response = get_info_acgs(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
+        new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)        
+        info_acgs = get_info_acgs(information_url, request_headers, registration_, entity_type_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
+        cert_reg_foreign = get_cert_reg_foreign(information_url, request_headers, registration_)
+        info_comp_name_chg = get_info_comp_name_chg(information_url, request_headers, registration_)
+        cert_conversion = get_cert_conversion(information_url, request_headers, registration_)
+        info_fin2 = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
+        info_fin3 = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
+        info_fin5 = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
+        info_fin10 = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
+        roc_business_officers = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
+        roc_changes_registered_address = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
+        details_of_shareholders = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
+        details_of_share_capital = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
+        comp_prof = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+        biz_profile = get_biz_profile(information_url, request_headers, registration_)
+        particulars_of_cosec = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
+        particulars_of_adt_firm = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
+        info_rob_termination = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
+        info_charges = get_info_charges(information_url, request_headers, registration_, entity_type_)
+        info_charges = get_info_charges(information_url, request_headers, registration_)   
 
-            # print(mdw_1_response)
-            data_loaded = info_acgs(mdw_1_response, mdw_2_response, 'en')
+        data_json = {
+            'info_acgs': '',
+            'cert_incorp': '',
+            'cert_incorp': '',
+            'cert_incorp': '',
+            'cert_reg_foreign': '',
+            'info_comp_name_chg': '',
+            'cert_conversion': '',
+            'info_fin2': '',
+            'info_fin3': '',
+            'info_fin5': '',
+            'info_fin10': '',
+            'roc_business_officers': '',
+            'roc_changes_registered_address': '',
+            'details_of_shareholders': '',
+            'details_of_share_capital': '',
+            'comp_prof': '',
+            'biz_profile': '',
+            'particulars_of_cosec': '',
+            'particulars_of_adt_firm': '',
+            'info_rob_termination': '',
+            'info_charges': '',
+            'info_charges': '',
+        }     
 
-            if request_language == 'en':
-                 html_string = render_to_string('product/acgs_nonctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/acgs_nonctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/acgs-nonctc-en-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
+        return JsonResponse(data_json)
 
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path 
-        
-        # Particulars of Directors/Officers - Non CTC / MS EN
-        elif request_name == 'getRocBusinessOfficers': 
-            mdw_1_response = get_roc_business_officers(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-   
-            data_loaded = roc_business_officers(mdw_1_response, mdw_2_response)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/particular_directors_nonctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/particular_directors_nonctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/particular-directors-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-            # serializer = 'Teszting'
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-
-        # Particulars of Directors/Officers - CTC / MS EN
-        elif request_name == 'getRocBizOfficersCtc': 
-            mdw_1_response = get_roc_business_officers_ctc(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-            
-            data_loaded = info_acgs(mdw_1_response, mdw_2_response)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/particular_directors_ctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/particular_directors_ctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/particular-directors-ctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-        
-        # Particulars of Registered Address - Non CTC / MS EN
-        elif request_name == 'getRocChangesRegisteredAddress':            
-            mdw_1_response = get_roc_changes_registered_address(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-            
-            data_loaded = particular_address(mdw_1_response, mdw_2_response, request_language)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/particular_address_nonctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/particular_address_nonctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/particular-address-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path     
-
-        # Particulars of Registered Address - CTC / MS EN
-        elif request_name == 'getRocChgRegAddrCtc':            
-            json_response = get_roc_changes_registered_address_ctc(url_info, headers, request_registration_no, entity_type) 
-
-
-        # Business Profile – Non CTC / MS EN
-        elif request_name == 'getBizProfile': 
-            mdw_1_response = get_biz_profile(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-            
-            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/business_profile_nonctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/business_profile_nonctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/business-profile-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-
-        # Business Profile – CTC / MS EN
-        elif request_name == 'getBizProfileCtc': 
-            mdw_1_response = get_biz_profile_ctc(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-            
-            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/business_profile_ctc_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/business_profile_ctc_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/business-profile-ctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-        
-        # Audit Firm Profile – Non CTC / MS EN
-        elif request_service_name == 'getParticularsOfAdtFirm':
-            mdw_1_response = get_particulars_of_adt_firm(url_info, headers, request_registration_no, request_entity_type)
-            mdw_2_response = get_new_format_entity(url_info, headers, request_registration_no, request_entity_type)
-            
-            data_loaded = biz_profile(mdw_1_response, mdw_2_response, request_language)
-
-            if request_language == 'en':
-                 html_string = render_to_string('product/particulars_of_adt_firm_en.html', {'data': data_loaded})
-            elif request_language == 'ms':
-                 html_string = render_to_string('product/particulars_of_adt_firm_ms.html', {'data': data_loaded})
-            
-            html = HTML(string=html_string)
-            pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
-            
-            file_path = "ssm/product/particulars-of-adt-firm-nonctc-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
-            saved_file = default_storage.save(
-                file_path, 
-                ContentFile(pdf_file)
-            )
-            
-            full_url_path = settings.MEDIA_ROOT + saved_file
-
-            serializer = 'https://pipeline-project.sgp1.digitaloceanspaces.com/'+file_path
-
-        else:
-            serializers = 'Wrong request'
-        
-        
-        return Response(serializer)
 
     @action(methods=['POST'], detail=False)
     def generate_product(self, request, *args, **kwargs):
@@ -710,14 +580,16 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return Response(serializer)
 
     @action(methods=['POST'], detail=False)
-    def check_availability(self, request, *args, **kwargs):
+    def generate_image(self, request, *args, **kwargs):
 
         product_request_json = json.loads(request.body)
 
+        name_ = product_request_json['name'] # Either 'list' or 'specific'
         registration_ = product_request_json['registration_no']
         entity_type_ = product_request_json['entity_type']
 
         information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+        document_url = 'http://integrasistg.ssm.com.my/DocufloService/1'
 
         now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
 
@@ -729,55 +601,176 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'authorization': auth_code
         }
 
-        css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
+        check_digit = get_comp_prof(information_url, request_headers, registration_, entity_type_)['rocCompanyInfo']['checkDigit']
 
-        new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)        
-        info_acgs = get_info_acgs(information_url, request_headers, registration_, entity_type_)
-        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        cert_reg_foreign = get_cert_reg_foreign(information_url, request_headers, registration_)
-        info_comp_name_chg = get_info_comp_name_chg(information_url, request_headers, registration_)
-        cert_conversion = get_cert_conversion(information_url, request_headers, registration_)
-        info_fin2 = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
-        info_fin3 = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
-        info_fin5 = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
-        info_fin10 = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
-        roc_business_officers = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
-        roc_changes_registered_address = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
-        details_of_shareholders = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
-        details_of_share_capital = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
-        comp_prof = get_comp_prof(information_url, request_headers, registration_, entity_type_)
-        biz_profile = get_biz_profile(information_url, request_headers, registration_)
-        particulars_of_cosec = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
-        particulars_of_adt_firm = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
-        info_rob_termination = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
-        info_charges = get_info_charges(information_url, request_headers, registration_, entity_type_)
-        info_charges = get_info_charges(information_url, request_headers, registration_)   
+        if name_ == 'list':
+            middleware_data = get_image_view(document_url, request_headers, registration_, entity_type_, check_digit)
+            data_ = middleware_data['documentInfos']['documentInfos']
+        else:
+            version_id = int(product_request_json['version_id'])
+            middleware_data = get_image(document_url, request_headers, registration_, entity_type_, check_digit, version_id)
+            data_ = middleware_data['docContent']
+        
+        return Response(data_)
 
-        data_json = {
-            'info_acgs': '',
-            'cert_incorp': '',
-            'cert_incorp': '',
-            'cert_incorp': '',
-            'cert_reg_foreign': '',
-            'info_comp_name_chg': '',
-            'cert_conversion': '',
-            'info_fin2': '',
-            'info_fin3': '',
-            'info_fin5': '',
-            'info_fin10': '',
-            'roc_business_officers': '',
-            'roc_changes_registered_address': '',
-            'details_of_shareholders': '',
-            'details_of_share_capital': '',
-            'comp_prof': '',
-            'biz_profile': '',
-            'particulars_of_cosec': '',
-            'particulars_of_adt_firm': '',
-            'info_rob_termination': '',
-            'info_charges': '',
-            'info_charges': '',
-        }     
+    @action(methods=['POST'], detail=False)
+    def generate_list(self, request, *args, **kwargs): 
+        import xlsxwriter
 
-        return JsonResponse(data_json)
+        product_request_json = json.loads(request.body)
+        a_ = product_request_json
+
+        name_ = product_request_json['name']
+        package_ = product_request_json['package']
+
+        information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+        document_url = 'http://integrasistg.ssm.com.my/DocufloService/1'
+        listing_url = 'http://integrasistg.ssm.com.my/ListingService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
+
+        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+
+        request_headers = {
+            'content-type': "text/xml;charset=UTF-8",
+            'authorization': auth_code
+        }
+
+        if name_ == "list":
+            if package_ == 'A':
+
+                middleware_data = get_comp_listing_a(listing_url, request_headers, 
+                    a_['bizCode'], 
+                    a_['compLocation'], 
+                    a_['compOrigin'], 
+                    a_['compStatus'], 
+                    a_['compType'], 
+                    a_['incorpDtFrom'], 
+                    a_['incorpDtTo'], 
+                    1)     
+
+                data_ = middleware_data
+                return Response(data_)                                       
+
+                
+            elif package_ == 'B':
+                pass
+            elif package_ == 'C':
+                pass
+            elif package_ == 'D':
+                pass
+        elif name_ == 'excel':
+
+            middleware_data = get_comp_listing_a(listing_url, request_headers, 
+                    a_['bizCode'], 
+                    a_['compLocation'], 
+                    a_['compOrigin'], 
+                    a_['compStatus'], 
+                    a_['compType'], 
+                    a_['incorpDtFrom'], 
+                    a_['incorpDtTo'], 
+                    1) 
+            output = io.BytesIO()
+ 
+            workbook = xlsxwriter.Workbook(output)
+            #worksheet1 = workbook.add_worksheet('OVERVIEW')
+            worksheet2 = workbook.add_worksheet('COMPANY INFORMATION')
+
+            data2 = [["No.","Company No.","Company Name","Old Company Name","Entity Type","Company Type","Company Status","Incorp. Date"]]
+            count = 1
+
+            for co in middleware_data['company']:
+                count += 1
+                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["compInfo"]["compOldNm"], "LOCAL", comp_type_mapping(co["compInfo"]["compType"], 'en'), status_of_comp_mapping(co["compInfo"]["compStatus"]), co["compInfo"]["incorpDt"] ]
+                data2.append(new_row)
+
+            for row_num, columns in enumerate(data2):
+                for col_num, cell_data in enumerate(columns):
+                    worksheet2.write(row_num, col_num, cell_data)
+
+            worksheet3 = workbook.add_worksheet('ADDRESS')
+
+            data3 = [["No.","Company No.","Company Name","Registered Address", "Business Address"]]
+            count = 1
+
+            for co in middleware_data['company']:
+                count += 1
+
+                if co["regAddress"]["address3"]:
+                    registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["address3"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] +   state_mapping(co["regAddress"]["stateCode"])
+                else: 
+                    registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] + state_mapping(co["regAddress"]["stateCode"])
+
+                if co["busAddress"]["address3"]:
+                    business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["address3"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] +   state_mapping(co["busAddress"]["stateCode"])
+                else: 
+                    business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] + state_mapping(co["busAddress"]["stateCode"])
+
+
+                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], registered_address, business_address]
+                data3.append(new_row)
+
+            for row_num, columns in enumerate(data3):
+                for col_num, cell_data in enumerate(columns):
+                    worksheet3.write(row_num, col_num, cell_data)  
+
+            worksheet4 = workbook.add_worksheet('NATURE OF BUSINESS')
+
+            data4 = [["No.","Company No.","Company Name","Business Code", "Description", "Priotiy"]]
+            count = 1
+
+            for co in middleware_data['company']:
+                count += 1
+                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["bizCodes"]["code"], co["bizCodes"]["descEng"],co["bizCodes"]["priority"] ]
+                data4.append(new_row)
+
+            for row_num, columns in enumerate(data4):
+                for col_num, cell_data in enumerate(columns):
+                    worksheet4.write(row_num, col_num, cell_data)              
+
+
+            workbook.close()
+            output.seek(0)   
+
+            filename = 'PackageA.xlsx'
+            response = HttpResponse(
+                output,
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = 'attachment; filename=%s' % filename                                 
+            return response    
+         
+
+    @action(methods=['POST'], detail=False)
+    def search_quota(self, request, *args, **kwargs):
+        pass
+
+    @action(methods=['GET'], detail=False)
+    def lala(self, request, *args, **kwargs):
+
+        output = io.BytesIO()
+ 
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet('Sheet One')
+
+        data = [[1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]]
+
+        for row_num, columns in enumerate(data):
+            for col_num, cell_data in enumerate(columns):
+                worksheet.write(row_num, col_num, cell_data)
+
+        workbook.close()
+        output.seek(0)   
+
+        filename = 'PackageA.xlsx'
+        response = HttpResponse(
+            output,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename                               
+        return response             
+
+
