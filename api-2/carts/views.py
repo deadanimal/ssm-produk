@@ -16,8 +16,9 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
 from entities.models import Entity
-from products.models import Product
+from products.models import Product, ProductSearchCriteria
 from services.models import Service, ServiceRequest
+from quotas.models import Quota
 
 from .models import (
     Cart,
@@ -79,7 +80,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 cart= cart,
                 cart_item_type='PR')
 
-        if cart_item_request['item_type'] == 'service':
+        elif cart_item_request['item_type'] == 'service':
             
             service_request_id = str(cart_item_request['service_request_id'])
             service_request = ServiceRequest.objects.filter(id=service_request_id).first()
@@ -89,7 +90,31 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             new_cart_item = CartItem.objects.create(
                 service_request=service_request, 
                 cart= cart,
-                cart_item_type='SE')                
+                cart_item_type='SE')     
+
+        elif cart_item_request['item_type'] == 'quota':
+            
+            quota_id = str(cart_item_request['quota_id'])
+            quota = Quota.objects.filter(id=quota_id).first()
+
+            cart = self.get_object()
+
+            new_cart_item = CartItem.objects.create(
+                quota = quota,
+                cart= cart,
+                cart_item_type='QU')  
+
+        elif cart_item_request['item_type'] == 'product_search_criteria':
+            
+            product_search_criteria_id = str(cart_item_request['product_search_criteria_id'])
+            product_search_criteria = ProductSearchCriteria.objects.filter(id=product_search_criteria_id).first()
+
+            cart = self.get_object()
+
+            new_cart_item = CartItem.objects.create(
+                product_search_criteria=product_search_criteria,
+                cart= cart,
+                cart_item_type='PS')                                             
         else:
             pass
 

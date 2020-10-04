@@ -2,11 +2,18 @@ import requests
 import json
 import xmltodict
 
-def get_image(url, headers, registration_number):
+def get_image(url, headers, registration_number, entity_type, check_digit, version_id):
 
-    entity_number = ''
-    entity_profile = ''
-    table_name = ''
+    if entity_type == 'ROC':
+        criteria = 'CompanyNo'
+        last_digit = registration_number % 10
+        document_profile = 'ROC' + str(last_digit)       
+        search_value = str(registration_number) + '-' + check_digit 
+    else:
+        criteria = 'XXX'
+        last_digit = registration_number % 10
+        document_profile = 'ROC' + str(last_digit) 
+        search_value = str(registration_number) + '-' + check_digit
     
     payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/DocufloService/1/WS">
@@ -20,18 +27,18 @@ def get_image(url, headers, registration_number):
             </header>
             <request>
                 <docufloImg>
-                    <companyNo>""" + entity_number + """</companyNo>
-                    <docProfile>""" + entity_profile + """</docProfile>
+                    <companyNo>""" + search_value + """</companyNo>
+                    <docProfile>""" + document_profile + """</docProfile>
                     <gstAmount>0</gstAmount>
                     <infoAmount>0</infoAmount>
                     <invoiceNo>0</invoiceNo>
                     <ipaddress></ipaddress>
                     <remark>test</remark>
-                    <tableId>""" + table_name + """</tableId>
+                    <tableId>""" + document_profile + """</tableId>
                     <type>INFODOCPURC</type>
                     <userName>appadmin</userName>
                     <userPwd>p@ss1234</userPwd>
-                    <verId>3412175</verId>
+                    <verId>""" + str(version_id) + """</verId>
                 </docufloImg>
             </request>
         </ws:getImage>
@@ -42,18 +49,3 @@ def get_image(url, headers, registration_number):
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageResponse']['response']['getImageReturn']
-
-
-#<companyNo>1097967-P</companyNo>
-#<docProfile>ROC7</docProfile>
-#<gstAmount>0</gstAmount>
-#<infoAmount>0</infoAmount>
-#<invoiceNo>0</invoiceNo>
-#<ipaddress></ipaddress>
-#<remark>test</remark>
-#<tableId>ROCINFO</tableId>
-#<type>INFODOCPURC</type>
-#<userName>appadmin</userName>
-#<userPwd>p@ss1234</userPwd>
-#<verId>3412175</verId>
-# ROC 7 is due to company in ROC and last digit of the company

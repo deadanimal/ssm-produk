@@ -9,7 +9,8 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Product
+    Product,
+    ProductSearchCriteria,
 )
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -18,3 +19,9 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+
+class ProductSearchCriteriaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductSearchCriteria
+        fields = '__all__'
