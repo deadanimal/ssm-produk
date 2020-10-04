@@ -10,6 +10,7 @@ import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { Product } from 'src/app/shared/services/products/products.model';
 import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 class Entity {
   name: string;
@@ -77,6 +78,7 @@ export class ProductSearchResultComponent implements OnInit {
   businessCertForm: FormGroup
   businessTerminateForm: FormGroup
   auditProfileForm: FormGroup
+  // documentForm: FormGroup
 
   // Table
   tableEntries: number = 10
@@ -104,7 +106,8 @@ export class ProductSearchResultComponent implements OnInit {
     private modalService: BsModalService,
     private router: Router,
     private fb: FormBuilder,
-    private cartService: CartsService
+    private cartService: CartsService,
+    private loadingBar: LoadingBarService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
     this.getLastDigit()
@@ -122,7 +125,9 @@ export class ProductSearchResultComponent implements OnInit {
       ])),
       product: new FormControl('', Validators.compose([
         Validators.required
-      ]))
+      ])),
+      image_form_type: new FormControl('NA'),
+      image_version_id: new FormControl('NA')
     })
 
     this.companyProfileForm = this.fb.group({
@@ -365,7 +370,7 @@ export class ProductSearchResultComponent implements OnInit {
     let title = 'Success';
     let message = 'Item is added to the cart';
     let product_id;
-
+    this.loadingBar.useRef('http').start()
     // if (product.slug == 'company_profile') {
     //   if(product.ctc) {
     //     if(product.language == 'en') {
@@ -440,14 +445,52 @@ export class ProductSearchResultComponent implements OnInit {
     }
 
     this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
-      () => {},
-      () => {},
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
       () => {
         this.toastr.success(message, title);
         this.productService.cart = true;
       }
     )
 
+  }
+
+  addCartDocument(row) {
+    console.log('werwer', row)
+    let title = 'Success';
+    let message = 'Item is added to the cart';
+    console.log(row.formType)
+    console.log(row.verId)
+    this.cartForm.controls['image_form_type'].setValue(row.formType)
+    this.cartForm.controls['image_version_id'].setValue(row.verId)
+
+    console.log(this.cartForm.value)
+    this.loadingBar.useRef('http').start()
+    if (row['isCtc']) {
+      this.cartForm.controls['product'].setValue('46efd15d-0cd4-41aa-a6d6-790d6aecbf0b')
+    }
+    else {
+      this.cartForm.controls['product'].setValue('04e740bb-6553-49fe-b3fb-dabc445fa89b')
+    }
+
+    this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
+        this.toastr.success(message, title);
+        this.productService.cart = true;
+        this.cartForm.controls['image_form_type'].setValue(null)
+        this.cartForm.controls['image_version_id'].setValue(null)
+      }
+    )
   }
 
   checkCtc(product: string) {
