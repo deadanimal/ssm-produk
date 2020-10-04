@@ -11,12 +11,24 @@
                 /* padding: 2cm; */
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
-                size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                size: A4 portait;            
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
+                /* background: url("https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg") no-repeat;
+                background-size: cover; */
             }
+
+            body {
+                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                background-repeat:repeat-y;
+                background-position: right top;
+                background-attachment:fixed;
+                background-size: 100% 100%;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                         
+            }
+          
 
             header#header {
                 position: fixed;
@@ -70,22 +82,25 @@
                 word-spacing: 7pt;
                 font-size: 20px;
                 text-align: justify;
-            }
+            }          
         </style>
     </head>
 
     <body>
-        <header id="header">
+        <header id="header" style="padding-top: 100px;">
             <div class="text-center">
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
+
+
+
+               
         
 
-        <div class="default-template container pg-start">
+        <div class="default-template container pg-start" style="padding-right: 130px; padding-top: 100px;">
             <h1 class="font-weight-bold text-center mb-0" style="font-size:60px">
                 ATTESTATION OF COMPANY
-                <br>
                 GOOD STANDING
             </h1>
 
@@ -126,7 +141,7 @@
                 The above particulars are extracted from documents registered.
             </p>
 
-            <h1 class="font-weight-bold text-center pg-break" style="font-size:40px">
+            <h1 class="font-weight-bold text-center pg-break" style="font-size:40px;padding-top: 100px;">
                 CRITERIA FOR THE ISSUANCE OF
                 <br>
                 ATTESTATION OF COMPANY GOOD STANDING
@@ -164,19 +179,20 @@
             
             <p id="primary" style="margin-left: 60px;margin-right: 60px;">
                 1. The company has been incorporated for at least 18 months from the 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date of the ACGS;
+                date of the ACGS;
                 <br>
                 2. The company has lodged its latest annual return and audited financial 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statements or certificate relating to an exempt private company;
+                statements or certificate relating to an exempt private company;
                 <br>
                 3. The company is in existence and not in the process of being wound up 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or struck off or dissolved; 
+                or struck off or dissolved; 
                 <br>
                 4. The company is not dormant as per nature of business;
                 <br>
                 5. The company has a registered address;
                 <br>
                 6. The company or its directors do not have any outstanding compound; and
+                <br>
                 7. The company or its directors do not have any pending prosecution case.
             </p>               
 
