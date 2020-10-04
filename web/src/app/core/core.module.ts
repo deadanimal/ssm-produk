@@ -65,6 +65,9 @@ import { CbidComponent } from './cbid/cbid/cbid.component';
 import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
 import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
+import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
+import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
+import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +101,9 @@ import { PaymentReceiptComponent } from './payment/payment-receipt/payment-recei
     ProductSearchSdComponent,
     ProductSearchCustomComponent,
     PaymentReceiptComponent,
+    ProductCustomDataComponent,
+    ProductCustomDataPackageAComponent,
+    ProductCustomDataPackageBComponent,
   ],
   imports: [
     CommonModule,
