@@ -436,6 +436,29 @@ export class ProfileComponent implements OnInit {
         }
       )
     }
+    else if (
+      row.product.id == '46efd15d-0cd4-41aa-a6d6-790d6aecbf0b' ||
+      row.product.id == '04e740bb-6553-49fe-b3fb-dabc445fa89b'
+    ) {
+      let body = {
+        'name': 'image',
+        'registration_no': Number(row.entity.company_number),
+        'entity_type': 'ROC',
+        'version_id': row.image_version_id
+      }
+      this.spinner.show()
+      this.productService.generateImage(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = 'data:image/tiff;base64,' + res
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
   }
 
   tabChecker(path: string) {

@@ -98,13 +98,12 @@ export class PaymentComponent implements OnInit {
       total_amount: new FormControl(0)
     })
     console.log(this.billingForm)
-
+    this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
     this.getClientIP()
   }
 
   create() {
     console.log('Cart', this.cartService.cart)
-    this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
     this.billingForm.controls['total_amount'].setValue(this.cartService.cart.total_price_before_tax)
     // let hashhhhhh = this.hashTheShit()
 
