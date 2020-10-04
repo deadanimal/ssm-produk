@@ -333,10 +333,16 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.product?.name}}
 												<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='PR'">
-													CBID - Statistics
+													CBID - ROB - Statistics
 												</span>
 												<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='LS'">
-													CBID - Listing
+													CBID - ROC - Listing
+												</span>
+												<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='PR'">
+													CBID - ROC - Statistics
+												</span>
+												<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='LS'">
+													CBID - ROC - Listing
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
@@ -347,6 +353,9 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.entity?.name}}
+												<span *ngIf="service_request?.service.service_type =='CB'">
+													-
+												</span>
 											</ng-template>
 										</ngx-datatable-column>
 										
