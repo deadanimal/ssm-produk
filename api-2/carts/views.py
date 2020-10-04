@@ -68,17 +68,28 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             
             entity_id = cart_item_request['entity']
             product_id = cart_item_request['product']
+            image_version_id = cart_item_request['image_version_id']
+            image_form_type = cart_item_request['image_form_type']
 
             cart = self.get_object()
 
             entity = Entity.objects.filter(id=entity_id).first()
             product = Product.objects.filter(id=product_id).first()
-
-            new_cart_item = CartItem.objects.create(
-                entity=entity, 
-                product=product, 
-                cart= cart,
-                cart_item_type='PR')
+            
+            if image_version_id:
+                new_cart_item = CartItem.objects.create(
+                    entity=entity, 
+                    product=product, 
+                    image_form_type=image_version_id,
+                    image_version_id=image_version_id,
+                    cart= cart,
+                    cart_item_type='PR')
+            else:
+                new_cart_item = CartItem.objects.create(
+                    entity=entity, 
+                    product=product, 
+                    cart= cart,
+                    cart_item_type='PR')
 
         elif cart_item_request['item_type'] == 'service':
             

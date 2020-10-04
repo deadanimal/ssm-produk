@@ -12,8 +12,18 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
             }
+            body {
+                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                background-repeat:repeat-y;
+                background-position: right top;
+                background-attachment:fixed;
+                background-size: 100% 100%;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                         
+            }
+          
 
             header#header {
                 position: fixed;
@@ -27,12 +37,12 @@
                 height: 14rem !important;
             }
             html {
-                font-family: Arial, sans-serif;
+                font-family: "Times New Roman",Arial, sans-serif;
                 font-size: 11px;
             }
             .default-template {
                 color: #333;
-                font-family: Arial, sans-serif;
+                font-family: "Times New Roman",Arial, sans-serif;
             }
             .default-template p#secondary {
                 word-spacing: 7pt;
@@ -72,15 +82,15 @@
     </head>
 
     <body>
-        <header id="header">
-            <div class="text-center">
-                <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
+        <header id="header" style="padding-top: 100px;">
+            <div class="mt-200 mb-200 text-center">
+                <img class="logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
         
 
-        <div class="default-template container pg-start">
-            <h1 class="font-weight-bold text-center mb-0" style="font-size:20px">
+        <div class="default-template container pg-start" style="padding-right: 130px; padding-top: 100px;">
+            <h1 class="font-weight-bold text-center mb-0" style="font-size:12pt">
                 AKTA SYARIKAT 2016
                 <br>
                 <br>
@@ -118,12 +128,18 @@
                 <br></br>
                 Bertarikh di Kuala Lumpur pada {{data.mdw1.incorpDate}}
                            
-            </p>               
+            </p>   
+            
+            <p class="text-center" style="margin-top:400px;font-size:12pt"><i>Salinan atau ekstrak yang dikeluarkan berdasarkan Seksyen 601(2).</i></p>
+            
+            <div class="row" style="margin-top:100px">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+
+            <p class="text-center" style="margin-top:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>            
 
         </div>
     </body>
 
-    <footer>
-        <p></p>
-    </footer>
 </html>
