@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'entities',
     'organisations',
     'products',
+    'quotas',
     'services',
     'transactions',
     'tickets',

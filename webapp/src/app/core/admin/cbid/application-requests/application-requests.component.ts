@@ -12,6 +12,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CbidTicketsService } from 'src/app/shared/services/cbid-tickets/cbid-tickets.service';
 
+import { ServicesService } from '../../../../shared/services/services/services.service';
+
 import * as moment from 'moment';
 
 export enum SelectionType {
@@ -55,27 +57,136 @@ export class ApplicationRequestsComponent implements OnInit {
 
   updateForm: FormGroup
 
-  isCompleted: boolean = false
+  isCompleted: boolean = false;
+  isRejected: boolean = false;
   completedDate: string = ''
   remarks: string = ''
-  selectedRow
-  
+  selectedRow;
 
   constructor(
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private router: Router,
-    private ticketService: CbidTicketsService
+    private ticketService: CbidTicketsService,
+    private servicesService: ServicesService,
   ) {
-    // this.projectData.getAll().subscribe((res) => {
-    //   this.listProject = res;
-    //   this.tableRows = [...res];
-    //   console.log('data = ', this.listProject);
-    //   console.log('Svc: ', this.tableRows);
-    // });
-    this.getData()
+
   }
+
+  ngOnInit() {
+    this.initData();
+  }
+
+  initData() {
+
+    this.updateForm = this.formBuilder.group({
+      status: new FormControl('CP'),
+      completed_date: new FormControl('', Validators.required),
+      remarks: new FormControl('')
+    })
+
+    this.servicesService.getAllRequests().subscribe(
+      (res) => {
+        this.tableRows = res;
+        this.tableRows.forEach(
+          (row) => {
+            if(row.pending_date) {
+              row.pending_date = moment(row.pending_date).format('DD/MM/YYYY')
+            }
+
+            if(row.completed_date) {
+              row.completed_date = moment(row.completed_date).format('DD/MM/YYYY')
+            }
+
+            if(row.created_date) {
+              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
+            }
+
+            if(row.modified_date) {
+              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
+            }
+          }
+        )        
+      },
+      (err) => {
+
+      },
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          };
+        });        
+        console.log(this.tableTemp)
+      }
+    )
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }
+  openModal(modalRef: TemplateRef<any>, row) {
+
+    this.selectedRow = row
+    if (row) {
+      if (row.status == 'PG') {
+        this.isCompleted = false
+      }
+    }
+    this.modal = this.modalService.show(
+      modalRef, this.modalConfig
+    );
+    // this.modal = this.modalService.show(modalRef, this.modalConfig);
+  } 
+
+  closeModal() {
+    this.modal.hide();
+    this.isCompleted = false
+    this.completedDate = ''
+    this.remarks = ''
+  }  
+
+  updateApplication() {
+    this.loadingBar.start()
+
+    let application_ = this.selectedRow;
+
+    let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
+    temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
+    this.updateForm.controls['completed_date'].setValue(temp_completed_date)
+
+    let id_ = application_['id']
+    
+    let change_ = {
+      'completed': this.isCompleted,
+    }
+
+    if (this.completedDate != '') {
+      change_['completed_date'] = temp_completed_date
+    }
+    change_['remarks'] = this.remarks;
+    console.log(change_)
+
+    this.servicesService.markAsCompleteServiceRequest(id_, change_).subscribe(
+      (respond)=> {
+        console.log(respond)
+      },
+      (error) => {
+        this.closeModal()
+      },
+      () => {
+        this.closeModal()
+        this.initData();
+      }
+    )
+
+    
+
+
+  }
+  /*
 
   ngOnInit() {
     this.addAppReqForm = this.formBuilder.group({
@@ -256,4 +367,5 @@ export class ApplicationRequestsComponent implements OnInit {
       confirmButtonText: 'Close',
     });
   }
+  */
 }

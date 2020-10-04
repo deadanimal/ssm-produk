@@ -45,8 +45,7 @@
                     name="datatable_length"
                     aria-controls="datatable"
                     class="form-control form-control-sm"
-                    (change)="entriesChange($event)"
-                  >
+                    (change)="entriesChange($event)">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -83,31 +82,43 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
+                <span>Product</span>
+              </ng-template>
+              
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                
+                <div *ngIf="row.service.product_type=='PR'">
+                    Product:
+                </div>
+                <div *ngIf="row.service.product_type == 'LS'">
+                    Listing:
+                </div>         
+              
+                <div *ngIf="row.service.entities_type=='RB'">
+                  Registration of Business
+                </div>
+                <div *ngIf="row.service.entities_type == 'RC'">
+                  Registration of Company
+                </div>   
+
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
                 <span>Name</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.full_name }}
+                {{ row.name }}
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column>            
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
                 <span>Organization</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.company_name }}
-              </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Address</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.address_1 }}, 
-                {{ row.requestor.address_2 }}, 
-                {{ row.requestor.postcode }} {{ row.requestor.city }},
-                {{ row.requestor.state }}
+                {{ row.organisation }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -116,7 +127,7 @@
                 <span>Email</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.email }}
+                {{ row.email_address }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -125,7 +136,7 @@
                 <span>Phone No.</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.phone_number }}
+                {{ row.phone_number }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -134,26 +145,26 @@
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span class="badge badge-default" *ngIf="row.status == 'PG'">Pending</span>
-                <span class="badge badge-default" *ngIf="row.status == 'PD'">Paid</span>
+                <span class="badge badge-success" *ngIf="row.completed">Completed</span>
+                <span class="badge badge-default" *ngIf="!row.completed">Pending</span>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Pending Date</span>
+                <span>Request Date</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.created_date }}
+                {{ row.created_date }}
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Completed Date</span>
+                <span>Completion Date</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.completed_date }}
+                {{ row.completed_date }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -162,7 +173,7 @@
                 <span>Remarks</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.requestor.remarks }}
+                {{ row.remarks }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -230,7 +241,7 @@
                 <div clas="col">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="completedCheck">
-                    <label class="custom-control-label" for="completedCheck" [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
+                    <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
                   </div>
                 </div>
               </div>
@@ -239,13 +250,15 @@
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label">Completed Date</label>
-                    <input class="form-control" [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
+                    <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
                   </div>
                 </div>
               </div>
             </div>
+     
 
             <div class="col-lg-4">
+              <!--
               <div class="row mt-2">
                 <div clas="col">
                   <div class="form-group">
@@ -254,8 +267,21 @@
                   </div>
                 </div>
               </div>
+            -->
             </div>
           </div>
+
+          <div class="row">
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">Remarks</label>
+                    <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                  </div>
+                </div>
+
+          </div>
+          
       </form>
   </div>
 
@@ -264,17 +290,15 @@
           class="btn btn-success"
           type="button"
           (click)="updateApplication()"
-          [disabled]="!isCompleted && remarks=='' && completedDate==''"
-      >
-          Create
+          [disabled]="!isCompleted && remarks=='' && completedDate==''">
+          Update
       </button>
 
       <button
           class="btn btn-outline-danger ml-auto"
           data-dismiss="modal"
           type="button"
-          (click)="closeModal()"
-      >
+          (click)="closeModal()">
           Close
       </button>
   </div>

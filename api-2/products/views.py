@@ -82,11 +82,13 @@ from .helpers.change_name import change_name
 from .helpers.particular_audit_firm import particular_audit_firm
 
 from .models import (
-    Product
+    Product,
+    ProductSearchCriteria
 )
 
 from .serializers import (
-    ProductSerializer
+    ProductSerializer,
+    ProductSearchCriteriaSerializer
 )
 
 class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -741,11 +743,6 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             response['Content-Disposition'] = 'attachment; filename=%s' % filename                                 
             return response    
          
-
-    @action(methods=['POST'], detail=False)
-    def search_quota(self, request, *args, **kwargs):
-        pass
-
     @action(methods=['GET'], detail=False)
     def lala(self, request, *args, **kwargs):
 
@@ -774,3 +771,21 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return response             
 
 
+class ProductSearchCriteriaViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ProductSearchCriteria.objects.all()
+    serializer_class = ProductSearchCriteriaSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = ProductSearchCriteria.objects.all()
+
+        return queryset 
