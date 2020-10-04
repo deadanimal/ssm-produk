@@ -58,6 +58,17 @@ export class ProductsService {
     );
   }
 
+  check(body: any): Observable<any> {
+    let urlTemp = this.urlProducts + 'check_availability/'
+    console.log('hmmmm')
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        this.product = res
+        console.log('Available: ', this.product);
+      })
+    );
+  }
+
   generateDocument(body: any): Observable<any> {
     let urlTemp = this.urlProducts + 'generate_product/'
     return this.http.post<any>(urlTemp, body).pipe(
