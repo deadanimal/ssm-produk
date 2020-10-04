@@ -13,7 +13,7 @@ from .models import (
 
 )
 
-from carts.serializers import CartSerializer
+from carts.serializers import CartSerializer, CartExtendedSerializer
 
 class TransactionSerializer(serializers.ModelSerializer):
 
@@ -28,3 +28,11 @@ class TransactionWithCartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
+
+class TransactionExtendedSerializer(serializers.ModelSerializer):
+
+    cart = CartExtendedSerializer()
+
+    class Meta:
+        model = Transaction
+        fields = '__all__'        

@@ -183,4 +183,5 @@ export class CbidReportComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }  
+
 }

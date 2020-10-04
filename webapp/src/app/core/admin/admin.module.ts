@@ -35,7 +35,8 @@ import { InvolvementManagementComponent } from "./product/involvement-management
 import { FocManagementComponent } from "./product/foc-management/foc-management.component";
 import { StatisticsComponent } from "./product/statistics/statistics.component";
 import { UsagesComponent } from "./kjakp/usages/usages.component";
-import { AddComponent } from "./kjakp/customer-management/add/add.component";
+//import { AddComponent } from "./kjakp/customer-management/add/add.component";
+import { CustomerManagementComponent } from './kjakp/customer-management/customer-management.component';
 import { PackageComponent } from "./kjakp/customer-management/package/package.component";
 import { RenewComponent } from "./kjakp/customer-management/renew/renew.component";
 import { AddQuotaComponent } from "./kjakp/customer-management/add-quota/add-quota.component";
@@ -63,7 +64,8 @@ import { FeeManagementComponent } from './product/fee-management/fee-management.
     FocManagementComponent,
     StatisticsComponent,
     UsagesComponent,
-    AddComponent,
+    CustomerManagementComponent,
+    // AddComponent,
     PackageComponent,
     RenewComponent,
     AddQuotaComponent,
