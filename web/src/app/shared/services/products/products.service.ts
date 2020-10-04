@@ -6,7 +6,6 @@ import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +22,7 @@ export class ProductsService {
   public pdfProduct: any
   public productDocument: any
   public productImage: any
-  public productListing: any
+  public productList: any
 
   public cart: boolean = false
 
@@ -70,7 +69,7 @@ export class ProductsService {
   }
 
   generateImage(body: any): Observable<any> {
-    let urlTemp = this.urlServices + 'generate_image/'
+    let urlTemp = this.urlProducts + 'generate_image/'
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.productImage = res
@@ -79,12 +78,12 @@ export class ProductsService {
     )
   }
 
-  generateListing(body: any): Observable<any> {
-    let urlTemp = this.urlServices + 'generate_listing/'
+  generateList(body: any): Observable<any> {
+    let urlTemp = this.urlProducts + 'generate_list/'
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        this.productListing = res
-        console.log(this.productListing)
+        this.productList = res
+        console.log(this.productList)
       })
     )
   }

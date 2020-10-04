@@ -17,12 +17,16 @@ import { PaymentComponent } from './payment/payment/payment.component';
 import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
 import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component'
 import { PaymentCallbackComponent } from './payment/payment-callback/payment-callback.component';
+import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
 
 import { ProductSearchComponent } from './products/product-search/product-search.component';
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
 import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
 import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
 import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
+import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
+import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
+import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 
 import { EnquiryComponent } from './enquiry/enquiry/enquiry.component';
 import { EnquiryGeneralComponent } from './enquiry/enquiry-general/enquiry-general.component';
@@ -35,7 +39,6 @@ import { CheckoutComponent } from './cart/checkout/checkout.component';
 import { CbidComponent } from './cbid/cbid/cbid.component';
 import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
-import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
 
 
 export const CoreRoutes: Routes = [
@@ -93,6 +96,23 @@ export const CoreRoutes: Routes = [
             component: ProductSearchResultComponent
           },
           {
+            path: 'custom-data',
+            children: [
+              {
+                path: '',
+                component: ProductCustomDataComponent
+              },
+              {
+                path: 'package-a',
+                component: ProductCustomDataPackageAComponent
+              },
+              {
+                path: 'package-b',
+                component: ProductCustomDataPackageBComponent
+              }
+            ]
+          },
+          {
             path: 'search-custom-data',
             component: ProductSearchCustomComponent
           }
@@ -126,7 +146,7 @@ export const CoreRoutes: Routes = [
         ]
       },
 
-      //
+      // CBID
       {
         path: 'cbid',
         children: [

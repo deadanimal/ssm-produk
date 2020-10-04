@@ -242,6 +242,20 @@
 												</span>
 											</p>
 										</div>
+
+										<div *ngIf="item.quota">
+											<p class="text-sm mb-0">
+												<span *ngIf="item.quota.quota_type == '0A'">
+													Customized Data Package A Quota
+												</span>
+											</p>
+										</div>
+
+										<div *ngIf="item.product_search_criteria">
+											<p class="text-sm mb-0">
+												Customized Data Package A
+											</p>
+										</div>
 									</div>
 									<div class="col-4 text-right">
 										<div class="">
@@ -258,6 +272,12 @@
 												<small *ngIf="item.product">
 													<span>
 														RM{{item.product.fee/100 | number : '1.2-2'}}
+													</span>
+												</small>
+
+												<small *ngIf="item.quota">
+													<span>
+														RM20.00
 													</span>
 												</small>
 											</div>

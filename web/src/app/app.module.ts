@@ -31,6 +31,7 @@ import { CoreLayoutComponent } from './layouts/core-layout/core-layout.component
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
