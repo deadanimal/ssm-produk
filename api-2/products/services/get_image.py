@@ -6,7 +6,7 @@ def get_image(url, headers, registration_number, entity_type, check_digit, versi
 
     if entity_type == 'ROC':
         criteria = 'CompanyNo'
-        last_digit = registration_number % 10
+        last_digit = int(registration_number) % 10
         document_profile = 'ROC' + str(last_digit)       
         search_value = str(registration_number) + '-' + check_digit 
     else:
