@@ -71,6 +71,14 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset    
+
+    @action(methods=['GET'], detail=False)
+    def get_egov_users(self, request, *args, **kwargs): 
+
+        users = CustomUser.objects.filter(user_type='EG')
+        serializer = CustomUserSerializer(users, many=True)
+        
+        return Response(serializer.data)        
  
     @action(methods=['POST'], detail=True)
     def register_egov(self, request, *args, **kwargs):
@@ -110,3 +118,4 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
+

@@ -14,6 +14,17 @@
                 size: A4 portait;                                
             }
 
+            body {
+                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                background-repeat:repeat-y;
+                background-position: right top;
+                background-attachment:fixed;
+                background-size: 100% 100%;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                         
+            }
+          
+
             header#header {
                 position: fixed;
                 top: 0;
@@ -22,19 +33,8 @@
                 height: 14.5rem;
                 width: 100%;
             }
-            footer#footer {
-                position: fixed;
-                top: 10;
-                bottom: 0;
-                left: 0;
-
-                height: 14.5rem;
-                width: 100%;
-            }            
             img.logo {
                 height: 14rem !important;
-                /*height: 300px;
-                width: 300px;*/
             }
             html {
                 font-family: "Times New Roman",Arial, sans-serif;
@@ -82,14 +82,14 @@
     </head>
 
     <body>
-        <header id="header">
+        <header id="header" style="padding-top: 100px;">
             <div class="mt-200 mb-200 text-center">
                 <img class="logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
         
 
-        <div class="default-template container pg-start">
+        <div class="default-template container pg-start" style="padding-right: 130px; padding-top: 100px;">
             <h1 class="font-weight-bold text-center mb-0" style="font-size:12pt">
                 COMPANIES ACT 2016
                 <br>
@@ -115,16 +115,16 @@
 
             <p id="primary" class="mt-7 text-justify" style="font-size:14pt; margin-left: 100px; margin-right: 100px; margin-top: 20px;text-align: justify;">
 
-                is, on and from the {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}, incorporated under the Companies <br>
-                Act {{data.act_year}}, and that the company is a company {{data.companyType |lower}} and that the<br>
+                is, on and from the {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}, incorporated under the Companies 
+                Act {{data.act_year}}, and that the company is a company {{data.companyType |lower}} and that the
                 company is a {{data.companyStatus |lower}} company.
                 <br></br><br>
                 Dated at <b>{{data.branch_name}}</b> this {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}.
             </p>
 
-            <p class="text-center" style="margin-top:700px;font-size:12pt"><i>A copy or extract issued pursuant to Section 601(2).</i></p>
+            <p class="text-center" style="margin-top:500px;font-size:12pt"><i>A copy or extract issued pursuant to Section 601(2).</i></p>
             
-            <div class="row">
+            <div class="row" style="margin-top:100px">
                 <p class="col text-left">USER ID: @</p>
                 <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
             </div>
