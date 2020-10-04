@@ -27,99 +27,119 @@
 						
 						<hr class="my-3 w-100" style="border-top: 1px dotted black;">
 
-						<div class="row">
+						<div class="row text-left">
 							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-2">
-										<p>Name</p>
+									<div class="col-md-4">
+										<p class="m-0">Name</p>
 									</div>
-									<div class="col">
-										<p>
-											:
+									<div class="col-auto">
+										<p class="m-0">
+											: {{transaction?.name}}
 										</p>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-2">
-										<p>Email</p>
+									<div class="col-md-4">
+										<p class="m-0">Email</p>
 									</div>
 									<div class="col">
-										<p>
-											: 
+										<p class="m-0">
+											: {{transaction?.email_address}}
 										</p>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-2">
-										<p>Address</p>
+									<div class="col-md-4">
+										<p class="m-0">Address</p>
 									</div>
-									<div class="col">
-										<p>
-											: address1, <br />
-											address2 , <br />
-											address3, <br />
-											postcode, city<br />
-											state, <br />
-											country
+									<div class="col-auto">
+										<p class="m-0">
+											: {{transaction?.address1}}, <br />
+											{{transaction?.address2}} , <br />
+											{{transaction?.address2}}, <br />
+											{{transaction?.postcode}}, {{transaction?.city}}<br />
+											{{transaction?.state}}, <br />
+											{{transaction?.country}}
 										</p>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-2">
-										Phone No.
+									<div class="col-md-4">
+										<p class="m-0">
+											Phone No.
+										</p>
 									</div>
-									<div class="col">
-										<p>
-											:
+									<div class="col-auto">
+										<p class="m-0">
+											: {{transaction?.phone_number}}
 										</p>
 									</div>
 								</div>
-
-
-								<p>
-									Name: <br />
-									Email: <br />
-									Address: <br />
-									Phone No.: <br />
-								</p>
 							</div>
 
 							<div class="col-md-6">
-								
-							</div>
-						</div>
+								<div class="row">
+									<div class="col-md-4">
+										<p class="m-0">Receipt No.</p>
+									</div>
+									<div class="col-auto">
+										<p class="m-0">
+											: PP202010060000001
+										</p>
+									</div>
+								</div>
 
-						<div class="row justify-content-md-between">
-							<div class="col-md-5">
-								<h5 class="mt-3 text-left">
-									Name: Syafiq Basri <br />
-									Organization: Pipeline Network Sdn. Bhd.<br />
-									Address: C-3A-12,<br />
+								<div class="row">
+									<div class="col-md-4">
+										<p class="m-0">Reference No.</p>
+									</div>
+									<div class="col">
+										<p class="m-0">
+											: ACN1241241241
+										</p>
+									</div>
+								</div>
 
-									Metropolitan Square, <br />
+								<div class="row">
+									<div class="col-md-4">
+										<p class="m-0">Mode of Payment</p>
+									</div>
+									<div class="col-auto">
+										<p class="m-0">
+											: Credit Card
+										</p>
+									</div>
+								</div>
 
-									Jalan PJU 8/1, <br />
+								<div class="row">
+									<div class="col-md-4">
+										<p class="m-0">
+											Transaction ID
+										</p>
+									</div>
+									<div class="col-auto">
+										<p class="m-0">
+											: M1241412455
+										</p>
+									</div>
+								</div>
 
-									Damansara Perdana, <br />
-
-									Petaling Jaya 47820 <br />
-
-									Selangor, Malaysia. <br />
-									Phone No.: 0176866711
-
-								</h5>
-							</div>
-							<div class="col-lg-4 col-md-5">
-								<h5 class="text-left">
-									Invoice No.: INV/MY00012212 <br />
-									Reference No.: ACN134124 <br />
-									Payment Method: FPX <br />
-									Transaction ID: 124124245 <br />
-									Date & Time:
-								</h5>
+								<div class="row">
+									<div class="col-md-4">
+										<p class="m-0">
+											Date & time
+										</p>
+									</div>
+									<div class="col-auto">
+										<p class="m-0">
+											: {{transaction?.created_date}}
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -132,31 +152,61 @@
 										<thead class="bg-default">
 											<tr>
 												<th class="text-right text-white" scope="col">
+													No.
+												</th>
+												<th class="text-right text-white" scope="col">
 													Item
 												</th>
 												<th class="text-right text-white" scope="col">
-													Qty
+													Product
 												</th>
 												<th class="text-right text-white" scope="col">
-													Rate
+													Unit
 												</th>
 												<th class="text-right text-white" scope="col">
-													Amount
+													Unit Price (RM)
+												</th>
+												<th class="text-right text-white" scope="col">
+													Total (RM)
 												</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>Company Profile (ROC)</td>
-												<td>1</td>
-												<td>RM 30.00</td>
-												<td>RM 30.00</td>
+											<tr *ngFor="let it of item">
+												<td>
+													<span>{{it?.index}}</span>
+												</td>
+												<td>
+													<span *ngIf="it?.entity">
+														{{it?.entity.company_number_new}} 
+														({{it?.entity.company_number}}-{{it?.entity.check_digit}}) / 
+														{{it?.entity.name}}
+													</span>
+												</td>
+												<td>
+													<span *ngIf="it?.product">
+														{{it?.product.name}}
+													</span>
+												</td>
+												<td>
+													1
+												</td>
+												<td>
+													<span *ngIf="it?.product">
+														{{it?.product/100 | number: '1.2-2'}}
+													</span>
+												</td>
+												<td>
+													<span *ngIf="it?.product">
+														{{it?.product/100 | number: '1.2-2'}}
+													</span>
+												</td>
 											</tr>
 										</tbody>
 										<tfoot>
 											<tr>
-												<th class="h4">Total</th>
-												<th class="text-right h4" colspan="3">RM 30.00</th>
+												<th class="text-right h4" colspan="5">Total</th>
+												<th class="h4">{{item.total_price_before_tax/100 | number: '1.2-2'}}</th>
 											</tr>
 										</tfoot>
 									</table>
@@ -164,19 +214,19 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-footer text-right">
-						<div class="col-md-5 ml-auto">
+					<div class="card-footer text-center">
+						<div class="col-md-12 ml-auto">
 							<h5>Thank you!</h5>
 							<p class="description">
 								If you encounter any issues related to the invoice you can
 								contact us at:
 							</p>
-							<h6 class="d-block">
+							<h5 class="d-block">
 								email:
-								<small class="text-muted">
-									support@ssm.com
-								</small>
-							</h6>
+								<span class="text-muted">
+									enquiry@ssm.com.my
+								</span>
+							</h5>
 						</div>
 					</div>
 				</div>
