@@ -15,8 +15,6 @@ class Product(models.Model):
     name = models.CharField(max_length=100, default='NA')
     description = models.TextField(default='NA')
     slug = models.CharField(max_length=100, default='NA')
-
-    #middleware_service = models.CharField(max_length=15, null=True)
     
     fee = models.IntegerField(default=0)
     
@@ -32,12 +30,13 @@ class Product(models.Model):
     )    
     
     ctc = models.BooleanField(default=True)
-    
     language = models.BooleanField(default=True)
 
     LANGUAGE= [
         ('EN', 'English'),
         ('MS', 'Malay'),
+
+        ('NA', 'Not Available'),
     ]
     language = models.CharField(
         choices=LANGUAGE,
@@ -54,3 +53,23 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class ProductSearchCriteria(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    incorp_date_from = models.CharField(max_length=100) 
+    incorp_date_to = models.CharField(max_length=100) 
+    company_status = models.CharField(max_length=100, default='NA') 
+    company_type = models.CharField(max_length=100, default='NA') 
+    company_origin = models.CharField(max_length=100, default='NA') 
+    company_location = models.CharField(max_length=100, default='NA') 
+    division = models.CharField(max_length=100, default='NA') 
+    business_code = models.CharField(max_length=100, default='NA') 
+
+
+    class meta:
+        ordering = ['id']
+    
+    def __str__(self):
+        return self.id    
+    

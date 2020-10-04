@@ -56,21 +56,40 @@ organisations_router = router.register(
 # Products app
 
 from products.views import (
-    ProductViewSet
+    ProductViewSet,
+    ProductSearchCriteriaViewSet
 )
 
 products_router = router.register(
     'products', ProductViewSet
 )
 
+product_search_criterias_router = router.register(
+    'product_search_criterias', ProductSearchCriteriaViewSet
+)
+
+# Quotas app
+
+from quotas.views import (
+    QuotaViewSet
+)
+
+quotas_router = router.register(
+    'quotas', QuotaViewSet
+)
+
 # Services app
 
 from services.views import (
-    ServiceViewSet
+    ServiceViewSet,
+    ServiceRequestViewSet
 )
 
 services_router = router.register(
     'services', ServiceViewSet
+)
+service_requests_router = router.register(
+    'service-requests', ServiceRequestViewSet
 )
 
 # Tickets app

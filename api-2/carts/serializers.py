@@ -16,7 +16,7 @@ from .models import (
 from entities.serializers import EntitySerializer
 from products.serializers import ProductSerializer
 from services.serializers import ServiceRequestSerializer
-
+from quotas.serializers import QuotaSerializer
 
 class CartSerializer(serializers.ModelSerializer):
 
@@ -29,6 +29,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     entity = EntitySerializer()
     product = ProductSerializer()
+    quota = QuotaSerializer()
     service_request = ServiceRequestSerializer()
 
     class Meta:

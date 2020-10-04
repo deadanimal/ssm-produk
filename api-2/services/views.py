@@ -26,6 +26,7 @@ from .serializers import (
 )
 
 from carts.models import Cart, CartItem
+from carts.serializers import CartItemSerializer, CartSerializer
 from transactions.models import Transaction
  
 
@@ -107,6 +108,61 @@ class ServiceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             email_address=email_address,
             phone_number=phone_number
         )
+
+        serializer = ServiceRequestSerializer(service_request)
+        return Response(serializer.data)
+
+
+
+class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = ServiceRequest.objects.all()
+    serializer_class = ServiceRequestSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = ServiceRequest.objects.all()
+
+        return queryset   
+
+    @action(methods=['GET'], detail=False)
+    def report(self, request, *args, **kwargs):   
+
+        service_requests = ServiceRequest.objects.all()
+
+        serializer = ServiceRequestSerializer()
+
+        new_list = []
+
+        for service_request in service_requests:
+            serializer = ServiceRequestSerializer(service_request)
+            data_ = serializer.data
+            cart_item = CartItem.objects.filter(service_request=service_request).first()
+            cart_item_serializer = CartItemSerializer(cart_item)
+            data_['transaction'] = cart_item_serializer.data
+            new_list.append(data_)
+        
+        return Response(new_list)        
+
+    @action(methods=['POST'], detail=True)
+    def mark_as_complete(self, request, *args, **kwargs):       
+
+        json_body = json.loads(request.body)  
+
+        service_request = self.get_object()
+
+        service_request.completed = True
+        service_request.completed_date = json_body['completed_date']
+        service_request.remarks = json_body['remarks']
+        service_request.save()
 
         serializer = ServiceRequestSerializer(service_request)
         return Response(serializer.data)
