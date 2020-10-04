@@ -54,3 +54,29 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
+class CustomSearchQuota(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    fee = models.IntegerField(default=0)
+    quota = models.IntegerField(default=0)
+    
+    PACKAGE_TYPE = [
+        ('0A', 'Document'),
+        ('0B', 'Document'),
+        ('0C', 'Document'),
+        ('0D', 'Document'),
+
+        ('NA', 'Not Available'),
+    ]
+    package_type = models.CharField(
+        choices=PACKAGE_TYPE,
+        max_length=2,
+        default='NA'
+    )    
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+

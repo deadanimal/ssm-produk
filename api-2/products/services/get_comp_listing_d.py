@@ -10,7 +10,7 @@ def get_comp_listing_d(url, headers,
     page_number):
     
     payload = """
-<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://10.7.31.199/ListingService/1/WS">
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/ListingService/1/WS">
     <x:Header/>
         <x:Body>
             <ws:getCompListingD> 

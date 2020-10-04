@@ -6,10 +6,10 @@ import xmltodict
 
 def get_comp_listing_b(url, headers, 
     company_location, company_origin, company_status, 
-    company_type, director_nationality, shareholder_nationality):
+    company_type, director_nationality, shareholder_nationality, date_from, date_to):
     
     payload = """
-<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://10.7.31.199/ListingService/1/WS"> 
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/ListingService/1/WS">
     <x:Header/>
     <x:Body>
         <ws:getCompListingB> 
@@ -37,7 +37,7 @@ def get_comp_listing_b(url, headers,
     response = requests.request("POST", url, data=payload, headers=headers)
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-    return middleware_response_json['sopenv:Envelope']['sopenv:Body']['ws:getCompListingAResponse']['response']['getCompListingAReturn']
+    return middleware_response_json["soapenv:Envelope"]["soapenv:Body"]["listing:getCompListingBResponse"]["response"]["getCompListingBReturn"]
 
 
 
