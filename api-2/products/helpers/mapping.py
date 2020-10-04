@@ -304,6 +304,8 @@ def branch_code(branch_code):
     elif branch_code == 'MY':
         # repeatative coding
         branch_name = 'KUALA LUMPUR'
+    else:
+        branch_name = 'KUALA LUMPUR'
 
     return branch_name
 

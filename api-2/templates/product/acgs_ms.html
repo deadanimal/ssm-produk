@@ -12,11 +12,21 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
             }
+
+            body {
+                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                background-repeat:repeat-y;
+                background-position: right top;
+                background-attachment:fixed;
+                background-size: 100% 100%;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                         
+            }            
 
             header#header {
                 position: fixed;
@@ -30,12 +40,12 @@
                 height: 14rem !important;
             }
             html {
-                font-family: Arial, sans-serif;
+                font-family: "Times New Roman",Arial, sans-serif;
                 font-size: 11px;
             }
             .default-template {
                 color: #333;
-                font-family: Arial, sans-serif;
+                font-family: "Times New Roman",Arial, sans-serif;
             }
             .default-template p#secondary {
                 word-spacing: 7pt;
@@ -75,17 +85,16 @@
     </head>
 
     <body>
-        <header id="header">
+        <header id="header" style="padding-top: 100px;">
             <div class="text-center">
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
         
 
-        <div class="default-template container pg-start">
+        <div class="default-template container pg-start" style="padding-right: 130px; padding-top: 100px;">
             <h1 class="font-weight-bold text-center mb-0" style="font-size:60px">
                 PERAKUAN KEUTUHAN
-                <br>
                 SYARIKAT
             </h1>
 
@@ -128,9 +137,8 @@
                 Butir-butir di atas adalah ekstrak daripada dokumen yang telah didaftarkan.
             </p>
 
-            <h1 class="font-weight-bold text-center pg-break" style="font-size:40px">
+            <h1 class="font-weight-bold text-center pg-break" style="font-size:40px;padding-top: 100px;">
                 KRITERIA BAGI PENGELUARAN
-                <br>
                 PERAKUAN KEUTUHAN SYARIKAT
             </h1>
 
@@ -168,23 +176,23 @@
             
             <p id="primary" style="margin-left: 60px;margin-right: 60px;">
                 1. Syarikat telah ditubuhkan kurang-kurangnya 18 bulan daripada tarikh 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;permohonan ACGS;
+                permohonan ACGS;
                 <br>
                 2. Syarikat telah menyerahsimpan penyata tahunan dan penyata kewangan 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspyang telah di audit atau sijil pengecualian syarikat (EPC) yang terkini;
+                &nbspyang telah di audit atau sijil pengecualian syarikat (EPC) yang terkini;
                 <br>
                 3. Syarikat berstatus 'existing' dan bukan dalam proses penggulungan
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atau pembatalan nama syarikat atau pembubaran;
+                atau pembatalan nama syarikat atau pembubaran;
                 <br>
-                4. &nbsp;Syarikat bukan berstatus dormant;
+                4. Syarikat bukan berstatus dormant;
                 <br>
-                5. &nbsp;Syarikat mempunyai alamat berdaftar;
+                5. Syarikat mempunyai alamat berdaftar;
                 <br>
                 6. Syarikat atau pengarah-pengarah syarikat tidak mempunyai kompaun
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tertunggak dengan SSM; dan
+                tertunggak dengan SSM; dan
                 <br>
                 7. Syarikat atau pengarah-pengarah syarikat tidak mempunyai sebarang
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kes pendakwaan tertunggak dengan SSM.              
+                kes pendakwaan tertunggak dengan SSM.              
             </p>               
 
         </div>

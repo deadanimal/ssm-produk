@@ -66,4 +66,13 @@ export class UsersService {
     )
   }
 
+  getEgovUsers(): any {
+    let url = this.urlUser + 'get_egov_users/'
+    return this.http.get(url).pipe(
+      tap((res) => {
+        console.log('Egov Users:', res)
+      })
+    )    
+  }
+
 }
