@@ -66,6 +66,10 @@ class CartItem(models.Model):
     # PRODUCT
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    
+    # PRODUCT IMAGE
+    image_form_type = models.CharField(max_length=100, default='NA', null=True)
+    image_version_id = models.CharField(max_length=100, default='NA', null=True)
 
     # SERVICE
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, null=True)
