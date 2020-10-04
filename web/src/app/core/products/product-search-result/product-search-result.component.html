@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <div class="wrapper">
     <div class="cd-section">
         <div class="section features-7">
@@ -1212,7 +1213,7 @@
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <button
                                             class="btn btn-ssm btn-sm"
-                                            (click)="addToCart(row)"
+                                            (click)="addCartDocument(row)"
                                         >
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
