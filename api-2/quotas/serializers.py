@@ -9,24 +9,13 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Service,
-    ServiceRequest
+    Quota,
 )
 
 
 
-
-
-class ServiceSerializer(serializers.ModelSerializer):
+class QuotaSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Service
-        fields = '__all__'
-
-class ServiceRequestSerializer(serializers.ModelSerializer):
-
-    service = ServiceSerializer()
-
-    class Meta:
-        model = ServiceRequest
+        model = Quota
         fields = '__all__'
