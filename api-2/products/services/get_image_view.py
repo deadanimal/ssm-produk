@@ -2,13 +2,22 @@ import requests
 import json
 import xmltodict
 
-def get_image_view(url, headers, registration_number):
+def get_image_view(url, headers, registration_number, entity_type, check_digit):
 
-    criteria = ''
-    document_profile = ''
-    search_value = ''
+    if entity_type == 'ROC':
+        criteria = 'CompanyNo'
+        last_digit = registration_number % 10
+        document_profile = 'ROC' + str(last_digit)       
+        search_value = str(registration_number) + '-' + check_digit 
+    else:
+        criteria = 'XXX'
+        last_digit = registration_number % 10
+        document_profile = 'ROC' + str(last_digit) 
+        search_value = str(registration_number) + '-' + check_digit
 
-   payload = """
+
+
+    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://integrasistg.ssm.com.my/DocufloService/1/WS"> 
     <soapenv:Header/>
     <soapenv:Body>
@@ -26,7 +35,7 @@ def get_image_view(url, headers, registration_number):
                     <infoAmount>0</infoAmount> 
                     <invoiceNo>0</invoiceNo> 
                     <ipaddress></ipaddress> 
-                    <maxResult>100</maxResult>
+                    <maxResult>1</maxResult>
                     <remark></remark>
                     <searchValue>""" + search_value + """</searchValue> 
                     <tableId></tableId> 
@@ -40,8 +49,7 @@ def get_image_view(url, headers, registration_number):
 </soapenv:Envelope>
 """
 
-   response = requests.request("POST", url, data=payload, headers=headers)
-   response_xml = response.content
-   middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-#    return middleware_response_json['takdaresponse lagi']
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageViewResponse']['response']['getImageViewReturn']
+    response = requests.request("POST", url, data=payload, headers=headers)
+    response_xml = response.content
+    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
+    return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageViewResponse']['response']['getImageViewReturn']
