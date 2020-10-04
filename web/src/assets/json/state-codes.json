@@ -1,0 +1,66 @@
+[
+    {
+        "code": "R",
+        "desc": "PERLIS"
+    },
+    {
+        "code": "K",
+        "desc": "KEDAH"
+    },
+    {
+        "code": "P",
+        "desc": "PULAU PINANG"
+    },
+    {
+        "code": "D",
+        "desc": "KELANTAN"
+    },
+    {
+        "code": "T",
+        "desc": "TERENGGANU"
+    },
+    {
+        "code": "A",
+        "desc": "PERAK"
+    },
+    {
+        "code": "B",
+        "desc": "SELANGOR"
+    },
+    {
+        "code": "C",
+        "desc": "PAHANG"
+    },
+    {
+        "code": "N",
+        "desc": "NEGERI SEMBILAN"
+    },
+    {
+        "code": "M",
+        "desc": "MELAKA"
+    },
+    {
+        "code": "J",
+        "desc": "JOHOR"
+    },
+    {
+        "code": "X",
+        "desc": "SABAH"
+    },
+    {
+        "code": "Y",
+        "desc": "SARAWAK"
+    },
+    {
+        "code": "L",
+        "desc": "W.P. LABUAN"
+    },
+    {
+        "code": "W",
+        "desc": "WILAYAH PERSEKUTUAN"
+    },
+    {
+        "code": "U",
+        "desc": "W.P. PUTRAJAYA"
+    }
+]

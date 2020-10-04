@@ -77,6 +77,14 @@
 												CBID
 											</div>
 										</div>
+										<div *ngIf="row.quota">
+											<div *ngIf="row.quota.quota_type == '0A'">
+												Customized Data Package A Quota
+											</div>
+										</div>
+										<div *ngIf="row.product_search_criteria">
+											Customized Data Package A
+										</div>
 									</ng-template>
 								</ngx-datatable-column>
 
@@ -122,6 +130,9 @@
 											RM{{row.service_request.service.fee/100 | number : '1.2-2'}}
 											</div>
 										</div>
+										<div *ngIf="row.quota">
+											RM20.00
+										</div>
 									</ng-template>
 								</ngx-datatable-column>
 
@@ -137,6 +148,9 @@
 											<div *ngIf="row.service_request">
 											RM{{row.service_request.service.fee/100 | number : '1.2-2'}}
 											</div>
+										</div>
+										<div *ngIf="row.quota">
+											RM20.00
 										</div>
 									</ng-template>
 								</ngx-datatable-column>

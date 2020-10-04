@@ -106,6 +106,9 @@ export class CartComponent implements OnInit {
             else if(item.service_request) {
               this.total += item.service_request.service.fee
             }
+            else if(item.quota) {
+              this.total += 2000
+            }
           }
         )
       },
