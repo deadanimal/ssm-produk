@@ -122,9 +122,13 @@ def biz_profile(mdw_1, mdw_2, lang):
     temp_end_biz_date = data_mdw_1['robBusinessInfo']['endBusinessDate']
     temp_end_biz_date = make_aware(datetime.strptime(temp_end_biz_date, '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_end_biz_date = temp_end_biz_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-    temp_ammend_date = data_mdw_1['robBusinessInfo']['ammendmentDate']
-    temp_ammend_date = make_aware(datetime.strptime(temp_ammend_date, '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_ammend_date = temp_ammend_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+    if 'ammendmentDate' in data_mdw_1['robBusinessInfo']:
+        temp_ammend_date = data_mdw_1['robBusinessInfo']['ammendmentDate']
+        temp_ammend_date = make_aware(datetime.strptime(temp_ammend_date, '%Y-%m-%dT%H:%M:%S.000Z'))
+        temp_ammend_date = temp_ammend_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+        temp_ammend_date = ''
 
     temp_status = data_mdw_1['robBusinessInfo']['status']
     if temp_status == 'A' and lang == 'ms':
@@ -146,7 +150,14 @@ def biz_profile(mdw_1, mdw_2, lang):
     
     temp_current_owner = []
 
-    for owner in data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos']:
+    if isinstance(data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos'], list):
+        _list_ = data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos']
+    else: 
+        _list_ = []
+        _list_.append(data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos'])
+
+    for owner in _list_:
+        print(owner)
         if owner['status'] == 'A':
             temp_current_owner_address_1 = owner['address1']
             temp_current_owner_address_2 = owner['address2']
@@ -328,7 +339,7 @@ def biz_profile(mdw_1, mdw_2, lang):
         
     temp_previous_owner = []
 
-    for owner in data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos']:
+    for owner in _list_:
         if owner['status'] == 'T':
             temp_previous_owner_address_1 = owner['address1']
             temp_previous_owner_address_2 = owner['address2']
