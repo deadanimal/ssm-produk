@@ -4,7 +4,7 @@ import { Map } from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import * as mapbox from 'mapbox-gl';
-(mapbox as any).accessToken = environment.mapbox.accessToken
+// (mapbox as any).accessToken = environment.mapbox.accessToken
 
 @Injectable({
   providedIn: 'root'

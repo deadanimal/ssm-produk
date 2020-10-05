@@ -390,6 +390,90 @@ export class ProfileComponent implements OnInit {
         }
       )
     }
+    else if (row.product.id == '63638688-830d-4750-bd17-5157f8dc4a96') {
+      let body = {
+        'name': 'private_incorp_cert',
+        'language': 'en',
+        'ctc': 'True',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '4b922d05-a626-48ac-a8d2-8f450bf8697e') {
+      let body = {
+        'name': 'private_incorp_cert',
+        'language': 'en',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '436f3d72-dc34-45e7-8775-21b258411db1') {
+      let body = {
+        'name': 'private_incorp_cert',
+        'language': 'ms',
+        'ctc': 'False',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
+    else if (row.product.id == '5561f5ec-6ca0-492d-827b-2b36114c4606') {
+      let body = {
+        'name': 'private_incorp_cert',
+        'language': 'ms',
+        'ctc': 'True',
+        'registration_no': row.entity.company_number,
+        'entity_type': 'ROC'
+      }
+      this.spinner.show()
+      this.productService.generateDocument(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
     else if (row.product.id == 'aeb73efa-b89e-4e15-b1a7-3ba2409f7ec1') {
       let body = {
         'name': 'financial_history',
