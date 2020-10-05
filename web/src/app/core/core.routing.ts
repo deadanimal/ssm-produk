@@ -40,6 +40,7 @@ import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
 import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
+import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 
 
 export const CoreRoutes: Routes = [
