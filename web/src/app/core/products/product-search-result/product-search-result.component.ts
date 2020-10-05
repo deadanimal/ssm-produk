@@ -370,12 +370,12 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCart(selected) {
-    console.log('clicked', selected)
+    console.log('clicked', selected.value)
     this.products.forEach(
       (product) => {
-        if (selected['language'] == 'BT') {
+        if (selected.value['language'] == 'BT') {
           if (
-            selected['slug'] == product['slug'] &&
+            selected.value['slug'] == product['slug'] &&
             product['isCtc'] == product ['ctc'] &&
             product['language'] == 'MS'
           ) {
@@ -383,7 +383,7 @@ export class ProductSearchResultComponent implements OnInit {
             this.addItem()
           }
           if (
-            selected['slug'] == product['slug'] &&
+            selected.value['slug'] == product['slug'] &&
             product['isCtc'] == product ['ctc'] &&
             product['language'] == 'EN'
           ) {
@@ -393,9 +393,9 @@ export class ProductSearchResultComponent implements OnInit {
         }
         else {
           if (
-            selected['slug'] == product['slug'] &&
-            selected['isCtc'] == product['ctc'] &&
-            selected['language'] == product['language']
+            selected.value['slug'] == product['slug'] &&
+            selected.value['isCtc'] == product['ctc'] &&
+            selected.value['language'] == product['language']
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
             this.addItem()
