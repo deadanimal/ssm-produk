@@ -312,8 +312,8 @@
 												<span>Order No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.product?.name}}
-												
+												<!-- {{row.product?.name}} -->
+												SSM2020100124442
 											</ng-template>
 										</ngx-datatable-column>
 		
@@ -332,17 +332,20 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.product?.name}}
-												<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='PR'">
+												<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.entities_type =='PR'">
 													CBID - ROB - Statistics
 												</span>
-												<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='LS'">
+												<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.entities_type =='LS'">
 													CBID - ROC - Listing
 												</span>
-												<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='PR'">
+												<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.entities_type =='PR'">
 													CBID - ROC - Statistics
 												</span>
-												<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='LS'">
+												<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.entities_type =='LS'">
 													CBID - ROC - Listing
+												</span>
+												<span *ngIf="row.product_search_criteria">
+													Customized Data
 												</span>
 											</ng-template>
 										</ngx-datatable-column>

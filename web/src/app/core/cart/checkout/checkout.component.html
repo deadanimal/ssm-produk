@@ -73,16 +73,16 @@
 											{{row.product.name}}
 										</div>
 										<div *ngIf="row.service_request">
-											<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='PR'">
+											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.entities_type =='PR'">
 												CBID - ROB - Statistics
 											</span>
-											<span *ngIf="service_request?.service.entities_type =='RB' && service_request?.service.entities_type =='LS'">
+											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.entities_type =='LS'">
 												CBID - ROC - Listing
 											</span>
-											<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='PR'">
+											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.entities_type =='PR'">
 												CBID - ROC - Statistics
 											</span>
-											<span *ngIf="service_request?.service.entities_type =='RC' && service_request?.service.entities_type =='LS'">
+											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.entities_type =='LS'">
 												CBID - ROC - Listing
 											</span>
 										</div>
