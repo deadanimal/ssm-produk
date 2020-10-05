@@ -106,9 +106,26 @@ export class ResupplyComponent implements OnInit {
     )
   }
 
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value.toLowerCase();
+    this.tableTemp = this.tableRows.filter(function(d) {
+      return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
+    });
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
+  
   openModal(modalRef: TemplateRef<any>, row) {
 
     this.selectedRow = row
