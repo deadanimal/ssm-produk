@@ -85,7 +85,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             transaction.save()
     
 
-        url = 'http://syafiqbasri.ngrok.io/#/payment/return?transactionId=' + transaction_id
+        url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + transaction_id
         return redirect(url)      
 
 
