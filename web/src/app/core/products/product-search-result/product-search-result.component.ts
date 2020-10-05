@@ -235,7 +235,7 @@ export class ProductSearchResultComponent implements OnInit {
       slug: new FormControl('certificate_of_conversion'), // Certificate of Conversion
       language: new FormControl('MS'),
       isCtc: new FormControl(false),
-      fee: new FormControl(1000)
+      fee: new FormControl(2000)
     })
 
     this.finHistoricalForm = this.fb.group({
@@ -376,15 +376,15 @@ export class ProductSearchResultComponent implements OnInit {
         if (selected.value['language'] == 'BT') {
           if (
             selected.value['slug'] == product['slug'] &&
-            product['isCtc'] == product ['ctc'] &&
+            selected.value['isCtc'] == product['ctc'] &&
             product['language'] == 'MS'
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
             this.addItem()
           }
-          if (
+          else if (
             selected.value['slug'] == product['slug'] &&
-            product['isCtc'] == product ['ctc'] &&
+            selected.value['isCtc'] == product ['ctc'] &&
             product['language'] == 'EN'
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
@@ -410,7 +410,7 @@ export class ProductSearchResultComponent implements OnInit {
     let message = 'Item is added to the cart'
     this.loadingBar.useRef('http').start()
 
-    this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
+    this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
       },
