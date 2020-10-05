@@ -39,13 +39,15 @@ export class PaymentReceiptComponent implements OnInit {
       () => {},
       () => {
         let cnt = 0
-        this.item['cart_item'].forEach(
-          (item) => {
+        this.item = this.item['cart_item'].forEach(
+          (itemz) => {
             cnt++
-            item['index'] += 1
-            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+            itemz['index'] += 1
+            itemz.created_date = moment(itemz.created_date).format('DD/MM/YYYY hh:mm:ss')
           }
         )
+        console.log('item: ', this.item)
+        console.log('cart_item: ', this.item['cart_item'])
       }
     )
   }
