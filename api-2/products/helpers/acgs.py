@@ -24,6 +24,8 @@ def acgs(mdw_1, mdw_2, lang):
     elif temp_comp_status_old == 'D':
         temp_comp_status_new = 'Dissolved'
 
+    print(mdw_1)
+
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 

@@ -35,10 +35,13 @@ import { RequestInvestigationDocumentComponent } from './request-investigation-d
 
 // Product
 import { ProductSearchComponent } from './products/product-search/product-search.component';
+import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
 import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
 import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
+import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
+import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 
 // Payment
 import { PaymentComponent } from './payment/payment/payment.component';
@@ -89,6 +92,8 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     PaymentCallbackComponent,
     PaymentReturnComponent,
     ProductSearchComponent,
+    ProductSearchResultPackage1Component,
+    ProductSearchResultPackage2Component,
     ProductSearchResultComponent,
     EnquiryEgovComponent,
     PersonalInvolvementSearchComponent,
@@ -98,6 +103,7 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     ProductSearchPiComponent,
     ProductSearchSdComponent,
     ProductSearchCustomComponent,
+    ProductSearchEgovComponent,
     PaymentReceiptComponent,
     ProductCustomDataComponent,
     ProductCustomDataPackageAComponent,

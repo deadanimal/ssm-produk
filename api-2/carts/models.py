@@ -39,6 +39,17 @@ class Cart(models.Model):
     total_tax = models.IntegerField(default=0)
     total_tax_after_tax = models.IntegerField(default=0)
 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    CART_STATUS = [
+        ('CM', 'Completed'),
+        ('AB', 'Abandoned'),
+        ('CR', 'Created'),
+
+        ('NA', 'Not Available')
+    ]
+    cart_status = models.CharField(choices=CART_STATUS, max_length=2, default='CR')    
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
