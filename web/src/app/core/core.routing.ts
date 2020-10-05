@@ -39,6 +39,8 @@ import { CheckoutComponent } from './cart/checkout/checkout.component';
 import { CbidComponent } from './cbid/cbid/cbid.component';
 import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
 import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
+import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
+import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 
 
 export const CoreRoutes: Routes = [
@@ -84,6 +86,10 @@ export const CoreRoutes: Routes = [
             component: ProductSearchComponent
           },
           {
+            path: 'search-egov',
+            component: ProductSearchEgovComponent
+          },          
+          {
             path: 'search-personal-involvement',
             component: ProductSearchPiComponent
           },
@@ -95,6 +101,14 @@ export const CoreRoutes: Routes = [
             path: 'search-result',
             component: ProductSearchResultComponent
           },
+          {
+            path: 'search-result-package1',
+            component: ProductSearchResultPackage1Component
+          },    
+          {
+            path: 'search-result-package2',
+            component: ProductSearchResultPackage2Component
+          },                   
           {
             path: 'custom-data',
             children: [
