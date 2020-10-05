@@ -5,8 +5,9 @@ import xmltodict
 # Package B is more about the nationality of the shareholder director
 
 def get_comp_listing_b(url, headers, 
-    company_location, company_origin, company_status, 
-    company_type, director_nationality, shareholder_nationality, date_from, date_to):
+    business_code, company_location, company_origin, 
+    company_status, company_type, date_from, 
+    date_to, page_number, director_nationality, shareholder_nationality):
     
     payload = """
 <x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://integrasistg.ssm.com.my/ListingService/1/WS">
@@ -26,6 +27,8 @@ def get_comp_listing_b(url, headers,
                 <compType>""" + company_type + """</compType> 
                 <directorNat>""" + director_nationality + """</directorNat> 
                 <shareholderNat>""" + shareholder_nationality + """</shareholderNat> 
+                <incorpDtFrom>"""+ date_from + """</incorpDtFrom>
+                <incorpDtTo>"""+ date_to + """</incorpDtTo>                
                 <packageType>B</packageType>
                 </compListingBReq> 
             </request>

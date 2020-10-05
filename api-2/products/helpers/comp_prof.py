@@ -61,7 +61,10 @@ def comp_prof(mdw_1, mdw_2, lang):
     
 
 
-    balance_sheet_list = mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]
+    if mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]:
+        balance_sheet_list = mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]
+    else:
+        balance_sheet_list = []
     profit_loss_list = mdw_1["rocProfitLossListInfo"]["rocProfitLossInfos"]["rocProfitLossInfos"]
 
     business_address_info = mdw_1["rocBusinessAddressInfo"]
