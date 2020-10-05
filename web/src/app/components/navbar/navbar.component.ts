@@ -111,7 +111,7 @@ export class NavbarComponent implements OnInit {
       return this.router.navigate([path], { queryParams: { tab: 'profile' } })
     } 
     else if (path == 'profile3') {
-      return this.router.navigate([path], { queryParams: { tab: 'profile' } })
+      return this.router.navigate(['profile'], { queryParams: { tab: 'order' } })
     } 
     else {
       return this.router.navigate([path])
