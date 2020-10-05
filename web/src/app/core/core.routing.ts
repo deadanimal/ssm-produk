@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 
 import { NotificationsComponent } from './notifications/notifications.component';
-import { OrdersComponent } from './orders/orders.component';
 
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -56,10 +55,6 @@ export const CoreRoutes: Routes = [
       {
         path: 'notifications',
         component: NotificationsComponent,
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
       },
       {
         path: 'profile',
