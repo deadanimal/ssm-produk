@@ -459,6 +459,24 @@ export class ProfileComponent implements OnInit {
         }
       )
     }
+    else if (row.product_search_criteria) {
+      let body = row.product_search_criteria
+      body['name']='list'
+      body['package']='A'
+
+      this.spinner.show()
+      this.productService.generateList(body).subscribe(
+        (res: any) => {
+          this.spinner.hide()
+          let url = res.pdflink
+          window.open(url, '_blank');
+          // console.log(res)
+        },
+        () => {
+          this.spinner.hide()
+        }
+      )
+    }
   }
 
   tabChecker(path: string) {
