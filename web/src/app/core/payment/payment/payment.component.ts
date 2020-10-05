@@ -15,6 +15,7 @@ import { Ip } from 'src/app/shared/services/ip/ip.model';
 
 import swal from 'sweetalert2';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
+import { User } from 'src/app/shared/services/users/users.model';
 
 class PGInformation {
   transactionType: string
@@ -45,13 +46,8 @@ class PGInformation {
 })
 export class PaymentComponent implements OnInit {
   
-  // get data from auth service
-  egovPackage: string;
-  userType: string;
-  userID: string;
-  showIcondiv = false;
-  userdetails: any;
-  userPackage: string;
+  // Data
+  clientInfo: User
   clientIP: Ip
 
   // Form
@@ -67,13 +63,7 @@ export class PaymentComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
   ) {
-    if (this.authService.userType) {
-      this.userType = this.authService.userType;
-    }
-
-    if (this.authService.userID) {
-      this.userID = this.authService.userID;
-    }
+    
   }
 
   ngOnInit(): void {
@@ -97,16 +87,39 @@ export class PaymentComponent implements OnInit {
       cart: new FormControl('', Validators.required),
       total_amount: new FormControl(0)
     })
-    console.log(this.billingForm)
+    // console.log(this.billingForm)
     this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
     this.getClientIP()
+    this.getBillingInfo()
+  }
+
+  getBillingInfo() {
+    if (this.userService.user) {
+      this.clientInfo = this.userService.user
+      this.billingForm.controls['name'].setValue(this.clientInfo.full_name)
+      this.billingForm.controls['email_address'].setValue(this.clientInfo.email)
+      this.billingForm.controls['phone_number'].setValue(this.clientInfo.phone_number)
+      this.billingForm.controls['address1'].setValue(this.clientInfo.address_1)
+      this.billingForm.controls['address1'].setValue(this.clientInfo.address_2)
+      this.billingForm.controls['postcode'].setValue(this.clientInfo.postcode)
+      this.billingForm.controls['city'].setValue(this.clientInfo.city)
+      this.billingForm.controls['state'].setValue(this.clientInfo.state)
+      this.billingForm.controls['country'].setValue(this.clientInfo.country)
+    }
+  }
+
+  getClientIP(): any {
+    this.ipService.get().subscribe(
+      () => {
+        this.clientIP = this.ipService.ip
+        this.billingForm.controls['ip'].setValue(this.clientIP.ip)
+      }
+    )
   }
 
   create() {
-    console.log('Cart', this.cartService.cart)
+    // console.log('Cart', this.cartService.cart)
     this.billingForm.controls['total_amount'].setValue(this.cartService.cart.total_price_before_tax)
-    // let hashhhhhh = this.hashTheShit()
-
     // this.navigatePage('/payment')
     this.transactionService.create(this.billingForm.value).subscribe(
       () => {},
@@ -118,8 +131,8 @@ export class PaymentComponent implements OnInit {
   }
 
   encode(paymentID) {
-    console.log('asd')
-    console.log(paymentID)
+    // console.log('asd')
+    // console.log(paymentID)
     let itemz = {
       transactionType: 'SALE',
       paymentMethod: 'ANY',
@@ -143,30 +156,7 @@ export class PaymentComponent implements OnInit {
       () => {},
       () => {},
       () => {
-        // let dataz: any = {
-        //   transactionType: 'SALE',
-        //   paymentMethod: 'ANY',
-        //   serviceID: 'SM2',
-        //   paymentID: itemz.paymentID,
-        //   orderNumber: 'ORDE124',
-        //   paymentDesc: 'f13412412njndjsf',
-        //   merchantName: 'SSM',
-        //   merchantCallbackUrl: 'https://portal.ssm.prototype.com.my/#/payment/callback/',
-        //   merchantReturnUrl: 'https://portal.ssm.prototype.com.my/#/payment/return',
-        //   amount: '20.00',
-        //   currencyCode: 'MYR',
-        //   custIP: '1.1.1.1',
-        //   custName: 'Amin',
-        //   custEmail: 'aminredzuan@gmail.com',
-        //   custPhone: '0176866917',
-        //   hashValue: this.transactionService.encodedData,
-        //   merchantTermsUrl: 'https://portal.ssm.prototype.com.my/#/terms/',
-        //   languageCode: 'MS',
-        //   pageTimeout: '780'
-        // }
         let dataz = this.transactionService.encodedData
-        // console.log(dataz)
-
         this.router.navigate(['/payment/to-confirm'], dataz)
       }
     )
@@ -179,7 +169,6 @@ export class PaymentComponent implements OnInit {
         title: 'Success',
         text: task,
         icon: 'success',
-        // showCancelButton: true,
         buttonsStyling: false,
         confirmButtonText: 'Close',
         customClass: {
@@ -193,17 +182,6 @@ export class PaymentComponent implements OnInit {
         // this.navigatePage('/egov-details');
       }
     );
-  }
-
-  getClientIP(): any {
-    // console.log('Nak dapat ip')
-    this.ipService.get().subscribe(
-      () => {
-        this.clientIP = this.ipService.ip
-        this.billingForm.controls['ip'].setValue(this.clientIP.ip)
-        // console.log(this.clientIP.ip)
-      }
-    )
   }
 
   navigatePage(path: string) {

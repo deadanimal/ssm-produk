@@ -51,7 +51,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Company Profile')" 
+                                                                    (change)="checker(companyProfileForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -68,7 +68,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCompanyProfile"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Company Profile')" 
+                                                                        (change)="checker(companyProfileForm)"
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -83,10 +83,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Company Profile')">
+                                                        (click)="addCart(companyProfileForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{companyProfileForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{companyProfileForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -111,7 +111,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Company Charges')"
+                                                                    (change)="checker(companyChargesForm)"
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -128,7 +128,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCompanyCharges" 
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Company Charges')" 
+                                                                        (change)="checker(companyChargesForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -144,10 +144,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart()">
+                                                        (click)="addCart(companyChargesForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{companyChargesForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{companyChargesForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -172,7 +172,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('ACGS')" 
+                                                                    (change)="checker(acgsForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -181,7 +181,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-7">
+                                                        <!-- <div class="col-md-7">
                                                             <div class="form-group">
                                                                 <div class="custom-control custom-checkbox">
                                                                     <input 
@@ -189,7 +189,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkACGS"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('ACGS')" 
+                                                                        (change)="checker(acgsForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -198,16 +198,16 @@
                                                                     </label>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </form>
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('ACGS')">
+                                                        (click)="addCart(acgsForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{acgsForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{acgsForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -241,7 +241,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Certificate of Incorporation')" 
+                                                                    (change)="checker(certIncorpForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -258,7 +258,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCertIncorp"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Certificate of Incorporation')" 
+                                                                        (change)="checker(certIncorpForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -273,10 +273,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Certificate of Incorporation')">
+                                                        (click)="addCart(certIncorpForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{certIncorpForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{certIncorpForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -301,7 +301,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Certificate Change Name')" 
+                                                                    (change)="checker(certChangeNameForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -318,7 +318,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCertChangeName"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Certificate Change Name')" 
+                                                                        (change)="checker(certChangeNameForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -333,10 +333,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Certificate Change Name')">
+                                                        (click)="addCart(certChangeNameForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{certChangeNameForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{certChangeNameForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -361,7 +361,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Certificate Conversion')" 
+                                                                    (change)="checker(certConversionForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -378,7 +378,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCertConversion"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Certificate Conversion')" 
+                                                                        (change)="checker(certConversionForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -393,10 +393,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Certificate Conversion')">
+                                                        (click)="addCart(certConversionForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{certConversionForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{certConversionForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -462,10 +462,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Financial Comparison')">
+                                                        (click)="addCart(finComparisonForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{finComparisonForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{finComparisonForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -490,7 +490,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Financial Historical')" 
+                                                                    (change)="checker(finHistoricalForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -507,7 +507,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkFinHistorical"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Financial Historical')" 
+                                                                        (change)="checker(finHistoricalForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -522,10 +522,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Financial Historical')">
+                                                        (click)="addCart(finHistoricalForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{finHistoricalForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{finHistoricalForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -560,7 +560,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Particulars Directors')" 
+                                                                    (change)="checker(partiDirOfficerForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -577,7 +577,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkPartiDirectors"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Particulars Directors')" 
+                                                                        (change)="checker(partiDirOfficerForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -592,10 +592,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Particulars Directors')">
+                                                        (click)="addCart(partiDirOfficerForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{partiDirOfficerForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{partiDirOfficerForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -680,7 +680,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Particular Shareholders')" 
+                                                                    (change)="checker(partiShareholderForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -697,7 +697,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkPartiShare"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Particular Shareholders')" 
+                                                                        (change)="checker(partiShareholderForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -712,10 +712,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Particular Shareholders')">
+                                                        (click)="addCart(partiShareholderForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{partiShareholderForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{partiShareholderForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -740,7 +740,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Particular Company Secretary')" 
+                                                                    (change)="checker(partiCompSecForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -757,7 +757,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkCompSec"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Particular Company Secretary')" 
+                                                                        (change)="checker(partiCompSecForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -772,10 +772,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Particular Company Secretary')">
+                                                        (click)="addCart(partiCompSecForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{partiCompSecForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{partiCompSecForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -800,7 +800,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Particular Registered Address')" 
+                                                                    (change)="checker(partiRegAddrForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -817,7 +817,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkPartiRegAddr"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Particular Registered Address')" 
+                                                                        (change)="checker(partiRegAddrForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -832,10 +832,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Particular Registered Address')">
+                                                        (click)="addCart(partiRegAddrForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{partiRegAddrForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{partiRegAddrForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -872,7 +872,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Business Profile')" 
+                                                                    (change)="checker(businessProfileForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -889,7 +889,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkBusinessProfile"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Business Profile')" 
+                                                                        (change)="checker(businessProfileForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -904,10 +904,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Business Profile')">
+                                                        (click)="addCart(businessProfileForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{businessProfileForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{businessProfileForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -932,7 +932,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Business Certificate')" 
+                                                                    (change)="checker(businessCertForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -949,7 +949,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkBusinessCert"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Business Certificate')" 
+                                                                        (change)="checker(businessCertForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -964,10 +964,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Business Certificate')">
+                                                        (click)="addCart(businessCertForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{businessCertForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{businessCertForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -992,7 +992,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Business Termination')" 
+                                                                    (change)="checker(businessTerminateForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -1009,7 +1009,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkBusinessTerminate"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Business Termination')" 
+                                                                        (change)="checker(businessTerminateForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -1024,10 +1024,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Business Termination')">
+                                                        (click)="addCart(businessTerminateForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{businessTerminateForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{businessTerminateForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -1064,7 +1064,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Audit Firm Profile')" 
+                                                                    (change)="checker(auditProfileForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -1081,7 +1081,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkAuditProfile"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Audit Firm Profile')" 
+                                                                        (change)="checker(auditProfileForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -1096,10 +1096,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Audit Firm Profile')">
+                                                        (click)="addCart(auditProfileForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{auditProfileForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{auditProfileForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
