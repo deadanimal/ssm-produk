@@ -13,7 +13,7 @@ RUN apt-get install -y build-essential python3-setuptools python3-wheel python3-
 # Install font
 RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 RUN apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
-ADD localfonts.conf /etc/fonts/local.conf
+# Refresh system font cache
 RUN fc-cache -f -v
 
 RUN mkdir ${CONFIG_ROOT}

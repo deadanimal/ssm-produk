@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://afeezaziz.ngrok.io/'
-  // baseUrl: 'https://ssm-product-api.pipe.my/',
+  // baseUrl: 'http://afeezaziz.ngrok.io/'
+  baseUrl: 'https://ssm-product-api.pipe.my/',
   // baseUrl: 'http://127.0.0.1:8000/'
 };
 
