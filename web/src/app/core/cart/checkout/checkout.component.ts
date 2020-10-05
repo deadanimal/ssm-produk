@@ -89,7 +89,7 @@ export class CheckoutComponent implements OnInit {
 
   getData() {
     this.loadingBar.useRef('http').start()
-    this.cartService.getOne('2210c8ea-ae65-480f-af82-5ee1c49b7e06').subscribe(
+    this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
         this.items = this.cartService.cart.cart_item

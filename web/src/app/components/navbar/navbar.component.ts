@@ -7,6 +7,8 @@ import { ProductsService } from 'src/app/shared/services/products/products.servi
 // auth service
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { Cart } from 'src/app/shared/services/carts/carts.model';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { User } from 'src/app/shared/services/users/users.model';
 
 @Component({
   selector: 'app-navbar',
@@ -19,27 +21,23 @@ export class NavbarComponent implements OnInit {
   imgAvatar = 'assets/img/default/avatar.png'
 
   // Checker
-  isCollapsed = true;
+  isCollapsed = true
   isEmpty: boolean = true
-  cartz: boolean = false;
-
-  // get data from auth service
-  egovPackage: string;
-  userType: string;
-  userID: string;
-  showIcondiv = false;
-  userdetails: any;
-  user_obj: any;
-  cart: any;
+  cartz: boolean = false
+  isAuthenticated = false
 
   cartItems: any[] = []
+
+  // Data
+  currentUser: User
 
   constructor(
     private router: Router,
     private cartService: CartsService,
     private productService: ProductsService,
     private authService: AuthService,
-    public cdRef: ChangeDetectorRef
+    public cdRef: ChangeDetectorRef,
+    private userService: UsersService
   ) {
     router.events.subscribe(
       (val) => {
@@ -47,8 +45,7 @@ export class NavbarComponent implements OnInit {
       }
     )
     this.cartz = this.productService.cart;
-    this.checkUser()
-    this.getData()
+    // this.getData()
   }
 
   ngOnInit() {
@@ -64,38 +61,36 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  getData() {
-    this.cartService.getOne('2210c8ea-ae65-480f-af82-5ee1c49b7e06').subscribe(
-      () => {
-        this.cartItems = this.cartService.cart.cart_item
-      },
-      () => {},
-      () => {
-        if (this.cartItems.length > 0) {
-          this.isEmpty = false
+  getData(choice) {
+    if (choice == '1') {
+      this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
+        () => {
+          this.cartService.cartCurrent = this.cartService.cart
+          this.cartItems = this.cartService.cart.cart_item
+        },
+        () => {},
+        () => {
+          if (this.cartItems.length > 0) {
+            this.isEmpty = false
+          }
         }
-      }
-    )
-  }
-
-  checkUser() {
-    if (this.authService.userType) {
-      this.userType = this.authService.userType
-      this.userID = this.authService.userID
-      console.log('User type: ', this.userType)
-      console.log('User id: ', this.userID)
+      )
+    } 
+    else {
+      this.cartService.getOne(this.cartService.cartsFiltered[0].id).subscribe(
+        () => {
+          this.cartService.cartCurrent = this.cartService.cart
+          this.cartItems = this.cartService.cart.cart_item
+        },
+        () => {},
+        () => {
+          if (this.cartItems.length > 0) {
+            this.isEmpty = false
+          }
+        }
+      )
     }
-  }
-
-  checkChanges() {
-    this.userType = this.authService.userType;
-    this.userID = this.authService.userID;
-    if (this.userType == 'EG') {
-      this.imgAvatar = 'assets/img/faces/christian.jpg';
-    } else {
-      this.imgAvatar = 'assets/img/default/avatar.png';
-    }
-    this.cdRef.detectChanges();
+    
   }
 
   mobileView() {
@@ -103,6 +98,43 @@ export class NavbarComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  userLogin() {
+    let userId = 'cd64567d-b88d-460c-a661-1d1e7305d876'
+    this.userService.getOne(userId).subscribe(
+      (res: any) => {
+        this.currentUser = this.userService.currentUser
+        this.isAuthenticated = true
+      },
+      () => {},
+      () => {
+        this.checkCart()
+      }
+    )
+  }
+
+  checkCart() {
+    let field = 'user=' + this.userService.currentUser.id + '&cart_status=CR'
+    this.cartService.filter(field).subscribe(
+      (res) => {
+        // if 
+        if (res.length == 0) {
+          let body = {
+            'user': this.userService.currentUser.id,
+            'cart_status': 'CR'
+          }
+          this.cartService.create(body).subscribe(
+            () => {
+              this.getData('1')
+            }
+          )
+        }
+        else {
+          this.getData('2')
+        }
+      }
+    )
   }
 
   navigatePage(path: string) {

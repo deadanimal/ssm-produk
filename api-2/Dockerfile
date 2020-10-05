@@ -10,6 +10,12 @@ RUN apt-get install -y libpq-dev libjpeg62 libjpeg62-dev
 RUN apt-get install -y mysql-server libmysqlclient-dev
 RUN apt-get install -y build-essential python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
 
+# Install font
+RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+RUN apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
+ADD localfonts.conf /etc/fonts/local.conf
+RUN fc-cache -f -v
+
 RUN mkdir ${CONFIG_ROOT}
 COPY requirements.txt ${CONFIG_ROOT}/requirements.txt
 RUN pip3 install -r ${CONFIG_ROOT}/requirements.txt

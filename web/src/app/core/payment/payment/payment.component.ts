@@ -17,6 +17,8 @@ import swal from 'sweetalert2';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { User } from 'src/app/shared/services/users/users.model';
 
+import { environment } from 'src/environments/environment';
+ 
 class PGInformation {
   transactionType: string
   paymentMethod: string
@@ -73,16 +75,16 @@ export class PaymentComponent implements OnInit {
     })
 
     this.billingForm = this.fb.group({
-      name: new FormControl('', Validators.required),
-      email_address: new FormControl('', Validators.required),
-      phone_number: new FormControl('', Validators.required),
-      address1: new FormControl('', Validators.required),
-      address2: new FormControl('', Validators.required),
-      address3: new FormControl('', Validators.required),
-      postcode: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      state: new FormControl('', Validators.required),
-      country: new FormControl('', Validators.required),
+      name: new FormControl('Amin Redzuan', Validators.required),
+      email_address: new FormControl('aminredzuan@gmail.com', Validators.required),
+      phone_number: new FormControl('0176866182', Validators.required),
+      address1: new FormControl('Address 1', Validators.required),
+      address2: new FormControl('Address 2', Validators.required),
+      address3: new FormControl('Address 3', Validators.required),
+      postcode: new FormControl('41200', Validators.required),
+      city: new FormControl('Petaling Jaya', Validators.required),
+      state: new FormControl('Selangor', Validators.required),
+      country: new FormControl('Malaysia', Validators.required),
       ip: new FormControl('', Validators.required),
       cart: new FormControl('', Validators.required),
       total_amount: new FormControl(0)
@@ -129,7 +131,8 @@ export class PaymentComponent implements OnInit {
       }
     )
   }
-
+  // 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/',
+  // 'http://afeezaziz.ngrok.io/v1/transactions/pg_return/'
   encode(paymentID) {
     // console.log('asd')
     // console.log(paymentID)
@@ -141,7 +144,7 @@ export class PaymentComponent implements OnInit {
       orderNumber: 'OrderNumber',
       paymentDesc: 'PaymentDescription',
       merchantName: 'SSM',
-      merchantReturnUrl: 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/',
+      merchantReturnUrl: environment.baseUrl + 'v1/transactions/pg_return/',
       amount: ((this.cartService.cart.total_price_before_tax/100).toFixed(2)).toString(),
       currencyCode: 'MYR',
       custIP: this.clientIP.ip,

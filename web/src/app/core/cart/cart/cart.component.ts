@@ -91,7 +91,7 @@ export class CartComponent implements OnInit {
 
   getData() {
     this.loadingBar.useRef('http').start()
-    this.cartService.getOne('2210c8ea-ae65-480f-af82-5ee1c49b7e06').subscribe(
+    this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
         this.items = this.cartService.cart.cart_item
@@ -132,7 +132,7 @@ export class CartComponent implements OnInit {
     let body = {
       'total_price_before_tax': this.total
     }
-    this.cartService.updatePrice('2210c8ea-ae65-480f-af82-5ee1c49b7e06', body).subscribe()
+    this.cartService.updatePrice(this.cartService.cartCurrent.id, body).subscribe()
   }
 
   removeItem(id: string) {
@@ -140,7 +140,7 @@ export class CartComponent implements OnInit {
     let body = {
       "cart_item_id": id
     }
-    this.cartService.removeItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', body).subscribe(
+    this.cartService.removeItem(this.cartService.cartCurrent.id, body).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
       },

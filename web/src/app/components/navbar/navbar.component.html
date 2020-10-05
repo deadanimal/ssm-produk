@@ -36,103 +36,7 @@
 					</a>
 				</li>
 
-				<!-- <li class="nav-item dropdown">
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
-						<i class="ni ni-app d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Landing</span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
-						<a class="dropdown-item" (click)="navigatePage('/landing')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 1
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing2')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 2
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing3')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 3
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/landing4')">
-							<i class="ni ni-album-2 text-danger"> </i> Landing 4
-						</a>
-					</div>
-				</li> -->
-				<!-- <li class="nav-item dropdown">
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
-						<i class="ni ni-single-copy-04 d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Modules </span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
-						<a class="dropdown-item" (click)="navigatePage('/egov')">
-							<i class="ni ni-align-center text-info"> </i> eGovernment
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/cbid')">
-							<i class="ni ni-align-center text-info"> </i> CBID
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/dashboard')">
-							<i class="ni ni-align-center text-info"> </i> Dashboard
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/enquiry')">
-							<i class="ni ni-align-center text-info"> </i> Enquiry
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/products/search-custom-data')">
-							<i class="ni ni-align-center text-info"> </i> Customized Data
-						</a>
-					</div>
-				</li> -->
-
-				<!-- <li class="nav-item dropdown">
-					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
-						<i class="ni ni-tablet-button d-lg-none"> </i>
-						<span class="nav-link-inner--text"> Pages </span>
-					</a>
-					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
-						<a class="dropdown-item" (click)="navigatePage('/about')">
-							About SSM Product
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/faq')">
-							FAQ
-						</a>
-
-						<a class="dropdown-item" (click)="navigatePage('/product-listing')">
-							Product Listing
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/cart')">
-							Cart
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/checkout')">
-							Checkout
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/payment')">
-							Payment
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/receipt')">
-							Invoice
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/orders')">
-							Orders
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/notifications')">
-							Notifications
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/transactions')">
-							Transactions
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/personal-involvement')">
-							Personal Involvement
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/profile')">
-							Profile
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/shares-directors')">
-							Shares & Directors
-						</a>
-						<a class="dropdown-item" (click)="navigatePage('/payment')">
-							Payment
-						</a>
-					</div>
-				</li> -->
-
-				<a class="nav-link cursor-pointer" (click)="navigatePage('profile3')">
+				<a class="nav-link cursor-pointer" (click)="navigatePage('profile3')" *ngIf="isAuthenticated">
 					My Orders
 				</a>
 				
@@ -140,7 +44,8 @@
 					<input type="checkbox" checked="" />
 					<span class="custom-toggle-slider rounded-circle" data-label-off="BM" data-label-on="EN"></span>
 				</label>
-				<li class="nav-item dropdown">
+
+				<li class="nav-item dropdown" *ngIf="isAuthenticated">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
 						<i class="fas fa-bell"></i>
 					</a>
@@ -201,6 +106,7 @@
 					(mouseenter)="getData()"
 					(mouseover)="getData()"
 					(click)="getData()"
+					*ngIf="isAuthenticated"
 				>
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
 						<i class="fas fa-shopping-cart"></i>
@@ -305,7 +211,7 @@
 					</div>
 				</li>
 
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown" *ngIf="isAuthenticated">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
 						<span class="avatar avatar-xs rounded-circle">
 							<img alt="Image placeholder" [src]="imgAvatar" />
@@ -322,6 +228,21 @@
 							<i class="fas fa-sign-out-alt fa-fw"></i>
 							<span>Logout</span>
 						</a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown" *ngIf="!isAuthenticated">
+					<a class="nav-link" data-toggle="dropdown" href="javascript:;" role="button">
+						<i class="ni ni-tablet-button d-lg-none"> </i>
+						<span class="nav-link-inner--text"> Login </span>
+					</a>
+					<div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
+						<a class="dropdown-item" (click)="userLogin()">
+							As Public
+						</a>
+						<!-- <a class="dropdown-item" (click)="navigatePage('/faq')">
+							As eGovernment
+						</a> -->
 					</div>
 				</li>
 			</ul>

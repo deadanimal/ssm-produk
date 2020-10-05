@@ -620,7 +620,7 @@
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
-                                                                    (change)="checker('Particular Share Capital')" 
+                                                                    (change)="checker(partiShareCapForm)" 
                                                                 >
                                                                     <option value="MS" selected>BM</option>
                                                                     <option value="EN">EN</option>
@@ -637,7 +637,7 @@
                                                                         class="custom-control-input"
                                                                         id="checkPartiShareCapital"
                                                                         formControlName="isCtc"
-                                                                        (change)="checker('Particular Share Capital')" 
+                                                                        (change)="checker(partiShareCapForm)" 
                                                                     />
                                                                     <label 
                                                                         class="custom-control-label text-dark"
@@ -652,10 +652,10 @@
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart('Particular Share Capital')">
+                                                        (click)="addCart(partiShareCapForm)">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{partiShareCapForm.value['price'] | number : '1.2-2'}}
+                                                            RM{{partiShareCapForm.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
@@ -894,7 +894,7 @@
                                                                     <label 
                                                                         class="custom-control-label text-dark"
                                                                         for="checkBusinessProfile">
-                                                                        CTC (RM10.00)
+                                                                        CTC (RM5.00)
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -954,7 +954,7 @@
                                                                     <label 
                                                                         class="custom-control-label text-dark"
                                                                         for="checkBusinessCert">
-                                                                        CTC (RM10.00)
+                                                                        CTC (RM5.00)
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -1014,7 +1014,7 @@
                                                                     <label 
                                                                         class="custom-control-label text-dark"
                                                                         for="checkBusinessTerminate">
-                                                                        CTC (RM10.00)
+                                                                        CTC (RM5.00)
                                                                     </label>
                                                                 </div>
                                                             </div>

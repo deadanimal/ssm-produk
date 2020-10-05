@@ -163,7 +163,7 @@ export class CbidSearchComponent implements OnInit {
         this.serviceService.requestService(this.requestForm.value).subscribe(
           (res) => {
             this.cartForm.controls['service_request_id'].setValue(res.id)
-            this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
+            this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
               () => {},
               () => {
                 this.loadingBar.useRef('http').complete()
