@@ -155,7 +155,7 @@ export class ProductSearchResultComponent implements OnInit {
       name: new FormControl('Cert Incorp'),
       language: new FormControl('MS'),
       isCtc: new FormControl(false),
-      price: new FormControl(10.00)
+      price: new FormControl(20.00)
     })
 
     this.certChangeNameForm = this.fb.group({
@@ -454,6 +454,20 @@ export class ProductSearchResultComponent implements OnInit {
         this.cartForm.controls['product'].setValue('a7298fdf-2372-4677-b5c4-6a8e57f3369b')
       }
     }
+    else if (product == 'Certificate of Incorporation') {
+      if (this.certIncorpForm.value['language'] == 'MS' && this.certIncorpForm.value['isCtc'] == false) {
+        this.cartForm.controls['product'].setValue('436f3d72-dc34-45e7-8775-21b258411db1')
+      }
+      else if (this.certIncorpForm.value['language'] == 'EN' && this.certIncorpForm.value['isCtc'] == false) {
+        this.cartForm.controls['product'].setValue('4b922d05-a626-48ac-a8d2-8f450bf8697e')
+      }
+      else if (this.certIncorpForm.value['language'] == 'MS' && this.certIncorpForm.value['isCtc'] == true) {
+        this.cartForm.controls['product'].setValue('5561f5ec-6ca0-492d-827b-2b36114c4606')
+      }
+      else if (this.certIncorpForm.value['language'] == 'EN' && this.certIncorpForm.value['isCtc'] == true) {
+        this.cartForm.controls['product'].setValue('63638688-830d-4750-bd17-5157f8dc4a96')
+      }
+    }
 
     this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
       () => {
@@ -642,21 +656,22 @@ export class ProductSearchResultComponent implements OnInit {
         }
       }
     }
-    else if (product == 'Cert Incorp') {
+    else if (product == 'Certificate of Incorporation') {
+      console.log('Certificate of Incorporation')
       if (this.certIncorpForm.value['isCtc']) {
+        if (this.certIncorpForm.value['language'] == 'BT') {
+          this.certIncorpForm.controls['price'].setValue(60)
+        }
+        else {
+          this.certIncorpForm.controls['price'].setValue(30)
+        }
+      }
+      else {
         if (this.certIncorpForm.value['language'] == 'BT') {
           this.certIncorpForm.controls['price'].setValue(40)
         }
         else {
           this.certIncorpForm.controls['price'].setValue(20)
-        }
-      }
-      else {
-        if (this.certIncorpForm.value['language'] == 'BT') {
-          this.certIncorpForm.controls['price'].setValue(20)
-        }
-        else {
-          this.certIncorpForm.controls['price'].setValue(10)
         }
       }
     }
