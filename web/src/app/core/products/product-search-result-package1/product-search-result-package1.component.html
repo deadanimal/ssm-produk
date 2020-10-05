@@ -1,0 +1,543 @@
+
+<div class="wrapper">
+    <div class="cd-section">
+        <div class="section features-7">
+            <div class="container mt-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button
+                        class="btn btn-secondary btn-block"
+                        (click)="goBack()">
+                        Back
+                      </button>
+                    </div>
+                    <div class="col-md-10">
+                        <h4 class="display-3">
+                            <div *ngIf="entity.type_of_entity == 'AD'">
+                                Audit Firm Information
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'BS'">
+                                Business Information
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'CP'">
+                                Company Information
+                            </div>                            
+                        </h4>
+                        <h5 class="m-0">
+                            Entity name:
+                            <div *ngIf="entity.type_of_entity == 'AD'">
+                                {{ entity.audit_firm_number }} / {{entity.name}}
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'BS'">
+                                {{ entity.registration_number_new }}
+                                ({{ entity.registration_number }}-{{ entity.check_digit }}) /
+                                {{entity.name}}
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'CP'">
+                                {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
+                                {{entity.name}}
+                            </div>
+                        </h5>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="entity_data && entity.type_of_entity == 'CP'">
+
+
+    <div class="row">
+
+        <div class="col">
+            <label>Company Name</label>
+            <p>{{ entity_data['company_info']['companyName']}}</p>
+        </div>    
+
+        <div class="col">
+            <label>Last Old Name</label>
+            <p *ngIf="entity_data['company_info']['companyOldName']">{{ entity_data['company_info']['companyOldName']}}</p>
+            <p *ngIf="!entity_data['company_info']['companyOldName']">NIL</p>
+        </div>          
+
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+            <label>Date of Change</label>
+            <p *ngIf="entity_data['company_info']['dateOfChange']">{{ entity_data['company_info']['dateOfChange']}}</p>
+            <p *ngIf="!entity_data['company_info']['dateOfChange']">NIL</p>
+        </div>    
+
+        <div class="col">
+            <label>Company Number</label>
+            <p>{{ entity_data['company_info']['companyNo'] }}-{{ entity_data['company_info']['checkDigit']}}</p>
+        </div>          
+
+    </div>    
+
+    <div class="row">
+
+        <div class="col">
+            <label>Incorporation Date</label>
+            <p>{{ entity_data['incorp_date']}}</p>
+        </div>    
+
+        <div class="col">
+            <label>Type</label>
+            <p *ngIf="entity_data['company_info']['companyType'] =='B'">
+                LIMITED BY SHARE AND GUARANTEE
+            </p>
+            <p *ngIf="entity_data['company_info']['companyType'] =='G'">
+                LIMITED BY GUARANTEE
+            </p>
+            <p *ngIf="entity_data['company_info']['companyType'] =='S'">
+                LIMITED BY SHARES
+            </p>
+            <p *ngIf="entity_data['company_info']['companyType'] =='U'">
+                UNLIMITED
+            </p>
+            <p *ngIf="entity_data['company_info']['companyStatus'] =='R'">
+                PRIVATE LIMITED
+            </p>
+            <p *ngIf="entity_data['company_info']['companyStatus'] =='U'">
+                PUBLIC LIMITED
+            </p>
+        </div>
+
+    </div>    
+
+    <div class="row">
+
+        <div class="col">
+            <label>Status</label>
+            <p>{{ entity_data['company_info']['statusOfCompany']}}</p>
+        </div>    
+
+        <div class="col">
+            <label>Origin</label>
+            <p>{{ entity_data['company_info']['companyCountry']}}</p>
+        </div>
+
+    </div>   
+    
+    <div class="row">
+
+        <div class="col">
+            <label>Registered Address</label>
+            <p>-</p>
+        </div>    
+
+    </div>    
+
+    <div class="row">
+
+        <div class="col">
+            <label>Business Address</label>
+            <p>-</p>
+        </div>    
+
+    </div>   
+    
+    <div class="row">
+
+        <div class="col">
+            <label>Remarks</label>
+            <p>-</p>
+        </div>    
+
+    </div>      
+    
+    <h2 class="font-weight-bold text-center"><u> SUMMARY OF SHARE CAPITAL </u></h2>
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <thead>
+                <tr>
+                    <th style="width:34%; border: 0;"></th>
+                    <th style="width:33%; border: 0;"></th>
+                    <th style="width:33%; border: 0;"></th> 
+                </tr>                
+            </thead>
+            <tbody>
+              
+
+                <tr>
+                    <td><p id="secondary">TOTAL ISSUED (RM) {{entity_data['total_issued'] | number:'1.2-2'}}</p></td>
+                    <td></td>
+                    <td></td>
+                </tr>    
+                <tr>
+                    <td></td>
+                    <td><p id="secondary"><b>CASH</b></p></td>
+                    <td><p id="secondary"><b>OTHERWISE THAN CASH</b></p></td>
+                </tr>    
+                <tr>
+                    <td><p id="secondary">ORDINARY</p></td>
+                    <td><p id="secondary">{{ entity_data['ordinary_issue_cash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary">{{ entity_data['ordinary_issue_noncash'] | number:'1.2-2'}}</p></td>
+                </tr>
+                <tr>
+                    <td><p id="secondary">PREFERENCE</p></td>
+                    <td><p id="secondary">{{ entity_data['preference_issue_cash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary">{{ entity_data['preference_issue_noncash'] | number:'1.2-2'}}</p></td>
+                </tr>
+                <tr>
+                    <td><p id="secondary">OTHERS</p></td>
+                    <td><p id="secondary">{{ entity_data['others_issue_cash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary">{{ entity_data['others_issue_noncash'] | number:'1.2-2'}}</p></td>
+                </tr>                                                                                                                       
+              
+
+      
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="font-weight-bold text-center"><u> DIRECTORS / OFFICERS </u></h2>
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <thead>
+                <tr>
+                    <th style="width:38%; border: 0;"><p id="secondary">NAME / ADDRESS</p></th>
+                    <th style="width:20%; border: 0;"><p id="secondary">IC / PASSPORT</p></th>
+                    <th style="width:20%; border: 0;"><p id="secondary">DESIGNATION</p></th>
+                    <th style="width:22%; border: 0;"><p id="secondary">DATE OF APPOINTMENT</p></th>
+                </tr>                
+            </thead>
+            <tbody>
+              
+
+                <tr *ngFor="let officer of entity_data['officer_info']">
+                    <td><p id="secondary">
+                        {{ officer.name }}<br>
+                        {{ officer.address1 }}<br>
+                        {{ officer.address2 }}<br>
+                        {{ officer.address3 }}<br>
+                        {{ officer.postcode }} {{ officer.town }}<br>
+                        {{ officer.state }}
+                    </p></td>
+                    <td><p id="secondary">{{ officer.idNo }}</p></td>
+                    <td><p id="secondary">{{ officer.designationCode }}</p></td>
+                    <td><p id="secondary">{{ officer.startDate }}</p></td>
+                </tr>   
+                                                                                                           
+              
+
+      
+            </tbody>
+        </table>
+    </div>      
+
+    <h2 class="font-weight-bold text-center"><u> SHAREHOLDERS / MEMBERS </u></h2>
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <thead>
+                <tr>
+                    <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
+                    <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
+                    <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let shareholder of entity_data['shareholders_data']">
+                    <td><p id="secondary">{{ shareholder.id }}</p></td>
+                    <td><p id="secondary">{{ shareholder.name }}</p></td>
+                    <td><p id="secondary" class="text-right">{{ shareholder.share | number:'1.2-2' }}</p></td>
+                </tr>                                                                                                                           
+      
+            </tbody>
+        </table>
+    </div>     
+
+</div>
+
+<div class="container" *ngIf="entity_data && entity.type_of_entity == 'BS'">
+    
+    <h3 class="font-weight-bold text-center">*** BUSINESS INFORMATION ***</h3>
+
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <tbody>
+                <tr>
+                    <td>
+                        <p id="secondary">NAME</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.registrationName}}</p>
+                    </td>                            
+                </tr>
+                <tr>
+                    <td>
+                        <p id="secondary">REGISTRATION NO.</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.registrationNo}}</p>
+                    </td>                            
+                </tr> 
+                <tr>       
+                    <td>
+                        <p id="secondary">PRINCIPLE PLACE OF BUSINESSS</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="mb-0">: {{entity_data.bizInfo.address_1}} </p>
+                        <p id="secondary" class="my-0">: {{entity_data.bizInfo.address_2}} </p>
+                        <p id="secondary" class="my-0">: {{entity_data.bizInfo.address_3}} </p>
+                        <p id="secondary" class="my-0">: {{entity_data.bizInfo.postcode}}, {{entity_data.bizInfo.town}}  </p>
+                        <p id="secondary" class="my-0">: {{entity_data.bizInfo.state}} </p>
+                    </td>                            
+                </tr>         
+                <tr>       
+                    <td>
+                        <p id="secondary">BUSINESS OWNERSHIP</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="my-0">: {{entity_data.bizInfo.bizOwnership}} </p>
+                    </td>                            
+                </tr>         
+                <tr>       
+                    <td>
+                        <p id="secondary">BUSINESS START DATE</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.bizStartDate}}</p>
+                    </td>                            
+                </tr>       
+                <tr>       
+                    <td>
+                        <p id="secondary">REGISTRATION DATE</p></td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.regDate}}</p>
+                    </td>                            
+                </tr>     
+                <tr>       
+                    <td>
+                        <p id="secondary">BUSINESS EXPIRY DATE</p></td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.endBusinessDate}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">LAST AMMENDMENT DATE</p></td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.ammendmentDate}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">STATUS</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{entity_data.bizInfo.status}}</p>
+                    </td>
+                        
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 class="font-weight-bold text-center mt-5">*** BUSINESS TYPE ****</h3>
+    <p id="secondary">{{entity_data.bizType.description}}</p>
+
+    <h3 class="font-weight-bold text-center mt-5">*** BRANCH INFORMATION ****</h3>
+    <p id="secondary" class="text-center">*** NO BRANCH ***</p>
+    
+    <h3 class="font-weight-bold text-center pg-break">*** INFORMATION OF CURRENT OWNER ****</h3>
+    <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
+    <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
+
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <tbody>
+                <div *ngFor="let current of entity_data.ownerCurrentInfo">
+                <tr>
+                    <td>
+                        <p id="secondary">NAME</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{current.name}}</p>
+                    </td>                            
+                </tr>
+                <tr>       
+                    <td>
+                        <p id="secondary">RESIDENTIAL ADDRESS</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="mb-0">: {{current.address_1}} </p>
+                        <p id="secondary" class="my-0">: {{current.address_2}} </p>
+                        <p id="secondary" class="my-0">: {{current.address_3}} </p>
+                        <p id="secondary" class="my-0">: {{current.postcode}}, {{current.town}}  </p>
+                        <p id="secondary" class="my-0">: {{current.state}} </p>
+                    </td>                            
+                </tr>         
+                <tr>       
+                    <td>
+                        <p id="secondary">IC (OLD)</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="my-0">: {{current.icNoOld}} </p>
+                    </td>                            
+                </tr> 
+                <tr>       
+                    <td>
+                        <p id="secondary">IC (NEW)</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="my-0">: {{current.icNoNew}} </p>
+                    </td>                            
+                </tr>        
+                <tr>       
+                    <td>
+                        <p id="secondary">DATE OF BIRTH</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{current.birthDate}}</p>
+                    </td>                            
+                </tr>       
+                <tr>       
+                    <td>
+                        <p id="secondary">RACE</p></td>
+                    <td>
+                        <p id="secondary">: {{current.race}}</p>
+                    </td>                            
+                </tr>     
+                <tr>       
+                    <td>
+                        <p id="secondary">GENDER</p></td>
+                    <td>
+                        <p id="secondary">: {{current.gender}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">NATIONALITY</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{current.nationality}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">DATE OF ENTRY</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{current.entryDate}}</p>
+                    </td>
+                        
+                </tr>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="font-weight-bold text-center pg-break">*** PREVIOUS DIRECTORS/OFFICERS ****</h3>
+    <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
+    <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
+
+    <div class="table-responsive">
+        <table class="table text-left borderless">
+            <tbody>
+                <div *ngFor="let previous of entity_data.ownerPreviousInfo">
+                <tr>
+                    <td>
+                        <p id="secondary">NAME</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.name}}</p>
+                    </td>                            
+                </tr>
+                <tr>       
+                    <td>
+                        <p id="secondary">RESIDENTIAL ADDRESS</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="mb-0">: {{previous.address_1}} </p>
+                        <p id="secondary" class="my-0">: {{previous.address_2}} </p>
+                        <p id="secondary" class="my-0">: {{previous.address_3}} </p>
+                        <p id="secondary" class="my-0">: {{previous.postcode}}, {{previous.town}}  </p>
+                        <p id="secondary" class="my-0">: {{previous.state}} </p>
+                    </td>                            
+                </tr>         
+                <tr>       
+                    <td>
+                        <p id="secondary">IC (OLD)</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="my-0">: {{previous.icNoOld}} </p>
+                    </td>                            
+                </tr> 
+                <tr>       
+                    <td>
+                        <p id="secondary">IC (NEW)</p>
+                    </td>
+                    <td>
+                        <p id="secondary" class="my-0">: {{previous.icNoNew}} </p>
+                    </td>                            
+                </tr>        
+                <tr>       
+                    <td>
+                        <p id="secondary">DATE OF BIRTH</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.birthDate}}</p>
+                    </td>                            
+                </tr>       
+                <tr>       
+                    <td>
+                        <p id="secondary">RACE</p></td>
+                    <td>
+                        <p id="secondary">: {{previous.race}}</p>
+                    </td>                            
+                </tr>     
+                <tr>       
+                    <td>
+                        <p id="secondary">GENDER</p></td>
+                    <td>
+                        <p id="secondary">: {{previous.gender}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">NATIONALITY</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.nationality}}</p>
+                    </td>                            
+                </tr>   
+                <tr>       
+                    <td>
+                        <p id="secondary">DATE OF ENTRY</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.entryDate}}</p>
+                    </td>
+                </tr>
+                <tr>       
+                    <td>
+                        <p id="secondary">DATE OF WITHDRAWAL</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.withdrawDate}}</p>
+                    </td>
+
+                </tr>
+                <tr>       
+                    <td>
+                        <p id="secondary">REASON OF WITHDRAWAL</p>
+                    </td>
+                    <td>
+                        <p id="secondary">: {{previous.ammendmentType}}</p>
+                    </td> 
+                </tr>
+                </div>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<ngx-spinner></ngx-spinner>
+
