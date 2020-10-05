@@ -5,6 +5,7 @@ import { Form } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Transaction } from './transactions.model';
+import { UsersService } from '../users/users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class TransactionsService {
   public encodedData: any
   public transactionLatest: any
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UsersService) {}
 
   create(body: Form): Observable<any> {
     return this.http.post<any>(this.urlTransactions, body).pipe(
@@ -43,11 +44,11 @@ export class TransactionsService {
   }
 
   getLatest(): Observable<any> {
-    let urlTemp = this.urlTransactions + ''
+    let urlTemp = this.urlTransactions + 'latest_successful/?user=' + this.userService.currentUser.id
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
         this.transactionLatest = res
-        console.log('Lates: ', this.transactionLatest)
+        console.log('Latest: ', this.transactionLatest)
       })
     )
   }
@@ -110,4 +111,5 @@ export class TransactionsService {
       })
     )
   }
+
 }

@@ -269,7 +269,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
     }).then((res) => {
       if (res) {
         // Confirm
-        this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.quotaForm.value).subscribe(
+        this.cartService.addItem(this.cartService.cartCurrent.id, this.quotaForm.value).subscribe(
           () => {
             let title = 'Success'
             let message = 'Item is added to the cart'
@@ -336,7 +336,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
       },
       () => {},
       () => {
-        this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
+        this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
           () => {
             let title = 'Success'
             let message = 'Item is added to the cart'
