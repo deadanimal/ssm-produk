@@ -17,7 +17,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { RouterModule } from '@angular/router';
 import { CoreRoutes } from './core.routing';
 
-import { OrdersComponent } from './orders/orders.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
@@ -73,7 +72,6 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
   declarations: [
     CartComponent,
     CheckoutComponent,
-    OrdersComponent,
     TransactionsComponent,
     NotificationsComponent,
 
