@@ -53,6 +53,8 @@ class Transaction(models.Model):
 
     payment_gateway_order_id = models.IntegerField(default=0)
 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 

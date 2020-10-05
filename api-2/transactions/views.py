@@ -28,6 +28,8 @@ from .serializers import (
     TransactionExtendedSerializer
 )
 
+from carts.models import Cart
+
 class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
@@ -68,21 +70,34 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         transaction_status = request.POST.get("TxnStatus", "")[0]
         transaction = Transaction.objects.filter(reference_no=transaction_id).first()
 
+        print('\n')
+        print(transaction.cart)
+        cart = Cart.objects.filter(id=transaction.cart.id).first()
+        print(cart.cart_status)
+
         # transaction 0 - successful
         if transaction_status == '0':
             transaction.payment_status = 'OK'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.save()
+
+            cart.cart_status = 'CM'
+            cart.save()
+            
         # transaction 1 - failed
         elif transaction_status == '1':
             transaction.payment_status = 'FL'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.save()
+
+            cart.cart_status = 'AB'
+            cart.save()            
         # transaction 2 - pending
         elif transaction_status == '2':
             transaction.payment_status = 'PD'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.save()
+            
     
 
         url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + transaction_id
@@ -139,7 +154,9 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(methods=['GET'], detail=False)
-    def latest_successful(self, request, *args, **kwargs):  
+    def latest_successful(self, request, *args, **kwargs): 
+
+        user_id = request.GET.get('user', '') 
 
         delta = datetime.timedelta(days=7)      
         current_time = datetime.datetime.now()
@@ -147,11 +164,12 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         all_latest_successful_transactions = Transaction.objects.filter(
             payment_status='OK',
-            payment_gateway_update_date__lte=current_time,
-            payment_gateway_update_date__gte=date_filter
+            payment_gateway_update_date__gte=date_filter,
+            cart__cart_status='CM', 
+            cart__user_id=user_id,
         ).all()
 
-        serializer = TransactionSerializer(all_latest_successful_transactions, many=True)
+        serializer = TransactionExtendedSerializer(all_latest_successful_transactions, many=True)
         return Response(serializer.data)
 
 

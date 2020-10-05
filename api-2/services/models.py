@@ -75,6 +75,8 @@ class ServiceRequest(models.Model):
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True)
 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 

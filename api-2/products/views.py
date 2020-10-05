@@ -438,7 +438,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_info_acgs(information_url, request_headers, registration_, entity_type_)
             data_loaded = acgs(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'private_incorp_cert':
+        elif name_ == 'certificate_of_incorporation_registration':
             middleware_data = get_cert_incorp(information_url, request_headers, registration_)
             data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
 
@@ -454,7 +454,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_cert_reg_foreign(information_url, request_headers, registration_)
             data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'private_change_name':
+        elif name_ == 'certificate_of_change_of_name':
             middleware_data = get_info_comp_name_chg(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 
@@ -462,7 +462,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_cert_conversion(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'financial_history':
+        elif name_ == 'financial_historical':
             year1 = product_request_json['year1']
             year2 = product_request_json['year2']
             middleware_data_year1 = get_info_hist2(information_url, request_headers, registration_, entity_type_, year1)
@@ -510,19 +510,19 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
             data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'particular_directors':
+        elif name_ == 'particulars_of_directors_officers':
             middleware_data = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
             data_loaded = roc_business_officers(middleware_data, new_entity_id, language_)  
 
-        elif name_ == 'particular_registered_address':
+        elif name_ == 'particulars_of_registered_address':
             middleware_data = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
             data_loaded = particular_address(middleware_data, new_entity_id, language_)  
 
-        elif name_ == 'particular_shareholders':
+        elif name_ == 'particulars_of_shareholders':
             middleware_data = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
             data_loaded = particular_shareholders(middleware_data, new_entity_id, language_)  
 
-        elif name_ == 'particular_sharecapital':
+        elif name_ == 'particulars_of_share_capital':
             middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
             data_loaded = particular_sharecapital(middleware_data, new_entity_id, language_)  
 
@@ -535,15 +535,15 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_biz_profile(information_url, request_headers, registration_)
             data_loaded = biz_profile(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'particular_cosec':
+        elif name_ == 'particulars_of_company_secretary':
             middleware_data = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
             data_loaded = particular_cosec(middleware_data, new_entity_id, language_)  
 
-        elif name_ == 'particular_audit_firm':
+        elif name_ == 'audit_firm_profile':
             middleware_data = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
             data_loaded = particular_audit_firm(middleware_data, new_entity_id, language_)  
 
-        elif name_ == 'btl':
+        elif name_ == 'business_termination_letter':
             middleware_data = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
             data_loaded = info_rob_termination(middleware_data, new_entity_id, language_, entity_type_)
 
@@ -657,14 +657,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                 
             elif package_ == 'B':
-                pass
-            elif package_ == 'C':
-                pass
-            elif package_ == 'D':
-                pass
-        elif name_ == 'excel':
 
-            middleware_data = get_comp_listing_a(listing_url, request_headers, 
+                middleware_data = get_comp_listing_b(listing_url, request_headers, 
                     a_['bizCode'], 
                     a_['compLocation'], 
                     a_['compOrigin'], 
@@ -672,77 +666,182 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     a_['compType'], 
                     a_['incorpDtFrom'], 
                     a_['incorpDtTo'], 
-                    1) 
-            output = io.BytesIO()
+                    1,
+                    a_['directorNat'],
+                    a_['shareholderNat'])     
+
+                data_ = middleware_data
+                return Response(data_)   
+
+            elif package_ == 'C':
+                pass
+            elif package_ == 'D':
+                pass
+        elif name_ == 'excel':
+            if package_ == 'A':
+
+                middleware_data = get_comp_listing_a(listing_url, request_headers, 
+                        a_['bizCode'], 
+                        a_['compLocation'], 
+                        a_['compOrigin'], 
+                        a_['compStatus'], 
+                        a_['compType'], 
+                        a_['incorpDtFrom'], 
+                        a_['incorpDtTo'], 
+                        1) 
+                output = io.BytesIO()
  
-            workbook = xlsxwriter.Workbook(output)
-            #worksheet1 = workbook.add_worksheet('OVERVIEW')
-            worksheet2 = workbook.add_worksheet('COMPANY INFORMATION')
+                workbook = xlsxwriter.Workbook(output)
+                worksheet2 = workbook.add_worksheet('COMPANY INFORMATION')
 
-            data2 = [["No.","Company No.","Company Name","Old Company Name","Entity Type","Company Type","Company Status","Incorp. Date"]]
-            count = 1
+                data2 = [["No.","Company No.","Company Name","Old Company Name","Entity Type","Company Type","Company Status","Incorp. Date"]]
+                count = 1
 
-            for co in middleware_data['company']:
-                count += 1
-                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["compInfo"]["compOldNm"], "LOCAL", comp_type_mapping(co["compInfo"]["compType"], 'en'), status_of_comp_mapping(co["compInfo"]["compStatus"]), co["compInfo"]["incorpDt"] ]
-                data2.append(new_row)
+                for co in middleware_data['company']:
+                    count += 1
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["compInfo"]["compOldNm"], "LOCAL", comp_type_mapping(co["compInfo"]["compType"], 'en'), status_of_comp_mapping(co["compInfo"]["compStatus"]), co["compInfo"]["incorpDt"] ]
+                    data2.append(new_row)
 
-            for row_num, columns in enumerate(data2):
-                for col_num, cell_data in enumerate(columns):
-                    worksheet2.write(row_num, col_num, cell_data)
+                for row_num, columns in enumerate(data2):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet2.write(row_num, col_num, cell_data)
 
-            worksheet3 = workbook.add_worksheet('ADDRESS')
+                worksheet3 = workbook.add_worksheet('ADDRESS')
 
-            data3 = [["No.","Company No.","Company Name","Registered Address", "Business Address"]]
-            count = 1
+                data3 = [["No.","Company No.","Company Name","Registered Address", "Business Address"]]
+                count = 1
 
-            for co in middleware_data['company']:
-                count += 1
+                for co in middleware_data['company']:
+                    count += 1
 
-                if co["regAddress"]["address3"]:
-                    registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["address3"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] +   state_mapping(co["regAddress"]["stateCode"])
-                else: 
-                    registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] + state_mapping(co["regAddress"]["stateCode"])
+                    if co["regAddress"]["address3"]:
+                        registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["address3"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] +   state_mapping(co["regAddress"]["stateCode"])
+                    else: 
+                        registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] + state_mapping(co["regAddress"]["stateCode"])
 
-                if co["busAddress"]["address3"]:
-                    business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["address3"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] +   state_mapping(co["busAddress"]["stateCode"])
-                else: 
-                    business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] + state_mapping(co["busAddress"]["stateCode"])
-
-
-                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], registered_address, business_address]
-                data3.append(new_row)
-
-            for row_num, columns in enumerate(data3):
-                for col_num, cell_data in enumerate(columns):
-                    worksheet3.write(row_num, col_num, cell_data)  
-
-            worksheet4 = workbook.add_worksheet('NATURE OF BUSINESS')
-
-            data4 = [["No.","Company No.","Company Name","Business Code", "Description", "Priotiy"]]
-            count = 1
-
-            for co in middleware_data['company']:
-                count += 1
-                new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["bizCodes"]["code"], co["bizCodes"]["descEng"],co["bizCodes"]["priority"] ]
-                data4.append(new_row)
-
-            for row_num, columns in enumerate(data4):
-                for col_num, cell_data in enumerate(columns):
-                    worksheet4.write(row_num, col_num, cell_data)              
+                    if co["busAddress"]["address3"]:
+                        business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["address3"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] +   state_mapping(co["busAddress"]["stateCode"])
+                    else: 
+                        business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] + state_mapping(co["busAddress"]["stateCode"])
 
 
-            workbook.close()
-            output.seek(0)   
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], registered_address, business_address]
+                    data3.append(new_row)
 
-            filename = 'PackageA.xlsx'
-            response = HttpResponse(
-                output,
-                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
-            response['Content-Disposition'] = 'attachment; filename=%s' % filename                                 
-            return response    
-         
+                for row_num, columns in enumerate(data3):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet3.write(row_num, col_num, cell_data)  
+
+                worksheet4 = workbook.add_worksheet('NATURE OF BUSINESS')
+
+                data4 = [["No.","Company No.","Company Name","Business Code", "Description", "Priotiy"]]
+                count = 1
+
+                for co in middleware_data['company']:
+                    count += 1
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["bizCodes"]["code"], co["bizCodes"]["descEng"],co["bizCodes"]["priority"] ]
+                    data4.append(new_row)
+
+                for row_num, columns in enumerate(data4):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet4.write(row_num, col_num, cell_data)
+
+
+                workbook.close()
+                output.seek(0)   
+
+                filename = 'PackageA.xlsx'
+                response = HttpResponse(
+                    output,
+                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                )
+                response['Content-Disposition'] = 'attachment; filename=%s' % filename
+                return response   
+
+            elif package_ == 'B':
+
+                middleware_data = get_comp_listing_a(listing_url, request_headers, 
+                        a_['bizCode'], 
+                        a_['compLocation'], 
+                        a_['compOrigin'], 
+                        a_['compStatus'], 
+                        a_['compType'], 
+                        a_['incorpDtFrom'], 
+                        a_['incorpDtTo'], 
+                        1,
+                        a_['directorNat'],
+                        a_['shareholderNat']) 
+                output = io.BytesIO()
+ 
+                workbook = xlsxwriter.Workbook(output)
+                worksheet2 = workbook.add_worksheet('COMPANY INFORMATION')
+
+                data2 = [["No.","Company No.","Company Name","Old Company Name","Entity Type","Company Type","Company Status","Incorp. Date"]]
+                count = 1
+
+                for co in middleware_data['company']:
+                    count += 1
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["compInfo"]["compOldNm"], "LOCAL", comp_type_mapping(co["compInfo"]["compType"], 'en'), status_of_comp_mapping(co["compInfo"]["compStatus"]), co["compInfo"]["incorpDt"] ]
+                    data2.append(new_row)
+
+                for row_num, columns in enumerate(data2):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet2.write(row_num, col_num, cell_data)
+
+                worksheet3 = workbook.add_worksheet('ADDRESS')
+
+                data3 = [["No.","Company No.","Company Name","Registered Address", "Business Address"]]
+                count = 1
+
+                for co in middleware_data['company']:
+                    count += 1
+
+                    if co["regAddress"]["address3"]:
+                        registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["address3"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] +   state_mapping(co["regAddress"]["stateCode"])
+                    else: 
+                        registered_address = co["regAddress"]["address1"] + co["regAddress"]["address2"] + co["regAddress"]["town"] + co["regAddress"]["postcode"] + state_mapping(co["regAddress"]["stateCode"])
+
+                    if co["busAddress"]["address3"]:
+                        business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["address3"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] +   state_mapping(co["busAddress"]["stateCode"])
+                    else: 
+                        business_address = co["busAddress"]["address1"] + co["busAddress"]["address2"] + co["busAddress"]["town"] + co["busAddress"]["postcode"] + state_mapping(co["busAddress"]["stateCode"])
+
+
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], registered_address, business_address]
+                    data3.append(new_row)
+
+                for row_num, columns in enumerate(data3):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet3.write(row_num, col_num, cell_data)  
+
+                worksheet4 = workbook.add_worksheet('NATURE OF BUSINESS')
+
+                data4 = [["No.","Company No.","Company Name","Business Code", "Description", "Priotiy"]]
+                count = 1
+
+                for co in middleware_data['company']:
+                    count += 1
+                    new_row = [count, co["compInfo"]["compNo"] + '-' + co["compInfo"]["chkDigit"], co["compInfo"]["compName"], co["bizCodes"]["code"], co["bizCodes"]["descEng"],co["bizCodes"]["priority"] ]
+                    data4.append(new_row)
+
+                for row_num, columns in enumerate(data4):
+                    for col_num, cell_data in enumerate(columns):
+                        worksheet4.write(row_num, col_num, cell_data)
+
+
+                workbook.close()
+                output.seek(0)   
+
+                filename = 'PackageA.xlsx'
+                response = HttpResponse(
+                    output,
+                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                )
+                response['Content-Disposition'] = 'attachment; filename=%s' % filename
+                return response    
+                          
+            else:
+                return Response({})
     @action(methods=['GET'], detail=False)
     def lala(self, request, *args, **kwargs):
 
