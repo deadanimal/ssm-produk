@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UsersService } from '../users/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,21 @@ export class CartsService {
   public cartsFiltered: any[] = []
   public cartsQuery: any[] = []
 
+  public cartCurrent: any
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UsersService
   ) { }
+
+  create(body: any): Observable<any> {
+    return this.http.post<any>(this.urlCarts, body).pipe(
+      tap((res) => {
+        this.cartCurrent = res
+        console.log('User: ', res);
+      })
+    );
+  }
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.urlCarts).pipe(
@@ -42,6 +55,17 @@ export class CartsService {
       })
     );
   }
+
+  getMany(): Observable<any> {
+    let urlTemp = this.urlCarts + 'latest_successful/?user=' + this.userService.currentUser.id
+    return this.http.get<any>(urlTemp).pipe(
+      tap((res) => {
+        console.log(res)
+        // this.cart = res
+        // console.log('Cart: ', this.cart);
+      })
+    );
+  }  
 
   filter(field: string): Observable<any[]> {
     let urlTemp = this.urlCarts + '?' + field

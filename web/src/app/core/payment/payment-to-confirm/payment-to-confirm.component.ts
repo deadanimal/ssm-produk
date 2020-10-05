@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 class PGInformation {
   transactionType: string
@@ -61,7 +62,7 @@ export class PaymentToConfirmComponent implements OnInit {
         + '&PaymentID=' + this.paymentInfo.payment_id
         + '&OrderNumber=' + this.paymentInfo.orderNumber
         + '&PaymentDesc=' + this.paymentInfo.paymentDesc
-        + '&MerchantReturnURL=' + 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/'
+        + '&MerchantReturnURL=' + environment.baseUrl + 'v1/transactions/pg_return/'
         // + '&MerchantCallbackURL=' + this.paymentInfo.merchantCallbackUrl
         + '&Amount=' + this.paymentInfo.amount
         + '&CurrencyCode=' + this.paymentInfo.currencyCode

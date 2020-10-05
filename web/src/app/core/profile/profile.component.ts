@@ -151,15 +151,38 @@ export class ProfileComponent implements OnInit {
   // SB start
 
   getData() {
-    this.transactionService.getExtended().subscribe(
+    this.transactionService.getLatest().subscribe(
       () => {
-        this.transactions = this.transactionService.transactions
+        this.transactions = this.transactionService.transactionLatest
         this.tableRows = this.transactions
         this.tableRows.forEach(
           (item) => {
             item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
           }
         )
+
+        let carts = []
+
+        for (let transaction of this.transactionService.transactionLatest) {
+          carts.push(transaction.cart)
+        }
+
+        let orders = []
+
+        for (let cart of carts) {
+          for (let huhu of cart['cart_item']) {
+            orders.push(huhu)      
+          }
+        }
+      
+        this.orders = orders;
+        console.log(this.orders)
+        this.tableOrderRows = this.orders
+        this.tableOrderRows.forEach(
+          (item) => {
+            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+          }
+        )        
       },
       () => {},
       () => {
@@ -169,29 +192,14 @@ export class ProfileComponent implements OnInit {
             id_index: key+1
           }
         })
-      }
-    )
 
-    this.cartService.getOne('2210c8ea-ae65-480f-af82-5ee1c49b7e06').subscribe(
-      () => {
-        this.orders = this.cartService.cart.cart_item
-        console.log(this.cartService.cart)
-        this.tableOrderRows = this.orders
-        this.tableOrderRows.forEach(
-          (item) => {
-            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
-          }
-        )
-      },
-      () => {},
-      () => {
         this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
           return {
             ...prop,
             id_index: key+1
           }
         })
-        console.log(this.tableOrderTemp)
+        console.log(this.tableOrderTemp)        
       }
     )
   }
@@ -588,6 +596,75 @@ export class ProfileComponent implements OnInit {
 
   navigatePage(path: string) {
     return this.router.navigate([path]);
+  }
+
+  initRequest(selected) {
+    if (selected['cart_item_type'] == 'PS') { // Product Search Criteria
+      let body = selected['product_search_criteria']
+      body['name'] = 'list'
+      body['package'] = 'A'
+      this.downloadRequest(body, 'custom-data')
+    }
+    else if (
+      selected['cart_item_type'] == 'PR' &&
+      !selected['verId']
+    ) { // Product (Normal)
+      let body = {
+        'name': 'image',
+        'registration_no': Number(selected.entity.company_number),
+        'entity_type': 'ROC',
+        'version_id': selected.image_version_id
+      }
+      this.downloadRequest(body, 'custom-data')
+    }
+    else if (
+      selected['cart_item_type'] == 'PR' &&
+      selected['verId']
+    ) { // Product (Image)
+      let body = {
+        'name': 'image',
+        'registration_no': Number(selected.entity.company_number),
+        'entity_type': 'ROC',
+        'version_id': selected.image_version_id
+      }
+      this.downloadRequest(body, 'document-form')
+    }
+    else if (selected['cart_item_type'] == 'SE') { // Service
+
+    }
+    else if (selected['cart_item_type'] == 'QU') { // Quota
+
+    }
+  }
+
+  downloadRequest(body, type) {
+    this.spinner.show()
+    this.productService.generateList(body).subscribe(
+      (res: any) => {
+        this.spinner.hide()
+        console.log(res)
+        
+        if (type == 'custom-data') {
+          let url = res.pdflink
+          window.open(url, '_blank');
+        }
+        else if (type == 'document-form') {
+          let url = 'data:image/tiff;base64,' + res
+          window.open(url, '_blank');
+        }
+        else if (type == 'SE') {
+          let url = res.pdflink
+          window.open(url, '_blank');
+        }
+        else if (type == 'QU') {
+          let url = res.pdflink
+          window.open(url, '_blank');
+        }
+      },
+      () => {
+        this.spinner.hide()
+      }
+    )
   }
 
 

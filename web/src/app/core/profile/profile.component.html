@@ -197,7 +197,7 @@
 												<span>Invoice</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<!-- {{row.product.name}} -->
+												INV{{row.reference_no}}
 											</ng-template>
 										</ngx-datatable-column>
 		
@@ -233,7 +233,7 @@
 												<span>Reference</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.payment_gateway_order_id}}
+												REF{{row.reference_no}}
 											</ng-template>
 										</ngx-datatable-column>
 										
