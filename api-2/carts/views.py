@@ -31,12 +31,15 @@ from .serializers import (
     CartItemSerializer
 )
 
+from transactions.models import Transaction
+
  
 
 class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['user', 'cart_status']
 
     def get_permissions(self):
         if self.action == 'list':
@@ -146,4 +149,3 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = CartExtendedSerializer(cart)
         return Response(serializer.data)    
- 
