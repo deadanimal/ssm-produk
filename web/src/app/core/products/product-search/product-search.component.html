@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <header class="header-2 skew-separator">
 	<div class="page-header">
 		<div class="page-header-image" style="background-image: url('assets/img/background/menara_ssm.jpg')"></div>
@@ -44,24 +45,18 @@
 
                                     <div class="col-sm-2">
                                         <div class="input-group">
-                                            <select class="form-control" [(ngModel)]="searchEntityType">
-                                                <option selected value="all">All Entities</option>
+											<select 
+												class="form-control" 
+												[(ngModel)]="searchEntityType"
+												(change)="filterTable()"
+											>
+                                                <option selected value="AL">All Entities</option>
                                                 <option value="BS">Business</option>
                                                 <option value="CP">Company</option>
                                                 <option value="AD">Audit Firm</option>
                                             </select>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="col-sm-2">
-										<button 
-											class="btn btn-ssm btn-round"
-											type="button"
-											(click)="query($event)"
-										>
-                                            Search
-                                        </button>
-                                    </div> -->
                                 </div>
                                 <span class="text-small text-light">
                                     Please exclude symbol ("-") and alphabet ("A")
@@ -88,9 +83,9 @@
 								<h4 class="m-0">Search Result</h4>
 							</div>
 							<div class="col text-right">
-								<button class="btn btn-default rounded-pill" (click)="export()">
+								<!-- <button class="btn btn-default rounded-pill" (click)="export()">
 									Export
-								</button>
+								</button> -->
 							</div>
 						</div>
 					</div>
@@ -182,7 +177,7 @@
                                         <button 
                                             class="btn btn-icon btn-3 btn-sm btn-ssm rounded-pill float-right" 
                                             type="button"
-                                            (click)="navigatePage('/products/search-result', row)"
+                                            (click)="navigateItem('/products/search-result', row)"
                                         >
 											<span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
 											<span class="btn-inner--text">View</span>
@@ -196,7 +191,7 @@
 			</div>
 		</div>
 
-		<div class="row text-center pb-4" *ngIf="user_type != 'EG'">
+		<div class="row text-center pb-4">
 			<div class="col cursor-pointer" (click)="navigatePage('/products/custom-data')">
 				<img src="assets/img/icons/12.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip1" />
 				
@@ -242,21 +237,26 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-md-12 mx-auto mb-3 pt-6">
+	<div class="row w-100">
+		<div class="col-md-12 mx-auto mb-3">
 			<carousel>
 				<slide>
-					<img [src]="slider1" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+					<a href="https://biztrust.ssm.com.my/" target="_blank">
+						<img [src]="slider1" alt="first slide" class="d-flex mx-auto w-100" />
+					</a>
 				</slide>
 				<slide>
-					<img [src]="slider2" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
-				</slide>
-				<slide>
-					<img [src]="slider3" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+					<a href="https://ezbiz.ssm.com.my/" target="_blank">
+						<img [src]="slider2" alt="second slide" class="d-flex mx-auto w-100" />
+					</a>
 				</slide>
 
 				<slide>
-					<img [src]="slider4" alt="first slide" style="display: block; width: 100%" class="d-flex mx-auto" />
+					<img [src]="slider3" alt="third slide" class="d-flex mx-auto w-100" />
+				</slide>
+
+				<slide>
+					<img [src]="slider4" alt="fourth slide" class="d-flex mx-auto w-100" />
 				</slide>
 			</carousel>
 		</div>

@@ -33,26 +33,27 @@ export enum SelectionType {
 export class ProductSearchResultComponent implements OnInit {
 
   // Data
-  entity: any;
-  products: Product[] = [];
+  entity: any
+  products: Product[] = []
   lastDigit = ''
   registration_no: any
   formTypes: any[] = []
   imageList: any[] = []
 
   // Checker
-  isProceed: boolean = false;
-  finComparisonYear = 2;
+  isProceed: boolean = false
+  isAgres: boolean = false
+  finComparisonYear = 2
 
   // Options
   ctcOpts = [
     { name: 'non-CTC', value: 'non-ctc' },
     { name: 'CTC', value: 'ctc' },
     { name: 'Both', value: 'both' },
-  ];
+  ]
 
   // Modal
-  modalSample: BsModalRef;
+  modalSample: BsModalRef
   modalConfig = {
     keyboard: true,
     class: 'modal-dialog-centered modal-md',
@@ -82,7 +83,7 @@ export class ProductSearchResultComponent implements OnInit {
   businessCertForm: FormGroup
   businessTerminateForm: FormGroup
   auditProfileForm: FormGroup
-  // documentForm: FormGroup
+  documentForm: FormGroup
 
   // Table
   tableEntries: number = 10
@@ -341,6 +342,13 @@ export class ProductSearchResultComponent implements OnInit {
       isCtc: new FormControl(false),
       fee: new FormControl(1000)
     })
+
+    this.documentForm = this.fb.group({
+      slug: new FormControl('document_form'), // Audit Firm Profile
+      language: new FormControl('NA'),
+      isCtc: new FormControl(false),
+      fee: new FormControl(1000)
+    })
   }
 
   updateTable() {
@@ -446,6 +454,13 @@ export class ProductSearchResultComponent implements OnInit {
     else if (this.finComparisonYear == 10) {
       this.addCart(this.finComparison10Form)
     }
+  }
+
+  addCartDocument(row) {
+    this.cartForm.controls['image_form_type'].setValue(row.formType)
+    this.cartForm.controls['image_version_id'].setValue(row.verId)
+    this.documentForm.controls['isCtc'].setValue(row.isCtc)
+    this.addCart(this.documentForm)
   }
 
   addItem() {
@@ -627,38 +642,4 @@ export class ProductSearchResultComponent implements OnInit {
 //     }
 //   )
 
-// }
-
-// addCartDocument(row) {
-//   console.log('werwer', row)
-//   let title = 'Success';
-//   let message = 'Item is added to the cart';
-//   console.log(row.formType)
-//   console.log(row.verId)
-//   this.cartForm.controls['image_form_type'].setValue(row.formType)
-//   this.cartForm.controls['image_version_id'].setValue(row.verId)
-
-//   console.log(this.cartForm.value)
-//   this.loadingBar.useRef('http').start()
-//   if (row['isCtc']) {
-//     this.cartForm.controls['product'].setValue('46efd15d-0cd4-41aa-a6d6-790d6aecbf0b')
-//   }
-//   else {
-//     this.cartForm.controls['product'].setValue('04e740bb-6553-49fe-b3fb-dabc445fa89b')
-//   }
-
-//   this.cartService.addItem('2210c8ea-ae65-480f-af82-5ee1c49b7e06', this.cartForm.value).subscribe(
-//     () => {
-//       this.loadingBar.useRef('http').complete()
-//     },
-//     () => {
-//       this.loadingBar.useRef('http').complete()
-//     },
-//     () => {
-//       this.toastr.success(message, title);
-//       this.productService.cart = true;
-//       this.cartForm.controls['image_form_type'].setValue(null)
-//       this.cartForm.controls['image_version_id'].setValue(null)
-//     }
-//   )
 // }

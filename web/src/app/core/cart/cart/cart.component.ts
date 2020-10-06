@@ -35,7 +35,7 @@ export class CartComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: 'modal-dialog-centered',
-  };
+  }
 
   // Table
   tableEntries: number = 10
@@ -57,24 +57,26 @@ export class CartComponent implements OnInit {
   }
 
   // Form
-  searchForm: FormGroup;
-  searchField: FormGroup;
-  addAppReqForm: FormGroup;
-  editAppReqForm: FormGroup;
+  searchForm: FormGroup
+  searchField: FormGroup
+  addAppReqForm: FormGroup
+  editAppReqForm: FormGroup
 
   // Data
-  items: any[] = [];
+  items: any[] = []
+  toRemove: any[] = []
+  tableCheckbox: boolean = true
 
   // Icons
-  iconEmpty = 'assets/img/default/shopping-bag.svg';
+  iconEmpty = 'assets/img/default/shopping-bag.svg'
 
   // declare variable
-  sum: number = 0;
-  total: number = 0;
-  totaldocument: number = 0;
+  sum: number = 0
+  total: number = 0
+  totaldocument: number = 0
 
   // Checker
-  isEmpty: boolean = false;
+  isEmpty: boolean = false
 
   constructor(
     private fb: FormBuilder,
@@ -100,6 +102,7 @@ export class CartComponent implements OnInit {
         this.total = 0
         this.tableRows.forEach(
           (item) => {
+            item['isTick'] = true
             if (item.product) {
               this.total += item.product.fee
             }
@@ -153,12 +156,77 @@ export class CartComponent implements OnInit {
     )
   }
 
+  checkRow(selected) {
+    this.tableRows.forEach(
+      (item) => {
+        if (item['id'] == selected['id']) {
+          item['isTick'] = !item['isTick']
+          this.tableCheckbox = false
+        }
+      }
+    )
+  }
+
+  selectAllRow() {
+    this.tableTemp.forEach(
+      (item) => {
+        item['isTick'] = this.tableCheckbox
+      }
+    )
+  }
+
   emptyCart() {
     this.tableRows.forEach(
       (item) => {
         this.removeItem(item.id)
       }
     )
+  }
+
+  removeSelected() {
+    this.tableRows.forEach(
+      (item) => {
+        if (item['isTick']) {
+          this.removeItem(item.id)
+        }
+      }
+    )
+  }
+
+  proceed() {
+    let filterCheckout = new Promise(
+      (resolve, reject) => {
+        this.tableRows.forEach(
+          (item, index, array) => {
+            if (!item['isTick']) {
+              this.removeItem(item.id)
+            }
+            console.log('index', index)
+            console.log('array length', array.length-1)
+            
+            setInterval(
+              () => {
+                if (index == array.length - 1) resolve();
+              }, 1000
+            )
+          }
+        )
+      }
+    )
+      
+    filterCheckout.then(
+      () => {
+        console.log('cendol', this.tableRows.length)
+        
+        if (this.tableRows.length != 0) {
+          this.navigatePage('/cart/checkout')
+        }
+        else {
+          this.navigatePage('/products/search')
+        }
+      }
+    );
+    
   }
 
   successAlert(task) {
