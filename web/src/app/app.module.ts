@@ -36,7 +36,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
     domain: 'portal.ssm.prototype.com.my' // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
   },
-  position: 'bottom-right',
+  position: 'bottom',
   palette: {
     popup: {
       background: '#ffffff',

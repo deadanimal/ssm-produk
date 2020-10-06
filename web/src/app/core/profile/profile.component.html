@@ -6,106 +6,73 @@
 					<tab heading="My Account" [active]="accountTabActive">
 						<div class="card">
 							<div class="card-body">
-								<h6 class="heading-small text-muted mb-4">User information</h6>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Name</label>˝
-											<input class="form-control" placeholder="Enter name" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Email address</label>
-											<input class="form-control" placeholder="Enter email address" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Username</label>
-											<input class="form-control" placeholder="Enter username" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Phone number</label>
-											<input class="form-control" placeholder="Enter phone number" />
-										</div>
-									</div>
-								</div>
-
-								<hr class="my-4" />
-
 								<h6 class="heading-small text-muted mb-4">
 									Billing Information
 								</h6>
+								<p class="my-0">Notes:</p>
+								<ol>
+									<li class="font-smaller">
+										Any user information charges can be
+										updated at SSM4U portal.
+									</li>
+								</ol>
 
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Address line 1</label>
-											<input class="form-control" placeholder="Enter address line 1" />
+								<form [formGroup]="addressForm">
+									<div class="row">
+										<div class="col-sm-12 col-lg-6">
+											<div class="form-group">
+												<label class="form-control-label">Address line 1</label>
+												<input class="form-control" formControlName="address1" disabled />
+											</div>
+										</div>
+	
+										<div class="col-sm-12 col-lg-6">
+											<div class="form-group">
+												<label class="form-control-label">Address line 2</label>
+												<input class="form-control" formControlName="address2" disabled />
+											</div>
 										</div>
 									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Address line 2</label>
-											<input class="form-control" placeholder="Enter address line 2" />
+	
+									<div class="row">
+										<div class="col-sm-12 col-lg-6">
+											<div class="form-group">
+												<label class="form-control-label">Address line 3</label>
+												<input class="form-control" formControlName="address3" disabled />
+											</div>
+										</div>
+	
+										<div class="col-sm-12 col-lg-6">
+											<div class="form-group">
+												<label class="form-control-label">City</label>
+												<input class="form-control" formControlName="city" disabled />
+											</div>
 										</div>
 									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Address line 3</label>
-											<input class="form-control" placeholder="Enter address line 3" />
+	
+									<div class="row">
+										<div class="col-sm-12 col-lg-4">
+											<div class="form-group">
+												<label class="form-control-label">Postcode</label>
+												<input class="form-control" formControlName="postcode" disabled />
+											</div>
+										</div>
+	
+										<div class="col-sm-12 col-lg-4">
+											<div class="form-group">
+												<label class="form-control-label">State</label>
+												<input class="form-control" formControlName="state" disabled />
+											</div>
+										</div>
+	
+										<div class="col-sm-12 col-lg-4">
+											<div class="form-group">
+												<label class="form-control-label">Country</label>
+												<input class="form-control" formControlName="country" disabled />
+											</div>
 										</div>
 									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">City</label>
-											<input class="form-control" placeholder="Enter city" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-4">
-										<div class="form-group">
-											<label class="form-control-label">Postcode</label>
-											<input class="form-control" placeholder="Enter postcode" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-4">
-										<div class="form-group">
-											<label class="form-control-label">State</label>
-											<input class="form-control" placeholder="Enter state" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-4">
-										<div class="form-group">
-											<label class="form-control-label">Country</label>
-											<input class="form-control" placeholder="Enter country" />
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<button class="btn btn-ssm float-right btn-round">
-										Save
-									</button>
-								</div>
+								</form>
 							</div>
 						</div>
 					</tab>

@@ -347,4 +347,34 @@ export class ProductCustomDataPackageAComponent implements OnInit {
     )
   }
 
+  checkDates() {
+    if (
+      this.customForm.value['incorpDtFrom'] &&
+      this.customForm.value['incorpDtTo']
+    ) {
+      let date1 = new Date(this.customForm.value['incorpDtFrom'])
+      let date2 = new Date(this.customForm.value['incorpDtTo'])
+
+      let differenceInTime = date2.getTime() - date1.getTime()
+      let differenceInDays = differenceInTime/(1000*3600*24)
+
+      if (differenceInDays > 30) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Range of incorporation date must be less than 30 days.',
+          icon: 'warning',
+          buttonsStyling: false,
+          confirmButtonText: 'Close',
+          customClass: {
+            confirmButton: 'btn btn-warning rounded-pill',
+          }
+        })
+      }
+    }
+  }
+
+  navigatePage(path: string) {
+    return this.router.navigate([path])
+  }
+
 }
