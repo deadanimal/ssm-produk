@@ -79,6 +79,15 @@ export class ProductsService {
     )
   }
 
+  generateEgovData(body: any): Observable<any> {
+    let urlTemp = this.urlProducts + 'generate_product/'
+    return this.http.post(urlTemp, body).pipe(
+      tap((res) => {
+        console.log(res)
+      })
+    )
+  }  
+
   generateImage(body: any): Observable<any> {
     let urlTemp = this.urlProducts + 'generate_image/'
     return this.http.post<any>(urlTemp, body).pipe(

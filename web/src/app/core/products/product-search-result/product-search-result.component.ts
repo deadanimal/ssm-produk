@@ -12,6 +12,8 @@ import { Product } from 'src/app/shared/services/products/products.model';
 import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
+import * as moment from 'moment';
+
 class Entity {
   name: string;
   registration_no: string;
@@ -166,6 +168,7 @@ export class ProductSearchResultComponent implements OnInit {
                   img['formName'] = form.desc_en
                   img['isCtc'] = false
                   img['price'] = 1000
+                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')               
                   this.updateTable()
                 }
               }

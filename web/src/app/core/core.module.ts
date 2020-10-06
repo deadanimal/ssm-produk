@@ -70,6 +70,8 @@ import { PaymentReceiptComponent } from './payment/payment-receipt/payment-recei
 import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
 import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     ProfileComponent,
     EnquiryComponent,
     EnquiryGeneralComponent,
+
     KjakpComponent,
+    
     CbidComponent,
     PaymentComponent,
     CompanyDetailComponent,
@@ -94,12 +98,15 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     ProductSearchComponent,
     ProductSearchResultPackage1Component,
     ProductSearchResultPackage2Component,
+    ProductSearchResultPackage3Component,
     ProductSearchResultComponent,
     EnquiryEgovComponent,
     PersonalInvolvementSearchComponent,
     CbidSearchComponent,
     CbidSearchResultComponent,
-
+    ProductSearchResultPackage1Component,
+    ProductSearchResultPackage2Component,
+    ProductSearchEgovComponent,
     ProductSearchPiComponent,
     ProductSearchSdComponent,
     ProductSearchCustomComponent,

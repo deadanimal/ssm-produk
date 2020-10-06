@@ -1,40 +1,55 @@
 <div class="wrapper">
-  <div class="section">
-    <div class="container pt-6">
+  <section class="section-shaped title-bg bg-mini">
+    <div class="page-header page-header-small header-filter-white">
+      <div
+        class="page-header-image"
+        style="background-image: url('assets/img/background/putrajaya.jpg')"
+      ></div>
+      <div class="container mb--4">
+        <div class="header-body text-center mb-9">
+          <div class="row justify-content-center">
+            <h1 class="text-ssm font-weight-bolder">eGOV</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section mt--9">
+    <div class="container">
       <h3 class="title font-weight-bolder">eGOVERNMENT</h3>
       <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
       <h5>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </h5>
-
       <div class="row pt-3">
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 1</h3>
               <h4 class="mt-0 text-white">view only</h4>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Company Profile without Company
-                Charges
+                Charges and Financial charges
               </p>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Financial charges
+                <i class="fas fa-check"></i> Business Profile
               </p>
 
               <img
                 class="icon-size img-center"
-                src="assets/img/icons/statistics.svg"
-              />
-
-              <hr class="my-2 border-white" />
+                src="assets/img/icons/statistics.svg"/>
 
               <p class="text-white font-small">
-                Business Profile & Statutory Document Images
+                <!-- Business Profile & Statutory Document Images -->
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)">
                   View Sample
                 </button>
               </div>
@@ -43,31 +58,30 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 2</h3>
               <h4 class="mt-0 text-white">view only</h4>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Company Profile without Company
-                Charges
+                <i class="fas fa-check"></i> Company Profile
               </p>
               <p class="text-white font-small">
-                <i class="fas fa-check"></i> Financial charges
+                <i class="fas fa-check"></i> Business Profile
               </p>
 
               <img
                 class="icon-size img-center"
-                src="assets/img/icons/statistics.svg"
-              />
-
-              <hr class="my-2 border-white" />
+                src="assets/img/icons/statistics.svg"/>
 
               <p class="text-white font-small">
-                Business Profile & Statutory Document Images
+                <!-- Business Profile & Statutory Document Images -->
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)">
                   View Sample
                 </button>
               </div>
@@ -76,12 +90,15 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 3</h3>
               <h4 class="mt-0 text-white">view & download</h4>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Company Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Business Profile
               </p>
               <p class="text-white font-small">
                 <i class="fas fa-check"></i> Statutory Document Images
@@ -92,14 +109,15 @@
                 src="assets/img/icons/statistics.svg"
               />
 
-              <hr class="my-2 border-white" />
-
               <p class="text-white font-small">
-                Business Profile & Statutory Document Images
+                <!-- Business Profile & Statutory Document Images -->
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)">
                   View Sample
                 </button>
               </div>
@@ -108,25 +126,34 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <div class="card card-project bg-ssm p-1">
+          <div class="card card-project bg-ssm p-1 package">
             <div class="card-body bg-ssm p-1">
               <h3 class="card-title mt-3 mb-0 text-white">PACKAGE 4</h3>
               <h4 class="mt-0 text-white">view & download</h4>
-              <h2 class="text-white text-center my-4">COMING SOON</h2>
-
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Company Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Business Profile
+              </p>
+              <p class="text-white font-small">
+                <i class="fas fa-check"></i> Statutory Document Images
+              </p>
               <img
                 class="icon-size img-center"
                 src="assets/img/icons/statistics.svg"
               />
 
-              <hr class="my-2 border-white" />
-
               <p class="text-white font-small">
-                Business Profile & Statutory Document Images
+                <!-- Business Profile & Statutory Document Images -->
               </p>
 
               <div class="card-footer">
-                <button class="btn btn-link text-ssm btn-round" type="button">
+                <button
+                  class="btn btn-link text-ssm btn-round"
+                  type="button"
+                  (click)="openModal(productSample)"
+                >
                   View Sample
                 </button>
               </div>
@@ -134,94 +161,128 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="align-items-center text-left">
-        <div class="card bg-ssm">
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col">
-                <h1 class="display-3 mb-0 text-white">WELCOME BACK</h1>
-                <p class="lead pb-4 mt-0 text-white">Login to continue</p>
-                <div class="row row-input">
-                  <div class="col-sm-12 col-12">
-                    <div class="form-group">
-                      <label class="form-control-label text-white"
-                        >Email Address</label
-                      >
-                      <input
-                        aria-label="Email address"
-                        class="form-control"
-                        id="signupSrEmail"
-                        name="email"
-                        placeholder="Email address"
-                        type="email"
-                      />
+  <section class="pricing-3 mt-3 mb-4" id="pricing-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 pr-md-0">
+          <div class="card card-pricing my-3 bg-ssm">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col">
+                  <form [formGroup]="authSignInForm">
+                    <h1 class="display-3 mb-0 text-white">WELCOME BACK</h1>
+                    <p class="lead pb-4 mt-0 text-white">Login to continue</p>
+                    <div class="row row-input">
+                      <div class="col-sm-12 col-12">
+                        <div class="form-group">
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 col-12">
+                        <div class="form-group">
+                          <label class="form-control-label text-white"
+                            >Password</label
+                          >
+                          <input
+                            aria-label="Password"
+                            class="form-control"
+                            id="signupSrEmail"
+                            placeholder="Password"
+                            type="password"
+                            formControlName="password"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="row">
+                    <div class="col">
+                      <button
+                        class="btn btn-secondary btn-block"
+                        (click)="goTo()">
+                        Login
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <button
+                        class="btn btn-secondary btn-block">
+                        Sign up
+                      </button>
                     </div>
                   </div>
 
-                  <div class="col-sm-12 col-12 mt-3">
-                    <div class="form-group">
-                      <label class="form-control-label text-white"
-                        >Password</label
-                      >
-                      <input
-                        aria-label="Password"
-                        class="form-control"
-                        id="signupSrEmail"
-                        placeholder="Password"
-                        type="password"
-                      />
-                    </div>
-                  </div>
                 </div>
-
-                <div class="row">
-                  <div class="col">
-                    <button class="btn btn-secondary btn-block">Login</button>
-                  </div>
-                  <div class="col">
-                    <button
-                      class="btn btn-secondary btn-block"
-                      (click)="signUp()"
-                    >
-                      Sign up
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <img src="assets/img/background/putrajaya-1.jpg" width="100%" />
               </div>
             </div>
           </div>
         </div>
+        <div
+          class="col-md-6 text-center"
+          style="
+            background-color: #005fed;
+            padding-right: 0px !important;
+            padding-left: 0px !important;
+          "
+        >
+          <div class="example" style="padding-top: 150px">
+            <p
+              class="title font-weight-bolder"
+              style="font-size: 3.5em; color: white"
+            >
+              <b>eGOV</b>
+            </p>
+            <p
+              class="title font-weight-bolder pt--4 mt--5"
+              style="font-size: 2.5em; color: white"
+            >
+              Login
+            </p>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div *ngIf="isSignUp == true">
-        <h3 class="title font-weight-bolder">eGovernment Sign Up Form</h3>
-        <h1 class="title font-weight-bolder text-ssm">
-          Don't have an account yet?
-        </h1>
-        <h5>
-          Register to access all the features of our service. Manage your place
-          in one place. It's free!
-        </h5>
+  <section class="pricing-3 mt-4 mb-5" id="pricing-4" *ngIf="isSignUp == true">
+    <div class="container">
+      <h3 class="title font-weight-bolder">eGovernment Sign Up Form</h3>
+      <h1 class="title font-weight-bolder text-ssm">
+        Don't have an account yet?
+      </h1>
+      <h5>
+        Register to access all the features of our service. Manage your place in
+        one place. It's free!
+      </h5>
+      <form [formGroup]="signUpForm">
         <div class="px-2 row">
           <div class="col-lg-6 col-sm-12">
             <div class="row">
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Full name</label>
-                  <input class="form-control" placeholder="Enter full name" />
+                  <label class="form-control-label">Email Address</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Email Address"
+                    formControlName="email"
+                  />
                 </div>
               </div>
 
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Position & grade</label>
+                  <label class="form-control-label">Full name</label>
                   <input
                     class="form-control"
-                    placeholder="Enter position & grade"
+                    placeholder="Enter full name"
+                    formControlName="full_name"
                   />
                 </div>
               </div>
@@ -231,14 +292,22 @@
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label">IC No.</label>
-                  <input class="form-control" placeholder="Enter IC no." />
+                  <input
+                    class="form-control"
+                    placeholder="Enter IC no."
+                    formControlName="nric_number"
+                  />
                 </div>
               </div>
 
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Tel. No.</label>
-                  <input class="form-control" placeholder="Enter tel. no." />
+                  <label class="form-control-label">Position Or Grade</label>
+                  <input
+                    class="form-control"
+                    placeholder="Position Or Grade"
+                    formControlName="position_or_grade"
+                  />
                 </div>
               </div>
             </div>
@@ -246,11 +315,35 @@
             <div class="row">
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Confirm</label>
+                  <label class="form-control-label">Tel. No.</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter tel. no."
+                    formControlName="phone_number"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Username</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter username"
+                    formControlName="username"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Password</label>
                   <input
                     class="form-control"
                     placeholder="Password"
                     type="password"
+                    formControlName="password"
                   />
                 </div>
               </div>
@@ -260,8 +353,9 @@
                   <label class="form-control-label">Confirm password</label>
                   <input
                     class="form-control"
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     type="password"
+                    formControlName="password2"
                   />
                 </div>
               </div>
@@ -282,10 +376,13 @@
                 </div>
               </div>
             </div>
-
-            <div class="row mt-2">
-              <div class="col">
-                <button class="btn btn-ssm btn-round">Submit</button>
+            <div class="row mt-2 text-right">
+              <div class="col-12">
+              </div>
+              <div class="col-12 text-left pt-3">
+                <button class="btn btn-ssm btn-round" (click)="signUpUser()">
+                  Submit
+                </button>
               </div>
             </div>
           </div>
@@ -300,6 +397,7 @@
                   <input
                     class="form-control"
                     placeholder="Enter head of department name"
+                    formControlName="head_of_department_name"
                   />
                 </div>
               </div>
@@ -312,6 +410,7 @@
                   <input
                     class="form-control"
                     placeholder="Enter head of department position"
+                    formControlName="head_of_department_position"
                   />
                 </div>
               </div>
@@ -326,16 +425,90 @@
                   <input
                     class="form-control"
                     placeholder="Enter head of department email"
+                    formControlName="head_of_department_email"
                   />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Ministry Name</label>
+                  <select
+                    class="form-control"
+                    placeholder="Enter Ministry Name"
+                    formControlName="ministry_name"
+                    [(ngModel)]="ministry"
+                    (checkAgency)="onChange($event.target.value)"
+                  >
+                    <option [value]="1">JABATAN PERDANA MENTERI (JPM)</option>
+                    <option [value]="2">KEMENTERIAN BELIA DAN SUKAN</option>
+                    <option [value]="3">KEMENTERIAN DALAM NEGERI</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group" *ngIf="ministry == '0'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                  </select>
+                </div>
+                <div class="form-group" *ngIf="ministry == '1'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>AGENSI PENGURUSAN BENCANA NEGARA (NADMA)</option>
+                    <option>ANGKATAN PERTAHANAN AWAM MALAYSIA (APM)</option>
+                    <option>BAHAGIAN HAL EHWAL UNDANG-UNDANG (BHEUU)</option>
+                  </select>
+                </div>
+
+                <div class="form-group" *ngIf="ministry == '2'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>
+                      INSTITUT KEMAHIRAN BELIA NEGARA (IKBN) ALOR GAJAH
+                    </option>
+                    <option>
+                      INSTITUT PENYELIDIKAN PEMBANGUNAN BELIA MALAYSIA (IYRES)
+                    </option>
+                    <option>INSTITUT SUKAN NEGARA(ISN)</option>
+                  </select>
+                </div>
+                <div class="form-group" *ngIf="ministry == '3'">
+                  <label class="form-control-label"
+                    >Department / Agency name</label
+                  >
+                  <select class="form-control" formControlName="agency_name">
+                    <option>Please select</option>
+                    <option>AGENSI ANTIDADAH KEBANGSAAN (AADK)</option>
+                    <option>AGENSI KAWALAN SEMPADAN MALAYSIA (AKSEM)</option>
+                    <option>
+                      AGENSI PENGUATKUASAAN MARITIM MALAYSIA (APMM)
+                    </option>
+                  </select>
                 </div>
               </div>
 
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                  <label class="form-control-label">Agency name</label>
-                  <select class="form-control">
-                    <option>Please select</option>
-                  </select>
+                  <label class="form-control-label"
+                    >Division / Section / Unit Name</label
+                  >
+                  <input
+                    class="form-control"
+                    placeholder="Division Name"
+                    formControlName="division_name"
+                  />
                 </div>
               </div>
             </div>
@@ -347,6 +520,7 @@
                   <input
                     class="form-control"
                     placeholder="Enter address line 1"
+                    formControlName="company_address_1"
                   />
                 </div>
               </div>
@@ -359,6 +533,7 @@
                   <input
                     class="form-control"
                     placeholder="Enter address line 2"
+                    formControlName="company_address_2"
                   />
                 </div>
               </div>
@@ -371,6 +546,7 @@
                   <input
                     class="form-control"
                     placeholder="Enter address line 3"
+                    formControlName="company_address_3"
                   />
                 </div>
               </div>
@@ -380,14 +556,22 @@
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label">Postcode</label>
-                  <input class="form-control" placeholder="Enter postcode" />
+                  <input
+                    class="form-control"
+                    placeholder="Enter postcode"
+                    formControlName="company_postcode"
+                  />
                 </div>
               </div>
 
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label">City</label>
-                  <input class="form-control" placeholder="Enter city" />
+                  <input
+                    class="form-control"
+                    placeholder="Enter city"
+                    formControlName="company_city"
+                  />
                 </div>
               </div>
             </div>
@@ -396,13 +580,122 @@
               <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                   <label class="form-control-label">State</label>
-                  <input class="form-control" placeholder="Enter state" />
+                  <input
+                    class="form-control"
+                    placeholder="Enter state"
+                    formControlName="company_state"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label">Country</label>
+                  <input
+                    class="form-control"
+                    placeholder="Enter Country"
+                    formControlName="company_country"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-sm-12">
+                <div class="form-group">
+                  <label class="form-control-label"
+                    >Attachment (Official Letter from eGov</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    placeholder="Select File"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<ng-template #productSample>
+  <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Product Sample
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body px-auto">
+    <div class="row mt-2 mb-3">
+      <div class="col text-center">
+        <button class="btn btn-ssm">ROC</button>
+      </div>
+      <div class="col text-center">
+        <button class="btn btn-ssm">ROB</button>
+      </div>
+    </div>
+    <img
+      style="width: 85%"
+      class="d-flex mx-auto"
+      src="assets/img/default/sample.png"
+    />
+  </div>
+</ng-template>
+
+<ng-template #packageModal>
+  <!-- <div class="modal-header bg-ssm">
+    <h4 class="modal-title text-white my-auto" id="modal-title-default">
+      Product Sample
+    </h4>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div> -->
+
+  <div class="modal-body px-auto">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-body text-center"
+            (click)="navigatePage('/egov-details')"
+          >
+            <h1 class="text-ssm">Package 1 & 2</h1>
+            <h1 class="text-ssm">Only for reference on the flow</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-body text-center"
+            (click)="navigatePage('/egov-details')"
+          >
+            <h1 class="text-ssm">Package 3 & 4</h1>
+            <h1 class="text-ssm">Only for reference on the flow</h1>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
