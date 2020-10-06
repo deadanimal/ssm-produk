@@ -99,7 +99,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             transaction.save()
             
     
-
+        # portal.ssm.prototype.com.my
         url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + transaction_id
         return redirect(url)      
 
