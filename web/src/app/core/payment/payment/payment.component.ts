@@ -69,6 +69,14 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // console.log(this.billingForm)
+    this.initForm()
+    this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
+    this.getClientIP()
+    this.getBillingInfo()
+  }
+
+  initForm() {
     this.transactionForm = this.fb.group({
       cart: new FormControl(''),
       total_amount: new FormControl(0)
@@ -89,10 +97,6 @@ export class PaymentComponent implements OnInit {
       cart: new FormControl('', Validators.required),
       total_amount: new FormControl(0)
     })
-    // console.log(this.billingForm)
-    this.billingForm.controls['cart'].setValue(this.cartService.cart.id)
-    this.getClientIP()
-    this.getBillingInfo()
   }
 
   getBillingInfo() {
@@ -131,6 +135,20 @@ export class PaymentComponent implements OnInit {
       }
     )
   }
+
+  resetForm() {
+    this.billingForm.controls['name'].setValue('')
+    this.billingForm.controls['email_address'].setValue('')
+    this.billingForm.controls['phone_number'].setValue('')
+    this.billingForm.controls['address1'].setValue('')
+    this.billingForm.controls['address2'].setValue('')
+    this.billingForm.controls['address3'].setValue('')
+    this.billingForm.controls['postcode'].setValue('')
+    this.billingForm.controls['city'].setValue('')
+    this.billingForm.controls['state'].setValue('')
+    this.billingForm.controls['country'].setValue('')
+  }
+
   // 'https://ssm-product-api.pipe.my/v1/transactions/pg_return/',
   // 'http://afeezaziz.ngrok.io/v1/transactions/pg_return/'
   encode(paymentID) {
