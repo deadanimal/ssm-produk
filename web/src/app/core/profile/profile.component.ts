@@ -597,25 +597,33 @@ export class ProfileComponent implements OnInit {
   navigatePage(path: string) {
     return this.router.navigate([path]);
   }
-
+  
   initRequest(selected) {
+    let lang
+    if (selected['product']['language'] == 'MS') {
+      lang = 'ms'
+    }
+    else {
+      lang = 'en'
+    }
     if (selected['cart_item_type'] == 'PS') { // Product Search Criteria
       let body = selected['product_search_criteria']
       body['name'] = 'list'
       body['package'] = 'A'
-      this.downloadRequest(body, 'custom-data')
+      this.downloadRequestList(body, 'custom-data')
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
       !selected['verId']
     ) { // Product (Normal)
       let body = {
-        'name': 'image',
+        'name': selected['product']['slug'],
         'registration_no': Number(selected.entity.company_number),
         'entity_type': 'ROC',
-        'version_id': selected.image_version_id
+        'ctc': selected['product']['ctc'],
+        'language': lang
       }
-      this.downloadRequest(body, 'custom-data')
+      this.downloadRequestProduct(body)
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
@@ -627,7 +635,7 @@ export class ProfileComponent implements OnInit {
         'entity_type': 'ROC',
         'version_id': selected.image_version_id
       }
-      this.downloadRequest(body, 'document-form')
+      this.downloadRequestList(body, 'document-form')
     }
     else if (selected['cart_item_type'] == 'SE') { // Service
 
@@ -637,13 +645,31 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  downloadRequest(body, type) {
+  downloadRequestImg(body, type) {
+
+  }
+
+  downloadRequestProduct(body) {
+    this.spinner.show()
+    this.productService.generateDocument(body).subscribe(
+      (res: any) => {
+        this.spinner.hide()
+        let url = res.pdflink
+        window.open(url, '_blank');
+        // window.location.href =url;
+      },
+      () => {
+        this.spinner.hide()
+      }
+    )
+  }
+
+  downloadRequestList(body, type) {
     this.spinner.show()
     this.productService.generateList(body).subscribe(
       (res: any) => {
         this.spinner.hide()
         console.log(res)
-        
         if (type == 'custom-data') {
           let url = res.pdflink
           window.open(url, '_blank');
