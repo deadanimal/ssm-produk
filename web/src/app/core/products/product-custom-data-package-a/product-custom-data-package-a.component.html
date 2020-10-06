@@ -16,6 +16,7 @@
                                         class="form-control" 
                                         formControlName="incorpDtFrom"
                                         type="date"
+                                        (change)="checkDates()"
                                     >
                                 </div>
                             </div>
@@ -27,6 +28,7 @@
                                         class="form-control" 
                                         formControlName="incorpDtTo"
                                         type="date"
+                                        (change)="checkDates()"
                                     >
                                 </div>
                             </div>
@@ -62,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Sector</label>
@@ -82,7 +84,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
@@ -149,7 +151,10 @@
                                 </span>
                             </button>
 
-                            <button class="btn btn-ssm btn-round">
+                            <button 
+                                class="btn btn-ssm btn-round"
+                                (click)="navigatePage('/products/custom-data')"
+                            >
                                 Change Package
                             </button>
                             

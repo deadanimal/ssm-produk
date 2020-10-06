@@ -46,23 +46,6 @@
 						</div>
 						<div class="row pb-2 text-right">
 							<div class="col">
-								<div class="tools float-left">
-									<!-- <div class="dropdown" dropdown>
-										<button
-										class="btn dropdown-toggle btn-link btn-icon dropdown-toggle"
-										data-toggle="dropdown"
-										dropdownToggle
-										type="button"
-										>
-										<i class="fas fa-cog"> </i>
-										</button>
-										<div class="dropdown-menu dropdown-menu-left" *dropdownMenu>
-										<a class="dropdown-item" href="#"> Remove </a>
-										</div>
-									</div> -->
-								</div>
-							</div>
-							<div class="col">
 								<button 
 									class="btn btn-default rounded-pill mr-2"
 									(click)="navigatePage('/products/search')"
@@ -87,7 +70,7 @@
 											<select 
 												name="datatable_submitted_length" 
 												aria-controls="datatable"
-												class="form-control form-control-sm" 
+												class="custom-select custom-select-sm mx-1" 
 												(change)="entriesChange($event)"
 											>
 												<option value="10" [selected]="tableEntries == 10">10</option>
@@ -100,6 +83,21 @@
 										</label>
 									</div>
 								</div>
+								<div class="col-sm-12 col-md-6 float-right">
+									<div class="dropdown text-right float-right" dropdown>
+									  <button
+										class="btn dropdown-toggle btn-link btn-icon dropdown-toggle float-right"
+										data-toggle="dropdown"
+										dropdownToggle
+										type="button"
+									  >
+										<i class="fas fa-cogs text-ssm"> </i>
+									  </button>
+									  <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+										<a class="dropdown-item cursor-pointer" (click)="removeSelected()"> Remove selected </a>
+									  </div>
+									</div>
+								  </div>
 							</div>
 
 							<ngx-datatable 
@@ -113,6 +111,29 @@
 								[messages]="tableMessages"
 								(activate)="onActivate($event)"
 							>
+								<!-- <ngx-datatable-column maxWidth="60" [sortable]="false">
+									<ng-template ngx-datatable-header-template>
+										<span class="table-header">
+										</span>
+									</ng-template>
+									<ng-template let-row="row" ngx-datatable-cell-template>
+										<div class="custom-control custom-checkbox">
+											<input 
+												type="checkbox" 
+												class="custom-control-input" 
+												id="customCheck+{{row.id_index}}"
+												(change)="checkRow(row)"
+												[(ngModel)]="row.isTick"
+											>
+											<label 
+												class="custom-control-label" 
+												for="customCheck+{{row.id_index}}"
+											>
+											</label>
+										  </div>
+									</ng-template>
+								</ngx-datatable-column> -->
+
 								<ngx-datatable-column maxWidth="60">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">No.</span>
@@ -183,6 +204,7 @@
 										<div *ngIf="row.product">
 											<span *ngIf="row.product.language == 'MS'">BM</span>
 											<span *ngIf="row.product.language == 'EN'">BI</span>
+											<span *ngIf="row.product.language == 'NA'">-</span>
 										</div>
 										<div *ngIf="!row.product">
 											-

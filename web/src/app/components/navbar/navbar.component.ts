@@ -1,14 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CartsService } from '../../shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 
-// auth service
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { Cart } from 'src/app/shared/services/carts/carts.model';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
+import { ToastrService } from 'ngx-toastr';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-navbar',
@@ -26,18 +25,17 @@ export class NavbarComponent implements OnInit {
   cartz: boolean = false
   isAuthenticated = false
 
-  cartItems: any[] = []
-
   // Data
   currentUser: User
+  cartItems: any[] = []
 
   constructor(
-    private router: Router,
     private cartService: CartsService,
     private productService: ProductsService,
-    private authService: AuthService,
-    public cdRef: ChangeDetectorRef,
-    private userService: UsersService
+    private userService: UsersService,
+    private loadingBar: LoadingBarService,
+    private router: Router,
+    private toastr: ToastrService,
   ) {
     router.events.subscribe(
       (val) => {
@@ -49,16 +47,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    // setInterval(() => {
-    //   this.cartz = this.productService.cart;
-    // });
-
-    // setInterval(() => {
-    //   this.cart = this.cartService.carts;
-    //   console.log(this.cart)
-    // }, 1000);
-    
-
   }
 
   getData(choice) {
@@ -73,6 +61,9 @@ export class NavbarComponent implements OnInit {
           if (this.cartItems.length > 0) {
             this.isEmpty = false
           }
+          else {
+            this.isEmpty = true
+          }
         }
       )
     } 
@@ -86,6 +77,9 @@ export class NavbarComponent implements OnInit {
         () => {
           if (this.cartItems.length > 0) {
             this.isEmpty = false
+          }
+          else {
+            this.isEmpty = true
           }
         }
       )
@@ -102,12 +96,19 @@ export class NavbarComponent implements OnInit {
 
   userLogin() {
     let userId = 'cd64567d-b88d-460c-a661-1d1e7305d876'
+    this.loadingBar.useRef('http').start()
     this.userService.getOne(userId).subscribe(
       (res: any) => {
+        this.loadingBar.useRef('http').complete()
+        let title = 'Success'
+        let message = 'Logging in...'
         this.currentUser = this.userService.currentUser
         this.isAuthenticated = true
+        this.toastr.success(message, title)
       },
-      () => {},
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
       () => {
         this.checkCart()
       }
