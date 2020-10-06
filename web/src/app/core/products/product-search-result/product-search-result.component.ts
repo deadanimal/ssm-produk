@@ -242,11 +242,15 @@ export class ProductSearchResultComponent implements OnInit {
       slug: new FormControl('financial_historical'), // Financial Historical
       language: new FormControl('MS'),
       isCtc: new FormControl(false),
-      fee: new FormControl(2000)
+      fee: new FormControl(2000),
+      year1: new FormControl(''),
+      year2: new  FormControl('')
     })
 
     this.finComparisonForm = this.fb.group({
-      slug: new FormControl('Fin Comparison'), // Financial Comparison
+      slug: new FormControl('financial_comparison'), // Financial Comparison
+      language: new FormControl('EN'),
+      isCtc: new FormControl(false),
       year: new FormControl(2),
       fee: new FormControl(2000)
     })
@@ -405,6 +409,25 @@ export class ProductSearchResultComponent implements OnInit {
     )
   }
 
+  addCartFin() {
+    if (this.finComparisonForm.value['year'] = 2) {
+      this.cartForm.controls['product'].setValue('f9bf60ed-ee4e-4767-9463-be469fd52139')
+      this.addItem()
+    }
+    else if (this.finComparisonForm.value['year'] = 3) {
+      this.cartForm.controls['product'].setValue('12fd6c17-0ca0-47cf-bb0f-37aab5e9524e')
+      this.addItem()
+    }
+    else if (this.finComparisonForm.value['year'] = 5) {
+      this.cartForm.controls['product'].setValue('225aa393-4b45-4d99-868a-62ae5f40b218')
+      this.addItem()
+    }
+    else if (this.finComparisonForm.value['year'] = 10) {
+      this.cartForm.controls['product'].setValue('a7298fdf-2372-4677-b5c4-6a8e57f3369b')
+      this.addItem()
+    }
+  }
+
   addItem() {
     let title = 'Success'
     let message = 'Item is added to the cart'
@@ -458,6 +481,25 @@ export class ProductSearchResultComponent implements OnInit {
     }
     else {
       row['price'] = 1000
+    }
+  }
+
+  checkerFin(selected) {
+    if (selected == 2) {
+      this.finComparisonForm.controls['year'].setValue(2)
+      this.finComparisonForm.controls['fee'].setValue(2000)
+    }
+    else if (selected == 3) {
+      this.finComparisonForm.controls['year'].setValue(3)
+      this.finComparisonForm.controls['fee'].setValue(3000)
+    }
+    else if (selected == 5) {
+      this.finComparisonForm.controls['year'].setValue(5)
+      this.finComparisonForm.controls['fee'].setValue(5000)
+    }
+    else if (selected == 10) {
+      this.finComparisonForm.controls['year'].setValue(10)
+      this.finComparisonForm.controls['fee'].setValue(10000)
     }
   }
 
