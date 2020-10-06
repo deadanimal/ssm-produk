@@ -19,7 +19,10 @@ import { PaymentCallbackComponent } from './payment/payment-callback/payment-cal
 import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
 
 import { ProductSearchComponent } from './products/product-search/product-search.component';
+import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
+import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
+import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
 import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
 import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
