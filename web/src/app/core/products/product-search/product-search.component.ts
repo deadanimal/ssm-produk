@@ -17,8 +17,6 @@ import { Router } from '@angular/router';
 
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Outfit } from 'src/app/shared/services/outfits/outfits.model';
-import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service';
 
 // user service
 import { UsersService } from 'src/app/shared/services/users/users.service';

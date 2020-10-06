@@ -44,7 +44,7 @@ export class User {
   public is_active: boolean;
   public egov_request: string;
   public egov_quota: string;
-  public egov_package: string;
+  public egov_package: number;
 
   constructor(
     id: string,
@@ -91,7 +91,7 @@ export class User {
     is_active: boolean,
     egov_request: string,
     egov_quota: string,
-    egov_package: string
+    egov_package: number
   ) {
     this.id = id;
     this.title = title;

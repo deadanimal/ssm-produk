@@ -16,7 +16,7 @@ import { UsersService } from "src/app/shared/services/users/users.service";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 
 // request
-import { InvestigationTicketsService } from "src/app/shared/services/investigation-tickets/investigation-tickets.service";
+// import { InvestigationTicketsService } from "src/app/shared/services/investigation-tickets/investigation-tickets.service";
 
 @Component({
   selector: "app-request-investigation-document",
@@ -58,7 +58,7 @@ export class RequestInvestigationDocumentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private AuthService: AuthService,
     private UsersService: UsersService,
-    private InvestigationTicketsService: InvestigationTicketsService,
+    // private InvestigationTicketsService: InvestigationTicketsService,
     private router: Router
   ) {}
 
@@ -82,9 +82,9 @@ export class RequestInvestigationDocumentComponent implements OnInit {
       });
     }
 
-    this.InvestigationTicketsService.getAll().subscribe((res) => {
-      this.userdetails = res;
-    });
+    // this.InvestigationTicketsService.getAll().subscribe((res) => {
+    //   this.userdetails = res;
+    // });
 
     this.requestInvestigationDocForm = this.formBuilder.group({
       id: new FormControl(""),
@@ -101,21 +101,21 @@ export class RequestInvestigationDocumentComponent implements OnInit {
 
   addNewRequestData() {
     console.log("payment data -> ", this.requestInvestigationDocForm.value);
-    this.InvestigationTicketsService.create(
-      this.requestInvestigationDocForm.value
-    ).subscribe(
-      (res) => {
-        console.log(res);
-        this.successAlert("Successfully Save Data");
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => console.log("HTTP request completed.")
-    );
+    // this.InvestigationTicketsService.create(
+    //   this.requestInvestigationDocForm.value
+    // ).subscribe(
+    //   (res) => {
+    //     console.log(res);
+    //     this.successAlert("Successfully Save Data");
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //     // this.loadingBar.complete();
+    //     // this.errorMessage();
+    //     // console.log("HTTP Error", err), this.errorMessage();
+    //   },
+    //   () => console.log("HTTP request completed.")
+    // );
   }
 
   requestInvestigationDoc() {
