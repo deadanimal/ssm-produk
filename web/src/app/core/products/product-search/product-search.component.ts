@@ -24,6 +24,8 @@ import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service'
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { EntitiesService } from 'src/app/shared/services/entities/entities.service';
+import { Entity } from 'src/app/shared/services/entities/entities.model';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
   single = 'single',
@@ -40,163 +42,56 @@ export enum SelectionType {
 })
 export class ProductSearchComponent implements OnInit {
 
-  // Data
-  outfits: Outfit[] = [];
-
   // Table
-  tableEntries: number = 10;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: Outfit[] = [];
-  SelectionType = SelectionType;
+  tableEntries: number = 10
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: Entity[] = []
+  SelectionType = SelectionType
 
   // Search field
-  focus;
-  searchField: string = '';
-  searchResult: Outfit[] = [];
-  searchEntityType: string = 'all'
+  focus
+  searchEntityType: string = 'AL'
 
   // Checker
-  isEmpty = true;
-  isNoResult = false;
-  isGotResult = false;
-  showIcondiv = true;
+  isEmpty = true
+  isNoResult = false
+  isGotResult = false
 
-  // Form
-  productForm: FormGroup;
-  newIdentityForm: FormGroup;
+  // Slider
+  slider1 = 'assets/img/banner/banner portal-01.png'
+  slider2 = 'assets/img/banner/banner portal-02.png'
+  slider3 = 'assets/img/banner/banner portal-03.png'
+  slider4 = 'assets/img/banner/banner portal-04.png'
 
-  // Data
-  searchResults: any[] = [];
-  pdfProduct: any;
-
-  // slider
-  slider1 = 'assets/img/banner/banner portal-01.png';
-  slider2 = 'assets/img/banner/banner portal-02.png';
-  slider3 = 'assets/img/banner/banner portal-03.png';
-  slider4 = 'assets/img/banner/banner portal-04.png';
-
-  /// hardcode user
-  userType: String;
-  userID: String;
-  userdetails: any;
-  user_type = 'PB';
 
   constructor(
+    private entityService: EntitiesService,
+    private loadingBar: LoadingBarService,
     private router: Router,
-    private fb: FormBuilder,
-    private productService: ProductsService,
     private spinner: NgxSpinnerService,
-    private UsersService: UsersService,
-    private outfitService: OutfitsService,
-    private AuthService: AuthService,
-    private entityService: EntitiesService
   ) {}
 
-  ngOnInit(): void {
-    if (this.AuthService.userID != undefined) {
-      this.userType = this.AuthService.userType;
-      this.userID = this.AuthService.userID;
-
-      this.UsersService.getOne(this.userID).subscribe((res) => {
-        this.userdetails = res;
-        this.user_type = this.userdetails.user_type;
-        if (this.userdetails.user_type == 'EG') {
-          this.showIcondiv == false;
-        }
-        // console.log('se = ', this.userdetails);
-        // console.log('Svc: ', this.tableRows);
-      });
-    }
-
-    this.initForms()
-    // this.initData()
-  }
-
-  initForms() {
-    this.productForm = this.fb.group({
-      name: new FormControl('getCompProfile'),
-      registration_number: new FormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-    });
-
-    this.newIdentityForm = this.fb.group({
-      name: new FormControl('getNewFormatEntity'),
-      registration_number: new FormControl(
-        '',
-        Validators.compose([Validators.required])
-      ),
-    });
-  }
-
-  initData() {
-    this.outfitService.getAll().subscribe(
-      () => {
-        this.outfits = this.outfitService.outfits;
-        this.tableRows = this.outfits
-        console.log(this.tableRows)
-      },
-      () => {},
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });
-        console.log(this.tableTemp)
-      }
-    );
-  }
-
-  navigatePage(path: string, selectedEntity) {
-    // console.log('Path: ', path)
-    let extras = selectedEntity
-    this.router.navigate([path], extras);
-  }
-
-  search() {
-    // this.isEmpty = false
-    // this.isGotResult = true
-    
-    this.spinner.show()
-    // console.log(this.tableTemp.length)
-    setTimeout(() => {
-      this.spinner.hide()
-      if (this.tableTemp.length >= 1) {
-        this.isEmpty = false
-        this.isGotResult = true
-      }
-      else {
-        this.showAlertNotFound()
-      }
-    }, 2000)
-  }
-
-  viewResult() {
-    console.log('View result');
-    this.router.navigate(['/product-listing']);
-  }
+  ngOnInit(): void {}
 
   query($event) {
-///////!!!!!!!!!!!!!!
-    /// 3 digit and above = ROC 
-    
     // this.spinner.show()
+    this.loadingBar.useRef('http').start()
     let val = $event.target.value
     this.entityService.query(val).subscribe(
       () => {
         // this.spinner.hide()
         this.tableRows = this.entityService.entitiesQuery
+        this.loadingBar.useRef('http').complete()
       },
       () => {
         // this.spinner.hide()
-        this.showAlertNotFound()
+        this.loadingBar.useRef('http').complete()
+        this.error()
         this.isEmpty = true
         this.isGotResult = false
+        
       },
       () => {
         this.tableTemp = this.tableRows.map((prop, key) => {
@@ -207,14 +102,15 @@ export class ProductSearchComponent implements OnInit {
         });
         // console.log(this.tableTemp.length)
 
-        if (this.tableTemp.length > 0) {
-          this.isEmpty = false
-          this.isGotResult = true
-        }
-        else {
+        if (this.tableTemp.length == 0) {
           this.isEmpty = true
           this.isGotResult = false
-          this.showAlertNotFound()
+          this.error()
+        }
+        else {
+          this.isEmpty = false
+          this.isGotResult = true
+          this.filterTable()
         }
       }
     )
@@ -224,37 +120,26 @@ export class ProductSearchComponent implements OnInit {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
-    let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+  filterTable() {
+    let val = this.searchEntityType.toLowerCase();
+    console.log(val)
 
-    if (this.searchEntityType == 'all') {
-      this.tableTemp = this.tableRows.filter(function(d) {
-        // console.log(d.type_of_entity)
-        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-      })
+    if (this.searchEntityType == 'AL') {
+      this.tableTemp = this.tableRows
     }
     else if (this.searchEntityType == 'AD') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'AD') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'BS') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'BS') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'CP') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'CP') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
   }
@@ -268,11 +153,22 @@ export class ProductSearchComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
+  navigateItem(path: string, selectedEntity) {
+    // console.log('Path: ', path)
+    let extras = selectedEntity
+    this.router.navigate([path], extras);
+  }
+
+  navigatePage(path: string) {
+    // console.log('Path: ', path)
+    this.router.navigate([path]);
+  }
+
   export() {
     this.showAlertSuccessExport()
   }
 
-  showAlertNotFound() {
+  error() {
     swal.fire({
       title: 'Warning',
       text:
@@ -285,7 +181,7 @@ export class ProductSearchComponent implements OnInit {
         cancelButton: 'btn btn-outline-warning ',
         confirmButton: 'btn btn-warning ',
       },
-    });
+    })
   }
 
   showAlertSuccessExport() {

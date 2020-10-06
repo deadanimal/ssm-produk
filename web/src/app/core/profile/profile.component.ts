@@ -15,8 +15,6 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 // auth service
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
-// request
-import { InvestigationTicketsService } from 'src/app/shared/services/investigation-tickets/investigation-tickets.service';
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 
 import * as moment from 'moment';
@@ -80,6 +78,7 @@ export class ProfileComponent implements OnInit {
   /// form
   requestInvestigationDocForm: FormGroup;
   updateUserInfoForm: FormGroup;
+  addressForm: FormGroup
 
   // Table
   tableEntries: number = 10
@@ -110,7 +109,7 @@ export class ProfileComponent implements OnInit {
     private transactionService: TransactionsService,
     private userService: UsersService,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -126,7 +125,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.user_obj = this.authService.decodedToken();
 
-    this.requestInvestigationDocForm = this.formBuilder.group({
+    this.requestInvestigationDocForm = this.fb.group({
       id: new FormControl(''),
       reference_letter_number: new FormControl(''),
       ip_no: new FormControl(''),
@@ -135,7 +134,7 @@ export class ProfileComponent implements OnInit {
       officer: new FormControl(this.userID),
     });
 
-    this.updateUserInfoForm = this.formBuilder.group({
+    this.updateUserInfoForm = this.fb.group({
       id: new FormControl(''),
       full_name: new FormControl(''),
       email: new FormControl(''),
@@ -143,6 +142,16 @@ export class ProfileComponent implements OnInit {
       nric_number: new FormControl(''),
       phone_number: new FormControl('')
     });
+
+    this.addressForm = this.fb.group({
+      address1: new FormControl('Address 1', Validators.required),
+      address2: new FormControl('Address 2', Validators.required),
+      address3: new FormControl('Address 3', Validators.required),
+      postcode: new FormControl('41200', Validators.required),
+      city: new FormControl('Petaling Jaya', Validators.required),
+      state: new FormControl('Selangor', Validators.required),
+      country: new FormControl('Malaysia', Validators.required)
+    })
 
     this.getData();
   }

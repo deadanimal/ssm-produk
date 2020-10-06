@@ -143,11 +143,29 @@
 							State 
 							<span class="text-warning">*</span>
 						</label>
-						<input 
+						<select 
 							class="form-control"
 							placeholder="Enter state" 
 							formControlName="state"
-						/>
+						>
+							<option selected hidden value=''>Please select</option>						
+							<option value="Johor">Johor</option>
+							<option value="Kedah">Kedah</option>
+							<option value="Kelantan">Kelantan</option>
+							<option value="Melaka">Melaka</option>
+							<option value="Negeri Sembilan">Negeri Sembilan</option>
+							<option value="Pahang">Pahang</option>
+							<option value="Perak">Perak</option>
+							<option value="Perlis">Perlis</option>
+							<option value="Pulau Pinang">Pulau Pinang</option>
+							<option value="Sabah">Sabah</option>
+							<option value="Sarawak">Sarawak</option>
+							<option value="Selangor">Selangor</option>
+							<option value="Terengganu">Terengganu</option>
+							<option value="W.P. Kuala Lumpur">W.P. Kuala Lumpur</option>
+							<option value="W.P. Labuan">W.P. Labuan</option>
+							<option value="W.P. Putrajaya">W.P. Putrajaya</option>
+						</select>
 					</div>
 				</div>
 
@@ -167,6 +185,13 @@
 			</div>
 
 			<div class="align-right text-right py-4">
+				<button 
+					class="btn btn-outline-ssm text-right btn-round"
+					(click)="resetForm()"
+				>
+					Reset
+				</button>
+
 				<button 
 					class="btn btn-ssm text-right btn-round"
 					[disabled]="!billingForm.valid"

@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <nav class="navbar navbar-main navbar-expand-lg navbar-dark headroom bg-ssm" id="navbar-main">
 	<div class="container">
 		<a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
@@ -127,33 +128,46 @@
 						<!-- List group -->
 
 						<div class="list-group list-group-flush" *ngIf="!isEmpty">
-							<a class="list-group-item list-group-item-action" *ngFor="let item of cartItems">
+							<a class="list-group-item list-group-item-action" *ngFor="let item of cartItems.slice(0, 5); let i=index">
 								<div class="row">
 									<div class="col">
+																				
 										<div *ngIf="item.service_request">
 											<p class="text-sm mb-0">
 												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.entities_type =='PR'">
-													CBID - ROB - Statistics
+													{{i+1}}. CBID - ROB - Statistics
 												</span>
 												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.entities_type =='LS'">
-													CBID - ROC - Listing
+													{{i+1}}. CBID - ROC - Listing
 												</span>
 												<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.entities_type =='PR'">
-													CBID - ROC - Statistics
+													{{i+1}}. CBID - ROC - Statistics
 												</span>
 												<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.entities_type =='LS'">
-													CBID - ROC - Listing
+													{{i+1}}. CBID - ROC - Listing
 												</span>
 											</p>
 										</div>
 
 										<div *ngIf="item.product">
 											<small>
-												{{item.entity.name}}
+												{{i+1}}. {{item.entity.name}}
 											</small>
 											<p class="text-sm mb-0">
 												<span>
 													{{item.product.name}}
+												</span>
+
+												<span *ngIf="item.product.ctc">
+													- CTC
+												</span>
+
+												<span *ngIf="item.product.language == 'EN'">
+													- English
+												</span>
+
+												<span *ngIf="item.product.language == 'MS'">
+													- Malay
 												</span>
 											</p>
 										</div>
@@ -161,14 +175,14 @@
 										<div *ngIf="item.quota">
 											<p class="text-sm mb-0">
 												<span *ngIf="item.quota.quota_type == '0A'">
-													Customized Data Package A Quota
+													{{i+1}}. Customized Data Package A Quota
 												</span>
 											</p>
 										</div>
 
 										<div *ngIf="item.product_search_criteria">
 											<p class="text-sm mb-0">
-												Customized Data Package A
+												{{i+1}}. Customized Data Package A
 											</p>
 										</div>
 									</div>
@@ -206,7 +220,7 @@
 							class="dropdown-item text-center text-primary font-weight-bold py-3"
 							*ngIf="!isEmpty"
 						>
-							View shopping cart
+							Go to cart
 						</a>
 					</div>
 				</li>
