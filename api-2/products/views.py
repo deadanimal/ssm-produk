@@ -458,7 +458,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_info_comp_name_chg(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'private_change_status':
+        elif name_ == 'certificate_of_conversion':
             middleware_data = get_cert_conversion(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 
