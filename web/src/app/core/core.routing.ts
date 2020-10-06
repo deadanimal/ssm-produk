@@ -42,6 +42,7 @@ import { ProductSearchEgovComponent } from './products/product-search-egov/produ
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
+import { EgovComponent } from './egov/egov/egov.component';
 
 
 export const CoreRoutes: Routes = [
@@ -214,6 +215,17 @@ export const CoreRoutes: Routes = [
           {
             path: 'checkout',
             component: CheckoutComponent
+          }
+        ]
+      },
+
+      // eGov
+      {
+        path: 'egov',
+        children: [
+          {
+            path: '',
+            component: EgovComponent
           }
         ]
       }

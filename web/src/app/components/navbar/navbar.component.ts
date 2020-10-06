@@ -8,6 +8,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,17 +37,43 @@ export class NavbarComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private router: Router,
     private toastr: ToastrService,
+    private cookieService: CookieService
   ) {
     router.events.subscribe(
       (val) => {
-        this.isCollapsed = true;
+        this.isCollapsed = true
       }
     )
-    this.cartz = this.productService.cart;
-    // this.getData()
+    this.cartz = this.productService.cart
+    this.checkUser()
   }
 
   ngOnInit() {
+  }
+
+  checkUser() {
+    let obtainedUserId = this.cookieService.getCookie('userId')
+
+    if (obtainedUserId) {
+      this.loadingBar.useRef('http').start()
+      this.userService.getOne(obtainedUserId).subscribe(
+      (res: any) => {
+        this.loadingBar.useRef('http').complete()
+        let title = 'Success'
+        let message = 'Logging in...'
+        this.currentUser = this.userService.currentUser
+        this.isAuthenticated = true
+        this.toastr.success(message, title)
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
+        this.checkCart()
+        this.cookieService.saveCookie('userId', this.currentUser.id)
+      }
+    )
+    }
   }
 
   getData(choice) {
@@ -94,8 +121,26 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
-  userLogin() {
-    let userId = 'cd64567d-b88d-460c-a661-1d1e7305d876'
+  userLogin(choice: number) {
+    let userId = ''
+
+    if (choice == 1) {
+      userId = '78a008d1-d0c3-42f2-aa47-cc3e7587f802'
+    }
+    else if (choice == 2) {
+      userId = '434f3f02-d3ce-4081-bab5-170d0bdce79d'
+    }
+    else if (choice == 3) {
+      userId = '87135e28-aff0-480f-9572-e68fd27e1d1b'
+    }
+    else if (choice == 4) {
+      userId = '82b00e61-22e9-494d-aff7-240c5ca2692b'
+    }
+    else if (choice == 5) {
+      userId = '5eff06ec-86ee-41f6-8484-13003fb0e62d'
+    }
+
+
     this.loadingBar.useRef('http').start()
     this.userService.getOne(userId).subscribe(
       (res: any) => {
@@ -111,8 +156,19 @@ export class NavbarComponent implements OnInit {
       },
       () => {
         this.checkCart()
+        this.cookieService.saveCookie('userId', this.currentUser.id)
       }
     )
+  }
+
+  logout() {
+    delete this.currentUser
+    delete this.userService.currentUser
+    this.cookieService.destroyCookie()
+    this.isAuthenticated = false
+    let title = 'Success'
+    let message = 'Logging out...'
+    this.toastr.success(message, title)
   }
 
   checkCart() {

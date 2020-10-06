@@ -31,6 +31,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CoreLayoutComponent } from './layouts/core-layout/core-layout.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CookieService } from './shared/handler/cookie/cookie.service';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -101,7 +102,9 @@ const cookieConfig: NgcCookieConsentConfig = {
     }),
     NgcCookieConsentModule.forRoot(cookieConfig),
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

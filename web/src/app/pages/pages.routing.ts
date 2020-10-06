@@ -32,10 +32,10 @@ export const PagesRoutes: Routes = [
         path: "cbidz",
         component: CbidComponent,
       },
-      {
-        path: "egov",
-        component: EgovComponent,
-      },
+      // {
+      //   path: "egov",
+      //   component: EgovComponent,
+      // },
       {
         path: "egov-details",
         component: EgovDetailsComponent,
