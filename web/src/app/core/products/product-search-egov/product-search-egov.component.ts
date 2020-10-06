@@ -17,13 +17,12 @@ import { Router } from '@angular/router';
 
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Outfit } from 'src/app/shared/services/outfits/outfits.model';
-import { OutfitsService } from 'src/app/shared/services/outfits/outfits.service';
 
 // user service
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { EntitiesService } from 'src/app/shared/services/entities/entities.service';
+import { User } from 'src/app/shared/services/users/users.model';
 
 export enum SelectionType {
   single = 'single',
@@ -41,20 +40,20 @@ export enum SelectionType {
 export class ProductSearchEgovComponent implements OnInit {
 
   // Data
-  outfits: Outfit[] = [];
+  outfits: any[] = [];
 
   // Table
   tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  tableRows: Outfit[] = [];
+  tableRows: any[] = [];
   SelectionType = SelectionType;
 
   // Search field
   focus;
   searchField: string = '';
-  searchResult: Outfit[] = [];
+  searchResult: any[] = [];
   searchEntityType: string = 'all'
 
   // Checker
@@ -71,17 +70,13 @@ export class ProductSearchEgovComponent implements OnInit {
   searchResults: any[] = [];
   pdfProduct: any;
 
+  user: User
+
   // slider
   slider1 = 'assets/img/banner/banner portal-01.png';
   slider2 = 'assets/img/banner/banner portal-02.png';
   slider3 = 'assets/img/banner/banner portal-03.png';
   slider4 = 'assets/img/banner/banner portal-04.png';
-
-  /// hardcode user
-  userType: String;
-  userID: String;
-  userdetails: any;
-  user_type = 'PB';
 
   constructor(
     private router: Router,
@@ -89,29 +84,21 @@ export class ProductSearchEgovComponent implements OnInit {
     private productService: ProductsService,
     private spinner: NgxSpinnerService,
     private UsersService: UsersService,
-    private outfitService: OutfitsService,
     private AuthService: AuthService,
     private entityService: EntitiesService
-  ) {}
+  ) {
+    this.getUser()
+  }
 
   ngOnInit(): void {
-    if (this.AuthService.userID != undefined) {
-      this.userType = this.AuthService.userType;
-      this.userID = this.AuthService.userID;
 
-      this.UsersService.getOne(this.userID).subscribe((res) => {
-        this.userdetails = res;
-        this.user_type = this.userdetails.user_type;
-        if (this.userdetails.user_type == 'EG') {
-          this.showIcondiv == false;
-        }
-        // console.log('se = ', this.userdetails);
-        // console.log('Svc: ', this.tableRows);
-      });
-    }
 
     this.initForms()
     // this.initData()
+  }
+
+  getUser() {
+    this.user = this.UsersService.currentUser
   }
 
   initForms() {
@@ -133,9 +120,9 @@ export class ProductSearchEgovComponent implements OnInit {
   }
 
   initData() {
-    this.outfitService.getAll().subscribe(
+    this.entityService.getAll().subscribe(
       () => {
-        this.outfits = this.outfitService.outfits;
+        this.outfits = this.entityService.entities;
         this.tableRows = this.outfits
         console.log(this.tableRows)
       },
@@ -152,10 +139,18 @@ export class ProductSearchEgovComponent implements OnInit {
     );
   }
 
-  navigatePage(path: string, selectedEntity) {
-    // console.log('Path: ', path)
+  navigatePage(selectedEntity) {
     let extras = selectedEntity
-    this.router.navigate([path], extras);
+    if (this.user.egov_package == 1) {
+      return this.router.navigate(['/products/search-result-package1'], extras);
+    }
+    else if (this.user.egov_package == 2) {
+      return this.router.navigate(['/products/search-result-package2'], extras);
+    }
+    else if (this.user.egov_package == 3) {
+      return this.router.navigate(['/products/search-result-package3'], extras);
+    }
+    
   }
 
   search() {

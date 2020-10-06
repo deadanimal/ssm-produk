@@ -147,7 +147,7 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-12">
-								<div class="table-responsive">
+								<div class="table-responsive" *ngIf="isReceipt">
 									<table class="table text-right">
 										<thead class="bg-default">
 											<tr>
@@ -193,12 +193,12 @@
 												</td>
 												<td>
 													<span *ngIf="it?.product">
-														{{it?.product/100 | number: '1.2-2'}}
+														{{it?.product.fee/100 | number: '1.2-2'}}
 													</span>
 												</td>
 												<td>
 													<span *ngIf="it?.product">
-														{{it?.product/100 | number: '1.2-2'}}
+														{{it?.product.fee/100 | number: '1.2-2'}}
 													</span>
 												</td>
 											</tr>

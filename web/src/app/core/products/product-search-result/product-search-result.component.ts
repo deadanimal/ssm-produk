@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProductCartsService } from 'src/app/shared/services/product-carts/product-carts.service';
 
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
@@ -13,11 +12,6 @@ import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import * as moment from 'moment';
-
-class Entity {
-  name: string;
-  registration_no: string;
-}
 
 export enum SelectionType {
   single = 'single',

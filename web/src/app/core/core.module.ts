@@ -72,6 +72,8 @@ import { ProductCustomDataPackageAComponent } from './products/product-custom-da
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
+import { EgovComponent } from './egov/egov/egov.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -115,6 +117,7 @@ import { ProductSearchResultPackage3Component } from './products/product-search-
     ProductCustomDataComponent,
     ProductCustomDataPackageAComponent,
     ProductCustomDataPackageBComponent,
+    EgovComponent,
   ],
   imports: [
     CommonModule,
@@ -130,6 +133,7 @@ import { ProductSearchResultPackage3Component } from './products/product-search-
     TabsModule.forRoot(),
     RouterModule.forChild(CoreRoutes),
     TooltipModule,
+    NgxCaptchaModule,
     LoadingBarModule
   ],
 })
