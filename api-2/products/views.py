@@ -80,6 +80,9 @@ from .helpers.mapping import status_of_comp_mapping, comp_type_mapping, state_ma
 from .helpers.acgs import acgs
 from .helpers.change_name import change_name
 from .helpers.particular_audit_firm import particular_audit_firm
+from .helpers.company_charges import company_charges
+from .helpers.particular_sharecapital import particular_sharecapital
+from .helpers.particular_shareholders import particular_shareholders
 
 from .models import (
     Product,
@@ -520,12 +523,12 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = particular_address(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'particulars_of_shareholders':
-            middleware_data = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
-            data_loaded = particular_shareholders(middleware_data, new_entity_id, language_)  
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'particulars_of_share_capital':
-            middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
-            data_loaded = particular_sharecapital(middleware_data, new_entity_id, language_)  
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'company_profile':
             now = datetime.now()
@@ -533,12 +536,13 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'business_profile':
+            print(entity_type_ )
             middleware_data = get_biz_profile(information_url, request_headers, registration_)
             data_loaded = biz_profile(middleware_data, new_entity_id, language_)
 
         elif name_ == 'particulars_of_company_secretary':
-            middleware_data = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
-            data_loaded = particular_cosec(middleware_data, new_entity_id, language_)  
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)   
 
         elif name_ == 'audit_firm_profile':
             middleware_data = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)

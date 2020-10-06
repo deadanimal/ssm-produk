@@ -10,7 +10,10 @@ from django.utils.timezone import now
 
 from .models import (
     Service,
-    ServiceRequest
+    ServiceRequest,
+    DocumentRequest,
+    DocumentRequestItem,
+    EgovernmentRequest
 )
 
 
@@ -30,3 +33,24 @@ class ServiceRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceRequest
         fields = '__all__'
+
+
+class DocumentRequestItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DocumentRequestItem
+        fields = '__all__'  
+
+class DocumentRequestSerializer(serializers.ModelSerializer):
+
+    document_request_items = DocumentRequestItemSerializer(many=True)
+
+    class Meta:
+        model = DocumentRequest
+        fields = '__all__'
+
+class EgovernmentRequestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EgovernmentRequest
+        fields = '__all__'          
