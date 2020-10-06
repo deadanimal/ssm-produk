@@ -42,6 +42,7 @@ export class ProductSearchResultComponent implements OnInit {
 
   // Checker
   isProceed: boolean = false;
+  finComparisonYear = 2;
 
   // Options
   ctcOpts = [
@@ -67,7 +68,10 @@ export class ProductSearchResultComponent implements OnInit {
   certIncorpForm: FormGroup
   certChangeNameForm: FormGroup
   certConversionForm: FormGroup
-  finComparisonForm: FormGroup
+  finComparison2Form: FormGroup
+  finComparison3Form: FormGroup
+  finComparison5Form: FormGroup
+  finComparison10Form: FormGroup
   finHistoricalForm: FormGroup
   partiDirOfficerForm: FormGroup
   partiShareCapForm: FormGroup
@@ -247,12 +251,32 @@ export class ProductSearchResultComponent implements OnInit {
       year2: new  FormControl('')
     })
 
-    this.finComparisonForm = this.fb.group({
-      slug: new FormControl('financial_comparison'), // Financial Comparison
+    this.finComparison2Form = this.fb.group({
+      slug: new FormControl('financial_comparison_2'), // Financial Comparison 2
       language: new FormControl('EN'),
       isCtc: new FormControl(false),
-      year: new FormControl(2),
       fee: new FormControl(2000)
+    })
+
+    this.finComparison3Form = this.fb.group({
+      slug: new FormControl('financial_comparison_3'), // Financial Comparison 3
+      language: new FormControl('EN'),
+      isCtc: new FormControl(false),
+      fee: new FormControl(3000)
+    })
+
+    this.finComparison5Form = this.fb.group({
+      slug: new FormControl('financial_comparison_5'), // Financial Comparison 5
+      language: new FormControl('EN'),
+      isCtc: new FormControl(false),
+      fee: new FormControl(5000)
+    })
+
+    this.finComparison10Form = this.fb.group({
+      slug: new FormControl('financial_comparison_10'), // Financial Comparison 10
+      language: new FormControl('EN'),
+      isCtc: new FormControl(false),
+      fee: new FormControl(10000)
     })
 
     this.partiDirOfficerForm = this.fb.group({
@@ -410,21 +434,17 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCartFin() {
-    if (this.finComparisonForm.value['year'] = 2) {
-      this.cartForm.controls['product'].setValue('f9bf60ed-ee4e-4767-9463-be469fd52139')
-      this.addItem()
+    if (this.finComparisonYear == 2) {
+      this.addCart(this.finComparison2Form)
     }
-    else if (this.finComparisonForm.value['year'] = 3) {
-      this.cartForm.controls['product'].setValue('12fd6c17-0ca0-47cf-bb0f-37aab5e9524e')
-      this.addItem()
+    else if (this.finComparisonYear == 3) {
+      this.addCart(this.finComparison3Form)
     }
-    else if (this.finComparisonForm.value['year'] = 5) {
-      this.cartForm.controls['product'].setValue('225aa393-4b45-4d99-868a-62ae5f40b218')
-      this.addItem()
+    else if (this.finComparisonYear == 5) {
+      this.addCart(this.finComparison5Form)
     }
-    else if (this.finComparisonForm.value['year'] = 10) {
-      this.cartForm.controls['product'].setValue('a7298fdf-2372-4677-b5c4-6a8e57f3369b')
-      this.addItem()
+    else if (this.finComparisonYear == 10) {
+      this.addCart(this.finComparison10Form)
     }
   }
 
@@ -486,20 +506,16 @@ export class ProductSearchResultComponent implements OnInit {
 
   checkerFin(selected) {
     if (selected == 2) {
-      this.finComparisonForm.controls['year'].setValue(2)
-      this.finComparisonForm.controls['fee'].setValue(2000)
+      this.finComparisonYear = 2
     }
     else if (selected == 3) {
-      this.finComparisonForm.controls['year'].setValue(3)
-      this.finComparisonForm.controls['fee'].setValue(3000)
+      this.finComparisonYear = 3
     }
     else if (selected == 5) {
-      this.finComparisonForm.controls['year'].setValue(5)
-      this.finComparisonForm.controls['fee'].setValue(5000)
+      this.finComparisonYear = 5
     }
     else if (selected == 10) {
-      this.finComparisonForm.controls['year'].setValue(10)
-      this.finComparisonForm.controls['fee'].setValue(10000)
+      this.finComparisonYear = 10
     }
   }
 
