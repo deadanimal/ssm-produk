@@ -82,3 +82,37 @@ class ServiceRequest(models.Model):
 
     class meta:
         ordering = ['created_date']
+
+
+class DocumentRequest(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+
+
+    remarks = models.TextField(null=True)
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']      
+
+class DocumentItemRequest(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+
+    document_request = models.ForeignKey(DocumentRequest, on_delete=models.CASCADE, null=True)
+
+    approved = models.BooleanField(default=False)
+    approved_date = models.DateTimeField(null=True)    
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    image_form_type = models.CharField(max_length=100, default='NA', null=True)
+    image_version_id = models.CharField(max_length=100, default='NA', null=True)
+
+    class meta:
+        ordering = ['created_date']             

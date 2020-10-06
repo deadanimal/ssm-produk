@@ -37,7 +37,6 @@ import { RequestInvestigationDocumentComponent } from './request-investigation-d
 import { ProductSearchComponent } from './products/product-search/product-search.component';
 import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
-import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
 import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
@@ -72,6 +71,7 @@ import { ProductCustomDataComponent } from './products/product-custom-data/produ
 import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +98,7 @@ import { BrowserModule } from '@angular/platform-browser';
     ProductSearchComponent,
     ProductSearchResultPackage1Component,
     ProductSearchResultPackage2Component,
+    ProductSearchResultPackage3Component,
     ProductSearchResultComponent,
     EnquiryEgovComponent,
     PersonalInvolvementSearchComponent,
