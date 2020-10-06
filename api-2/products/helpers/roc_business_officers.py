@@ -13,11 +13,14 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
-    weird_change_date_old = data_mdw_1['rocCompanyInfo']['dateOfChange']['#text']
-    weird_incorp_date_old = data_mdw_1['rocCompanyInfo']['incorpDate']['#text']
+    print(mdw_1)
 
-    temp_change_date_old = make_aware(datetime.strptime(weird_change_date_old, '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_change_date_new = temp_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    #weird_change_date_old = data_mdw_1['rocCompanyInfo']['dateOfChange']
+    weird_incorp_date_old = data_mdw_1['rocCompanyInfo']['incorpDate']['#text']
+    print(weird_incorp_date_old)
+
+    #temp_change_date_old = make_aware(datetime.strptime(weird_change_date_old, '%Y-%m-%dT%H:%M:%S.000Z'))
+    #temp_change_date_new = temp_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     temp_incorp_date_old = make_aware(datetime.strptime(weird_incorp_date_old, '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorp_date_new = temp_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
@@ -380,7 +383,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         'corpInfo': {
             'compName': data_mdw_1['rocCompanyInfo']['companyName'],
             'compOldName': data_mdw_1['rocCompanyInfo']['companyOldName'],
-            'changeDate': temp_change_date_new,
+            #'changeDate': temp_change_date_new,
             'compNoNew': data_mdw_2['newFormatNo'],
             'compNoOld': data_mdw_2['oldFormatNo'],
             'checkDigit': data_mdw_1['rocCompanyInfo']['checkDigit'],

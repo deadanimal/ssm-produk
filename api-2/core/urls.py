@@ -82,7 +82,10 @@ quotas_router = router.register(
 
 from services.views import (
     ServiceViewSet,
-    ServiceRequestViewSet
+    ServiceRequestViewSet,
+    DocumentRequestViewSet,
+    DocumentRequestItemViewSet,
+    EgovernmentRequestViewSet
 )
 
 services_router = router.register(
@@ -90,6 +93,10 @@ services_router = router.register(
 )
 service_requests_router = router.register(
     'service-requests', ServiceRequestViewSet
+)
+
+document_requests_router = router.register(
+    'document-requests', DocumentRequestViewSet
 )
 
 # Tickets app
