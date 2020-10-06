@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user_obj = this.authService.decodedToken();
+    // this.user_obj = this.authService.decodedToken();
 
     this.requestInvestigationDocForm = this.fb.group({
       id: new FormControl(''),
@@ -628,9 +628,17 @@ export class ProfileComponent implements OnInit {
       let body = {
         'name': selected['product']['slug'],
         'registration_no': Number(selected.entity.company_number),
-        'entity_type': 'ROC',
+        // 'entity_type': 'ROC', 
         'ctc': selected['product']['ctc'],
         'language': lang
+      }
+      let aa_ = selected['product']['slug'].split('_')[0]
+      if (aa_ == 'business') {
+        body['entity_type'] = 'ROB'
+        body['registration_no'] = selected.entity.registration_number
+      } else {
+        body['entity_type'] = 'ROC'
+        body['registration_no'] = Number(selected.entity.company_number)
       }
       this.downloadRequestProduct(body)
     }

@@ -8,7 +8,7 @@ import { CompanyStatus } from 'src/app/shared/models/company-status.model';
 import { StateCode } from 'src/app/shared/models/state-code.model';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
-import { ProductSearchCriteriaService } from 'src/app/shared/services/product-search-criteria/product-search-criteria.service';
+import { SearchCriteriasService } from 'src/app/shared/services/search-criterias/search-criterias.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
 import Swal from 'sweetalert2';
@@ -70,7 +70,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
 
   constructor(
     private cartService: CartsService,
-    private criteriaService: ProductSearchCriteriaService,
+    private criteriaService: SearchCriteriasService,
     private mockService: MocksService,
     private productService: ProductsService,
     private quotaService: QuotasService,

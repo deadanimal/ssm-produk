@@ -615,7 +615,7 @@
 								</h6>
 								<hr style="width: 100%" />
 
-								<form [formGroup]="requestInvestigationDocForm">
+								<form>
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="form-group">
@@ -627,7 +627,7 @@
 															<i class="fas fa-calendar-alt"> </i>
 														</span>
 													</div>
-													<input class="form-control" type="text" [value]="userEmail" />
+													<input class="form-control" type="text" />
 												</div>
 											</div>
 										</div>
@@ -642,7 +642,7 @@
 															<i class="far fa-calendar-alt"> </i>
 														</span>
 													</div>
-													<input class="form-control" type="text" [value]="userFullname" />
+													<input class="form-control" type="text" />
 												</div>
 											</div>
 										</div>
@@ -770,7 +770,7 @@
 														</span>
 													</div>
 													<input class="form-control"
-														formControlName="reference_letter_number" />
+														 />
 												</div>
 											</div>
 										</div>
@@ -785,7 +785,7 @@
 															<i class="fas fa-file-invoice"> </i>
 														</span>
 													</div>
-													<input class="form-control" formControlName="ip_no" />
+													<input class="form-control" />
 												</div>
 											</div>
 										</div>
@@ -800,7 +800,7 @@
 															<i class="fas fa-file-invoice"> </i>
 														</span>
 													</div>
-													<input class="form-control" formControlName="court_case_number" />
+													<input class="form-control" />
 												</div>
 											</div>
 										</div>
@@ -1127,21 +1127,19 @@
 
 	<div class="modal-body">
 		<h6 class="heading-small text-muted mb-4">User information</h6>
-		<form [formGroup]="updateUserInfoForm">
+		<form>
 			<div class="row">
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">Name</label>
-						<input class="form-control" placeholder="Enter name" formControlName="full_name"
-							[value]="userFullname" />
+						<input class="form-control" placeholder="Enter name" />
 					</div>
 				</div>
 
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">Email address</label>
-						<input class="form-control" placeholder="Enter email address" formControlName="email"
-							[value]="userEmail" />
+						<input class="form-control" placeholder="Enter email address"/>
 					</div>
 				</div>
 			</div>
@@ -1150,16 +1148,14 @@
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">IC. No.</label>
-						<input class="form-control" placeholder="Enter name" formControlName="nric_number"
-							[value]="userNric" />
+						<input class="form-control" placeholder="Enter name"/>
 					</div>
 				</div>
 
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">Position & Grade</label>
-						<input class="form-control" placeholder="Enter email address"
-							[value]="userdetails.position_or_grade" />
+						<input class="form-control" placeholder="Enter email address"/>
 					</div>
 				</div>
 			</div>
@@ -1168,14 +1164,13 @@
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">Tel Number</label>
-						<input class="form-control" placeholder="Enter Tel Number" formControlName="phone_number"
-							[value]="userdetails.phone_number" />
+						<input class="form-control" placeholder="Enter Tel Number" />
 					</div>
 				</div>
 				<div class="col-sm-12 col-lg-6">
 					<div class="form-group">
 						<label class="form-control-label">Package Type</label>
-						<input class="form-control" placeholder="Enter username" [value]="egovPackage" />
+						<input class="form-control" placeholder="Enter username"/>
 					</div>
 				</div>
 			</div>
