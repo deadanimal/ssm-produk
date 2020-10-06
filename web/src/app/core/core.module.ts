@@ -37,6 +37,7 @@ import { RequestInvestigationDocumentComponent } from './request-investigation-d
 import { ProductSearchComponent } from './products/product-search/product-search.component';
 import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchCustomComponent } from './products/product-search-custom/product-search-custom.component';
+import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchPiComponent } from './products/product-search-pi/product-search-pi.component';
 import { ProductSearchSdComponent } from './products/product-search-sd/product-search-sd.component';
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
@@ -70,6 +71,7 @@ import { PaymentReceiptComponent } from './payment/payment-receipt/payment-recei
 import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
 import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     ProfileComponent,
     EnquiryComponent,
     EnquiryGeneralComponent,
+
     KjakpComponent,
+    
     CbidComponent,
     PaymentComponent,
     CompanyDetailComponent,
@@ -99,7 +103,9 @@ import { ProductCustomDataPackageBComponent } from './products/product-custom-da
     PersonalInvolvementSearchComponent,
     CbidSearchComponent,
     CbidSearchResultComponent,
-
+    ProductSearchResultPackage1Component,
+    ProductSearchResultPackage2Component,
+    ProductSearchEgovComponent,
     ProductSearchPiComponent,
     ProductSearchSdComponent,
     ProductSearchCustomComponent,

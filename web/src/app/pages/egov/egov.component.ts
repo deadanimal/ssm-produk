@@ -140,29 +140,7 @@ export class EgovComponent implements OnInit {
   }
 
   signInUser() {
-    let jwtHelper: JwtHelperService = new JwtHelperService();
-    console.log("login = ", this.authSignInForm.value);
-    // this.authSignInForm.value.username = this.signInForm.value.username;
-    // this.authSignInForm.value.email = this.signInForm.value.email;
-    // this.authSignInForm.value.password = this.signInForm.value.password;
-    // this.authSignInForm.value.password2 = this.signInForm.value.password2;
-    // console.log(this.authSignInForm.value);
-    this.AuthService.obtainToken(this.authSignInForm.value).subscribe(
-      (res) => {
-        this.cdRef.detectChanges();
-        let decodedToken = jwtHelper.decodeToken(res.access);
-        console.log("login ==>", decodedToken);
-        // this.navBar.checkChanges();
-        this.successAlert("Successfully Login To eGOV");
-      },
-      (err) => {
-        console.log(err);
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => console.log("HTTP request completed.")
-    );
+    this.router.navigate(['/products/search-egov'])
   }
 
   signUpUser() {
