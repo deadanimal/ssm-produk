@@ -425,8 +425,8 @@
                                             <div class="card-footer">
                                                 <form [formGroup]="finComparisonForm">
                                                     <div class="row pl-4 pb--6">
-                                                        <div class="col-md-5">
-                                                            <!-- <div class="form-group">
+                                                        <!-- <div class="col-md-5">
+                                                            <div class="form-group">
                                                                 <select 
                                                                     class="form-control form-control-sm"
                                                                     formControlName="language"
@@ -436,12 +436,12 @@
                                                                     <option value="EN">EN</option>
                                                                     <option value="BT">Both</option>
                                                                 </select>
-                                                            </div> -->
+                                                            </div>
                                                         </div>
 
                                                         <div class="col-md-7">
                                                             <div class="form-group">
-                                                                <!-- <div class="custom-control custom-checkbox">
+                                                                <div class="custom-control custom-checkbox">
                                                                     <input 
                                                                         type="checkbox" 
                                                                         class="custom-control-input"
@@ -454,15 +454,72 @@
                                                                         for="checkFinComparison">
                                                                         CTC (RM10.00)
                                                                     </label>
-                                                                </div> -->
+                                                                </div>
                                                             </div>
+                                                        </div> -->
+                                                        <div class="col">
+                                                            <button
+                                                                class="btn btn-ssm btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] == 2"
+                                                            >
+                                                                <small>2</small>
+                                                            </button>
+                                                            <button
+                                                                class="btn btn-white btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] != 2"
+                                                                (click)="checkerFin(2)"
+                                                            >
+                                                                <small class="text-ssm">2</small>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-ssm btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] == 3"
+                                                            >
+                                                                <small>3</small>
+                                                            </button>
+                                                            <button
+                                                                class="btn btn-white btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] != 3"
+                                                                (click)="checkerFin(3)"
+                                                            >
+                                                                <small class="text-ssm">3</small>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-ssm btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] == 5"
+                                                            >
+                                                                <small>5</small>
+                                                            </button>
+                                                            <button
+                                                                class="btn btn-white btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] != 5"
+                                                                (click)="checkerFin(5)"
+                                                            >
+                                                                <small class="text-ssm">5</small>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-ssm btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] == 10"
+                                                            >
+                                                                <small>10</small>
+                                                            </button>
+                                                            <button
+                                                                class="btn btn-white btn-round mr-1"
+                                                                *ngIf="finComparisonForm.value['year'] != 10"
+                                                                (click)="checkerFin(10)"
+                                                            >
+                                                                <small class="text-ssm">10</small>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
 
                                                 <div class="text-center pt-3">
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                        (click)="addCart(finComparisonForm)">
+                                                        (click)="addCartFin()">
                                                         <span class="text-sm">
                                                             Add to cart
                                                             RM{{finComparisonForm.value['fee']/100 | number : '1.2-2'}}
