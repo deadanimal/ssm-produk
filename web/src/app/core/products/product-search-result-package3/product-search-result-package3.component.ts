@@ -65,7 +65,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
   tableDocumentTemp = []
   tableDocumentActiveRow: any
   tableDocumentRows: any[] = []
-  SelectionType = SelectionType
+  // SelectionType = SelectionType
   tableDocumentMessages = {
     // Message to show when array is presented
     // but contains no values

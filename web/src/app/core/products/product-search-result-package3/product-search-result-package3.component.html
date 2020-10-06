@@ -19,7 +19,6 @@
                                 [limit]="tableEntries != -1 ? tableEntries : undefined" 
                                 [rows]="tableTemp"
                                 [messages]="tableMessages"
-                                (activate)="onActivate($event)"
                             >
                                 <ngx-datatable-column maxWidth="140">
                                     <ng-template ngx-datatable-header-template>
@@ -95,7 +94,6 @@
             [limit]="tableEntries != -1 ? tableEntries : undefined" 
             [rows]="tableDocumentTemp"
             [messages]="tableDocumentMessages"
-            (activate)="onActivate($event)"
         >
         <ngx-datatable-column maxWidth="20">
             <ng-template let-row="row" ngx-datatable-cell-template>
