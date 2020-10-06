@@ -35,6 +35,7 @@
               "src/assets/scss/argon-design-system.scss"
             ],
             "scripts": [
+
             ],
             "es5BrowserSupport": true
           },
