@@ -17,12 +17,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Service,
-    ServiceRequest
+    ServiceRequest,
+    DocumentRequest,
+    DocumentRequestItem,
+    EgovernmentRequest
 )
 
 from .serializers import (
     ServiceSerializer,
-    ServiceRequestSerializer
+    ServiceRequestSerializer,
+    DocumentRequestSerializer,
+    DocumentRequestItemSerializer   ,
+    EgovernmentRequestSerializer 
 )
 
 from carts.models import Cart, CartItem
@@ -167,3 +173,63 @@ class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = ServiceRequestSerializer(service_request)
         return Response(serializer.data)
 
+
+
+class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = DocumentRequest.objects.all()
+    serializer_class = DocumentRequestSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = DocumentRequest.objects.all()
+
+        return queryset    
+
+
+
+class DocumentRequestItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = DocumentRequestItem.objects.all()
+    serializer_class = DocumentRequestItemSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = DocumentRequestItem.objects.all()
+
+        return queryset   
+
+class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EgovernmentRequest.objects.all()
+    serializer_class = EgovernmentRequestSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EgovernmentRequest.objects.all()
+
+        return queryset         
