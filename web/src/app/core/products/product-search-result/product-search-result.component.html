@@ -460,13 +460,13 @@
                                                         <div class="col">
                                                             <button
                                                                 class="btn btn-ssm btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] == 2"
+                                                                *ngIf="finComparisonYear == 2"
                                                             >
                                                                 <small>2</small>
                                                             </button>
                                                             <button
                                                                 class="btn btn-white btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] != 2"
+                                                                *ngIf="finComparisonYear != 2"
                                                                 (click)="checkerFin(2)"
                                                             >
                                                                 <small class="text-ssm">2</small>
@@ -474,13 +474,13 @@
 
                                                             <button
                                                                 class="btn btn-ssm btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] == 3"
+                                                                *ngIf="finComparisonYear == 3"
                                                             >
                                                                 <small>3</small>
                                                             </button>
                                                             <button
                                                                 class="btn btn-white btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] != 3"
+                                                                *ngIf="finComparisonYear != 3"
                                                                 (click)="checkerFin(3)"
                                                             >
                                                                 <small class="text-ssm">3</small>
@@ -488,13 +488,13 @@
 
                                                             <button
                                                                 class="btn btn-ssm btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] == 5"
+                                                                *ngIf="finComparisonYear == 5"
                                                             >
                                                                 <small>5</small>
                                                             </button>
                                                             <button
                                                                 class="btn btn-white btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] != 5"
+                                                                *ngIf="finComparisonYear != 5"
                                                                 (click)="checkerFin(5)"
                                                             >
                                                                 <small class="text-ssm">5</small>
@@ -502,13 +502,13 @@
 
                                                             <button
                                                                 class="btn btn-ssm btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] == 10"
+                                                                *ngIf="finComparisonYear == 10"
                                                             >
                                                                 <small>10</small>
                                                             </button>
                                                             <button
                                                                 class="btn btn-white btn-round mr-1"
-                                                                *ngIf="finComparisonForm.value['year'] != 10"
+                                                                *ngIf="finComparisonYear != 10"
                                                                 (click)="checkerFin(10)"
                                                             >
                                                                 <small class="text-ssm">10</small>
@@ -522,7 +522,18 @@
                                                         (click)="addCartFin()">
                                                         <span class="text-sm">
                                                             Add to cart
-                                                            RM{{finComparisonForm.value['fee']/100 | number : '1.2-2'}}
+                                                        </span>
+                                                        <span class="text-sm" *ngIf="finComparisonYear == 2">
+                                                            RM{{finComparison2Form.value['fee']/100 | number : '1.2-2'}}
+                                                        </span>
+                                                        <span class="text-sm" *ngIf="finComparisonYear == 3">
+                                                            RM{{finComparison3Form.value['fee']/100 | number : '1.2-2'}}
+                                                        </span>
+                                                        <span class="text-sm" *ngIf="finComparisonYear == 5">
+                                                            RM{{finComparison5Form.value['fee']/100 | number : '1.2-2'}}
+                                                        </span>
+                                                        <span class="text-sm" *ngIf="finComparisonYear == 10">
+                                                            RM{{finComparison10Form.value['fee']/100 | number : '1.2-2'}}
                                                         </span>
                                                     </a>
                                                     <a class="btn btn-ssm btn-block btn-sm cursor-pointer"
