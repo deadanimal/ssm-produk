@@ -84,7 +84,8 @@ from services.views import (
     ServiceViewSet,
     ServiceRequestViewSet,
     DocumentRequestViewSet,
-    DocumentRequestItemViewSet
+    DocumentRequestItemViewSet,
+    EgovernmentRequestViewSet
 )
 
 services_router = router.register(
