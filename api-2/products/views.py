@@ -378,28 +378,29 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         info_charges = get_info_charges(information_url, request_headers, registration_)   
 
         data_json = {
-            'info_acgs': '',
-            'cert_incorp': '',
-            'cert_incorp': '',
-            'cert_incorp': '',
-            'cert_reg_foreign': '',
-            'info_comp_name_chg': '',
-            'cert_conversion': '',
-            'info_fin2': '',
-            'info_fin3': '',
-            'info_fin5': '',
-            'info_fin10': '',
-            'roc_business_officers': '',
-            'roc_changes_registered_address': '',
-            'details_of_shareholders': '',
-            'details_of_share_capital': '',
-            'comp_prof': '',
-            'biz_profile': '',
-            'particulars_of_cosec': '',
-            'particulars_of_adt_firm': '',
-            'info_rob_termination': '',
-            'info_charges': '',
-            'info_charges': '',
+            'acgs': True,
+            'certificate_of_incorporation_registration': True,
+            'public_incorp_cert': True,
+            'public_guarantee_incorp_cert': True,
+            'foreign_incorp_cert': True,
+            'certificate_of_change_of_name': True,
+            'certificate_of_conversion': True,
+            'financial_historical': True,
+            'financial_comparison_2': True,
+            'financial_comparison_3': True,
+            'financial_comparison_5': True,
+            'financial_comparison_10': True,
+            'particulars_of_directors_officers': True,
+            'particulars_of_registered_address': True,
+            'particulars_of_shareholders': True,
+            'particulars_of_share_capital': True,
+            'company_profile': True,
+            'business_profile': True,
+            'particulars_of_company_secretary': True,
+            'audit_firm_profile': True,
+            'business_termination_letter': True,
+            'company_charges': True,
+            'foreign_change_name': True,
         }     
 
         return JsonResponse(data_json)
@@ -458,7 +459,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_info_comp_name_chg(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'private_change_status':
+        elif name_ == 'certificate_of_conversion':
             middleware_data = get_cert_conversion(information_url, request_headers, registration_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)
 

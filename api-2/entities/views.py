@@ -64,6 +64,8 @@ class EntityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             Q(name__icontains=name) | 
             Q(company_number__icontains=name) |
             Q(registration_number__icontains=name) |
+            Q(company_number_new__icontains=name) |
+            Q(registration_number_new__icontains=name) |            
             Q(audit_firm_number__icontains=name)).all()
 
         serializer = EntitySerializer(entities, many=True)
