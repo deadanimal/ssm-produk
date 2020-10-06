@@ -99,7 +99,7 @@ class DocumentRequest(models.Model):
     class meta:
         ordering = ['created_date']      
 
-class DocumentItemRequest(models.Model):
+class DocumentRequestItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
 
@@ -115,4 +115,37 @@ class DocumentItemRequest(models.Model):
     image_version_id = models.CharField(max_length=100, default='NA', null=True)
 
     class meta:
-        ordering = ['created_date']             
+        ordering = ['created_date']    
+
+class EgovernmentRequest(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    EGOV_REQUEST = [
+        ('NA', 'NA'),
+        ('AP', 'Approved'),
+        ('PD', 'Pending')
+    ]
+    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='NA')
+
+    egov_package = models.IntegerField(default=0, null=False)
+    egov_quota = models.IntegerField(default=0, null=True)
+    
+    position_or_grade = models.CharField(max_length=30, blank=True, null=True)
+
+    head_of_department_name = models.CharField(max_length=50, blank=True, null=True)
+    head_of_department_position = models.CharField(max_length=50, blank=True, null=True)
+    head_of_department_email = models.EmailField(max_length=50, blank=True, null=True)
+
+    ministry_name = models.CharField(max_length=50, blank=True, null=True)
+    division_name = models.CharField(max_length=50, blank=True, null=True)
+    agency_name = models.CharField(max_length=50, blank=True, null=True)
+    department_name = models.CharField(max_length=50, blank=True, null=True)    
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']    
+             
