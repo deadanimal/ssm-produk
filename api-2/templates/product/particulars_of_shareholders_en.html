@@ -49,11 +49,15 @@
                 font-size: 22px;
                 text-align: justify;
             }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
             }
             table tr.heading td {
                 color: #333;
+            }
+            .table td, .table th {
+                border-top: 0px;
             }
             .pg-break {
                 page-break-before: always; 
@@ -74,288 +78,218 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                Although all efforts has been carried out to ensure that the information provided is 
-                accurate and up to date, the Registrat of Companies will not be liable for any losses 
-                arising from any inaccurate or omitted information.
+                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
+                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
+                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
+                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
+                INFORMATION.
             </p>
-            <h2 class="font-weight-bold text-center">PARTICULAR OF SHAREHOLDERS</h2>
-            <h2 class="font-weight-bold text-center">*** CORPORATE INFORMATION ***</h2>
 
-            <div class="table-responsive">
-                <table class="table text-left borderless">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p id="secondary">Name</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compName}}</p>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p id="secondary">Last Old Name</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compOldName}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>       
-                            <td>
-                                <p id="secondary">Date Of Change</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.changeDate}}</p>
-                            </td>                            
-                        </tr>         
-                        <tr>       
-                            <td>
-                                <p id="secondary">Registration No.</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: <strong>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld}})</strong></p>
-                            </td>                            
-                        </tr>         
-                        <tr>       
-                            <td>
-                                <p id="secondary">Incorporation Date</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.incorpDate}}</p>
-                            </td>                            
-                        </tr>       
-                        <tr>       
-                            <td>
-                                <p id="secondary">Type</p></td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.companyType}}</p>
-                                <p id="secondary">: {{data.corpInfo.companyStatus}}</p>
-                            </td>                            
-                        </tr>     
-                        <tr>       
-                            <td>
-                                <p id="secondary">Status</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.statusOfCompany}}</p>
-                            </td>
-                                
-                        </tr>  
-                        <tr>       
-                            <td>
-                                <p id="secondary">Registered Address</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.reg_address1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.reg_address1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.reg_address2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.reg_address2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.reg_address3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.reg_address3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.reg_town %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.reg_town}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.reg_state %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.reg_state}} </p>
-                                {% endif %}
-                            </td>                            
-                        </tr> 
-                        <tr>       
-                            <td>
-                                <p id="secondary">Postcode</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.reg_postcode %}
-                                <p id="secondary">: {{data.corpInfo.reg_postcode}} </p>
-                                {% endif %}
-                            </td>
-                        </tr> 
-                            <td>
-                                <p id="secondary">Origin</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.reg_origin %}
-                                <p id="secondary">: {{data.corpInfo.reg_origin}} </p>
-                                {% endif %}
-                            </td>
-                        </tr> 
-                            <td>
-                                <p id="secondary">Business Address</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.biz_address1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.biz_address1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.biz_address2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.biz_address2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.biz_address3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.biz_address3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.biz_town %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.biz_town}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.biz_state %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.biz_state}} </p>
-                                {% endif %}
-                            </td>
-                            <tr>       
-                                <td>
-                                    <p id="secondary">Postcode</p>
-                                </td>
-                                <td>
-                                {% if data.corpInfo.biz_postcode %}
-                                <p id="secondary">: {{data.corpInfo.biz_postcode}} </p>
-                                {% endif %}
-                            </td>
-                                                            
-                        </tr> 
-                        <tr>       
-                            <td>
-                                <p id="secondary">Nature Of Business</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.biz_nature %}
-                                <p id="secondary">: {{data.corpInfo.biz_nature}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                            </td>
-                        </tr> 
-                    </tbody>
+            <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> CORPORATE INFORMATION </u></h2>
+
+            <div class="table-responsive"  style="padding-right:200px; margin-left:100px;">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">LAST OLD NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.company_info.companyOldName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">DATE OF CHANGE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.date_of_change }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">INCORPORATION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.incorp_date }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">TYPE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if 'B' in data.company_info.companyType %}
+                                LIMITED BY SHARE AND GUARANTEE
+                            {% endif %}
+                            {% if 'G' in data.company_info.companyType %}
+                                LIMITED BY GUARANTEE
+                            {% endif %}
+                            {% if 'S' in data.company_info.companyType %}
+                                LIMITED BY SHARES
+                            {% endif %}
+                            {% if 'U' in data.company_info.companyType %}
+                                UNLIMITED
+                            {% endif %}
+                            {% if 'R' in data.company_info.companyStatus %}
+                            <br>
+                                PRIVATE LIMITED
+                            {% endif %}
+                            {% if 'U' in data.company_info.companyStatus %}
+                            <br>
+                                PUBLIC LIMITED
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">STATUS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary">
+                            {% if 'B' in data.company_info.statusOfCompany %}
+                                DISSOLVED CONVERSION TO LLP
+                            {% endif %}
+                            {% if 'C' in data.company_info.statusOfCompany %}
+                                CEASED BUSINESS
+                            {% endif %}
+                            {% if 'D' in data.company_info.statusOfCompany %}
+                                DISSOLVED
+                            {% endif %}
+                            {% if 'E' in data.company_info.statusOfCompany %}
+                                EXISTING
+                            {% endif %}
+                            {% if 'R' in data.company_info.statusOfCompany %}
+                                REMOVED
+                            {% endif %}
+                            {% if 'W' in data.company_info.statusOfCompany %}
+                                WINDING UP
+                            {% endif %}
+                            {% if 'X' in data.company_info.statusOfCompany %}
+                                NULL AND VOID BY COURT ORDER
+                            {% endif %}
+                            {% if 'Y' in data.company_info.statusOfCompany %}
+                                STRUCK-OFF & WINDING-UP VIA COURT ORDER
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">REGISTERED ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                                <p id="secondary">{{data.registered_address_info.address1}}</p>
+                            {% if data.registered_address_info.address2 %}
+                                <p id="secondary">  {{data.registered_address_info.address2}}</p>
+                            {% endif %}
+                            {% if data.registered_address_info.address3 %}
+                                <p id="secondary">  {{data.registered_address_info.address3}}</p>
+                            {% endif %}
+                                <p id="secondary">  {{data.registered_address_info.town}}</p>
+                            {% if 'J' in data.registered_address_info.state %}
+                                <p class="mt-0"> Johor</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.registered_address_info.postcode}}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">ORIGIN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if 'MAL' in data.company_info.companyCountry %}
+                                <p id="secondary">MALAYSIA</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">BUSINESS ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary">{{data.business_address_info.address1}} </p>
+                            <p id="secondary">  {{data.business_address_info.address2}}</p>
+                            {% if data.business_address_info.address3 %}
+                                <p id="secondary">  {{data.business_address_info.address3}}</p>
+                            {% endif %}
+                            <p id="secondary">  {{data.business_address_info.town}} </p>
+                            {% if 'J' in data.business_address_info.state %}
+                                <p id="secondary"> Johor</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.business_address_info.postcode}}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">NATURE OF BUSINESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.company_info.businessDescription %}
+                                {{data.company_info.businessDescription}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
                 </table>
             </div>
             
-            <h3 class="font-weight-bold text-center pg-break">*** CURRENT SHAREHOLDERS ****</h3>
-            <p id="primary">Name: {{data.corpInfo.compName}}</p>
-            <p id="primary">Registration No.: <strong>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld}})</strong></p>
+
+
+            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SUMMARY OF SHAREHOLDER </u></h2>
+
             <div class="table-responsive">
-                <table class="table text-left borderless"> 
-                    <thead>
-                        <tr>
-                            <td>
-                                <p id="secondary">ID/PASSPORT/REGISTRATION NO.</p>
-                            </td>
-                            <td>
-                                <p id="secondary">NAME/COMPANY NAME/ADDRESS</p>
-                            </td>
-                            <td>
-                                <p id="secondary">TOTAL SHARES</p>
-                            </td>
-                            <td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in data.current %}
-                        <tr>
-                            <td>
-                                <p id="secondary" class="mb-0">{{item.name}}</p>
-                                {% if item.address1 %}
-                                <p id="secondary" class="mb-0">{{item.address1}} </p>
-                                {% else %}
-                                <p id="secondary">NIL</p>
-                                {% endif %}
-                                {% if item.address2 %}
-                                <p id="secondary" class="my-0">{{item.address2}} </p>
-                                {% endif %}
-                                {% if item.address3 %}
-                                <p id="secondary" class="my-0">{{item.address3}} </p>
-                                {% endif %}
-                                {% if item.town %}
-                                <p id="secondary" class="my-0">{{item.postcode}} {{item.town}} </p>
-                                {% endif %}
-                                {% if item.state %}
-                                <p id="secondary" class="my-0">{{item.state}} </p>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.idNo}}</p>
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.designation}}</p>
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.dateAppointment}}</p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                    </tr>                    
                 </table>
-            </div>
+            </div>            
 
-            <h3 class="font-weight-bold text-center pg-break">*** CHANGE OF SHAREHOLDING ****</h3>
-            <p id="primary">Name: {{data.corpInfo.compName}}</p>
-            <p id="primary">Registration No.: {{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld}})</p>
-
-            <p id="disclaimer">*The information of change of shareholding is extracted from the company's document is registered as of 31
-                January 2017 based on the last ten (10) changes in the register of member lodged with SSM.
-            </p>
             <div class="table-responsive">
                 <table class="table text-left borderless">
-                    <thead>
-                        <tr>
-                            <td>
-                                <p id="secondary">ID/PASSPORT/REGISTRATION NO.</p>
-                            </td>
-                            <td>
-                                <p id="secondary">NAME/COMPANY NAME/ADDRESS</p>
-                            </td>
-                            <td>
-                                <p id="secondary">SHARE IN</p>
-                            </td>
-                            <td>
-                                <p id="secondary">SHARE OUT</p>
-                            </td>
-                            <td>
-                                <p id="secondary">TOTAL</p>
-                            </td>
-                        </tr>
-                    </thead>
+                    <tr>
+                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
+                        <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
+                        <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
+                      </tr>
                     <tbody>
-                        {% for item in data.previous %}
-                        <tr>
-                            <td>
-                                <p id="secondary" class="mb-0">{{item.name}}</p>
-                                {% if item.address1 %}
-                                <p id="secondary" class="mb-0">{{item.address1}} </p>
-                                {% else %}
-                                <p id="secondary">NIL</p>
-                                {% endif %}
-                                {% if item.address2 %}
-                                <p id="secondary" class="my-0">{{item.address2}} </p>
-                                {% endif %}
-                                {% if item.address3 %}
-                                <p id="secondary" class="my-0">{{item.address3}} </p>
-                                {% endif %}
-                                {% if item.town %}
-                                <p id="secondary" class="my-0">{{item.postcode}} {{item.town}} </p>
-                                {% endif %}
-                                {% if item.state %}
-                                <p id="secondary" class="my-0">{{item.state}} </p>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.idNo}}</p>
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.designation}}</p>
-                            </td>
-                            <td>
-                                <p id="secondary">{{item.dateAppointment}}</p>
-                            </td>
-                            <td></td>
-                        </tr>
+                        {% for shareholder in data.shareholders_data %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">{{ shareholder.id }}</p></td>
+                            <td><p id="secondary">{{ shareholder.name }}</p></td>
+                            <td><p id="secondary" class="text-right">{{ shareholder.share  }}</p></td>
+                        </tr>    
                         {% endfor %}
+                                                                                                                   
+                      
+
+              
                     </tbody>
                 </table>
-            </div>
+            </div> 
         </div>
     </body>
 

@@ -119,3 +119,14 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
+    @action(methods=['GET'], detail=False)
+    def lol(self, request, *args, **kwargs): 
+
+        users = CustomUser.objects.all()
+        serializer = CustomUserSerializer(users, many=True)
+
+        for user in users:
+            print(user.email, ': ', user.id)
+        
+        return Response(serializer.data)         
+
