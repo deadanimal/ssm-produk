@@ -32,10 +32,11 @@
               "src/assets/css/nucleo-svg.css",
               "src/assets/css/nucleo-icons.css",
               "src/assets/css/font-awesome.css",
-              "src/assets/scss/argon-design-system.scss"
+              "src/assets/scss/argon-design-system.scss",
+              "node_modules/cookieconsent/build/cookieconsent.min.css"
             ],
             "scripts": [
-
+              "node_modules/cookieconsent/build/cookieconsent.min.js"
             ],
             "es5BrowserSupport": true
           },
