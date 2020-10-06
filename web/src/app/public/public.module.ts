@@ -10,6 +10,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgcCookieConsentModule } from 'ngx-cookieconsent';
 
 import { RouterModule } from '@angular/router';
 import { PublicRoutes } from './public.routing';
@@ -40,7 +41,8 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
-    RouterModule.forChild(PublicRoutes)
+    RouterModule.forChild(PublicRoutes),
+    NgcCookieConsentModule
   ]
 })
 export class PublicModule { }
