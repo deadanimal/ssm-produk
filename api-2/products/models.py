@@ -64,8 +64,9 @@ class ProductSearchCriteria(models.Model):
     company_origin = models.CharField(max_length=100, default='NA') 
     company_location = models.CharField(max_length=100, default='NA') 
     division = models.CharField(max_length=100, default='NA') 
-    business_code = models.CharField(max_length=100, default='NA') 
-
+    business_code = models.CharField(max_length=100, default='NA')
+    total_page = models.IntegerField(default=0)
+    total_price = models.IntegerField(default=0)
 
     class meta:
         ordering = ['id']
