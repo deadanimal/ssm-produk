@@ -570,6 +570,12 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         elif language_ == 'ms':
             html_string = render_to_string('product/'+ name_ +'_ms.html', {'data': data_loaded})
 
+        if 'pdf' in product_request_json:
+            if product_request_json['pdf'] == False:
+                serializer = data_loaded
+                return Response(serializer)
+
+
             
         html = HTML(string=html_string)
         pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])

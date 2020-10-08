@@ -4,6 +4,7 @@ import { FaqComponent } from './faq/faq.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { HomeComponent } from './home/home.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
 export const PublicRoutes: Routes = [
     {
@@ -20,6 +21,10 @@ export const PublicRoutes: Routes = [
             {
                 path: 'home',
                 component: HomeComponent
+            },
+            {
+                path: 'not-authorized',
+                component: NotAuthorizedComponent
             },
             {
                 path: 'user-guide',

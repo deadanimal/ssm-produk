@@ -1,29 +1,17 @@
 import {
   Component,
-  OnInit,
-  OnDestroy,
-  NgZone,
-  TemplateRef,
+  OnInit
 } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
-import { ProductsService } from 'src/app/shared/services/products/products.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-// user service
-import { UsersService } from 'src/app/shared/services/users/users.service';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { EntitiesService } from 'src/app/shared/services/entities/entities.service';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
+
 import { Entity } from 'src/app/shared/services/entities/entities.model';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
   single = 'single',
@@ -63,7 +51,6 @@ export class ProductSearchComponent implements OnInit {
   slider3 = 'assets/img/banner/banner portal-03.png'
   slider4 = 'assets/img/banner/banner portal-04.png'
 
-
   constructor(
     private entityService: EntitiesService,
     private loadingBar: LoadingBarService,
@@ -75,43 +62,50 @@ export class ProductSearchComponent implements OnInit {
 
   query($event) {
     // this.spinner.show()
-    this.loadingBar.useRef('http').start()
     let val = $event.target.value
-    this.entityService.query(val).subscribe(
-      () => {
-        // this.spinner.hide()
-        this.tableRows = this.entityService.entitiesQuery
-        this.loadingBar.useRef('http').complete()
-      },
-      () => {
-        // this.spinner.hide()
-        this.loadingBar.useRef('http').complete()
-        this.error()
-        this.isEmpty = true
-        this.isGotResult = false
-        
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });
-        // console.log(this.tableTemp.length)
 
-        if (this.tableTemp.length == 0) {
+    if (val.length == 0) {
+      this.isEmpty = true
+      this.isGotResult = false
+    }
+    else {
+      this.loadingBar.useRef('http').start()
+      this.entityService.query(val).subscribe(
+        () => {
+          // this.spinner.hide()
+          this.tableRows = this.entityService.entitiesQuery
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          // this.spinner.hide()
+          this.loadingBar.useRef('http').complete()
+          this.error()
           this.isEmpty = true
           this.isGotResult = false
-          this.error()
+          
+        },
+        () => {
+          this.tableTemp = this.tableRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            };
+          });
+          // console.log(this.tableTemp.length)
+  
+          if (this.tableTemp.length == 0) {
+            this.isEmpty = true
+            this.isGotResult = false
+            this.error()
+          }
+          else {
+            this.isEmpty = false
+            this.isGotResult = true
+            this.filterTable()
+          }
         }
-        else {
-          this.isEmpty = false
-          this.isGotResult = true
-          this.filterTable()
-        }
-      }
-    )
+      )
+    }
   }
 
   entriesChange($event) {
@@ -120,7 +114,7 @@ export class ProductSearchComponent implements OnInit {
 
   filterTable() {
     let val = this.searchEntityType.toLowerCase();
-    console.log(val)
+    // console.log(val)
 
     if (this.searchEntityType == 'AL') {
       this.tableTemp = this.tableRows
@@ -145,10 +139,6 @@ export class ProductSearchComponent implements OnInit {
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
-  }
-
-  onActivate(event) {
-    this.tableActiveRow = event.row;
   }
 
   navigateItem(path: string, selectedEntity) {
