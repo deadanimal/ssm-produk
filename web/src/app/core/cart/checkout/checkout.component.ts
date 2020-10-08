@@ -84,20 +84,20 @@ export class CheckoutComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private fileService: LocalFilesService
-  ) {}
+  ) {
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        console.log(this.formTypes)
+      }
+    )
+  }
 
   ngOnInit(): void {
     this.getData()
   }
 
   getData() {
-    this.fileService.get('form-types.json').subscribe(
-      (res) => {
-        this.formTypes = res
-        // console.log(this.formTypes)
-      }
-    )
-
     this.loadingBar.useRef('http').start()
     this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
       () => {
@@ -116,6 +116,9 @@ export class CheckoutComponent implements OnInit {
             }
             else if(item.quota) {
               this.total += 2000
+            }
+            else if(item.product_search_criteria) {
+              this.total += item.product_search_criteria.total_price
             }
 
             if (item['image_form_type']) {

@@ -223,6 +223,12 @@
 														RM20.00
 													</span>
 												</small>
+												
+												<small *ngIf="item.product_search_criteria">
+													<span>
+														RM{{item.product_search_criteria.total_price/100 | number : '1.2-2'}}
+													</span>
+												</small>
 											</div>
 										</div>
 									</div>

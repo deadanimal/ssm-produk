@@ -8,6 +8,8 @@ export class SearchCriteria {
     public company_location: string
     public division: string
     public business_code: string
+    public total_page: number
+    public total_price: number
 
     constructor(
         id: string,
@@ -18,7 +20,9 @@ export class SearchCriteria {
         company_origin: string,
         company_location: string,
         division: string,
-        business_code: string
+        business_code: string,
+        total_page: number,
+        total_price: number
     ) {
         this.id = id
         this.incorp_date_from = incorp_date_from
@@ -29,5 +33,7 @@ export class SearchCriteria {
         this.company_location = company_location
         this.division = division
         this.business_code = business_code
+        this.total_page = total_page
+        this.total_price = total_price
     }
 }
