@@ -11,6 +11,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 
 import { User } from 'src/app/shared/services/users/users.model';
 import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
   // Data
   currentUser: User
   cartItems: CartItemExtended[] = []
+  formTypes: any[] = []
 
   constructor(
     private cartService: CartsService,
@@ -39,7 +41,8 @@ export class NavbarComponent implements OnInit {
     private userService: UsersService,
     private loadingBar: LoadingBarService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fileService: LocalFilesService,
   ) {
     router.events.subscribe(
       (val) => {
@@ -51,6 +54,12 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        // console.log(this.formTypes)
+      }
+    )
   }
 
   checkUser() {
@@ -111,6 +120,19 @@ export class NavbarComponent implements OnInit {
             else {
               this.isEmpty = true
             }
+            this.cartItems.forEach(
+              (item) => {
+                if (item['image_form_type']) {
+                  this.formTypes.forEach(
+                    (code) => {
+                      if (code.code == item['image_form_type']) {
+                        item['image_form_type'] = code.desc_en
+                      } 
+                    }
+                  )
+                }
+              }
+            )
           }
         )
       }

@@ -44,7 +44,8 @@ export class TransactionsService {
   }
 
   getLatest(): Observable<any> {
-    let urlTemp = this.urlTransactions + 'latest_successful/?user=' + this.userService.currentUser.id
+    let urlTemp = this.urlTransactions + 'latest_successful/?ordering=-payment_gateway_update_date&user=' + this.userService.currentUser.id
+    console.log(urlTemp)
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
         this.transactionLatest = res
