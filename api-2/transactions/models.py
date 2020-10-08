@@ -42,8 +42,9 @@ class Transaction(models.Model):
     address2 = models.CharField(max_length=512, null=True) 
     address3 = models.CharField(max_length=512, null=True) 
     postcode = models.CharField(max_length=512, null=True) 
-    country = models.CharField(max_length=512, null=True) 
+    state = models.CharField(max_length=512, null=True) 
     city = models.CharField(max_length=512, null=True) 
+    country = models.CharField(max_length=512, null=True) 
     email_address = models.CharField(max_length=512, null=True) 
     phone_number = models.CharField(max_length=512, null=True) 
 
