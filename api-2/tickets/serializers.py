@@ -13,7 +13,10 @@ from .models import (
     TicketSubject,
     Ticket,
     TicketCBID,
-    TicketInvestigation
+    TicketInvestigation,
+    EnquiryTicket,
+    EnquiryTicketReply,
+    EnquiryTicketSelection
 )
 
 from users.serializers import (
@@ -72,3 +75,22 @@ class TicketInvestigationSerializer(serializers.ModelSerializer):
         model = TicketInvestigation
         fields = '__all__'
 
+
+
+class EnquiryTicketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EnquiryTicket
+        fields = '__all__'
+
+class EnquiryTicketReplySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EnquiryTicketReply
+        fields = '__all__'
+
+class EnquiryTicketSelectionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EnquiryTicketSelection
+        fields = '__all__'                
