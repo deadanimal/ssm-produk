@@ -176,3 +176,69 @@ class TicketInvestigation(models.Model):
         return self.entity_type
 
 
+class EnquiryTicket(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
+
+    #topic_id
+    #subject_id
+
+    TICKET_TYPE = [
+        
+        
+        ('NA', 'Not Available')
+    ]
+    ticket_type = models.CharField(choices=TICKET_TYPE, max_length=2, default='NA')
+
+    TICKET_STATUS = [
+        
+        
+        ('NA', 'Not Available')
+    ]
+    ticket_status = models.CharField(choices=TICKET_STATUS, max_length=2, default='PG')    
+
+
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+
+class EnquiryTicketReply(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
+
+    enquiry_ticket = models.ForeignKey(EnquiryTicket, on_delete=models.CASCADE) 
+    receipt_number = models.CharField(max_length=100, default='NA')
+    #document
+    #error_supporting_doc
+    #error_prodict
+    #error_screenshot
+
+    message = models.TextField(null=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+class EnquiryTicketSelection(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
+    category = models.CharField(max_length=100, default='NA')
+    selection_type = models.CharField(max_length=100, default='NA')
+
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name

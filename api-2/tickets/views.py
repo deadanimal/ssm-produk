@@ -15,7 +15,10 @@ from .models import (
     TicketSubject,
     Ticket,
     TicketCBID,
-    TicketInvestigation
+    TicketInvestigation,
+    EnquiryTicket,
+    EnquiryTicketReply,
+    EnquiryTicketSelection
 )
 
 from .serializers import (
@@ -25,7 +28,10 @@ from .serializers import (
     TicketExtendedSerializer,
     TicketCBIDSerializer,
     TicketCBIDExtendedSerializer,
-    TicketInvestigationSerializer
+    TicketInvestigationSerializer,
+    EnquiryTicketSerializer,
+    EnquiryTicketReplySerializer,
+    EnquiryTicketSelectionSerializer    
 )
 
 class TicketTopicViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -223,3 +229,93 @@ class TicketInvestigationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         return queryset    
  
+
+class TicketInvestigationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = TicketInvestigation.objects.all()
+    serializer_class = TicketInvestigationSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = TicketInvestigation.objects.all()
+
+        """
+        if self.request.user.is_anonymous:
+            queryset = Company.objects.none()
+
+        else:
+            user = self.request.user
+            company_employee = CompanyEmployee.objects.filter(employee=user)
+            company = company_employee[0].company
+            
+            if company.company_type == 'AD':
+                queryset = TicketInvestigation.objects.all()
+            else:
+                queryset = TicketInvestigation.objects.filter(company=company.id)
+        """
+        return queryset    
+ 
+class EnquiryTicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EnquiryTicket.objects.all()
+    serializer_class = EnquiryTicketSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EnquiryTicket.objects.all()
+        return queryset    
+
+class EnquiryTicketReplyViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EnquiryTicketReply.objects.all()
+    serializer_class = EnquiryTicketReplySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EnquiryTicketReply.objects.all()
+        return queryset    
+
+class EnquiryTicketSelectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EnquiryTicketSelection.objects.all()
+    serializer_class = EnquiryTicketSelectionSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EnquiryTicketSelection.objects.all()
+        return queryset    
+
+
+
