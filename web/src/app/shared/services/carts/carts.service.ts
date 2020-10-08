@@ -34,7 +34,7 @@ export class CartsService {
     return this.http.post<any>(this.urlCarts, body).pipe(
       tap((res) => {
         this.cartCurrent = res
-        // console.log('User: ', res);
+        console.log('User: ', res);
       })
     );
   }
@@ -43,7 +43,7 @@ export class CartsService {
     return this.http.get<any[]>(this.urlCarts).pipe(
       tap((res) => {
         this.carts = res
-        // console.log('Carts: ', this.carts);
+        console.log('Carts: ', this.carts);
       })
     );
   }
@@ -53,7 +53,7 @@ export class CartsService {
     return this.http.get<CartExtended>(urlTemp).pipe(
       tap((res) => {
         this.cart = res
-        // console.log('Cart: ', this.cart);
+        console.log('Cart: ', this.cart);
       })
     );
   }
@@ -62,9 +62,9 @@ export class CartsService {
     let urlTemp = this.urlCarts + 'latest_successful/?user=' + this.userService.currentUser.id
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
-        console.log(res)
+        // console.log(res)
         // this.cart = res
-        // console.log('Cart: ', this.cart);
+        console.log('Cart: ', this.cart);
       })
     );
   }  
@@ -75,11 +75,11 @@ export class CartsService {
       tap((res: CartExtended[]) => {
         if (res.length == 1) {
           this.cartPending = res[0]
-          // console.log('Cart: ', this.cartPending)
+          console.log('Cart: ', this.cartPending)
         }
         else if (res.length >= 2) {
           this.cartsFiltered = res
-          // console.log('Carts: ', this.cartsFiltered)
+          console.log('Carts: ', this.cartsFiltered)
         }
       })
     );
@@ -90,7 +90,7 @@ export class CartsService {
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        // console.log('Added', this.cart);
+        console.log('Added', this.cart);
       })
     );
   }
@@ -100,7 +100,7 @@ export class CartsService {
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        // console.log('Removed', this.cart);
+        console.log('Removed', this.cart);
       })
     );
   }
@@ -110,7 +110,7 @@ export class CartsService {
     return this.http.patch<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        // console.log('Carts: ', this.cart);
+        console.log('Carts: ', this.cart);
       })
     );
   }
