@@ -65,7 +65,7 @@ export class PaymentReturnComponent implements OnInit {
             'TRA'+ this.loadedData.reference_no +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
             '<p class="mt-0">Purchase of product</p></div></div></div></div>',
       buttonsStyling: false,
-      confirmButtonText: 'Go to orders',
+      confirmButtonText: 'View receipt',
       customClass: {
         confirmButton: 'btn btn-success rounded-pill',
       },
