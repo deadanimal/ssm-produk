@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Cart } from './carts.model';
+import { Cart, CartExtended } from './carts.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -18,8 +18,10 @@ export class CartsService {
   // Data
   public cart: any
   public carts: any[] = []
-  public cartsFiltered: any[] = []
+  public cartsFiltered: CartExtended[] = []
   public cartsQuery: any[] = []
+
+  public cartPending: CartExtended
 
   public cartCurrent: any
 
@@ -32,7 +34,7 @@ export class CartsService {
     return this.http.post<any>(this.urlCarts, body).pipe(
       tap((res) => {
         this.cartCurrent = res
-        console.log('User: ', res);
+        // console.log('User: ', res);
       })
     );
   }
@@ -41,17 +43,17 @@ export class CartsService {
     return this.http.get<any[]>(this.urlCarts).pipe(
       tap((res) => {
         this.carts = res
-        console.log('Carts: ', this.carts);
+        // console.log('Carts: ', this.carts);
       })
     );
   }
 
-  getOne(id: string): Observable<any> {
+  getOne(id: string): Observable<CartExtended> {
     let urlTemp = this.urlCarts + id + '/with_item/'
-    return this.http.get<any>(urlTemp).pipe(
+    return this.http.get<CartExtended>(urlTemp).pipe(
       tap((res) => {
         this.cart = res
-        console.log('Cart: ', this.cart);
+        // console.log('Cart: ', this.cart);
       })
     );
   }
@@ -67,12 +69,18 @@ export class CartsService {
     );
   }  
 
-  filter(field: string): Observable<any[]> {
+  filter(field: string): Observable<CartExtended[]> {
     let urlTemp = this.urlCarts + '?' + field
     return this.http.get<any[]>(urlTemp).pipe(
-      tap((res) => {
-        this.cartsFiltered = res
-        console.log('Filtered', this.cartsFiltered);
+      tap((res: CartExtended[]) => {
+        if (res.length == 1) {
+          this.cartPending = res[0]
+          // console.log('Cart: ', this.cartPending)
+        }
+        else if (res.length >= 2) {
+          this.cartsFiltered = res
+          // console.log('Carts: ', this.cartsFiltered)
+        }
       })
     );
   }
@@ -82,7 +90,7 @@ export class CartsService {
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        console.log('Added', this.cart);
+        // console.log('Added', this.cart);
       })
     );
   }
@@ -92,7 +100,7 @@ export class CartsService {
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        console.log('Removed', this.cart);
+        // console.log('Removed', this.cart);
       })
     );
   }
@@ -102,7 +110,7 @@ export class CartsService {
     return this.http.patch<any>(urlTemp, body).pipe(
       tap((res) => {
         this.cart = res
-        console.log('Carts: ', this.cart);
+        // console.log('Carts: ', this.cart);
       })
     );
   }

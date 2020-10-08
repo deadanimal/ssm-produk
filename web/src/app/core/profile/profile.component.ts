@@ -623,8 +623,9 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      !selected['verId']
+      !selected['image_version_id']
     ) { // Product (Normal)
+      console.log('selected', selected)
       let body = {
         'name': selected['product']['slug'],
         'registration_no': Number(selected.entity.company_number),
@@ -644,15 +645,16 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      selected['verId']
+      selected['image_version_id']
     ) { // Product (Image)
+      console.log('selected', selected)
       let body = {
         'name': 'image',
         'registration_no': Number(selected.entity.company_number),
         'entity_type': 'ROC',
         'version_id': selected.image_version_id
       }
-      this.downloadRequestList(body, 'document-form')
+      this.downloadRequestImg(body)
     }
     else if (selected['cart_item_type'] == 'SE') { // Service
 
@@ -662,8 +664,19 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  downloadRequestImg(body, type) {
-
+  downloadRequestImg(body) {
+    this.spinner.show()
+    this.productService.generateImage(body).subscribe(
+      (res: any) => {
+        this.spinner.hide()
+        let url = 'data:image/tiff;base64,' + res
+        window.open(url, '_blank');
+        // console.log(res)
+      },
+      () => {
+        this.spinner.hide()
+      }
+    )
   }
 
   downloadRequestProduct(body) {

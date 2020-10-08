@@ -20,6 +20,7 @@ import { FaqComponent } from './faq/faq.component';
 import { UserGuideComponent } from './user-guide/user-guide.component';
 import { HomeComponent } from './home/home.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
     FaqComponent,
     UserGuideComponent,
     HomeComponent,
-    TermsConditionsComponent
+    TermsConditionsComponent,
+    NotAuthorizedComponent
   ],
   imports: [
     CommonModule,

@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { Product } from 'src/app/shared/services/products/products.model';
-import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import * as moment from 'moment';
@@ -103,7 +103,7 @@ export class ProductSearchResultComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private productService: ProductsService,
-    private mockService: MocksService,
+    private fileService: LocalFilesService,
     private modalService: BsModalService,
     private router: Router,
     private fb: FormBuilder,
@@ -126,7 +126,7 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   getData() {
-    this.mockService.get('form-types.json').subscribe(
+    this.fileService.get('form-types.json').subscribe(
       (res) => {
         this.formTypes = res
         // console.log(this.formTypes)
