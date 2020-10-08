@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Form } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Transaction } from './transactions.model';
+import { Transaction, TransactionExtended } from './transactions.model';
 import { UsersService } from '../users/users.service';
 
 @Injectable({
@@ -53,9 +53,9 @@ export class TransactionsService {
     )
   }
 
-  getExtended(): Observable<any[]> {
-    return this.http.get<any[]>(this.urlTransactionsExtended).pipe(
-      tap((res) => {
+  getExtended(): Observable<TransactionExtended[]> {
+    return this.http.get<TransactionExtended[]>(this.urlTransactionsExtended).pipe(
+      tap((res: TransactionExtended[]) => {
         this.transactions = res
         console.log('Transactions: ', res);
       })

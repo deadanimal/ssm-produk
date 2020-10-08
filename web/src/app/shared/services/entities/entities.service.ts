@@ -29,7 +29,7 @@ export class EntitiesService {
     return this.http.get<Entity[]>(urlTemp).pipe(
       tap((res) => {
         this.entitiesQuery = res
-        console.log('Query: ', this.entitiesQuery)
+        // console.log('Query: ', this.entitiesQuery)
       })
     )
   }
@@ -38,7 +38,7 @@ export class EntitiesService {
     return this.http.get<Entity[]>(this.urlEntities).pipe(
       tap((res) => {
         this.entities = res
-        console.log('Entities: ', this.entities);
+        // console.log('Entities: ', this.entities);
       })
     );
   }
@@ -48,7 +48,7 @@ export class EntitiesService {
     return this.http.get<Entity>(urlTemp).pipe(
       tap((res) => {
         this.entity = res
-        console.log('Entity: ', this.entity);
+        // console.log('Entity: ', this.entity);
       })
     );
   }
@@ -58,7 +58,7 @@ export class EntitiesService {
     return this.http.get<Entity[]>(urlTemp).pipe(
       tap((res) => {
         this.entitiesFiltered = res
-        console.log('Filtered', this.entitiesFiltered);
+        // console.log('Filtered', this.entitiesFiltered);
       })
     );
   }

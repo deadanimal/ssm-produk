@@ -307,3 +307,9 @@ h6 {
 .cursor-pointer {
   cursor: pointer !important;
 }
+
+.media-avatar {
+  display: flex;
+  -webkit-box-align: center !important;
+  align-items: center !important;
+}

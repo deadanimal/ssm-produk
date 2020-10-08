@@ -7,7 +7,7 @@ import { BusinessCode } from 'src/app/shared/models/business-code.model';
 import { CompanyStatus } from 'src/app/shared/models/company-status.model';
 import { StateCode } from 'src/app/shared/models/state-code.model';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
-import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 import { SearchCriteriasService } from 'src/app/shared/services/search-criterias/search-criterias.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
@@ -71,7 +71,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
   constructor(
     private cartService: CartsService,
     private criteriaService: SearchCriteriasService,
-    private mockService: MocksService,
+    private fileService: LocalFilesService,
     private productService: ProductsService,
     private quotaService: QuotasService,
     private fb: FormBuilder,
@@ -110,35 +110,35 @@ export class ProductCustomDataPackageAComponent implements OnInit {
 
   getData() {
     console.log('hehe')
-    this.mockService.get('business-codes.json').subscribe(
+    this.fileService.get('business-codes.json').subscribe(
       (res) => {
         this.businessCodes = res
         console.log(this.businessCodes)
       }
     )
 
-    this.mockService.get('company-status.json').subscribe(
+    this.fileService.get('company-status.json').subscribe(
       (res) => {
         this.companyStatus = res
         console.log(this.companyStatus)
       }
     )
 
-    this.mockService.get('state-codes.json').subscribe(
+    this.fileService.get('state-codes.json').subscribe(
       (res) => {
         this.stateCodes = res
         console.log(this.stateCodes)
       }
     )
     
-    this.mockService.get('company-origins.json').subscribe(
+    this.fileService.get('company-origins.json').subscribe(
       (res) => {
         this.companyOrigins = res
         console.log(this.companyOrigins)
       }
     )
 
-    this.mockService.get('company-types.json').subscribe(
+    this.fileService.get('company-types.json').subscribe(
       (res) => {
         this.companyTypes = res
         console.log(this.companyTypes)

@@ -1,0 +1,18 @@
+[
+    {
+        "value": "OK",
+        "text": "Successful"
+    },
+    {
+        "value": "FL",
+        "text": "Failed"
+    },
+    {
+        "value": "PD",
+        "text": "Pending"
+    },
+    {
+        "value": "NA",
+        "text": "Not Available"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "value": "PS",
+        "text": "Product Search Criteria"
+    },
+    {
+        "value": "PR",
+        "text": "Product"
+    },
+    {
+        "value": "SE",
+        "text": "Service"
+    },
+    {
+        "value": "QU",
+        "text": "Quota"
+    },
+    {
+        "value": "NA",
+        "text": "Not Available"
+    }
+]

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
 @Injectable({
   providedIn: 'root'
 })
-export class MocksService {
+export class LocalFilesService {
 
   // URL
-  public urlMock: string = 'assets/json/';
+  public urlLocal: string = 'assets/json/';
 
   // Data
   public datas: any = []
@@ -19,11 +18,11 @@ export class MocksService {
   ) { }
 
   get(path: string): Observable<any> {
-    let urlPath = this.urlMock + path
+    let urlPath = this.urlLocal + path
     return this.http.get<any>(urlPath).pipe(
       tap((res) => {
         this.datas = res
-        console.log('Data: ', this.datas)
+        // console.log('Data: ', this.datas)
       })
     )
   }
