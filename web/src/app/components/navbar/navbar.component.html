@@ -46,23 +46,23 @@
 					<span class="custom-toggle-slider rounded-circle" data-label-off="BM" data-label-on="EN"></span>
 				</label>
 
-				<li class="nav-item dropdown" *ngIf="isAuthenticated">
+				<!-- <li class="nav-item dropdown" *ngIf="isAuthenticated">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
 						<i class="fas fa-bell fa-lg"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
-						<!-- Dropdown header -->
+						Dropdown header
 						<div class="px-3 py-3">
 							<h6 class="text-sm text-muted m-0">
 								You have <strong class="text-primary">2</strong> notifications.
 							</h6>
 						</div>
-						<!-- List group -->
+						List group
 						<div class="list-group list-group-flush">
 							<a href="javascript:void()" class="list-group-item list-group-item-action">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<!-- Avatar -->
+										Avatar
 										<i class="far fa-bell"></i>
 									</div>
 									<div class="col ml--2">
@@ -78,7 +78,7 @@
 							<a href="javascript:void()" class="list-group-item list-group-item-action">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<!-- Avatar -->
+										Avatar
 										<i class="far fa-bell"></i>
 									</div>
 									<div class="col ml--2">
@@ -94,13 +94,13 @@
 								</div>
 							</a>
 						</div>
-						<!-- View all -->
+						View all
 						<a (click)="navigatePage('/notifications')"
 							class="dropdown-item text-center text-primary font-weight-bold py-3">
 							View all
 						</a>
 					</div>
-				</li>
+				</li> -->
 
 				<li 
 					class="nav-item dropdown" 
@@ -109,7 +109,7 @@
 					(click)="getData()"
 					*ngIf="isAuthenticated"
 				>
-					<button class="btn dropdown-toggle bg-transparent btn-icon btn-2 p-1 nav-link" data-toggle="dropdown" placement="bottom-right">
+					<button class="btn dropdown-toggle bg-transparent btn-icon btn-2 ml-2 p-1 nav-link" data-toggle="dropdown" placement="bottom-right">
 						<span class="btn-inner--icon">
 							<i class="fas fa-shopping-cart fa-lg"></i>
 						</span>
@@ -168,6 +168,10 @@
 													{{item.product.name}}
 												</span>
 
+												<span *ngIf="item?.image_form_type != 'NA'">
+													- {{item?.image_form_type}}
+												</span>
+												
 												<span *ngIf="item.product.ctc">
 													- CTC
 												</span>

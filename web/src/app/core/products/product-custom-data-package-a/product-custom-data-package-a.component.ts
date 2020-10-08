@@ -90,8 +90,8 @@ export class ProductCustomDataPackageAComponent implements OnInit {
       incorpDtTo: new FormControl(''),
       compStatus: new FormControl(''),
       compType: new FormControl(''),
-      sector: new FormControl(''),
-      division: new FormControl('NA'),
+      // sector: new FormControl(''),
+      // division: new FormControl('NA'),
       bizCode: new FormControl(''),
       compOrigin: new FormControl(''),
       compLocation: new FormControl(''),
@@ -327,7 +327,6 @@ export class ProductCustomDataPackageAComponent implements OnInit {
       "company_type": row['search_criteria']['compType'],
       "company_origin": row['search_criteria']['compOrigin'],
       "company_location": row['search_criteria']['compLocation'],
-      "division": row['search_criteria']['division'],
       "business_code": row['search_criteria']['bizCode']
     }
     this.criteriaService.create(body).subscribe(

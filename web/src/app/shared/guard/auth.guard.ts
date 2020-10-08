@@ -29,7 +29,11 @@ export class AuthGuard implements CanActivate {
       return true
     }
     else {
-      return this.navigatePage('/not-authorized')
+      setTimeout(
+        () => {
+          return this.navigatePage('/not-authorized')
+        }, 2000
+      )
     }
   }
 
