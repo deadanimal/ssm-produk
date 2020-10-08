@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 export class SearchCriteriasService {
 
   // URL
-  public urlSearchCriteria: string = environment.baseUrl + 'v1/product_search_criterias/'
+  public urlSearchCriteria: string = environment.baseUrl + 'v1/product-search-criterias/'
 
   // Data
   public criteria: any

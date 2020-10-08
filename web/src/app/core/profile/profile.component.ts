@@ -182,7 +182,7 @@ export class ProfileComponent implements OnInit {
         this.tableRows = this.transactions
         this.tableRows.forEach(
           (item) => {
-            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+            item.payment_gateway_update_date = moment(item.payment_gateway_update_date).format('DD/MM/YYYY hh:mm:ss')
           }
         )
 
@@ -639,7 +639,7 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      !selected['image_version_id']
+      selected['image_version_id'] == 'NA'
     ) { // Product (Normal)
       console.log('selected', selected)
       let body = {
@@ -661,7 +661,7 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      selected['image_version_id']
+      selected['image_version_id'] != 'NA'
     ) { // Product (Image)
       console.log('selected', selected)
       let body = {

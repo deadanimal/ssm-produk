@@ -16,10 +16,10 @@
         <div class="container">
             <h3 class="title font-weight-bolder">eGOVERNMENT</h3>
             <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
-            <h5>
+            <!-- <h5>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                 tempor incididunt ut labore et dolore magna aliqua.
-            </h5>
+            </h5> -->
             <div class="row pt-3">
                 <div class="col-lg-3 col-md-6">
                     <div class="card card-project bg-ssm p-1 package">
@@ -151,8 +151,18 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <form [formGroup]="authSignInForm">
-                                        <h1 class="display-3 mb-0 text-white">WELCOME BACK</h1>
-                                        <p class="lead pb-4 mt-0 text-white">Login to continue</p>
+                                        <div *ngIf="user.user_type == 'EG'">
+                                            <h1 class="display-3 mb-0 text-white">
+                                                WELCOME BACK
+                                            </h1>
+                                            <p class="lead pb-4 mt-0 text-white">Login to continue</p>
+                                        </div>
+                                        <div *ngIf="user.user_type != 'EG'">
+                                            <h1 class="display-3 mb-0 text-white">
+                                                WELCOME to eGOV
+                                            </h1>
+                                            <p class="lead pb-4 mt-0 text-white">Sign up to continue</p>
+                                        </div>
                                         <div class="row row-input">
                                         </div>
                                     </form>
@@ -175,7 +185,6 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-center" style="
-              background-color: #005fed;
               padding-right: 0px !important;
               padding-left: 0px !important;
             ">
@@ -184,7 +193,12 @@
                             <b>eGOV</b>
                         </p>
                         <p class="title font-weight-bolder pt--4 mt--5" style="font-size: 2.5em; color: white">
-                            Login
+                            <span *ngIf="user.user_type == 'EG'">
+                                Login
+                            </span>
+                            <span *ngIf="user.user_type != 'EG'">
+                                Sign Up
+                            </span>
                         </p>
                     </div>
                 </div>
