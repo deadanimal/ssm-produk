@@ -59,6 +59,9 @@ class Transaction(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+       ordering = ['-payment_gateway_update_date']
+
 
 class TransactionPayment(models.Model):
 

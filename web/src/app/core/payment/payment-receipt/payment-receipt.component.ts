@@ -9,7 +9,8 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 
 import * as domtoimage from 'dom-to-image';
 import * as FileSaver from 'file-saver';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
+declare var jsPDF: any;
 
 @Component({
   selector: 'app-payment-receipt',
