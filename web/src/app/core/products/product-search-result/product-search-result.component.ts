@@ -458,13 +458,15 @@ export class ProductSearchResultComponent implements OnInit {
     this.cartForm.controls['image_version_id'].setValue(row.verId)
     this.documentForm.controls['isCtc'].setValue(row.isCtc)
     this.addCart(this.documentForm)
+
+    console.log(this.cartForm.value['image_form_type'])
   }
 
   addItem() {
     let title = 'Success'
     let message = 'Item is added to the cart'
     this.loadingBar.useRef('http').start()
-
+    console.log('erqerqwrqwr', this.cartForm.value)
     this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()

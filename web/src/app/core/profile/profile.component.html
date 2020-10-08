@@ -248,7 +248,7 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<a 
 													class="nav-link nav-link-icon cursor-pointer"
-													(click)="navigatePage('/payment/receipt')"
+													(click)="downloadRecipt(row)"
 												>
 													<i 
 														class="fas fa-file-download text-info"
@@ -364,7 +364,7 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<div *ngIf="row.product">
 													<span *ngIf="row.product.language == 'MS'">BM</span>
-													<span *ngIf="row.product.language == 'EN'">BI</span>
+													<span *ngIf="row.product.language == 'EN'">EN</span>
 													<span *ngIf="row.product.output_type == 'IM'">-</span>
 												</div>
 												<div *ngIf="!row.product">
@@ -1384,3 +1384,92 @@
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
 	<p style="color: white">Loading...</p>
 </ngx-spinner>
+
+
+<div *ngIf="isReceipt" class="table-responsive" #receipt>
+	<table class="table text-right table-flush">
+		<thead class="bg-default">
+			<tr>
+				<th class="text-center text-white" scope="col">
+					No.
+				</th>
+				<th class="text-center text-white" scope="col">
+					Item
+				</th>
+				<th class="text-center text-white" scope="col">
+					Product
+				</th>
+				<th class="text-center text-white" scope="col">
+					Unit
+				</th>
+				<th class="text-center text-white" scope="col">
+					Unit Price (RM)
+				</th>
+				<th class="text-center text-white" scope="col">
+					Total (RM)
+				</th>
+			</tr>
+		</thead>
+		<tbody class="list">
+			<tr *ngFor="let item of items">
+				<td class="text-left">
+					<span>{{item?.index}}</span>
+				</td>
+				<td class="text-left">
+					
+					<div *ngIf="item?.entity">
+						<span *ngIf="item?.entity == 'CP'">
+							{{item?.entity.company_number_new}} 
+							({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
+						</span>
+
+						<span *ngIf="item?.entity == 'BS'">
+							{{item?.entity.registration_number_new}} 
+							({{item?.entity.registration_number}}-{{item?.entity.check_digit}}) / 
+						</span>
+
+						<span *ngIf="item?.entity == 'AD'">
+							{{item?.entity.audit_firm_number}} / 
+						</span>
+					</div>
+
+					<span *ngIf="item?.entity">
+						{{item?.entity.name}}
+					</span>
+				</td>
+				<td class="text-left">
+					<span *ngIf="item?.product">
+						{{item?.product.name}}
+					</span>
+
+					<span *ngIf="item?.product?.ctc">
+						- CTC
+					</span>
+
+					<span *ngIf="item?.image_form_type != 'NA'">
+						{{item?.image_form_type}}
+					</span>
+				</td>
+				<td class="text-left">
+					1
+				</td>
+				<td class="text-left">
+					<span *ngIf="item?.product">
+						{{item?.product.fee/100 | number: '1.2-2'}}
+					</span>
+				</td>
+				<td class="text-left">
+					<span *ngIf="item?.product">
+						{{item?.product.fee/100 | number: '1.2-2'}}
+					</span>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th class="text-right h4" colspan="5">Total</th>
+				<th class="h4">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
+			</tr>
+		</tfoot>
+	</table>
+</div>
