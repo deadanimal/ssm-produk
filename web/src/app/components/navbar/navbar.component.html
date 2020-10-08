@@ -48,7 +48,7 @@
 
 				<li class="nav-item dropdown" *ngIf="isAuthenticated">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
-						<i class="fas fa-bell"></i>
+						<i class="fas fa-bell fa-lg"></i>
 					</a>
 					<div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
 						<!-- Dropdown header -->
@@ -109,9 +109,19 @@
 					(click)="getData()"
 					*ngIf="isAuthenticated"
 				>
-					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
-						<i class="fas fa-shopping-cart"></i>
-					</a>
+					<button class="btn dropdown-toggle bg-transparent btn-icon btn-2 p-1 nav-link" data-toggle="dropdown" placement="bottom-right">
+						<span class="btn-inner--icon">
+							<i class="fas fa-shopping-cart fa-lg"></i>
+						</span>
+						
+						<span class="badge badge-ssm badge-circle badge-floating text-white border-0">
+							{{ cartItems.length }}
+						</span>
+					</button>
+					<!-- <a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
+						<i class="fas fa-shopping-cart btn-"></i>
+						<span class="badge badge-md badge-circle badge-floating badge-danger border-white">{{ cartItems.length }}</span>
+					</a> -->
 					<div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
 						<!-- Dropdown header -->
 						<div class="px-3 py-3" *ngIf="!isEmpty">
@@ -163,11 +173,11 @@
 												</span>
 
 												<span *ngIf="item.product.language == 'EN'">
-													- English
+													- EN
 												</span>
 
 												<span *ngIf="item.product.language == 'MS'">
-													- Malay
+													- BM
 												</span>
 											</p>
 										</div>
@@ -226,12 +236,14 @@
 				</li>
 
 				<li class="nav-item dropdown" *ngIf="isAuthenticated">
-					<a class="nav-link dropdown-toggle" data-toggle="dropdown" placement="bottom-right" role="button">
-						<span class="avatar avatar-xs rounded-circle">
-							<img alt="Image placeholder" [src]="imgAvatar" />
-						</span>
+					<a class="nav-link pr-0" data-toggle="dropdown" placement="bottom-right" role="button">
+						<div class="media-avatar">
+							<span class="avatar avatar-xs rounded-circle">
+								<img alt="Image placeholder" [src]="imgAvatar" />
+							</span>
+						</div>
 					</a>
-					<div class="dropdown-menu dropdown-menu-right py-0 overflow-hidden">
+					<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
 						<div class="dropdown-header noti-title">
 							<h6 class="text-overflow m-0">Welcome </h6>
 						</div>

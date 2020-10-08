@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CartsService } from '../../shared/services/carts/carts.service';
-import { ProductsService } from 'src/app/shared/services/products/products.service';
-
-import { UsersService } from 'src/app/shared/services/users/users.service';
-import { User } from 'src/app/shared/services/users/users.model';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+
+import { CartsService } from '../../shared/services/carts/carts.service';
 import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
+import { ProductsService } from 'src/app/shared/services/products/products.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+
+import { User } from 'src/app/shared/services/users/users.model';
+import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
 
 @Component({
   selector: 'app-navbar',
@@ -23,28 +25,28 @@ export class NavbarComponent implements OnInit {
   // Checker
   isCollapsed = true
   isEmpty: boolean = true
-  cartz: boolean = false
+  // cartz: boolean = false
   isAuthenticated = false
 
   // Data
   currentUser: User
-  cartItems: any[] = []
+  cartItems: CartItemExtended[] = []
 
   constructor(
     private cartService: CartsService,
+    private cookieService: CookieService,
     private productService: ProductsService,
     private userService: UsersService,
     private loadingBar: LoadingBarService,
     private router: Router,
-    private toastr: ToastrService,
-    private cookieService: CookieService
+    private toastr: ToastrService
   ) {
     router.events.subscribe(
       (val) => {
         this.isCollapsed = true
       }
     )
-    this.cartz = this.productService.cart
+    // this.cartz = this.productService.cart
     this.checkUser()
   }
 
@@ -95,21 +97,23 @@ export class NavbarComponent implements OnInit {
       )
     } 
     else {
-      this.cartService.getOne(this.cartService.cartsFiltered[0].id).subscribe(
-        () => {
-          this.cartService.cartCurrent = this.cartService.cart
-          this.cartItems = this.cartService.cart.cart_item
-        },
-        () => {},
-        () => {
-          if (this.cartItems.length > 0) {
-            this.isEmpty = false
+      if (this.cartService.cartPending) {
+        this.cartService.getOne(this.cartService.cartPending.id).subscribe(
+          () => {
+            this.cartService.cartCurrent = this.cartService.cart
+            this.cartItems = this.cartService.cart.cart_item
+          },
+          () => {},
+          () => {
+            if (this.cartItems.length > 0) {
+              this.isEmpty = false
+            }
+            else {
+              this.isEmpty = true
+            }
           }
-          else {
-            this.isEmpty = true
-          }
-        }
-      )
+        )
+      }
     }
     
   }

@@ -1,0 +1,18 @@
+[
+    {
+        "value": "CM",
+        "text": "Completed"
+    },
+    {
+        "value": "AB",
+        "text": "Abandoned"
+    },
+    {
+        "value": "CR",
+        "text": "Created"
+    },
+    {
+        "value": "NA",
+        "text": "Not Available"
+    }
+]

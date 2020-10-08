@@ -1,0 +1,14 @@
+[
+    {
+        "value": "DO",
+        "text": "Document"
+    },
+    {
+        "value": "IM",
+        "text": "Image"
+    },
+    {
+        "value": "LI",
+        "text": "List"
+    }
+]

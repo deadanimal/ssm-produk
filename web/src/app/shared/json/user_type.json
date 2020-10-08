@@ -1,0 +1,18 @@
+[
+    {
+        "value": "AD",
+        "text": "Admin"
+    },
+    {
+        "value": "EG",
+        "text": "eGovernment"
+    },
+    {
+        "value": "PB",
+        "text": "Public"
+    },
+    {
+        "value": "NA",
+        "text": "Not Available"
+    }
+]

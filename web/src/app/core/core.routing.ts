@@ -11,7 +11,6 @@ import { KjakpComponent } from './kjakp/kjakp.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { RequestInvestigationDocumentComponent } from './request-investigation-document/request-investigation-document.component';
 
-
 import { PaymentComponent } from './payment/payment/payment.component';
 import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
 import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component'
@@ -26,6 +25,8 @@ import { ProductSearchCustomComponent } from './products/product-search-custom/p
 import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
 import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
+
+import { EgovComponent } from './egov/egov/egov.component';
 
 import { EnquiryComponent } from './enquiry/enquiry/enquiry.component';
 import { EnquiryGeneralComponent } from './enquiry/enquiry-general/enquiry-general.component';
@@ -42,7 +43,6 @@ import { ProductSearchEgovComponent } from './products/product-search-egov/produ
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
-import { EgovComponent } from './egov/egov/egov.component';
 
 
 export const CoreRoutes: Routes = [

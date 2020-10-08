@@ -58,7 +58,7 @@
 									<div class="col-auto">
 										<p class="m-0">
 											: {{transaction?.address1}}, <br />
-											{{transaction?.address2}} , <br />
+											{{transaction?.address2}}, <br />
 											{{transaction?.address2}}, <br />
 											{{transaction?.postcode}}, {{transaction?.city}}<br />
 											{{transaction?.state}}, <br />
@@ -172,33 +172,33 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr *ngFor="let it of item['cart_item']">
+											<tr *ngFor="let item of cart['cart_item']">
 												<td>
-													<span>{{it?.index}}</span>
+													<span>{{item?.index}}</span>
 												</td>
 												<td>
-													<span *ngIf="it?.entity">
-														{{it?.entity.company_number_new}} 
-														({{it?.entity.company_number}}-{{it?.entity.check_digit}}) / 
-														{{it?.entity.name}}
+													<span *ngIf="item?.entity">
+														{{item?.entity.company_number_new}} 
+														({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
+														{{item?.entity.name}}
 													</span>
 												</td>
 												<td>
-													<span *ngIf="it?.product">
-														{{it?.product.name}}
+													<span *ngIf="item?.product">
+														{{item?.product.name}}
 													</span>
 												</td>
 												<td>
 													1
 												</td>
 												<td>
-													<span *ngIf="it?.product">
-														{{it?.product.fee/100 | number: '1.2-2'}}
+													<span *ngIf="item?.product">
+														{{item?.product.fee/100 | number: '1.2-2'}}
 													</span>
 												</td>
 												<td>
-													<span *ngIf="it?.product">
-														{{it?.product.fee/100 | number: '1.2-2'}}
+													<span *ngIf="item?.product">
+														{{item?.product.fee/100 | number: '1.2-2'}}
 													</span>
 												</td>
 											</tr>

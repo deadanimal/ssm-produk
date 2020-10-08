@@ -4,6 +4,7 @@ import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 
 import * as moment from 'moment';
+import { CartExtended } from 'src/app/shared/services/carts/carts.model';
 
 @Component({
   selector: 'app-payment-receipt',
@@ -13,7 +14,7 @@ import * as moment from 'moment';
 export class PaymentReceiptComponent implements OnInit {
 
   transaction: any
-  item: any[] = []
+  cart: CartExtended
 
   // Checker
   isReceipt = false
@@ -33,28 +34,28 @@ export class PaymentReceiptComponent implements OnInit {
   }
 
   getData() {
-    console.log('data nak get sini')
+    // console.log('data nak get sini')
     this.transaction = this.transactionService.transactionsFiltered[0]
     this.cartService.getOne(this.transaction['cart']).subscribe(
       (res) => {
-        console.log('res ', res)
-        this.item = res
-        this.item['created_date'] = moment(this.item['created_date']).format('DD/MM/YYYY hh:mm:ss')
+        // console.log('res ', res)
+        this.cart = res
+        this.cart['created_date'] = moment(this.cart['created_date']).format('DD/MM/YYYY hh:mm:ss')
       },
       () => {},
       () => {
         let cnt = 0
-        this.item['cart_item'].forEach(
+        this.cart['cart_item'].forEach(
           (itemz) => {
             cnt++
             itemz['index'] = cnt
             itemz.created_date = moment(itemz['created_date']).format('DD/MM/YYYY hh:mm:ss')
           }
         )
-        console.log('item: ', this.item)
-        console.log('cart_item: ', this.item['cart_item'])
+        // console.log('item: ', this.cart)
+        // console.log('cart_item: ', this.cart['cart_item'])
         this.isReceipt = true
-        // console.log('asdas', this.item)
+        // console.log('asdas', this.cart)
       }
     )
   }
