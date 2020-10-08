@@ -65,7 +65,7 @@ products_router = router.register(
 )
 
 product_search_criterias_router = router.register(
-    'product_search_criterias', ProductSearchCriteriaViewSet
+    'product-search-criterias', ProductSearchCriteriaViewSet
 )
 
 # Quotas app
