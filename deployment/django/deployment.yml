@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ssm-product-api
-        image: syafiqpipe/ssm-product-api:1.0.34
+        image: syafiqpipe/ssm-product-api:1.0.36
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

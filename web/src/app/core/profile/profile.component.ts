@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import swal from 'sweetalert2';
 import {
@@ -21,6 +21,9 @@ import * as moment from 'moment';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CartExtended, CartItemExtended } from 'src/app/shared/services/carts/carts.model';
+import jsPDF from 'jspdf';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 
 export enum SelectionType {
   single = 'single',
@@ -102,11 +105,24 @@ export class ProfileComponent implements OnInit {
   transactionTabActive: boolean = false
   orderTabActive: boolean = false
 
+  // Receipt
+  transaction: any
+  cart: CartExtended
+  items: CartItemExtended[] = []
+  formTypes: any[] = []
+
+  // Checker
+  isReceipt = false
+
+  //
+  @ViewChild('receipt') receipt: ElementRef;
+
   constructor(
     private authService: AuthService,
     private cartService: CartsService,
     private productService: ProductsService,
     private transactionService: TransactionsService,
+    private fileService: LocalFilesService,
     private userService: UsersService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
@@ -723,6 +739,65 @@ export class ProfileComponent implements OnInit {
     )
   }
 
+  downloadRecipt(row) {
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        // console.log(this.formTypes)
+      }
+    )
+
+    this.transaction = row
+    this.cartService.getOne(this.transaction['cart']).subscribe(
+      (res) => {
+        // console.log('res ', res)
+        this.cart = res
+        this.cart['created_date'] = moment(this.cart['created_date']).format('DD/MM/YYYY hh:mm:ss')
+      },
+      () => {},
+      () => {
+        let cnt = 0
+        this.cart['cart_item'].forEach(
+          (itemz) => {
+            cnt++
+            itemz['index'] = cnt
+            itemz.created_date = moment(itemz['created_date']).format('DD/MM/YYYY hh:mm:ss')
+            if (itemz['image_form_type']) {
+              this.formTypes.forEach(
+                (code) => {
+                  if (code.code == itemz['image_form_type']) {
+                    itemz['image_form_type'] = code.desc_en
+                  } 
+                }
+              )
+            }
+          }
+        )
+        // console.log('item: ', this.cart)
+        // console.log('cart_item: ', this.cart['cart_item'])
+        this.isReceipt = true
+        // console.log('asdas', this.ca
+        this.items = this.cart['cart_item']
+        // console.log(this.cart['cart_item'])
+      }
+    )
+
+    const doc = new jsPDF();
+    const specialElementHandlers = {
+      '#editor': function (element, renderer) {
+        return true;
+      }
+    };
+
+    const content = this.receipt.nativeElement;
+
+    doc.fromHTML(content.innerHTML, 15, 15, {
+      'width': 190,
+      'elementHandlers': specialElementHandlers
+    });
+
+    doc.save('receipt' + '.pdf');
+  }
 
 
 
