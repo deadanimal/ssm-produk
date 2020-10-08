@@ -83,7 +83,7 @@
 										</label>
 									</div>
 								</div>
-								<div class="col-sm-12 col-md-6 float-right">
+								<!-- <div class="col-sm-12 col-md-6 float-right">
 									<div class="dropdown text-right float-right" dropdown>
 									  <button
 										class="btn dropdown-toggle btn-link btn-icon dropdown-toggle float-right"
@@ -97,7 +97,7 @@
 										<a class="dropdown-item cursor-pointer" (click)="removeSelected()"> Remove selected </a>
 									  </div>
 									</div>
-								  </div>
+								</div> -->
 							</div>
 
 							<ngx-datatable 
@@ -151,6 +151,9 @@
 										<div *ngIf="row.product">
 											{{row.product.name}}
 										</div>
+										<span *ngIf="item?.image_form_type != 'NA'">
+											- {{item?.image_form_type}}
+										</span>
 										<div *ngIf="row.service_request">
 											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.entities_type =='PR'">
 												CBID - ROB - Statistics

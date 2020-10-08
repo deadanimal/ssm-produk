@@ -12,6 +12,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 
 export enum SelectionType {
   single = 'single',
@@ -62,6 +63,7 @@ export class CheckoutComponent implements OnInit {
 
   // Data
   items: any[] = [];
+  formTypes: any[] = []
 
   // Icons
   iconEmpty = 'assets/img/default/shopping-bag.svg';
@@ -81,6 +83,7 @@ export class CheckoutComponent implements OnInit {
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private fileService: LocalFilesService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +91,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   getData() {
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        // console.log(this.formTypes)
+      }
+    )
+
     this.loadingBar.useRef('http').start()
     this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
       () => {
@@ -106,6 +116,16 @@ export class CheckoutComponent implements OnInit {
             }
             else if(item.quota) {
               this.total += 2000
+            }
+
+            if (item['image_form_type']) {
+              this.formTypes.forEach(
+                (code) => {
+                  if (code.code == item['image_form_type']) {
+                    item['image_form_type'] = code.desc_en
+                  } 
+                }
+              )
             }
           }
         )
