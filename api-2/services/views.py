@@ -34,7 +34,7 @@ from .serializers import (
 from carts.models import Cart, CartItem
 from carts.serializers import CartItemSerializer, CartSerializer
 from transactions.models import Transaction
- 
+from users.models import CustomUser
 
 class ServiceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Service.objects.all()
@@ -195,25 +195,38 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return queryset    
 
 
+    @action(methods=['POST'], detail=True)
+    def add_item_to_document_request(self, request, *args, **kwargs):    
 
-class DocumentRequestItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
-    queryset = DocumentRequestItem.objects.all()
-    serializer_class = DocumentRequestItemSerializer
-    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+        document_request_item_request = json.loads(request.body)    
 
-    def get_permissions(self):
-        if self.action == 'list':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [AllowAny]
+        image_version_id = document_request_item_request['image_version_id']
+        image_form_type = document_request_item_request['image_form_type']
 
-        return [permission() for permission in permission_classes]    
+        document_request = self.get_object()
+            
+        new_document_request_item = DocumentRequestItem.objects.create(
+            image_form_type=image_version_id,
+            image_version_id=image_version_id)
 
-    
-    def get_queryset(self):
-        queryset = DocumentRequestItem.objects.all()
 
-        return queryset   
+        serializer = DocumentRequestSerializer(document_request)
+        return Response(serializer.data)
+
+
+    @action(methods=['POST'], detail=True)
+    def remove_item_from_document_request(self, request, *args, **kwargs):  
+
+        document_request_item_id = json.loads(request.body)['document_request_item_id']
+        document_request_item = DocumentRequestItem.objects.filter(id=document_request_item_id).first()
+        
+        document_request = self.get_object()    
+
+        document_request.document_request_item.remove(document_request_item)
+        document_request.save()
+
+        serializer = DocumentRequestSerializer(document_request)
+        return Response(serializer.data)              
 
 class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentRequest.objects.all()
@@ -232,4 +245,29 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = EgovernmentRequest.objects.all()
 
-        return queryset         
+        return queryset  
+
+    @action(methods=['POST'], detail=True)
+    def approve_user(self, request, *args, **kwargs):    
+
+        egovernment_request_json = json.loads(request.body)    
+        user_id = egovernment_request_json['user_id']
+        package = egovernment_request_json['package']
+        quota = egovernment_request_json['quota']
+        egovernment_request = self.get_object()
+
+        user = CustomUser.objects.filter(id=str(user_id)).first()
+
+        egovernment_request.egov_request = 'AP'
+        egovernment_request.egov_package = int(package)
+        egovernment_request.egov_quota = int(quota)
+        egovernment_request.save()
+
+        user.egov_quota = int(quota)
+        user.egov_request = 'AP'
+        user.egov_package = int(package)
+        user.save()
+
+            
+        serializer = EgovernmentRequestSerializer(document_request)
+        return Response(serializer.data)            

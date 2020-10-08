@@ -84,7 +84,6 @@ from services.views import (
     ServiceViewSet,
     ServiceRequestViewSet,
     DocumentRequestViewSet,
-    DocumentRequestItemViewSet,
     EgovernmentRequestViewSet
 )
 
@@ -99,6 +98,10 @@ document_requests_router = router.register(
     'document-requests', DocumentRequestViewSet
 )
 
+egovernment_requests_router = router.register(
+    'egovernment-requests', DocumentRequestViewSet
+)
+
 # Tickets app
 
 from tickets.views import (
@@ -106,12 +109,30 @@ from tickets.views import (
     TicketSubjectViewSet,
     TicketViewSet,
     TicketCBIDViewSet,
-    TicketInvestigationViewSet
+    TicketInvestigationViewSet,
+    EnquiryTicketViewSet,
+    EnquiryTicketReplyViewSet,
+    EnquiryTicketSelectionViewSet
 )
 
 tickets_router = router.register(
     'tickets', TicketViewSet
 )
+
+enquiry_tickets_router = router.register(
+    'enquiry-tickets', EnquiryTicketViewSet
+)
+
+enquiry_ticket_repliess_router = router.register(
+    'enquiry-ticket_replies', EnquiryTicketReplyViewSet
+)
+
+enquiry_ticket_selections_router = router.register(
+    'enquiry-ticket-selections', EnquiryTicketSelectionViewSet
+)
+
+
+
 
 
 # Transactions app
