@@ -83,7 +83,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
                     product=product, 
-                    image_form_type=image_version_id,
+                    image_form_type=image_form_type,
                     image_version_id=image_version_id,
                     cart= cart,
                     cart_item_type='PR')
