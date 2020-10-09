@@ -329,7 +329,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
       "company_location": row['search_criteria']['compLocation'],
       "business_code": row['search_criteria']['bizCode'],
       "total_page": row['company']['length'],
-      "total_price": row['company']['length'] * 4 * 1000
+      "total_price": row['company']['length'] * 4 * 100
     }
     this.criteriaService.create(body).subscribe(
       (res) => {

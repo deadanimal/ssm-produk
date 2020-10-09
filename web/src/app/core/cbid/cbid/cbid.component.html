@@ -37,8 +37,8 @@
                                             class="form-control" 
                                             formControlName="product_type"
                                         >
-                                            <option value="PR">Statistics</option>
-                                            <option value="LS">Listing</option>
+                                            <option value="PR">Product</option>
+                                            <option value="LS">Statistics</option>
                                         </select>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                         Product
                                     </div>
                                     <div *ngIf="row.product_type == 'LS'">
-                                        Listing
+                                        Statistics
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
