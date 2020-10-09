@@ -114,8 +114,12 @@
 											</span>
 										 	{{ row.entity.name }}
 										</div>
-										<div *ngIf="!row.product">
+										<div *ngIf="!row.product && !row.product_search_criteria">
 											-
+										</div>
+
+										<div *ngIf="row.product_search_criteria">
+											<a (click)="openModal(criteria, row)">Search criteria</a>
 										</div>
 									</ng-template>
 								</ngx-datatable-column>
@@ -214,3 +218,117 @@
 		</div>
 	</div>
 </div>
+
+<ng-template #criteria>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Search Criteria
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form *ngIf="selectedCriteria">
+            <div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Incorp / Reg Date From</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.IncorpFrom"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Incorp / Reg Date To</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.IncorpTo"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+
+            <div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Status</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyStatus"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Type</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyType"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="form-control-label">Business Code</label>
+				<input 
+				  class="form-control"
+				  [value]="selectedCriteria.BusinessCode"
+				  type="text"
+				>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Location</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyLocation"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Origin</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyOrigin"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button
+            class="btn btn-outline-ssm ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
