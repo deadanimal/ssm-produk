@@ -17,13 +17,17 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 import { TransactionsService } from 'src/app/shared/services/transactions/transactions.service';
 
-import * as moment from 'moment';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CartExtended, CartItemExtended } from 'src/app/shared/services/carts/carts.model';
 import jsPDF from 'jspdf';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
+
+import * as moment from 'moment';
+import { BusinessCode } from 'src/app/shared/models/business-code.model';
+import { CompanyStatus } from 'src/app/shared/models/company-status.model';
+import { StateCode } from 'src/app/shared/models/state-code.model';
 
 export enum SelectionType {
   single = 'single',
@@ -110,7 +114,15 @@ export class ProfileComponent implements OnInit {
   cart: CartExtended
   items: CartItemExtended[] = []
   formTypes: any[] = []
+  businessCodes: BusinessCode[] = []
+  companyStatus: CompanyStatus[] = []
+  stateCodes: StateCode[] = []
+  companyOrigins: any[] = []
+  companyTypes: any[] = []
+  sectors: any[] = []
+  divisions: any[] = []
 
+  selectedCriteria: any
   // Checker
   isReceipt = false
 
@@ -134,6 +146,39 @@ export class ProfileComponent implements OnInit {
       (p: any) => {
         console.log(p['tab'])
         this.tabChecker(p['tab'])
+      }
+    )
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        console.log(this.formTypes)
+      }
+    )
+    this.fileService.get('company-status.json').subscribe(
+      (res) => {
+        this.companyStatus = res
+        console.log(this.companyStatus)
+      }
+    )
+
+    this.fileService.get('state-codes.json').subscribe(
+      (res) => {
+        this.stateCodes = res
+        console.log(this.stateCodes)
+      }
+    )
+    
+    this.fileService.get('company-origins.json').subscribe(
+      (res) => {
+        this.companyOrigins = res
+        console.log(this.companyOrigins)
+      }
+    )
+
+    this.fileService.get('company-types.json').subscribe(
+      (res) => {
+        this.companyTypes = res
+        console.log(this.companyTypes)
       }
     )
   }
@@ -625,16 +670,25 @@ export class ProfileComponent implements OnInit {
   
   initRequest(selected) {
     let lang
-    if (selected['product']['language'] == 'MS') {
-      lang = 'ms'
-    }
-    else {
-      lang = 'en'
+    if (selected['product']) {
+      if (selected['product']['language'] == 'MS') {
+        lang = 'ms'
+      }
+      else {
+        lang = 'en'
+      }
     }
     if (selected['cart_item_type'] == 'PS') { // Product Search Criteria
       let body = selected['product_search_criteria']
-      body['name'] = 'list'
+      body['name'] = 'excel'
       body['package'] = 'A'
+      body['bizCode'] = selected['product_search_criteria']['business_code']
+      body['compLocation'] = selected['product_search_criteria']['company_location']
+      body['compOrigin'] = selected['product_search_criteria']['company_origin']
+      body['compStatus'] = selected['product_search_criteria']['company_status']
+      body['compType'] = selected['product_search_criteria']['company_type']
+      body['incorpDtFrom'] = selected['product_search_criteria']['incorp_date_from']
+      body['incorpDtTo'] = selected['product_search_criteria']['incorp_date_to']
       this.downloadRequestList(body, 'custom-data')
     }
     else if (
@@ -831,15 +885,67 @@ export class ProfileComponent implements OnInit {
   }
 
   
-  openModal(modalRef: TemplateRef<any>) {
-    this.modal = this.modalService.show(
-      modalRef,
-      Object.assign({}, { class: 'modal-dialog-centered gray modal-lg' })
-    );
+  openModal(modalRef: TemplateRef<any>, row) {
+    let tempIncorpFrom = moment(row['product_search_criteria']['incorp_date_from']).format('DD/MM/YYYY')
+    let tempIncorpTo = moment(row['product_search_criteria']['incorp_date_to']).format('DD/MM/YYYY')
+    let tempCompanyStatus
+    let tempCompanyType
+    let tempBusinessCode = row['product_search_criteria']['business_code']
+    let tempCompanyOrigin
+    let tempCompanyLocation
+
+    console.log(row['product_search_criteria'])
+
+    this.companyStatus.forEach(
+      (status) => {
+        if (status.code == row['product_search_criteria']['company_status']) {
+          tempCompanyStatus = status.desc
+        }
+      }
+    )
+
+    this.companyTypes.forEach(
+      (type) => {
+        if (type.code == row['product_search_criteria']['company_type']) {
+          tempCompanyType = type.desc
+        }
+      }
+    )
+
+    this.companyOrigins.forEach(
+      (origin) => {
+        if (origin.code == row['product_search_criteria']['company_origin']) {
+          tempCompanyOrigin = origin.desc
+          console.log(tempCompanyOrigin)
+        }
+      }
+    )
+
+    this.stateCodes.forEach(
+      (state) => {
+        if (state.code == row['product_search_criteria']['company_location']) {
+          tempCompanyLocation = state.desc
+          console.log('found')
+        }
+      }
+    )
+    this.selectedCriteria = {
+      'IncorpFrom': tempIncorpFrom,
+      'IncorpTo': tempIncorpTo,
+      'CompanyStatus': tempCompanyStatus,
+      'CompanyType': tempCompanyType,
+      'BusinessCode': tempBusinessCode,
+      'CompanyOrigin': tempCompanyOrigin,
+      'CompanyLocation': tempCompanyLocation
+
+    }
+    console.log(this.selectedCriteria)
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   closeModal() {
     this.modal.hide();
+    delete this.selectedCriteria
   }
 
   openTransactionDetail(modalRef: TemplateRef<any>) {

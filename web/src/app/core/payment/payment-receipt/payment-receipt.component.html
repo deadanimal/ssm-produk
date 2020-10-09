@@ -197,6 +197,10 @@
 													<span *ngIf="item?.entity">
 														{{item?.entity.name}}
 													</span>
+
+													<span *ngIf="item.product_search_criteria">
+														Customized Data Package A
+													</span>
 												</td>
 												<td class="text-left">
 													<span *ngIf="item?.product">
@@ -218,10 +222,16 @@
 													<span *ngIf="item?.product">
 														{{item?.product.fee/100 | number: '1.2-2'}}
 													</span>
+													<span *ngIf="item.product_search_criteria">
+														RM4.00 / company
+													</span>
 												</td>
 												<td class="text-left">
 													<span *ngIf="item?.product">
 														{{item?.product.fee/100 | number: '1.2-2'}}
+													</span>
+													<span *ngIf="item.product_search_criteria">
+														{{item.product_search_criteria.total_price | number: '1.2-2'}}
 													</span>
 												</td>
 											</tr>
