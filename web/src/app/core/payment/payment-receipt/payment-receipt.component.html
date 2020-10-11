@@ -201,6 +201,19 @@
 													<span *ngIf="item.product_search_criteria">
 														Customized Data Package A
 													</span>
+
+													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='PR'">
+														{{i+1}}. CBID - ROB - Statistics
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
+														{{i+1}}. CBID - ROC - Listing
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='PR'">
+														{{i+1}}. CBID - ROC - Statistics
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
+														{{i+1}}. CBID - ROC - Listing
+													</span>
 												</td>
 												<td class="text-left">
 													<span *ngIf="item?.product">
