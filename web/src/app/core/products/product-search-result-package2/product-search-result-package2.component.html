@@ -54,13 +54,13 @@
 
         <div class="col">
             <label>Company Name</label>
-            <p>{{ entity_entity_data['company_info']['companyName']}}</p>
+            <p>{{ entity_data['company_info']['companyName']}}</p>
         </div>    
 
         <div class="col">
             <label>Last Old Name</label>
-            <p *ngIf="entity_entity_data['company_info']['companyOldName']">{{ entity_entity_data['company_info']['companyOldName']}}</p>
-            <p *ngIf="!entity_entity_data['company_info']['companyOldName']">NIL</p>
+            <p *ngIf="entity_data['company_info']['companyOldName']">{{ entity_data['company_info']['companyOldName']}}</p>
+            <p *ngIf="!entity_data['company_info']['companyOldName']">NIL</p>
         </div>          
 
     </div>
@@ -69,13 +69,13 @@
 
         <div class="col">
             <label>Date of Change</label>
-            <p *ngIf="entity_entity_data['company_info']['dateOfChange']">{{ entity_entity_data['company_info']['dateOfChange']}}</p>
-            <p *ngIf="!entity_entity_data['company_info']['dateOfChange']">NIL</p>
+            <p *ngIf="entity_data['company_info']['dateOfChange']">{{ entity_data['company_info']['dateOfChange']}}</p>
+            <p *ngIf="!entity_data['company_info']['dateOfChange']">NIL</p>
         </div>    
 
         <div class="col">
             <label>Company Number</label>
-            <p>{{ entity_entity_data['company_info']['companyNo'] }}-{{ entity_data['company_info']['checkDigit']}}</p>
+            <p>{{ entity_data['company_info']['companyNo'] }}-{{ entity_data['company_info']['checkDigit']}}</p>
         </div>          
 
     </div>    
