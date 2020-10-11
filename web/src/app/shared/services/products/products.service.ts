@@ -22,7 +22,7 @@ export class ProductsService {
   public pdfProduct: any
   public productDocument: any
   public productImage: any
-  public productList: any
+  public productList: any[] = []
 
   public cart: boolean = false
 
@@ -98,14 +98,28 @@ export class ProductsService {
     )
   }
 
-  generateList(body: any): Observable<any> {
+  getList(body: any): Observable<any[]> {
     let urlTemp = this.urlProducts + 'generate_list/'
     return this.http.post<any>(urlTemp, body).pipe(
-      tap((res) => {
+      tap((res: []) => {
         this.productList = res
-        console.log(this.productList)
+        console.log('se', this.productList)
+      })
+    )
+  }
+
+  generateList(body: any): Observable<any> {
+    let urlTemp = this.urlProducts + 'generate_list/'
+    return this.http.post<any>(urlTemp, body, {responseType: 'blob' as 'json'}).pipe(
+      tap((res) => {
+        // this.productList = res
+        // console.log('se', this.productList)
       })
     )
   }
   
 }
+
+// {
+//   responseType: 'blob' as 'json'
+// }

@@ -766,13 +766,21 @@ export class ProfileComponent implements OnInit {
 
   downloadRequestList(body, type) {
     this.spinner.show()
+    console.log(body, type)
     this.productService.generateList(body).subscribe(
       (res: any) => {
         this.spinner.hide()
-        console.log(res)
         if (type == 'custom-data') {
-          let url = res.pdflink
-          window.open(url, '_blank');
+          console.log(res)
+          const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          // const url = window.URL.createObjectURL(blob);
+          // console.log(url)
+          // window.open(url, '_blank');
+          let link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          let fileName = 'Customized-Data.xlsx';
+          link.download = fileName;
+          link.click();
         }
         else if (type == 'document-form') {
           let url = 'data:image/tiff;base64,' + res
@@ -787,8 +795,17 @@ export class ProfileComponent implements OnInit {
           window.open(url, '_blank');
         }
       },
-      () => {
-        this.spinner.hide()
+      (err) => {
+        // console.log('tak masuk')
+        // console.log(err)
+        // this.spinner.hide()
+
+        // if (type == 'custom-data') {
+        //   const blob = new Blob([err['error']['text']], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        //   const url = window.URL.createObjectURL(blob);
+        //   console.log(url)
+        //   window.open(url, '_blank');
+        // }
       }
     )
   }

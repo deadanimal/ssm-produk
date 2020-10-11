@@ -127,7 +127,7 @@ export class EgovComponent implements OnInit {
   }
 
   signUpUser() {
-    this.signUpForm.value.id = '8695666e-166e-4812-a8fd-83c958d3efd7';
+    this.signUpForm.value.id = this.userService.currentUser.id
     this.userService.update(
       this.signUpForm.value.id,
       this.signUpForm.value

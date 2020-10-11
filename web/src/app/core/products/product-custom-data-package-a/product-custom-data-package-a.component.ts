@@ -157,7 +157,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
     this.spinner.show()
     this.customForm.controls['bizCode'].setValue(this.bizCodesCombined)
     console.log('> ', this.customForm.value)
-    this.productService.generateList(this.customForm.value).subscribe(
+    this.productService.getList(this.customForm.value).subscribe(
       (res) => {
         console.log(res)
         // if (res.errorMsg) {
@@ -235,7 +235,7 @@ export class ProductCustomDataPackageAComponent implements OnInit {
           this.bizCodesCombined = biz
         }
         else {
-          this.bizCodesCombined = this.bizCodesCombined + ', ' + biz
+          this.bizCodesCombined = this.bizCodesCombined + ',' + biz
         }
         cnt++
       }
