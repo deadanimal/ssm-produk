@@ -1,6 +1,6 @@
 [
     {
-        "code": "E",
+        "code": "E", 
         "desc": "EXISTING"
     },
     {
@@ -30,5 +30,21 @@
     {
         "code": "Y",
         "desc": "STRUCK-OFF & WINDING-UP VIA COURT ORDER"
+    },
+    {
+        "code": "F",
+        "desc": "WINDING UP (UNDER SVA)"
+    },
+    {
+        "code": "G",
+        "desc": "EXISTING UNDER JM (UNDER CVA)"
+    },
+    {
+        "code": "V",
+        "desc": "EXISTING (UNDER CVS)"
+    },
+    {
+        "code": "J",
+        "desc": "EXISTING (UNDER JM)"
     }
 ]

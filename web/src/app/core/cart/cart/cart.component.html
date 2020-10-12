@@ -134,7 +134,11 @@
 									</ng-template>
 								</ngx-datatable-column> -->
 
-								<ngx-datatable-column maxWidth="60">
+								<ngx-datatable-column 
+									maxWidth="80" 
+									[sortable]="true"
+									prop="id_index"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">No.</span>
 									</ng-template>
@@ -143,7 +147,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Product</span>
 									</ng-template>
@@ -179,7 +183,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Search Criteria</span>
 									</ng-template>
@@ -202,7 +206,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="100">
+								<ngx-datatable-column maxWidth="100" [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Language</span>
 									</ng-template>
