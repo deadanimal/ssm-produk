@@ -1233,7 +1233,11 @@
                                 [rows]="tableTemp"
                                 (activate)="onActivate($event)"
                             >
-                                <ngx-datatable-column maxWidth="140">
+                                <ngx-datatable-column 
+                                    maxWidth="140" 
+                                    [sortable]="true"
+                                    prop="formType"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Type</span>
                                     </ng-template>
@@ -1242,7 +1246,10 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column>
+                                <ngx-datatable-column
+                                    [sortable]="true"
+                                    prop="formName"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Description</span>
                                     </ng-template>
@@ -1251,7 +1258,11 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column maxWidth="150">
+                                <ngx-datatable-column 
+                                    maxWidth="150"
+                                    [sortable]="true"
+                                    prop="humanDate"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Date</span>
                                     </ng-template>
@@ -1260,7 +1271,11 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column maxWidth="120">
+                                <ngx-datatable-column 
+                                    maxWidth="120"
+                                    [sortable]="true"
+                                    prop="totalPage"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Total Page</span>
                                     </ng-template>

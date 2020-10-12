@@ -8,35 +8,61 @@
 }
 
 .font-small {
-    font-size: 0.8rem;
-  }
+  font-size: 0.8rem;
+}
+
+.icon-size {
+  max-width: 4rem;
+}
+
+.package {
+  // width: 100%;
+  // height: 440px;
+  opacity: 0.90;
+  background-size: cover;
+  background-color: #005fed;
+}
+
+.package:before {
+  // content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  // width: 100%;
+  // height: 100%;
+  background-color: #6b9ee6;
+  opacity: 0;
+  position: relative;
+  transition: 0.3s all;
+}
   
-  .icon-size {
-    max-width: 4rem;
-  }
-  .package {
-    // width: 100%;
-    // height: 440px;
-    opacity: 0.80;
-    background-size: cover;
-    background-color: #005fed;
-  }
+.package:hover {
+  opacity: 0.95;
+  background-color: #005fed;
+}
+
+.package-cs {
+  // width: 100%;
+  // height: 440px;
+  opacity: 0.60;
+  background-size: cover;
+  background-color: #005fed;
+}
+
+.package-cs:before {
+  // content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  // width: 100%;
+  // height: 100%;
+  background-color: #8bb1e6;
+  opacity: 0;
+  position: relative;
+  transition: 0.3s all;
+}
   
-  .package:before {
-    // content: " ";
-    position: absolute;
-    top: 0;
-    left: 0;
-    // width: 100%;
-    // height: 100%;
-    background-color: #5390e6;
-    opacity: 0;
-    position: relative;
-    transition: 0.3s all;
-  }
-  
-  .package:hover {
-    opacity: 0.9;
-    background-color: #005fed;
-  }
-  
+.package-cs:hover {
+  opacity: 0.9;
+  background-color: #7da5dd;
+}

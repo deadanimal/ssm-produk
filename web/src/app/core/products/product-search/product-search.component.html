@@ -125,7 +125,12 @@
 								[rows]="tableTemp"
 							>
 
-								<ngx-datatable-column maxWidth="220">
+								<ngx-datatable-column 
+									maxWidth="220"
+									[sortable]="true"
+									[resizeable]="false"
+									prop="company_number_new"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span>Entity No.</span>
 									</ng-template>
@@ -142,7 +147,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column
+									[sortable]="true"
+									[resizeable]="false"
+									prop="name"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span>Entity Name</span>
 									</ng-template>
@@ -151,7 +160,12 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="120">
+								<ngx-datatable-column 
+									maxWidth="120"
+									[sortable]="true"
+									[resizeable]="false"
+									prop="type_of_entity"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span>Entity Type</span>
 									</ng-template>
@@ -168,7 +182,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="120" [sortable]="false">
+								<ngx-datatable-column 
+									maxWidth="120" 
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span></span>
 									</ng-template>

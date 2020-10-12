@@ -83,7 +83,7 @@
 										</label>
 									</div>
 								</div>
-								<!-- <div class="col-sm-12 col-md-6 float-right">
+								<div class="col-sm-12 col-md-6 float-right">
 									<div class="dropdown text-right float-right" dropdown>
 									  <button
 										class="btn dropdown-toggle btn-link btn-icon dropdown-toggle float-right"
@@ -97,7 +97,7 @@
 										<a class="dropdown-item cursor-pointer" (click)="removeSelected()"> Remove selected </a>
 									  </div>
 									</div>
-								</div> -->
+								</div>
 							</div>
 
 							<ngx-datatable 
@@ -111,7 +111,7 @@
 								[messages]="tableMessages"
 								(activate)="onActivate($event)"
 							>
-								<!-- <ngx-datatable-column maxWidth="60" [sortable]="false">
+								<ngx-datatable-column maxWidth="60" [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">
 										</span>
@@ -132,12 +132,13 @@
 											</label>
 										  </div>
 									</ng-template>
-								</ngx-datatable-column> -->
+								</ngx-datatable-column>
 
 								<ngx-datatable-column 
 									maxWidth="80" 
 									[sortable]="true"
 									prop="id_index"
+									[resizeable]="false"
 								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">No.</span>
@@ -147,7 +148,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column [sortable]="false">
+								<ngx-datatable-column 
+									[sortable]="true"
+									prop="product?.name"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Product</span>
 									</ng-template>
@@ -183,7 +188,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column [sortable]="false">
+								<ngx-datatable-column
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Search Criteria</span>
 									</ng-template>
@@ -206,7 +214,12 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="100" [sortable]="false">
+								<ngx-datatable-column 
+									maxWidth="100"
+									[sortable]="true"
+									prop="language"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Language</span>
 									</ng-template>
@@ -222,7 +235,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="80">
+								<ngx-datatable-column 
+									maxWidth="80"
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Unit</span>
 									</ng-template>
@@ -231,7 +248,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Total Price</span>
 									</ng-template>
@@ -253,7 +273,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column maxWidth="60">
+								<ngx-datatable-column 
+									maxWidth="60"
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header"></span>
 									</ng-template>
@@ -304,7 +328,8 @@
 								Total Amount: RM{{ total/100 | number : '1.2-2' }}
 							</p>
 							<br />
-							<button class="btn btn-ssm btn-round" (click)="navigatePage('/cart/checkout')">
+							<!-- (click)="navigatePage('/cart/checkout')" -->
+							<button class="btn btn-ssm btn-round" (click)="proceed()">
 								Checkout
 							</button>
 						</div>
