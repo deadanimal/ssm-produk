@@ -74,6 +74,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
 import { EgovComponent } from './egov/egov/egov.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     ProductCustomDataPackageAComponent,
     ProductCustomDataPackageBComponent,
     EgovComponent,
+    ProductSearchResultPackage4Component,
   ],
   imports: [
     CommonModule,

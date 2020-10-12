@@ -228,6 +228,8 @@ export class CartComponent implements OnInit {
         if (item['id'] == selected['id']) {
           item['isTick'] = !item['isTick']
           this.tableCheckbox = false
+          console.log(item)
+          console.log(this.tableRows)
         }
       }
     )
