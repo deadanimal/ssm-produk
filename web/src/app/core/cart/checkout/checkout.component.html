@@ -55,7 +55,12 @@
 								(activate)="onActivate($event)"
 							>
 
-								<ngx-datatable-column maxWidth="60">
+								<ngx-datatable-column 
+									maxWidth="60"
+									[sortable]="true"
+									prop="id_index"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">No.</span>
 									</ng-template>
@@ -64,7 +69,11 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column
+									[sortable]="true"
+									prop="product?.name"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Product</span>
 									</ng-template>
@@ -100,7 +109,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column 
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Search Criteria</span>
 									</ng-template>
@@ -124,7 +136,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column 
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Unit</span>
 									</ng-template>
@@ -133,7 +148,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Unit Price</span>
 									</ng-template>
@@ -155,7 +173,10 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column>
+								<ngx-datatable-column
+									[sortable]="false"
+									[resizeable]="false"
+								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Total Price</span>
 									</ng-template>
