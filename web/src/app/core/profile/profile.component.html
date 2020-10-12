@@ -265,7 +265,7 @@
 						</div>
 					</tab>
 
-					<tab heading="My Transactions" [active]="transactionTabActive" *ngIf="user?.user_type == 'EG'">
+					<tab heading="My Transactions" [active]="transactionTabActive" *ngIf="user?.user_type != 'EG'">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">
@@ -425,7 +425,7 @@
 						</div>
 					</tab>
 
-					<tab heading="My Orders" [active]="orderTabActive" *ngIf="user?.user_type == 'EG'">
+					<tab heading="My Orders" [active]="orderTabActive" *ngIf="user?.user_type != 'EG'">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">My orders</h6>
