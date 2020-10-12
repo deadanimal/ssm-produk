@@ -66,17 +66,17 @@ export const ROUTES: RouteInfo[] = [
   },  
   {
     path: '/admin/kjakp',
-    title: 'KJAKP',
+    title: 'eGov',
     type: 'sub',
     icontype: 'fas fa-tools text-primary',
     collapse: 'kjakp',
     isCollapsed: true,
     children: [
-      { path: 'outstanding-tasks', title: 'Outstanding Tasks', type: 'link' },
+      { path: 'outstanding-tasks', title: 'Task Management', type: 'link' },
       { path: 'usages', title: 'eGov Dropdown', type: 'link' },
       {
         path: 'customer-management',
-        title: 'Customer Management',
+        title: 'eGov User Management',
         type: 'link'
         // type: 'sub',
         // children: [

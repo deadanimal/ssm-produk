@@ -28,6 +28,7 @@ import * as moment from 'moment';
 import { BusinessCode } from 'src/app/shared/models/business-code.model';
 import { CompanyStatus } from 'src/app/shared/models/company-status.model';
 import { StateCode } from 'src/app/shared/models/state-code.model';
+import { User } from 'src/app/shared/services/users/users.model';
 
 export enum SelectionType {
   single = 'single',
@@ -104,6 +105,7 @@ export class ProfileComponent implements OnInit {
   // Data
   transactions: any[] = []
   orders: any[] = []
+  user: User
 
   accountTabActive: boolean = false
   transactionTabActive: boolean = false
@@ -181,6 +183,8 @@ export class ProfileComponent implements OnInit {
         console.log(this.companyTypes)
       }
     )
+
+    this.user = this.userService.currentUser
   }
 
   ngOnInit(): void {
@@ -1015,6 +1019,10 @@ export class ProfileComponent implements OnInit {
       },
     });
     console.log('confirm');
+  }
+
+  openModalEgov(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   

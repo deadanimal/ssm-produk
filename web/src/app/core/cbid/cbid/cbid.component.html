@@ -4,8 +4,9 @@
 		<h3 class="title font-weight-bolder">CUSTOMIZED DATA</h3>
 		<h1 class="title font-weight-bolder text-ssm">CBID Application Form</h1>
 		<p>
-			Customisable data for both companies and business that you can customize
-			at affordable prize!! Data includes list of companies or statistical data.
+            Processing fees for puchasing customize data, list
+            of companies and statistical data for companies and
+            businesses.
 		</p>
 	</div>
 
@@ -26,19 +27,21 @@
                                         >
                                             <option value="RB">Registration of Business (ROB)</option>
                                             <option value="RC">Registration of Company (ROC)</option>
+                                            <option>Both</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label class="form-control-label">Products</label>
+                                        <label class="form-control-label">Type</label>
                                         <select 
                                             class="form-control" 
                                             formControlName="product_type"
                                         >
-                                            <option value="PR">Product</option>
-                                            <option value="LS">Statistics</option>
+                                            <option value="PR">Statistics</option>
+                                            <option value="LS">Listing</option>
+                                            <option>Both</option>
                                         </select>
                                     </div>
                                 </div>
@@ -56,13 +59,15 @@
                             </div>
                         </form>
                         
-                        <hr style="width: 100%; color: black" class="mt-2" />
+                        <hr class="w-100 text-black mt-2" />
                         
                         <form [formGroup]="requestForm">
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Name</label>
+                                        <label class="form-control-label">Name
+                                            <span class="text-warning">*</span>
+                                        </label>
                                         <input 
                                             class="form-control" 
                                             placeholder="Enter name"
@@ -72,7 +77,9 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Organisation</label>
+                                        <label class="form-control-label">Organisation
+                                            <span class="text-warning">*</span>
+                                        </label>
                                         <input 
                                             class="form-control" 
                                             placeholder="Enter organisation"
@@ -83,7 +90,9 @@
                                 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Address</label>
+                                        <label class="form-control-label">Address
+                                            <span class="text-warning">*</span>
+                                        </label>
                                         <input 
                                             class="form-control" 
                                             placeholder="Enter address"
@@ -94,7 +103,9 @@
 
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Email address</label>
+                                        <label class="form-control-label">Email address
+                                            <span class="text-warning">*</span>
+                                        </label>
                                         <input 
                                             class="form-control" 
                                             placeholder="Enter email address"
@@ -105,23 +116,14 @@
     
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Phone no.</label>
+                                        <label class="form-control-label">Phone no.
+                                            <span class="text-warning">*</span>
+                                        </label>
                                         <input 
                                             class="form-control" 
                                             placeholder="Enter phone no." 
                                             formControlName="phone_number"    
                                         />
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label">Remarks</label>
-                                        <textarea 
-                                            class="form-control" 
-                                            placeholder="Remarks" 
-                                            formControlName="remarks"    
-                                        ></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -173,10 +175,10 @@
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <div *ngIf="row.product_type == 'PR'">
-                                        Product
+                                        Statistics
                                     </div>
                                     <div *ngIf="row.product_type == 'LS'">
-                                        Statistics
+                                        Listing
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>

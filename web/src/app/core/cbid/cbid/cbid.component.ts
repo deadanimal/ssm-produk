@@ -72,15 +72,15 @@ export class CbidComponent implements OnInit {
 
     this.requestForm = this.fb.group({
       service_id: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
+      name: new FormControl('Amin Redzuan', Validators.required),
       product_type: new FormControl('', Validators.required),
-      organisation: new FormControl('', Validators.required),
+      organisation: new FormControl('AR Sdn. Bhd.', Validators.required),
       address: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.compose([
+      email: new FormControl('ar_sdn_bhd@gmail.com', Validators.compose([
         Validators.required,
         Validators.email
       ])),
-      phone_number: new FormControl('', Validators.compose([
+      phone_number: new FormControl('0176867253', Validators.compose([
         Validators.required,
         Validators.pattern('^[0-9]*$')
       ])),
