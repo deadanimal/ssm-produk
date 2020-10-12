@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit {
         let message = 'Logging in...'
         this.currentUser = this.userService.currentUser
         this.isAuthenticated = true
-        this.toastr.success(message, title)
+        // this.toastr.success(message, title)
       },
       () => {
         this.loadingBar.useRef('http').complete()
@@ -194,6 +194,7 @@ export class NavbarComponent implements OnInit {
     this.isAuthenticated = false
     let title = 'Success'
     let message = 'Logging out...'
+    this.navigatePage('/home')
     this.toastr.success(message, title)
   }
 

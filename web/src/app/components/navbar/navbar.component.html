@@ -2,7 +2,7 @@
 <nav class="navbar navbar-main navbar-expand-lg navbar-dark headroom bg-ssm p-0" id="navbar-main">
 	<div class="container">
 		<a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
-			<img src="assets/img/logo/SSM-Logo.png" id="brand-logo" />
+			<img src="assets/img/logo/xcess-blue.png" id="brand-logo" />
 		</a>
 		
 		<button aria-controls="navbar_global" aria-label="Toggle navigation" class="navbar-toggler"
@@ -122,7 +122,7 @@
 						<i class="fas fa-shopping-cart btn-"></i>
 						<span class="badge badge-md badge-circle badge-floating badge-danger border-white">{{ cartItems.length }}</span>
 					</a> -->
-					<div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
+					<div class="dropdown-menu dropdown-menu-xxl dropdown-menu-right py-0 overflow-hidden">
 						<!-- Dropdown header -->
 						<div class="px-3 py-3" *ngIf="!isEmpty">
 							<h5 class="text-sm text-muted m-0">
@@ -143,7 +143,7 @@
 									<div class="col">
 																				
 										<div *ngIf="item.service_request">
-											<p class="text-sm mb-0">
+											<p class="text-md mb-0 font-weight-bold">
 												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='PR'">
 													{{i+1}}. CBID - ROB - Statistics
 												</span>
@@ -160,10 +160,10 @@
 										</div>
 
 										<div *ngIf="item.product">
-											<small>
+											<p class="text-md mb-0 font-weight-bold">
 												{{i+1}}. {{item.entity.name}}
-											</small>
-											<p class="text-sm mb-0">
+											</p>
+											<small class="mb-0">
 												<span>
 													{{item.product.name}}
 												</span>
@@ -183,11 +183,11 @@
 												<span *ngIf="item.product.language == 'MS'">
 													- BM
 												</span>
-											</p>
+											</small>
 										</div>
 
 										<div *ngIf="item.quota">
-											<p class="text-sm mb-0">
+											<p class="text-sm mb-0 font-weight-bold">
 												<span *ngIf="item.quota.quota_type == '0A'">
 													{{i+1}}. Customized Data Package A Quota
 												</span>
@@ -195,12 +195,12 @@
 										</div>
 
 										<div *ngIf="item.product_search_criteria">
-											<p class="text-sm mb-0">
+											<p class="text-sm mb-0 font-weight-bold">
 												{{i+1}}. Customized Data Package A
 											</p>
 										</div>
 									</div>
-									<div class="col-4 text-right">
+									<div class="col-3 text-right">
 										<div class="">
 											<!-- <div>
 												<h6 class="mb-0 text-sm"></h6>
