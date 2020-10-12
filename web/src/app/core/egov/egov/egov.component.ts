@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { User } from 'src/app/shared/services/users/users.model';
+import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 
 @Component({
   selector: 'app-egov',
@@ -35,6 +36,7 @@ export class EgovComponent implements OnInit {
   registerDiv: boolean = false;
   ministry: number = 0;
   listAgency: any;
+  
 
   public aFormGroup: FormGroup;
 
@@ -56,6 +58,39 @@ export class EgovComponent implements OnInit {
   signUpForm: FormGroup;
   signInForm: FormGroup;
 
+
+
+  // List
+  ministryOptions: any[] = [
+    { 'name': 'JABATAN PERDANA MENTERI (JPM)' },
+    { 'name': 'KEMENTERIAN BELIA DAN SUKAN' },
+    { 'name': 'KEMENTERIAN DALAM NEGERI' },
+    { 'name': 'KEMENTERIAN HAL EHWAL EKONOMI' },
+    { 'name': 'KEMENTERIAN INDUSTRI UTAMA' },
+    { 'name': 'KEMENTERIAN KERJA RAYA (KKR)' },
+    { 'name': 'KEMENTERIAN KESIHATAN MALAYSIA' },
+    { 'name': 'KEMENTERIAN KEWANGAN' },
+    { 'name': 'KEMENTERIAN KOMUNIKASI DAN MULTIMEDIA' },
+    { 'name': 'KEMENTERIAN LUAR NEGERI' },
+    { 'name': 'KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA MALAYSIA (MOTAC)' },
+    { 'name': 'KEMENTERIAN PEMBANGUNAN LUAR BANDAR' },
+    { 'name': 'KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (MEDAC)' },
+    { 'name': 'KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)' },
+    { 'name': 'KEMENTERIAN PENDIDIKAN' },
+    { 'name': 'KEMENTERIAN PENGANGKUTAN' },
+    { 'name': 'KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI' },
+    { 'name': 'KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN HAL EHWAL PENGGUNA (KPDNHEP)' },
+    { 'name': 'KEMENTERIAN PERPADUAN NEGARA' },
+    { 'name': 'KEMENTERIAN PERTAHANAN' },
+    { 'name': 'KEMENTERIAN PERTANIAN DAN INDUSTRI ASAS TANI' },
+    { 'name': 'KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN' },
+    { 'name': 'KEMENTERIAN SUMBER MANUSIA' },
+    { 'name': 'KEMENTERIAN TENAGA DAN SUMBER ASLI' },
+    { 'name': 'KEMENTERIAN TENAGA, SAINS, TEKNOLOGI, ALAM SEKITAR DAN PERUBAHAN IKLIM (MESTECC)' },
+    { 'name': 'KEMENTERIAN WILAYAH PERSEKUTUAN' }
+  ]
+  departmentOptions: any[] = []
+
   constructor(
     private reCaptchaV3Service: ReCaptchaV3Service,
     private userService: UsersService,
@@ -63,9 +98,11 @@ export class EgovComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private fileService: LocalFilesService
   ) {
     this.getUser()
+    this.getData()
   }
 
   ngOnInit(): void {
@@ -83,7 +120,7 @@ export class EgovComponent implements OnInit {
       full_name: new FormControl('Admin'),
       password: new FormControl(''),
       password2: new FormControl(''),
-      email: new FormControl('admin@email.com.my'),
+      email: new FormControl('admin@gov.com.my'),
       phone_number: new FormControl('0123456789'),
       nric_number: new FormControl('910920114544'),
       username: new FormControl('admintest'),
@@ -111,6 +148,14 @@ export class EgovComponent implements OnInit {
 
   getUser() {
     this.user = this.userService.currentUser
+  }
+
+  getData() {
+    this.fileService.get('egov-list.json').subscribe(
+      (res) => {
+        this.departmentOptions = res
+      }
+    )
   }
 
   signIn() {
