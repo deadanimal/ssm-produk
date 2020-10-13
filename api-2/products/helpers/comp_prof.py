@@ -43,36 +43,56 @@ def comp_prof(mdw_1, mdw_2, lang):
     others_issue_cash = float(mdw_1["rocShareCapitalInfo"]["othIssuedCash"]["#text"])
     others_issue_noncash = float(mdw_1["rocShareCapitalInfo"]["othIssuedNonCash"]["#text"])
 
-    shareholders = mdw_1["rocShareholderListInfo"]["rocShareholderInfos"]["rocShareholderInfos"]
-    shareholders_data = []
-    if isinstance(shareholders, list): 
-        for shareholder in shareholders:
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L':
+        if mdw_1["rocCompanyInfo"]['companyStatus'] == 'U' and mdw_1["rocCompanyInfo"]['companyStatus'] != 'S':
+            shareholders = []
+        else:
+            shareholders = mdw_1["rocShareholderListInfo"]["rocShareholderInfos"]["rocShareholderInfos"]
+            
+        shareholder_list = shareholders
+        shareholders_data = []
+        if isinstance(shareholders, list): 
+            for shareholder in shareholders:
+                shareholders_data.append({
+                    'name': shareholder["name"],
+                    'id': shareholder["idNo"],
+                    'share': float(shareholder["share"])
+                })
+        else: 
             shareholders_data.append({
-                'name': shareholder["name"],
-                'id': shareholder["idNo"],
-                'share': float(shareholder["share"])
+                'name': shareholders["name"],
+                'id': shareholders["idNo"],
+                'share': float(shareholders["share"])
             })
-    else: 
-        shareholders_data.append({
-            'name': shareholders["name"],
-            'id': shareholders["idNo"],
-            'share': float(shareholders["share"])
-        })
+    else:
+        shareholders = []
+        shareholder_list = shareholders
+        shareholders_data = []
     
 
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L':
+        if mdw_1["rocBalanceSheetListInfo"]['errorMsg'] == 'No Data':
+            balance_sheet_list = []
+            profit_loss_list = []
+        else:
+            balance_sheet_list = mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]
+            profit_loss_list = mdw_1["rocProfitLossListInfo"]["rocProfitLossInfos"]["rocProfitLossInfos"]
 
-    if mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]:
-        balance_sheet_list = mdw_1["rocBalanceSheetListInfo"]["rocBalanceSheetInfos"]["rocBalanceSheetInfos"]
+            if isinstance(balance_sheet_list, list): 
+                pass
+            else:
+                balance_sheet_list = [balance_sheet_list] 
+                profit_loss_list = [profit_loss_list]
     else:
         balance_sheet_list = []
-    profit_loss_list = mdw_1["rocProfitLossListInfo"]["rocProfitLossInfos"]["rocProfitLossInfos"]
+        profit_loss_list = []
 
     business_address_info = mdw_1["rocBusinessAddressInfo"]
     registered_address_info = mdw_1["rocRegAddressInfo"]
 
     share_capital_info = mdw_1["rocShareCapitalInfo"]
 
-    shareholder_list = mdw_1["rocShareholderListInfo"]["rocShareholderInfos"]["rocShareholderInfos"]
+
 
 
 
@@ -94,64 +114,127 @@ def comp_prof(mdw_1, mdw_2, lang):
 
 
 
-    financial_year_end_old = make_aware(datetime.strptime(balance_sheet_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+        if len(balance_sheet_list) == 1:
+            bss_ = balance_sheet_list[0]
+            pll_ =  profit_loss_list[0]
+        else:
+            bss_ = balance_sheet_list[-1]
+            pll_ =  profit_loss_list[-1]
+        financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-    date_of_tabling_old = make_aware(datetime.strptime(balance_sheet_list[-1]['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    date_of_tabling_new = date_of_tabling_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        date_of_tabling_old = make_aware(datetime.strptime(bss_['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        date_of_tabling_new = date_of_tabling_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+        financial_year_end_new = 'NONE'
+        date_of_tabling_new = 'NONE'
 
-    bs_data = {
-        'auditor_name': balance_sheet_list[-1]['auditFirmName'],
-        'auditFirmAddress1': balance_sheet_list[-1]['auditFirmAddress1'],
-        'auditFirmAddress2': balance_sheet_list[-1]['auditFirmAddress2'],
-        'auditFirmAddress3': balance_sheet_list[-1]['auditFirmAddress3'],
-        "auditFirmPostcode":  balance_sheet_list[-1]['auditFirmPostcode'],
-        "auditFirmState": state_mapping(balance_sheet_list[-1]['auditFirmState']),
-        "auditFirmTown": balance_sheet_list[-1]['auditFirmTown'], 
-        'financial_year_end': financial_year_end_new,
-        'inappropriateProfit': balance_sheet_list[-1]['inappropriateProfit'],
-        'financialReportType': balance_sheet_list[-1]['financialReportType'],
-        'accrualAccType': balance_sheet_list[-1]['accrualAccType'],
-        'dateOfTabling': date_of_tabling_new,
-        'nonCurrAsset':float(balance_sheet_list[-1]['nonCurrAsset']),
-        'currentAsset':float(balance_sheet_list[-1]['currentAsset']),
-        'nonCurrentLiability':float(balance_sheet_list[-1]['nonCurrentLiability']),
-        'liability':float(balance_sheet_list[-1]['liability']),
-        'paidUpCapital':float(balance_sheet_list[-1]['paidUpCapital']),
-        'reserves':float(balance_sheet_list[-1]['reserves']),
-        'minorityInterest':float(balance_sheet_list[-1]['minorityInterest']),
-    }
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+        bs_data = {
+            'auditor_name': bss_['auditFirmName'],
+            'auditFirmAddress1': bss_['auditFirmAddress1'],
+            'auditFirmAddress2': bss_['auditFirmAddress2'],
+            'auditFirmAddress3': bss_['auditFirmAddress3'],
+            "auditFirmPostcode":  bss_['auditFirmPostcode'],
+            "auditFirmState": state_mapping(bss_['auditFirmState']),
+            "auditFirmTown": bss_['auditFirmTown'], 
+            'financial_year_end': financial_year_end_new,
+            'inappropriateProfit': bss_['inappropriateProfit'],
+            'financialReportType': bss_['financialReportType'],
+            'accrualAccType': bss_['accrualAccType'],
+            'dateOfTabling': date_of_tabling_new,
+            'nonCurrAsset':float(bss_['nonCurrAsset']),
+            'currentAsset':float(bss_['currentAsset']),
+            'nonCurrentLiability':float(bss_['nonCurrentLiability']),
+            'liability':float(bss_['liability']),
+            'paidUpCapital':float(bss_['paidUpCapital']),
+            'reserves':float(bss_['reserves']),
+            'minorityInterest':float(bss_['minorityInterest']),
+        }
+    else:
+        bs_data = {
+            'auditor_name': 'NONE',
+            'auditFirmAddress1': 'NONE',
+            'auditFirmAddress2': 'NONE',
+            'auditFirmAddress3': 'NONE',
+            "auditFirmPostcode":  'NONE',
+            "auditFirmState": 'NONE',
+            "auditFirmTown": 'NONE',
+            'financial_year_end': financial_year_end_new,
+            'inappropriateProfit': 'NONE',
+            'financialReportType': 'NONE',
+            'accrualAccType': 'NONE',
+            'dateOfTabling': date_of_tabling_new,
+            'nonCurrAsset':'NONE',
+            'currentAsset':'NONE',
+            'nonCurrentLiability':'NONE',
+            'liability':'NONE',
+            'paidUpCapital':'NONE',
+            'reserves':'NONE',
+            'minorityInterest':'NONE',
+        }        
 
 
-    
-    financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-    pl_data = {
-        'extraOrdinaryItem': profit_loss_list[-1]['extraOrdinaryItem'],
-        'financialReportType': profit_loss_list[-1]['financialReportType'],
-        'financialYearEndDate': profit_loss_list[-1]['financialYearEndDate'],
-        'grossDividendRate': profit_loss_list[-1]['grossDividendRate'],
-        'inappropriateProfitBf': profit_loss_list[-1]['inappropriateProfitBf'],
-        'inappropriateProfitCf': profit_loss_list[-1]['inappropriateProfitCf'],
-        'minorityInterest': float(profit_loss_list[-1]['minorityInterest']),
-        'netDividend': float(profit_loss_list[-1]['netDividend']),
-        'others': profit_loss_list[-1]['others'],
-        'priorAdjustment': profit_loss_list[-1]['priorAdjustment'],
-        'profitAfterTax': float(profit_loss_list[-1]['profitAfterTax']),
-        'profitBeforeTax': float(profit_loss_list[-1]['profitBeforeTax']),
-        'profitShareholder': profit_loss_list[-1]['profitShareholder'],
-        'revenue': float(profit_loss_list[-1]['revenue']),
-        'surplusAfterTax': profit_loss_list[-1]['surplusAfterTax'],
-        'surplusBeforeTax': profit_loss_list[-1]['surplusBeforeTax'],
-        'surplusDeficitAfterTax': profit_loss_list[-1]['surplusDeficitAfterTax'],
-        'surplusDeficitBeforeTax': profit_loss_list[-1]['surplusDeficitBeforeTax'],
-        'totalExpenditure': profit_loss_list[-1]['totalExpenditure'],
-        'totalIncome': profit_loss_list[-1]['totalIncome'],
-        'totalRevenue': profit_loss_list[-1]['totalRevenue'],
-        'transferred': profit_loss_list[-1]['transferred'],
-        'turnover': profit_loss_list[-1]['turnover']
-    }
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+        financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+        financial_year_end_new = 'NONE'
+
+    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+        pl_data = {
+            'extraOrdinaryItem': pll_['extraOrdinaryItem'],
+            'financialReportType': pll_['financialReportType'],
+            'financialYearEndDate': pll_['financialYearEndDate'],
+            'grossDividendRate': pll_['grossDividendRate'],
+            'inappropriateProfitBf': pll_['inappropriateProfitBf'],
+            'inappropriateProfitCf': pll_['inappropriateProfitCf'],
+            'minorityInterest': float(pll_['minorityInterest']),
+            'netDividend': float(pll_['netDividend']),
+            'others': pll_['others'],
+            'priorAdjustment': pll_['priorAdjustment'],
+            'profitAfterTax': float(pll_['profitAfterTax']),
+            'profitBeforeTax': float(pll_['profitBeforeTax']),
+            'profitShareholder': pll_['profitShareholder'],
+            'revenue': float(pll_['revenue']),
+            'surplusAfterTax': pll_['surplusAfterTax'],
+            'surplusBeforeTax': pll_['surplusBeforeTax'],
+            'surplusDeficitAfterTax': pll_['surplusDeficitAfterTax'],
+            'surplusDeficitBeforeTax': pll_['surplusDeficitBeforeTax'],
+            'totalExpenditure': pll_['totalExpenditure'],
+            'totalIncome': pll_['totalIncome'],
+            'totalRevenue': pll_['totalRevenue'],
+            'transferred': pll_['transferred'],
+            'turnover': pll_['turnover']
+        }
+    else:
+        pl_data = {
+            'extraOrdinaryItem': 'NONE',
+            'financialReportType': 'NONE',
+            'financialYearEndDate': 'NONE',
+            'grossDividendRate': 'NONE',
+            'inappropriateProfitBf': 'NONE',
+            'inappropriateProfitCf': 'NONE',
+            'minorityInterest': 'NONE',
+            'netDividend': 'NONE',
+            'others': 'NONE',
+            'priorAdjustment': 'NONE',
+            'profitAfterTax': 'NONE',
+            'profitBeforeTax': 'NONE',
+            'profitShareholder': 'NONE',
+            'revenue': 'NONE',
+            'surplusAfterTax': 'NONE',
+            'surplusBeforeTax': 'NONE',
+            'surplusDeficitAfterTax': 'NONE',
+            'surplusDeficitBeforeTax': 'NONE',
+            'totalExpenditure': 'NONE',
+            'totalIncome': 'NONE',
+            'totalRevenue': 'NONE',
+            'transferred': 'NONE',
+            'turnover': 'NONE',
+        }
 
 
     data_ready = {

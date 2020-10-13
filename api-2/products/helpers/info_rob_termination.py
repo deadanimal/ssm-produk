@@ -10,6 +10,8 @@ def info_rob_termination(mdw_1, mdw_2, lang):
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
+    print(mdw_1)
+
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
