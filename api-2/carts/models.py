@@ -81,8 +81,8 @@ class CartItem(models.Model):
     year2 = models.CharField(null=True, max_length=4)
     
     # PRODUCT IMAGE
-    image_form_type = models.CharField(max_length=100, default='NA', null=True)
-    image_version_id = models.CharField(max_length=100, default='NA', null=True)
+    image_form_type = models.CharField(max_length=100, null=True)
+    image_version_id = models.CharField(max_length=100, null=True)
 
     # SERVICE
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, null=True)

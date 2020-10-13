@@ -194,8 +194,10 @@ export class ProductSearchResultComponent implements OnInit {
       product: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      image_form_type: new FormControl('NA'),
-      image_version_id: new FormControl('NA')
+      year1: new FormControl(),
+      year2: new FormControl(),
+      image_form_type: new FormControl(false),
+      image_version_id: new FormControl(false)
     })
 
     this.companyProfileForm = this.fb.group({ // Company Profile
@@ -245,8 +247,8 @@ export class ProductSearchResultComponent implements OnInit {
       language: new FormControl('MS'),
       isCtc: new FormControl(false),
       fee: new FormControl(2000),
-      year1: new FormControl(''),
-      year2: new  FormControl('')
+      year1: new FormControl('2020'),
+      year2: new  FormControl('2019')
     })
 
     this.finComparison2Form = this.fb.group({
@@ -438,6 +440,13 @@ export class ProductSearchResultComponent implements OnInit {
     )
   }
 
+  addCartFinHistorical() {
+    this.cartForm.controls['year1'].setValue(this.finHistoricalForm.value['year1'])
+    this.cartForm.controls['year2'].setValue(this.finHistoricalForm.value['year2'])
+    console.log(this.cartForm.value)
+    this.addCart(this.finHistoricalForm)
+  }
+
   addCartFin() {
     if (this.finComparisonYear == 2) {
       this.addCart(this.finComparison2Form)
@@ -476,6 +485,8 @@ export class ProductSearchResultComponent implements OnInit {
       },
       () => {
         this.toastr.success(message, title)
+        this.cartForm.controls['year1'].setValue(null)
+        this.cartForm.controls['year2'].setValue(null)
         this.productService.cart = true
       }
     )
