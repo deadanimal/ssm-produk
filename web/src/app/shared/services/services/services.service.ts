@@ -47,9 +47,9 @@ export class ServicesService {
 
   requestService(body: Form): Observable<Request> {
     let urlTemp = this.urlServices + 'request/'
-    return this.http.post<Service>(urlTemp, body).pipe(
+    return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
-        this.service = res
+        this.request = res
         console.log('Requested: ', this.service)
       })
     )

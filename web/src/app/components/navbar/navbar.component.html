@@ -144,17 +144,17 @@
 																				
 										<div *ngIf="item.service_request">
 											<p class="text-md mb-0 font-weight-bold">
-												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='PR'">
-													{{i+1}}. CBID - ROB - Statistics
+												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='ST'">
+													{{i+1}}. {{item.service_request?.service.name}}
 												</span>
 												<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
-													{{i+1}}. CBID - ROC - Listing
+													{{i+1}}. {{item.service_request?.service.name}}
 												</span>
-												<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='PR'">
-													{{i+1}}. CBID - ROC - Statistics
+												<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='ST'">
+													{{i+1}}. {{item.service_request?.service.name}}
 												</span>
 												<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
-													{{i+1}}. CBID - ROC - Listing
+													{{i+1}}. {{item.service_request?.service.name}}
 												</span>
 											</p>
 										</div>
