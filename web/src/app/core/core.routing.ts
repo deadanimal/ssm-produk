@@ -43,6 +43,7 @@ import { ProductSearchEgovComponent } from './products/product-search-egov/produ
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
+import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
 
 
 export const CoreRoutes: Routes = [
@@ -110,7 +111,11 @@ export const CoreRoutes: Routes = [
           {
             path: 'search-result-package3',
             component: ProductSearchResultPackage3Component
-          },                          
+          },
+          {
+            path: 'search-result-package4',
+            component: ProductSearchResultPackage4Component
+          },                    
           {
             path: 'custom-data',
             children: [
