@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <div class="header pb-6">
   <div class="container-fluid">
     <div class="header-body">
@@ -87,19 +88,7 @@
               
               <ng-template let-row="row" ngx-datatable-cell-template>
                 
-                <div *ngIf="row.service.product_type=='PR'">
-                    Product:
-                </div>
-                <div *ngIf="row.service.product_type == 'LS'">
-                    Listing:
-                </div>         
-              
-                <div *ngIf="row.service.entities_type=='RB'">
-                  Registration of Business
-                </div>
-                <div *ngIf="row.service.entities_type == 'RC'">
-                  Registration of Company
-                </div>   
+                {{row.service.name}}  
 
               </ng-template>
             </ngx-datatable-column>
@@ -145,14 +134,15 @@
                 <span>Status</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span class="badge badge-success" *ngIf="row.completed">Completed</span>
-                <span class="badge badge-default" *ngIf="!row.completed">Pending</span>
+                <span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.complete">Pending</span>
+                <span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.complete">In Progress</span>
+                <span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.complete">In Progress</span>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Request Date</span>
+                <span>Pending Date</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.created_date }}
@@ -161,10 +151,29 @@
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Completion Date</span>
+                <span>In Progress Date</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.completed_date }}
+                <span *ngIf="row.in_progress_date">
+                  {{ row.in_progress_date }}
+                </span>
+                <span *ngIf="!row.in_progress_date">
+                  NA
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Completed Date</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="row.completed_date">
+                  {{ row.completed_date }}
+                </span>
+                <span *ngIf="!row.completed_date">
+                  NA
+                </span>
               </ng-template>
             </ngx-datatable-column>
 
@@ -174,6 +183,17 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.remarks }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>PIC</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span *ngIf="!row.pic">
+                  NA
+                </span>
               </ng-template>
             </ngx-datatable-column>
 
@@ -214,7 +234,7 @@
   </div>
 
   <div class="modal-body">
-      <form>
+      <form [formGroup]="updateForm">
           <div class="row">
             <div class="col-lg-4">
               <div class="row">
@@ -236,12 +256,53 @@
               </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-4" *ngIf="selectedRow.in_progress">
               <div class="row">
                 <div clas="col">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="completedCheck">
-                    <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
+                    <input type="checkbox" class="custom-control-input" id="in_progressCheck" checked disabled>
+                    <label class="custom-control-label" for="in_progressCheck">In Progress</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">In Progress Date</label>
+                    <input class="form-control" disabled [value]="selectedRow.in_progress_date">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4" *ngIf="!selectedRow.in_progress">
+              <div class="row">
+                <div clas="col">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="in_progressCheck" formControlName="in_progress">
+                    <label class="custom-control-label" for="in_progressCheck">In Progress</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">In Progress Date</label>
+                    <input class="form-control" formControlName="in_progress_date" type="date">
+                  </div>
+                </div>
+              </div>
+            </div>
+     
+
+            <div class="col-lg-4" *ngIf="selectedRow.completed">
+              <div class="row">
+                <div clas="col">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="completedCheck" checked disabled>
+                    <label class="custom-control-label" for="completedCheck">Completed</label>
                   </div>
                 </div>
               </div>
@@ -250,24 +311,30 @@
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label">Completed Date</label>
-                    <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
+                    <input class="form-control" disabled [value]="selectedRow.completed_date">
                   </div>
                 </div>
               </div>
             </div>
-     
 
-            <div class="col-lg-4">
-              <!--
-              <div class="row mt-2">
+            <div class="col-lg-4" *ngIf="!selectedRow.completed">
+              <div class="row">
                 <div clas="col">
-                  <div class="form-group">
-                    <label class="form-control-label">Remarks</label>
-                    <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="completedCheck" formControlName="completed">
+                    <label class="custom-control-label" for="completedCheck">Completed</label>
                   </div>
                 </div>
               </div>
-            -->
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label">Completed Date</label>
+                    <input class="form-control" formControlName="completed_date" type="date">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -276,7 +343,7 @@
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label">Remarks</label>
-                    <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                    <textarea class="form-control" formControlName="remarks"></textarea>
                   </div>
                 </div>
 
@@ -290,7 +357,7 @@
           class="btn btn-success"
           type="button"
           (click)="updateApplication()"
-          [disabled]="!isCompleted && remarks=='' && completedDate==''">
+        >
           Update
       </button>
 

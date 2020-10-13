@@ -203,16 +203,16 @@
 													</span>
 
 													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='PR'">
-														{{i+1}}. CBID - ROB - Statistics
+														{{i+1}}. {{item.service_request?.service.name}}
 													</span>
 													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
-														{{i+1}}. CBID - ROC - Listing
+														{{i+1}}. {{item.service_request?.service.name}}
 													</span>
 													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='PR'">
-														{{i+1}}. CBID - ROC - Statistics
+														{{i+1}}. {{item.service_request?.service.name}}
 													</span>
 													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
-														{{i+1}}. CBID - ROC - Listing
+														{{i+1}}. {{item.service_request?.service.name}}
 													</span>
 												</td>
 												<td class="text-left">

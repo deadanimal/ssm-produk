@@ -164,17 +164,17 @@
 											- {{row?.image_form_type}}
 										</span>
 										<div *ngIf="row.service_request">
-											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='PR'">
-												CBID - ROB - Statistics
+											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='ST'">
+												{{row.service_request?.service.name}}
 											</span>
 											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='LS'">
-												CBID - ROC - Listing
+												{{row.service_request?.service.name}}
 											</span>
-											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='PR'">
-												CBID - ROC - Statistics
+											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='ST'">
+												{{row.service_request?.service.name}}
 											</span>
 											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='LS'">
-												CBID - ROC - Listing
+												{{row.service_request?.service.name}}
 											</span>
 										</div>
 										<div *ngIf="row.quota">

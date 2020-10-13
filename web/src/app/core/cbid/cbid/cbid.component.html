@@ -23,11 +23,11 @@
                                         <label class="form-control-label">Entities</label>
                                         <select 
                                             class="form-control" 
-                                            formControlName="entity_type"
+                                            formControlName="entities_type"
                                         >
                                             <option value="RB">Registration of Business (ROB)</option>
                                             <option value="RC">Registration of Company (ROC)</option>
-                                            <option>Both</option>
+                                            <option value="BT">Both</option>
                                         </select>
                                     </div>
                                 </div>
@@ -39,9 +39,9 @@
                                             class="form-control" 
                                             formControlName="product_type"
                                         >
-                                            <option value="PR">Statistics</option>
+                                            <option value="ST">Statistics</option>
                                             <option value="LS">Listing</option>
-                                            <option>Both</option>
+                                            <option value="BT">Both</option>
                                         </select>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                     <div class="text-center pt-4">
                                         <button 
                                             class="btn btn-ssm btn-icon btn-round m-0" 
-                                            (click)="addRequest()"
+                                            (click)="addRequest(serviceForm)"
                                         >
                                             <span class="btn-inner--text"> Add</span>
                                         </button>
@@ -146,7 +146,12 @@
                             (activate)="onActivate($event)"
                         >
 
-                            <ngx-datatable-column>
+                            <ngx-datatable-column
+                                maxWidth="80" 
+                                [sortable]="true"
+                                prop="id_index"
+                                [resizeable]="false"
+                            >
                                 <ng-template ngx-datatable-header-template>
                                     <span>No.</span>
                                 </ng-template>
@@ -155,26 +160,34 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column>
+                            <ngx-datatable-column
+                                [sortable]="true"
+                                prop="entities_type"
+                                [resizeable]="false"
+                            >
                                 <ng-template ngx-datatable-header-template>
                                     <span>Entity</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <div *ngIf="row.entity_type == 'RB'">
+                                    <div *ngIf="row.entities_type == 'RB'">
                                         Registration of Business (ROB)
                                     </div>
-                                    <div *ngIf="row.entity_type == 'RC'">
+                                    <div *ngIf="row.entities_type == 'RC'">
                                         Registration of Company (ROC)
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column>
+                            <ngx-datatable-column
+                                [sortable]="true"
+                                prop="product_type"
+                                [resizeable]="false"
+                            >
                                 <ng-template ngx-datatable-header-template>
                                     <span>Type</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <div *ngIf="row.product_type == 'PR'">
+                                    <div *ngIf="row.product_type == 'ST'">
                                         Statistics
                                     </div>
                                     <div *ngIf="row.product_type == 'LS'">
@@ -183,31 +196,33 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column>
+                            <ngx-datatable-column
+                                [sortable]="true"
+                                prop="fee"
+                                [resizeable]="false"
+                            >
                                 <ng-template ngx-datatable-header-template>
                                     <span>Price</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <div *ngIf="row.entity_type == 'RB'">
-                                        RM10.00
-                                    </div>
-                                    <div *ngIf="row.entity_type == 'RC'">
-                                        RM20.00
-                                    </div>
-                                    <div *ngIf="row.entity_type == 'BT'">
-                                        RM30.00
+                                    <div>
+                                        RM{{row.fee/100 | number:'1.2-2'}}
                                     </div>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column maxWidth="60">
+                            <ngx-datatable-column 
+                                maxWidth="80"
+                                [sortable]="false"
+                                [resizeable]="false"
+                            >
                                 <ng-template ngx-datatable-header-template>
                                     <span class="table-header"></span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <a 
                                         class="nav-link nav-link-icon cursor-pointer"
-                                        (click)="removeItem(row.id)"
+                                        (click)="removeRequest(row)"
                                     >
                                         <i 
                                             class="fas fa-trash-alt text-danger"

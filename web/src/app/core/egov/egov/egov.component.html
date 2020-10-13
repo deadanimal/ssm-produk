@@ -260,10 +260,22 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Attachment (Official Letter from eGov)
+                                    <label class="form-control-label">Attachment (Official Letter from Government Agency)
                                         <span class="text-warning">  *PDF format ONLY, 5MB maximum.</span>
                                     </label>
-                                    <input type="file" class="form-control" placeholder="Select File" />
+                                    <div class="custom-file">
+                                        <input 
+                                            type="file" 
+                                            class="custom-file-input" 
+                                            id="files" 
+                                            lang="en"
+                                            formControlName="attached_document" 
+                                            (change)="onImageChange($event)" 
+                                            accept=".pdf"
+                                            size="5"
+                                        />
+                                        <label class="custom-file-label" for="files">Select file</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
