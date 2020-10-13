@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import swal from "sweetalert2";
+import { Component, OnInit } from '@angular/core';
+import swal from 'sweetalert2';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 /// get ticket service
-import { TicketsService } from "src/app/shared/services/ticket/ticket.service";
+import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
 
 
 @Component({
@@ -18,7 +18,8 @@ import { TicketsService } from "src/app/shared/services/ticket/ticket.service";
 })
 export class EnquiryGeneralComponent implements OnInit {
 
-  addNewInquiryForm: FormGroup;
+  // Form
+  enquiryForm: FormGroup;
   fileToUpload: File = null;
 
   constructor(
@@ -28,57 +29,54 @@ export class EnquiryGeneralComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.addNewInquiryForm = this.formBuilder.group({
-      id: new FormControl(""),
-      title: new FormControl("qwew"),
-      description: new FormControl(""),
-      ticket_type: new FormControl("GN"),
-      // attached_document: new FormControl(""),
-      // error_screenshot: new FormControl(""),
-      // error_supporting_document: new FormControl(""),
-      // error_product: new FormControl("qweqe"),
-      // topic: new FormControl("asd"),
-      // subject: new FormControl(""),
-      user: new FormControl("38be90e7-9720-47bd-904e-2dff34c07aba"),
+    
+  }
+
+  initForm() {
+    this.enquiryForm = this.formBuilder.group({
+      id: new FormControl(''),
+      title: new FormControl('qwew'),
+      description: new FormControl(''),
+      ticket_type: new FormControl('GN'),
     });
   }
 
   onImageChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.addNewInquiryForm.get("image").setValue(file);
+      this.enquiryForm.get('image').setValue(file);
     }
   }
 
   onDocumentChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.addNewInquiryForm.get("attached_document").setValue(file);
+      this.enquiryForm.get('attached_document').setValue(file);
     }
   }
 
   handleFileInput(files: FileList) {
-    console.log("asdasd");
+    console.log('asdasd');
     this.fileToUpload = files.item(0);
   }
 
-  newApplicationData() {
-    console.log(this.addNewInquiryForm.value);
+  submit() {
+    console.log(this.enquiryForm.value);
 
     // const formData = new FormData();
     // formData.append(
-    //   "attached_document",
-    //   this.addNewInquiryForm.get("attached_document").value
+    //   'attached_document',
+    //   this.enquiryForm.get('attached_document').value
     // );
-    // formData.append("image", this.addNewInquiryForm.get("image").value);
-    // formData.append("document", this.addNewInquiryForm.get("document").value);
+    // formData.append('image', this.enquiryForm.get('image').value);
+    // formData.append('document', this.enquiryForm.get('document').value);
 
-    // this.addNewInquiryForm.value.attached_document = this.fileToUpload;
-    this.TicketsService.create(this.addNewInquiryForm.value).subscribe(
+    // this.enquiryForm.value.attached_document = this.fileToUpload;
+    this.TicketsService.create(this.enquiryForm.value).subscribe(
       (res) => {
         console.log(res);
         // console.log(res.id);
-        this.successAlert("Successfully submit inquiry.");
+        this.successAlert('Successfully submit inquiry.');
         // window.location.reload();
       },
       (err) => {
@@ -90,15 +88,15 @@ export class EnquiryGeneralComponent implements OnInit {
   confirm(row) {
     swal
       .fire({
-        title: "Confirmation",
-        text: "Are you sure to delete this data ?",
-        icon: "info",
+        title: 'Confirmation',
+        text: 'Are you sure to delete this data ?',
+        icon: 'info',
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Confirm",
+        confirmButtonText: 'Confirm',
         customClass: {
-          cancelButton: "btn btn-outline-primary ",
-          confirmButton: "btn btn-primary ",
+          cancelButton: 'btn btn-outline-primary ',
+          confirmButton: 'btn btn-primary ',
         },
       })
       .then(() => {
@@ -108,18 +106,18 @@ export class EnquiryGeneralComponent implements OnInit {
 
   successAlert(task) {
     swal.fire({
-      title: "Success",
+      title: 'Success',
       text: task,
-      icon: "success",
+      icon: 'success',
       // showCancelButton: true,
       buttonsStyling: false,
-      confirmButtonText: "Close",
+      confirmButtonText: 'Close',
       customClass: {
-        cancelButton: "btn btn-outline-success",
-        confirmButton: "btn btn-success ",
+        cancelButton: 'btn btn-outline-success',
+        confirmButton: 'btn btn-success ',
       },
     });
-    // this.navigatePage("/enquiry");
+    // this.navigatePage('/enquiry');
   }
 
   navigatePage(path: string) {

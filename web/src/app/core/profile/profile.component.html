@@ -2,9 +2,430 @@
 <div class="wrapper">
 	<div class="section">
 		<div class="container-fluid pt-6 px-6">
-			<div class="nav-wrapper">
-				<tabset type="pills" class="tab-space">
+			<!-- Public wrapper -->
+			<div class="nav-wrapper" *ngIf="user?.user_type == 'PB'">
+				<tabset type="pills" class="tab-space" >
 					<tab heading="My Account" [active]="accountTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="heading-small text-muted mb-4">
+									User Information
+								</h6>
+								<div class="row">
+									<div class="col-5">
+										<p class="my-0">Note:</p>
+										<p class="font-smaller mt-0">
+											Any user information changes can be
+											updated at <a href="https://www.ssm4u.com.my" target="_blank">SSM4U</a> portal.
+										</p>
+									</div>
+								</div>
+
+								<form>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Name</label>
+												<input class="form-control" value="Amin Redzuan" disabled>
+											</div>
+										</div>
+
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Email</label>
+												<input class="form-control" value="aminredz@gmail.com" disabled>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Phone No.</label>
+												<input class="form-control" value="0187246746" disabled>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div>
+									<form [formGroup]="addressForm">
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 1</label>
+													<input class="form-control" formControlName="address1" disabled />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 2</label>
+													<input class="form-control" formControlName="address2" disabled />
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 3</label>
+													<input class="form-control" formControlName="address3" disabled />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">City</label>
+													<input class="form-control" formControlName="city" disabled />
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">Postcode</label>
+													<input class="form-control" formControlName="postcode" disabled />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">State</label>
+													<input class="form-control" formControlName="state" disabled />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">Country</label>
+													<input class="form-control" formControlName="country" disabled />
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<hr class="my-2 w-100 text-black">
+
+								<h6 class="heading-small text-muted mb-4" *ngIf="user?.user_type == 'EG'">
+									Work Information
+								</h6>
+							</div>
+						</div>
+					</tab>
+
+					<tab heading="My Transactions" [active]="transactionTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="heading-small text-muted mb-4">
+									Transactions Information
+								</h6>
+
+								<div class="row">
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">Start date</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-calendar-alt"> </i>
+													</span>
+												</div>
+												<input class="form-control" type="date" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">End date</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="far fa-calendar-alt"> </i>
+													</span>
+												</div>
+												<input class="form-control" type="date" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">Transaction type</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="far fa-list-alt"> </i>
+													</span>
+												</div>
+												<select class="form-control">
+													<option>Purchase document</option>
+													<option>Topup credit</option>
+													<option>Refund credit</option>
+													<option>Remove credit</option>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">Billing name</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-file-invoice"> </i>
+													</span>
+												</div>
+												<input class="form-control" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="dataTables_wrapper py-4">
+									<ngx-datatable 
+										class="bootstrap selection-cell"
+										[columnMode]="'force'"
+										[headerHeight]="50"
+										[footerHeight]="50"
+										[rowHeight]="'auto'"
+										[limit]="tableEntries != -1 ? tableEntries : undefined" 
+										[rows]="tableTemp"
+										(activate)="onActivate($event)"
+									>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Invoice</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												INV{{row.reference_no}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Date</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{ row.payment_gateway_update_date }}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Transaction Type</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												Online
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Method</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												Credit Card
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Reference</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												REF{{row.reference_no}}
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Total Price</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												RM{{row.total_amount/100 | number : '1.2-2'}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Receipt</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<a 
+													class="nav-link nav-link-icon cursor-pointer"
+													(click)="downloadRecipt(row)"
+												>
+													<i 
+														class="fas fa-file-download text-info"
+														placement="top" 
+														tooltip="Download receipt"
+													> 
+													</i>
+												</a>
+											</ng-template>
+										</ngx-datatable-column>
+									</ngx-datatable>
+								</div>
+							</div>
+						</div>
+					</tab>
+
+					<tab heading="My Orders" [active]="orderTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="heading-small text-muted mb-4">My orders</h6>
+								<p class="my-0">Disclaimer:</p>
+								<ol>
+									<li class="font-smaller">
+										Every successful purchase will be kept in order menu for 7
+										day(s) from the date purchased. Please download your
+										document accordingly.
+									</li>
+									<li class="font-smaller">
+										If customer are unable to download product purchased within
+										7 day(s). Please contact SSM Enquiry.
+									</li>
+								</ol>
+
+								<div class="dataTables_wrapper py-4">
+									<ngx-datatable 
+										class="bootstrap selection-cell"
+										[columnMode]="'force'"
+										[headerHeight]="50"
+										[footerHeight]="50"
+										[rowHeight]="'auto'"
+										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined" 
+										[rows]="tableOrderTemp"
+										(activate)="onActivate($event)"
+									>
+										<ngx-datatable-column
+											maxWidth="70"
+											[sortable]="true"
+											prop="id_index"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span>No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.id_index}}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Order No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<!-- {{row.product?.name}} -->
+												SSM2020100124442
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Datetime</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{ row.created_date }}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Product</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.product?.name}}
+												<span *ngIf="row.service_request">
+													{{row.service_request?.service.name}}
+												</span>
+												<span *ngIf="row.product_search_criteria">
+													Customized Data
+												</span>
+												<span *ngIf="row.quota?.quota_type == '0A'">
+													Customized Data Quota
+												</span>
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Search Criteria</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.entity?.name}}
+												<span *ngIf="service_request?.service.service_type =='CB'">
+													-
+												</span>
+												<div *ngIf="row.product_search_criteria">
+													<a (click)="openModal(criteria, row)">Search criteria</a>
+												</div>
+												<span *ngIf="row.quota">
+													-
+												</span>
+												<span *ngIf="row.service_request">
+													-
+												</span>
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Language</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<div *ngIf="row.product">
+													<span *ngIf="row.product.language == 'MS'">BM</span>
+													<span *ngIf="row.product.language == 'EN'">EN</span>
+													<span *ngIf="row.product.output_type == 'IM'">-</span>
+												</div>
+												<div *ngIf="!row.product">
+													-
+												</div>
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Status</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<span class="badge badge-success">Success</span>
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Action</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<button 
+													class="btn btn-ssm btn-sm" 
+													(click)="initRequest(row)"
+													*ngIf="!row.service_request || row.quota"
+												>
+													Download
+												</button>
+											</ng-template>
+										</ngx-datatable-column>
+									</ngx-datatable>
+								</div>
+							</div>
+						</div>
+					</tab>
+				</tabset>
+			</div>
+
+			<!-- eGov wrapper -->
+			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
+				<tabset type="pills" class="tab-space" >
+					<tab heading="My Account">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">
@@ -49,49 +470,9 @@
 												<input class="form-control" value="0187246746" disabled>
 											</div>
 										</div>
-
-										<div class="col" *ngIf="user?.user_type == 'EG'">
-											<div class="form-group">
-												<label class="form-control-label">Position & Grade</label>
-												<input class="form-control" value="Pegawai Tadbir M41" disabled>
-											</div>
-										</div>
 									</div>
 								</form>
-								<div *ngIf="user?.user_type == 'EG'">
-									<div class="row">
-										<div class="col">
-											<div class="form-group">
-												<label class="form-control-label">IC No.</label>
-												<input class="form-control" value="670101115151" disabled>
-											</div>
-										</div>
-
-										<div class="col">
-											<div class="form-group">
-												<label class="form-control-label">Package Type</label>
-												<input class="form-control" [value]="user?.package_type" disabled>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-6">
-											<div class="form-group">
-												<label class="form-control-label">Expiry Date</label>
-												<input class="form-control" value="22/10/2021" disabled>
-											</div>
-										</div>
-
-										<div class="col" *ngIf="user?.package_type == 1 && user?.package_type == 2">
-											<div class="form-group">
-												<label class="form-control-label">Balance Quota</label>
-												<input class="form-control" value="980 / 1000" disabled>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div *ngIf="user?.user_type == 'PB'">
+								<div>
 									<form [formGroup]="addressForm">
 										<div class="row">
 											<div class="col-sm-12 col-lg-6">
@@ -266,182 +647,287 @@
 						</div>
 					</tab>
 
-					<tab heading="My Transactions" [active]="transactionTabActive" *ngIf="user?.user_type != 'EG'">
+					<tab heading="Request Investigation Document">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">
-									Transactions Information
+									Account Holder Details
 								</h6>
-
 								<div class="row">
-									<div class="col-sm-6 col-lg-3">
-										<div class="form-group">
-											<label class="form-control-label">Start date</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fas fa-calendar-alt"> </i>
-													</span>
-												</div>
-												<input class="form-control" type="date" />
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6 col-lg-3">
-										<div class="form-group">
-											<label class="form-control-label">End date</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="far fa-calendar-alt"> </i>
-													</span>
-												</div>
-												<input class="form-control" type="date" />
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6 col-lg-3">
-										<div class="form-group">
-											<label class="form-control-label">Transaction type</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="far fa-list-alt"> </i>
-													</span>
-												</div>
-												<select class="form-control">
-													<option>Purchase document</option>
-													<option>Topup credit</option>
-													<option>Refund credit</option>
-													<option>Remove credit</option>
-												</select>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6 col-lg-3">
-										<div class="form-group">
-											<label class="form-control-label">Billing name</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fas fa-file-invoice"> </i>
-													</span>
-												</div>
-												<input class="form-control" />
-											</div>
-										</div>
+									<div class="col-5">
+										<p class="my-0">Note:</p>
+										<p class="font-smaller mt-0">
+											Every application is subjected to SSM approval.
+										</p>
 									</div>
 								</div>
 
-								<div class="dataTables_wrapper py-4">
-									<ngx-datatable 
-										class="bootstrap selection-cell"
-										[columnMode]="'force'"
-										[headerHeight]="50"
-										[footerHeight]="50"
-										[rowHeight]="'auto'"
-										[limit]="tableEntries != -1 ? tableEntries : undefined" 
-										[rows]="tableTemp"
-										(activate)="onActivate($event)"
-									>
+								<div>
+									<div class="dataTables_wrapper py-4">
+										<ngx-datatable 
+											class="bootstrap selection-cell"
+											[columnMode]="'force'"
+											[headerHeight]="50"
+											[footerHeight]="50"
+											[rowHeight]="'auto'"
+											[limit]="tableInvestigationEntries != -1 ? tableInvestigationEntries : undefined" 
+											[rows]="tableInvestigationTemp"
+											(activate)="onActivate($event)"
+										>
+											<ngx-datatable-column
+												maxWidth="70"
+												[sortable]="true"
+												prop="id_index"
+												[resizeable]="false"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span>No.</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Reference No.</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+
+												</ng-template>
+											</ngx-datatable-column>
+			
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Application Date</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Officer</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+
+												</ng-template>
+											</ngx-datatable-column>
+			
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Updated Status Date</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Status</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													<span class="badge badge-warning">Pending</span>
+												</ng-template>
+											</ngx-datatable-column>
+											
+											<ngx-datatable-column>
+												<ng-template ngx-datatable-header-template>
+													<span>Action</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													<button 
+														class="btn btn-ssm btn-sm" 
+														(click)="initRequest(row)"
+														*ngIf="!row.service_request || row.quota"
+													>
+														Download
+													</button>
+												</ng-template>
+											</ngx-datatable-column>
+										</ngx-datatable>
+									</div>
+								</div>
+
+								<div>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Email</label>
+												<input class="form-control" value="amin@gov.my" disabled>
+											</div>
+										</div>
+	
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Full Name</label>
+												<input class="form-control" value="Amin Redzuan" disabled>
+											</div>
+										</div>
+									</div>
+	
+									<hr class="my-2 w-100 text-black">
+	
+									<h6 class="heading-small text-muted mb-4">
+										Investigation Information
+									</h6>
+	
+									<div>
+										<form [formGroup]="requestInvestigationForm">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Officer Name
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="officer_name">
+													</div>
+												</div>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Invoice</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												INV{{row.reference_no}}
-											</ng-template>
-										</ngx-datatable-column>
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Designation 
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="designation">
+													</div>
+												</div>
+											</div>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Date</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{ row.payment_gateway_update_date }}
-											</ng-template>
-										</ngx-datatable-column>
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Department 
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="department">
+													</div>
+												</div>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Transaction Type</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												Online
-											</ng-template>
-										</ngx-datatable-column>
-										
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Method</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												Credit Card
-											</ng-template>
-										</ngx-datatable-column>
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Mobile No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="mobile_no">
+													</div>
+												</div>
+											</div>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Reference</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												REF{{row.reference_no}}
-											</ng-template>
-										</ngx-datatable-column>
-										
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Total Price</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												RM{{row.total_amount/100 | number : '1.2-2'}}
-											</ng-template>
-										</ngx-datatable-column>
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">NRIC No. / Officer Authority Card
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="nric_officer_authority">
+													</div>
+												</div>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Receipt</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												<a 
-													class="nav-link nav-link-icon cursor-pointer"
-													(click)="downloadRecipt(row)"
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Official Email Address
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="official_email">
+													</div>
+												</div>
+											</div>
+		
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Reference Letter No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="reference_letter_no" />
+													</div>
+												</div>
+			
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">IP No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="ip_no" />
+													</div>
+												</div>
+											</div>
+			
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Court Case No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="court_case_no" />
+													</div>
+												</div>
+											</div>
+			
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Attachment (Official Letter of Company Information Request)
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control"/>
+													</div>
+												</div>
+			
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Attachment (Official Letter from eGovernment)
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control"/>
+													</div>
+												</div>
+											</div>
+	
+											<div class="form-group">
+												<label class="form-control-label">Offence (Please quote the relevent section)
+													<span class="text-red">*</span>
+												</label>
+												<textarea class="form-control" formControlName="offence"></textarea>
+											</div>
+	
+											<div class="form-group">
+												<label class="form-control-label">Select search</label>
+												<div class="custom-control custom-radio mb-3">
+													<input type="radio" id="radioRequest" name="customRadio" class="custom-control-input">
+													<label class="custom-control-label" for="radioRequest">Document</label>
+												</div>
+											</div>
+	
+											<div>
+												<button
+													class="btn btn-ssm rounded-pill"
 												>
-													<i 
-														class="fas fa-file-download text-info"
-														placement="top" 
-														tooltip="Download receipt"
-													> 
-													</i>
-												</a>
-											</ng-template>
-										</ngx-datatable-column>
-									</ngx-datatable>
+													Add Document
+												</button>
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
 					</tab>
 
-					<tab heading="My Orders" [active]="orderTabActive" *ngIf="user?.user_type != 'EG'">
+					<tab heading="My Request">
 						<div class="card">
 							<div class="card-body">
-								<h6 class="heading-small text-muted mb-4">My orders</h6>
-								<p class="my-0">Disclaimer:</p>
-								<ol>
-									<li class="font-smaller">
-										Every successful purchase will be kept in order menu for 7
-										day(s) from the date purchased. Please download your
-										document accordingly.
-									</li>
-									<li class="font-smaller">
-										If customer are unable to download product purchased within
-										7 day(s). Please contact SSM Enquiry.
-									</li>
-								</ol>
+								<div class="row">
+									<div class="col">
+										<p class="my-0">Notes:</p>
+										<ol class="font-weight-300">
+											<li>Every successful application will be kept in My Request menu for 7 day (s) from the approval date. Please download your document accordingly.</li>
+											<li>If customer are unable to download requested document within 7 days, please contact <a href="https://www.ssm4u.com.my" target="_blank">SSM Enquiry</a>.</li>
+										</ol>
+									</div>
+								</div>
 
 								<div class="dataTables_wrapper py-4">
 									<ngx-datatable 
@@ -450,8 +936,8 @@
 										[headerHeight]="50"
 										[footerHeight]="50"
 										[rowHeight]="'auto'"
-										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined" 
-										[rows]="tableOrderTemp"
+										[limit]="tableRequestEntries != -1 ? tableRequestEntries : undefined" 
+										[rows]="tableRequestTemp"
 										(activate)="onActivate($event)"
 									>
 										<ngx-datatable-column
@@ -464,81 +950,43 @@
 												<span>No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.id_index}}
+
 											</ng-template>
 										</ngx-datatable-column>
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Order No.</span>
+												<span>Approved Date & Time</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<!-- {{row.product?.name}} -->
-												SSM2020100124442
+
 											</ng-template>
 										</ngx-datatable-column>
 		
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Datetime</span>
+												<span>Entity Name / Product Detail</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{ row.created_date }}
+
 											</ng-template>
 										</ngx-datatable-column>
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Product</span>
+												<span>Product Description</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.product?.name}}
-												<span *ngIf="row.service_request">
-													{{row.service_request?.service.name}}
-												</span>
-												<span *ngIf="row.product_search_criteria">
-													Customized Data
-												</span>
-												<span *ngIf="row.quota?.quota_type == '0A'">
-													Customized Data Quota
-												</span>
+
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Search Criteria</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.entity?.name}}
-												<span *ngIf="service_request?.service.service_type =='CB'">
-													-
-												</span>
-												<div *ngIf="row.product_search_criteria">
-													<a (click)="openModal(criteria, row)">Search criteria</a>
-												</div>
-												<span *ngIf="row.quota">
-													-
-												</span>
-												<span *ngIf="row.service_request">
-													-
-												</span>
-											</ng-template>
-										</ngx-datatable-column>
-										
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
 												<span>Language</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<div *ngIf="row.product">
-													<span *ngIf="row.product.language == 'MS'">BM</span>
-													<span *ngIf="row.product.language == 'EN'">EN</span>
-													<span *ngIf="row.product.output_type == 'IM'">-</span>
-												</div>
-												<div *ngIf="!row.product">
-													-
-												</div>
+												
 											</ng-template>
 										</ngx-datatable-column>
 
@@ -547,7 +995,16 @@
 												<span>Status</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<span class="badge badge-success">Success</span>
+												<span class="badge badge-warning">Pending</span>
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span>Document Output</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												
 											</ng-template>
 										</ngx-datatable-column>
 										
@@ -561,685 +1018,11 @@
 													(click)="initRequest(row)"
 													*ngIf="!row.service_request || row.quota"
 												>
-													Download
+													Buy again
 												</button>
 											</ng-template>
 										</ngx-datatable-column>
 									</ngx-datatable>
-								</div>
-							</div>
-						</div>
-					</tab>
-				</tabset>
-			</div>
-		</div>
-		<!-- container egov -->
-		<div class="container pt-6" *ngIf="userType == 'EG'">
-			<div class="nav-wrapper">
-				<tabset type="pills" class="tab-space">
-					<tab heading="My Account">
-						<div class="card">
-							<div class="card-body">
-								<div class="row">
-									<div class="col col-md-4">
-										<h6 class="heading-small text-muted mb-4">
-											User information
-										</h6>
-									</div>
-									<div class="col col-md-8" style="float: right">
-										<button class="btn bg-ssm" style="cursor: pointer"
-											(click)="openModal(renewAccount)">
-											<span style="color: white"> Renew Account</span>
-										</button>
-										<button class="btn bg-ssm" style="cursor: pointer"
-											(click)="openModal(requestQuota)" *ngIf="showRequestQuotaButton">
-											<span style="color: white"> Request Quota </span>
-										</button>
-										<button class="btn bg-ssm" style="cursor: pointer"
-											(click)="disableFormAccount()">
-											<span style="color: white"> Edit Information </span>
-										</button>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Name</label>
-											<input class="form-control" placeholder="Enter name" [disabled]="formStatus"
-												[value]="userFullname" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Email address</label>
-											<input class="form-control" placeholder="Enter email address"
-												[disabled]="formStatus" [value]="userEmail" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">IC. No.</label>
-											<input class="form-control" placeholder="Enter name" [disabled]="formStatus"
-												[value]="userNric" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Position & Grade</label>
-											<input class="form-control" placeholder="Enter email address"
-												[disabled]="formStatus" [value]="userdetails.position_or_grade" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Tel Number</label>
-											<input class="form-control" placeholder="Enter Tel Number"
-												[disabled]="formStatus" [value]="userdetails.phone_number" />
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Package Type</label>
-											<input class="form-control" placeholder="Enter username"
-												[disabled]="formStatus" [value]="egovPackage" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Expiry Date</label>
-											<input class="form-control" placeholder="Enter Tel Number"
-												[disabled]="formStatus" value="30/9/2020" />
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Balance Quota</label>
-											<input class="form-control" placeholder="Enter username" disabled
-												[value]="userQuota" />
-										</div>
-									</div>
-								</div>
-
-								<hr class="my-4" />
-
-								<h6 class="heading-small text-muted mb-4">Work Information</h6>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Head Of Department Name</label>
-											<input class="form-control" placeholder="Enter Head Of Department Name"
-												value="Admin3" [disabled]="formStatus" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Head Of Department Position</label>
-											<input class="form-control" placeholder="Enter Head Of Department Position"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Head Of Department Email</label>
-											<input class="form-control" placeholder="Enter Head Of Department Email"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Ministry Name</label>
-											<input class="form-control" placeholder="Enter Ministry Name"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Department / Agency Name</label>
-											<input class="form-control" placeholder="Enter Department / Agency Name"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Division / Section / Unit Name</label>
-											<input class="form-control"
-												placeholder="Enter Division / Section / Unit Name"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-12">
-										<div class="form-group">
-											<label class="form-control-label">Address 1</label>
-											<textarea class="form-control" placeholder="Enter Address 1"
-												[disabled]="formStatus"></textarea>
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-12">
-										<div class="form-group">
-											<label class="form-control-label">Address 2</label>
-											<textarea class="form-control" placeholder="Enter Address 2"
-												[disabled]="formStatus"></textarea>
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-12">
-										<div class="form-group">
-											<label class="form-control-label">Address 3</label>
-											<textarea class="form-control" placeholder="Enter Address 3"
-												[disabled]="formStatus"></textarea>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">Postcode</label>
-											<input class="form-control" placeholder="Enter Postcode"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">City</label>
-											<input class="form-control" placeholder="Enter City"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">State</label>
-											<input class="form-control" placeholder="Enter State"
-												[disabled]="formStatus" />
-										</div>
-									</div>
-									<div class="col-sm-12 col-lg-6">
-										<div class="form-group">
-											<label class="form-control-label">
-												Attachment Official Letter from KJAKP
-											</label>
-											<div class="input-group mb-4">
-												<input class="form-control" type="file" [disabled]="formStatus" />
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div *ngIf="showSubmitButton">
-									<button class="btn btn-ssm float-right btn-round"
-										(click)="successAlert('Successfully Edit Information')">
-										Save
-									</button>
-								</div>
-							</div>
-						</div>
-					</tab>
-
-					<tab heading="Request Investigation Document">
-						<div class="card" *ngIf="showRequestInvestigationAdd">
-							<div class="card-body">
-								<h2 class="heading-small text-muted mb-4">
-									New Request Investigation Document
-								</h2>
-								<p class="text-muted text-sm mt--3">
-									1. SAMPLE : Every application is subjected to SSM approval.
-								</p>
-								<h6 class="heading-small text-muted mb-4">
-									Account Holder Details
-								</h6>
-								<hr style="width: 100%" />
-
-								<form>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Email Address <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-calendar-alt"> </i>
-														</span>
-													</div>
-													<input class="form-control" type="text" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Full Name <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="far fa-calendar-alt"> </i>
-														</span>
-													</div>
-													<input class="form-control" type="text" />
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr class="mt-2 mb-3" style="width: 100%" />
-
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Officer Name <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-calendar-alt"> </i>
-														</span>
-													</div>
-													<input class="form-control" type="text" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Designation <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="far fa-calendar-alt"> </i>
-														</span>
-													</div>
-													<input class="form-control" type="text" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Account name <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-user-alt"> </i>
-														</span>
-													</div>
-													<input class="form-control" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="row">
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label class="form-control-label">Office Tel. No.
-															<span class="text-red">*</span></label>
-														<div class="input-group mb-4">
-															<div class="input-group-prepend">
-																<span class="input-group-text">
-																	<i class="far fa-list-alt"> </i>
-																</span>
-															</div>
-															<input class="form-control" type="text" />
-														</div>
-													</div>
-												</div>
-
-												<div class="col-sm-6">
-													<div class="form-group">
-														<label class="form-control-label">Mobile Phone No
-															<span class="text-red">*</span></label>
-														<div class="input-group mb-4">
-															<div class="input-group-prepend">
-																<span class="input-group-text">
-																	<i class="far fa-list-alt"> </i>
-																</span>
-															</div>
-															<input class="form-control" type="text" />
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">NRIC No./Officer Authority Card
-													<span class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="far fa-user"> </i>
-														</span>
-													</div>
-													<input class="form-control" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Officer Email Address
-													<span class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-file-invoice"> </i>
-														</span>
-													</div>
-													<input class="form-control" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Reference Letter No.
-													<span class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-file-invoice"> </i>
-														</span>
-													</div>
-													<input class="form-control"
-														 />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">IP No. <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-file-invoice"> </i>
-														</span>
-													</div>
-													<input class="form-control" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Court Case No. <span
-														class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-file-invoice"> </i>
-														</span>
-													</div>
-													<input class="form-control" />
-												</div>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label class="form-control-label">Attachment Official Letter from KJAKP
-													<span class="text-red">*</span></label>
-												<div class="input-group mb-4">
-													<div class="input-group-prepend">
-														<span class="input-group-text">
-															<i class="fas fa-file-invoice"> </i>
-														</span>
-													</div>
-													<input class="form-control" type="file" />
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col">
-											<h3 class="title font-weight-bolder">Select Search</h3>
-											<div class="form-group">
-												<div class="custom-control custom-radio custom-control-inline">
-													<input type="radio" id="document" name="radioMethod"
-														class="custom-control-input" (change)="summaryRequest('doc')" />
-													<label class="custom-control-label" for="document">Document</label>
-												</div>
-												<div class="custom-control custom-radio custom-control-inline">
-													<input type="radio" id="personelInvolve" name="radioMethod"
-														class="custom-control-input" (change)="summaryRequest('piv')" />
-													<label class="custom-control-label" for="personelInvolve">Personel
-														Involvement</label>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="row" *ngIf="showdoc">
-										<div class="col">
-											<span class="mt-3 mb-3">
-												<button class="btn text-ssm"
-													(click)="navigatePage('/personal-involvement')">
-													Add NRIC / Passport Number
-												</button>
-											</span>
-											<div class="table-responsive">
-												<table class="table align-items-center table-flush">
-													<thead class="thead-light">
-														<tr>
-															<!-- <th scope="col">No</th> -->
-															<th scope="col">ID Number</th>
-															<th scope="col">Entities</th>
-															<th scope="col">Involvement<br />Information</th>
-															<th scope="col">Action</th>
-														</tr>
-													</thead>
-
-													<tbody class="list">
-														<tr>
-															<!-- <td></td> -->
-															<td>qweqweqwe</td>
-															<td>qweqweqw</td>
-															<td>qweqweqw</td>
-															<td>
-																<a style="cursor: pointer">
-																	<i class="fas fa-trash text-red"></i>
-																</a>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-
-									<div class="row" *ngIf="showpiv">
-										<div class="col">
-											<span class="mt-3 mb-3">
-												<button class="btn text-ssm"
-													(click)="navigatePage('/personal-involvement')">
-													Add Document
-												</button>
-											</span>
-											<div class="table-responsive">
-												<table class="table align-items-center table-flush">
-													<thead class="thead-light">
-														<tr>
-															<!-- <th scope="col">No</th> -->
-															<th scope="col">Entity Number</th>
-															<th scope="col">Entity Name</th>
-															<th scope="col">Document Type</th>
-															<th scope="col">Document</th>
-															<th scope="col">Action</th>
-														</tr>
-													</thead>
-
-													<tbody class="list">
-														<tr>
-															<!-- <td></td> -->
-															<td>asdasd</td>
-															<td>asdasd</td>
-															<td>asdasd</td>
-															<td>asdasd</td>
-															<td>
-																<a style="cursor: pointer" (click)="confirm(item.id)">
-																	<i class="fas fa-trash text-red"></i>
-																</a>
-															</td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-								</form>
-
-								<div class="row">
-									<div class="col text-right">
-										<button class="btn btn-ssm float-right btn-round"
-											(click)="successAlert('Successfully Submit Application')">
-											Save
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="card" *ngIf="showRequestInvestigationList">
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<h6 class="heading-small text-muted mb-4">
-											Request Investigation Document
-										</h6>
-										<p class="my-0">Notes:</p>
-										<ol>
-											<li class="font-smaller">
-												Every application is subjected to ssm approval.
-											</li>
-										</ol>
-									</div>
-									<div class="col text-right">
-										<button class="btn bg-ssm" (click)="addInvestigationReqForm()">
-											<spam class="text-white">Add New Request</spam>
-										</button>
-									</div>
-								</div>
-
-								<div class="table-responsive">
-									<table class="table align-items-center table-flush">
-										<thead class="thead-light">
-											<tr>
-												<!-- <th>Number</th> -->
-												<th>Reference Number</th>
-												<th>Application Date</th>
-												<th>Officer</th>
-												<th>Updated Status Date</th>
-												<th>Status</th>
-												<th>Action</th>
-											</tr>
-										</thead>
-
-										<tbody class="list">
-											<tr *ngFor="let item of InvestigationList">
-												<!-- <td>{{ listNp += 1 }}</td> -->
-												<td>REF{{ runningNo }}</td>
-												<td>{{ item.created_date | date: "dd/MM/yyyy" }}</td>
-												<td>{{ item.officer }}</td>
-												<td>{{ item.modified_date | date: "dd/MM/yyyy" }}</td>
-												<td>
-													<span class="badge badge-success">Success</span>
-												</td>
-												<td>
-													<button class="btn btn-ssm btn-sm" (click)="successDownload()">
-														Download
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</tab>
-
-					<tab heading="My Request">
-						<div class="card">
-							<div class="card-body">
-								<h6 class="heading-small text-muted mb-4">My Request</h6>
-								<p class="my-0">Disclaimer:</p>
-								<ol>
-									<li class="font-smaller">
-										Every successful purchase will be kept in order menu for 7
-										day(s) from the date purchased. Please download your
-										document accordingly.
-									</li>
-									<li class="font-smaller">
-										If customer are unable to download product purchased within
-										7 day(s). Please contact SSM Enquiry.
-									</li>
-								</ol>
-
-								<div class="table-responsive">
-									<table class="table align-items-center table-flush">
-										<thead class="thead-light">
-											<tr>
-												<th>Order Number</th>
-												<th>Date & Time Purchased</th>
-												<th>Entity Name</th>
-												<th>Product Description</th>
-												<th>Language</th>
-												<th>Status</th>
-												<th>Document Output</th>
-											</tr>
-										</thead>
-
-										<tbody class="list">
-											<tr>
-												<td>SSMA2020061001</td>
-												<td>04/09/2020 10:20:12</td>
-												<td>
-													201101032401 (960536-K) PIPELINE NETWORK SDN. BHD.
-												</td>
-												<td>Company Profile non-CTC</td>
-												<td><span class="badge badge-primary">EN</span></td>
-												<td>
-													<span class="badge badge-success">Success</span>
-												</td>
-												<td>
-													<button class="btn btn-ssm btn-sm" (click)="successDownload()">
-														Download
-													</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
 								</div>
 							</div>
 						</div>
