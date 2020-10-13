@@ -73,6 +73,10 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             product_id = cart_item_request['product']
             image_version_id = cart_item_request['image_version_id']
             image_form_type = cart_item_request['image_form_type']
+            year1 = cart_item_request['year1']
+            year2 = cart_item_request['year2']
+            print(year1)
+            print(year2)
 
             cart = self.get_object()
 
@@ -85,6 +89,14 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     product=product, 
                     image_form_type=image_form_type,
                     image_version_id=image_version_id,
+                    cart= cart,
+                    cart_item_type='PR')
+            elif year1 and year2:
+                new_cart_item = CartItem.objects.create(
+                    entity=entity, 
+                    product=product, 
+                    year1=year1,
+                    year2=year2,
                     cart= cart,
                     cart_item_type='PR')
             else:

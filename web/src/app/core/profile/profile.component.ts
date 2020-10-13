@@ -703,7 +703,8 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      selected['image_version_id'] == 'NA'
+      !selected['image_version_id'] &&
+      !selected['year1']
     ) { // Product (Normal)
       console.log('selected', selected)
       let body = {
@@ -725,7 +726,8 @@ export class ProfileComponent implements OnInit {
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
-      selected['image_version_id'] != 'NA'
+      selected['image_version_id'] &&
+      !selected['year1']
     ) { // Product (Image)
       console.log('selected', selected)
       let body = {
@@ -735,6 +737,24 @@ export class ProfileComponent implements OnInit {
         'version_id': selected.image_version_id
       }
       this.downloadRequestImg(body)
+    }
+    else if (
+      selected['cart_item_type'] == 'PR' &&
+      !selected['image_version_id'] &&
+      selected['year1']
+    ) { // Product (Financial Historical)
+      console.log('selected', selected)
+      let body = {
+        'name': selected['product']['slug'],
+        'registration_no': Number(selected.entity.company_number),
+        // 'entity_type': 'ROC', 
+        'ctc': selected['product']['ctc'],
+        'language': lang,
+        'entity_type': 'ROC',
+        'year1': selected['year1'],
+        'year2': selected['year2']
+      }
+      this.downloadRequestProduct(body)
     }
     else if (selected['cart_item_type'] == 'SE') { // Service
 
