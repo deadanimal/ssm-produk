@@ -83,6 +83,7 @@ from .helpers.particular_audit_firm import particular_audit_firm
 from .helpers.company_charges import company_charges
 from .helpers.particular_sharecapital import particular_sharecapital
 from .helpers.particular_shareholders import particular_shareholders
+from .helpers.info_rob_termination import info_rob_termination
 
 from .models import (
     Product,
@@ -446,17 +447,28 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             middleware_data = get_cert_incorp(information_url, request_headers, registration_)
             data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
 
-        elif name_ == 'public_incorp_cert':
-            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
-            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+            if middleware_data['companyStatus'] == 'U':
+                if middleware_data['companyType'] == 'S':
+                    name_ = 'public_incorp_cert'
+                else:
+                    name_ = 'public_guarantee_incorp_cert'
+            else:
+                name_ = 'certificate_of_incorporation_registration'
 
-        elif name_ == 'public_guarantee_incorp_cert':
-            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
-            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+            if middleware_data['localforeignCompany'] != 'L':
+                name_ = 'foreign_incorp_cert'
 
-        elif name_ == 'foreign_incorp_cert':
-            middleware_data = get_cert_reg_foreign(information_url, request_headers, registration_)
-            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+        # elif name_ == 'public_incorp_cert':
+        #     middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+        #     data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        # elif name_ == 'public_guarantee_incorp_cert':
+        #     middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+        #     data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+        # elif name_ == 'foreign_incorp_cert':
+        #     middleware_data = get_cert_reg_foreign(information_url, request_headers, registration_)
+        #     data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
 
         elif name_ == 'certificate_of_change_of_name':
             middleware_data = get_info_comp_name_chg(information_url, request_headers, registration_)
@@ -549,8 +561,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = particular_audit_firm(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'business_termination_letter':
-            middleware_data = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
-            data_loaded = info_rob_termination(middleware_data, new_entity_id, language_, entity_type_)
+            middleware_data = get_info_rob_termination(information_url, request_headers, registration_)
+            data_loaded = info_rob_termination(middleware_data, new_entity_id, language_)
 
         elif name_ == 'company_charges':
             middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
