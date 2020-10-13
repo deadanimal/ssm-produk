@@ -25,18 +25,18 @@
                         </h4>
                         <h5 class="m-0">
                             Entity name:
-                            <div *ngIf="entity.type_of_entity == 'AD'">
+                            <span *ngIf="entity.type_of_entity == 'AD'">
                                 {{ entity.audit_firm_number }} / {{entity.name}}
-                            </div>
-                            <div *ngIf="entity.type_of_entity == 'BS'">
+                            </span>
+                            <span *ngIf="entity.type_of_entity == 'BS'">
                                 {{ entity.registration_number_new }}
                                 ({{ entity.registration_number }}-{{ entity.check_digit }}) /
                                 {{entity.name}}
-                            </div>
-                            <div *ngIf="entity.type_of_entity == 'CP'">
+                            </span>
+                            <span *ngIf="entity.type_of_entity == 'CP'">
                                 {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
                                 {{entity.name}}
-                            </div>
+                            </span>
                         </h5>
                     </div>
                 </div>
@@ -75,7 +75,20 @@
 
         <div class="col">
             <label>Company Number</label>
-            <p>{{ entity_data['company_info']['companyNo'] }}-{{ entity_data['company_info']['checkDigit']}}</p>
+            <p>
+                <span *ngIf="entity.type_of_entity == 'AD'">
+                    {{ entity.audit_firm_number }} / {{entity.name}}
+                </span>
+                <span *ngIf="entity.type_of_entity == 'BS'">
+                    {{ entity.registration_number_new }}
+                    ({{ entity.registration_number }}-{{ entity.check_digit }}) /
+                    {{entity.name}}
+                </span>
+                <span *ngIf="entity.type_of_entity == 'CP'">
+                    {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
+                    {{entity.name}}
+                </span>
+            </p>
         </div>          
 
     </div>    
@@ -89,23 +102,26 @@
 
         <div class="col">
             <label>Type</label>
-            <p *ngIf="entity_data['company_info']['companyType'] =='B'">
-                LIMITED BY SHARE AND GUARANTEE
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='G'">
-                LIMITED BY GUARANTEE
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='S'">
-                LIMITED BY SHARES
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='U'">
-                UNLIMITED
-            </p>
-            <p *ngIf="entity_data['company_info']['companyStatus'] =='R'">
-                PRIVATE LIMITED
-            </p>
-            <p *ngIf="entity_data['company_info']['companyStatus'] =='U'">
-                PUBLIC LIMITED
+            <p >
+                <span *ngIf="entity_data['company_info']['companyType'] =='B'">
+                    LIMITED BY SHARE AND GUARANTEE 
+                </span>
+
+                <span *ngIf="entity_data['company_info']['companyType'] =='G'">
+                    LIMITED BY GUARANTEE 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyType'] =='S'">
+                    LIMITED BY SHARES 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyType'] =='U'">
+                    UNLIMITED 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyStatus'] =='R'">
+                    PRIVATE LIMITED 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyStatus'] =='U'">
+                    PUBLIC LIMITED 
+                </span>
             </p>
         </div>
 
@@ -115,12 +131,20 @@
 
         <div class="col">
             <label>Status</label>
-            <p>{{ entity_data['company_info']['statusOfCompany']}}</p>
+            <p>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'E'">
+                    Existing
+                </span>
+            </p>
         </div>    
 
         <div class="col">
             <label>Origin</label>
-            <p>{{ entity_data['company_info']['companyCountry']}}</p>
+            <p>
+                <span *ngIf="entity_data['company_info']['companyCountry'] == 'MAL'">
+                    MALAYSIA
+                </span>
+            </p>
         </div>
 
     </div>   
@@ -146,7 +170,7 @@
     <div class="row">
 
         <div class="col">
-            <label>Remarks</label>
+            <label>Nature of Business</label>
             <p>-</p>
         </div>    
 
@@ -237,8 +261,8 @@
         <table class="table text-left borderless">
             <thead>
                 <tr>
-                    <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
-                    <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
+                    <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT / COMPANY NO.</p></th>
+                    <th style="width:40%; border: 0;"><p id="secondary">NAME / COMPANY NAME</p></th>
                     <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
                 </tr>
             </thead>

@@ -105,6 +105,8 @@ export class CartItemExtended {
     public product: Product
     public service_request: ServiceRequestExtended
     public product_search_criteria: SearchCriteria
+    public year1: string
+    public year2: string
     public image_form_type: string
     public image_version_id: string
     public quota: number
@@ -119,6 +121,8 @@ export class CartItemExtended {
         product: Product,
         service_request: ServiceRequestExtended ,
         product_search_criteria: SearchCriteria,
+        year1: string,
+        year2: string,
         image_form_type: string,
         image_version_id: string,
         quota: number,
@@ -132,6 +136,8 @@ export class CartItemExtended {
         this.product = product
         this.service_request = service_request
         this.product_search_criteria = product_search_criteria
+        this.year1 = year1
+        this.year2 = year2
         this.image_form_type = image_form_type
         this.image_version_id = image_version_id
         this.quota = quota

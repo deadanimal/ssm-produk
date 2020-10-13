@@ -17,34 +17,28 @@ from users.models import (
 class Service(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, default='NA')
 
     SERVICE_TYPE = [
         ('CB', 'CBID'),
         ('IN', 'Investigation'),
-
         ('NA', 'Not Available')
     ]
-    
     service_type = models.CharField(choices=SERVICE_TYPE, max_length=2, default='NA')    
 
     ENTITIES_TYPE = [
         ('RB', 'Registration of Business'),
         ('RC', 'Registration of Company'),
-
         ('NA', 'Not Available')
     ]
-
-    fee = models.IntegerField(default=1000)
-    
     entities_type = models.CharField(choices=ENTITIES_TYPE, max_length=2, default='NA')   
+    fee = models.IntegerField(default=1000)
 
     PRODUCT_TYPE = [
-        ('PR', 'Product'),
+        ('ST', 'Statistics'),
         ('LS', 'Listing'),
-
         ('NA', 'Not Available')
     ]
-    
     product_type = models.CharField(choices=PRODUCT_TYPE, max_length=2, default='NA')           
 
     created_date = models.DateTimeField(auto_now_add=True)
@@ -53,35 +47,41 @@ class Service(models.Model):
     class meta:
         ordering = ['created_date']
 
+    def __str__(self):
+        return self.full_name
+
 class ServiceRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+    reference_id = models.CharField(max_length=100, default=True)
+    receipt_number = models.CharField(max_length=100, default=True)
 
     name = models.CharField(max_length=512, null=True)
     organisation = models.CharField(max_length=512, null=True) 
     address = models.CharField(max_length=512, null=True) 
-    # address1 = models.CharField(max_length=512, null=True) 
-    # address2 = models.CharField(max_length=512, null=True) 
-    # address3 = models.CharField(max_length=512, null=True) 
-    # postcode = models.CharField(max_length=512, null=True) 
-    # country = models.CharField(max_length=512, null=True) 
-    # city = models.CharField(max_length=512, null=True) 
     email_address = models.CharField(max_length=512, null=True) 
-    phone_number = models.CharField(max_length=512, null=True) 
+    phone_number = models.CharField(max_length=512, null=True)
+    
+    pending = models.BooleanField(default=True)
+    in_progress = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
+    in_progress_date = models.DateTimeField(null=True)
+    completed_date = models.DateTimeField(null=True)
 
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
 
     remarks = models.TextField(null=True)
-    completed = models.BooleanField(default=False)
-    completed_date = models.DateTimeField(null=True)
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    pic = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='service_pic')
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
         ordering = ['created_date']
+
+    def __str__(self):
+        return self.receipt_number
 
 
 class DocumentRequest(models.Model):
