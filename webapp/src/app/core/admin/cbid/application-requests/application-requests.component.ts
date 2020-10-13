@@ -81,21 +81,25 @@ export class ApplicationRequestsComponent implements OnInit {
   initData() {
 
     this.updateForm = this.formBuilder.group({
-      status: new FormControl('CP'),
-      completed_date: new FormControl('', Validators.required),
-      remarks: new FormControl('')
+      id: new FormControl(),
+      in_progress: new FormControl(false),
+      completed: new FormControl(false),
+      in_progress_date: new FormControl(),
+      completed_date: new FormControl(),
+      remarks: new FormControl()
     })
-
-    this.servicesService.getAllRequests().subscribe(
+    this.loadingBar.start()
+    this.servicesService.getAll().subscribe(
       (res) => {
         this.tableRows = res;
         this.tableRows.forEach(
           (row) => {
-            if(row.pending_date) {
-              row.pending_date = moment(row.pending_date).format('DD/MM/YYYY')
+            this.loadingBar.complete()
+            if(row.in_progress) {
+              row.in_progress_date = moment(row.in_progress_date).format('DD/MM/YYYY')
             }
 
-            if(row.completed_date) {
+            if(row.completed) {
               row.completed_date = moment(row.completed_date).format('DD/MM/YYYY')
             }
 
@@ -106,6 +110,9 @@ export class ApplicationRequestsComponent implements OnInit {
             if(row.modified_date) {
               row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
             }
+          },
+          () => {
+            this.loadingBar.complete()
           }
         )        
       },
@@ -147,11 +154,8 @@ export class ApplicationRequestsComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, row) {
 
     this.selectedRow = row
-    if (row) {
-      if (row.status == 'PG') {
-        this.isCompleted = false
-      }
-    }
+    this.updateForm.controls['id'].setValue(row.id)
+    console.log(row)
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
@@ -168,29 +172,44 @@ export class ApplicationRequestsComponent implements OnInit {
   updateApplication() {
     this.loadingBar.start()
 
-    let application_ = this.selectedRow;
+    // let application_ = this.selectedRow;
 
-    let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
-    temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
-    this.updateForm.controls['completed_date'].setValue(temp_completed_date)
+    // let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
+    // temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
+    // this.updateForm.controls['completed_date'].setValue(temp_completed_date)
 
-    let id_ = application_['id']
+    // let id_ = application_['id']
     
-    let change_ = {
-      'completed': this.isCompleted,
+    // let change_ = {
+    //   'completed': this.isCompleted,
+    // }
+
+    // if (this.completedDate != '') {
+    //   change_['completed_date'] = temp_completed_date
+    // }
+    // change_['remarks'] = this.remarks;
+    // console.log(change_)
+
+    let id_ = this.updateForm.value['id']
+
+    if (this.updateForm.value['in_progress']) {
+      console.log('inprogress')
+      let newProgressDate = moment(this.updateForm.value['in_progress_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
+    }
+    if (this.updateForm.value['completed']) {
+      console.log('completed')
+      let newCompletedDate = moment(this.updateForm.value['completed_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      this.updateForm.controls['completed_date'].setValue(newCompletedDate)
     }
 
-    if (this.completedDate != '') {
-      change_['completed_date'] = temp_completed_date
-    }
-    change_['remarks'] = this.remarks;
-    console.log(change_)
-
-    this.servicesService.markAsCompleteServiceRequest(id_, change_).subscribe(
+    this.servicesService.patch(id_, this.updateForm.value).subscribe(
       (respond)=> {
         console.log(respond)
+        this.loadingBar.complete()
       },
       (error) => {
+        this.loadingBar.complete()
         this.closeModal()
       },
       () => {

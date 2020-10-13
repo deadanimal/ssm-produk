@@ -17,17 +17,24 @@ import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
 })
 export class EnquiryEgovComponent implements OnInit {
 
+  // Data
+  topicOptions
+  subjectOptions
+
+  // Form
+  enquiryForm: FormGroup
+
   addNewInquiryForm: FormGroup;
   fileToUpload: File = null;
 
   constructor(
     private TicketsService: TicketsService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.addNewInquiryForm = this.formBuilder.group({
+    this.addNewInquiryForm = this.fb.group({
       id: new FormControl(''),
       title: new FormControl('qwew'),
       description: new FormControl(''),
@@ -40,6 +47,12 @@ export class EnquiryEgovComponent implements OnInit {
       // subject: new FormControl(''),
       user: new FormControl(''),
     });
+  }
+
+  initForm() {
+    this.enquiryForm = this.fb.group({
+      ticket_type: new FormControl('', Validators.required)
+    })
   }
 
   onImageChange(event) {

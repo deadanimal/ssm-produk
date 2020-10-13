@@ -68,7 +68,7 @@ export class ProductSearchComponent implements OnInit {
       this.isEmpty = true
       this.isGotResult = false
     }
-    else {
+    else if (val.length >= 3) {
       this.loadingBar.useRef('http').start()
       this.entityService.query(val).subscribe(
         () => {

@@ -9,6 +9,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CartsService } from 'src/app/shared/services/carts/carts.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
+import { Service } from 'src/app/shared/services/services/services.model';
 
 
 export enum SelectionType {
@@ -26,6 +27,8 @@ export enum SelectionType {
 })
 export class CbidComponent implements OnInit {
 
+  // Data
+  services: Service[] = []
   // Table
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -61,13 +64,34 @@ export class CbidComponent implements OnInit {
     private modalService: BsModalService,
     private serviceService: ServicesService,
     private router: Router
-  ) { }
+  ) {
+    this.getData()
+   }
 
   ngOnInit(): void {
+    this.initForm()
+  }
+
+  // SB Start
+
+  getData() {
+    this.serviceService.getAll().subscribe(
+      () => {
+        this.services = this.serviceService.services
+        console.log(this.services)
+      },
+      () => {},
+      () => {}
+    )
+  }
+
+  initForm() {
     this.serviceForm = this.fb.group({
-      entity_type: new FormControl('RB'),
-      product_type: new FormControl('PR'),
-      price: new FormControl(10.00)
+      name: new FormControl('CBID - Registration of Business - Statistics'),
+      service_type: new FormControl('CB'),
+      entities_type: new FormControl('RB', Validators.required),
+      product_type: new FormControl('ST', Validators.required),
+      fee: new FormControl(1000)
     })
 
     this.requestForm = this.fb.group({
@@ -96,6 +120,66 @@ export class CbidComponent implements OnInit {
     })
   }
 
+  addRequest(selected) {
+    this.services.forEach(
+      (service) => {
+        if (selected.value['entities_type'] == 'BT') {
+          if (selected.value['product_type'] == 'BT') {
+            if (
+              selected.value['service_type'] == service['service_type']
+            ) {
+              let item = {
+                'name': service['name'],
+                'service_type': service['service_type'],
+                'product_type': service['product_type'],
+                'entities_type': service['entities_type'],
+                'fee': service['fee'],
+                'service': service['id']
+              }
+              this.requestToAdd.push(item)
+              this.getTableData()
+            }
+          }
+          else {
+            if (
+              selected.value['service_type'] == service['service_type'] &&
+              selected.value['product_type'] == service['product_type']
+            ) {
+              let item = {
+                'name': service['name'],
+                'service_type': service['service_type'],
+                'product_type': service['product_type'],
+                'entities_type': service['entities_type'],
+                'fee': service['fee'],
+                'service': service['id']
+              }
+              this.requestToAdd.push(item)
+              this.getTableData()
+            }
+          }
+        }
+        else {
+          if (
+            selected.value['service_type'] == service['service_type'] &&
+            selected.value['product_type'] == service['product_type'] &&
+            selected.value['entities_type'] == service['entities_type']
+          ) {
+            let item = {
+              'name': service['name'],
+              'service_type': service['service_type'],
+              'product_type': service['product_type'],
+              'entities_type': service['entities_type'],
+              'fee': service['fee'],
+              'service': service['id']
+            }
+            this.requestToAdd.push(item)
+            this.getTableData()
+          }
+        }
+      }
+    )
+  }
+
   updatePrice() {
     if (this.serviceForm.value['entity_type'] == 'RB') {
       this.serviceForm.controls['price'].setValue(10.00)
@@ -108,7 +192,7 @@ export class CbidComponent implements OnInit {
     }
   }
 
-  addRequest() {
+  addRequest1() {
     let item = {
       'entity_type': this.serviceForm.value['entity_type'],
       'product_type': this.serviceForm.value['product_type'],
@@ -123,7 +207,7 @@ export class CbidComponent implements OnInit {
 
   removeRequest(row) {
     // console.log('To remove', row)
-    this.requestToAdd.pop()
+    this.requestToAdd.slice(row)
   }
 
   getTableData() {
@@ -141,21 +225,11 @@ export class CbidComponent implements OnInit {
     // this.cartService
     let reqCnt = this.requestToAdd.length
     let processCnt = 0
-
+    
     this.requestToAdd.forEach(
       (req) => {
-        if (req.entity_type == 'RB' && req.product_type == 'PR') {
-          this.requestForm.controls['service_id'].setValue(this.service1)
-        }
-        else if (req.entity_type == 'RB' && req.product_type == 'LS') {
-          this.requestForm.controls['service_id'].setValue(this.service2)
-        }
-        else if (req.entity_type == 'RC' && req.product_type == 'PR') {
-          this.requestForm.controls['service_id'].setValue(this.service3)
-        }
-        else if (req.entity_type == 'RC' && req.product_type == 'LS') {
-          this.requestForm.controls['service_id'].setValue(this.service4)
-        }
+        console.log(req)
+        this.requestForm.controls['service_id'].setValue(req['service'])
 
         processCnt += 1
         this.loadingBar.useRef('http').start()

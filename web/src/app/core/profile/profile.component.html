@@ -1,3 +1,4 @@
+
 <div class="wrapper">
 	<div class="section">
 		<div class="container-fluid pt-6 px-6">
@@ -453,7 +454,12 @@
 										[rows]="tableOrderTemp"
 										(activate)="onActivate($event)"
 									>
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											maxWidth="60"
+											[sortable]="true"
+											prop="id_index"
+											[resizeable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
 												<span>No.</span>
 											</ng-template>
@@ -487,20 +493,14 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.product?.name}}
-												<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='PR'">
-													CBID - ROB - Statistics
-												</span>
-												<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='LS'">
-													CBID - ROC - Listing
-												</span>
-												<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='PR'">
-													CBID - ROC - Statistics
-												</span>
-												<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='LS'">
-													CBID - ROC - Listing
+												<span *ngIf="row.service_request">
+													{{row.service_request?.service.name}}
 												</span>
 												<span *ngIf="row.product_search_criteria">
 													Customized Data
+												</span>
+												<span *ngIf="row.quota?.quota_type == '0A'">
+													Customized Data Quota
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
@@ -517,6 +517,12 @@
 												<div *ngIf="row.product_search_criteria">
 													<a (click)="openModal(criteria, row)">Search criteria</a>
 												</div>
+												<span *ngIf="row.quota">
+													-
+												</span>
+												<span *ngIf="row.service_request">
+													-
+												</span>
 											</ng-template>
 										</ngx-datatable-column>
 										
@@ -553,7 +559,7 @@
 												<button 
 													class="btn btn-ssm btn-sm" 
 													(click)="initRequest(row)"
-												
+													*ngIf="!row.service_request || row.quota"
 												>
 													Download
 												</button>

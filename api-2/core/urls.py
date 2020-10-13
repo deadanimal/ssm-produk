@@ -124,7 +124,7 @@ enquiry_tickets_router = router.register(
 )
 
 enquiry_ticket_repliess_router = router.register(
-    'enquiry-ticket_replies', EnquiryTicketReplyViewSet
+    'enquiry-ticket-replies', EnquiryTicketReplyViewSet
 )
 
 enquiry_ticket_selections_router = router.register(

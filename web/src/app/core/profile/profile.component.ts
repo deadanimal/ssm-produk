@@ -29,6 +29,7 @@ import { BusinessCode } from 'src/app/shared/models/business-code.model';
 import { CompanyStatus } from 'src/app/shared/models/company-status.model';
 import { StateCode } from 'src/app/shared/models/state-code.model';
 import { User } from 'src/app/shared/services/users/users.model';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
   single = 'single',
@@ -143,6 +144,7 @@ export class ProfileComponent implements OnInit {
     private modalService: BsModalService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private loadingBar: LoadingBarService
   ) {
     this.activatedRoute.queryParams.subscribe(
       (p: any) => {
@@ -225,8 +227,10 @@ export class ProfileComponent implements OnInit {
   // SB start
 
   getData() {
+    this.loadingBar.useRef('http').start()
     this.transactionService.getLatest().subscribe(
       () => {
+        this.loadingBar.useRef('http').complete()
         this.transactions = this.transactionService.transactionLatest
         this.tableRows = this.transactions
         this.tableRows.forEach(
@@ -258,7 +262,9 @@ export class ProfileComponent implements OnInit {
           }
         )        
       },
-      () => {},
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
       () => {
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
