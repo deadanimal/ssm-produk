@@ -46,47 +46,22 @@ export enum SelectionType {
 })
 export class ProfileComponent implements OnInit {
 
+  // Data
+  transactions: any[] = []
+  orders: any[] = []
+  user: User
+
   // Modal
-  modal: BsModalRef;
-  modalTransactionDetail: BsModalRef;
+  modal: BsModalRef
+  modalTransactionDetail: BsModalRef
   modalConfig = {
     keyboard: true,
     // class: 'modal-dialog-centered',
-  };
+  }
 
-  showpiv = false;
-  showdoc = true;
-
-  // array
-  user_obj: any;
-
-  // get data from auth service
-  egovPackage: string;
-  userType: String;
-  userID: String;
-  userEmail: String;
-  userFullname: string;
-  userNric: String;
-  UserHOD: string;
-  showIcondiv = false;
-  userdetails: any;
-  userPackage: string;
-  userQuota: any;
-  formStatus = true;
-  showSubmitButton = false;
-  showRequestQuotaButton = false;
-  showRequestInvestigationList = true;
-  showRequestInvestigationAdd = false;
-  InvestigationList: any;
-  listNp = '0';
-  runningNo = '2020061001';
-  id = 'b4d3fc09-2523-40f9-81bf-333960bbd611';
-  intervalLogin: any;
-  infodata: any;
-
-  /// form
-  requestInvestigationDocForm: FormGroup;
-  updateUserInfoForm: FormGroup;
+  /// Form
+  requestInvestigationForm: FormGroup
+  updateUserInfoForm: FormGroup
   addressForm: FormGroup
 
   // Table
@@ -103,11 +78,21 @@ export class ProfileComponent implements OnInit {
   tableOrderActiveRow: any
   tableOrderRows: any[] = []
 
-  // Data
-  transactions: any[] = []
-  orders: any[] = []
-  user: User
+  tableInvestigationEntries: number = 10
+  tableInvestigationSelected: any[] = []
+  tableInvestigationTemp = []
+  tableInvestigationActiveRow: any
+  tableInvestigationRows: any[] = []
 
+  tableRequestEntries: number = 10
+  tableRequestSelected: any[] = []
+  tableRequestTemp = []
+  tableRequestActiveRow: any
+  tableRequestRows: any[] = []
+
+  selectedCriteria: any
+
+  // Tabs
   accountTabActive: boolean = false
   transactionTabActive: boolean = false
   orderTabActive: boolean = false
@@ -125,33 +110,109 @@ export class ProfileComponent implements OnInit {
   sectors: any[] = []
   divisions: any[] = []
 
-  selectedCriteria: any
   // Checker
   isReceipt = false
 
   //
-  @ViewChild('receipt') receipt: ElementRef;
+  @ViewChild('receipt') receipt: ElementRef
 
   constructor(
     private authService: AuthService,
     private cartService: CartsService,
     private productService: ProductsService,
     private transactionService: TransactionsService,
-    private fileService: LocalFilesService,
     private userService: UsersService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private fileService: LocalFilesService,
+    private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private router: Router,
-    private spinner: NgxSpinnerService,
-    private loadingBar: LoadingBarService
+    private spinner: NgxSpinnerService
   ) {
     this.activatedRoute.queryParams.subscribe(
-      (p: any) => {
-        console.log(p['tab'])
-        this.tabChecker(p['tab'])
+      (path: any) => {
+        console.log(path['tab'])
+        this.tabChecker(path['tab'])
       }
     )
+    this.user = this.userService.currentUser
+  }
+
+  ngOnInit(): void {
+    this.getData()
+    this.getMapping()
+    this.initForm()
+  }
+
+
+  // SB start
+
+  getData() {
+    if (this.user['user_type'] == 'PB') {
+      this.loadingBar.useRef('http').start()
+      this.transactionService.getLatest().subscribe(
+        () => {
+          this.loadingBar.useRef('http').complete()
+          this.transactions = this.transactionService.transactionLatest
+          this.tableRows = this.transactions
+          this.tableRows.forEach(
+            (item) => {
+              item.payment_gateway_update_date = moment(item.payment_gateway_update_date).format('DD/MM/YYYY hh:mm:ss')
+            }
+          )
+
+          let carts = []
+
+          for (let transaction of this.transactionService.transactionLatest) {
+            carts.push(transaction.cart)
+          }
+
+          let orders = []
+
+          for (let cart of carts) {
+            for (let huhu of cart['cart_item']) {
+              orders.push(huhu)      
+            }
+          }
+        
+          this.orders = orders;
+          console.log(this.orders)
+          this.tableOrderRows = this.orders
+          this.tableOrderRows.forEach(
+            (item) => {
+              item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
+            }
+          )        
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.tableTemp = this.tableRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+
+          this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+          // console.log(this.tableOrderTemp)        
+        }
+      )
+    }
+    else if (this.user['user_type'] == 'EG') {
+      // this.loadingBar.useRef('http').start()
+      console.log('eGovernment')
+    }
+  }
+
+  getMapping() {
     this.fileService.get('form-types.json').subscribe(
       (res) => {
         this.formTypes = res
@@ -185,20 +246,22 @@ export class ProfileComponent implements OnInit {
         console.log(this.companyTypes)
       }
     )
-
-    this.user = this.userService.currentUser
   }
 
-  ngOnInit(): void {
-    // this.user_obj = this.authService.decodedToken();
-
-    this.requestInvestigationDocForm = this.fb.group({
-      id: new FormControl(''),
-      reference_letter_number: new FormControl(''),
-      ip_no: new FormControl(''),
-      court_case_number: new FormControl(''),
-      offense: new FormControl('qwee'),
-      officer: new FormControl(this.userID),
+  initForm() {
+    this.requestInvestigationForm = this.fb.group({
+      officer_name: new FormControl(null, Validators.required),
+      designation: new FormControl(null, Validators.required),
+      department: new FormControl(null, Validators.required),
+      mobile_no: new FormControl(null, Validators.required),
+      nric_officer_authority: new FormControl(null, Validators.required),
+      official_email: new FormControl(null, Validators.required),
+      reference_letter_no: new FormControl(null, Validators.required),
+      ip_no: new FormControl(null, Validators.required),
+      court_case_no: new FormControl(null, Validators.required),
+      egovernment_letter: new FormControl(null, Validators.required),
+      request_letter: new FormControl(null, Validators.required),
+      offence: new FormControl(null, Validators.required)
     });
 
     this.updateUserInfoForm = this.fb.group({
@@ -219,69 +282,6 @@ export class ProfileComponent implements OnInit {
       state: new FormControl('Selangor', Validators.required),
       country: new FormControl('Malaysia', Validators.required)
     })
-
-    this.getData();
-  }
-
-
-  // SB start
-
-  getData() {
-    this.loadingBar.useRef('http').start()
-    this.transactionService.getLatest().subscribe(
-      () => {
-        this.loadingBar.useRef('http').complete()
-        this.transactions = this.transactionService.transactionLatest
-        this.tableRows = this.transactions
-        this.tableRows.forEach(
-          (item) => {
-            item.payment_gateway_update_date = moment(item.payment_gateway_update_date).format('DD/MM/YYYY hh:mm:ss')
-          }
-        )
-
-        let carts = []
-
-        for (let transaction of this.transactionService.transactionLatest) {
-          carts.push(transaction.cart)
-        }
-
-        let orders = []
-
-        for (let cart of carts) {
-          for (let huhu of cart['cart_item']) {
-            orders.push(huhu)      
-          }
-        }
-      
-        this.orders = orders;
-        console.log(this.orders)
-        this.tableOrderRows = this.orders
-        this.tableOrderRows.forEach(
-          (item) => {
-            item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
-          }
-        )        
-      },
-      () => {
-        this.loadingBar.useRef('http').complete()
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          }
-        })
-
-        this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          }
-        })
-        console.log(this.tableOrderTemp)        
-      }
-    )
   }
 
   entriesChange($event) {
@@ -309,348 +309,6 @@ export class ProfileComponent implements OnInit {
     this.tableActiveRow = event.row;
   }
 
-  downloadOutput(row) { 
-    if (row.product.id == 'abd86a30-3d41-4c68-94e3-280b0362e288') {
-      let body = {
-        'name': 'company_profile',
-        'language': 'ms',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // window.location.href =url;
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '74a97598-c817-4c06-971f-3197c4c12165') {
-      let body = {
-        'name': 'company_profile',
-        'language': 'en',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // window.location.href =url;
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == 'f636d9f7-29f6-4d85-bf21-417c7496193d') {
-      let body = {
-        'name': 'company_profile',
-        'language': 'ms',
-        'ctc': 'True',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // window.location.href =url;
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '5b381e56-dc2f-4476-986e-ecb247d48499') {
-      let body = {
-        'name': 'company_profile',
-        'language': 'en',
-        'ctc': 'True',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // window.location.href =url;
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '1eca2caf-a8c7-4327-a37f-394f4dd9c78e') {
-      let body = {
-        'name': 'business_profile',
-        'language': 'ms',
-        'ctc': 'False',
-        'registration_no': row.entity.registration_number,
-        'entity_type': 'ROB'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '539aaa55-a0f6-4af4-b476-acc03bae8f62') {
-      let body = {
-        'name': 'business_profile',
-        'language': 'en',
-        'ctc': 'False',
-        'registration_no': row.entity.registration_number,
-        'entity_type': 'ROB'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == 'f1dc2664-f55d-4012-a4fe-556da76eb32c') {
-      let body = {
-        'name': 'business_profile',
-        'language': 'ms',
-        'ctc': 'True',
-        'registration_no': row.entity.registration_number,
-        'entity_type': 'ROB'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '8df319e5-0bed-435d-81d4-03856870195d') {
-      let body = {
-        'name': 'business_profile',
-        'language': 'en',
-        'ctc': 'True',
-        'registration_no': row.entity.registration_number,
-        'entity_type': 'ROB'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '63638688-830d-4750-bd17-5157f8dc4a96') {
-      let body = {
-        'name': 'private_incorp_cert',
-        'language': 'en',
-        'ctc': 'True',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '4b922d05-a626-48ac-a8d2-8f450bf8697e') {
-      let body = {
-        'name': 'private_incorp_cert',
-        'language': 'en',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '436f3d72-dc34-45e7-8775-21b258411db1') {
-      let body = {
-        'name': 'private_incorp_cert',
-        'language': 'ms',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '5561f5ec-6ca0-492d-827b-2b36114c4606') {
-      let body = {
-        'name': 'private_incorp_cert',
-        'language': 'ms',
-        'ctc': 'True',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC'
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == 'aeb73efa-b89e-4e15-b1a7-3ba2409f7ec1') {
-      let body = {
-        'name': 'financial_history',
-        'language': 'ms',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC',
-        'year1': 2016,
-	      'year2': 2017
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product.id == '6420ad7f-8639-451e-99c7-76a02ac2763c') {
-      let body = {
-        'name': 'financial_history',
-        'language': 'en',
-        'ctc': 'False',
-        'registration_no': row.entity.company_number,
-        'entity_type': 'ROC',
-        'year1': 2016,
-	      'year2': 2017
-      }
-      this.spinner.show()
-      this.productService.generateDocument(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (
-      row.product.id == '46efd15d-0cd4-41aa-a6d6-790d6aecbf0b' ||
-      row.product.id == '04e740bb-6553-49fe-b3fb-dabc445fa89b'
-    ) {
-      let body = {
-        'name': 'image',
-        'registration_no': Number(row.entity.company_number),
-        'entity_type': 'ROC',
-        'version_id': row.image_version_id
-      }
-      this.spinner.show()
-      this.productService.generateImage(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = 'data:image/tiff;base64,' + res
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-    else if (row.product_search_criteria) {
-      let body = row.product_search_criteria
-      body['name']='list'
-      body['package']='A'
-
-      this.spinner.show()
-      this.productService.generateList(body).subscribe(
-        (res: any) => {
-          this.spinner.hide()
-          let url = res.pdflink
-          window.open(url, '_blank');
-          // console.log(res)
-        },
-        () => {
-          this.spinner.hide()
-        }
-      )
-    }
-  }
-
   tabChecker(path: string) {
     if (path == 'account') {
       this.accountTabActive = true;
@@ -672,10 +330,6 @@ export class ProfileComponent implements OnInit {
       this.transactionTabActive = false;
       this.orderTabActive = false;      
     }
-  }
-
-  navigatePage(path: string) {
-    return this.router.navigate([path]);
   }
   
   initRequest(selected) {
@@ -825,18 +479,7 @@ export class ProfileComponent implements OnInit {
           window.open(url, '_blank');
         }
       },
-      (err) => {
-        // console.log('tak masuk')
-        // console.log(err)
-        // this.spinner.hide()
-
-        // if (type == 'custom-data') {
-        //   const blob = new Blob([err['error']['text']], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        //   const url = window.URL.createObjectURL(blob);
-        //   console.log(url)
-        //   window.open(url, '_blank');
-        // }
-      }
+      () => {}
     )
   }
 
@@ -900,9 +543,33 @@ export class ProfileComponent implements OnInit {
     doc.save('receipt' + '.pdf');
   }
 
+  navigatePage(path: string) {
+    return this.router.navigate([path]);
+  }
 
 
   // SB end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
