@@ -42,6 +42,16 @@ entities_router = router.register(
     'entities', EntityViewSet
 )
 
+# Freeforms app
+
+from freeforms.views import (
+    FreeformViewSet
+)
+
+freeforms_router = router.register(
+    'freeforms', FreeformViewSet
+)
+
 # Organisations app
 
 from organisations.views import (
