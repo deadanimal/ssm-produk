@@ -85,6 +85,7 @@
                 INFORMATION.
             </p>
 
+            <h2 class="font-weight-bold text-center" style="font-size: 16pt;"><u> PARTICULARS OF SHARE CAPITAL  </u></h2>
             <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> CORPORATE INFORMATION </u></h2>
 
             <div class="table-responsive"  style="padding-right:200px; margin-left:100px;">
@@ -280,7 +281,7 @@
                       
 
                         <tr style="height:20px;">
-                            <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued}}</p></td>
+                            <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -294,20 +295,20 @@
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">ORDINARY</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_cash}}</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_noncash}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_noncash | floatformat:2 | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">PREFERENCE</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_cash}}</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_noncash}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_noncash | floatformat:2 | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">OTHERS</p></td>
-                            <td><p id="secondary">{{ data.others_issue_cash}}</p></td>
-                            <td><p id="secondary">{{ data.others_issue_noncash}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
                         </tr>                                                                                                                       
                       
 
@@ -315,6 +316,143 @@
                     </tbody>
                 </table>
             </div>
+
+
+            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SHARE DETAILS </u></h2>
+
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                    </tr>                    
+                </table>
+            </div>            
+
+            <h4>Date of Allotment: 04-07-2018</h4>
+            <h6>(A)      ALLOTMENT OF SHARES</h6>
+            <div class="table-responsive">
+            
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:20%; border: 0;"></th>
+                        <th style="width:20%; border: 0;"></th>
+                        <th style="width:20%; border: 0;"></th> 
+                        <th style="width:20%; border: 0;"></th> 
+                        <th style="width:20%; border: 0;"></th> 
+                      </tr>
+                    <tbody>
+                      
+
+                        <tr style="height:20px;">
+                            <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>    
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td></td>
+                            <td><p id="secondary"><b>CASH</b></p></td>
+                            <td><p id="secondary"><b>OTHERWISE THAN CASH</b></p></td>
+                        </tr>    
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">ORDINARY</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">PREFERENCE</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">OTHERS</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>                             
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">TOTAL</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>                           
+                      
+
+              
+                    </tbody>
+                </table>
+            </div>   
+            
+            <h6>(B)      PARTICULAR OF ALLOTTEES</h6>
+            <div class="table-responsive">
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:20%; border: 0;"></th>
+                        <th style="width:20%; border: 0;"></th>
+                        <th style="width:20%; border: 0;"></th> 
+                        <th style="width:20%; border: 0;"></th> 
+                      </tr>
+                    <tbody>
+                      
+
+                        <tr style="height:20px;">
+                            <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>    
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td></td>
+                            <td><p id="secondary"><b>CASH</b></p></td>
+                            <td><p id="secondary"><b>OTHERWISE THAN CASH</b></p></td>
+                        </tr>    
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">ORDINARY</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">PREFERENCE</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">OTHERS</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>                             
+                        <tr style="height:20px;">
+                            <td></td>
+                            <td><p id="secondary">TOTAL</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                        </tr>                           
+                      
+
+              
+                    </tbody>
+                </table>
+            </div>              
+
         </div>
     </body>
 
