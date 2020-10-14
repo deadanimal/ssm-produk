@@ -52,6 +52,7 @@ export class ProductManagementComponent implements OnInit {
 
   updateForm: FormGroup
 
+  // 
   isCompleted: boolean = false;
   isRejected: boolean = false;
   completedDate: string = ''
@@ -60,21 +61,24 @@ export class ProductManagementComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private loadingBar: LoadingBarService,
     private router: Router,
-    private productsService: ProductsService,
+    private productService: ProductsService,
   ) {
 
   }
 
   ngOnInit() {
     this.initData();
+    this.initForm()
   }
 
   initData() {
-    this.productsService.getAllProducts().subscribe(
+    this.loadingBar.start()
+    this.productService.getAll().subscribe(
       (res) => {
+        this.loadingBar.complete()
         this.tableRows = res;
         this.tableRows.forEach(
           (row) => {
@@ -92,7 +96,7 @@ export class ProductManagementComponent implements OnInit {
         )        
       },
       (err) => {
-
+        this.loadingBar.complete()
       },
       () => {
         this.tableTemp = this.tableRows.map((prop, key) => {
@@ -104,6 +108,15 @@ export class ProductManagementComponent implements OnInit {
         console.log(this.tableTemp)
       }
     )
+  }
+
+  initForm() {
+    this.updateForm = this.fb.group({
+      name: new FormControl(),
+      description: new FormControl(),
+      fee: new FormControl(),
+      language: new FormControl()
+    })
   }
 
   entriesChange($event) {
@@ -129,11 +142,7 @@ export class ProductManagementComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, row) {
 
     this.selectedRow = row
-    if (row) {
-      if (row.status == 'PG') {
-        this.isCompleted = false
-      }
-    }
+    this.updateForm.controls['name'].setValue(this.selectedRow['name'])
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
@@ -145,45 +154,16 @@ export class ProductManagementComponent implements OnInit {
     this.isCompleted = false
     this.completedDate = ''
     this.remarks = ''
+    delete this.selectedRow
   }  
 
-  updateApplication() {
+  update() {
     this.loadingBar.start()
-
-    let application_ = this.selectedRow;
-
-    let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
-    temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
-    this.updateForm.controls['completed_date'].setValue(temp_completed_date)
-
-    let id_ = application_['id']
-    
-    let change_ = {
-      'completed': this.isCompleted,
-    }
-
-    if (this.completedDate != '') {
-      change_['completed_date'] = temp_completed_date
-    }
-    change_['remarks'] = this.remarks;
-    console.log(change_)
-
-    // this.servicesService.markAsCompleteServiceRequest(id_, change_).subscribe(
-    //   (respond)=> {
-    //     console.log(respond)
-    //   },
-    //   (error) => {
-    //     this.closeModal()
-    //   },
-    //   () => {
-    //     this.closeModal()
-    //     this.initData();
-    //   }
-    // )
-
-    
-
-
+    this.productService.patch(this.selectedRow.id, this.updateForm).subscribe(
+      () => {},
+      () => {},
+      () => {}
+    )
   }  
 
 }
