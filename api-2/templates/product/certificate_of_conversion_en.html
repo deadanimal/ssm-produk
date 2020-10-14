@@ -114,9 +114,9 @@
             </h1>
 
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
-                which was, on the {{data.mdw1.incorpDate}}, incorporated under the Companies Act 1965,
-                as a company {{data.mdw1.companyType}}, did on the {{data.mdw1.incorpDate}}, convert to a
-                {{data.mdw1.companyType}}, and that the name of the company now is
+                which was, on the {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}, incorporated under the Companies Act {{data.act_year}},
+                as a company {{data.companyType |lower}}, did on the {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}, convert to a
+                {{data.companyType |lower}}, and that the name of the company now is
             </p>
 
             <h1 class="font-weight-bold  text-center" style="font-size:40px; margin-top: 30px;margin-left: 30px; margin-right: 30px;">
@@ -126,7 +126,7 @@
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
 
                 <br></br>
-                Dated at Kuala Lumpur this {{data.corpInfo.incorpDate}}
+                Dated at <b>{{data.branch_name}}</b> this {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}.                
                            
             </p>               
 

@@ -115,8 +115,8 @@
             </h1>
 
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
-                which was, on the {{data.mdw1.incorpDate}}, incorporated under the Companies Act 1965,
-                as a {{data.mdw1.companyType}} company, on the {{data.mdw1.incorpDate}} changed its name to
+                which was, on the {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}, incorporated under the Companies Act {{data.act_year}},
+                as a {{data.companyType |lower}} company, on the {{data.change_name_day}} of {{data.change_name_month}} {{data.change_name_year}} changed its name to
             </p>
 
             <h1 class="font-weight-bold  text-center" style="font-size:40px; margin-top: 30px;margin-left: 30px; margin-right: 30px;">
@@ -124,9 +124,9 @@
             </h1>     
             
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
-                and that the company is a {{data.mdw1.companyType}} company, and is a {{data.mdw1.companyStatus}}.
+                and that the company is a {{data.companyType |lower}} company, and is a {{data.companyStatus |lower}}.
                 <br></br>
-                Dated at Kuala Lumpur this {{data.mdw1.incorpDate}}.                
+                Dated at <b>{{data.branch_name}}</b> this {{data.incorporate_day}} of {{data.incorporate_month}} {{data.incorporate_year}}.                
             </p>      
             
             <p class="text-center" style="margin-top:200px;font-size:12pt"><i>A copy or extract issued pursuant to Section 601(2).</i></p>
