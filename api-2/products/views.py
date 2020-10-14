@@ -436,6 +436,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
+        #css_file = 'http://127.0.0.1:8000/static/css/template.css'
 
         new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)
 
@@ -539,8 +540,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'particulars_of_share_capital':
-            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
-            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
+            middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_sharecapital(middleware_data, new_entity_id, language_,entity_type_)
 
         elif name_ == 'company_profile':
             now = datetime.now()
@@ -569,7 +570,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = company_charges(middleware_data, new_entity_id, language_, entity_type_)
 
         elif name_ == 'foreign_change_name':
-            middleware_data = get_info_charges(information_url, request_headers, registration_)
+            middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
             data_loaded = change_name(middleware_data, new_entity_id, language_)            
 
         else:
@@ -590,7 +591,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
             
         html = HTML(string=html_string)
-        pdf_file = html.write_pdf(stylesheets=[CSS('https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css')])
+        #pdf_file = html.write_pdf(stylesheets=[CSS(css_file)])
+        pdf_file = html.write_pdf()
             
         file_path = "ssm/product/" + name_ + "-" + datetime.utcnow().strftime("%s") + "-" + uuid.uuid4().hex + '.pdf'
         saved_file = default_storage.save(
