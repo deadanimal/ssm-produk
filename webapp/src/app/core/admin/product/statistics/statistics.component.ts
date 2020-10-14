@@ -15,6 +15,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ProductsService } from '../../../../shared/services/products/products.service';
 
 import * as moment from 'moment';
+import { StatisticsService } from 'src/app/shared/services/statistics/statistics.service';
 
 export enum SelectionType {
   single = 'single',
@@ -60,20 +61,29 @@ export class StatisticsComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private loadingBar: LoadingBarService,
     private router: Router,
     private productsService: ProductsService,
+    private statService: StatisticsService
   ) {
 
   }
 
   ngOnInit() {
     this.initData();
+    this.initForm()
+  }
+
+  initForm() {
+    this.updateForm = this.fb.group({
+      id: new FormControl(),
+      value: new FormControl()
+    })
   }
 
   initData() {
-    this.productsService.getAll().subscribe(
+    this.statService.getAll().subscribe(
       (res) => {
         this.tableRows = res;
         this.tableRows.forEach(
@@ -129,11 +139,9 @@ export class StatisticsComponent implements OnInit {
   openModal(modalRef: TemplateRef<any>, row) {
 
     this.selectedRow = row
-    if (row) {
-      if (row.status == 'PG') {
-        this.isCompleted = false
-      }
-    }
+    this.updateForm.controls['id'].setValue(row.id)
+    this.updateForm.controls['value'].setValue(row.value)
+    console.log(row)
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
@@ -147,43 +155,20 @@ export class StatisticsComponent implements OnInit {
     this.remarks = ''
   }  
 
-  updateApplication() {
+  update() {
     this.loadingBar.start()
-
-    let application_ = this.selectedRow;
-
-    let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
-    temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
-    this.updateForm.controls['completed_date'].setValue(temp_completed_date)
-
-    let id_ = application_['id']
-    
-    let change_ = {
-      'completed': this.isCompleted,
-    }
-
-    if (this.completedDate != '') {
-      change_['completed_date'] = temp_completed_date
-    }
-    change_['remarks'] = this.remarks;
-    console.log(change_)
-
-    // this.servicesService.markAsCompleteServiceRequest(id_, change_).subscribe(
-    //   (respond)=> {
-    //     console.log(respond)
-    //   },
-    //   (error) => {
-    //     this.closeModal()
-    //   },
-    //   () => {
-    //     this.closeModal()
-    //     this.initData();
-    //   }
-    // )
-
-    
-
-
+    this.statService.patch(this.selectedRow['id'], this.updateForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.closeModal()
+        this.initData()
+      }
+    )
   }  
 
 }

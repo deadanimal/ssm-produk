@@ -70,7 +70,12 @@
               [scrollbarH]="true"
               (activate)="onActivate($event)"
             >
-              <ngx-datatable-column name="No">
+              <ngx-datatable-column 
+                name="No"
+                maxWidth="80"
+                [sortable]="true"
+                prop="id_index"
+              >
                 <ng-template
                   let-rowIndex="rowIndex"
                   let-row="row"
@@ -80,49 +85,63 @@
                 </ng-template>
               </ngx-datatable-column>
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+                prop="type"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Type</span>
                 </ng-template>
                 
                 <ng-template let-row="row" ngx-datatable-cell-template>                
-                    type
+                    {{row.name}}
                 </ng-template>
               </ngx-datatable-column>
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+                prop="value"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Total Registered Entity</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  00000
+                  {{row.value}}
                 </ng-template>
               </ngx-datatable-column>            
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Status</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  enable/disable
+                  <span class="badge badge-success">Active</span>
                 </ng-template>
               </ngx-datatable-column> 
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+                prop="created_date"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Created Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    ---
+                    {{row.created_date}}
                 </ng-template>
               </ngx-datatable-column> 
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+                prop="modified_date"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Modified Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    ----
+                    {{row.modified_date}}
                 </ng-template>
               </ngx-datatable-column>  
               
@@ -150,7 +169,7 @@
   <ng-template #editModal>
     <div class="modal-header bg-default">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update Status
+            Update
         </h6>
   
         <button
@@ -165,74 +184,16 @@
     </div>
   
     <div class="modal-body">
-        <form>
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="row">
-                  <div class="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-                      <label class="custom-control-label" for="pendingCheck">Pending</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Pending Date</label>
-                      <input class="form-control" [value]="selectedRow.created_date" disabled>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="col-lg-4">
-                <div class="row">
-                  <div clas="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="completedCheck">
-                      <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Completed Date</label>
-                      <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
-                    </div>
-                  </div>
-                </div>
-              </div>
-       
-  
-              <div class="col-lg-4">
-                <!--
-                <div class="row mt-2">
-                  <div clas="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-                </div>
-              -->
-              </div>
+        <form [formGroup]="updateForm">
+            <div class="form-group">
+              <label class="form-control-label">Name</label>
+              <input class="form-control" [value]="selectedRow['name']" disabled>
             </div>
-  
-            <div class="row">
-  
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-  
+
+            <div class="form-group">
+              <label class="form-control-label">Value</label>
+              <input class="form-control" formControlName="value">
             </div>
-            
         </form>
     </div>
   
@@ -240,8 +201,8 @@
         <button 
             class="btn btn-success"
             type="button"
-            (click)="updateApplication()"
-            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+            (click)="update()"
+        >
             Update
         </button>
   

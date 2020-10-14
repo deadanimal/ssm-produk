@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgcCookieConsentService, NgcInitializeEvent, NgcNoCookieLawEvent, NgcStatusChangeEvent } from 'ngx-cookieconsent';
 import { Subscription } from 'rxjs';
+import { StatisticsService } from 'src/app/shared/services/statistics/statistics.service';
 
 @Component({
   selector: 'app-home',
@@ -12,12 +13,12 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
 
   // Data
-  totalCompanies: number = 1360941
-  totalBusinessess: number = 7810212
-  totalLocal: number = 1356052
-  totalForeign: number = 4889
-  totalSoleProprietorship: number = 6446741
-  totalPartnership: number = 1363471
+  totalCompanies: number = 0
+  totalBusinessess: number = 0 
+  totalLocal: number = 0
+  totalForeign: number = 0
+  totalSoleProprietorship: number = 0
+  totalPartnership: number = 0
 
   // Image
   // slider1 = 'assets/img/carousel/landscape-1.jpg'
@@ -37,11 +38,43 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private ccService: NgcCookieConsentService
-  ) {}
+    private ccService: NgcCookieConsentService,
+    private statService: StatisticsService
+  ) {
+    this.getData()
+  }
 
   ngOnInit(): void {
     this.initCookie()
+  }
+
+  getData() {
+    this.statService.getAll().subscribe(
+      (res) => {
+        res.forEach(
+          (item) => {
+            if (item['slug'] == 'companies') {
+              this.totalCompanies = item['value']
+            }
+            else if (item['slug'] == 'business') {
+              this.totalBusinessess = item['value']
+            }
+            else if (item['slug'] == 'local') {
+              this.totalLocal = item['value']
+            }
+            else if (item['slug'] == 'foreign') {
+              this.totalForeign = item['value']
+            }
+            else if (item['slug'] == 'sole_proprietorshop') {
+              this.totalSoleProprietorship = item['value']
+            }
+            else if (item['slug'] == 'partnership') {
+              this.totalPartnership = item['value']
+            }
+          }
+        )
+      }
+    )
   }
 
   navigatePage(path: string) {

@@ -1,1 +1,128 @@
-<p>product-custom-data-package-b works!</p>
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-tower.jpg')"></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder mb-0">
+                                Search Customized Data
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt--9">
+        <h3 class="title font-weight-bolder">Customized Data</h3>
+        <h3 class="title font-weight-bolder">Share And Director</h3>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Incorp/Reg Date From</label>
+                    <input class="form-control"  type="date" />
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Incorp/Reg Date To</label>
+                    <input class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Company Status</label>
+                    <select class="form-control" placeholder="Enter">
+                        <option>Existing</option>
+                        <option>Winding Up</option>
+                        <option>Disolved</option>
+                        <option>Ceases Business</option>
+                        <option>Removed</option>
+                        <option>Desolved (Conversion to LLP)</option>
+                        <option>Null And Void Persuant To Court Order</option>
+                        <option>Stuck Off And Winding-Up By Court Order</option>
+                        <option>Existing Under CVA</option>
+                        <option>Winding Up Under CVA</option>
+                        <option>Under JM (Under JVA)</option>
+                        <option>Existing Under (Under JM)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Company Type</label>
+                    <select class="form-control">
+                        <option>Private</option>
+                        <option>Public</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Company Origin</label>
+                    <select class="form-control">
+                        <option>Local</option>
+                        <option>Foreign</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Company Location</label>
+                    <select class="form-control">
+                        <option>Perlis</option>
+                        <option>Kedah</option>
+                        <option>Pahang</option>
+                        <option>Kelantan</option>
+                        <option>Selangor</option>
+                        <option>Wilayah Persekutuan</option>
+                        <option>Terengganu</option>
+                        <option>Sabah</option>
+                        <option>Sarawak</option>
+                        <option>Negeri Sembilan</option>
+                        <option>Wilayah Persekutuan Putrajaya</option>
+                        <option>Melaka</option>
+                        <option>Johor</option>
+                        <option>Pulau Pinang</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Director Nationality</label>
+                    <select class="form-control">
+                        <option>Malaysia</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Shareholder Nationality</label>
+                    <select class="form-control">
+                        <option>Malaysia</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-4 pt-3">
+            <div class="col text-right">
+                <button class="btn btn-ssm rounded-pill" style="cursor: pointer" (click)="confirm()">
+                    Search</button>&nbsp;<button class="btn btn-ssm rounded-pill" style="cursor: pointer"
+                    (click)="navigatePage('/customized-data')">
+                    Change Package
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
