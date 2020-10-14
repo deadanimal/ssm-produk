@@ -115,9 +115,9 @@
             </h1>
 
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
-                pada dan mulai dari {{data.mdw1.incorpDate}} telah diperbadankan di bawah 
-                Akta Syarikat 1965 sebagai sebuah syarikat {{data.mdw1.companyType}}, telah pada {{data.mdw1.incorpDate}}
-                bertukar menjadi sebuah syarikat {{data.mdw1.companyType}} dan bahawa nama syarikat itu sekarang iaitu.
+                pada dan mulai dari {{data.incorporate_day}} haribulan {{data.incorporate_month}} {{data.incorporate_year}} telah diperbadankan di bawah 
+                Akta Syarikat {{data.act_year}} sebagai sebuah syarikat {{data.companyType |lower}}, telah pada {{data.change_status_day}} haribulan {{data.change_status_month}} {{data.change_status_year}
+                bertukar menjadi sebuah syarikat {{data.companyType |lower}} dan bahawa nama syarikat itu sekarang iaitu
             </p>
 
             <h1 class="font-weight-bold  text-center" style="font-size:40px; margin-top: 30px;margin-left: 30px; margin-right: 30px;">
@@ -125,10 +125,10 @@
             </h1>     
             
             <p id="primary" class="mt-7 text-left" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
-                dan bahawa syarikat ini adalah sebuah syarikat {{data.mdw1.companyType}}.
+                dan bahawa syarikat ini adalah sebuah syarikat {{data.companyType |lower}}.
 
                 <br></br>
-                Bertarikh di Kuala Lumpur pada {{data.mdw1.incorpDate}}
+                Bertarikh di <b>{{data.branch_name}}</b> pada {{data.change_name_day}} haribulan {{data.change_name_month}} {{data.change_name_year}}.
                            
             </p>    
             
