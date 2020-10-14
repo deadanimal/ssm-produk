@@ -73,7 +73,7 @@ export class ResupplyComponent implements OnInit {
   }
 
   initData() {
-    this.productsService.getAllProducts().subscribe(
+    this.productsService.getAll().subscribe(
       (res) => {
         this.tableRows = res;
         this.tableRows.forEach(

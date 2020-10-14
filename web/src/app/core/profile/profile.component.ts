@@ -159,6 +159,11 @@ export class ProfileComponent implements OnInit {
           this.tableRows.forEach(
             (item) => {
               item.payment_gateway_update_date = moment(item.payment_gateway_update_date).format('DD/MM/YYYY hh:mm:ss')
+              let year = (moment(item.created).year()).toString()
+              let month = (moment(item.created).month() + 1).toString()
+              let day = (moment(item.created).date()).toString()
+              console.log(year, month, day)
+              item['invoice_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
             }
           )
 

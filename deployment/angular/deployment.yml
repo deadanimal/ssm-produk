@@ -18,7 +18,7 @@ spec:
         app: ssm-product-webapp
     spec:
       containers:
-      - image: syafiqpipe/ssm-product-webapp:1.0.11
+      - image: syafiqpipe/ssm-product-webapp:1.0.12
         imagePullPolicy: Always   
         name: ssm-product-webapp
         resources: {}
