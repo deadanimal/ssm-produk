@@ -136,8 +136,20 @@ export class CbidComponent implements OnInit {
                 'fee': service['fee'],
                 'service': service['id']
               }
-              this.requestToAdd.push(item)
-              this.getTableData()
+              let isAny: boolean = false
+              this.requestToAdd.forEach(
+                (req) => {
+                  if (req['service'] == item['service']) {
+                    isAny = true
+                    console.log('adaaa')
+                  }
+                }
+              )
+              console.log('1', isAny)
+              if (!isAny) {
+                this.requestToAdd.push(item)
+                this.getTableData()
+              }
             }
           }
           else {
@@ -153,8 +165,20 @@ export class CbidComponent implements OnInit {
                 'fee': service['fee'],
                 'service': service['id']
               }
-              this.requestToAdd.push(item)
-              this.getTableData()
+              let isAny: boolean = false
+              this.requestToAdd.forEach(
+                (req) => {
+                  if (req['service'] == item['service']) {
+                    isAny = true
+                    console.log('adaaa')
+                  }
+                }
+              )
+              console.log('2', isAny)
+              if (!isAny) {
+                this.requestToAdd.push(item)
+                this.getTableData()
+              }
             }
           }
         }
@@ -172,8 +196,20 @@ export class CbidComponent implements OnInit {
               'fee': service['fee'],
               'service': service['id']
             }
-            this.requestToAdd.push(item)
-            this.getTableData()
+            let isAny: boolean = false
+            this.requestToAdd.forEach(
+              (req) => {
+                if (req['service'] == item['service']) {
+                  isAny = true
+                  console.log('adaaa')
+                }
+              }
+            )
+            console.log('3', isAny)
+            if (!isAny) {
+              this.requestToAdd.push(item)
+              this.getTableData()
+            }
           }
         }
       }
@@ -207,7 +243,10 @@ export class CbidComponent implements OnInit {
 
   removeRequest(row) {
     // console.log('To remove', row)
-    this.requestToAdd.slice(row)
+    // this.requestToAdd.slice(row)
+    this.requestToAdd.forEach((item, index) => {
+      if(item === row) this.requestToAdd.splice(index,1);
+    });
   }
 
   getTableData() {

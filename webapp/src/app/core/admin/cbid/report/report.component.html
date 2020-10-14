@@ -1,234 +1,278 @@
 <div class="header pb-6">
-  <div class="container-fluid">
-    <div class="header-body">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <h6 class="h2 text-dark d-inline-block mb-0">CBID Report</h6>
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-6 col-7">
+					<h6 class="h2 text-dark d-inline-block mb-0">CBID Report</h6>
 
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-              <li class="breadcrumb-item">
-                <a href="javascript:void(0)">
-                  <i class="fas fa-align-left text-dark"></i>
-                </a>
-              </li>
-              <li class="breadcrumb-item">
-                <a href="javascript:void(0)" class="text-dark"> CBID </a>
-              </li>
-              <li aria-current="page" class="breadcrumb-item active">
-                CBID Report
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
+					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)">
+									<i class="fas fa-align-left text-dark"></i>
+								</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)" class="text-dark"> CBID </a>
+							</li>
+							<li aria-current="page" class="breadcrumb-item active">
+								CBID Report
+							</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <div class="row">
-            <div class="col">
-              <h3 clas="m-0">Report</h3>
-            </div>
-            <div class="col">
-              <!--
-              <button class="btn btn-default" (click)="confirm()">
-                Export
-              </button>
-              -->
-            </div>
-          </div>
-        </div>
-        <div class="dataTables_wrapper py-4">
-          <div class="row">
-            <div class="col-sm-12 col-md-6">
-              <div class="dataTables_length" id="datatable_length">
-                <label>
-                  Show
-                  <select
-                    name="datatable_length"
-                    aria-controls="datatable"
-                    class="form-control form-control-sm"
-                    (change)="entriesChange($event)">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="-1">All</option>
-                  </select>
-                  records
-                </label>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-            </div>
-          </div>
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<div class="card-header bg-secondary">
+					<h3 class="m-0"></h3>
+				</div>
+				<!-- <div class="row px-3 pt-4">
+					<div class="col-sm-12 col-md-2">
+						<div class="form-group">
+							<label class="form-control-label">Reference ID</label>
+							<input class="form-control form-control-sm" placeholder="">
+						</div>
+					</div>
 
-          <ngx-datatable
-            class="bootstrap selection-cell"
-            [columnMode]="'force'"
-            [headerHeight]="50"
-            [footerHeight]="50"
-            [rowHeight]="'auto'"
-            [limit]="tableEntries != -1 ? tableEntries : undefined"
-            [rows]="tableTemp"
-            [scrollbarH]="true"
-            (activate)="onActivate($event)"
-          >
-            <ngx-datatable-column name="No">
-              <ng-template
-                let-rowIndex="rowIndex"
-                let-row="row"
-                ngx-datatable-cell-template
-              >
-                <strong>{{ rowIndex + 1 }}</strong>
-              </ng-template>
-            </ngx-datatable-column>
+					<div class="col-sm-12 col-md-2">
+						<div class="form-group">
+							<label class="form-control-label">PIC Name</label>
+							<input class="form-control form-control-sm" placeholder="">
+						</div>
+					</div>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Reference ID</span>
-              </ng-template>
-              
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.id}}
-              </ng-template>
-            </ngx-datatable-column>    
-            
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Receipt ID</span>
-              </ng-template>
-              
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{row.transaction.id}}
-              </ng-template>
-            </ngx-datatable-column>               
+					<div class="col-sm-12 col-md-2">
+						<div class="form-group">
+							<label class="form-control-label">Status</label>
+							<input class="form-control form-control-sm" placeholder="">
+						</div>
+					</div>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Entity</span>
-              </ng-template>
-              
-              <ng-template let-row="row" ngx-datatable-cell-template>                   
-              
-                <div *ngIf="row.service.entities_type=='RB'">
-                  Registration of Business
-                </div>
-                <div *ngIf="row.service.entities_type == 'RC'">
-                  Registration of Company
-                </div>   
+					<div class="col-sm-12 col-md-2">
+						<div class="form-group">
+							<label class="form-control-label">Application Date</label>
+							<input class="form-control form-control-sm" placeholder="">
+						</div>
+					</div>
 
-              </ng-template>
-            </ngx-datatable-column>
+					<div class="col-sm-12 col-md-2">
+						<div class="form-group">
+							<label class="form-control-label">Product</label>
+							<input class="form-control form-control-sm" placeholder="">
+						</div>
+					</div>
+				</div> -->
+				<div class="dataTables_wrapper py-4">
+					<div class="row">
+						<div class="col-sm-12 col-md-3">
+							<div class="dataTables_length" id="datatable_length">
+								<label>
+									Show
+									<select 
+										name="datatable_length" 
+										aria-controls="datatable"
+										class="form-control form-control-sm" 
+										(change)="entriesChange($event)"
+									>
+										<option value="10">10</option>
+										<option value="25">25</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+										<option value="-1">All</option>
+									</select>
+									records
+								</label>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+						<div class="col-sm-12 col-md-4 mr-2">
+							<div class="form-group">
+								<input class="form-control form-control-sm" placeholder="Search name...">
+							</div>
+						</div>
+					</div>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Product</span>
-              </ng-template>
-              
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                
-                <div *ngIf="row.service.product_type=='PR'">
-                    Product
-                </div>
-                <div *ngIf="row.service.product_type == 'LS'">
-                    Listing
-                </div>         
+					<ngx-datatable
+						class="bootstrap selection-cell"
+						[columnMode]="'force'"
+						[headerHeight]="50"
+						[footerHeight]="50"
+						[rowHeight]="'auto'"
+						[limit]="tableEntries != -1 ? tableEntries : undefined"
+						[rows]="tableTemp"
+						[scrollbarH]="true"
+						(activate)="onActivate($event)"
+					>
+						<ngx-datatable-column 
+							name="No"
+							maxWidth="80"
+							[sortable]="true"
+							prop="rowIndex"
+						>
+							<ng-template
+								let-rowIndex="rowIndex"
+								let-row="row"
+								ngx-datatable-cell-template
+							>
+								<strong>{{ rowIndex + 1 }}</strong>
+							</ng-template>
+						</ngx-datatable-column>
 
-              </ng-template>
-            </ngx-datatable-column>      
-            
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Amount (RM)</span>
-              </ng-template>
-              
-              <ng-template let-row="row" ngx-datatable-cell-template>                                
-                {{row.service.fee/100 | number:'1.2-2'}}
-              </ng-template>
-            </ngx-datatable-column>             
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="service.name"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Product</span>
+							</ng-template>
+							
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.service.name}}  
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Name</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.name }}
-              </ng-template>
-            </ngx-datatable-column>            
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="name"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Name</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.name }}
+							</ng-template>
+						</ngx-datatable-column>            
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Organization</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.organisation }}
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="organisation"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Organization</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.organisation }}
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Email</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.email_address }}
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="email_address"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Email</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.email_address }}
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Phone No.</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.phone_number }}
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="phone_number"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Phone No.</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.phone_number }}
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Status</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                <span class="badge badge-success" *ngIf="row.completed">Completed</span>
-                <span class="badge badge-default" *ngIf="!row.completed">Pending</span>
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="false"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Status</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.complete">Pending</span>
+								<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.complete">In Progress</span>
+								<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.complete">In Progress</span>
+							</ng-template>
+							</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Request Date</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.created_date }}
-              </ng-template>
-            </ngx-datatable-column>
+							<ngx-datatable-column
+								[sortable]="true"
+								prop="created_date"
+							>
+							<ng-template ngx-datatable-header-template>
+								<span>Pending Date</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.created_date }}
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Completion Date</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.completed_date }}
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="in_progress_date"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>In Progress Date</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<span *ngIf="row.in_progress_date">
+								{{ row.in_progress_date }}
+								</span>
+								<span *ngIf="!row.in_progress_date">
+								NA
+								</span>
+							</ng-template>
+						</ngx-datatable-column>
 
-            <ngx-datatable-column>
-              <ng-template ngx-datatable-header-template>
-                <span>Remarks</span>
-              </ng-template>
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.remarks }}
-              </ng-template>
-            </ngx-datatable-column>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="completed_date"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Completed Date</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<span *ngIf="row.completed_date">
+								{{ row.completed_date }}
+								</span>
+								<span *ngIf="!row.completed_date">
+								NA
+								</span>
+							</ng-template>
+						</ngx-datatable-column>
 
-          </ngx-datatable>
-        </div>        
-      </div>
-    </div>
-  </div>
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="remarks"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Remarks</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.remarks }}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="pic"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>PIC</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<span *ngIf="!row.pic">
+								NA
+								</span>
+							</ng-template>
+						</ngx-datatable-column>
+					</ngx-datatable>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

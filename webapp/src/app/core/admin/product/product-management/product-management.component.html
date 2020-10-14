@@ -1,3 +1,4 @@
+<ngx-loading-bar></ngx-loading-bar>
 <div class="header pb-6">
     <div class="container-fluid">
       <div class="header-body">
@@ -46,9 +47,10 @@
                       aria-controls="datatable"
                       class="form-control form-control-sm"
                       (change)="entriesChange($event)">
-                      <option value="5">5</option>
                       <option value="10">10</option>
-                      <option value="15">15</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
                       <option value="-1">All</option>
                     </select>
                     records
@@ -116,6 +118,7 @@
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <div *ngIf="row.language =='EN'">BI</div>
                     <div *ngIf="row.language =='MS'">BM</div>
+                    <div *ngIf="!row.language">-</div>
                 </ng-template>
               </ngx-datatable-column> 
   
@@ -269,7 +272,7 @@
   <ng-template #editModal>
     <div class="modal-header bg-default">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update Status
+            Update Product
         </h6>
   
         <button
@@ -284,74 +287,11 @@
     </div>
   
     <div class="modal-body">
-        <form>
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="row">
-                  <div class="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-                      <label class="custom-control-label" for="pendingCheck">Pending</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Pending Date</label>
-                      <input class="form-control" [value]="selectedRow.created_date" disabled>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="col-lg-4">
-                <div class="row">
-                  <div clas="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="completedCheck">
-                      <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Completed Date</label>
-                      <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
-                    </div>
-                  </div>
-                </div>
-              </div>
-       
-  
-              <div class="col-lg-4">
-                <!--
-                <div class="row mt-2">
-                  <div clas="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-                </div>
-              -->
-              </div>
-            </div>
-  
-            <div class="row">
-  
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-  
-            </div>
-            
+        <form [formGroup]="updateForm">
+          <div class="form-group">
+            <label class="form-control-label">Product Name</label>
+            <input class="form-control" formControlName="name">
+          </div>
         </form>
     </div>
   
@@ -359,8 +299,8 @@
         <button 
             class="btn btn-success"
             type="button"
-            (click)="updateApplication()"
-            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+            (click)="update()"
+          >
             Update
         </button>
   

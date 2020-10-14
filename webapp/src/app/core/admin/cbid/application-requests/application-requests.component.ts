@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormBuilder,
@@ -7,7 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { CbidTicketsService } from 'src/app/shared/services/cbid-tickets/cbid-tickets.service';

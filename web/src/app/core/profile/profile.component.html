@@ -153,34 +153,8 @@
 
 									<div class="col-sm-6 col-lg-3">
 										<div class="form-group">
-											<label class="form-control-label">Transaction type</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="far fa-list-alt"> </i>
-													</span>
-												</div>
-												<select class="form-control">
-													<option>Purchase document</option>
-													<option>Topup credit</option>
-													<option>Refund credit</option>
-													<option>Remove credit</option>
-												</select>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6 col-lg-3">
-										<div class="form-group">
-											<label class="form-control-label">Billing name</label>
-											<div class="input-group mb-4">
-												<div class="input-group-prepend">
-													<span class="input-group-text">
-														<i class="fas fa-file-invoice"> </i>
-													</span>
-												</div>
-												<input class="form-control" />
-											</div>
+											<label class="form-control-label">Receipt No.</label>
+											<input class="form-control"/>
 										</div>
 									</div>
 								</div>
@@ -197,54 +171,70 @@
 										(activate)="onActivate($event)"
 									>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="invoice_no"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Invoice</span>
+												<span class="table-header">Receipt No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												INV{{row.reference_no}}
+												{{row.invoice_no}}
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="payment_gateway_update_date"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Date</span>
+												<span class="table-header">Date</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{ row.payment_gateway_update_date }}
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Transaction Type</span>
+												<span class="table-header">Transaction Type</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												Online
 											</ng-template>
 										</ngx-datatable-column>
 										
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Method</span>
+												<span class="table-header">Method</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												Credit Card
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="reference_no"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Reference</span>
+												<span class="table-header">Reference</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												REF{{row.reference_no}}
 											</ng-template>
 										</ngx-datatable-column>
 										
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="total_amount"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Total Price</span>
+												<span class="table-header">Total Price</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												RM{{row.total_amount/100 | number : '1.2-2'}}
@@ -253,7 +243,7 @@
 		
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Receipt</span>
+												<span class="table-header">Receipt</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<a 
@@ -310,7 +300,7 @@
 											[resizeable]="false"
 										>
 											<ng-template ngx-datatable-header-template>
-												<span>No.</span>
+												<span class="table-header">No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.id_index}}
@@ -319,7 +309,7 @@
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Order No.</span>
+												<span class="table-header">Order No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<!-- {{row.product?.name}} -->
@@ -327,18 +317,23 @@
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="created_date"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Datetime</span>
+												<span class="table-header">Datetime</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{ row.created_date }}
 											</ng-template>
 										</ngx-datatable-column>
 
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Product</span>
+												<span class="table-header">Product</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.product?.name}}
@@ -354,9 +349,11 @@
 											</ng-template>
 										</ngx-datatable-column>
 		
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Search Criteria</span>
+												<span class="table-header">Search Criteria</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.entity?.name}}
@@ -375,9 +372,12 @@
 											</ng-template>
 										</ngx-datatable-column>
 										
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="language"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Language</span>
+												<span class="table-header">Language</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<div *ngIf="row.product">
@@ -391,9 +391,11 @@
 											</ng-template>
 										</ngx-datatable-column>
 
-										<ngx-datatable-column>
+										<ngx-datatable-column
+											[sortable]="false"
+										>
 											<ng-template ngx-datatable-header-template>
-												<span>Status</span>
+												<span class="table-header">Status</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<span class="badge badge-success">Success</span>
@@ -402,7 +404,7 @@
 										
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Action</span>
+												<span class="table-header">Action</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<button 
@@ -947,7 +949,7 @@
 											[resizeable]="false"
 										>
 											<ng-template ngx-datatable-header-template>
-												<span>No.</span>
+												<span class="table-header">No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 
@@ -956,25 +958,7 @@
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Approved Date & Time</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-
-											</ng-template>
-										</ngx-datatable-column>
-		
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Entity Name / Product Detail</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-
-											</ng-template>
-										</ngx-datatable-column>
-
-										<ngx-datatable-column>
-											<ng-template ngx-datatable-header-template>
-												<span>Product Description</span>
+												<span class="table-header">Approved Date & Time</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 
@@ -983,7 +967,25 @@
 		
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Language</span>
+												<span class="table-header">Entity Name / Product Detail</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Product Description</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Language</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												
@@ -992,7 +994,7 @@
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Status</span>
+												<span class="table-header">Status</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<span class="badge badge-warning">Pending</span>
@@ -1001,7 +1003,7 @@
 
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Document Output</span>
+												<span class="table-header">Document Output</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												
@@ -1010,7 +1012,7 @@
 										
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
-												<span>Action</span>
+												<span class="table-header">Action</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<button 
