@@ -372,6 +372,11 @@ export class ProfileComponent implements OnInit {
     else if (path == 'request') {
       this.requestTabActive = true    
     }
+    else  {
+      this.accountTabActive = true;
+      this.transactionTabActive = false;
+      this.orderTabActive = false;    
+    }
   }
   
   initRequest(selected) {

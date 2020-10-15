@@ -168,7 +168,7 @@
 													{{item.product.name}}
 												</span>
 
-												<span *ngIf="item?.image_form_type != 'NA'">
+												<span *ngIf="item?.image_form_type != 'NA' && items?.image_form_type != null">
 													- {{item?.image_form_type}}
 												</span>
 												
