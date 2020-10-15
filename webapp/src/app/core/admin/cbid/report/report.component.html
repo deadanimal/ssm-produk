@@ -110,31 +110,27 @@
 						[scrollbarH]="true"
 						(activate)="onActivate($event)"
 					>
-						<ngx-datatable-column 
-							name="No"
-							maxWidth="80"
-							[sortable]="true"
-							prop="rowIndex"
-						>
-							<ng-template
-								let-rowIndex="rowIndex"
-								let-row="row"
-								ngx-datatable-cell-template
-							>
-								<strong>{{ rowIndex + 1 }}</strong>
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column
-							[sortable]="true"
-							prop="service.name"
-						>
+						<ngx-datatable-column>
 							<ng-template ngx-datatable-header-template>
-								<span>Product</span>
+							<span>Reference ID</span>
 							</ng-template>
 							
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								{{row.service.name}}  
+							
+							{{row.reference_id}}  
+			
+							</ng-template>
+						</ngx-datatable-column>
+			
+						<ngx-datatable-column>
+							<ng-template ngx-datatable-header-template>
+							<span>Receipt No.</span>
+							</ng-template>
+							
+							<ng-template let-row="row" ngx-datatable-cell-template>
+							
+							{{row.receipt_no}}  
+			
 							</ng-template>
 						</ngx-datatable-column>
 
@@ -163,23 +159,33 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							[sortable]="true"
-							prop="email_address"
-						>
+								[sortable]="true"
+								prop="created_date"
+							>
 							<ng-template ngx-datatable-header-template>
-								<span>Email</span>
+								<span>Application Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								{{ row.email_address }}
+								{{ row.created_date }}
 							</ng-template>
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							[sortable]="true"
-							prop="phone_number"
+							[sortable]="false"
 						>
 							<ng-template ngx-datatable-header-template>
-								<span>Phone No.</span>
+								<span>Amount (RM)</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row.service.fee/100 | number: '1.2-2' }}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column
+							[sortable]="false"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Entity</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
 								{{ row.phone_number }}
@@ -193,54 +199,37 @@
 								<span>Status</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.complete">Pending</span>
-								<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.complete">In Progress</span>
-								<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.complete">In Progress</span>
-							</ng-template>
-							</ngx-datatable-column>
-
-							<ngx-datatable-column
-								[sortable]="true"
-								prop="created_date"
-							>
-							<ng-template ngx-datatable-header-template>
-								<span>Pending Date</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								{{ row.created_date }}
+								<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.completed">Pending</span>
+								<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.completed">In Progress</span>
+								<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">In Progress</span>
 							</ng-template>
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
 							[sortable]="true"
-							prop="in_progress_date"
+							prop="modified_date"
 						>
 							<ng-template ngx-datatable-header-template>
-								<span>In Progress Date</span>
+								<span>Status Update Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								<span *ngIf="row.in_progress_date">
-								{{ row.in_progress_date }}
-								</span>
-								<span *ngIf="!row.in_progress_date">
-								NA
-								</span>
+								{{ row.modified_date }}
 							</ng-template>
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
 							[sortable]="true"
-							prop="completed_date"
+							prop="pic"
 						>
 							<ng-template ngx-datatable-header-template>
-								<span>Completed Date</span>
+								<span>PIC</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								<span *ngIf="row.completed_date">
-								{{ row.completed_date }}
-								</span>
-								<span *ngIf="!row.completed_date">
+								<span *ngIf="!row.completed">
 								NA
+								</span>
+								<span *ngIf="row.completed">
+									Ali Imran
 								</span>
 							</ng-template>
 						</ngx-datatable-column>
@@ -254,20 +243,6 @@
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
 								{{ row.remarks }}
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column
-							[sortable]="true"
-							prop="pic"
-						>
-							<ng-template ngx-datatable-header-template>
-								<span>PIC</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								<span *ngIf="!row.pic">
-								NA
-								</span>
 							</ng-template>
 						</ngx-datatable-column>
 					</ngx-datatable>

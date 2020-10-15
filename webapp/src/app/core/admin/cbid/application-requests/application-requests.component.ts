@@ -94,6 +94,12 @@ export class ApplicationRequestsComponent implements OnInit {
         this.tableRows.forEach(
           (row) => {
             this.loadingBar.complete()
+            let unix_ = moment(row['created_date']).format('x')
+            let year = (moment(row['created_date']).year()).toString()
+            let month = (moment(row['created_date']).month() + 1).toString()
+            let day = (moment(row['created_date']).date()).toString()
+            row['reference_id'] = 'CBID' + year + month + day + unix_.slice(6,12)
+            row['receipt_no'] = 'SSMB' + year + month + day + unix_.slice(6,12)
             if(row.in_progress) {
               row.in_progress_date = moment(row.in_progress_date).format('DD/MM/YYYY')
             }
@@ -154,6 +160,9 @@ export class ApplicationRequestsComponent implements OnInit {
 
     this.selectedRow = row
     this.updateForm.controls['id'].setValue(row.id)
+    this.updateForm.controls['in_progress'].setValue(row.in_progress)
+    this.updateForm.controls['completed'].setValue(row.completed)
+    this.updateForm.controls['remarks'].setValue(row.remarks)
     console.log(row)
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
@@ -191,16 +200,25 @@ export class ApplicationRequestsComponent implements OnInit {
 
     let id_ = this.updateForm.value['id']
 
-    if (this.updateForm.value['in_progress']) {
+    if (
+      this.updateForm.value['in_progress'] &&
+      this.updateForm.value['in_progress_date']
+    ) {
       console.log('inprogress')
+      console.log(this.updateForm.value['in_progress_date'])
       let newProgressDate = moment(this.updateForm.value['in_progress_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
       this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
     }
-    if (this.updateForm.value['completed']) {
+    if (
+      this.updateForm.value['completed'] &&
+      this.updateForm.value['completed_date']
+    ) {
       console.log('completed')
       let newCompletedDate = moment(this.updateForm.value['completed_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
       this.updateForm.controls['completed_date'].setValue(newCompletedDate)
     }
+
+    console.log(this.updateForm.value)
 
     this.servicesService.patch(id_, this.updateForm.value).subscribe(
       (respond)=> {

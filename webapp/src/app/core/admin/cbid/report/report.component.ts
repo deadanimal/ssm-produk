@@ -51,6 +51,13 @@ export class CbidReportComponent implements OnInit {
         this.tableRows.forEach(
           (row) => {
             this.loadingBar.complete()
+            let unix_ = moment(row['created_date']).format('x')
+            let year = (moment(row['created_date']).year()).toString()
+            let month = (moment(row['created_date']).month() + 1).toString()
+            let day = (moment(row['created_date']).date()).toString()
+            row['reference_id'] = 'CBID' + year + month + day + unix_.slice(6,12)
+            row['receipt_no'] = 'SSMB' + year + month + day + unix_.slice(6,12)
+            
             if(row.in_progress) {
               row.in_progress_date = moment(row.in_progress_date).format('DD/MM/YYYY')
             }

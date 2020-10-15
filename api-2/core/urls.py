@@ -109,7 +109,7 @@ document_requests_router = router.register(
 )
 
 egovernment_requests_router = router.register(
-    'egovernment-requests', DocumentRequestViewSet
+    'egovernment-requests', EgovernmentRequestViewSet
 )
 
 # Tickets app

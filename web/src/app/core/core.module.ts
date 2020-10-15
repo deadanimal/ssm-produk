@@ -42,12 +42,18 @@ import { ProductSearchSdComponent } from './products/product-search-sd/product-s
 import { ProductSearchResultComponent } from './products/product-search-result/product-search-result.component';
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
+import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
+import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
+import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
+import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 
 // Payment
 import { PaymentComponent } from './payment/payment/payment.component';
 import { PaymentCallbackComponent } from './payment/payment-callback/payment-callback.component';
 import { PaymentToConfirmComponent } from './payment/payment-to-confirm/payment-to-confirm.component';
 import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
+import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
+
 
 // Enquiry
 import { EnquiryComponent } from './enquiry/enquiry/enquiry.component';
@@ -64,17 +70,13 @@ import { PersonalInvolvementSearchComponent } from './personal-involvement/perso
 
 // CBID
 import { CbidComponent } from './cbid/cbid/cbid.component';
-import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
-import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
-import { PaymentReceiptComponent } from './payment/payment-receipt/payment-receipt.component';
-import { ProductCustomDataComponent } from './products/product-custom-data/product-custom-data.component';
-import { ProductCustomDataPackageAComponent } from './products/product-custom-data-package-a/product-custom-data-package-a.component';
-import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
-import { EgovComponent } from './egov/egov/egov.component';
+
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
+
+// EGov
+import { EgovComponent } from './egov/egov/egov.component';
+import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
 
 @NgModule({
   declarations: [
@@ -105,8 +107,6 @@ import { ProductSearchResultPackage4Component } from './products/product-search-
     ProductSearchResultComponent,
     EnquiryEgovComponent,
     PersonalInvolvementSearchComponent,
-    CbidSearchComponent,
-    CbidSearchResultComponent,
     ProductSearchResultPackage1Component,
     ProductSearchResultPackage2Component,
     ProductSearchEgovComponent,
@@ -120,6 +120,7 @@ import { ProductSearchResultPackage4Component } from './products/product-search-
     ProductCustomDataPackageBComponent,
     EgovComponent,
     ProductSearchResultPackage4Component,
+    EgovHomeComponent,
   ],
   imports: [
     CommonModule,

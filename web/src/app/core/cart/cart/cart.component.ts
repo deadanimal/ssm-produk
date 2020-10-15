@@ -269,6 +269,9 @@ export class CartComponent implements OnInit {
             if (!item['isTick']) {
               this.removeItem(item.id)
             }
+            // else {
+            //   this.cartService.cartTemp.push(item)
+            // }
             console.log('index', index)
             console.log('array length', array.length-1)
             

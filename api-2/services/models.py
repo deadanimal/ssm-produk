@@ -132,16 +132,16 @@ class EgovernmentRequest(models.Model):
     egov_package = models.IntegerField(default=0, null=False)
     egov_quota = models.IntegerField(default=0, null=True)
     
-    position_or_grade = models.CharField(max_length=30, blank=True, null=True)
+    position_or_grade = models.CharField(max_length=100, blank=True, null=True)
 
-    head_of_department_name = models.CharField(max_length=50, blank=True, null=True)
-    head_of_department_position = models.CharField(max_length=50, blank=True, null=True)
-    head_of_department_email = models.EmailField(max_length=50, blank=True, null=True)
+    head_of_department_name = models.CharField(max_length=100, blank=True, null=True)
+    head_of_department_position = models.CharField(max_length=100, blank=True, null=True)
+    head_of_department_email = models.EmailField(max_length=100, blank=True, null=True)
 
-    ministry_name = models.CharField(max_length=50, blank=True, null=True)
-    division_name = models.CharField(max_length=50, blank=True, null=True)
-    agency_name = models.CharField(max_length=50, blank=True, null=True)
-    department_name = models.CharField(max_length=50, blank=True, null=True)    
+    ministry_name = models.CharField(max_length=100, blank=True, null=True)
+    division_name = models.CharField(max_length=100, blank=True, null=True)
+    agency_name = models.CharField(max_length=100, blank=True, null=True)
+    department_name = models.CharField(max_length=100, blank=True, null=True)    
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

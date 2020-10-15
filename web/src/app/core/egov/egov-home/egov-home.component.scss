@@ -1,0 +1,68 @@
+.font-small {
+    font-size: 0.8rem;
+}
+  
+.icon-size {
+    max-width: 4rem;
+}
+  // .presentation-page .section-cards .glide--carousel .glide__slide {
+  //   width: 300px !important;
+  // }
+.glide__slides .glide__slide img {
+    width: 250px;
+    margin: 50px auto;
+}
+
+.package-active {
+    // width: 100%;
+    // height: 440px;
+    opacity: 0.9;
+    background-size: cover;
+    background-color: #005fed;
+}
+  
+.package-active:before {
+    // content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    // width: 100%;
+    // height: 100%;
+    background-color: #005fed;
+    opacity: 0;
+    position: relative;
+    transition: 0.3s all;
+}
+  
+.package-active:hover {
+    opacity: 0.9;
+    background-color: #005fed;
+}
+  
+  
+.package-inactive {
+    // width: 100%;
+    // height: 440px;
+    opacity: 0.4;
+    background-size: cover;
+    background-color: #005fed;
+}
+  
+.package-inactive:before {
+    // content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    // width: 100%;
+    // height: 100%;
+    background-color: #5390e6;
+    opacity: 0;
+    position: relative;
+    transition: 0.3s all;
+}
+  
+.package-inactive:hover {
+    opacity: 0.9;
+    background-color: #005fed;
+}
+  
