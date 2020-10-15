@@ -1,1 +1,159 @@
-<p>product-search-result-package4 works!</p>
+
+<div class="wrapper">
+    <div class="cd-section">
+        <div class="section features-7">
+            <div class="container mt-6">
+
+                <tabset type="pills">
+
+                    <tab>
+                        <ng-template tabHeading> Document & Form Images </ng-template>
+
+                        <div class="mt-2">
+                            <ngx-datatable 
+                                class="bootstrap selection-cell"
+                                [columnMode]="'force'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableEntries != -1 ? tableEntries : undefined" 
+                                [rows]="tableTemp"
+                                [messages]="tableMessages"
+                            >
+                                <ngx-datatable-column maxWidth="140">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Document Type</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.formType}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Document Description</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.formName}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column maxWidth="150">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Document Date</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.humanDate}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column maxWidth="120">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Total Page</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.totalPage}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                                <ngx-datatable-column maxWidth="120">
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Action</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="custom-control custom-checkbox">
+                                            <input 
+                                                type="checkbox" 
+                                                class="custom-control-input" 
+                                                id="{{row.id_index}}"
+                                                [(ngModel)]="row.isChecked"
+                                            >
+                                            <label class="custom-control-label" for="{{row.id_index}}"></label>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+
+                        <div class="text-right">
+                            <button 
+                                class="btn btn-ssm rounded-pill"
+                                (click)="submit()"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="requestedDocuments.length > 0">
+
+
+    <div class="mt-2">
+        <ngx-datatable 
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined" 
+            [rows]="tableDocumentTemp"
+            [messages]="tableDocumentMessages"
+        >
+        <ngx-datatable-column maxWidth="20">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row.id_index}}
+            </ng-template>
+        </ngx-datatable-column>
+
+            <ngx-datatable-column maxWidth="140">
+                <ng-template ngx-datatable-header-template>
+                    <span class="table-header">Document Type</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.formType}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                    <span class="table-header">Document Description</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.formName}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column maxWidth="150">
+                <ng-template ngx-datatable-header-template>
+                    <span class="table-header">Document Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.humanDate}}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column maxWidth="120">
+                <ng-template ngx-datatable-header-template>
+                    <span class="table-header">Total Page</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.totalPage}}
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+
+</div>
+
+<ngx-spinner></ngx-spinner>
+

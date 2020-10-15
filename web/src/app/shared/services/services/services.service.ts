@@ -13,7 +13,8 @@ export class ServicesService {
 
   // URL
   public urlServices: string = environment.baseUrl + 'v1/services/'
-
+  public urlDocumentRequest: string = environment.baseUrl + 'v1/document-requests/'
+  public urlEgovRequest: string = environment.baseUrl + 'v1/egovernment-requests/'
   // Data
   public service: Service
   public services: Service[] = []
@@ -21,6 +22,8 @@ export class ServicesService {
   public servicesQuery: Service[] = []
 
   public request: Request
+
+  public requestToAdd: any[] = []
 
   constructor(
     private http: HttpClient
@@ -82,5 +85,34 @@ export class ServicesService {
         console.log('Filtered', this.servicesFiltered);
       })
     );
+  }
+
+  createDocumentRequest(body: any): Observable<Request> {
+    let urlTemp = this.urlDocumentRequest
+    return this.http.post<Request>(urlTemp, body).pipe(
+      tap((res) => {
+        // this.request = res
+        console.log('Requested: ', this.service)
+      })
+    )
+  }
+
+  addDocumentRequestItem(id: string, body: any) {
+    let urlTemp = this.urlDocumentRequest + id + 'add_item_to_document_request/'
+    return this.http.post<Request>(urlTemp, body).pipe(
+      tap((res) => {
+        // this.request = res
+        console.log('Requested: ', this.service)
+      })
+    )
+  }
+
+  requestEgov(body: any) {
+    return this.http.post<any>(this.urlEgovRequest, body).pipe(
+      tap((res) => {
+        // this.request = res
+        console.log('Requested: ', res)
+      })
+    )
   }
 }

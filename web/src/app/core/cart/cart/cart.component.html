@@ -223,7 +223,7 @@
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Language</span>
 									</ng-template>
-									<ng-template let-row="row" ngx-datatable-cell-template>
+									<ng-template let-row="row" ngx-datatable-cell-template class="text-center">
 										<div *ngIf="row.product">
 											<span *ngIf="row.product.language == 'MS'">BM</span>
 											<span *ngIf="row.product.language == 'EN'">EN</span>
@@ -243,7 +243,7 @@
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Unit</span>
 									</ng-template>
-									<ng-template let-row="row" ngx-datatable-cell-template>
+									<ng-template let-row="row" ngx-datatable-cell-template class="text-center">
 										1
 									</ng-template>
 								</ngx-datatable-column>
@@ -255,7 +255,7 @@
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Total Price</span>
 									</ng-template>
-									<ng-template let-row="row" ngx-datatable-cell-template>
+									<ng-template let-row="row" ngx-datatable-cell-template class="text-center">
 										<div *ngIf="row.product">
 											RM{{row.product.fee/100 | number : '1.2-2'}}
 										</div>
@@ -322,11 +322,40 @@
 							</ngx-datatable>
 						</div>
 
-						<div class="float-right text-right py-4">
-							<p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
+						<div class="float-right text-right py-4 w-30">
+							<div class="row">
+								<div class="col-8">
+									<div class="row">
+										<div class="col">
+											<h4>Total Document :</h4>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<h3>Total Amount :</h3>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-4">
+									<div class="row">
+										<div class="col">
+											<h4 class="text-left">{{ totaldocument }}</h4>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<h3 class="text-left">RM{{ total/100 | number : '1.2-2' }}</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- <p class="m-0 text-right">Total Document: {{ totaldocument }}</p>
 							<p class="m-0 text-right">
 								Total Amount: RM{{ total/100 | number : '1.2-2' }}
-							</p>
+							</p> -->
 							<br />
 							<!-- (click)="navigatePage('/cart/checkout')" -->
 							<button class="btn btn-ssm btn-round" (click)="proceed()">

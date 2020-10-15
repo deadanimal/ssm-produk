@@ -27,6 +27,7 @@ import { ProductCustomDataPackageAComponent } from './products/product-custom-da
 import { ProductCustomDataPackageBComponent } from './products/product-custom-data-package-b/product-custom-data-package-b.component';
 
 import { EgovComponent } from './egov/egov/egov.component';
+import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
 
 import { EnquiryComponent } from './enquiry/enquiry/enquiry.component';
 import { EnquiryGeneralComponent } from './enquiry/enquiry-general/enquiry-general.component';
@@ -37,13 +38,12 @@ import { CartComponent } from './cart/cart/cart.component';
 import { CheckoutComponent } from './cart/checkout/checkout.component';
 
 import { CbidComponent } from './cbid/cbid/cbid.component';
-import { CbidSearchComponent } from './cbid/cbid-search/cbid-search.component';
-import { CbidSearchResultComponent } from './cbid/cbid-search-result/cbid-search-result.component';
 import { ProductSearchEgovComponent } from './products/product-search-egov/product-search-egov.component';
 import { ProductSearchResultPackage1Component } from './products/product-search-result-package1/product-search-result-package1.component';
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
 import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
+
 
 
 export const CoreRoutes: Routes = [
@@ -174,14 +174,6 @@ export const CoreRoutes: Routes = [
           {
             path: '',
             component: CbidComponent
-          },
-          {
-            path: 'search',
-            component: CbidSearchComponent
-          },
-          {
-            path: 'search-result',
-            component: CbidSearchResultComponent
           }
         ]
       },
@@ -231,6 +223,10 @@ export const CoreRoutes: Routes = [
           {
             path: '',
             component: EgovComponent
+          },
+          {
+            path: 'home',
+            component: EgovHomeComponent
           }
         ]
       }

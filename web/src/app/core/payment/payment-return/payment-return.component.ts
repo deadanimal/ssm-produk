@@ -38,6 +38,12 @@ export class PaymentReturnComponent implements OnInit {
         this.loadedData = this.transactionService.transactionsFiltered[0]
         // console.log('ini lah data yang di load itu', this.loadedData)
         this.loadedData.created_date = moment(this.loadedData.created_date).format('DD/MM/YYYY hh:mm a')
+        let year = (moment(this.loadedData.created).year()).toString()
+        let month = (moment(this.loadedData.created).month() + 1).toString()
+        let day = (moment(this.loadedData.created).date()).toString()
+        console.log(year, month, day)
+        this.loadedData['reference_no_new'] = 'PD' + year + month + day + this.loadedData['reference_no'].slice(6,12)
+        this.loadedData['receipt_no'] = 'PP' + year + month + day + this.loadedData['reference_no'].slice(6,12)
       },
       () => {},
       () => {
@@ -62,7 +68,7 @@ export class PaymentReturnComponent implements OnInit {
             '<p claass="mt-0">'+ this.loadedData.created_date +'</p></div></div><div class="row"><div class="col">'+
             '<p class="mb-0 text-light">Status</p><p claass="mt-0">Success</p></div></div></div><div class="col">'+
             '<div class="row"><div class="col"><p class="mb-0 text-light">Reference</p><p claass="mt-0">'+
-            'TRA'+ this.loadedData.reference_no +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
+            this.loadedData.reference_no_new +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
             '<p class="mt-0">Purchase of product</p></div></div></div></div>',
       buttonsStyling: false,
       confirmButtonText: 'View receipt',
@@ -86,7 +92,7 @@ export class PaymentReturnComponent implements OnInit {
             '<p claass="mt-0">'+ this.loadedData.created_date +'</p></div></div><div class="row"><div class="col">'+
             '<p class="mb-0 text-light">Status</p><p claass="mt-0">Unsuccessful</p></div></div></div><div class="col">'+
             '<div class="row"><div class="col"><p class="mb-0 text-light">Reference</p><p claass="mt-0">'+
-            'TRA'+ this.loadedData.reference_no +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
+            this.loadedData.reference_no_new +'</p></div></div><div class="row"><div class="col"><p class="mb-0 text-light">Description</p>'+
             '<p class="mt-0">Purchase of product</p></div></div></div></div>',
       buttonsStyling: false,
       showCancelButton: true,
