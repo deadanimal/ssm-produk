@@ -4,7 +4,9 @@
 			<div class="col-md-10 mx-auto">
 				<div class="card card-invoice">
 					<div class="card-header text-center">
+						<h2 class="text-center py-2">OFFICIAL RECEIPT</h2>
 						<div class="row justify-content-between">
+
 							<div class="col-md-4 text-left mt--2">
 								<img alt="Logo" class="mb-2 w-100" src="assets/img/logo/SSM-Logo.png" />
 							</div>
@@ -88,7 +90,7 @@
 									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: PP202010060000001
+											: {{transaction?.receipt_no}}
 										</p>
 									</div>
 								</div>
@@ -99,7 +101,7 @@
 									</div>
 									<div class="col">
 										<p class="m-0">
-											: ACN1241241241
+											: {{transaction?.reference_no_new}}
 										</p>
 									</div>
 								</div>
@@ -123,7 +125,7 @@
 									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: M1241412455
+											: M{{transaction?.reference_no}}
 										</p>
 									</div>
 								</div>
@@ -199,22 +201,14 @@
 													</span>
 
 													<span *ngIf="item.product_search_criteria">
-														Customized Data Package A
+														-
 													</span>
 
-													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='PR'">
-														{{i+1}}. {{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
-														{{i+1}}. {{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='PR'">
-														{{i+1}}. {{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
-														{{i+1}}. {{item.service_request?.service.name}}
+													<span *ngIf="item.service_request">
+														-
 													</span>
 												</td>
+												
 												<td class="text-left">
 													<span *ngIf="item?.product">
 														{{item?.product.name}}
@@ -227,6 +221,23 @@
 													<span *ngIf="item?.image_form_type != 'NA'">
 														{{item?.image_form_type}}
 													</span>
+
+													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='ST'">
+														{{item.service_request?.service.name}}
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
+														{{item.service_request?.service.name}}
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='ST'">
+														{{item.service_request?.service.name}}
+													</span>
+													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
+														{{item.service_request?.service.name}}
+													</span>
+
+													<span *ngIf="item.product_search_criteria">
+														Customized Data Package A
+													</span>
 												</td>
 												<td class="text-left">
 													1
@@ -238,6 +249,9 @@
 													<span *ngIf="item.product_search_criteria">
 														RM4.00 / company
 													</span>
+													<span *ngIf="item.service_request">
+														{{item.service_request?.service.fee/100 | number: '1.2-2'}}
+													</span>
 												</td>
 												<td class="text-left">
 													<span *ngIf="item?.product">
@@ -246,13 +260,17 @@
 													<span *ngIf="item.product_search_criteria">
 														{{item.product_search_criteria.total_price | number: '1.2-2'}}
 													</span>
+													<span *ngIf="item.service_request">
+														{{item.service_request?.service.fee/100 | number: '1.2-2'}}
+													</span>
 												</td>
 											</tr>
 										</tbody>
 										<tfoot>
 											<tr>
-												<th class="text-right h4" colspan="5">Total</th>
-												<th class="h4">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
+												<th colspan="4"></th>
+												<th class="text-left h4">Total</th>
+												<th class="h4 text-left">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
 											</tr>
 										</tfoot>
 									</table>

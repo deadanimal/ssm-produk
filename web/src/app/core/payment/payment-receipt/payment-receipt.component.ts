@@ -59,7 +59,14 @@ export class PaymentReceiptComponent implements OnInit {
       (res) => {
         // console.log('res ', res)
         this.cart = res
-        this.cart['created_date'] = moment(this.cart['created_date']).format('DD/MM/YYYY hh:mm:ss')
+        let cr_date = this.cart['created_date']
+        this.cart['created_date'] = moment(cr_date).format('DD/MM/YYYY hh:mm:ss')
+        let year = (moment(cr_date).year()).toString()
+        let month = (moment(cr_date).month() + 1).toString()
+        let day = (moment(cr_date).date()).toString()
+        console.log(year, month, day)
+        this.transaction['reference_no_new'] = 'PD' + year + month + day + this.transaction['reference_no'].slice(6,12)
+        this.transaction['receipt_no'] = 'PP' + year + month + day + this.transaction['reference_no'].slice(6,12)
       },
       () => {},
       () => {

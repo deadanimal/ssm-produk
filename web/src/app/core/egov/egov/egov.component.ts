@@ -15,11 +15,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
-
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { User } from 'src/app/shared/services/users/users.model';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
+import { ServicesService } from 'src/app/shared/services/services/services.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-egov',
@@ -36,6 +37,9 @@ export class EgovComponent implements OnInit {
   registerDiv: boolean = false;
   ministry: number = 0;
   listAgency: any;
+
+  // Image
+  egovBanner = 'assets/img/background/putrajaya-2.jpg'
   
 
   public aFormGroup: FormGroup;
@@ -52,11 +56,9 @@ export class EgovComponent implements OnInit {
   registerUser: any[] = [];
 
   // form
-  addUserForm: FormGroup;
-  loginForm: FormGroup;
-  authSignInForm: FormGroup;
+
   signUpForm: FormGroup;
-  signInForm: FormGroup;
+  registerForm: FormGroup
 
 
 
@@ -95,26 +97,21 @@ export class EgovComponent implements OnInit {
     private reCaptchaV3Service: ReCaptchaV3Service,
     private userService: UsersService,
     private AuthService: AuthService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
     private cdRef: ChangeDetectorRef,
-    private fileService: LocalFilesService
+    private fileService: LocalFilesService,
+    private serviceService: ServicesService,
+    private loadingBar: LoadingBarService
   ) {
     this.getUser()
     this.getData()
   }
 
   ngOnInit(): void {
-    this.authSignInForm = this.formBuilder.group({
-      username: new FormControl('', Validators.compose([Validators.required])),
-      password: new FormControl(
-        '',
-        Validators.compose([Validators.required, Validators.minLength(8)])
-      ),
-    });
-
-    this.signUpForm = this.formBuilder.group({
+    this.initForm()
+    this.signUpForm = this.fb.group({
       id: new FormControl(''),
       recaptcha: new FormControl('', Validators.required),
       full_name: new FormControl('Admin'),
@@ -144,10 +141,28 @@ export class EgovComponent implements OnInit {
     });
   }
 
+  initForm() {
+    this.registerForm = this.fb.group({
+      user: new FormControl(null, Validators.required),
+      egov_request: new FormControl('PD', Validators.required),
+      position_or_grade: new FormControl(),
+      head_of_department_name: new FormControl(),
+      head_of_department_position: new FormControl(),
+      head_of_department_email: new FormControl(),
+      ministry_name: new FormControl(),
+      division_name: new FormControl(),
+      agency_name: new FormControl(),
+      department_name: new FormControl()
+    })
+  }
+
   // SB start
 
   getUser() {
     this.user = this.userService.currentUser
+    if (this.user['user_type'] == 'EG') {
+      this.navigatePage('/egov/home')
+    }
   }
 
   getData() {
@@ -169,6 +184,20 @@ export class EgovComponent implements OnInit {
 
   signInUser() {
     this.router.navigate(['/products/search-egov'])
+  }
+
+  register() {
+    this.loadingBar.useRef('http').start()
+    this.serviceService.requestEgov(this.registerForm.value).subscribe(
+      () => {
+        this.loadingBar.useRef('http').complete()
+        this.successAlert('Successfully sign up eGOV')
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {}
+    )
   }
 
   signUpUser() {

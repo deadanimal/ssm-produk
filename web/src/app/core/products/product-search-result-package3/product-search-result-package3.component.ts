@@ -13,6 +13,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import * as moment from 'moment';
+import { ServicesService } from 'src/app/shared/services/services/services.service';
 
 class Entity {
   name: string;
@@ -74,7 +75,9 @@ export class ProductSearchResultPackage3Component implements OnInit {
   
     // Footer selected message
     selectedMessage: 'selected'
-  }    
+  }
+
+  itemToAdd: any[] = []
 
   
   constructor(
@@ -86,7 +89,8 @@ export class ProductSearchResultPackage3Component implements OnInit {
     private fb: FormBuilder,
     private cartService: CartsService,
     private loadingBar: LoadingBarService,
-    public spinner: NgxSpinnerService
+    public spinner: NgxSpinnerService,
+    private serviceService: ServicesService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
   
@@ -143,7 +147,9 @@ export class ProductSearchResultPackage3Component implements OnInit {
                   img['formName'] = form.desc_en
                   img['isCtc'] = false
                   img['price'] = 1000 
-                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')               
+                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')
+                  img['isChecked'] = false
+                  img['companyName'] = this.entity['name']
                 }
               }
             )
@@ -168,7 +174,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
         id_index: key+1
       }
     })
-    console.log(this.tableTemp)
+    // console.log(this.tableTemp)
   }  
 
   addCartDocument(row) {
@@ -180,5 +186,26 @@ export class ProductSearchResultPackage3Component implements OnInit {
         id_index: key+1
       }
     })    
+  }
+
+  submit() {
+    this.tableTemp.forEach(
+      (temp) => {
+        if (temp['isChecked']) {
+          this.serviceService.requestToAdd.push(temp)
+          console.log(this.serviceService.requestToAdd)
+        }
+      }
+    )
+    this.navigatePage('/profile')
+  }
+
+  navigatePage(path: string) {
+    // console.log('Path: ', path)
+    if (path == 'profile') {
+      return this.router.navigate([path], { queryParams: { tab: 'request' } })
+    } else {
+      return this.router.navigate([path])
+    }
   }
 }
