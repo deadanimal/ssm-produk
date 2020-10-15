@@ -36,11 +36,11 @@
 					<div class="table" *ngIf="!isEmpty">
 						<div class="row">
 							<div class="col">
-								<p style="font-size: 0.7em">
+								<p style="font-size: 0.9em">
 									Disclaimer:<br />
-									1. Every product list will be kept in Add To Cart only for 30
+									1. Every product list will be kept in Cart only for 30
 									day(s) From the date added. Please proceed your payment to
-									purchase,
+									purchase.
 								</p>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 										</label>
 									</div>
 								</div>
-								<div class="col-sm-12 col-md-6 float-right">
+								<!-- <div class="col-sm-12 col-md-6 float-right">
 									<div class="dropdown text-right float-right" dropdown>
 									  <button
 										class="btn dropdown-toggle btn-link btn-icon dropdown-toggle float-right"
@@ -97,7 +97,7 @@
 										<a class="dropdown-item cursor-pointer" (click)="removeSelected()"> Remove selected </a>
 									  </div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 
 							<ngx-datatable 
@@ -113,8 +113,20 @@
 							>
 								<ngx-datatable-column maxWidth="60" [sortable]="false">
 									<ng-template ngx-datatable-header-template>
-										<span class="table-header">
-										</span>
+										<div class="custom-control custom-checkbox">
+											<input 
+												type="checkbox" 
+												class="custom-control-input" 
+												id="tableCheckbox"
+												(change)="selectAllRow()"
+												[(ngModel)]="tableCheckbox"
+											>
+											<label 
+												class="custom-control-label" 
+												for="tableCheckbox"
+											>
+											</label>
+										</div>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										<div class="custom-control custom-checkbox">
@@ -130,7 +142,7 @@
 												for="customCheck+{{row.id_index}}"
 											>
 											</label>
-										  </div>
+										</div>
 									</ng-template>
 								</ngx-datatable-column>
 
@@ -215,7 +227,7 @@
 								</ngx-datatable-column>
 
 								<ngx-datatable-column 
-									maxWidth="100"
+									maxWidth="130"
 									[sortable]="true"
 									prop="language"
 									[resizeable]="false"
@@ -251,6 +263,7 @@
 								<ngx-datatable-column
 									[sortable]="false"
 									[resizeable]="false"
+									maxWidth="130"
 								>
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Total Price</span>
