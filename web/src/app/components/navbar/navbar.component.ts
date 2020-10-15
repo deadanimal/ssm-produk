@@ -165,6 +165,9 @@ export class NavbarComponent implements OnInit {
     else if (choice == 5) {
       userId = '87135e28-aff0-480f-9572-e68fd27e1d1b'
     }
+    else if (choice == 6) {
+      userId = '5c41e8d9-d6ac-410b-bea9-492958c16cd8'
+    }
 
 
     this.loadingBar.useRef('http').start()

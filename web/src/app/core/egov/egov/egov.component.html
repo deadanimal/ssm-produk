@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <div class="wrapper">
     <section class="section-shaped title-bg bg-mini">
         <div class="page-header page-header-small header-filter-white">
@@ -12,65 +13,23 @@
         </div>
     </section>
 
-    <section class="pricing-3 mt-3 mb-4" id="pricing-4">
+    <section class="pricing-3 mt--7 mb-4" id="pricing-4">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 pr-md-0">
-                    <div class="card card-pricing my-3 bg-ssm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <form [formGroup]="authSignInForm">
-                                        <div *ngIf="user.user_type == 'EG'">
-                                            <h1 class="display-3 mb-0 text-white">
-                                                WELCOME BACK
-                                            </h1>
-                                            <p class="lead pb-4 mt-0 text-white">Login to continue</p>
-                                        </div>
-                                        <div *ngIf="user.user_type != 'EG'">
-                                            <h1 class="display-3 mb-0 text-white">
-                                                WELCOME to eGOV
-                                            </h1>
-                                            <p class="lead pb-4 mt-0 text-white">Sign up to continue</p>
-                                        </div>
-                                        <div class="row row-input">
-                                        </div>
-                                    </form>
-
-                                    <div class="row">
-                                        <div class="col" *ngIf="user.user_type == 'EG'">
-                                            <button class="btn btn-secondary btn-block" (click)="signIn()">
-                                                Login
-                                            </button>
-                                        </div>
-                                        <div class="col" *ngIf="user.user_type != 'EG'">
-                                            <button class="btn btn-secondary btn-block" (click)="signUp()">
-                                                Sign up
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 text-center" style="
-              padding-right: 0px !important;
-              padding-left: 0px !important;
-            ">
-                    <div class="example" style="padding-top: 150px">
-                        <p class="title font-weight-bolder" style="font-size: 3.5em; color: white">
-                            <b>eGOV</b>
-                        </p>
-                        <p class="title font-weight-bolder pt--4 mt--5" style="font-size: 2.5em; color: white">
-                            <span *ngIf="user.user_type == 'EG'">
-                                Login
-                            </span>
-                            <span *ngIf="user.user_type != 'EG'">
-                                Sign Up
-                            </span>
-                        </p>
-                    </div>
+            <div class="card card-profile" data-background="full">
+                <a href="javascript:;">
+                    <img
+                        class="img img-raised rounded"
+                        [src]="egovBanner"
+                    />
+                </a>
+                
+                <div class="card-body text-center">
+                    <h2 class="">eGovernment</h2>
+                    <h1 class="mt-1 mb-b">Welcome to eGovernment</h1>
+                    <h3 class="mt-0 mb-3">Sign up to continue</h3>
+                    <button class="btn btn-ssm btn-block" (click)="signUp()">
+                        Sign up
+                    </button>
                 </div>
             </div>
         </div>
@@ -79,23 +38,30 @@
     <section class="pricing-3 mt-4 mb-5" id="pricing-4" *ngIf="isSignUp == true">
         <div class="container">
             <h3 class="title font-weight-bolder">eGovernment Sign Up Form</h3>
-            <form [formGroup]="signUpForm">
+            <form [formGroup]="registerForm">
                 <div class="px-2 row">
                     <div class="col">
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Email Address</label>
-                                    <input class="form-control" placeholder="Enter Email Address"
-                                        formControlName="email" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter Email Address"
+                                        value="aminred@pipe.gov.my"
+                                        disabled
+                                    />
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Full name</label>
-                                    <input class="form-control" placeholder="Enter full name"
-                                        formControlName="full_name" />
+                                    <input 
+                                        class="form-control" 
+                                        value="Amin Redzuan" 
+                                        disabled
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -104,16 +70,23 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">IC No.</label>
-                                    <input class="form-control" placeholder="Enter IC no."
-                                        formControlName="nric_number" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter IC no."
+                                        value="940122065189"
+                                        disabled
+                                    />
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Position Or Grade</label>
-                                    <input class="form-control" placeholder="Position Or Grade"
-                                        formControlName="position_or_grade" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Position Or Grade"
+                                        formControlName="position_or_grade" 
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -122,8 +95,10 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Tel. No.</label>
-                                    <input class="form-control" placeholder="Enter tel. no."
-                                        formControlName="phone_number" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter tel. no."
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -134,8 +109,11 @@
                                     <label class="form-control-label">Head of department name
                                         <span class="text-warning">*</span>
                                     </label>
-                                    <input class="form-control" placeholder="Enter head of department name"
-                                        formControlName="head_of_department_name" />
+                                    <input 
+                                        class="form-control"
+                                        placeholder="Enter head of department name"
+                                        formControlName="head_of_department_name" 
+                                    />
                                 </div>
                             </div>
 
@@ -144,8 +122,11 @@
                                     <label class="form-control-label">Head of department position
                                         <span class="text-warning">*</span>
                                     </label>
-                                    <input class="form-control" placeholder="Enter head of department position"
-                                        formControlName="head_of_department_position" />
+                                    <input 
+                                        class="form-control"
+                                        placeholder="Enter head of department position"
+                                        formControlName="head_of_department_position" 
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -156,8 +137,11 @@
                                     <label class="form-control-label">Head of department email
                                         <span class="text-warning">*</span>
                                     </label>
-                                    <input class="form-control" placeholder="Enter head of department email"
-                                        formControlName="head_of_department_email" />
+                                    <input 
+                                        class="form-control"
+                                        placeholder="Enter head of department email"
+                                        formControlName="head_of_department_email" 
+                                    />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">
@@ -165,9 +149,11 @@
                                     <label class="form-control-label">Ministry Name
                                         <span class="text-warning">*</span>
                                     </label>
-                                    <select class="form-control" placeholder="Enter Ministry Name"
-                                        formControlName="ministry_name" [(ngModel)]="ministry"
-                                        (checkAgency)="onChange($event)">
+                                    <select 
+                                        class="form-control"
+                                        formControlName="ministry_name" 
+                                        (checkAgency)="onChange($event)"
+                                    >
                                         <option *ngFor="let option of ministryOptions" value="{{option.name">
                                             {{option.name}}
                                         </option>
@@ -193,8 +179,11 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Division / Section / Unit Name</label>
-                                    <input class="form-control" placeholder="Division Name"
-                                        formControlName="division_name" />
+                                    <input 
+                                        class="form-control"
+                                        placeholder="Division Name"
+                                        formControlName="division_name" 
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -203,8 +192,10 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Address line 1</label>
-                                    <input class="form-control" placeholder="Enter address line 1"
-                                        formControlName="company_address_1" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter address line 1"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -213,8 +204,10 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Address line 2</label>
-                                    <input class="form-control" placeholder="Enter address line 2"
-                                        formControlName="company_address_2" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter address line 2"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -223,8 +216,10 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Address line 3</label>
-                                    <input class="form-control" placeholder="Enter address line 3"
-                                        formControlName="company_address_3" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter address line 3"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -233,16 +228,20 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Postcode</label>
-                                    <input class="form-control" placeholder="Enter postcode"
-                                        formControlName="company_postcode" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Potcode"
+                                    />
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">City</label>
-                                    <input class="form-control" placeholder="Enter city"
-                                        formControlName="company_city" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter city"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -251,8 +250,10 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">State</label>
-                                    <input class="form-control" placeholder="Enter state"
-                                        formControlName="company_state" />
+                                    <input 
+                                        class="form-control" 
+                                        placeholder="Enter state"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -269,7 +270,6 @@
                                             class="custom-file-input" 
                                             id="files" 
                                             lang="en"
-                                            formControlName="attached_document" 
                                             (change)="onImageChange($event)" 
                                             accept=".pdf"
                                             size="5"
@@ -293,7 +293,7 @@
 
                         <div class="row mt-2 mb-4 text-right">
                             <div class="col-12 text-left mb-5 pt-3">
-                                <button class="btn btn-ssm btn-round" (click)="signUpUser()">
+                                <button class="btn btn-ssm btn-round" (click)="register()">
                                     Submit
                                 </button>
                             </div>
@@ -304,7 +304,7 @@
         </div>
     </section>
 
-    <div class="section mt--9">
+    <div class="section mt-2">
         <div class="container">
             <h3 class="title font-weight-bolder">eGOVERNMENT</h3>
             <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>

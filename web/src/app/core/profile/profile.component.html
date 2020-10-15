@@ -225,7 +225,7 @@
 												<span class="table-header">Reference</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												REF{{row.reference_no}}
+												{{row.reference_no_new}}
 											</ng-template>
 										</ngx-datatable-column>
 										
@@ -649,7 +649,7 @@
 						</div>
 					</tab>
 
-					<tab heading="Request Investigation Document">
+					<tab heading="Request Investigation Document" [active]="requestTabActive">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="heading-small text-muted mb-4">
@@ -907,11 +907,110 @@
 											<div>
 												<button
 													class="btn btn-ssm rounded-pill"
+													(click)="navigatePage('/products/search-egov')"
 												>
 													Add Document
 												</button>
 											</div>
 										</form>
+
+										<div *ngIf="requestToAdd.length>=1">
+											<span class="text-center">
+												<h3 class="py-2">Document Request</h3>
+											</span>
+					
+											<ngx-datatable 
+												class="bootstrap selection-cell"
+												[columnMode]="'force'"
+												[headerHeight]="50"
+												[footerHeight]="50"
+												[rowHeight]="'auto'"
+												[limit]="tableRequestToAddEntries != -1 ? tableRequestToAddEntries : undefined" 
+												[rows]="tableRequestToAddTemp"
+												(activate)="onActivate($event)"
+											>
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Entity No.</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														{{row.companyNo}}
+													</ng-template>
+												</ngx-datatable-column>
+					
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Entity Name</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.companyName}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Document Type</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.formType}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Document Name</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.formName}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+					
+												<ngx-datatable-column 
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span class="table-header"></span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<a 
+															class="nav-link nav-link-icon cursor-pointer"
+														>
+															<i 
+																class="fas fa-trash-alt text-danger"
+																placement="top" 
+																tooltip="Remove"
+															> 
+															</i>
+														</a>
+													</ng-template>
+												</ngx-datatable-column>
+											</ngx-datatable>
+					
+											<div class="text-right py-3">
+												<button class="btn btn-ssm btn-icon btn-round" (click)="submitRequest()">
+													<span class="btn-inner--text"> Submit </span>
+												</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -30,6 +30,7 @@ import { CompanyStatus } from 'src/app/shared/models/company-status.model';
 import { StateCode } from 'src/app/shared/models/state-code.model';
 import { User } from 'src/app/shared/services/users/users.model';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ServicesService } from 'src/app/shared/services/services/services.service';
 
 export enum SelectionType {
   single = 'single',
@@ -50,6 +51,7 @@ export class ProfileComponent implements OnInit {
   transactions: any[] = []
   orders: any[] = []
   user: User
+  requestToAdd: any[] = []
 
   // Modal
   modal: BsModalRef
@@ -63,6 +65,7 @@ export class ProfileComponent implements OnInit {
   requestInvestigationForm: FormGroup
   updateUserInfoForm: FormGroup
   addressForm: FormGroup
+  requestForm: FormGroup
 
   // Table
   tableEntries: number = 10
@@ -90,12 +93,19 @@ export class ProfileComponent implements OnInit {
   tableRequestActiveRow: any
   tableRequestRows: any[] = []
 
+  tableRequestToAddEntries: number = 10
+  tableRequestToAddSelected: any[] = []
+  tableRequestToAddTemp = []
+  tableRequestToAddActiveRow: any
+  tableRequestToAddRows: any[] = []
+
   selectedCriteria: any
 
   // Tabs
   accountTabActive: boolean = false
   transactionTabActive: boolean = false
   orderTabActive: boolean = false
+  requestTabActive: boolean = false
 
   // Receipt
   transaction: any
@@ -128,7 +138,8 @@ export class ProfileComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private serviceService: ServicesService
   ) {
     this.activatedRoute.queryParams.subscribe(
       (path: any) => {
@@ -136,7 +147,7 @@ export class ProfileComponent implements OnInit {
         this.tabChecker(path['tab'])
       }
     )
-    this.user = this.userService.currentUser
+    this.getUser()
   }
 
   ngOnInit(): void {
@@ -147,6 +158,26 @@ export class ProfileComponent implements OnInit {
 
 
   // SB start
+
+  getUser() {
+    this.user = this.userService.currentUser
+    if (this.user['user_type'] == 'EG') {
+      if (
+        this.user['egov_package'] == 3 ||
+        this.user['egov_package'] == 4
+      ) {
+        this.requestToAdd = this.serviceService.requestToAdd
+        console.log('req', this.requestToAdd)
+        this.tableRequestToAddRows = this.requestToAdd
+        this.tableRequestToAddTemp = this.tableRequestToAddRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          }
+        })
+      }
+    }
+  }
 
   getData() {
     if (this.user['user_type'] == 'PB') {
@@ -164,6 +195,8 @@ export class ProfileComponent implements OnInit {
               let day = (moment(item.created).date()).toString()
               console.log(year, month, day)
               item['invoice_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
+              item['receipt_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
+              item['reference_no_new'] = 'PD' + year + month + day + item['reference_no'].slice(6,12)
             }
           )
 
@@ -177,7 +210,9 @@ export class ProfileComponent implements OnInit {
 
           for (let cart of carts) {
             for (let huhu of cart['cart_item']) {
-              orders.push(huhu)      
+              if (huhu['product']) {
+                orders.push(huhu)
+              } 
             }
           }
         
@@ -287,6 +322,10 @@ export class ProfileComponent implements OnInit {
       state: new FormControl('Selangor', Validators.required),
       country: new FormControl('Malaysia', Validators.required)
     })
+
+    this.requestForm = this.fb.group({
+      user: new FormControl(this.user['id'])
+    })
   }
 
   entriesChange($event) {
@@ -330,10 +369,8 @@ export class ProfileComponent implements OnInit {
       this.transactionTabActive = false;
       this.orderTabActive = true;     
     }
-    else {
-      this.accountTabActive = true
-      this.transactionTabActive = false;
-      this.orderTabActive = false;      
+    else if (path == 'request') {
+      this.requestTabActive = true    
     }
   }
   
@@ -552,6 +589,30 @@ export class ProfileComponent implements OnInit {
     return this.router.navigate([path]);
   }
 
+  submitRequest() {
+    this.serviceService.createDocumentRequest(this.requestForm.value).subscribe(
+      (res) => {
+        this.requestInvestigation(res['id'])
+      }
+    )
+  }
+
+  requestInvestigation(id: string) {
+    this.requestToAdd.forEach(
+      (req) => {
+        let body = {
+          'image_version_id': req['verId'],
+          'image_form_type': req['formType']
+        }
+        this.serviceService.addDocumentRequestItem(id, body).subscribe(
+          () => {
+            this.successAlert()
+          }
+        )
+      }
+    )
+  }
+
 
   // SB end
 
@@ -581,11 +642,11 @@ export class ProfileComponent implements OnInit {
 
 
 
-  successAlert(task) {
+  successAlert() {
     swal
       .fire({
         title: 'Success',
-        text: task,
+        text: 'Request successfully submitted',
         icon: 'success',
         // showCancelButton: true,
         buttonsStyling: false,
@@ -596,10 +657,6 @@ export class ProfileComponent implements OnInit {
         },
       })
       .then((result) => {
-        // console.log('confirm');
-        this.closeModal();
-        window.location.reload();
-        // this.navigatePage('/profile');
       });
   }
 

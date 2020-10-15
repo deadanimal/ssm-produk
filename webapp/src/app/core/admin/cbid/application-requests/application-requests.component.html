@@ -71,24 +71,26 @@
             [scrollbarH]="true"
             (activate)="onActivate($event)"
           >
-            <ngx-datatable-column name="No">
-              <ng-template
-                let-rowIndex="rowIndex"
-                let-row="row"
-                ngx-datatable-cell-template
-              >
-                <strong>{{ rowIndex + 1 }}</strong>
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Reference ID</span>
+              </ng-template>
+              
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                
+                {{row.reference_id}}  
+
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
-                <span>Product</span>
+                <span>Receipt No.</span>
               </ng-template>
               
               <ng-template let-row="row" ngx-datatable-cell-template>
                 
-                {{row.service.name}}  
+                {{row.receipt_no}}  
 
               </ng-template>
             </ngx-datatable-column>
@@ -108,6 +110,15 @@
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
                 {{ row.organisation }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Address</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.address }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -191,8 +202,11 @@
                 <span>PIC</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="!row.pic">
+                <span *ngIf="!row.completed">
                   NA
+                </span>
+                <span *ngIf="row.completed">
+                  Ali Imran
                 </span>
               </ng-template>
             </ngx-datatable-column>
@@ -342,8 +356,10 @@
 
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-control-label">Remarks</label>
-                    <textarea class="form-control" formControlName="remarks"></textarea>
+                    <label class="form-control-label">Remarks
+                      <span class="text-red"></span>
+                    </label>
+                    <textarea class="form-control" formControlName="remarks" maxlength="100"></textarea>
                   </div>
                 </div>
 
