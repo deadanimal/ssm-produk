@@ -202,8 +202,8 @@ export class ProductSearchResultPackage3Component implements OnInit {
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    if (path == 'profile') {
-      return this.router.navigate([path], { queryParams: { tab: 'request' } })
+    if (path == '/profile') {
+      return this.router.navigate([path], { queryParams: { tab: 'request-doc' } })
     } else {
       return this.router.navigate([path])
     }

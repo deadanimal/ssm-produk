@@ -122,6 +122,7 @@ export class ProfileComponent implements OnInit {
 
   // Checker
   isReceipt = false
+  isShowEgovForm = false
 
   //
   @ViewChild('receipt') receipt: ElementRef
@@ -370,7 +371,12 @@ export class ProfileComponent implements OnInit {
       this.orderTabActive = true;     
     }
     else if (path == 'request') {
-      this.requestTabActive = true    
+      this.requestTabActive = true
+      this.isShowEgovForm = true  
+    }
+    else if (path == 'request-doc') {
+      this.requestTabActive = true
+      this.isShowEgovForm = true  
     }
     else  {
       this.accountTabActive = true;
@@ -597,6 +603,7 @@ export class ProfileComponent implements OnInit {
   submitRequest() {
     this.serviceService.createDocumentRequest(this.requestForm.value).subscribe(
       (res) => {
+        console.log(res)
         this.requestInvestigation(res['id'])
       }
     )
@@ -616,6 +623,21 @@ export class ProfileComponent implements OnInit {
         )
       }
     )
+  }
+
+  removeInvestigationRequest(row) {
+    this.requestToAdd.splice(this.requestToAdd.findIndex(req => req['verId'] === row['verId']), 1)
+    // console.log('ver', row['verId'])
+    this.tableRequestToAddRows = this.requestToAdd
+    this.tableRequestToAddTemp = this.tableRequestToAddRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      }
+    })
+    // let removeReq = this.requestToAdd.map(req => req['verId']).indexOf(row['verId'])
+    // ~removeReq && this.requestToAdd.splice(removeReq, 1)
+    // console.log(removeReq)
   }
 
 

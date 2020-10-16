@@ -1,10 +1,9 @@
-
 <div class="wrapper">
 	<div class="section">
 		<div class="container-fluid pt-6 px-6">
 			<!-- Public wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'PB'">
-				<tabset type="pills" class="tab-space" >
+				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
 					<tab heading="My Account" [active]="accountTabActive">
 						<div class="card">
 							<div class="card-body">
@@ -426,7 +425,7 @@
 
 			<!-- eGov wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
-				<tabset type="pills" class="tab-space" >
+				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
 					<tab heading="My Account">
 						<div class="card">
 							<div class="card-body">
@@ -652,19 +651,19 @@
 					<tab heading="Request Investigation Document" [active]="requestTabActive">
 						<div class="card">
 							<div class="card-body">
-								<h6 class="heading-small text-muted mb-4">
-									Account Holder Details
-								</h6>
-								<div class="row">
-									<div class="col-5">
-										<p class="my-0">Note:</p>
-										<p class="font-smaller mt-0">
-											Every application is subjected to SSM approval.
-										</p>
+								<div *ngIf="!isShowEgovForm && requestToAdd.length == 0">
+									<h6 class="heading-small text-muted mb-4">
+										Request Investigation Document
+									</h6>
+									<div class="row">
+										<div class="col-5">
+											<p class="my-0">Note:</p>
+											<p class="font-smaller mt-0">
+												Every application is subjected to SSM approval.
+											</p>
+										</div>
 									</div>
-								</div>
 
-								<div>
 									<div class="dataTables_wrapper py-4">
 										<ngx-datatable 
 											class="bootstrap selection-cell"
@@ -753,7 +752,19 @@
 									</div>
 								</div>
 
-								<div>
+								<div *ngIf="isShowEgovForm || requestToAdd.length >= 1">
+									<h6 class="heading-small text-muted mb-4">
+										New Request Investigation Document
+									</h6>
+									<div class="row">
+										<div class="col-5">
+											<p class="my-0">Note:</p>
+											<p class="font-smaller mt-0">
+												Every application is subjected to SSM approval.
+											</p>
+										</div>
+									</div>
+
 									<div class="row">
 										<div class="col">
 											<div class="form-group">
@@ -914,7 +925,7 @@
 											</div>
 										</form>
 
-										<div *ngIf="requestToAdd.length>=1">
+										<div *ngIf="requestToAdd.length >= 1">
 											<span class="text-center">
 												<h3 class="py-2">Document Request</h3>
 											</span>
@@ -993,6 +1004,7 @@
 													<ng-template let-row="row" ngx-datatable-cell-template>
 														<a 
 															class="nav-link nav-link-icon cursor-pointer"
+															(click)="removeInvestigationRequest(row)"
 														>
 															<i 
 																class="fas fa-trash-alt text-danger"

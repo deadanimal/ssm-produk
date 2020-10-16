@@ -31,45 +31,62 @@
 		<div class="col">
 			<div class="card">
 				<div class="card-header bg-secondary">
-					<h3 class="m-0"></h3>
+					<div class="text-right">
+						<div class="my-1 mr-4 dropdown" dropdown placement="bottom-right">
+							<button 
+								class="btn btn-outline-default dropdown-toggle"
+								type="button" 
+								id="dropdownMenuButton" 
+								dropdownToggle
+							>
+								  Export
+							</button>
+							<div  
+								aria-labelledby="dropdownMenuButton" 
+								*dropdownMenu 
+								class="dropdown-menu dropdown-menu-right"
+							>
+								  <a class="dropdown-item" (click)="export('excel')">Excel</a>
+								  <a class="dropdown-item" (click)="export('pdf')">PDF</a>
+								  <a class="dropdown-item" (click)="export('csv')">CSV</a>
+							</div>
+						</div>
+					</div>
 				</div>
-				<!-- <div class="row px-3 pt-4">
-					<div class="col-sm-12 col-md-2">
+				<div class="row px-3 pt-4">
+					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
 							<label class="form-control-label">Reference ID</label>
-							<input class="form-control form-control-sm" placeholder="">
+							<input class="form-control form-control-sm" (keyup)="filterTable($event, 'reference')">
 						</div>
 					</div>
 
-					<div class="col-sm-12 col-md-2">
+					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
-							<label class="form-control-label">PIC Name</label>
-							<input class="form-control form-control-sm" placeholder="">
+							<label class="form-control-label">PIC</label>
+							<input class="form-control form-control-sm" (keyup)="filterTable($event, 'pic')">
 						</div>
 					</div>
 
-					<div class="col-sm-12 col-md-2">
+					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
 							<label class="form-control-label">Status</label>
-							<input class="form-control form-control-sm" placeholder="">
+							<select class="form-control form-control-sm" (keyup)="filterTable($event, 'status')">
+								<option value="PD">Pending</option>
+								<option value="CM">Completed</option>
+								<option value="IP">In Progress</option>
+							</select>
 						</div>
 					</div>
 
-					<div class="col-sm-12 col-md-2">
+					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
 							<label class="form-control-label">Application Date</label>
-							<input class="form-control form-control-sm" placeholder="">
+							<input class="form-control form-control-sm" type="date" (keyup)="filterTable($event, 'date')">
 						</div>
 					</div>
-
-					<div class="col-sm-12 col-md-2">
-						<div class="form-group">
-							<label class="form-control-label">Product</label>
-							<input class="form-control form-control-sm" placeholder="">
-						</div>
-					</div>
-				</div> -->
-				<div class="dataTables_wrapper py-4">
+				</div>
+				<div class="dataTables_wrapper pb-4">
 					<div class="row">
 						<div class="col-sm-12 col-md-3">
 							<div class="dataTables_length" id="datatable_length">
@@ -92,11 +109,11 @@
 							</div>
 						</div>
 						<div class="col-md-4"></div>
-						<div class="col-sm-12 col-md-4 mr-2">
+						<!-- <div class="col-sm-12 col-md-4 mr-2">
 							<div class="form-group">
 								<input class="form-control form-control-sm" placeholder="Search name...">
 							</div>
-						</div>
+						</div> -->
 					</div>
 
 					<ngx-datatable
@@ -185,7 +202,7 @@
 							[sortable]="false"
 						>
 							<ng-template ngx-datatable-header-template>
-								<span>Entity</span>
+								<span>Phone No.</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
 								{{ row.phone_number }}
@@ -201,7 +218,7 @@
 							<ng-template let-row="row" ngx-datatable-cell-template>
 								<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.completed">Pending</span>
 								<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.completed">In Progress</span>
-								<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">In Progress</span>
+								<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">Completed</span>
 							</ng-template>
 						</ngx-datatable-column>
 
@@ -250,4 +267,126 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="table" id="reportTable" [hidden]="isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>Reference ID</th>
+				<th>Receipt No.</th>
+				<th>Name</th>
+				<th>Organization</th>
+				<th>Phone No.</th>
+				<th>Application Date</th>
+				<th>Amount (RM)</th>
+				<th>Status</th>
+				<th>PIC</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row.reference_id}}  
+				</td>
+				<td>
+					{{row.receipt_no}}  
+				</td>
+				<td>
+					{{row.name}}
+				</td>
+				<td>
+					{{row.organisation}}
+				</td>
+				<td>
+					{{row.phone_number}}
+				</td>
+				<td>
+					{{row.modified_date}}
+				</td>
+				<td>
+					{{row.service.fee/100 | number: '1.2-2'}}
+				</td>
+				<td>
+					<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.completed">Pending</span>
+					<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.completed">In Progress</span>
+					<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">Completed</span>
+				</td>
+				<td>
+					<span *ngIf="!row.completed">
+						NA
+					</span>
+					<span *ngIf="row.completed">
+						Ali Imran
+					</span>
+				</td>
+				<td>
+					{{row.remarks}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="table" id="reportTable1" *ngIf="!isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>Reference ID</th>
+				<th>Receipt No.</th>
+				<th>Name</th>
+				<th>Organization</th>
+				<th>Phone No.</th>
+				<th>Application Date</th>
+				<th>Amount (RM)</th>
+				<th>Status</th>
+				<th>PIC</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row.reference_id}}  
+				</td>
+				<td>
+					{{row.receipt_no}}  
+				</td>
+				<td>
+					{{row.name}}
+				</td>
+				<td>
+					{{row.organisation}}
+				</td>
+				<td>
+					{{row.phone_number}}
+				</td>
+				<td>
+					{{row.modified_date}}
+				</td>
+				<td>
+					{{row.service.fee/100 | number: '1.2-2'}}
+				</td>
+				<td>
+					<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.completed">Pending</span>
+					<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.completed">In Progress</span>
+					<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">Completed</span>
+				</td>
+				<td>
+					<span *ngIf="!row.completed">
+						NA
+					</span>
+					<span *ngIf="row.completed">
+						Ali Imran
+					</span>
+				</td>
+				<td>
+					{{row.remarks}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
