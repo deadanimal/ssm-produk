@@ -96,8 +96,10 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'enquiry',
     isCollapsed: true,
     children: [
-      { path: 'ticket-management', title: 'Ticket Management', type: 'link' },
-      { path: 'form-management', title: 'Form Management', type: 'link' },
+      { path: 'general', title: 'General Enquiry', type: 'link' },
+      { path: 'egov', title: 'eGov Enquiry', type: 'link' },
+      { path: 'configuration', title: 'Configuration', type: 'link' },
+      { path: 'report', title: 'Report', type: 'link' }
     ],
   },
   {
