@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormManagementComponent } from './form-management.component';
+import { GeneralEnquiryComponent } from './general-enquiry.component';
 
-describe('FormManagementComponent', () => {
-  let component: FormManagementComponent;
-  let fixture: ComponentFixture<FormManagementComponent>;
+describe('GeneralEnquiryComponent', () => {
+  let component: GeneralEnquiryComponent;
+  let fixture: ComponentFixture<GeneralEnquiryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormManagementComponent ]
+      declarations: [ GeneralEnquiryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormManagementComponent);
+    fixture = TestBed.createComponent(GeneralEnquiryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

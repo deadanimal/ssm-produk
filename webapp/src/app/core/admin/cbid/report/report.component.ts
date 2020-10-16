@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
 import { ServicesService } from '../../../../shared/services/services/services.service';
+// import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 import * as moment from 'moment';
 
@@ -31,10 +30,28 @@ export class CbidReportComponent implements OnInit {
   SelectionType = SelectionType;
   requestList: any;
 
+  // // Export
+  // exportAsPDF: ExportAsConfig = {
+  //   type: 'pdf', // the type you want to download
+  //   elementIdOrContent: 'reportTable1', // the id of html/table element
+  // }
+  // exportAsExcel: ExportAsConfig = {
+  //   type: 'xlsx', // the type you want to download
+  //   elementIdOrContent: 'reportTable', // the id of html/table element
+  // }
+  // exportAsCSV: ExportAsConfig = {
+  //   type: 'csv', // the type you want to download
+  //   elementIdOrContent: 'reportTable', // the id of html/table element
+  // }
+
+  // Checker
+  isHidden = true
+
   constructor(
     private loadingBar: LoadingBarService,
     private router: Router,
     private servicesService: ServicesService,
+    // private exportService: ExportAsService
   ) {
 
   }
@@ -98,11 +115,44 @@ export class CbidReportComponent implements OnInit {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
+  filterTable($event, type) {
     let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
-    });
+    if (type == 'reference') {
+      console.log(val)
+      this.tableTemp = this.tableRows.filter(function(d) {
+        return d.reference_id.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+    }
+    else if (type == 'pic') {
+      this.tableTemp = this.tableRows.filter(function(d) {
+        return d.pic.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+    }
+    else if (type == 'status') {
+      if (val == 'cm') {
+        let valNew = true
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.completed.indexOf(valNew) !== -1 || !valNew;
+        });
+      }
+      else if (val == 'ip') {
+        let valNew = true
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.in_progress.indexOf(valNew) !== -1 || !valNew;
+        });
+      }
+      else if (val == 'pd') {
+        let valNew = true
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.pending.indexOf(valNew) !== -1 || !valNew;
+        });
+      }
+    }
+    else if (type == 'date') {
+      this.tableTemp = this.tableRows.filter(function(d) {
+        return d.pending.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+    }
   }
 
   onSelect({ selected }) {
@@ -112,6 +162,24 @@ export class CbidReportComponent implements OnInit {
 
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  export(type: string) {
+    // if (type == 'pdf') {
+    //   this.exportService.save(this.exportAsPDF, 'SSM_Portal_CBID_Report').subscribe(
+    //     // Something
+    //   )
+    // }
+    // else if (type == 'excel') {
+    //   this.exportService.save(this.exportAsExcel, 'SSM_Portal_CBID_Report').subscribe(
+    //     // Something
+    //   )
+    // }
+    // else if (type == 'csv') {
+    //   this.exportService.save(this.exportAsCSV, 'SSM_Portal_CBID_Report').subscribe(
+    //     // Something
+    //   )
+    // }
   }
 
 }

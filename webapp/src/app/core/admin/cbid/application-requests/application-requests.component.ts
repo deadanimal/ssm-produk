@@ -131,7 +131,7 @@ export class ApplicationRequestsComponent implements OnInit {
             id_index: key+1
           };
         });        
-        console.log(this.tableTemp)
+        // console.log(this.tableTemp)
       }
     )
   }
@@ -163,7 +163,7 @@ export class ApplicationRequestsComponent implements OnInit {
     this.updateForm.controls['in_progress'].setValue(row.in_progress)
     this.updateForm.controls['completed'].setValue(row.completed)
     this.updateForm.controls['remarks'].setValue(row.remarks)
-    console.log(row)
+    // console.log(row)
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
@@ -204,8 +204,9 @@ export class ApplicationRequestsComponent implements OnInit {
       this.updateForm.value['in_progress'] &&
       this.updateForm.value['in_progress_date']
     ) {
-      console.log('inprogress')
-      console.log(this.updateForm.value['in_progress_date'])
+      // console.log('In progress')
+      // console.log('At progress', this.selectedRow['in_progress_date'])
+      // console.log(this.updateForm.value['in_progress_date'])
       let newProgressDate = moment(this.updateForm.value['in_progress_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
       this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
     }
@@ -213,16 +214,20 @@ export class ApplicationRequestsComponent implements OnInit {
       this.updateForm.value['completed'] &&
       this.updateForm.value['completed_date']
     ) {
-      console.log('completed')
+      // console.log('Completed')
+      // console.log('At completed', this.selectedRow['in_progress_date'])
+      // console.log(this.updateForm.value['in_progress_date'])
       let newCompletedDate = moment(this.updateForm.value['completed_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      let newProgressDate = moment(this.selectedRow['in_progress_date'], 'DD/MM/YYYY').format('YYYY-MM-DD') + 'T08:00:00.000000Z'
       this.updateForm.controls['completed_date'].setValue(newCompletedDate)
+      this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
     }
 
-    console.log(this.updateForm.value)
+    // console.log(this.updateForm.value)
 
     this.servicesService.patch(id_, this.updateForm.value).subscribe(
       (respond)=> {
-        console.log(respond)
+        // console.log(respond)
         this.loadingBar.complete()
       },
       (error) => {

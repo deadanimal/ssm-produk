@@ -1,0 +1,697 @@
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0">General Enquiry</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Enquiry </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                General Enquiry
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="nav-wrapper">
+                <tabset type="pills" class="nav-fill flex-column flex-md-row">
+                    <tab heading="In Progress">
+                        <div class="card mt-2">
+                            <div class="dataTables_wrapper py-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="datatable_length">
+                                            <label>
+                                                Show
+                                                <select 
+                                                    name="datatable_length" 
+                                                    aria-controls="datatable"
+                                                    class="form-control form-control-sm"
+                                                    (change)="entriesChange($event)"
+                                                >
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="-1">All</option>
+                                                </select>
+                                                records
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+                                </div>
+
+                                <ngx-datatable 
+                                    class="bootstrap selection-cell" 
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50" 
+                                    [footerHeight]="50" 
+                                    [rowHeight]="'auto'"
+                                    [limit]="tableInProgressEntries != -1 ? tableInProgressEntries : undefined" 
+                                    [rows]="tableInProgressTemp"
+                                    [scrollbarH]="true" 
+                                    (activate)="onActivate($event)"
+                                >
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No.</span>
+                                    </ng-template>
+
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Ticket #</span>
+                                        </ng-template>
+
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Email Address</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Tel No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Receipt No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Topic</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Subject List</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Created Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Modified Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Form Type</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Aging</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Status</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Action</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a style="cursor: pointer">
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Pending">
+                        <div class="card mt-2">
+                            <div class="dataTables_wrapper py-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="datatable_length">
+                                            <label>
+                                                Show
+                                                <select 
+                                                    name="datatable_length" 
+                                                    aria-controls="datatable"
+                                                    class="form-control form-control-sm"
+                                                    (change)="entriesChange($event)"
+                                                >
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="-1">All</option>
+                                                </select>
+                                                records
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+                                </div>
+
+                                <ngx-datatable 
+                                    class="bootstrap selection-cell" 
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50" 
+                                    [footerHeight]="50" 
+                                    [rowHeight]="'auto'"
+                                    [limit]="tablePendingEntries != -1 ? tablePendingEntries : undefined" 
+                                    [rows]="tablePendingTemp"
+                                    [scrollbarH]="true" 
+                                    (activate)="onActivate($event)"
+                                >
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No.</span>
+                                    </ng-template>
+
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Ticket #</span>
+                                        </ng-template>
+
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Email Address</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Tel No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Receipt No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Topic</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Subject List</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Created Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Modified Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Form Type</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Aging</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Status</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Action</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a style="cursor: pointer">
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Closed">
+                        <div class="card mt-2">
+                            <div class="dataTables_wrapper py-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="datatable_length">
+                                            <label>
+                                                Show
+                                                <select 
+                                                    name="datatable_length" 
+                                                    aria-controls="datatable"
+                                                    class="form-control form-control-sm"
+                                                    (change)="entriesChange($event)"
+                                                >
+                                                    <option value="20">20</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                    <option value="-1">All</option>
+                                                </select>
+                                                records
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+                                </div>
+
+                                <ngx-datatable 
+                                    class="bootstrap selection-cell" 
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50" 
+                                    [footerHeight]="50" 
+                                    [rowHeight]="'auto'"
+                                    [limit]="tableClosedEntries != -1 ? tableClosedEntries : undefined" 
+                                    [rows]="tableClosedTemp"
+                                    [scrollbarH]="true" 
+                                    (activate)="onActivate($event)"
+                                >
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No.</span>
+                                    </ng-template>
+
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Ticket #</span>
+                                        </ng-template>
+
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Email Address</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Tel No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Receipt No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Topic</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Subject List</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Created Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Modified Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Form Type</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Aging</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Status</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Action</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a style="cursor: pointer">
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="All">
+                        <div class="card mt-2">
+                            <div class="dataTables_wrapper py-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="datatable_length">
+                                            <label>
+                                                Show
+                                                <select 
+                                                    name="datatable_length" 
+                                                    aria-controls="datatable"
+                                                    class="form-control form-control-sm"
+                                                    (change)="entriesChange($event)"
+                                                >
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="-1">All</option>
+                                                </select>
+                                                records
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+                                </div>
+
+                                <ngx-datatable 
+                                    class="bootstrap selection-cell" 
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50" 
+                                    [footerHeight]="50" 
+                                    [rowHeight]="'auto'"
+                                    [limit]="tableEntries != -1 ? tableEntries : undefined" 
+                                    [rows]="tableTemp"
+                                    [scrollbarH]="true" 
+                                    (activate)="onActivate($event)"
+                                >
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No.</span>
+                                    </ng-template>
+
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Ticket #</span>
+                                        </ng-template>
+
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Email Address</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Tel No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Receipt No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Topic</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Subject List</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Created Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Modified Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Form Type</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Aging</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Status</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Action</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a style="cursor: pointer">
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>
