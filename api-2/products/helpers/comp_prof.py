@@ -27,25 +27,29 @@ def comp_prof(mdw_1, mdw_2, lang):
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     
-    """
-    if data_mdw_1["rocCompanyInfo"]['dateOfChange']:
+    
+    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
         date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
         date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         date_of_change_str = 'NIL'
-    """
+    
     total_issued = float(mdw_1["rocShareCapitalInfo"]['totalIssued'])
 
-    ordinary_issue_cash = float(mdw_1["rocShareCapitalInfo"]["ordIssuedCash"]["#text"])
-    ordinary_issue_noncash = float(mdw_1["rocShareCapitalInfo"]["ordIssuedNonCash"]["#text"])
-    preference_issue_cash = float(mdw_1["rocShareCapitalInfo"]["prefIssuedCash"]["#text"])
-    preference_issue_noncash = float(mdw_1["rocShareCapitalInfo"]["prefIssuedNonCash"]["#text"])
-    others_issue_cash = float(mdw_1["rocShareCapitalInfo"]["othIssuedCash"]["#text"])
-    others_issue_noncash = float(mdw_1["rocShareCapitalInfo"]["othIssuedNonCash"]["#text"])
+    ordinary_issue_cash = int(mdw_1["rocShareCapitalInfo"]["ordIssuedCash"]["#text"])
+    ordinary_issue_noncash = int(mdw_1["rocShareCapitalInfo"]["ordIssuedNonCash"]["#text"])
+    preference_issue_cash = int(mdw_1["rocShareCapitalInfo"]["prefIssuedCash"]["#text"])
+    preference_issue_noncash = int(mdw_1["rocShareCapitalInfo"]["prefIssuedNonCash"]["#text"])
+    others_issue_cash = int(mdw_1["rocShareCapitalInfo"]["othIssuedCash"]["#text"])
+    others_issue_noncash = int(mdw_1["rocShareCapitalInfo"]["othIssuedNonCash"]["#text"])
+
 
     if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L':
-        if mdw_1["rocCompanyInfo"]['companyStatus'] == 'U' and mdw_1["rocCompanyInfo"]['companyStatus'] != 'S':
-            shareholders = []
+        if mdw_1["rocCompanyInfo"]['companyStatus'] == 'U':
+            if mdw_1["rocCompanyInfo"]['companyType'] == 'G' or mdw_1["rocCompanyInfo"]['companyType'] == 'U':
+                shareholders = []
+            else:
+                shareholders = mdw_1["rocShareholderListInfo"]["rocShareholderInfos"]["rocShareholderInfos"]    
         else:
             shareholders = mdw_1["rocShareholderListInfo"]["rocShareholderInfos"]["rocShareholderInfos"]
             
@@ -53,15 +57,34 @@ def comp_prof(mdw_1, mdw_2, lang):
         shareholders_data = []
         if isinstance(shareholders, list): 
             for shareholder in shareholders:
+
+                if shareholder['idType'] == 'MK':
+
+                    nric_1 = shareholder["idNo"][0:6]
+                    nric_2 = shareholder["idNo"][6:8]
+                    nric_3 = shareholder["idNo"][8:]
+                    nric = nric_1 + '-' + nric_2 + '-' + nric_3
+                else:
+                    nric = shareholder["idNo"]
+
                 shareholders_data.append({
                     'name': shareholder["name"],
-                    'id': shareholder["idNo"],
+                    'id': nric,
                     'share': float(shareholder["share"])
                 })
         else: 
+            if shareholders['idType'] == 'MK':
+
+                nric_1 = shareholders["idNo"][0:6]
+                nric_2 = shareholders["idNo"][6:8]
+                nric_3 = shareholders["idNo"][8:]
+                nric = nric_1 + '-' + nric_2 + '-' + nric_3
+            else:
+                nric = shareholders["idNo"]
+
             shareholders_data.append({
                 'name': shareholders["name"],
-                'id': shareholders["idNo"],
+                'id': nric,
                 'share': float(shareholders["share"])
             })
     else:
@@ -88,7 +111,9 @@ def comp_prof(mdw_1, mdw_2, lang):
         profit_loss_list = []
 
     business_address_info = mdw_1["rocBusinessAddressInfo"]
+    business_address_info['stateString'] = state_mapping(business_address_info["state"]) 
     registered_address_info = mdw_1["rocRegAddressInfo"]
+    registered_address_info['stateString'] = state_mapping(registered_address_info["state"]) 
 
     share_capital_info = mdw_1["rocShareCapitalInfo"]
 
@@ -108,6 +133,15 @@ def comp_prof(mdw_1, mdw_2, lang):
     officer_info = mdw_1["rocCompanyOfficerListInfo"]["rocCompanyOfficerInfos"]["rocCompanyOfficerInfos"]
 
     for officer in officer_info:
+        if officer['idType'] == 'MK':
+
+            nric_1 = officer["idNo"][0:6]
+            nric_2 = officer["idNo"][6:8]
+            nric_3 = officer["idNo"][8:]
+            nric = nric_1 + '-' + nric_2 + '-' + nric_3
+        else:
+            nric = officer["idNo"]        
+        officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
         officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
@@ -133,6 +167,7 @@ def comp_prof(mdw_1, mdw_2, lang):
     if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
         bs_data = {
             'auditor_name': bss_['auditFirmName'],
+            'auditor_no': bss_["auditFirmNo"],
             'auditFirmAddress1': bss_['auditFirmAddress1'],
             'auditFirmAddress2': bss_['auditFirmAddress2'],
             'auditFirmAddress3': bss_['auditFirmAddress3'],
@@ -260,7 +295,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         'bs_data': bs_data ,
         'pl_data': pl_data,
         'incorp_date': temp_incorpDate_new,
-        #'date_of_change': date_of_change_str,
+        'date_of_change': date_of_change_str,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %H:%M:%S"),
     }
 
