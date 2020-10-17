@@ -27,8 +27,7 @@ import { ApplicationRequestsComponent } from "./cbid/application-requests/applic
 import { ApprovalComponent } from "./super-admin/approval/approval.component";
 import { ReconcileComponent } from "./finance/reconcile/reconcile.component";
 import { FeesComponent } from "./finance/fees/fees.component";
-import { TicketManagementComponent } from "./enquiry/ticket-management/ticket-management.component";
-import { FormManagementComponent } from "./enquiry/form-management/form-management.component";
+
 import { ResupplyComponent } from "./product/resupply/resupply.component";
 import { ProductManagementComponent } from "./product/product-management/product-management.component";
 import { InvolvementManagementComponent } from "./product/involvement-management/involvement-management.component";
@@ -43,6 +42,10 @@ import { AddQuotaComponent } from "./kjakp/customer-management/add-quota/add-quo
 import { CbidAuditTrailComponent } from "./cbid/audit-trail/audit-trail.component";
 import { CbidReportComponent } from "./cbid/report/report.component";
 import { FeeManagementComponent } from './product/fee-management/fee-management.component';
+import { GeneralEnquiryComponent } from './enquiry/general-enquiry/general-enquiry.component';
+import { EgovEnquiryComponent } from './enquiry/egov-enquiry/egov-enquiry.component';
+import { ConfigurationEnquiryComponent } from './enquiry/configuration-enquiry/configuration-enquiry.component';
+import { ReportEnquiryComponent } from './enquiry/report-enquiry/report-enquiry.component';
 
 @NgModule({
   declarations: [
@@ -56,8 +59,6 @@ import { FeeManagementComponent } from './product/fee-management/fee-management.
     ApprovalComponent,
     ReconcileComponent,
     FeesComponent,
-    TicketManagementComponent,
-    FormManagementComponent,
     ResupplyComponent,
     ProductManagementComponent,
     InvolvementManagementComponent,
@@ -72,6 +73,10 @@ import { FeeManagementComponent } from './product/fee-management/fee-management.
     CbidAuditTrailComponent,
     CbidReportComponent,
     FeeManagementComponent,
+    GeneralEnquiryComponent,
+    EgovEnquiryComponent,
+    ConfigurationEnquiryComponent,
+    ReportEnquiryComponent,
   ],
   imports: [
     CommonModule,
