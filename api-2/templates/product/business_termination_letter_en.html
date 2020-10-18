@@ -92,13 +92,14 @@
             </div>
 
             <h3 class="font-weight-bold text-center">CERTIFICATION ON EXPIRY OF A BUSINESS REGISTRATION</h3>
-            <p id="secondary">NAME: </p>
-            <p id="secondary">REGISTRATION NO.: </p>
+            <p id="secondary">NAME: {{ data.mdw1.robBusinessInfo.registrationName }}</p>
+            <p id="secondary">REGISTRATION NO.: {{ data.mdw2.newFormatNo }} ({{ data.mdw2.oldFormatNo }}) </p>
 
             <p id="secondary">
                 Based on record kept at the Companies Commission of Malaysia, 
                 until this day {{data.currentDate}}, it is hereby certified 
-                that the above business registration has expired on {{data.endDate}}.
+                that the above business registration has expired on {{data.endDate}}. 
+                
                 <br />
             </p>
 
