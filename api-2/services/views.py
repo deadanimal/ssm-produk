@@ -27,7 +27,8 @@ from .serializers import (
     ServiceSerializer,
     ServiceRequestSerializer,
     DocumentRequestSerializer,
-    DocumentRequestItemSerializer   ,
+    DocumentRequestExtendedSerializer,
+    DocumentRequestItemSerializer,
     EgovernmentRequestSerializer 
 )
 
@@ -119,7 +120,6 @@ class ServiceViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
 class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ServiceRequest.objects.all()
     serializer_class = ServiceRequestSerializer
@@ -138,6 +138,7 @@ class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = ServiceRequest.objects.all()
 
         return queryset   
+
 
     @action(methods=['GET'], detail=False)
     def report(self, request, *args, **kwargs):   
@@ -158,6 +159,7 @@ class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         return Response(new_list)        
 
+
     @action(methods=['POST'], detail=True)
     def mark_as_complete(self, request, *args, **kwargs):       
 
@@ -172,7 +174,6 @@ class ServiceRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = ServiceRequestSerializer(service_request)
         return Response(serializer.data)
-
 
 
 class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -195,6 +196,15 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return queryset    
 
 
+    @action(methods=['GET'], detail=True)
+    def with_item(self, request, *args, **kwargs):  
+
+        document_request = self.get_object()
+
+        serializer = DocumentRequestExtendedSerializer(document_request)
+        return Response(serializer.data)
+
+
     @action(methods=['POST'], detail=True)
     def add_item_to_document_request(self, request, *args, **kwargs):    
 
@@ -206,11 +216,13 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         document_request = self.get_object()
             
         new_document_request_item = DocumentRequestItem.objects.create(
-            image_form_type=image_version_id,
-            image_version_id=image_version_id)
+            image_form_type=image_form_type,
+            image_version_id=image_version_id,
+            document_request=document_request
+        )
 
 
-        serializer = DocumentRequestSerializer(document_request)
+        serializer = DocumentRequestExtendedSerializer(document_request)
         return Response(serializer.data)
 
 
@@ -225,8 +237,21 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         document_request.document_request_item.remove(document_request_item)
         document_request.save()
 
-        serializer = DocumentRequestSerializer(document_request)
+        serializer = DocumentRequestExtendedSerializer(document_request)
         return Response(serializer.data)              
+
+
+    @action(methods=['POST'], detail=False)
+    def user_request(self, request, *args, **kwargs):
+
+        user_request_item = json.loads(request.body)
+        user_ = user_request_item['user']
+
+        requests = DocumentRequest.objects.filter(user=user_).order_by('-created_date')
+
+        serializer = DocumentRequestExtendedSerializer(requests, many=True)
+        return Response(serializer.data)
+    
 
 class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentRequest.objects.all()
@@ -246,6 +271,7 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = EgovernmentRequest.objects.all()
 
         return queryset  
+
 
     @action(methods=['POST'], detail=True)
     def approve_user(self, request, *args, **kwargs):    
@@ -271,3 +297,4 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             
         serializer = EgovernmentRequestSerializer(document_request)
         return Response(serializer.data)            
+

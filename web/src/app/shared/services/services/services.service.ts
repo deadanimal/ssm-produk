@@ -98,13 +98,23 @@ export class ServicesService {
   }
 
   addDocumentRequestItem(id: string, body: any) {
-    let urlTemp = this.urlDocumentRequest + id + 'add_item_to_document_request/'
+    let urlTemp = this.urlDocumentRequest + id + '/add_item_to_document_request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res
         console.log('Requested: ', this.service)
       })
     )
+  }
+
+  getSelfRequest(body: any): Observable<any[]> {
+    let urlTemp = this.urlDocumentRequest + 'user_request/'
+    return this.http.post<any[]>(urlTemp, body).pipe(
+      tap((res) => {
+        // this.services = res
+        console.log('Request: ', res);
+      })
+    );
   }
 
   requestEgov(body: any) {
