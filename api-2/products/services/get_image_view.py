@@ -10,9 +10,9 @@ def get_image_view(url, headers, registration_number, entity_type, check_digit):
         document_profile = 'ROC' + str(last_digit)       
         search_value = str(registration_number) + '-' + check_digit 
     else:
-        criteria = 'XXX'
-        last_digit = registration_number % 10
-        document_profile = 'ROC' + str(last_digit) 
+        criteria = 'CompanyNo'
+        last_digit = registration_number[-1]
+        document_profile = 'ROB' + str(last_digit) 
         search_value = str(registration_number) + '-' + check_digit
 
 

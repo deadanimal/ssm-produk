@@ -33,7 +33,6 @@ from .serializers import (
 
 from transactions.models import Transaction
 
- 
 
 class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Cart.objects.all()

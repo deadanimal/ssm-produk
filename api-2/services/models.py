@@ -45,7 +45,7 @@ class Service(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['created_date']
+        ordering = ['-created_date']
 
     def __str__(self):
         return self.full_name
@@ -88,8 +88,14 @@ class DocumentRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
 
+    reference_letter_no = models.CharField(max_length=100, null=True)
+    ip_no = models.CharField(max_length=100, null=True)
+    court_case_no = models.CharField(max_length=100, null=True)
 
-    remarks = models.TextField(null=True)
+    offical_letter_request = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-request'))
+    official_letter_egov = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-egov'))
+    
+    offence = models.TextField(null=True)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
@@ -97,13 +103,13 @@ class DocumentRequest(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['created_date']      
+        ordering = ['-created_date']      
 
 class DocumentRequestItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
 
-    document_request = models.ForeignKey(DocumentRequest, on_delete=models.CASCADE, null=True)
+    document_request = models.ForeignKey(DocumentRequest, on_delete=models.CASCADE, null=True, related_name='document_request_item')
 
     approved = models.BooleanField(default=False)
     approved_date = models.DateTimeField(null=True)    
@@ -115,7 +121,8 @@ class DocumentRequestItem(models.Model):
     image_version_id = models.CharField(max_length=100, default='NA', null=True)
 
     class meta:
-        ordering = ['created_date']    
+        ordering = ['-created_date']    
+
 
 class EgovernmentRequest(models.Model):
 
