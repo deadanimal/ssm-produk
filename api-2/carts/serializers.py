@@ -37,6 +37,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = '__all__'
 
+
 class CartExtendedSerializer(serializers.ModelSerializer):
 
     cart_item = CartItemSerializer(many=True)

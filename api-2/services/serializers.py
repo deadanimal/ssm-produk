@@ -16,15 +16,14 @@ from .models import (
     EgovernmentRequest
 )
 
-
-
-
+from users.serializers import CustomUserSerializer
 
 class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
         fields = '__all__'
+
 
 class ServiceRequestSerializer(serializers.ModelSerializer):
 
@@ -41,16 +40,27 @@ class DocumentRequestItemSerializer(serializers.ModelSerializer):
         model = DocumentRequestItem
         fields = '__all__'  
 
-class DocumentRequestSerializer(serializers.ModelSerializer):
 
-    document_request_items = DocumentRequestItemSerializer(many=True)
+class DocumentRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DocumentRequest
         fields = '__all__'
+
+
+class DocumentRequestExtendedSerializer(serializers.ModelSerializer):
+
+    user = CustomUserSerializer(many=False)
+    document_request_item = DocumentRequestItemSerializer(many=True)
+
+    class Meta:
+        model = DocumentRequest
+        fields = '__all__'
+
 
 class EgovernmentRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EgovernmentRequest
         fields = '__all__'          
+
