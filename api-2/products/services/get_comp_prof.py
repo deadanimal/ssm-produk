@@ -36,4 +36,5 @@ def get_comp_prof(url, headers, registration_number, entity_type):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
+#    print(middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getCompProfileResponse']['response']['getCompProfileReturn'])
    return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getCompProfileResponse']['response']['getCompProfileReturn']

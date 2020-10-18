@@ -108,7 +108,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
       request_["registration_no"] = Number(this.entity['company_number'])
       request_["entity_type"] = "ROC"
     } else if (this.entity['type_of_entity'] == 'BS') {
-      request_["registration_no"] = Number(this.entity['registration_number'])
+      request_["registration_no"] = this.entity['registration_number']
       request_["entity_type"] = "ROB"
     } else if (this.entity['type_of_entity'] == 'XX') {
 

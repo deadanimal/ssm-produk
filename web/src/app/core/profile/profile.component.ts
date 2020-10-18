@@ -51,6 +51,8 @@ export class ProfileComponent implements OnInit {
   transactions: any[] = []
   orders: any[] = []
   user: User
+  requestsPending: any[] = []
+  requestsApproved: any[] = []
   requestToAdd: any[] = []
 
   // Modal
@@ -248,8 +250,143 @@ export class ProfileComponent implements OnInit {
       )
     }
     else if (this.user['user_type'] == 'EG') {
-      // this.loadingBar.useRef('http').start()
-      console.log('eGovernment')
+      this.loadingBar.useRef('http').start()
+
+      let body = {
+        'user': this.user['id']
+      }
+      
+      this.serviceService.getSelfRequest(body).subscribe(
+        (res) => {
+          this.loadingBar.useRef('http').complete()
+          
+          let waitRes =  new Promise(
+            (resolve, reject) => {
+              res.forEach(
+                (request, index, array) => {
+                  let documents = request['document_request_item']
+                  if (documents) {
+                    documents.forEach(
+                      (document) => {
+                        if (documents['approved']) {
+                          let approved_date_ = moment(document['approved_date']).format('DD/MM/YYYY hh:mm:ss')
+                          let created_date_ =  moment(document['created_date']).format('DD/MM/YYYY hh:mm:ss')
+                          let modified_date_ =  moment(document['modified_date']).format('DD/MM/YYYY hh:mm:ss')
+                          let reference_unix = moment(document['created_date']).format('x')
+                          let year = (moment(document['modified_date']).year()).toString()
+                          let month = (moment(document['modified_date']).month() + 1).toString()
+                          let day = (moment(document['modified_date']).date()).toString()
+                          let reference_no = 'REF' + year + month + day + reference_unix.slice(6,12)
+    
+                          let req_ = {
+                            'id': document['id'],
+                            'reference_no': reference_no,
+                            'status': 'approved',
+                            'approved_date': approved_date_,
+                            'created_date': created_date_,
+                            'modified_date': modified_date_,
+                            'image_form_type': document[''],
+                            'image_version_id': document[''],
+                            'officer_name': request['user']['full_name'],
+                            'position_or_grade': request['position_or_grade'],
+                            'reference_letter_no': request['reference_letter_no'],
+                            'ip_no': request['ip_no'],
+                            'court_case_no': request['court_case_no'],
+                            'official_letter_request': request['official_letter_request'],
+                            'official_letter_gov': request['official_letter_gov'],
+                            'offence': request['offence']
+                          }
+    
+                          this.requestsApproved.push(req_)
+                          console.log('approve', this.requestsApproved)
+                        }
+                        else {
+                          let created_date_ =  moment(document['created_date']).format('DD/MM/YYYY hh:mm:ss')
+                          let modified_date_ =  moment(document['modified_date']).format('DD/MM/YYYY hh:mm:ss')
+                          let reference_unix = moment(document['created_date']).format('x')
+                          let year = (moment(document['modified_date']).year()).toString()
+                          let month = (moment(document['modified_date']).month() + 1).toString()
+                          let day = (moment(document['modified_date']).date()).toString()
+                          let reference_no = 'REF' + year + month + day + reference_unix.slice(6,12)
+    
+                          let req_ = {
+                            'id': document['id'],
+                            'reference_no': reference_no,
+                            'status': 'pending',
+                            'approved_date': null,
+                            'created_date': created_date_,
+                            'modified_date': modified_date_,
+                            'image_form_type': document[''],
+                            'image_version_id': document[''],
+                            'officer_name': request['user']['full_name'],
+                            'position_or_grade': request['position_or_grade'],
+                            'reference_letter_no': request['reference_letter_no'],
+                            'ip_no': request['ip_no'],
+                            'court_case_no': request['court_case_no'],
+                            'official_letter_request': request['official_letter_request'],
+                            'official_letter_gov': request['official_letter_gov'],
+                            'offence': request['offence']
+                          }
+    
+                          this.requestsPending.push(req_)
+                          console.log('pending', this.requestsPending)
+                        }
+                      }
+                    )
+                  }
+
+                  setInterval(
+                    () => {
+                      if (index == array.length - 1) resolve();
+                    }, 1000
+                  )
+                }
+              )
+    
+            }
+          )
+
+          waitRes.then(
+            () => {
+              this.tableInvestigationRows = this.requestsApproved
+              this.tableRequestRows = this.requestsPending
+            }
+          );     
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.tableTemp = this.tableRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+
+          this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+
+          this.tableInvestigationTemp = this.tableInvestigationRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+
+          this.tableRequestTemp = this.tableRequestRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            }
+          })
+        }
+      )
+      // console.log('eGovernment')
     }
   }
 
@@ -616,6 +753,7 @@ export class ProfileComponent implements OnInit {
           'image_version_id': req['verId'],
           'image_form_type': req['formType']
         }
+        console.log('to send', body)
         this.serviceService.addDocumentRequestItem(id, body).subscribe(
           () => {
             this.successAlert()

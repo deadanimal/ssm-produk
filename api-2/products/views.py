@@ -628,7 +628,10 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'authorization': auth_code
         }
 
-        check_digit = get_comp_prof(information_url, request_headers, registration_, entity_type_)['rocCompanyInfo']['checkDigit']
+        if entity_type_ == 'ROC':
+            check_digit = get_comp_prof(information_url, request_headers, registration_, entity_type_)['rocCompanyInfo']['checkDigit']
+        elif entity_type_ == 'ROB':
+            check_digit = get_biz_profile(information_url, request_headers, registration_)['robBusinessInfo']['checkDigit']
 
         if name_ == 'list':
             middleware_data = get_image_view(document_url, request_headers, registration_, entity_type_, check_digit)

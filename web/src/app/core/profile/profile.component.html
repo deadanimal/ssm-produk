@@ -685,47 +685,66 @@
 													<span>No.</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-
+													{{row.id_index}}
 												</ng-template>
 											</ngx-datatable-column>
 
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+												prop="reference_no"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Reference No.</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-
+													{{row.reference_no}}
 												</ng-template>
 											</ngx-datatable-column>
 			
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+												prop="application_date"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Application Date</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-
+													{{row.application_date}}
 												</ng-template>
 											</ngx-datatable-column>
 
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+												prop="officer_name"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Officer</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-
+													{{row.officer_name}}
 												</ng-template>
 											</ngx-datatable-column>
 			
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+												prop="modified_date"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Updated Status Date</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-													
+													{{row.modified_date_}}
 												</ng-template>
 											</ngx-datatable-column>
 
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Status</span>
 												</ng-template>
@@ -734,17 +753,18 @@
 												</ng-template>
 											</ngx-datatable-column>
 											
-											<ngx-datatable-column>
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+											>
 												<ng-template ngx-datatable-header-template>
 													<span>Action</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													<button 
 														class="btn btn-ssm btn-sm" 
-														(click)="initRequest(row)"
-														*ngIf="!row.service_request || row.quota"
 													>
-														Download
+														View application
 													</button>
 												</ng-template>
 											</ngx-datatable-column>
