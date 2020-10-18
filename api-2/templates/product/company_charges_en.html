@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +13,6 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -39,10 +39,10 @@
                 font-size: 11px;
             }
             .default-template p#secondary {
-                font-size: 18px;
+                font-size: 16px;
             }
             .default-template p#disclaimer {
-                font-size: 16px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
@@ -56,6 +56,7 @@
             table tr.heading td {
                 color: #333;
             }
+
             .table td, .table th {
                 border-top: 0px;
             }
@@ -70,6 +71,7 @@
     </head>
 
     <body>
+
         <header id="header">
             <div class="text-center">
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
@@ -77,18 +79,21 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
-                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
-                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
-                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
-                INFORMATION.
-            </p>
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 3rem; font-size: 12pt;"><u> COMPANY CHARGES </u></h2>
-            {% if 'No Data' == data.mdw1.errorMsg %}
-            <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">NO INFORMATION</h2>
+            {% for charge in data.charges_list %}
+
+            {% if forloop.first %}
+                <p id="disclaimer" style="font-size:8pt;text-align:justify;margin-right:100px;margin-left:100px">
+                    <b>ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                        AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
+                         LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.</b>
+                </p>
+
+                <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> COMPANY CHARGES(DETAIL) </u></h2>
             {% else %}
+                <h2 class="font-weight-bold text-center" style="page-break-before: always;margin-top: 15rem; font-size: 12pt;"><u> COMPANY CHARGES(DETAIL) </u></h2>
+            {% endif %}
+
             <div class="table-responsive">
                 <table class="table text-left" >
                     <tr>
@@ -107,13 +112,8 @@
                         <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
                     </tr>                    
                 </table>
-            </div>      
-            {% endif %}            
+            </div>            
 
-
-            {% if 'No Data' == data.mdw1.errorMsg %}
-                
-            {% else %}
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
@@ -123,47 +123,130 @@
                         <th style="width:50%; border: 0;"><p id="secondary"></p></th>
                       </tr>
                     <tbody>
-
-                        {% for charge in data.mdw1.rocChargesInfos.rocChargesInfos %}
+                        
                         <tr style="height:10px;">
-                            <td><p id="secondary">{{ forloop.counter }}</p></td>
-                            <td><p id="secondary">CHARGE NUMBER</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeNo }}</p></td>
+                            <td><p id="secondary"><b>{{ forloop.counter }}.</b></p></td>
+                            <td><p id="secondary"><b>CHARGE NUMBER</b></p></td>
+                            <td><p id="secondary"><b>:</b></p></td>
+                            <td><p id="secondary"><b>{{ charge.chargeNo }}</b></p></td>
                         </tr>  
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">TOTAL OF CHARGE</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeAmount }}</p></td>
-                            
-                        </tr>         
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">DATE OF CREATION</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeCreateDate }}</p></td>
-                        </tr>                                                 
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
                             <td><p id="secondary">NAME OF CHARGEE</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeeName }}</p></td>
-                        </tr>    
+                            <td>
+                                <p id="secondary">{{ charge.chargeeName }}</p>
+                                <p id="secondary">
+                                    {{ charge.chargeeAddr1 }}
+                                </p>
+                                <p id="secondary">
+                                    {% if charge.chargeeAddr2 %}{{ charge.chargeeAddr2 }}{% endif %}  
+                                </p>
+                                <p id="secondary">
+                                    {% if charge.chargeeAddr3 %}{{ charge.chargeeAddr3 }}{% endif %}                            
+                                </p>
+                            </td>
+                        </tr>        
+
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
                             <td><p id="secondary">CHARGE STATUS</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeStatus }}</p></td>
-                        </tr>                                                     
-                        {% endfor %}
+                            <td><p id="secondary">{{ charge.chargeStatusString }}</p></td>
+                        </tr>     
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">TYPE OF INSTRUMENT</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">
+                                {% if charge.typeOfInstrument %}
+                                    {{ charge.typeOfInstrument }}
+                                {% else %}
+                                    N/A                                    
+                                {% endif %}                                
+                            </p></td>
+                        </tr>   
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">PROPERTIES AFFECTED</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.propertiesAffected }}</p></td>
+                        </tr>       
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">DATE CHARGE CREATED</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.chargeCreateDateString }}</p></td>
+                        </tr>  
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">CHARGE TYPE</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">
+                                {% if charge.chargeMortgageTypeString %}
+                                    {{ charge.chargeMortgageTypeString }}
+                                {% else %}
+                                    N/A                                    
+                                {% endif %}
+                            </p></td>
+                        </tr>       
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">CHARGE AMOUNT</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                        </tr>   
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">DATE CERTIFICATE (FORM 40)</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.form40DateString }}</p></td>
+                        </tr>    
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">DATE RELEASE / SATISFACTION(IF ANY)</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">
+                                {% if charge.releaseDateString %}
+                                    {{ charge.releaseDateString }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </p></td>
+                        </tr>                         
+                                                
                                                                                                                 
               
                     </tbody>
                 </table>
-            </div>            
-            {% endif %}
+            </div> 
+            {% endfor %}
+
+
+
+
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+    
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>        
+    
+
+
         </div>
+
+        
+
     </body>
 
     <footer>

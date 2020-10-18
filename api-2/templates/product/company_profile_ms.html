@@ -92,32 +92,45 @@
                         <th style="width:69%; border: 0;"></th>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">NAMA</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">LAST OLD NAME</p></td>
+                        <td><p id="secondary">NAMA LAMA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.company_info.companyOldName }}</p></td>
+                        <td><p id="secondary">
+                            {% if data.company_info.companyOldName %}
+                                {{data.company_info.companyOldName }}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">DATE OF CHANGE</p></td>
+                        <td><p id="secondary">TARIKH PERTUKARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{ data.date_of_change }}</p></td>
+                        <td><p id="secondary">
+                            {% if data.company_info.companyOldName %}
+                                {{ data.date_of_change }}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                                                        
+                        </p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">INCORPORATION DATE</p></td>
+                        <td><p id="secondary">TARIKH PENUBUHAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{data.incorp_date }}</p></td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">TYPE</p></td>
+                        <td><p id="secondary">JENIS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
                             {% if 'B' in data.company_info.companyType %}
@@ -176,7 +189,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">REGISTERED ADDRESS</p></td>
+                        <td><p id="secondary">ALAMAT DAFTAR</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
                                 <p id="secondary">{{data.registered_address_info.address1}}</p>
@@ -186,19 +199,17 @@
                             {% if data.registered_address_info.address3 %}
                                 <p id="secondary">  {{data.registered_address_info.address3}}</p>
                             {% endif %}
-                                <p id="secondary">  {{data.registered_address_info.town}}</p>
-                            {% if 'J' in data.registered_address_info.state %}
-                                <p class="mt-0"> Johor</p> 
-                            {% endif %}
+                            <p id="secondary">  {{data.registered_address_info.town}}</p>
+                            <p id="secondary">  {{data.registered_address_info.stateString}}</p>
                         </td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">POSKOD</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{data.registered_address_info.postcode}}</p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">ORIGIN</p></td>
+                        <td><p id="secondary">TEMPAT PENUBUHAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
                             {% if 'MAL' in data.company_info.companyCountry %}
@@ -207,7 +218,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">BUSINESS ADDRESS</p></td>
+                        <td><p id="secondary">ALAMAT PERNIAGAAAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
                             <p id="secondary">{{data.business_address_info.address1}} </p>
@@ -216,24 +227,22 @@
                                 <p id="secondary">  {{data.business_address_info.address3}}</p>
                             {% endif %}
                             <p id="secondary">  {{data.business_address_info.town}} </p>
-                            {% if 'J' in data.business_address_info.state %}
-                                <p id="secondary"> Johor</p> 
-                            {% endif %}
+                            <p id="secondary">  {{data.business_address_info.stateString}} </p>
                         </td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">POSKOD</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{data.business_address_info.postcode}}</p></td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">NATURE OF BUSINESS</p></td>
+                        <td><p id="secondary">JENIS PERNIAGAAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
                             {% if data.company_info.businessDescription %}
                                 {{data.company_info.businessDescription}}
                             {% else %}
-                                NIL
+                                TIADA
                             {% endif %}
                             </p>
                         </td>
@@ -277,7 +286,7 @@
                       
 
                         <tr style="height:20px;">
-                            <td><p id="secondary">JUMLAH DITERBITKAN (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">JUMLAH DITERBITKAN (RM) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -291,20 +300,20 @@
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">ORDINARY</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.ordinary_issue_noncash | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">PREFERENCE</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.preference_issue_noncash | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">OTHERS</p></td>
-                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary">{{ data.others_issue_noncash | intcomma}}</p></td>
                         </tr>                                                                                                                       
                       
 
@@ -338,10 +347,10 @@
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
-                        <th style="width:38%; border: 0;"><p id="secondary">NAME / ADDRESS</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">IC / PASSPORT</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">DESIGNATION</p></th>
-                        <th style="width:22%; border: 0;"><p id="secondary">DATE OF APPOINTMENT</p></th>
+                        <th style="width:38%; border: 0;"><p id="secondary">NAMA / ALAMAT</p></th>
+                        <th style="width:20%; border: 0;"><p id="secondary">IC / PASSPOT</p></th>
+                        <th style="width:20%; border: 0;"><p id="secondary">JAWATAN</p></th>
+                        <th style="width:22%; border: 0;"><p id="secondary">TARIKH LANTIKAN</p></th>
                       </tr>
                     <tbody>
                       
@@ -394,9 +403,9 @@
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
-                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
-                        <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
-                        <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
+                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPOT/NO. PENDAFTARAN</p></th>
+                        <th style="width:40%; border: 0;"><p id="secondary">NAMA/NAMA SYARIKAT</p></th>
+                        <th style="width:27%; border: 0;"><p id="secondary" class="text-right">JUMLAH SYER</p></th>
                       </tr>
                     <tbody>
                         {% for shareholder in data.shareholders_data %}
@@ -514,12 +523,12 @@
             </div>            
 
             <div class="table-responsive">
-                <table class="table text-left borderless">
+                <table class="table text-left borderless" cellspacing="0" cellpadding="0" >
                     <tr>
-                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:36%; border: 0;"></th>
                         <th style="width:1%; border: 0;"></th>
                         <th style="width:40%; border: 0;"></th>
-                        <th style="width:29%; border: 0;"></th>
+                        <th style="width:23%; border: 0;"></th>
                       </tr>
                     <tbody>
                         <tr style="height:8px;">
@@ -528,12 +537,12 @@
                         </tr>                         
 
                         <tr style="height:8px;">
-                            <td><p id="secondary">AUDITOR</p></td>
+                            <td><p id="secondary">JURUAUDIT</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{data.bs_data.auditor_name}}</p></td>    
+                            <td><p id="secondary">{{data.bs_data.auditor_name}} ({{data.bs_data.auditor_no}})</p></td>    
                         </tr>                        
                         <tr>
-                            <td><p id="secondary">AUDITOR ADDRESS</td></p>
+                            <td><p id="secondary">ALAMAT JURUAUDIT</td></p>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary">{{data.bs_data.auditFirmAddress1}}<br>
                                 {{data.bs_data.auditFirmAddress2}}<br>
@@ -556,14 +565,26 @@
                             <td><p id="secondary">{{data.bs_data.financial_year_end}}</p></td>
                         </tr>
                         <tr style="height:8px;">
-                            <td><p id="secondary">UNQUALIFIED REPORT (Y/N)</p></td>
+                            <td><p id="secondary">UNQUALIFIED REPORTS (Y/N)</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{data.bs_data.financialReportType}}</p></td>
+                            <td><p id="secondary">
+                                {% if data.bs_data.financialReportType %}
+                                    {{data.bs_data.financialReportType}}
+                                {% else %}
+                                    N
+                                {% endif %}
+                            </p></td>
                         </tr>
                         <tr style="height:8px;">
-                            <td><p id="secondary">CONSOLIDATED ACCOUNT (Y/N)</p></td>
+                            <td><p id="secondary">CONSOLIDATED ACCOUNTS (Y/N)</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{data.bs_data.accrualAccType}}</p></td>
+                            <td><p id="secondary">
+                                {% if data.bs_data.accrualAccType %}
+                                    {{data.bs_data.accrualAccType}}
+                                {% else %}
+                                    N
+                                {% endif %}                                
+                            </p></td>
                         </tr>
                         <tr style="height:8px;">
                             <td><p id="secondary">DATE OF TABLING</p></td>
@@ -576,48 +597,48 @@
                             <td></td>
                             <td></td>                            
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary"><b>BALANCE SHEET ITEMS</b></p></td>
                             <td></td>
                             <td></td>
                         </tr> 
-                        <tr style="height:8px;">
-                            <td><p id="secondary">NON CURRENT ASSET</p></td>
+                        <tr style="height:4px;">
+                            <td><p id="secondary">NON-CURRENT ASSETS</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                             <td></td>
                         </tr>
-                        <tr style="height:8px;">
-                            <td><p id="secondary">CURRENT ASSET</p></td>
+                        <tr style="height:4px;">
+                            <td><p id="secondary">CURRENT ASSETS</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.currentAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">
-                            <td><p id="secondary">NON CURRENT LIABILITIES</p></td>
+                        <tr style="height:4px;">
+                            <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">CURRENT LIABILITIES</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.liability | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">SHARE CAPITAL</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.paidUpCapital | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">                        
+                        <tr style="height:4px;">
                             <td><p id="secondary">RESERVE</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.reserves | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">
-                            <td><p id="secondary">RETAINED EARNINGS</p></td>
+                        <tr style="height:4px;">
+                            <td><p id="secondary">RETAIN EARNING</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.inappropriateProfit | floatformat:2 | intcomma }}</p></td>
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">MINORITY INTEREST</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.bs_data.minorityInterest | floatformat:2 | intcomma }}</p></td>
@@ -628,32 +649,32 @@
                             <td></td>
                             <td></td>                            
                         </tr>                        
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary"><b>INCOME STATEMENT ITEMS</b></p></td>
                             <td></td>
                             <td></td>
                         </tr> 
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">REVENUE</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.pl_data.revenue| floatformat:2 | intcomma }}</p></td>                         
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">PROFIT / (LOSS) BEFORE TAX</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.pl_data.profitBeforeTax| floatformat:2 | intcomma }}</p></td>                       
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">PROFIT / (LOSS) AFTER TAX</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.pl_data.profitAfterTax| floatformat:2 | intcomma }}</p></td>                       
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">NET DIVIDEND</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.pl_data.netDividend| floatformat:2 | intcomma }}</p></td>                 
                         </tr>
-                        <tr style="height:8px;">
+                        <tr style="height:4px;">
                             <td><p id="secondary">MINORITY INTEREST</p></td>
                             <td><p id="secondary">:</p></td>
                             <td><p id="secondary" class="text-right">{{data.pl_data.minorityInterest| floatformat:2 | intcomma }}</p></td>
@@ -661,10 +682,10 @@
               
                     </tbody>
                 </table>
-            </div>            
+            </div>                
 
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 15rem; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
 
             <div class="row">
                 <p class="col text-left">USER ID: @</p>
@@ -685,285 +706,3 @@
         <p></p>
     </footer>
 </html>
-
-{% load humanize %}
-<!DOCTYPE html>
-<html>
-
-    <body>
-
-
-        
-        <div class="default-template container pg-start">
-
-
-            <div class="table-responsive">
-                <table class="table text-left">
-                    <tr>
-                        <th style="width:30%; border: 0;"></th>
-                        <th style="width:1%; border: 0;"></th>
-                        <th style="width:69%; border: 0;"></th>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Nama</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Nama Lama</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.company_info.companyOldName }}</p></td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Tarikh Pertukaran</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{ data.company_info.dateOfChange }}</p></td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">No. Pendaftaran</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Tarikh Penubuhan</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.company_info.incorpDate }}</p></td>
-                    </tr>
-                    <tr>
-                        <td><p id="secondary">Jenis</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
-                            {% if 'B' in data.company_info.companyType %}
-                                Limited by Share and Guarantee
-                            {% endif %}
-                            {% if 'G' in data.company_info.companyType %}
-                                Limited by Guarantee
-                            {% endif %}
-                            {% if 'S' in data.company_info.companyType %}
-                                Limited by Shares
-                            {% endif %}
-                            {% if 'U' in data.company_info.companyType %}
-                                Unlimited
-                            {% endif %}
-                            {% if 'R' in data.company_info.companyStatus %}
-                            <br>
-                                Private Limited
-                            {% endif %}
-                            {% if 'U' in data.company_info.companyStatus %}
-                            <br>
-                                Public Limited
-                            {% endif %}
-                            </p>
-                        </td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Status</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td>
-                            <p id="secondary">
-                            {% if 'B' in data.company_info.statusOfCompany %}
-                                Dissolved Conversion to LLP
-                            {% endif %}
-                            {% if 'C' in data.company_info.statusOfCompany %}
-                                Ceased Business
-                            {% endif %}
-                            {% if 'D' in data.company_info.statusOfCompany %}
-                                Dissolved
-                            {% endif %}
-                            {% if 'E' in data.company_info.statusOfCompany %}
-                                Existing
-                            {% endif %}
-                            {% if 'R' in data.company_info.statusOfCompany %}
-                                Removed
-                            {% endif %}
-                            {% if 'W' in data.company_info.statusOfCompany %}
-                                Winding Up
-                            {% endif %}
-                            {% if 'X' in data.company_info.statusOfCompany %}
-                                Null and Void by Court Order
-                            {% endif %}
-                            {% if 'Y' in data.company_info.statusOfCompany %}
-                                Struck-off & Winding-up via Court Order
-                            {% endif %}
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p id="secondary">Alamat Daftar</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td>
-                                <p id="secondary">{{data.registered_address_info.address1}}</p>
-                            {% if data.registered_address_info.address2 %}
-                                <p id="secondary">  {{data.registered_address_info.address2}}</p>
-                            {% endif %}
-                            {% if data.registered_address_info.address3 %}
-                                <p id="secondary">  {{data.registered_address_info.address3}}</p>
-                            {% endif %}
-                                <p id="secondary">  {{data.registered_address_info.town}}</p>
-                            {% if 'J' in data.registered_address_info.state %}
-                                <p class="mt-0"> Johor</p> 
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Poskod</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.registered_address_info.postcode}}</p></td>
-                    </tr>
-                    <tr style="height:20px;">
-                        <td><p id="secondary">Tempat Penubuhan</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td>
-                            {% if 'MAL' in data.company_info.companyCountry %}
-                                <p id="secondary">Malaysia</p> 
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p id="secondary">Alamat Perniagaan</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td>
-                            <p id="secondary">{{data.business_address_info.address1}} </p>
-                            <p id="secondary">  {{data.business_address_info.address2}}</p>
-                            {% if data.business_address_info.address3 %}
-                                <p id="secondary">  {{data.business_address_info.address3}}</p>
-                            {% endif %}
-                            <p id="secondary">  {{data.business_address_info.town}} </p>
-                            {% if 'J' in data.business_address_info.state %}
-                                <p id="secondary"> Johor</p> 
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p id="secondary">Poskod</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.business_address_info.postcode}}</p></td>
-                    </tr>
-                    <tr>
-                        <td><p id="secondary">Jenis Perniagaan</p></td>
-                        <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
-                            {% if data.company_info.businessDescription %}
-                                {{data.company_info.businessDescription}}
-                            {% else %}
-                                NIL
-                            {% endif %}
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            
-
-
-            <div class="table-responsive">
-                <table class="table text-left borderless">
-                    <tr>
-                        <th style="width:25%; border: 0;"></th>
-                        <th style="width:25%; border: 0;"></th>
-                        <th style="width:25%; border: 0;"></th> 
-                        <th style="width:25%; border: 0;"></th> 
-                      </tr>
-                    <tbody>
-                      
-
-                        <tr style="height:20px;">
-                            <td><p id="secondary">Jumlah Diterbitkan: (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>    
-                        <tr style="height:20px;">
-                            <td></td>
-                            <td></td>
-                            <td><p id="secondary"><b>TUNAI</b></p></td>
-                            <td><p id="secondary"><b>SELAIN DARI TUNAI</b></p></td>
-                        </tr>    
-                        <tr style="height:20px;">
-                            <td></td>
-                            <td><p id="secondary">BIASA</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_noncash | floatformat:2 | intcomma}}</p></td>
-                        </tr>
-                        <tr style="height:20px;">
-                            <td></td>
-                            <td><p id="secondary">PREFEREN</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_noncash | floatformat:2 | intcomma}}</p></td>
-                        </tr>
-                        <tr style="height:20px;">
-                            <td></td>
-                            <td><p id="secondary">LAIN-LAIN</p></td>
-                            <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
-                        </tr>                                                                                                                       
-                      
-
-              
-                    </tbody>
-                </table>
-            </div>
-
-            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;"><u> MAKLUMAT PENGARAH DAN PEGAWAI </u></h2>
-            <p id="secondary">Nama: {{data.company_info.companyName}}</p>
-            <p id="secondary">No. Pendaftaran: {{data.compNoNew}} ({{data.compNoOld }})</p>
-            <div class="table-responsive">
-                <table class="table text-left borderless">
-                    <tr>
-                        <th style="width:40%; border: 0;"><p id="secondary">Nama/Alamat</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">Jawatan</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">IC/Passport</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">Tarikh Lantikan</p></th>                
-                      </tr>
-                    <tbody>
-                      
-
-                        {% for officer in data.officer_info %}
-                        <tr style="height:20px;">
-                            <td><p id="secondary">
-                                {{ officer.name }}<br>
-                                {{ officer.address1 }}<br>
-                                {{ officer.address2 }}<br>
-                                {{ officer.address3 }}<br>
-                                {{ officer.postcode }} {{ officer.town }}<br>
-                                {{ officer.state }}
-                            </p></td>
-                            <td><p id="secondary">{{ officer.idNo }}</p></td>
-                            <td><p id="secondary">{{ officer.designationCode }}</p></td>
-                            <td><p id="secondary">{{ officer.startDate }}</p></td>
-                        </tr>    
-                        {% endfor %}
-                                                                                                                   
-                      
-
-              
-                    </tbody>
-                </table>
-            </div>    
-            
-            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;"><u> MAKLUMAT PEMEGANG SYER </u></h2>
-            <p id="secondary">Nama: {{data.company_info.companyName}}</p>
-            <p id="secondary">No. Pendaftaran: {{data.compNoNew}} ({{data.compNoOld }})</p>
-            <div class="table-responsive">
-                <table class="table text-left borderless">
-                    <tr>
-                        <th style="width:30%; border: 0;"><p id="secondary">IC/Passport/No. Pendaftaran</p></th>
-                        <th style="width:40%; border: 0;"><p id="secondary">Nama/Nama Syarikat</p></th>
-                        <th style="width:30%; border: 0;"><p id="secondary" class="text-right">Jumlah Syer</p></th>
-                      </tr>
-                    <tbody>
-                        {% for shareholder in data.shareholders_data %}
-                        <tr style="height:20px;">
-                            <td><p id="secondary">{{ shareholder.id }}</p></td>
-                            <td><p id="secondary">{{ shareholder.name }}</p></td>
-                            <td><p id="secondary" class="text-right">{{ shareholder.share | floatformat:2 | intcomma }}</p></td>
-                        </tr>    
-                        {% endfor %}
-                                                                                                                   
-                      
-
-              
-                    </tbody>
-                </table>
-            </div>          
-            
