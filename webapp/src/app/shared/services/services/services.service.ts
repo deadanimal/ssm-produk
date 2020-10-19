@@ -113,8 +113,17 @@ export class ServicesService {
     )
   }
 
+  patchMinistry(id: any, body: any): Observable<any[]> {
+    let urlTemp = this.urlEgovMinistry + id + '/'
+    return this.http.patch<any>(urlTemp, body).pipe(
+      tap((res) => {
+        console.log('Patched: ', res)
+      })
+    )
+  }
+
   createDepartment(body: any): Observable<any[]> {
-    return this.http.post<any>(this.urlEgovMinistry, body).pipe(
+    return this.http.post<any>(this.urlEgovDepartment, body).pipe(
       tap((res) => {
         
       })

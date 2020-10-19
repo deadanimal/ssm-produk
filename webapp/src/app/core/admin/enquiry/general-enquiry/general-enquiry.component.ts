@@ -49,4 +49,17 @@ export class GeneralEnquiryComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  } 
+  
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
 }
