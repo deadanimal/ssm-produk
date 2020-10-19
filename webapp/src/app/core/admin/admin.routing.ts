@@ -28,6 +28,10 @@ import { EgovEnquiryComponent } from './enquiry/egov-enquiry/egov-enquiry.compon
 import { ConfigurationEnquiryComponent } from './enquiry/configuration-enquiry/configuration-enquiry.component';
 import { GeneralEnquiryComponent } from './enquiry/general-enquiry/general-enquiry.component';
 import { ReportEnquiryComponent } from './enquiry/report-enquiry/report-enquiry.component';
+import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-task-management.component';
+import { EgovReportComponent } from './egov/egov-report/egov-report.component';
+import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
+import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -59,37 +63,24 @@ export const AdminRoutes: Routes = [
         ],
       },
       {
-        path: 'kjakp',
+        path: 'egov',
         children: [
           {
-            path: 'outstanding-tasks',
-            component: OutstandingTasksComponent,
+            path: 'dropdown',
+            component: EgovDropdownComponent
           },
           {
-            path: 'usages',
-            component: UsagesComponent,
+            path: 'report',
+            component: EgovReportComponent,
           },
           {
-            path: 'customer-management',
-            component: CustomerManagementComponent,
-            // children: [
-            //   {
-            //     path: 'add',
-            //     component: AddComponent,
-            //   },
-            //   {
-            //     path: 'package',
-            //     component: PackageComponent,
-            //   },
-            //   {
-            //     path: 'renew',
-            //     component: RenewComponent,
-            //   },
-            //   {
-            //     path: 'add-quota',
-            //     component: AddQuotaComponent,
-            //   },
-            // ],
+            path: 'task-management',
+            component: EgovTaskManagementComponent,
+          },
+          
+          {
+            path: 'user-management',
+            component: EgovUserManagementComponent,
           },
         ],
       },

@@ -682,7 +682,7 @@
 												[resizeable]="false"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>No.</span>
+													<span class="table-header">No.</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													{{row.id_index}}
@@ -690,12 +690,12 @@
 											</ngx-datatable-column>
 
 											<ngx-datatable-column
-												[sortable]="false"
+												[sortable]="true"
 												[resizeable]="false"
 												prop="reference_no"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Reference No.</span>
+													<span class="table-header">Reference No.</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													{{row.reference_no}}
@@ -703,25 +703,25 @@
 											</ngx-datatable-column>
 			
 											<ngx-datatable-column
-												[sortable]="false"
+												[sortable]="true"
 												[resizeable]="false"
-												prop="application_date"
+												prop="created_date"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Application Date</span>
+													<span class="table-header">Application Date</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-													{{row.application_date}}
+													{{row.created_date}}
 												</ng-template>
 											</ngx-datatable-column>
 
 											<ngx-datatable-column
-												[sortable]="false"
+												[sortable]="true"
 												[resizeable]="false"
 												prop="officer_name"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Officer</span>
+													<span class="table-header">Officer</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													{{row.officer_name}}
@@ -729,24 +729,25 @@
 											</ngx-datatable-column>
 			
 											<ngx-datatable-column
-												[sortable]="false"
+												[sortable]="true"
 												[resizeable]="false"
 												prop="modified_date"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Updated Status Date</span>
+													<span class="table-header">Updated Status Date</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
-													{{row.modified_date_}}
+													{{row.modified_date}}
 												</ng-template>
 											</ngx-datatable-column>
 
 											<ngx-datatable-column
-												[sortable]="false"
+												[sortable]="true"
 												[resizeable]="false"
+												prop="status"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Status</span>
+													<span class="table-header">Status</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													<span class="badge badge-warning">Pending</span>
@@ -758,7 +759,7 @@
 												[resizeable]="false"
 											>
 												<ng-template ngx-datatable-header-template>
-													<span>Action</span>
+													<span class="table-header">Action</span>
 												</ng-template>
 												<ng-template let-row="row" ngx-datatable-cell-template>
 													<button 

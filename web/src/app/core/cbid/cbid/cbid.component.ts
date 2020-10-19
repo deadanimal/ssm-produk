@@ -244,9 +244,7 @@ export class CbidComponent implements OnInit {
   removeRequest(row) {
     // console.log('To remove', row)
     // this.requestToAdd.slice(row)
-    this.requestToAdd.forEach((item, index) => {
-      if(item === row) this.requestToAdd.splice(index,1);
-    });
+    this.requestToAdd.splice(this.requestToAdd.findIndex(req => req === row), 1)
   }
 
   getTableData() {
