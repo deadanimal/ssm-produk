@@ -13,7 +13,9 @@ from .models import (
     ServiceRequest,
     DocumentRequest,
     DocumentRequestItem,
-    EgovernmentRequest
+    EgovernmentRequest,
+    EgovernmentMinistry,
+    EgovernmentDepartment
 )
 
 from users.serializers import CustomUserSerializer
@@ -62,5 +64,38 @@ class EgovernmentRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EgovernmentRequest
+        fields = '__all__'          
+
+
+class EgovernmentRequestExtendedSerializer(serializers.ModelSerializer):
+
+    user = CustomUserSerializer(many=False)
+
+    class Meta:
+        model = EgovernmentRequest
+        fields = '__all__'          
+
+
+class EgovernmentMinistrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EgovernmentMinistry
+        fields = '__all__'          
+
+
+
+class EgovernmentDepartmentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EgovernmentDepartment
+        fields = '__all__'          
+
+
+class EgovernmentDepartmentExtendedSerializer(serializers.ModelSerializer):
+
+    ministry = EgovernmentMinistrySerializer(many=False)
+
+    class Meta:
+        model = EgovernmentDepartment
         fields = '__all__'          
 

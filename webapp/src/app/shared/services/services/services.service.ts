@@ -13,13 +13,15 @@ export class ServicesService {
   
   // URL
   public servicesURL: string = environment.baseUrl + 'v1/service-requests/';
-
+  public urlDocumentRequest: string = environment.baseUrl + 'v1/document-requests/'
+  public urlEgovRequest: string = environment.baseUrl + 'v1/egovernment-requests/'
+  public urlEgovMinistry: string = environment.baseUrl + 'v1/egovernment-ministries/'
+  public urlEgovDepartment: string = environment.baseUrl + 'v1/egovernment-departments/'
+  
   // Data
   public requests: any[] = []
 
   constructor(private http: HttpClient) {}
-
-
 
   getAll(): Observable<any[]> {
     let tempUrl = this.servicesURL + '?ordering=-created_date'
@@ -57,6 +59,79 @@ export class ServicesService {
       })
     );        
   }
+  
+  approveRequest(id: string, body: any) {
+    let urlTemp = this.urlDocumentRequest + id + '/accept_request/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        console.log('Approved:', res)
+      })
+    )
+  }
+
+  getEgovInvestigation(): Observable<any>  {
+    let urlTemp = this.urlDocumentRequest + 'all_with_item/'
+    return this.http.get(urlTemp).pipe(
+      tap((res) => {
+        console.log('EGov investigations: ', res)
+      })
+    )
+  }
+
+  getEgovRequest(): Observable<any> {
+    let urlTemp = this.urlEgovRequest + 'extended/'
+    return this.http.get(urlTemp).pipe(
+      tap((res) => {
+        console.log('EGov requests: ', res)
+      })
+    )
+  }
+
+  getEgovMinistries(): Observable<any[]> {
+    return this.http.get<any>(this.urlEgovMinistry).pipe(
+      tap((res) => {
+        console.log('Ministry: ', res)
+      })
+    )
+  }
+
+  getEgovDepartments(): Observable<any[]> {
+    let urlTemp = this.urlEgovDepartment + 'extended/'
+    return this.http.get<any>(urlTemp).pipe(
+      tap((res) => {
+        console.log('Department: ', res)
+      })
+    )
+  }
+
+  patchDepartment(id: any, body: any): Observable<any[]> {
+    let urlTemp = this.urlEgovDepartment + id + '/'
+    return this.http.patch<any>(urlTemp, body).pipe(
+      tap((res) => {
+        console.log('Patched: ', res)
+      })
+    )
+  }
+
+  createDepartment(body: any): Observable<any[]> {
+    return this.http.post<any>(this.urlEgovMinistry, body).pipe(
+      tap((res) => {
+        
+      })
+    )
+  }
+
+  createMinistry(body: any): Observable<any[]> {
+    return this.http.post<any>(this.urlEgovMinistry, body).pipe(
+      tap((res) => {
+
+      })
+    )
+  }
+
+
+
+
   /*
   create(body: Form): Observable<CbidCart> {
     return this.http.post<any>(this.urlCbidCart, body).pipe(
