@@ -1,1 +1,393 @@
-<p>egov-user-management works!</p>
+<div class="header pb-6">
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-6 col-7">
+					<h6 class="h2 text-dark d-inline-block mb-0">
+						eGov User Management
+					</h6>
+
+					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)">
+									<i class="fas fa-align-left text-dark"></i>
+								</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)" class="text-dark"> eGov </a>
+							</li>
+							<li aria-current="page" class="breadcrumb-item active">
+								eGov User Management
+							</li>
+						</ol>
+					</nav>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">eGov User List</h3>
+                </div>
+                <div class="dataTables_wrapper py-4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="dataTables_length" id="datatable_length">
+                                <label>
+                                    Show
+                                    <select name="datatable_length" aria-controls="datatable"
+                                        class="form-control form-control-sm" (change)="entriesChange($event)">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="-1">All</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm" placeholder="Search email">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <select class="form-control form-control-sm" placeholder="Search st">
+                                    <option hidden select>Select status</option>
+                                    <option>Approved</option>
+                                    <option>Pending</option>
+                                    <option>Processed</option>
+                                    <option>Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm" placeholder="Search...">
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <ngx-datatable 
+                        class="bootstrap selection-cell" 
+                        [columnMode]="'force'" 
+                        [headerHeight]="50"
+                        [footerHeight]="50" 
+                        [rowHeight]="'auto'"
+                        [limit]="tableDepartmentEntries != -1 ? tableDepartmentEntries : undefined"
+                        [rows]="tableDepartmentTemp" 
+                        [scrollbarH]="true"
+                     >
+                        <ngx-datatable-column
+                            maxWidth="80"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="id_index"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.id_index}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="ministry"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Ministry</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Agency / Department</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Division / Section / Unit Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+                        
+                        <ngx-datatable-column
+                            maxWidth="100"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">City</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+ 
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">State</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Email Address</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Full Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Position and Grade</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">IC No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Tel No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Package Type</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Head of Department Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Head of Department Position</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Head of Department Email</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Approval Date</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Expiry Date</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Renewal Date</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Total Accumulated Quota</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Status</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            maxWidth="100"
+                            [sortable]="false"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Action</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <a (click)="openModal(updateDepartment, row, 'department')" style="cursor: pointer">
+                                    <button class="btn btn-sm btn-info">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

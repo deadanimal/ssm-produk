@@ -22,6 +22,16 @@
 							</li>
 						</ol>
 					</nav>
+                </div>
+                
+                <div class="col-lg-6 col-5 text-right">
+					<a class="btn btn-sm btn-neutral" (click)="openModalAdd(createDepartment)">
+						Add Department
+                    </a>
+
+                    <a class="btn btn-sm btn-neutral" (click)="openModalAdd(createMinistry)">
+						Add Ministry
+					</a>
 				</div>
 			</div>
 		</div>
@@ -111,7 +121,7 @@
                                         prop="ministry"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Ministry</span>
+                                            <span class="table-header">Ministry</span>
                                         </ng-template>
             
                                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -125,7 +135,7 @@
                                         prop="name"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Agency / Department</span>
+                                            <span class="table-header">Agency / Department</span>
                                         </ng-template>
             
                                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -140,12 +150,12 @@
                                         prop="status"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Status</span>
+                                            <span class="table-header">Status</span>
                                         </ng-template>
             
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span class="badge badge-success" *ngIf="row.status">Enabled</span>
-                                            <span class="badge badge-warning" *ngIf="!row.status">Disabled</span>
+                                            <span class="badge badge-success" *ngIf="row.active">Enabled</span>
+                                            <span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -155,10 +165,10 @@
                                         [resizeable]="false"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Action</span>
+                                            <span class="table-header">Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a (click)="openModal(editModal, row)" style="cursor: pointer">
+                                            <a (click)="openModal(updateDepartment, row, 'department')" style="cursor: pointer">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -248,7 +258,7 @@
                                         prop="name"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Ministry</span>
+                                            <span class="table-header">Ministry</span>
                                         </ng-template>
             
                                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -262,10 +272,10 @@
                                         [resizeable]="false"
                                     >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Action</span>
+                                            <span class="table-header">Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a (click)="openModal(editModal, row)" style="cursor: pointer">
+                                            <a (click)="openModal(updateMinistry, row, 'ministry')" style="cursor: pointer">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -282,10 +292,10 @@
     </div>
 </div>
 
-<ng-template #editModal>
+<ng-template #updateDepartment>
 	<div class="modal-header bg-default">
 		<h6 class="modal-title text-white my-auto" id="modal-title-default">
-			Update
+			Update Department
 		</h6>
 
 		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
@@ -294,156 +304,30 @@
 	</div>
 
 	<div class="modal-body">
-		<form>
+		<form [formGroup]="departmentUpdateForm">
 			
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Ministry Name</label>
-						<input class="form-control" value="" disabled>
+						<label class="form-control-label">Ministry</label>
+                        <select 
+                            class="form-control"
+                            formControlName="ministry"
+                        >
+                            <option 
+                                *ngFor="let ministry of ministries" 
+                                value="{{ministry.id}}"
+                            > 
+                                {{ministry.name}}
+                            </option>
+                        </select>
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Agency / Department</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Division / Section / Unit</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">City</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">State</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Email Address</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Full Name</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Position & Grade</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">IC No.</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Tel No.</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Package Type</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Head of Department Name</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Head of Department Position</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Head of Department Email</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Approval Date</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Expiry Date</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Renewal Date</label>
-						<input class="form-control" value="" disabled>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Total Accumulated Quota</label>
-						<input class="form-control" value="" disabled>
+						<input class="form-control" formControlName="name">
 					</div>
 				</div>
 			</div>
@@ -452,13 +336,9 @@
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Status</label>
-						<select class="form-control" value="">
-							<option hidden selected>Please select</option>
-							<option>Active</option>
-							<option>Expired</option>
-							<option>Disabled</option>
-							<option>Inactive</option>
-							<option>Blocked</option>
+						<select class="form-control" formControlName="active">
+							<option value="true">Enable</option>
+							<option value="false">Disable</option>
 						</select>
 					</div>
 				</div>
@@ -469,9 +349,145 @@
 	</div>
 
 	<div class="modal-footer">
-		<button class="btn btn-success" type="button" (click)="updateApplication()"
-			[disabled]="!isCompleted && remarks=='' && completedDate==''">
+		<button class="btn btn-success" type="button" (click)="updateDep()">
 			Update
+		</button>
+
+		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #updateMinistry>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Update Ministry
+		</h6>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="ministryUpdateForm">
+			
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Ministry</label>
+						<input class="form-control" formControlName="name">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-success" type="button" (click)="updateMin()">
+			Update
+		</button>
+
+		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #createDepartment>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Add Department
+		</h6>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="departmentAddForm">
+			
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Ministry</label>
+                        <select 
+                            class="form-control"
+                            formControlName="ministry"
+                        >
+                            <option 
+                                *ngFor="let ministry of ministries" 
+                                value="{{ministry.id}}"
+                            > 
+                                {{ministry.name}}
+                            </option>
+                        </select>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Agency / Department</label>
+						<input class="form-control" formControlName="name">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Status</label>
+						<select class="form-control" formControlName="active">
+							<option value="true">Enable</option>
+							<option value="false">Disable</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-success" type="button" (click)="addDep()">
+			Save
+		</button>
+
+		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #createMinistry>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Add Ministry
+		</h6>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="ministryAddForm">
+			
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Ministry</label>
+						<input class="form-control" formControlName="name">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-success" type="button" (click)="addMin()">
+			Save
 		</button>
 
 		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
