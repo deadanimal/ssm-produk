@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import * as moment from 'moment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { forkJoin } from 'rxjs';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 
@@ -41,26 +42,51 @@ export class EgovDropdownComponent implements OnInit {
   SelectionType = SelectionType
 
   // Form
-  departmentForm: FormGroup
-  ministryForm: FormGroup
+  departmentUpdateForm: FormGroup
+  ministryUpdateForm: FormGroup
+  departmentAddForm: FormGroup
+  ministryAddForm: FormGroup
+
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: 'modal-dialog-centered modal-lg',
+  };
 
   constructor(
     private serviceService: ServicesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalService: BsModalService
   ) { 
     this.getData()
+    this.initForm()
   }
 
   ngOnInit() {
   }
 
   initForm() {
-    this.departmentForm = this.fb.group({
+    this.departmentUpdateForm = this.fb.group({
+      id: new FormControl(),
       name: new FormControl(),
-      ministry: new FormControl()
+      ministry: new FormControl(),
+      active: new FormControl()
     })
 
-    this.ministryForm = this.fb.group({
+    this.ministryUpdateForm = this.fb.group({
+      id: new FormControl(),
+      name: new FormControl()
+    })
+
+    this.departmentAddForm = this.fb.group({
+      name: new FormControl(),
+      ministry: new FormControl(),
+      active: new FormControl()
+    })
+
+    this.ministryAddForm = this.fb.group({
+      id: new FormControl(),
       name: new FormControl()
     })
   }
@@ -134,10 +160,91 @@ export class EgovDropdownComponent implements OnInit {
     }
   }
 
-  updateDepartment() {
-    this.serviceService.patchDepartment(this.selectedRow['id'], this.departmentForm.value).subscribe(
+  openModal(modalRef: TemplateRef<any>, row, type) {
+    console.log(row)
+    this.selectedRow = row
+    if (type == 'department') {
+      this.departmentUpdateForm.controls['id'].setValue(row.id)
+      this.departmentUpdateForm.controls['name'].setValue(row.name)
+      this.departmentUpdateForm.controls['ministry'].setValue(row.ministry.id)
+      this.departmentUpdateForm.controls['active'].setValue(row.active)
+    }
+    else if (type == 'ministry') {
+      this.ministryUpdateForm.controls['id'].setValue(row.id)
+      this.ministryUpdateForm.controls['name'].setValue(row.name)
+    }
+    // console.log(row)
+    this.modal = this.modalService.show(
+      modalRef, this.modalConfig
+    );
+    // this.modal = this.modalService.show(modalRef, this.modalConfig);
+  } 
+
+  openModalAdd(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(
+      modalRef, this.modalConfig
+    );
+    // this.modal = this.modalService.show(modalRef, this.modalConfig);
+  } 
+
+  closeModal() {
+    this.modal.hide()
+  }
+
+  updateDep() {
+    console.log(this.selectedRow['id'])
+    console.log(this.departmentUpdateForm.value)
+    // console.log('jiji')
+    this.serviceService.patchDepartment(this.selectedRow['id'], this.departmentUpdateForm.value).subscribe(
+      () => {},
+      () => {
+        this.closeModal()
+      },
       () => {
         this.getData()
+        this.closeModal()
+      }
+    )
+  }
+
+  updateMin() {
+    console.log(this.selectedRow['id'])
+    console.log(this.ministryUpdateForm.value)
+    // console.log('jiji')
+    this.serviceService.patchMinistry(this.selectedRow['id'], this.ministryUpdateForm.value).subscribe(
+      () => {},
+      () => {
+        this.closeModal()
+      },
+      () => {
+        this.getData()
+        this.closeModal()
+      }
+    )
+  }
+
+  addDep() {
+    this.serviceService.createDepartment(this.departmentAddForm.value).subscribe(
+      () => {},
+      () => {
+        this.closeModal()
+      },
+      () => {
+        this.getData()
+        this.closeModal()
+      }
+    )
+  }
+
+  addMin() {
+    this.serviceService.createMinistry(this.ministryAddForm.value).subscribe(
+      () => {},
+      () => {
+        this.closeModal()
+      },
+      () => {
+        this.getData()
+        this.closeModal()
       }
     )
   }
