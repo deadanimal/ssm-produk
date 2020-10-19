@@ -21,6 +21,7 @@ from .models import (
 
 from .serializers import (
     QuotaSerializer,
+    QuotaExtendedSerializer
 )
 
 
@@ -42,3 +43,16 @@ class QuotaViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = Quota.objects.all()
 
         return queryset    
+    
+    @action(methods=['GET'], detail=False)
+    def extended_egov(self, request, *args, **kwargs):
+
+        queryset = Quota.objects.filter(
+            Q(quota_type = 'E1') |
+            Q(quota_type = 'E2') |
+            Q(quota_type = 'E3') |
+            Q(quota_type = 'E4')
+        ).all()
+        serializer_class = QuotaExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)

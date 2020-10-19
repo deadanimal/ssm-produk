@@ -94,7 +94,9 @@ from services.views import (
     ServiceViewSet,
     ServiceRequestViewSet,
     DocumentRequestViewSet,
-    EgovernmentRequestViewSet
+    EgovernmentRequestViewSet,
+    EgovernmentMinistryViewSet,
+    EgovernmentDepartmentViewSet
 )
 
 services_router = router.register(
@@ -110,6 +112,14 @@ document_requests_router = router.register(
 
 egovernment_requests_router = router.register(
     'egovernment-requests', EgovernmentRequestViewSet
+)
+
+egovernment_ministries_router = router.register(
+    'egovernment-ministries', EgovernmentMinistryViewSet
+)
+
+egovernment_departments_router = router.register(
+    'egovernment-departments', EgovernmentDepartmentViewSet
 )
 
 # Tickets app

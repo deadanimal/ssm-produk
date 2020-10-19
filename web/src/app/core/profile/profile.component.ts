@@ -348,8 +348,23 @@ export class ProfileComponent implements OnInit {
 
           waitRes.then(
             () => {
-              this.tableInvestigationRows = this.requestsApproved
-              this.tableRequestRows = this.requestsPending
+              
+              this.tableInvestigationRows = this.requestsPending 
+              this.tableRequestRows = this.requestsApproved
+              this.tableInvestigationTemp = this.tableInvestigationRows.map((prop, key) => {
+                return {
+                  ...prop,
+                  id_index: key+1
+                }
+              })
+              console.log('inv', this.tableInvestigationRows)
+              this.tableRequestTemp = this.tableRequestRows.map((prop, key) => {
+                return {
+                  ...prop,
+                  id_index: key+1
+                }
+              })
+              console.log('req', this.tableRequestRows)
             }
           );     
         },
@@ -365,20 +380,6 @@ export class ProfileComponent implements OnInit {
           })
 
           this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
-            return {
-              ...prop,
-              id_index: key+1
-            }
-          })
-
-          this.tableInvestigationTemp = this.tableInvestigationRows.map((prop, key) => {
-            return {
-              ...prop,
-              id_index: key+1
-            }
-          })
-
-          this.tableRequestTemp = this.tableRequestRows.map((prop, key) => {
             return {
               ...prop,
               id_index: key+1

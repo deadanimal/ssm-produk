@@ -20,7 +20,9 @@ from .models import (
     ServiceRequest,
     DocumentRequest,
     DocumentRequestItem,
-    EgovernmentRequest
+    EgovernmentRequest,
+    EgovernmentMinistry,
+    EgovernmentDepartment
 )
 
 from .serializers import (
@@ -29,7 +31,11 @@ from .serializers import (
     DocumentRequestSerializer,
     DocumentRequestExtendedSerializer,
     DocumentRequestItemSerializer,
-    EgovernmentRequestSerializer 
+    EgovernmentRequestSerializer,
+    EgovernmentRequestExtendedSerializer,
+    EgovernmentMinistrySerializer,
+    EgovernmentDepartmentSerializer,
+    EgovernmentDepartmentExtendedSerializer
 )
 
 from carts.models import Cart, CartItem
@@ -251,6 +257,30 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = DocumentRequestExtendedSerializer(requests, many=True)
         return Response(serializer.data)
+
+    @action(methods=['POST'], detail=False)
+    def accept_request(self, request, *args, **kwargs):
+
+        document_request_item_id = json.loads(request.body)['document_request_item_id']
+        # document_request_item_id = json.loads(request.body)['document_request_item_id']
+        document_request_item = DocumentRequestItem.objects.filter(id=document_request_item_id).first()
+
+        document_request = self.get_object()    
+
+        document_request.document_request_item.approved = True
+        document_request.document_request_item.approved_date = datetime.now()
+        document_request.save()
+
+        serializer = DocumentRequestExtendedSerializer(document_request)
+        return Response(serializer.data)
+    
+    @action(methods=['GET'], detail=False)
+    def all_with_item(self, request, *args, **kwargs):
+
+        queryset = DocumentRequest.objects.all()
+        serializer_class = DocumentRequestExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
     
 
 class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -271,6 +301,15 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = EgovernmentRequest.objects.all()
 
         return queryset  
+    
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+
+        queryset = EgovernmentRequest.objects.all()
+        serializer_class = EgovernmentRequestExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
 
 
     @action(methods=['POST'], detail=True)
@@ -298,3 +337,51 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = EgovernmentRequestSerializer(document_request)
         return Response(serializer.data)            
 
+
+class EgovernmentMinistryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EgovernmentMinistry.objects.all()
+    serializer_class = EgovernmentMinistrySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EgovernmentMinistry.objects.all()
+
+        return queryset
+
+
+class EgovernmentDepartmentViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EgovernmentDepartment.objects.all()
+    serializer_class = EgovernmentDepartmentSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EgovernmentDepartment.objects.all()
+
+        return queryset  
+    
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+
+        queryset = EgovernmentDepartment.objects.all()
+        serializer_class = EgovernmentDepartmentExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)

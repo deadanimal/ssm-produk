@@ -65,27 +65,17 @@ export const ROUTES: RouteInfo[] = [
     ],
   },  
   {
-    path: '/admin/kjakp',
+    path: '/admin/egov',
     title: 'eGov',
     type: 'sub',
     icontype: 'fas fa-tools text-primary',
-    collapse: 'kjakp',
+    collapse: 'egov',
     isCollapsed: true,
     children: [
-      { path: 'outstanding-tasks', title: 'Task Management', type: 'link' },
-      { path: 'usages', title: 'eGov Dropdown', type: 'link' },
-      {
-        path: 'customer-management',
-        title: 'eGov User Management',
-        type: 'link'
-        // type: 'sub',
-        // children: [
-        //   { path: 'add', title: 'Add', type: 'link' },
-        //   { path: 'package', title: 'Package', type: 'link' },
-        //   { path: 'renew', title: 'Renew', type: 'link' },
-        //   { path: 'add-quota', title: 'Add Quota', type: 'link' },
-        // ],
-      },
+      { path: 'task-management', title: 'Task Management', type: 'link' },
+      { path: 'dropdown', title: 'eGov Dropdown', type: 'link' },
+      { path: 'user-management', title: 'eGov User Management', type: 'link' },
+      { path: 'report', title: 'Report', type: 'link'}
     ],
   },  
   {
