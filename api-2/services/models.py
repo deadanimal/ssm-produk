@@ -124,6 +124,38 @@ class DocumentRequestItem(models.Model):
         ordering = ['-created_date']    
 
 
+class EgovernmentMinistry(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+    name = models.CharField(max_length=100, blank=True, null=True)   
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']    
+
+    def __str__(self):
+        return self.name
+
+
+class EgovernmentDepartment(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
+    name = models.CharField(max_length=150, blank=True, null=True) 
+    ministry = models.ForeignKey(EgovernmentMinistry, on_delete=models.CASCADE, null=True)  
+    active = models.BooleanField(default=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['created_date']    
+
+    def __str__(self):
+        return self.name
+
+
 class EgovernmentRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
@@ -155,4 +187,4 @@ class EgovernmentRequest(models.Model):
 
     class meta:
         ordering = ['created_date']    
-             
+

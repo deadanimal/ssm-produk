@@ -9,12 +9,22 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Quota,
+    Quota
 )
 
-
+from users.serializers import (
+    CustomUserSerializer
+)
 
 class QuotaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Quota
+        fields = '__all__'
+
+
+class QuotaExtendedSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(many=False, read_only=True)
 
     class Meta:
         model = Quota
