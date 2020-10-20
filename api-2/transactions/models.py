@@ -36,6 +36,14 @@ class Transaction(models.Model):
     payment_status = models.CharField(choices=PAYMENT_STATUS, max_length=2, default='PD')    
     payment_gateway_update_date = models.DateTimeField(null=True) 
 
+    PAYMENT_METHOD = [
+        ('CC', 'Credit Card'),
+        ('DD', 'Direct Debit'),
+        ('WA', 'e-Wallet'),
+        ('NA', 'Not Available')
+    ]
+    payment_method = models.CharField(choices=PAYMENT_METHOD, max_length=2, null=True)
+
     name = models.CharField(max_length=512, null=True)
     organisation = models.CharField(max_length=512, null=True) 
     address1 = models.CharField(max_length=512, null=True) 

@@ -8,7 +8,7 @@
                 <div class="header-body text-center mb-9">
                     <div class="row justify-content-center">
                         <div class="col">
-                            <h1 class="text-ssm font-weight-bolder">ENQUIRY FORM</h1>
+                            <h1 class="text-ssm font-weight-bolder">GENERAL ENQUIRY</h1>
                         </div>
                     </div>
                 </div>
@@ -112,8 +112,11 @@
                             <label class="form-control-label">Description 
                                 <span class="text-red">*</span>
                             </label>
-                            <textarea class="form-control" placeholder="Enter description"
-                                formControlName="description"></textarea>
+                            <textarea 
+                                class="form-control"
+                                placeholder="Enter description"
+                                formControlName="description"
+                                rows="6"></textarea>
                         </div>
                     </div>
                 </div>
@@ -125,7 +128,7 @@
                             <div class="custom-file">
                                 <input 
                                     type="file" 
-                                    class="custom-file-input" 
+                                    class="custom-file-input cursor-pointer" 
                                     id="files" 
                                     lang="en"
                                     formControlName="attached_document" 
@@ -145,24 +148,33 @@
                         Maximum number of attachments is 5. Maximum size for each 2MB file
                         (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)
                     </p>
-                    <b>Notes</b>
-                    <h3>
-                        If you have any problems related to the payment of the application
-                        transaction, please provide the documents below for further action :
-                    </h3>
-                    <ul>
-                        <li>Application transaction payment set.</li>
-                        <li>Receipt</li>
-                        <li>Proof of payment from e-statement or e-banking</li>
-                    </ul>
-                    <h3>Disclaimer</h3>
-                    <span class="my-1"><input type="checkbox" /></span>I declare that all
-                    of the above information has been reviewed and is correct and true
+                    
+                    <div class="notes p-3 mb-2">
+                        <b>Notes</b>
+                        <h3>
+                            If you have any problems related to the payment of the application
+                            transaction, please provide the documents below for further action:
+                        </h3>
+                        <ul>
+                            <li>Application transaction payment set</li>
+                            <li>Receipt</li>
+                            <li>Proof of payment from e-statement or e-banking</li>
+                        </ul>
+                    </div>
+
+                    <b>Disclaimer</b>
+                    <br />
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="disclaimer">
+                        <label class="custom-control-label" for="disclaimer">
+                            I declare that all of the above information has been reviewed and is correct and true.
+                        </label>
+                    </div>
                 </div>
             </div>
 
             <div class="text-right">
-                <button class="btn btn-ssm" (click)="submit()">
+                <button class="btn btn-ssm rounded-pill" (click)="submit()">
                     Submit
                 </button>
             </div>
