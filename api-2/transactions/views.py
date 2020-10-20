@@ -66,7 +66,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def pg_return(self, request, *args, **kwargs):  
 
         transaction_id = request.POST.get("PaymentID", "")   
-
+        # print('tt', request.POST.get("PymtMethod", ""))
+        transaction_method = request.POST.get("PymtMethod", "")
         transaction_status = request.POST.get("TxnStatus", "")[0]
         transaction = Transaction.objects.filter(reference_no=transaction_id).first()
 
@@ -79,6 +80,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         if transaction_status == '0':
             transaction.payment_status = 'OK'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.payment_method = transaction_method
             transaction.save()
 
             cart.cart_status = 'CM'
@@ -88,6 +90,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         elif transaction_status == '1':
             transaction.payment_status = 'FL'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.payment_method = transaction_method
             transaction.save()
 
             cart.cart_status = 'AB'
@@ -96,6 +99,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         elif transaction_status == '2':
             transaction.payment_status = 'PD'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.payment_method = transaction_method
             transaction.save()
             
     

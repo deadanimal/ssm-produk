@@ -7,10 +7,7 @@ import * as moment from 'moment';
 import { CartExtended, CartItemExtended } from 'src/app/shared/services/carts/carts.model';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 
-import * as domtoimage from 'dom-to-image';
-import * as FileSaver from 'file-saver';
-// import jsPDF from 'jspdf';
-declare var jsPDF: any;
+// import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-payment-receipt',
@@ -27,14 +24,13 @@ export class PaymentReceiptComponent implements OnInit {
   // Checker
   isReceipt = false
 
-  //
-  @ViewChild('receipt') receipt: ElementRef;
+  // Receipt
 
   constructor(
     private transactionService: TransactionsService,
     private cartService: CartsService,
     private fileService: LocalFilesService,
-    private router: Router
+    private router: Router,
   ) { 
     this.getData()
   }
@@ -100,21 +96,23 @@ export class PaymentReceiptComponent implements OnInit {
   }
 
   downloadReceipt() {
-    const doc = new jsPDF();
-    const specialElementHandlers = {
-      '#editor': function (element, renderer) {
-        return true;
-      }
-    };
+    // this.exportService.save(this.exportAsConfig, 'Receipt').subscribe(() => {
+    //   // save started
+    // });
+    // const options = {
+    //   filename: 'Receipt.pdf',
+    //   image: {type: 'png'},
+    //   htmltocanvas: 'scale: 2',
+    //   jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
 
-    const content = this.receipt.nativeElement;
+    // }
 
-    doc.fromHTML(content.innerHTML, 15, 15, {
-      'width': 190,
-      'elementHandlers': specialElementHandlers
-    });
+    // const content: Element = document.getElementById('receipt')
 
-    doc.save('receipt' + '.pdf');
+    // html2pdf()
+    //   .from(content)
+    //   .set(options)
+    //   .save()
   }
 
   navigatePage(path: string) {
@@ -125,5 +123,7 @@ export class PaymentReceiptComponent implements OnInit {
       return this.router.navigate([path])
     }
   }
+
+  
 
 }
