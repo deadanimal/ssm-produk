@@ -25,6 +25,8 @@ import {
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 import { forkJoin } from 'rxjs';
 import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
   single = "single",
@@ -33,6 +35,8 @@ export enum SelectionType {
   cell = "cell",
   checkbox = "checkbox",
 }
+
+import * as xlsx from 'xlsx';
 
 @Component({
   selector: 'app-egov-user-management',
@@ -46,39 +50,133 @@ export class EgovUserManagementComponent implements OnInit {
   quotaRequests: any[] []
   egovRequests: any[] []
   tasks: any[] = []
+  users: any[] = []
+  usersTemp: any[] = []
 
 
   // Table
-  tableDepartmentEntries: number = 20
-  tableDepartmentSelected: any[] = []
-  tableDepartmentTemp = []
-  tableDepartmentActiveRow: any
-  tableDepartmentRows: any[] = []
-
-  tableMinistryEntries: number = 20
-  tableMinistrySelected: any[] = []
-  tableMinistryTemp = []
-  tableMinistryActiveRow: any
-  tableMinistryRows: any[] = []
+  tableEntries: number = 20
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: any[] = []
 
   SelectionType = SelectionType
 
-  constructor() { }
+  // Checker
+  isHidden = true
+
+  constructor(
+    private userService: UsersService,
+    private serviceService: ServicesService,
+    private loadingBar: LoadingBarService
+  ) { 
+    this.getData()
+  }
 
   ngOnInit() {
   }
 
+  getData() {
+    this.loadingBar.start()
+    this.serviceService.getEgovRequest().subscribe(
+      (res) => {
+        this.loadingBar.complete()
+        this.usersTemp = res
+        this.usersTemp.forEach(
+          (user) => {
+            if (user['egov_request'] == 'AP') {
+              this.users.push(user)
+              console.log(user)
+            }
+          }
+        )
+      },
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.tableRows = this.users
+        this.initTable()
+      }
+    )
+  }
+
+  initTable() {
+    this.tableTemp = this.tableRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      };
+    });    
+  }
+
   onSelect({ selected }) {
-    this.tableDepartmentSelected.splice(0, this.tableDepartmentSelected.length);
-    this.tableDepartmentSelected.push(...selected);
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
   }
 
   onActivate(event) {
-    this.tableDepartmentActiveRow = event.row;
+    this.tableActiveRow = event.row;
   } 
 
   entriesChange($event) {
-    this.tableDepartmentEntries = $event.target.value;
+    this.tableEntries = $event.target.value;
+  }
+
+  filterTable($event) {
+    let val = $event.target.value.toLowerCase();
+    // if (val) {
+    //   this.tableTemp = this.tableRows.filter(function (d) {
+    //     const keys = Object.keys(d);
+    //     keys.forEach((key) => {
+    //       console.log(key)
+    //       if (d[key]) {
+    //         console.log(d[key])
+    //         return d[key].toString().toLowerCase().indexOf(val) !== -1 || !val;
+    //       }
+    //     });
+    //   });
+    // }
+    // else {
+    //   this.tableTemp = this.tableRows
+    // } 
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key]) {
+          if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+  }
+
+  exportExcel() {
+    let fileName = 'eGov_Report.xlsx'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
+  }
+
+  exportCsv() {
+    let fileName = 'eGov_Report.csv'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
   }
 
 }

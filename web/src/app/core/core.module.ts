@@ -77,6 +77,7 @@ import { ProductSearchResultPackage4Component } from './products/product-search-
 // EGov
 import { EgovComponent } from './egov/egov/egov.component';
 import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
+import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/product-search-egov-pi.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
     EgovComponent,
     ProductSearchResultPackage4Component,
     EgovHomeComponent,
+    ProductSearchEgovPiComponent,
   ],
   imports: [
     CommonModule,

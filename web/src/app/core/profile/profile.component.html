@@ -131,7 +131,7 @@
 														<i class="fas fa-calendar-alt"> </i>
 													</span>
 												</div>
-												<input class="form-control" type="date" />
+												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
 											</div>
 										</div>
 									</div>
@@ -145,7 +145,7 @@
 														<i class="far fa-calendar-alt"> </i>
 													</span>
 												</div>
-												<input class="form-control" type="date" />
+												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
 											</div>
 										</div>
 									</div>
@@ -153,7 +153,7 @@
 									<div class="col-sm-6 col-lg-3">
 										<div class="form-group">
 											<label class="form-control-label">Receipt No.</label>
-											<input class="form-control"/>
+											<input class="form-control" (keyup)="filterTableTransactions($event, 'invoice')"/>
 										</div>
 									</div>
 								</div>
@@ -169,7 +169,19 @@
 										[rows]="tableTemp"
 										(activate)="onActivate($event)"
 									>
-		
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="id_index"
+											maxWidth="80"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.id_index}}
+											</ng-template>
+										</ngx-datatable-column>
+
 										<ngx-datatable-column
 											[sortable]="true"
 											prop="invoice_no"
@@ -193,23 +205,12 @@
 												{{ row.payment_gateway_update_date }}
 											</ng-template>
 										</ngx-datatable-column>
-		
-										<ngx-datatable-column
-											[sortable]="false"
-										>
-											<ng-template ngx-datatable-header-template>
-												<span class="table-header">Transaction Type</span>
-											</ng-template>
-											<ng-template let-row="row" ngx-datatable-cell-template>
-												Online
-											</ng-template>
-										</ngx-datatable-column>
 										
 										<ngx-datatable-column
 											[sortable]="false"
 										>
 											<ng-template ngx-datatable-header-template>
-												<span class="table-header">Method</span>
+												<span class="table-header">Payment Method</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												Credit Card
@@ -426,6 +427,7 @@
 			<!-- eGov wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
 				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+					<!-- Information tab -->
 					<tab heading="My Account">
 						<div class="card">
 							<div class="card-body">
@@ -443,7 +445,26 @@
 
 									<div class="col-7 text-right" *ngIf="user?.user_type == 'EG'">
 										<button class="btn btn-ssm rounded-pill btn-sm mr-1" (click)="openModalEgov(renewAccount)">Renew Account</button>
-										<button class="btn btn-ssm rounded-pill btn-sm mr-1" disabled>Request Quota</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1" 
+											*ngIf="!isEgovQuotaLow && user['egov_package'] != 3 && user['egov_package'] != 4" 
+											disabled
+										> 
+											Request Quota
+										</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1" 
+											*ngIf="isEgovQuotaLow && user['egov_package'] != 3 && user['egov_package'] != 4"
+											(click)="openModalEgov(requestQuota)"
+										>
+											Request Quota
+										</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1"
+											(click)="enableEditEgov()"
+										>
+											Update Information
+										</button>
 									</div>
 								</div>
 
@@ -452,106 +473,103 @@
 										<div class="col">
 											<div class="form-group">
 												<label class="form-control-label">Name</label>
-												<input class="form-control" value="Amin Redzuan" disabled>
+												<input class="form-control" [value]="user['full_name']" disabled>
 											</div>
 										</div>
 
 										<div class="col">
 											<div class="form-group">
 												<label class="form-control-label">Email</label>
-												<input class="form-control" value="aminredz@gmail.com" disabled>
+												<input class="form-control" [value]="user['username']" disabled>
 											</div>
 										</div>
 									</div>
 
 									<div class="row">
-										<div class="col">
+										<div class="col" *ngIf="isEgovEdit">
 											<div class="form-group">
 												<label class="form-control-label">Phone No.</label>
-												<input class="form-control" value="0187246746" disabled>
+												<input class="form-control" [value]="user['phone_number']">
+											</div>
+										</div>
+
+										<div class="col" *ngIf="!isEgovEdit">
+											<div class="form-group">
+												<label class="form-control-label">Phone No.</label>
+												<input class="form-control" [value]="user['phone_number']" disabled>
+											</div>
+										</div>
+
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label"> IC No. </label>
+												<input class="form-control" disabled [value]="user['nric_number']">
 											</div>
 										</div>
 									</div>
 								</form>
-								<div>
-									<form [formGroup]="addressForm">
-										<div class="row">
-											<div class="col-sm-12 col-lg-6">
-												<div class="form-group">
-													<label class="form-control-label">Address line 1</label>
-													<input class="form-control" formControlName="address1" disabled />
-												</div>
-											</div>
-		
-											<div class="col-sm-12 col-lg-6">
-												<div class="form-group">
-													<label class="form-control-label">Address line 2</label>
-													<input class="form-control" formControlName="address2" disabled />
-												</div>
+
+								<form>
+									<div class="row">
+										<div class="col" *ngIf="isEgovEdit">
+											<div class="form-group">
+												<label class="form-control-label">Position or Grade</label>
+												<input class="form-control" value="Officer">
 											</div>
 										</div>
-		
-										<div class="row">
-											<div class="col-sm-12 col-lg-6">
-												<div class="form-group">
-													<label class="form-control-label">Address line 3</label>
-													<input class="form-control" formControlName="address3" disabled />
-												</div>
-											</div>
-		
-											<div class="col-sm-12 col-lg-6">
-												<div class="form-group">
-													<label class="form-control-label">City</label>
-													<input class="form-control" formControlName="city" disabled />
-												</div>
+
+										<div class="col" *ngIf="!isEgovEdit">
+											<div class="form-group">
+												<label class="form-control-label">Position or Grade</label>
+												<input class="form-control" disabled value="Officer">
 											</div>
 										</div>
-		
-										<div class="row">
-											<div class="col-sm-12 col-lg-4">
-												<div class="form-group">
-													<label class="form-control-label">Postcode</label>
-													<input class="form-control" formControlName="postcode" disabled />
-												</div>
-											</div>
-		
-											<div class="col-sm-12 col-lg-4">
-												<div class="form-group">
-													<label class="form-control-label">State</label>
-													<input class="form-control" formControlName="state" disabled />
-												</div>
-											</div>
-		
-											<div class="col-sm-12 col-lg-4">
-												<div class="form-group">
-													<label class="form-control-label">Country</label>
-													<input class="form-control" formControlName="country" disabled />
-												</div>
+										
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Package Type</label>
+												<input class="form-control" disabled [value]="user['egov_package']">
 											</div>
 										</div>
-									</form>
-								</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+												<label class="form-control-label">Expiry Date</label>
+												<input class="form-control" disabled value="20/10/2020">
+											</div>
+										</div>
+
+										<div class="col-6">
+											<div class="form-group" *ngIf="user['egov_package'] == 1 || user['egov_package'] == 2">
+												<label class="form-control-label">Balance Quota</label>
+												<input class="form-control" disabled [value]="user['egov_quota']">
+											</div>
+										</div>
+									</div>
+								</form>
 
 								<hr class="my-2 w-100 text-black">
 
-								<h6 class="heading-small text-muted mb-4" *ngIf="user?.user_type == 'EG'">
+								<h6 class="heading-small text-muted mb-4">
 									Work Information
 								</h6>
 
-								<div *ngIf="user?.user_type == 'EG'">
+								<div *ngIf="!isEgovEdit">
 									<form>
 										<div class="row">
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Head of Department Name</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['head_of_department_name']">
 												</div>
 											</div>
 	
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Head of Department Position</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['head_of_department_position']">
 												</div>
 											</div>
 										</div>
@@ -560,14 +578,14 @@
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Head of Department Email</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['head_of_department_email']">
 												</div>
 											</div>
 	
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Ministry Name</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['ministry_name']">
 												</div>
 											</div>
 										</div>
@@ -576,14 +594,14 @@
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Department / Agency Name</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['department_name']">
 												</div>
 											</div>
 	
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Division / Section / Unit Name</label>
-													<input class="form-control" placeholder="">
+													<input class="form-control" disabled [value]="user['department_name']">
 												</div>
 											</div>
 										</div>
@@ -592,14 +610,14 @@
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">Address line 1</label>
-													<input class="form-control"/>
+													<input class="form-control"  disabled [value]="user['address_1']" />
 												</div>
 											</div>
 		
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">Address line 2</label>
-													<input class="form-control"/>
+													<input class="form-control" disabled [value]="user['address_2']"/>
 												</div>
 											</div>
 										</div>
@@ -608,46 +626,185 @@
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">Address line 3</label>
-													<input class="form-control"/>
+													<input class="form-control" disabled [value]="user['address_3']"/>
 												</div>
 											</div>
 		
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">City</label>
-													<input class="form-control"/>
+													<input class="form-control" disabled [value]="user['city']"/>
 												</div>
 											</div>
 										</div>
 		
 										<div class="row">
-											<div class="col-sm-12 col-lg-4">
+											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">Postcode</label>
-													<input class="form-control"/>
+													<input class="form-control" disabled [value]="user['postcode']"/>
 												</div>
 											</div>
 		
-											<div class="col-sm-12 col-lg-4">
+											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">State</label>
-													<input class="form-control"/>
+													<input class="form-control" disabled [value]="user['state']"/>
 												</div>
 											</div>
 		
 											<div class="col-sm-12 col-lg-4">
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<div *ngIf="isEgovEdit">
+									<form>
+										<div class="row">
+											<div class="col">
 												<div class="form-group">
-													<label class="form-control-label">Country</label>
-													<input class="form-control"/>
+													<label class="form-control-label">Head of Department Name</label>
+													<input class="form-control" [value]="user['head_of_department_name']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Position</label>
+													<input class="form-control" [value]="user['head_of_department_position']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Email</label>
+													<input class="form-control" [value]="user['head_of_department_email']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Ministry Name</label>
+													<input class="form-control" [value]="user['ministry_name']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Department / Agency Name</label>
+													<input class="form-control" [value]="user['department_name']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Division / Section / Unit Name</label>
+													<input class="form-control" [value]="user['department_name']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 1</label>
+													<input class="form-control"  [value]="user['address_1']" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 2</label>
+													<input class="form-control" [value]="user['address_2']"/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 3</label>
+													<input class="form-control" [value]="user['address_3']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">City</label>
+													<input class="form-control" [value]="user['city']"/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Postcode</label>
+													<input class="form-control" [value]="user['postcode']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">State</label>
+													<input class="form-control" [value]="user['state']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Attachment
+														<span class="text-red">*</span>
+													</label>
+													<div class="custom-file">
+														<input 
+															type="file" 
+															class="custom-file-input" 
+															id="files" 
+															lang="en"
+															(change)="onImageChange($event)" 
+															accept=".pdf"
+															size="5"
+														/>
+														<label class="custom-file-label" for="files">Select file</label>
+													</div>
 												</div>
 											</div>
 										</div>
 									</form>
 								</div>
+
+								<div class="row">
+									<div class="col text-center">
+										<button 
+											class="btn btn-ssm rounded-pill"
+											(click)="disableEditEgov()"
+										>
+											Submit
+										</button>
+
+										<button 
+											class="btn btn-outline-ssm rounded-pill"
+											(click)="disableEditEgov()"
+										>
+											Cancel
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 					</tab>
-
+					<!-- Investigation document tab -->
 					<tab heading="Request Investigation Document" [active]="requestTabActive">
 						<div class="card">
 							<div class="card-body">
@@ -907,7 +1064,18 @@
 														<label class="form-control-label">Attachment (Official Letter of Company Information Request)
 															<span class="text-red">*</span>
 														</label>
-														<input class="form-control"/>
+														<div class="custom-file">
+															<input 
+																type="file" 
+																class="custom-file-input" 
+																id="files" 
+																lang="en"
+																(change)="onImageChange($event)" 
+																accept=".pdf"
+																size="5"
+															/>
+															<label class="custom-file-label" for="files">Select file</label>
+														</div>
 													</div>
 												</div>
 			
@@ -916,7 +1084,18 @@
 														<label class="form-control-label">Attachment (Official Letter from eGovernment)
 															<span class="text-red">*</span>
 														</label>
-														<input class="form-control"/>
+														<div class="custom-file">
+															<input 
+																type="file" 
+																class="custom-file-input" 
+																id="files" 
+																lang="en"
+																(change)="onImageChange($event)" 
+																accept=".pdf"
+																size="5"
+															/>
+															<label class="custom-file-label" for="files">Select file</label>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -927,21 +1106,46 @@
 												</label>
 												<textarea class="form-control" formControlName="offence"></textarea>
 											</div>
+
+											<div>
+												<p>*Mandatory fields</p>
+											</div>
 	
-											<div class="form-group">
-												<label class="form-control-label">Select search</label>
-												<div class="custom-control custom-radio mb-3">
-													<input type="radio" id="radioRequest" name="customRadio" class="custom-control-input">
-													<label class="custom-control-label" for="radioRequest">Document</label>
+											<div class="form-group mb-3">
+												<label class="form-control-label">Select search</label> <br />
+												<div class="custom-control custom-radio custom-control-inline">
+													<input 
+														type="radio" 
+														id="radioRequest1" 
+														name="radioRequest" 
+														class="custom-control-input" 
+														value="document"
+														[(ngModel)]="eGovSearchType"
+														[ngModelOptions]="{standalone: true}"
+													>
+													<label class="custom-control-label" for="radioRequest1">Document</label>
+												</div>
+
+												<div class="custom-control custom-radio custom-control-inline">
+													<input 
+														type="radio" 
+														id="radioRequest2" 
+														name="radioRequest" 
+														class="custom-control-input"
+														value="personal-involvement"
+														[(ngModel)]="eGovSearchType"
+														[ngModelOptions]="{standalone: true}"
+													>
+													<label class="custom-control-label" for="radioRequest2">Personal Involvement</label>
 												</div>
 											</div>
 	
 											<div>
 												<button
 													class="btn btn-ssm rounded-pill"
-													(click)="navigatePage('/products/search-egov')"
+													(click)="addItem()"
 												>
-													Add Document
+													Add
 												</button>
 											</div>
 										</form>
@@ -1049,7 +1253,7 @@
 							</div>
 						</div>
 					</tab>
-
+					<!-- Request tab -->
 					<tab heading="My Request">
 						<div class="card">
 							<div class="card-body">
@@ -1244,72 +1448,18 @@
 	</div>
 
 	<div class="modal-body">
-		<h6 class="heading-small text-muted mb-4">User information</h6>
-		<form>
-			<div class="row">
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">Name</label>
-						<input class="form-control" placeholder="Enter name" />
-					</div>
-				</div>
-
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">Email address</label>
-						<input class="form-control" placeholder="Enter email address"/>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">IC. No.</label>
-						<input class="form-control" placeholder="Enter name"/>
-					</div>
-				</div>
-
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">Position & Grade</label>
-						<input class="form-control" placeholder="Enter email address"/>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">Tel Number</label>
-						<input class="form-control" placeholder="Enter Tel Number" />
-					</div>
-				</div>
-				<div class="col-sm-12 col-lg-6">
-					<div class="form-group">
-						<label class="form-control-label">Package Type</label>
-						<input class="form-control" placeholder="Enter username"/>
-					</div>
-				</div>
-			</div>
-		</form>
-
-		<hr class="my-4" />
-
-		<h6 class="heading-small text-muted mb-4">Work Information</h6>
-
 		<div class="row">
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
-					<label class="form-control-label">Head Of Department Name</label>
-					<input class="form-control" placeholder="Enter Head Of Department Name" value="Admin3" />
+					<label class="form-control-label">Head of Department Name</label>
+					<input class="form-control" placeholder="Enter head of department name" />
 				</div>
 			</div>
 
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
-					<label class="form-control-label">Head Of Department Position</label>
-					<input class="form-control" placeholder="Enter Head Of Department Position" />
+					<label class="form-control-label">Head of Department Position</label>
+					<input class="form-control" placeholder="Enter head of department position" />
 				</div>
 			</div>
 		</div>
@@ -1317,15 +1467,15 @@
 		<div class="row">
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
-					<label class="form-control-label">Head Of Department Email</label>
-					<input class="form-control" placeholder="Enter Head Of Department Email" />
+					<label class="form-control-label">Head of Department Email</label>
+					<input class="form-control" placeholder="Enter head of department email" />
 				</div>
 			</div>
 
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">Ministry Name</label>
-					<input class="form-control" placeholder="Enter Ministry Name" />
+					<input class="form-control" placeholder="Enter ministry name" />
 				</div>
 			</div>
 		</div>
@@ -1334,14 +1484,14 @@
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">Department / Agency Name</label>
-					<input class="form-control" placeholder="Enter Department / Agency Name" />
+					<input class="form-control" placeholder="Enter department / agency name" />
 				</div>
 			</div>
 
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">Division / Section / Unit Name</label>
-					<input class="form-control" placeholder="Enter Division / Section / Unit Name" />
+					<input class="form-control" placeholder="Enter division / section / unit name" />
 				</div>
 			</div>
 		</div>
@@ -1350,19 +1500,19 @@
 			<div class="col-sm-12 col-lg-12">
 				<div class="form-group">
 					<label class="form-control-label">Address 1</label>
-					<textarea class="form-control" placeholder="Enter Address 1"></textarea>
+					<textarea class="form-control" placeholder="Enter address 1"></textarea>
 				</div>
 			</div>
 			<div class="col-sm-12 col-lg-12">
 				<div class="form-group">
 					<label class="form-control-label">Address 2</label>
-					<textarea class="form-control" placeholder="Enter Address 2"></textarea>
+					<textarea class="form-control" placeholder="Enter address 2"></textarea>
 				</div>
 			</div>
 			<div class="col-sm-12 col-lg-12">
 				<div class="form-group">
 					<label class="form-control-label">Address 3</label>
-					<textarea class="form-control" placeholder="Enter Address 3"></textarea>
+					<textarea class="form-control" placeholder="Enter address 3"></textarea>
 				</div>
 			</div>
 		</div>
@@ -1371,13 +1521,13 @@
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">Postcode</label>
-					<input class="form-control" placeholder="Enter Postcode" />
+					<input class="form-control" placeholder="Enter postcode" />
 				</div>
 			</div>
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">City</label>
-					<input class="form-control" placeholder="Enter City" />
+					<input class="form-control" placeholder="Enter city" />
 				</div>
 			</div>
 		</div>
@@ -1386,7 +1536,7 @@
 			<div class="col-sm-12 col-lg-6">
 				<div class="form-group">
 					<label class="form-control-label">State</label>
-					<input class="form-control" placeholder="Enter State" />
+					<input class="form-control" placeholder="Enter state" />
 				</div>
 			</div>
 			<div class="col-sm-12 col-lg-6">
@@ -1394,13 +1544,18 @@
 					<label class="form-control-label">
 						Attachment Official Letter from KJAKP
 					</label>
-					<div class="input-group mb-4">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<i class="fas fa-file-invoice"> </i>
-							</span>
-						</div>
-						<input class="form-control" type="file" />
+					<div class="custom-file">
+						<input 
+							type="file" 
+							class="custom-file-input" 
+							id="files" 
+							lang="en"
+							(change)="onImageChange($event)" 
+							accept=".pdf"
+							size="5"
+							[(ngModel)]="attachmentFile"
+						/>
+						<label class="custom-file-label" for="files">Select file</label>
 					</div>
 				</div>
 			</div>
@@ -1408,7 +1563,7 @@
 	</div>
 
 	<div class="modal-footer">
-		<btn class="btn bg-ssm" (click)="changeUserInfo()"><span style="color: white"> Save</span></btn>
+		<btn class="btn bg-ssm" (click)="changeUserInfo()"><span style="color: white"> Submit </span></btn>
 		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
 			Close
 		</button>
@@ -1427,38 +1582,74 @@
 	</div>
 
 	<div class="modal-body">
-		<div class="row">
-			<div class="col-sm-12 col-lg-6">
-				<div class="form-group">
-					<label class="form-control-label">Fullname</label>
-					<input class="form-control" placeholder="Enter Fullname" value="userFullname" />
+		<form [formGroup]="requestQuotaForm">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Full Name</label>
+						<input 
+							class="form-control" 
+							placeholder=""
+							[value]="user['full_name']"
+						/>
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">User ID</label>
+						<input 
+							class="form-control" 
+							placeholder="" 
+							[value]="user['username']"
+						/>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Name</label>
+						<input 
+							class="form-control" 
+							placeholder="" 
+						/>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of DepartmentEmail</label>
+						<input 
+							class="form-control" 
+							placeholder="" 
+						/>
+					</div>
 				</div>
 			</div>
 
-			<div class="col-sm-12 col-lg-6">
-				<div class="form-group">
-					<label class="form-control-label">NRIC Number</label>
-					<input class="form-control" placeholder="Enter User Id" value="userNric" />
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Attachment (Official Letter From KJAKP)</label>
+						<div class="custom-file">
+							<input 
+								type="file" 
+								class="custom-file-input" 
+								id="files" 
+								lang="en"
+								(change)="onImageChange($event)" 
+								accept=".pdf"
+								size="5"
+								[(ngModel)]="attachmentFile"
+							/>
+							<label class="custom-file-label" for="files">Select file</label>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12 col-lg-6">
-				<div class="form-group">
-					<label class="form-control-label">Head Of Department</label>
-					<input class="form-control" placeholder="Enter Head Of Department" value="UserHOD" />
-				</div>
-			</div>
-
-			<div class="col-sm-12 col-lg-6">
-				<div class="form-group">
-					<label class="form-control-label">Attachment (Official Letter From KJAKP)</label>
-					<input class="form-control" type="file"
-						placeholder="Enter Attachment (Official Letter From KJAKP)" />
-				</div>
-			</div>
-		</div>
+		</form>
 	</div>
 
 	<div class="modal-footer text-right">
@@ -1470,10 +1661,6 @@
 		</button>
 	</div>
 </ng-template>
-
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
-	<p style="color: white">Loading...</p>
-</ngx-spinner>
 
 
 <div *ngIf="isReceipt" class="table-responsive" #receipt>
@@ -1677,3 +1864,7 @@
         </button>
     </div>
 </ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
+	<p style="color: white">Loading...</p>
+</ngx-spinner>

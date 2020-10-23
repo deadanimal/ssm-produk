@@ -223,6 +223,8 @@ export class CartComponent implements OnInit {
   }
 
   checkRow(selected) {
+    this.total = 0
+    this.totaldocument = 0
     this.tableRows.forEach(
       (item) => {
         if (item['id'] == selected['id']) {
@@ -230,6 +232,22 @@ export class CartComponent implements OnInit {
           this.tableCheckbox = false
           console.log(item)
           console.log(this.tableRows)
+        }
+
+        if (item['isTick']) {
+          if (item.product) {
+            this.total += item.product.fee
+          }
+          else if(item.service_request) {
+            this.total += item.service_request.service.fee
+          }
+          else if(item.quota) {
+            this.total += 2000
+          }
+          else if(item.product_search_criteria) {
+            this.total += item.product_search_criteria.total_price
+          }
+          this.totaldocument = this.totaldocument + 1
         }
       }
     )
