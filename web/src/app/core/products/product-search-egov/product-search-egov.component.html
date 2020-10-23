@@ -44,11 +44,14 @@
 
                                     <div class="col-sm-2">
                                         <div class="input-group">
-                                            <select class="form-control" [(ngModel)]="searchEntityType">
+											<select 
+												class="form-control" 
+												[(ngModel)]="searchEntityType"
+												(change)="filterTable()"
+											>
                                                 <option selected value="all">All Entities</option>
                                                 <option value="BS">Business</option>
                                                 <option value="CP">Company</option>
-                                                <option value="AD">Audit Firm</option>
                                             </select>
                                         </div>
                                     </div>

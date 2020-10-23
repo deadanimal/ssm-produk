@@ -2,7 +2,7 @@
 <div class="wrapper">
     <section class="section-shaped title-bg bg-mini">
         <div class="page-header page-header-small header-filter-white">
-            <div class="page-header-image" style="background-image: url('assets/img/background/putrajaya.jpg')"></div>
+            <div class="page-header-image" style="background-image: url('assets/img/background/putrajaya-4.jpg')"></div>
             <div class="container mb--4">
                 <div class="header-body text-center mb-9">
                     <div class="row justify-content-center">
@@ -24,19 +24,37 @@
                 </a>
                 
                 <div class="card-body text-center">
-                    <h2 class="">eGov</h2>
                     <h1 class="mt-1 mb-b">Welcome to eGov</h1>
                     <h3 class="mt-0 mb-3">Sign up to continue</h3>
-                    <button class="btn btn-ssm btn-block" (click)="signUp()">
+                    <button class="btn btn-ssm btn-block" (click)="openRegistration()">
                         Sign up
                     </button>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button class="btn btn-ssm btn-block">
+                                Terms & Conditions
+                            </button>
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-ssm btn-block">
+                                User Manual
+                            </button>
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-ssm btn-block">
+                                FAQ
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="pricing-3 mt-4 mb-5" id="pricing-4" *ngIf="isSignUp == true">
-        <div class="container">
+        <div class="container" #formRegistration>
             <h3 class="title font-weight-bolder">eGov Sign Up Form</h3>
             <form [formGroup]="registerForm">
                 <div class="px-2 row">
@@ -84,7 +102,7 @@
                                     <label class="form-control-label">Position Or Grade</label>
                                     <input 
                                         class="form-control" 
-                                        placeholder="Position Or Grade"
+                                        placeholder="Enter position or grade"
                                         formControlName="position_or_grade" 
                                     />
                                 </div>
@@ -152,9 +170,9 @@
                                     <select 
                                         class="form-control"
                                         formControlName="ministry_name" 
-                                        (checkAgency)="onChange($event)"
                                     >
-                                        <option *ngFor="let option of ministryOptions" value="{{option.name">
+                                        <option selected hidden value="null">Please select</option>
+                                        <option *ngFor="let option of ministries" value="{{option.name}}">
                                             {{option.name}}
                                         </option>
                                     </select>
@@ -168,17 +186,24 @@
                                     <label class="form-control-label">Department / Agency name
                                         <span class="text-warning">*</span>
                                     </label>
-                                    <select class="form-control" formControlName="agency_name">
-                                        <option *ngFor="let option of departmentOptions" value="{{option.department">
-                                            {{option.department}}
-                                        </option>
+                                    <select class="form-control" formControlName="department_name">
+                                        <option selected hidden value="null">Please select</option>
+                                        <ng-container
+                                            *ngFor="let option of departments"
+                                        >
+                                            <option value="{{option.name}}" *ngIf="option['ministry']['name'] == registerForm.value['ministry_name']">
+                                                {{option.name}}
+                                            </option>
+                                        </ng-container>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Division / Section / Unit Name</label>
+                                    <label class="form-control-label">Division / Section / Unit Name
+                                        <span class="text-warning">*</span>
+                                    </label>
                                     <input 
                                         class="form-control"
                                         placeholder="Division Name"
@@ -191,10 +216,13 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Address line 1</label>
+                                    <label class="form-control-label">Address line 1
+                                        <span class="text-warning">*</span>
+                                    </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter address line 1"
+                                        formControlName="address_1"
                                     />
                                 </div>
                             </div>
@@ -207,6 +235,7 @@
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter address line 2"
+                                        formControlName="address_2"
                                     />
                                 </div>
                             </div>
@@ -219,6 +248,7 @@
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter address line 3"
+                                        formControlName="address_3"
                                     />
                                 </div>
                             </div>
@@ -227,20 +257,26 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Postcode</label>
+                                    <label class="form-control-label">Postcode
+                                        <span class="text-warning">*</span>
+                                    </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Potcode"
+                                        formControlName="postcode"
                                     />
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">City</label>
+                                    <label class="form-control-label">City
+                                        <span class="text-warning">*</span>
+                                    </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter city"
+                                        formControlName="city"
                                     />
                                 </div>
                             </div>
@@ -249,11 +285,32 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">State</label>
-                                    <input 
+                                    <label class="form-control-label">State
+                                        <span class="text-warning">*</span>
+                                    </label>
+                                    <select 
                                         class="form-control" 
                                         placeholder="Enter state"
-                                    />
+                                        formControlName="state"
+                                    >
+                                        <option hidden selected value="null">Please select</option>
+                                        <option value="Perlis">Perlis</option>
+                                        <option value="Kedah">Kedah</option>
+                                        <option value="Pulau Pinang">Pulau Pinang</option>
+                                        <option value="Kelantan">Kelantan</option>
+                                        <option value="Terengganu">Terengganu</option>
+                                        <option value="Perak">Perak</option>
+                                        <option value="Selangor">Selangor</option>
+                                        <option value="Pahang">Pahang</option>
+                                        <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                        <option value="Melaka">Melaka</option>
+                                        <option value="Johor">Johor</option>
+                                        <option value="Sabah">Sabah</option>
+                                        <option value="Sarawak">Sarawak</option>
+                                        <option value="W.P. Labuan">W.P. Labuan</option>
+                                        <option value="W.P. Kuala Lumpur">W.P. Kuala Lumpur</option>
+                                        <option value="W.P. Putrajaya">W.P. Putrajaya</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -282,18 +339,36 @@
 
                         <div class="row">
                             <div class="col">
+                                <p class="">* Mandatory fields.</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                    <label class="custom-control-label" for="customCheck1">By registering, you agree to
+                                    <input 
+                                        type="checkbox" 
+                                        class="custom-control-input" 
+                                        id="checkRegistration" 
+                                        [(ngModel)]="isAgree"
+                                        [ngModelOptions]="{standalone: true}"
+                                    />
+                                    <label class="custom-control-label" for="checkRegistration">
+                                        By registering, you agree to
                                         our Terms of Service and
-                                        Privacy Policy.</label>
+                                        Privacy Policy.
+                                    </label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mt-2 mb-4 text-right">
                             <div class="col-12 text-left mb-5 pt-3">
-                                <button class="btn btn-ssm btn-round" (click)="register()">
+                                <button 
+                                    class="btn btn-ssm btn-round" 
+                                    (click)="register()"
+                                    [disabled]="!registerForm.valid || !isAgree"
+                                >
                                     Submit
                                 </button>
                             </div>
@@ -306,8 +381,7 @@
 
     <div class="section mt-2">
         <div class="container">
-            <h3 class="title font-weight-bolder">eGOV</h3>
-            <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
+            <h1 class="title font-weight-bolder text-ssm">PACKAGES</h1>
             <!-- <h5>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                 tempor incididunt ut labore et dolore magna aliqua.

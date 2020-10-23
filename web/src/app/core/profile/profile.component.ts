@@ -60,14 +60,17 @@ export class ProfileComponent implements OnInit {
   modalTransactionDetail: BsModalRef
   modalConfig = {
     keyboard: true,
-    // class: 'modal-dialog-centered',
+    class: 'modal-dialog-centered modal-lg',
   }
 
   /// Form
   requestInvestigationForm: FormGroup
   updateUserInfoForm: FormGroup
   addressForm: FormGroup
+
+  // eGov Form
   requestForm: FormGroup
+  requestQuotaForm: FormGroup
 
   // Table
   tableEntries: number = 10
@@ -125,9 +128,26 @@ export class ProfileComponent implements OnInit {
   // Checker
   isReceipt = false
   isShowEgovForm = false
+  isEgovQuotaLow = false
+  isEgovEdit = false
+
+  // eGov
+  eGovName = ''
+  eGovEmail = ''
+  eGovPhone = ''
+  eGovIC = ''
+  eGovPosition = ''
+  eGovPackage = ''
+  eGovBalanceQuota = ''
+
+  attachmentFile
 
   //
   @ViewChild('receipt') receipt: ElementRef
+
+// {value: 'Nancy', disabled: true}
+  // eGov
+  eGovSearchType = 'document'
 
   constructor(
     private authService: AuthService,
@@ -165,6 +185,15 @@ export class ProfileComponent implements OnInit {
   getUser() {
     this.user = this.userService.currentUser
     if (this.user['user_type'] == 'EG') {
+      if (
+        this.user['egov_package'] == 1 ||
+        this.user['user_package'] == 2
+      ) {
+        if (this.user['egov_quota'] <= 100) {
+          this.isEgovQuotaLow = true
+        }
+      }
+
       if (
         this.user['egov_package'] == 3 ||
         this.user['egov_package'] == 4
@@ -465,6 +494,13 @@ export class ProfileComponent implements OnInit {
     this.requestForm = this.fb.group({
       user: new FormControl(this.user['id'])
     })
+
+    this.requestQuotaForm = this.fb.group({
+      user: new FormControl(Validators.required),
+      head_of_department_name: new FormControl(Validators.required),
+      head_of_department_email: new FormControl(Validators.required),
+      attachment_letter: new FormControl(Validators.required)
+    })
   }
 
   entriesChange($event) {
@@ -481,6 +517,29 @@ export class ProfileComponent implements OnInit {
       }
       return false;
     });
+  }
+
+
+  filterTableTransactions($event, type) {
+    let val = $event.target.value.toLowerCase();
+    if (type == 'invoice') {
+      console.log(val)
+      this.tableTemp = this.tableRows.filter(function(d, key) {
+        console.log(d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val)
+        return d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+    }
+    else if (type == 'date') {
+      console.log(val)
+      let newVal = val
+      if (val) {
+        newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
+      }
+      this.tableTemp = this.tableRows.filter((d: any, key) => {
+        console.log(d)
+        return d.payment_gateway_update_date.toLowerCase().indexOf(newVal) !== -1 || !newVal;
+      });
+    }
   }
 
   onSelect({ selected }) {
@@ -779,6 +838,79 @@ export class ProfileComponent implements OnInit {
     // console.log(removeReq)
   }
 
+  addItem() {
+    if (this.eGovSearchType == 'document') {
+      this.navigatePage('/products/search-egov')
+    }
+    else if (this.eGovSearchType == 'personal-involvement') {
+      this.navigatePage('/products/search-egov-pi')
+    }
+  }
+
+  enableEditEgov() {
+    this.isEgovEdit = true
+  }
+
+  disableEditEgov() {
+    this.isEgovEdit = false
+  }
+
+  addNewRequestQuota() {
+    if (this.attachmentFile) {
+      this.serviceService.requestQuota().subscribe(
+        () => {
+          // Success
+          this.successAlert()
+        },
+        () => {
+          // failed
+          this.failedAlert()
+        },
+        () => {
+          this.closeModal()
+        }
+      )
+    }
+    else {
+      this.closeModal()
+      swal
+        .fire({
+          title: 'Info',
+          text: 'Attachment is required',
+          icon: 'info',
+          // showCancelButton: true,
+          buttonsStyling: false,
+          confirmButtonText: 'Close',
+          customClass: {
+            cancelButton: 'btn btn-outline-success',
+            confirmButton: 'btn btn-success ',
+          },
+        })
+        .then((result) => {
+        });
+    }
+  }
+
+  submitChangeInfo() {
+    this.serviceService.requestChange().subscribe(
+      () => {
+        // Success
+        this.successAlert()
+      },
+      () => {
+        // False
+        this.failedAlert()
+      },
+      () => {
+
+      }
+    )
+  }
+
+  onImageChange($event) {
+    this.attachmentFile = true
+  }
+
 
   // SB end
 
@@ -814,6 +946,24 @@ export class ProfileComponent implements OnInit {
         title: 'Success',
         text: 'Request successfully submitted',
         icon: 'success',
+        // showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Close',
+        customClass: {
+          cancelButton: 'btn btn-outline-success',
+          confirmButton: 'btn btn-success ',
+        },
+      })
+      .then((result) => {
+      });
+  }
+
+  failedAlert() {
+    swal
+      .fire({
+        title: 'Failed',
+        text: 'Request failed to submit',
+        icon: 'warning',
         // showCancelButton: true,
         buttonsStyling: false,
         confirmButtonText: 'Close',

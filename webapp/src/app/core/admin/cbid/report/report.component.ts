@@ -5,6 +5,7 @@ import { ServicesService } from '../../../../shared/services/services/services.s
 // import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 import * as moment from 'moment';
+import * as xlsx from 'xlsx';
 
 export enum SelectionType {
   single = "single",
@@ -124,35 +125,96 @@ export class CbidReportComponent implements OnInit {
       });
     }
     else if (type == 'pic') {
-      this.tableTemp = this.tableRows.filter(function(d) {
-        return d.pic.toLowerCase().indexOf(val) !== -1 || !val;
-      });
+      if (val) {
+        this.tableTemp = []
+        this.tableRows.forEach(
+          (item) => {
+            if (
+              item['completed']
+            ) {
+              this.tableTemp.push(item)
+            }
+          }
+        )
+      }
+      else {
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.reference_id.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+      }
     }
     else if (type == 'status') {
       if (val == 'cm') {
         let valNew = true
-        this.tableTemp = this.tableRows.filter(function(d) {
-          return d.completed.indexOf(valNew) !== -1 || !valNew;
-        });
+        this.tableTemp = []
+        this.tableRows.forEach(
+          (item) => {
+            if (
+              item['pending'] &&
+              item['in_progress'] &&
+              item['completed']
+            ) {
+              this.tableTemp.push(item)
+            }
+          }
+        )
       }
       else if (val == 'ip') {
         let valNew = true
-        this.tableTemp = this.tableRows.filter(function(d) {
-          return d.in_progress.indexOf(valNew) !== -1 || !valNew;
-        });
+        this.tableTemp = []
+        this.tableRows.forEach(
+          (item) => {
+            if (
+              item['pending'] &&
+              item['in_progress'] &&
+              !item['completed']
+            ) {
+              this.tableTemp.push(item)
+            }
+          }
+        )
       }
       else if (val == 'pd') {
         let valNew = true
-        this.tableTemp = this.tableRows.filter(function(d) {
-          return d.pending.indexOf(valNew) !== -1 || !valNew;
-        });
+        this.tableTemp = []
+        this.tableRows.forEach(
+          (item) => {
+            if (
+              item['pending'] &&
+              !item['in_progress'] &&
+              !item['completed']
+            ) {
+              this.tableTemp.push(item)
+            }
+          }
+        )
+      }
+      else {
+        this.tableTemp = this.tableRows
       }
     }
     else if (type == 'date') {
+      console.log(val)
+      let newVal = val
+      if (val) {
+        newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
+      }
       this.tableTemp = this.tableRows.filter(function(d) {
-        return d.pending.toLowerCase().indexOf(val) !== -1 || !val;
+        return d.created_date.toLowerCase().indexOf(newVal) !== -1 || !newVal;
       });
     }
+  }
+
+  filterTableAll($event) {
+    let val = $event.target.value.toLowerCase();
+    this.tableTemp = this.tableRows.filter(function (d) {
+      for (var key in d) {
+        if (d[key]?.toString().toLowerCase().indexOf(val) !== -1 || !val) {
+          return true;
+        }
+      }
+      return false;
+    });
   }
 
   onSelect({ selected }) {
@@ -180,6 +242,32 @@ export class CbidReportComponent implements OnInit {
     //     // Something
     //   )
     // }
+  }
+
+  exportExcel() {
+    let fileName = 'CBID_Report.xlsx'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
+  }
+
+  exportCsv() {
+    let fileName = 'CBID_Report.csv'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
   }
 
 }

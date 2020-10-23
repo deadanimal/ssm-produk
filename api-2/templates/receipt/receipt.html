@@ -1,0 +1,373 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>
+            @charset "UTF-8";
+            @page {
+                /* padding: 2cm; */
+                /* size: A4; Change from the default size of A4 */
+                /* padding: 2.0cm; Set margin on each page */
+                size: A4 portait;
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+            }
+
+            header#header {
+                position: fixed;
+                top: 0;
+                left: 0;
+
+                height: 14.5rem;
+                width: 100%;
+            }
+            img.logo {
+                height: 14rem !important;
+            }
+            html {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 13px;
+            }
+            .default-template {
+                color: #333;
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 13px;
+            }
+            .default-template p#secondary {
+                font-size: 16px;
+            }
+            .default-template p#disclaimer {
+                font-size: 18px;
+            }
+            .default-template p#primary {
+                word-spacing: 7pt;
+                font-size: 22px;
+                text-align: justify;
+            }
+            table {border: 0;} 
+            table tr.top table td.title {
+                color: #333;
+            }
+            table tr.heading td {
+                color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
+            }
+            .pg-break {
+                page-break-before: always; 
+                margin-top: 15rem;
+            }
+            .pg-start {
+                margin-top: 15rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header">
+            <div class="text-center">
+                <h2 class="py-4">OFFICIAL RECEIPT</h2>
+            </div>
+
+            <div class="row justify-content-between">
+
+                <div class="col-md-4 text-left mt--2">
+                    <img alt="Logo" class="mb-2 w-100" style="max-width: 200px" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png" />
+                </div>
+
+                <div class="col-lg-5 col-md-6 text-left pt-4">
+                    <h4 class="mb-0">SURUHANJAYA SYARIKAT MALAYSIA</h4>
+                    <p style="font-size: 13px">
+                        MENARA SSM @ SENTRAL <br />
+                        No 7, Jalan Stesen Sentral 5,<br />
+                        Kuala Lumpur Sentral,<br />
+                        50623 Kuala Lumpur.
+                    </p>
+                    <p style="font-size: 13px">
+                        Tel: 03-77214000 <br />
+                        Fax: 03-77214001 <br />
+                        Email: enquiry@ssm.com.my
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <div class="default-template container" style="margin-top: 250px">
+            <hr class="my-3 w-100" style="border-top: 1px dotted black;">
+
+            <div class="row text-left">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Name</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : {{transaction?.name}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Email</p>
+                        </div>
+                        <div class="col">
+                            <p class="m-0">
+                                : {{transaction?.email_address}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Address</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : {{transaction?.address1}}, <br />
+                                {{transaction?.address2}}, <br />
+                                {{transaction?.address2}}, <br />
+                                {{transaction?.postcode}}, {{transaction?.city}}<br />
+                                {{transaction?.state}}, <br />
+                                {{transaction?.country}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">
+                                Phone No.
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : {{transaction?.phone_number}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Receipt No.</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : {{transaction?.receipt_no}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Reference No.</p>
+                        </div>
+                        <div class="col">
+                            <p class="m-0">
+                                : {{transaction?.reference_no_new}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">Mode of Payment</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : Credit Card
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">
+                                Transaction ID
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : M{{transaction?.reference_no}}
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="m-0">
+                                Date & time
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="m-0">
+                                : {{transaction?.created_date}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div *ngIf="isReceipt" class="table-responsive" #receipt>
+                        <table class="table text-right table-flush">
+                            <thead class="bg-default">
+                                <tr>
+                                    <th class="text-center text-white" scope="col">
+                                        No.
+                                    </th>
+                                    <th class="text-center text-white" scope="col">
+                                        Item
+                                    </th>
+                                    <th class="text-center text-white" scope="col">
+                                        Product
+                                    </th>
+                                    <th class="text-center text-white" scope="col">
+                                        Unit
+                                    </th>
+                                    <th class="text-center text-white" scope="col">
+                                        Unit Price (RM)
+                                    </th>
+                                    <th class="text-center text-white" scope="col">
+                                        Total (RM)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <tr *ngFor="let item of items">
+                                    <td class="text-left">
+                                        <span>{{item?.index}}</span>
+                                    </td>
+                                    <td class="text-left">
+                                        
+                                        <div *ngIf="item?.entity">
+                                            <span *ngIf="item?.entity == 'CP'">
+                                                {{item?.entity.company_number_new}} 
+                                                ({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
+                                            </span>
+    
+                                            <span *ngIf="item?.entity == 'BS'">
+                                                {{item?.entity.registration_number_new}} 
+                                                ({{item?.entity.registration_number}}-{{item?.entity.check_digit}}) / 
+                                            </span>
+    
+                                            <span *ngIf="item?.entity == 'AD'">
+                                                {{item?.entity.audit_firm_number}} / 
+                                            </span>
+                                        </div>
+    
+                                        <span *ngIf="item?.entity">
+                                            {{item?.entity.name}}
+                                        </span>
+    
+                                        <span *ngIf="item.product_search_criteria">
+                                            -
+                                        </span>
+    
+                                        <span *ngIf="item.service_request">
+                                            -
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="text-left">
+                                        <span *ngIf="item?.product">
+                                            {{item?.product.name}}
+                                        </span>
+    
+                                        <span *ngIf="item?.product?.ctc">
+                                            - CTC
+                                        </span>
+    
+                                        <span *ngIf="item?.image_form_type != 'NA'">
+                                            {{item?.image_form_type}}
+                                        </span>
+    
+                                        <span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='ST'">
+                                            {{item.service_request?.service.name}}
+                                        </span>
+                                        <span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
+                                            {{item.service_request?.service.name}}
+                                        </span>
+                                        <span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='ST'">
+                                            {{item.service_request?.service.name}}
+                                        </span>
+                                        <span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
+                                            {{item.service_request?.service.name}}
+                                        </span>
+    
+                                        <span *ngIf="item.product_search_criteria">
+                                            Customized Data Package A
+                                        </span>
+                                    </td>
+                                    <td class="text-left">
+                                        1
+                                    </td>
+                                    <td class="text-left">
+                                        <span *ngIf="item?.product">
+                                            {{item?.product.fee/100 | number: '1.2-2'}}
+                                        </span>
+                                        <span *ngIf="item.product_search_criteria">
+                                            RM4.00 / company
+                                        </span>
+                                        <span *ngIf="item.service_request">
+                                            {{item.service_request?.service.fee/100 | number: '1.2-2'}}
+                                        </span>
+                                    </td>
+                                    <td class="text-left">
+                                        <span *ngIf="item?.product">
+                                            {{item?.product.fee/100 | number: '1.2-2'}}
+                                        </span>
+                                        <span *ngIf="item.product_search_criteria">
+                                            {{item.product_search_criteria.total_price | number: '1.2-2'}}
+                                        </span>
+                                        <span *ngIf="item.service_request">
+                                            {{item.service_request?.service.fee/100 | number: '1.2-2'}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th class="text-left h4">Total</th>
+                                    <th class="h4 text-left">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-md-12 ml-auto">
+                    <h5>Thank you!</h5>
+                    <p class="description">
+                        If you encounter any issues related to the invoice you can
+                        contact us at:
+                    </p>
+                    <h5 class="d-block">
+                        email:
+                        <span class="text-muted">
+                            enquiry@ssm.com.my
+                        </span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+
+    <footer>
+        <p></p>
+    </footer>
+</html>
+

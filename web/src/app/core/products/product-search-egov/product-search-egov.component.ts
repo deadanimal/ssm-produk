@@ -23,6 +23,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { EntitiesService } from 'src/app/shared/services/entities/entities.service';
 import { User } from 'src/app/shared/services/users/users.model';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
   single = 'single',
@@ -85,7 +86,8 @@ export class ProductSearchEgovComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private UsersService: UsersService,
     private AuthService: AuthService,
-    private entityService: EntitiesService
+    private entityService: EntitiesService,
+    private loadingBar: LoadingBarService
   ) {
     this.getUser()
   }
@@ -177,79 +179,77 @@ export class ProductSearchEgovComponent implements OnInit {
   }
 
   query($event) {
-///////!!!!!!!!!!!!!!
-    /// 3 digit and above = ROC 
-    
     // this.spinner.show()
     let val = $event.target.value
-    this.entityService.query(val).subscribe(
-      () => {
-        // this.spinner.hide()
-        this.tableRows = this.entityService.entitiesQuery
-      },
-      () => {
-        // this.spinner.hide()
-        this.showAlertNotFound()
-        this.isEmpty = true
-        this.isGotResult = false
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });
-        // console.log(this.tableTemp.length)
 
-        if (this.tableTemp.length > 0) {
-          this.isEmpty = false
-          this.isGotResult = true
-        }
-        else {
+    if (val.length == 0) {
+      this.isEmpty = true
+      this.isGotResult = false
+    }
+    else if (val.length >= 3) {
+      this.loadingBar.useRef('http').start()
+      this.entityService.query(val).subscribe(
+        () => {
+          // this.spinner.hide()
+          this.tableRows = this.entityService.entitiesQuery
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          // this.spinner.hide()
+          this.loadingBar.useRef('http').complete()
+          this.error()
           this.isEmpty = true
           this.isGotResult = false
-          this.showAlertNotFound()
+          
+        },
+        () => {
+          this.tableTemp = this.tableRows.map((prop, key) => {
+            return {
+              ...prop,
+              id_index: key+1
+            };
+          });
+          // console.log(this.tableTemp.length)
+  
+          if (this.tableTemp.length == 0) {
+            this.isEmpty = true
+            this.isGotResult = false
+            this.error()
+          }
+          else {
+            this.isEmpty = false
+            this.isGotResult = true
+            this.filterTable()
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   entriesChange($event) {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
-    let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+  filterTable() {
+    let val = this.searchEntityType.toLowerCase();
+    // console.log(val)
 
-    if (this.searchEntityType == 'all') {
-      this.tableTemp = this.tableRows.filter(function(d) {
-        // console.log(d.type_of_entity)
-        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-      })
+    if (this.searchEntityType == 'AL') {
+      this.tableTemp = this.tableRows
     }
     else if (this.searchEntityType == 'AD') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'AD') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'BS') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'BS') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'CP') {
       this.tableTemp = this.tableRows.filter(function(d) {
-        if (d.type_of_entity == 'CP') {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        }
+        return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
   }
@@ -265,6 +265,22 @@ export class ProductSearchEgovComponent implements OnInit {
 
   export() {
     this.showAlertSuccessExport()
+  }
+
+  error() {
+    swal.fire({
+      title: 'Warning',
+      text:
+        'No entites found. For further search please insert company / business number without check digit and choose the entity type company / business from the dropdown list search box.',
+      icon: 'warning',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        cancelButton: 'btn btn-outline-warning ',
+        confirmButton: 'btn btn-warning ',
+      },
+    })
   }
 
   showAlertNotFound() {

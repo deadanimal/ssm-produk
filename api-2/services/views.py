@@ -287,7 +287,9 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentRequest.objects.all()
     serializer_class = EgovernmentRequestSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-
+    filterset_fields = [
+        'egov_request'
+    ]
     def get_permissions(self):
         if self.action == 'list':
             permission_classes = [AllowAny]
@@ -332,7 +334,6 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         user.egov_request = 'AP'
         user.egov_package = int(package)
         user.save()
-
             
         serializer = EgovernmentRequestSerializer(document_request)
         return Response(serializer.data)            

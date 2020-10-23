@@ -32,6 +32,7 @@ import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-ta
 import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
+import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -82,6 +83,10 @@ export const AdminRoutes: Routes = [
             path: 'user-management',
             component: EgovUserManagementComponent,
           },
+          {
+            path: 'dashboard',
+            component: EgovDashboardComponent
+          }
         ],
       },
       {

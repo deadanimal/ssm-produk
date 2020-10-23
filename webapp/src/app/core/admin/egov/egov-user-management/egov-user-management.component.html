@@ -1,3 +1,4 @@
+<ngx-loading-bar></ngx-loading-bar>
 <div class="header pb-6">
 	<div class="container-fluid">
 		<div class="header-body">
@@ -33,7 +34,34 @@
         <div class="col">
             <div class="card">
                 <div class="card-header bg-secondary">
-                    <h3 class="m-0">eGov User List</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="m-0">eGov User List</h3>
+                        </div>
+
+                        <div class="col">
+                            <div class="text-right">
+                                <div class="my-1 mr-4 dropdown" dropdown placement="bottom-right">
+                                    <button 
+                                        class="btn btn-outline-default dropdown-toggle"
+                                        type="button" 
+                                        id="dropdownMenuButton" 
+                                        dropdownToggle
+                                    >
+                                          Export
+                                    </button>
+                                    <div  
+                                        aria-labelledby="dropdownMenuButton" 
+                                        *dropdownMenu 
+                                        class="dropdown-menu dropdown-menu-right"
+                                    >
+                                          <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+                                          <a class="dropdown-item" (click)="exportCsv()">CSV</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="dataTables_wrapper py-4">
                     <div class="row">
@@ -54,44 +82,36 @@
                             </div>
                         </div>
 
-                        <!-- <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <input class="form-control form-control-sm" placeholder="Search email">
-                            </div>
+                        <div class="col-md-6">
+
                         </div>
+
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
-                                <select class="form-control form-control-sm" placeholder="Search st">
-                                    <option hidden select>Select status</option>
-                                    <option>Approved</option>
-                                    <option>Pending</option>
-                                    <option>Processed</option>
-                                    <option>Rejected</option>
-                                </select>
+                                <input 
+                                    class="form-control form-control-sm mr-2" 
+                                    placeholder="Search..."
+                                    (keyup)="filterTable($event)"
+                                >
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <input class="form-control form-control-sm" placeholder="Search...">
-                            </div>
-                        </div> -->
                     </div>
 
                     <ngx-datatable 
                         class="bootstrap selection-cell" 
-                        [columnMode]="'force'" 
+                        [columnMode]="'standard'"
                         [headerHeight]="50"
                         [footerHeight]="50" 
                         [rowHeight]="'auto'"
-                        [limit]="tableDepartmentEntries != -1 ? tableDepartmentEntries : undefined"
-                        [rows]="tableDepartmentTemp" 
+                        [limit]="tableEntries != -1 ? tableEntries : undefined"
+                        [rows]="tableTemp" 
                         [scrollbarH]="true"
                      >
                         <ngx-datatable-column
-                            maxWidth="80"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="id_index"
+                            [width]="100"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">No.</span>
@@ -105,49 +125,52 @@
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="ministry"
+                            prop="ministry_name"
+                            width="190"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Ministry</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-                                
+                                {{row.ministry_name}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="department_name"
+                            width="220"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Agency / Department</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.department_name}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            width="210"
+                            prop="division_name"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Division / Section / Unit Name</span>
+                                <span class="table-header">Division / Section</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.division_name}}
                             </ng-template>
                         </ngx-datatable-column>
                         
                         <ngx-datatable-column
-                            maxWidth="100"
                             [sortable]="true"
                             [resizeable]="false"
+                            width="150"
                             prop="status"
                         >
                             <ng-template ngx-datatable-header-template>
@@ -155,13 +178,14 @@
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
- 
+                                {{row.city}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
+                            width="150"
                             prop="name"
                         >
                             <ng-template ngx-datatable-header-template>
@@ -169,13 +193,14 @@
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.state}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
+                            width="150"
                             prop="name"
                         >
                             <ng-template ngx-datatable-header-template>
@@ -183,119 +208,127 @@
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.user.email}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            width="150"
+                            prop="user"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Full Name</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.user.full_name}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            width="150"
+                            prop="position_or_grade"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Position and Grade</span>
+                                <span class="table-header">Position or Grade</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.position_or_grade}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="position_or_grade"
+                            width="150"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">IC No.</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.position_or_grade}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="user"
+                            width="150"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Tel No.</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.user.phone_number}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="egov_package"
+                            width="150"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Package Type</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.egov_package}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="head_of_department_name"
+                            width="150"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Head of Department Name</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.head_of_department_name}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="head_of_department_position"
+                            width="150"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Head of Department Position</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.head_of_department_position}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="head_of_department_email"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Head of Department Email</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.head_of_department_email}}
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -303,6 +336,7 @@
                             [sortable]="true"
                             [resizeable]="false"
                             prop="name"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Approval Date</span>
@@ -317,6 +351,7 @@
                             [sortable]="true"
                             [resizeable]="false"
                             prop="name"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Expiry Date</span>
@@ -331,6 +366,7 @@
                             [sortable]="true"
                             [resizeable]="false"
                             prop="name"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Renewal Date</span>
@@ -344,33 +380,35 @@
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="egov_quota"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Total Accumulated Quota</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                {{row.egov_quota}}
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
                             [sortable]="true"
                             [resizeable]="false"
-                            prop="name"
+                            prop="status"
+                            [flexGrow]="5"
                         >
                             <ng-template ngx-datatable-header-template>
                                 <span class="table-header">Status</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-
+                                
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            maxWidth="100"
+                            [flexGrow]="3"
                             [sortable]="false"
                             [resizeable]="false"
                         >
@@ -390,4 +428,95 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="table" id="reportTable" #reportTable [hidden]="isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>No. </th>
+				<th>Ministry</th>
+				<th>Agency / Department</th>
+				<th>Division / Section</th>
+				<th>City</th>
+				<th>State</th>
+				<th>Email Address</th>
+				<th>Full Name</th>
+				<th>Position or Grade</th>
+                <th>IC No.</th>
+                <th>Tel No.</th>
+                <th>Package Type</th>
+                <td>Head of Department Name</td>
+                <td>Head of Department Position</td>
+                <td>Head of Department Email</td>
+                <td>Approval Date</td>
+                <td>Expiry Date</td>
+                <td>Renewal Date</td>
+                <td>Total Accumulated Quota</td>
+                <td>Status</td>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row.id_index}}  
+				</td>
+				<td>
+					{{row.ministry_name}}  
+				</td>
+				<td>
+					{{row.department_name}}
+				</td>
+				<td>
+					{{row.division_name}}
+				</td>
+				<td>
+					{{row.city}}
+				</td>
+				<td>
+					{{row.state}}
+				</td>
+				<td>
+					{{row.user.email}}
+				</td>
+				<td>
+					{{row.user.full_name}}
+				</td>
+				<td>
+					{{row.position_or_grade}}
+				</td>
+				<td>
+					{{row.position_or_grade}}
+                </td>
+                <td>
+                    {{row.user.phone_number}}
+                </td>
+                <td>
+                    {{row.egov_package}}
+                </td>
+                <td>
+                    {{row.head_of_department_name}}
+                </td>
+                <td>
+                    {{row.head_of_department_position}}
+                </td>
+                <td>
+                    {{row.head_of_department_email}}
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    {{row.egov_quota}}
+                </td>
+                <td>
+
+                </td>
+			</tr>
+		</tbody>
+	</table>
 </div>

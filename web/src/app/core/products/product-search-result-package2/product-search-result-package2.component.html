@@ -53,12 +53,12 @@
     <div class="row">
 
         <div class="col">
-            <label>Company Name</label>
+            <label class="font-weight-bolder title-transform">Company Name</label>
             <p>{{ entity_data['company_info']['companyName']}}</p>
         </div>    
 
         <div class="col">
-            <label>Last Old Name</label>
+            <label class="font-weight-bolder title-transform">Last Old Name</label>
             <p *ngIf="entity_data['company_info']['companyOldName']">{{ entity_data['company_info']['companyOldName']}}</p>
             <p *ngIf="!entity_data['company_info']['companyOldName']">NIL</p>
         </div>          
@@ -68,14 +68,25 @@
     <div class="row">
 
         <div class="col">
-            <label>Date of Change</label>
+            <label class="font-weight-bolder title-transform">Date of Change</label>
             <p *ngIf="entity_data['company_info']['dateOfChange']">{{ entity_data['company_info']['dateOfChange']}}</p>
             <p *ngIf="!entity_data['company_info']['dateOfChange']">NIL</p>
         </div>    
 
         <div class="col">
-            <label>Company Number</label>
-            <p>{{ entity_data['company_info']['companyNo'] }}-{{ entity_data['company_info']['checkDigit']}}</p>
+            <label class="font-weight-bolder title-transform">Company Number</label>
+            <p>
+                <span *ngIf="entity.type_of_entity == 'AD'">
+                    {{ entity.audit_firm_number }}
+                </span>
+                <span *ngIf="entity.type_of_entity == 'BS'">
+                    {{ entity.registration_number_new }}
+                    ({{ entity.registration_number }}-{{ entity.check_digit }})
+                </span>
+                <span *ngIf="entity.type_of_entity == 'CP'">
+                    {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}})
+                </span>
+            </p>
         </div>          
 
     </div>    
@@ -83,29 +94,32 @@
     <div class="row">
 
         <div class="col">
-            <label>Incorporation Date</label>
+            <label class="font-weight-bolder title-transform">Incorporation Date</label>
             <p>{{ entity_data['incorp_date']}}</p>
         </div>    
 
         <div class="col">
-            <label>Type</label>
-            <p *ngIf="entity_data['company_info']['companyType'] =='B'">
-                LIMITED BY SHARE AND GUARANTEE
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='G'">
-                LIMITED BY GUARANTEE
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='S'">
-                LIMITED BY SHARES
-            </p>
-            <p *ngIf="entity_data['company_info']['companyType'] =='U'">
-                UNLIMITED
-            </p>
-            <p *ngIf="entity_data['company_info']['companyStatus'] =='R'">
-                PRIVATE LIMITED
-            </p>
-            <p *ngIf="entity_data['company_info']['companyStatus'] =='U'">
-                PUBLIC LIMITED
+            <label class="font-weight-bolder title-transform">Type</label>
+            <p>
+                <span *ngIf="entity_data['company_info']['companyType'] =='B'">
+                    LIMITED BY SHARE AND GUARANTEE 
+                </span>
+
+                <span *ngIf="entity_data['company_info']['companyType'] =='G'">
+                    LIMITED BY GUARANTEE 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyType'] =='S'">
+                    LIMITED BY SHARES 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyType'] =='U'">
+                    UNLIMITED 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyStatus'] =='R'">
+                    PRIVATE LIMITED 
+                </span>
+                <span *ngIf="entity_data['company_info']['companyStatus'] =='U'">
+                    PUBLIC LIMITED 
+                </span>
             </p>
         </div>
 
@@ -114,13 +128,54 @@
     <div class="row">
 
         <div class="col">
-            <label>Status</label>
-            <p>{{ entity_data['company_info']['statusOfCompany']}}</p>
+            <label class="font-weight-bolder title-transform">Status</label>
+            <p>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'E'">
+                    Existing
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'W'">
+                    Winding Up
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'D'">
+                    Dissolved
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'R'">
+                    Removed
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'C'">
+                    Ceased Business
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'X'">
+                    Null and Void by Court Order
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'B'">
+                    Dissolved Conversion to LLP
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'Y'">
+                    Struck-off & Winding-up via Court Order
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'F'">
+                    Winding Up (Under SVA)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'G'">
+                    Existing Under JM (Under CVA)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'V'">
+                    Existing (Under CVS)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'J'">
+                    Existing (Under JM)
+                </span>
+            </p>
         </div>    
 
         <div class="col">
-            <label>Origin</label>
-            <p>{{ entity_data['company_info']['companyCountry']}}</p>
+            <label class="font-weight-bolder title-transform">Origin</label>
+            <p>
+                <span *ngIf="entity_data['company_info']['companyCountry'] == 'MAL'">
+                    MALAYSIA
+                </span>
+            </p>
         </div>
 
     </div>   
@@ -128,8 +183,30 @@
     <div class="row">
 
         <div class="col">
-            <label>Registered Address</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Registered Address</label>
+            <p *ngIf="entity_data['registered_address_info']['address1']">
+                {{entity_data['registered_address_info']['address1']}},
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['address2']">
+                {{entity_data['registered_address_info']['address2']}},
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['address3']">
+                {{entity_data['registered_address_info']['address3']}},
+            </p>
+            <p>
+                <span *ngIf="entity_data['registered_address_info']['postcode']">
+                    {{entity_data['registered_address_info']['postcode']}},
+                </span>
+                <span *ngIf="entity_data['registered_address_info']['town']">
+                    {{entity_data['registered_address_info']['town']}},
+                </span>
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['stateString']">
+                {{entity_data['registered_address_info']['stateString']}}
+            </p>
+            <p *ngIf="!entity_data['registered_address_info']">
+                NIL
+            </p>
         </div>    
 
     </div>    
@@ -137,8 +214,30 @@
     <div class="row">
 
         <div class="col">
-            <label>Business Address</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Business Address</label>
+            <p *ngIf="entity_data['business_address_info']['address1']">
+                {{entity_data['business_address_info']['address1']}},
+            </p>
+            <p *ngIf="entity_data['business_address_info']['address2']">
+                {{entity_data['business_address_info']['address2']}},
+            </p>
+            <p *ngIf="entity_data['business_address_info']['address3']">
+                {{entity_data['business_address_info']['address3']}},
+            </p>
+            <p>
+                <span *ngIf="entity_data['business_address_info']['postcode']">
+                    {{entity_data['business_address_info']['postcode']}},
+                </span>
+                <span *ngIf="entity_data['business_address_info']['town']">
+                    {{entity_data['business_address_info']['town']}},
+                </span>
+            </p>
+            <p *ngIf="entity_data['business_address_info']['stateString']">
+                {{entity_data['business_address_info']['stateString']}}
+            </p>
+            <p *ngIf="!entity_data['business_address_info']">
+                NIL
+            </p>
         </div>    
 
     </div>   
@@ -146,8 +245,13 @@
     <div class="row">
 
         <div class="col">
-            <label>Remarks</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Nature of Business</label>
+            <p *ngIf="entity_data['company_info']['businessDescription']">
+                {{entity_data['company_info']['businessDescription']}}
+            </p>
+            <p *ngIf="!entity_data['company_info']['businessDescription']">
+                NIL
+            </p>
         </div>    
 
     </div>      
@@ -157,38 +261,42 @@
         <table class="table text-left borderless">
             <thead>
                 <tr>
-                    <th style="width:34%; border: 0;"></th>
-                    <th style="width:33%; border: 0;"></th>
-                    <th style="width:33%; border: 0;"></th> 
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:40%; border: 0;"></th> 
                 </tr>                
             </thead>
             <tbody>
               
 
                 <tr>
-                    <td><p id="secondary">TOTAL ISSUED (RM) {{entity_data['total_issued'] | number:'1.2-2'}}</p></td>
+                    <td>
+                        <p id="secondary">TOTAL ISSUED (RM) {{entity_data['total_issued'] | number:'1.4-4'}}</p>
+                    </td>
                     <td></td>
                     <td></td>
                 </tr>    
                 <tr>
                     <td></td>
-                    <td><p id="secondary"><b>CASH</b></p></td>
-                    <td><p id="secondary"><b>OTHERWISE THAN CASH</b></p></td>
+                    <td>
+                        <p id="secondary" class="ml-5 font-weight-bolder"><b>CASH</b></p>
+                    </td>
+                    <td><p id="secondary" class="ml-2 font-weight-bolder"><b>OTHERWISE THAN CASH</b></p></td>
                 </tr>    
                 <tr>
                     <td><p id="secondary">ORDINARY</p></td>
-                    <td><p id="secondary">{{ entity_data['ordinary_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['ordinary_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['ordinary_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['ordinary_issue_noncash']}}</p></td>
                 </tr>
                 <tr>
                     <td><p id="secondary">PREFERENCE</p></td>
-                    <td><p id="secondary">{{ entity_data['preference_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['preference_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['preference_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['preference_issue_noncash']}}</p></td>
                 </tr>
                 <tr>
                     <td><p id="secondary">OTHERS</p></td>
-                    <td><p id="secondary">{{ entity_data['others_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['others_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['others_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['others_issue_noncash']}}</p></td>
                 </tr>                                                                                                                       
               
 
@@ -215,9 +323,9 @@
                     <td><p id="secondary">
                         {{ officer.name }}<br>
                         {{ officer.address1 }}<br>
-                        {{ officer.address2 }}<br>
-                        {{ officer.address3 }}<br>
-                        {{ officer.postcode }} {{ officer.town }}<br>
+                        <span *ngIf="officer.address2">{{ officer.address2 }} <br></span>
+                        <span *ngIf="officer.address3">{{ officer.address3 }} <br></span>
+                        {{ officer.postcode }}, {{ officer.town }}<br>
                         {{ officer.state }}
                     </p></td>
                     <td><p id="secondary">{{ officer.idNo }}</p></td>
@@ -237,8 +345,8 @@
         <table class="table text-left borderless">
             <thead>
                 <tr>
-                    <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
-                    <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
+                    <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPORT / COMPANY NO.</p></th>
+                    <th style="width:40%; border: 0;"><p id="secondary">NAME / COMPANY NAME</p></th>
                     <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
                 </tr>
             </thead>
@@ -246,7 +354,7 @@
                 <tr *ngFor="let shareholder of entity_data['shareholders_data']">
                     <td><p id="secondary">{{ shareholder.id }}</p></td>
                     <td><p id="secondary">{{ shareholder.name }}</p></td>
-                    <td><p id="secondary" class="text-right">{{ shareholder.share | number:'1.2-2' }}</p></td>
+                    <td><p id="secondary" class="text-right">{{ shareholder.share }}</p></td>
                 </tr>                                                                                                                           
       
             </tbody>
@@ -295,8 +403,8 @@
             </tbody>
         </table>
     </div>   
-    <div class="table-responsive" *ngIf="!entity_data['charges_info']['rocChargesInfos']">
-        <h4 class="font-weight-bold text-center">No Information</h4>
+    <div class="table-responsive my-3" *ngIf="!entity_data['charges_info']['rocChargesInfos']">
+        <p class="text-center title-transform">No information</p>
     </div>         
 
     <h2 class="font-weight-bold text-center"><u> SUMMARY OF FINANCIAL INFORMATION </u></h2>
@@ -310,14 +418,14 @@
             <tbody>                       
 
                 <tr>
-                    <td><p id="secondary">AUDITOR</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{entity_data.bs_data.auditor_name}}</p></td>    
+                    <td class="p-0"><p id="secondary" class="mb-0">AUDITOR</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">{{entity_data.bs_data.auditor_name}}</p></td>    
                 </tr>                        
                 <tr>
-                    <td><p id="secondary">AUDITOR ADDRESS</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">
+                    <td class="p-0"><p id="secondary" class="mb-0">AUDITOR ADDRESS</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">
                         {{entity_data.bs_data.auditFirmAddress1}}<br>
                         {{entity_data.bs_data.auditFirmAddress2}}<br>
                         {{entity_data.bs_data.auditFirmAddress3 }}
@@ -328,29 +436,29 @@
 
                 </tr>
                 <tr>
-                    <td><p id="secondary">EXEMPT PRIVATE COMPANY</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">N/A</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">EXEMPT PRIVATE COMPANY</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">N/A</p></td>
                 </tr>
                 <tr>
-                    <td><p id="secondary">FINANCIAL YEAR END</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{entity_data.bs_data.financial_year_end}}</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">FINANCIAL YEAR END</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">{{entity_data.bs_data.financial_year_end}}</p></td>
                 </tr>
                 <tr>
-                    <td><p id="secondary">UNQUALIFIED REPORT (Y/N)</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{entity_data.bs_data.financialReportType}}</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">UNQUALIFIED REPORT (Y/N)</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">{{entity_data.bs_data.financialReportType}}</p></td>
                 </tr>
                 <tr>
-                    <td><p id="secondary">CONSOLIDATED ACCOUNT (Y/N)</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{entity_data.bs_data.accrualAccType}}</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">CONSOLIDATED ACCOUNT (Y/N)</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">{{entity_data.bs_data.accrualAccType}}</p></td>
                 </tr>
                 <tr>
-                    <td><p id="secondary">DATE OF TABLING</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{entity_data.bs_data.dateOfTabling}}</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">DATE OF TABLING</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">:</p></td>
+                    <td class="p-0"><p id="secondary" class="mb-0">{{entity_data.bs_data.dateOfTabling}}</p></td>
                 </tr>
                     
                 <tr>
@@ -359,82 +467,134 @@
                     <td></td>                            
                 </tr>
                 <tr>
-                    <td><p id="secondary"><b>BALANCE SHEET ITEMS</b></p></td>
+                    <td class="py-0"><p id="secondary" class="mb-0 font-weight-bolder"><b>BALANCE SHEET ITEMS</b></p></td>
                     <td></td>
                     <td></td>
                 </tr> 
                 <tr>
-                    <td><p id="secondary">NON CURRENT ASSET</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.nonCurrAsset | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">CURRENT ASSET</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.currentAsset | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">NON CURRENT LIABILITIES</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.nonCurrentLiability | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">CURRENT LIABILITIES</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.liability | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">SHARE CAPITAL</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.paidUpCapital | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>                        
-                    <td><p id="secondary">RESERVE</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.reserves | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">RETAINED EARNINGS</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.inappropriateProfit | number:'1.2-2' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p id="secondary">MINORITY INTEREST</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.bs_data.minorityInterest | number:'1.2-2' }}</p></td>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">NON CURRENT ASSSET</label>
+                                <p>
+                                    {{entity_data.bs_data.nonCurrAsset | number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">CURRENT ASSET</label>
+                                <p>
+                                    {{entity_data.bs_data.currentAsset | number:'1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">NON CURRENT LIABILITIES</label>
+                                <p>
+                                    {{entity_data.bs_data.nonCurrentLiability | number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">CURRENT LIABILITIES</label>
+                                <p>
+                                    {{entity_data.bs_data.liability | number:'1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">SHARE CAPITAL</label>
+                                <p>
+                                    {{entity_data.bs_data.paidUpCapital | number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">RESERVE</label>
+                                <p>
+                                    {{entity_data.bs_data.reserves | number:'1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">RETAINED EARNINGS</label>
+                                <p>
+                                    {{entity_data.bs_data.inappropriateProfit | number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">MINORITY INTEREST</label>
+                                <p>
+                                    {{entity_data.bs_data.minorityInterest | number:'1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                        
                 <tr>
-                    <td><p id="secondary"><b>INCOME STATEMENT ITEMS</b></p></td>
+                    <td class="py-0"><p id="secondary" class="mb-0 font-weight-bolder"><b>INCOME STATEMENT ITEMS</b></p></td>
                     <td></td>
                     <td></td>
                 </tr> 
                 <tr>
-                    <td><p id="secondary">REVENUE</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.pl_data.revenue| number:'1.2-2' }}</p></td>                         
+                    <td colspan="3">
+                       <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">REVENUE</label>
+                                <p>
+                                    {{entity_data.pl_data.revenue| number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">PROFIT / (LOSS) BEFORE TAX</label>
+                                <p>
+                                    {{entity_data.pl_data.profitBeforeTax| number:'1.2-2' }}
+                                </p>
+                            </div>
+                       </div> 
+
+                       <div class="row">
+                           <div class="col">
+                                <label class="font-weight-bolder title-transform">PROFIT / (LOSS) AFTER TAX</label>
+                                <p>
+                                    {{entity_data.pl_data.profitAfterTax| number:'1.2-2' }}
+                                </p>
+                           </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">NET DIVIDEND</label>
+                                <p>
+                                    {{entity_data.pl_data.netDividend| number:'1.2-2' }}
+                                </p>
+                            </div>
+                       </div>
+
+                       <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform">MINORITY INTEREST</label>
+                                <p>
+                                    {{entity_data.pl_data.minorityInterest| number:'1.2-2' }}
+                                </p>
+                            </div>
+
+                            <div class="col">
+                                <label class="font-weight-bolder title-transform"></label>
+                                <p>
+                                    
+                                </p>
+                            </div>
+                        </div>
+                    </td>                        
                 </tr>
-                <tr>
-                    <td><p id="secondary">PROFIT / (LOSS) BEFORE TAX</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.pl_data.profitBeforeTax| number:'1.2-2' }}</p></td>                       
-                </tr>
-                <tr>
-                    <td><p id="secondary">PROFIT / (LOSS) AFTER TAX</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.pl_data.profitAfterTax| number:'1.2-2' }}</p></td>                       
-                </tr>
-                <tr>
-                    <td><p id="secondary">NET DIVIDEND</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.pl_data.netDividend| number:'1.2-2' }}</p></td>                 
-                </tr>
-                <tr>
-                    <td><p id="secondary">MINORITY INTEREST</p></td>
-                    <td><p id="secondary">:</p></td>
-                    <td><p id="secondary" class="text-right">{{entity_data.pl_data.minorityInterest| number:'1.2-2' }}</p></td>
-                </tr>
-      
             </tbody>
         </table>
     </div>     
@@ -442,287 +602,145 @@
 </div>
 
 <div class="container" *ngIf="entity_data && entity.type_of_entity == 'BS'">
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">NAME</label>
+            <p>{{entity_data.bizInfo.registrationName}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">REGISTRATION DATE</label>
+            <p>{{entity_data.bizInfo.regDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">REGISTRATION NO.</label>
+            <p>{{entity_data.bizInfo.registrationNo}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS EXPIRY DATE</label>
+            <p>{{entity_data.bizInfo.endBusinessDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS START DATE</label>
+            <p>{{entity_data.bizInfo.bizStartDate}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">LAST AMMENDMENT DATE</label>
+            <p>{{entity_data.bizInfo.ammendmentDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS OWNERSHIP</label>
+            <p>{{entity_data.bizInfo.bizOwnership}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">STATUS</label>
+            <p>{{entity_data.bizInfo.status}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">PRINCIPLE PLACE OF BUSINESSS</label>
+            <p id="secondary" class="mb-0">{{entity_data.bizInfo.address_1}} </p>
+            <p id="secondary" class="my-0" *ngIf="entity_data.bizInfo.address_2">{{entity_data.bizInfo.address_2}} </p>
+            <p id="secondary" class="my-0" *ngIf="entity_data.bizInfo.address_2">{{entity_data.bizInfo.address_3}} </p>
+            <p id="secondary" class="my-0">{{entity_data.bizInfo.postcode}}, {{entity_data.bizInfo.town}}  </p>
+            <p id="secondary" class="my-0">{{entity_data.bizInfo.state}} </p>
+        </div>
+
+        <div class="col">
+
+        </div>
+    </div>
+
+    <h3 class="font-weight-bold text-left mt-5"> BUSINESS TYPE </h3>
+    <p id="secondary">{{entity_data.bizType.description}}</p>
+
+    <h3 class="font-weight-bold text-left mt-5"> BRANCH INFORMATION </h3>
+    <p id="secondary" class="text-left"> NO BRANCH </p>
     
-        <h3 class="font-weight-bold text-center">*** BUSINESS INFORMATION ***</h3>
+    <h3 class="font-weight-bold text-left mt-5"> INFORMATION OF CURRENT OWNER </h3>
+    <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
+    <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
 
-        <div class="table-responsive">
-            <table class="table text-left borderless">
-                <tbody>
-                    <tr>
-                        <td>
-                            <p id="secondary">NAME</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.registrationName}}</p>
-                        </td>                            
-                    </tr>
-                    <tr>
-                        <td>
-                            <p id="secondary">REGISTRATION NO.</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.registrationNo}}</p>
-                        </td>                            
-                    </tr> 
-                    <tr>       
-                        <td>
-                            <p id="secondary">PRINCIPLE PLACE OF BUSINESSS</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="mb-0">: {{entity_data.bizInfo.address_1}} </p>
-                            <p id="secondary" class="my-0">: {{entity_data.bizInfo.address_2}} </p>
-                            <p id="secondary" class="my-0">: {{entity_data.bizInfo.address_3}} </p>
-                            <p id="secondary" class="my-0">: {{entity_data.bizInfo.postcode}}, {{entity_data.bizInfo.town}}  </p>
-                            <p id="secondary" class="my-0">: {{entity_data.bizInfo.state}} </p>
-                        </td>                            
-                    </tr>         
-                    <tr>       
-                        <td>
-                            <p id="secondary">BUSINESS OWNERSHIP</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="my-0">: {{entity_data.bizInfo.bizOwnership}} </p>
-                        </td>                            
-                    </tr>         
-                    <tr>       
-                        <td>
-                            <p id="secondary">BUSINESS START DATE</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.bizStartDate}}</p>
-                        </td>                            
-                    </tr>       
-                    <tr>       
-                        <td>
-                            <p id="secondary">REGISTRATION DATE</p></td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.regDate}}</p>
-                        </td>                            
-                    </tr>     
-                    <tr>       
-                        <td>
-                            <p id="secondary">BUSINESS EXPIRY DATE</p></td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.endBusinessDate}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">LAST AMMENDMENT DATE</p></td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.ammendmentDate}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">STATUS</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{entity_data.bizInfo.status}}</p>
-                        </td>
-                            
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <h3 class="font-weight-bold text-center mt-5">*** BUSINESS TYPE ****</h3>
-        <p id="secondary">{{entity_data.bizType.description}}</p>
+    <div *ngFor="let current of entity_data.ownerCurrentInfo">
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NAME</label>
+                <p>{{current.name}}</p>
+            </div>
 
-        <h3 class="font-weight-bold text-center mt-5">*** BRANCH INFORMATION ****</h3>
-        <p id="secondary" class="text-center">*** NO BRANCH ***</p>
-        
-        <h3 class="font-weight-bold text-center pg-break">*** INFORMATION OF CURRENT OWNER ****</h3>
-        <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
-        <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
-
-        <div class="table-responsive">
-            <table class="table text-left borderless">
-                <tbody>
-                    <div *ngFor="let current of entity_data.ownerCurrentInfo">
-                    <tr>
-                        <td>
-                            <p id="secondary">NAME</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{current.name}}</p>
-                        </td>                            
-                    </tr>
-                    <tr>       
-                        <td>
-                            <p id="secondary">RESIDENTIAL ADDRESS</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="mb-0">: {{current.address_1}} </p>
-                            <p id="secondary" class="my-0">: {{current.address_2}} </p>
-                            <p id="secondary" class="my-0">: {{current.address_3}} </p>
-                            <p id="secondary" class="my-0">: {{current.postcode}}, {{current.town}}  </p>
-                            <p id="secondary" class="my-0">: {{current.state}} </p>
-                        </td>                            
-                    </tr>         
-                    <tr>       
-                        <td>
-                            <p id="secondary">IC (OLD)</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="my-0">: {{current.icNoOld}} </p>
-                        </td>                            
-                    </tr> 
-                    <tr>       
-                        <td>
-                            <p id="secondary">IC (NEW)</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="my-0">: {{current.icNoNew}} </p>
-                        </td>                            
-                    </tr>        
-                    <tr>       
-                        <td>
-                            <p id="secondary">DATE OF BIRTH</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{current.birthDate}}</p>
-                        </td>                            
-                    </tr>       
-                    <tr>       
-                        <td>
-                            <p id="secondary">RACE</p></td>
-                        <td>
-                            <p id="secondary">: {{current.race}}</p>
-                        </td>                            
-                    </tr>     
-                    <tr>       
-                        <td>
-                            <p id="secondary">GENDER</p></td>
-                        <td>
-                            <p id="secondary">: {{current.gender}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">NATIONALITY</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{current.nationality}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">DATE OF ENTRY</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{current.entryDate}}</p>
-                        </td>
-                            
-                    </tr>
-                    </div>
-                </tbody>
-            </table>
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RACE</label>
+                <p>{{current.race}}</p>
+            </div>
         </div>
 
-        <h3 class="font-weight-bold text-center pg-break">*** PREVIOUS DIRECTORS/OFFICERS ****</h3>
-        <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
-        <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (OLD)</label>
+                <p>{{current.icNoOld}}</p>
+            </div>
 
-        <div class="table-responsive">
-            <table class="table text-left borderless">
-                <tbody>
-                    <div *ngFor="let previous of entity_data.ownerPreviousInfo">
-                    <tr>
-                        <td>
-                            <p id="secondary">NAME</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.name}}</p>
-                        </td>                            
-                    </tr>
-                    <tr>       
-                        <td>
-                            <p id="secondary">RESIDENTIAL ADDRESS</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="mb-0">: {{previous.address_1}} </p>
-                            <p id="secondary" class="my-0">: {{previous.address_2}} </p>
-                            <p id="secondary" class="my-0">: {{previous.address_3}} </p>
-                            <p id="secondary" class="my-0">: {{previous.postcode}}, {{previous.town}}  </p>
-                            <p id="secondary" class="my-0">: {{previous.state}} </p>
-                        </td>                            
-                    </tr>         
-                    <tr>       
-                        <td>
-                            <p id="secondary">IC (OLD)</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="my-0">: {{previous.icNoOld}} </p>
-                        </td>                            
-                    </tr> 
-                    <tr>       
-                        <td>
-                            <p id="secondary">IC (NEW)</p>
-                        </td>
-                        <td>
-                            <p id="secondary" class="my-0">: {{previous.icNoNew}} </p>
-                        </td>                            
-                    </tr>        
-                    <tr>       
-                        <td>
-                            <p id="secondary">DATE OF BIRTH</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.birthDate}}</p>
-                        </td>                            
-                    </tr>       
-                    <tr>       
-                        <td>
-                            <p id="secondary">RACE</p></td>
-                        <td>
-                            <p id="secondary">: {{previous.race}}</p>
-                        </td>                            
-                    </tr>     
-                    <tr>       
-                        <td>
-                            <p id="secondary">GENDER</p></td>
-                        <td>
-                            <p id="secondary">: {{previous.gender}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">NATIONALITY</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.nationality}}</p>
-                        </td>                            
-                    </tr>   
-                    <tr>       
-                        <td>
-                            <p id="secondary">DATE OF ENTRY</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.entryDate}}</p>
-                        </td>
-                    </tr>
-                    <tr>       
-                        <td>
-                            <p id="secondary">DATE OF WITHDRAWAL</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.withdrawDate}}</p>
-                        </td>
-
-                    </tr>
-                    <tr>       
-                        <td>
-                            <p id="secondary">REASON OF WITHDRAWAL</p>
-                        </td>
-                        <td>
-                            <p id="secondary">: {{previous.ammendmentType}}</p>
-                        </td> 
-                    </tr>
-                    </div>
-                </tbody>
-            </table>
+            <div class="col">
+                <label class="font-weight-bolder title-transform">GENDER</label>
+                <p>{{current.gender}}</p>
+            </div>
         </div>
-        
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (NEW)</label>
+                <p>{{current.icNoNew}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NATIONALITY</label>
+                <p>{{current.nationality}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF BIRTH</label>
+                <p>{{current.birthDate}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF ENTRY</label>
+                <p>{{current.entryDate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RESIDENTIAL ADDRESS</label>
+                <p id="secondary" class="mb-0">{{current.address_1}} </p>
+                <p id="secondary" class="my-0" *ngIf="current.address_2">{{current.address_2}} </p>
+                <p id="secondary" class="my-0" *ngIf="current.address_3">{{current.address_3}} </p>
+                <p id="secondary" class="my-0">{{current.postcode}}, {{current.town}}  </p>
+                <p id="secondary" class="my-0">{{current.state}} </p>
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+
+        <hr class="my-3 w-100" />
+    </div>
 </div>
 
 <ngx-spinner></ngx-spinner>

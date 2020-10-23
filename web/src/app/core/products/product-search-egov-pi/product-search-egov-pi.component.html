@@ -1,0 +1,187 @@
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="background-image: url('assets/img/banner/banner-tower.jpg')"></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder mb-0">
+                                Personal Involvement Search
+                            </h1>
+                            <h1 class="text-ssm font-weight-bolder mt-0">
+                                Company / Business
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt--9">
+        <h3 class="title font-weight-bolder">Company / Business Involvement</h3>
+
+        <form [formGroup]="requestForm">
+            <div class="row">
+                <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="id_type">
+                            <option value="">ID type</option>
+                            <option value="NN">New NRIC</option>
+                            <option value="ON">Old NRIC</option>
+                            <option value="PN">Passport no.</option>
+                            <option value="PI">Police ID</option>
+                            <option value="AI">Army ID</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                        <input 
+                            class="form-control"
+                            placeholder="NRIC or passport number to search"
+                            type="text"
+                            (blur)="focus = false"
+                            (focus)="focus = true"
+                            formControlName="id_value" 
+                        />
+                        <p style="font-size: 0.6em">
+                            <span style="color: red">*</span>Please exclude symbol
+                            ("-")
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="entity_type">
+                            <option value="">Entities</option>
+                            <option value="RB">Registration of Business (ROB)</option>
+                            <option value="RC">Registration of Company (ROC)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="involvement_information">
+                            <option value="">Involvement information</option>
+                            <option value="DM">Director / Manager</option>
+                            <option value="BO">Business Ownership</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="language">
+                            <option value="">Language</option>
+                            <option value="EN">EN</option>
+                            <option value="BM">BM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-right mb-4">
+                    <button class="btn btn-ssm rounded-pill" (click)="showSummary()">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="container pt-3" *ngIf="clicked">
+            <span class="text-center">
+                <br />
+                <h4 class="h3 mb-0">Summary Of Request</h4>
+                <br /><br />
+            </span>
+
+            <div class="dataTables_wrapper py-4">
+                <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [rows]="data" (activate)="onActivate($event)">
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span>No.</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span>ID Number</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row.idnum }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span>Entities</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row.entities }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span>Involvement To Purchase</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row.involvement }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Expenses</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.expenses }}
+                </ng-template>
+              </ngx-datatable-column> -->
+
+                    <ngx-datatable-column>
+                        <ng-template ngx-datatable-header-template>
+                            <span>Action</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <a style="cursor: pointer">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button></a>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+
+            <div class="text-left">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="proceedCheckbox" />
+                    <label class="custom-control-label" for="proceedCheckbox">
+                        Please ensure the ID number given by the customer is correct. By
+                        purchasing personal involvement, fee will be charged to any
+                        information.
+                    </label>
+                </div>
+
+                <div class="text-right my-4">
+                    <button class="btn btn-ssm btn-round">Add to Cart RM90.00</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
