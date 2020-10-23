@@ -124,7 +124,7 @@ export class ServicesService {
     return this.http.post<any>(this.urlEgovRequest, body).pipe(
       tap((res) => {
         // this.request = res
-        console.log('Requested: ', res)
+        // console.log('Requested: ', res)
       })
     )
   }
@@ -132,7 +132,7 @@ export class ServicesService {
   getEgovMinistries(): Observable<any[]> {
     return this.http.get<any>(this.urlEgovMinistry).pipe(
       tap((res) => {
-        console.log('Ministry: ', res)
+        // console.log('Ministry: ', res)
       })
     )
   }
@@ -141,7 +141,7 @@ export class ServicesService {
     let urlTemp = this.urlEgovDepartment + 'extended/'
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
-        console.log('Department: ', res)
+        // console.log('Department: ', res)
       })
     )
   }
@@ -167,6 +167,23 @@ export class ServicesService {
     return this.http.post<any>(this.urlEgovMinistry, body).pipe(
       tap((res) => {
 
+      })
+    )
+  }
+
+  requestQuota(): Observable<any[]> {
+    return this.http.get<any>(this.urlEgovRequest).pipe(
+      tap((res) => {
+        // this.request = res
+        // console.log('Requested: ', res)
+      })
+    )
+  }
+
+  requestChange(): Observable<any> {
+    return this.http.get(this.urlEgovDepartment).pipe(
+      tap((res) => {
+        //
       })
     )
   }

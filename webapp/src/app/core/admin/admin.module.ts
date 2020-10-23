@@ -47,6 +47,7 @@ import { EgovEnquiryComponent } from './enquiry/egov-enquiry/egov-enquiry.compon
 import { ConfigurationEnquiryComponent } from './enquiry/configuration-enquiry/configuration-enquiry.component';
 import { ReportEnquiryComponent } from './enquiry/report-enquiry/report-enquiry.component';
 
+import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
 import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
 import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-task-management.component';
@@ -82,6 +83,7 @@ import { EgovUserManagementComponent } from './egov/egov-user-management/egov-us
     EgovEnquiryComponent,
     ConfigurationEnquiryComponent,
     ReportEnquiryComponent,
+    EgovDashboardComponent,
     EgovDropdownComponent,
     EgovReportComponent,
     EgovTaskManagementComponent,

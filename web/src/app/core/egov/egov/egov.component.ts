@@ -3,6 +3,8 @@ import {
   OnInit,
   TemplateRef,
   ChangeDetectorRef,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import {
@@ -21,6 +23,8 @@ import { User } from 'src/app/shared/services/users/users.model';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-egov',
@@ -34,18 +38,12 @@ export class EgovComponent implements OnInit {
 
   // Checker
   isSignUp: boolean = false;
-  registerDiv: boolean = false;
   ministry: number = 0;
-  listAgency: any;
+  isAgree: boolean = false
 
   // Image
-  egovBanner = 'assets/img/background/putrajaya-2.jpg'
+  egovBanner = 'assets/img/background/putrajaya.jpg'
   
-
-  public aFormGroup: FormGroup;
-
-  public readonly siteKey = '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1';
-
   // Modal
   modal: BsModalRef;
   modalConfig = {
@@ -55,55 +53,23 @@ export class EgovComponent implements OnInit {
 
   registerUser: any[] = [];
 
-  // form
-
-  signUpForm: FormGroup;
+  // Form
+  @ViewChild('formRegistration') formRegistration: ElementRef;
   registerForm: FormGroup
 
-
-
   // List
-  ministryOptions: any[] = [
-    { 'name': 'JABATAN PERDANA MENTERI (JPM)' },
-    { 'name': 'KEMENTERIAN BELIA DAN SUKAN' },
-    { 'name': 'KEMENTERIAN DALAM NEGERI' },
-    { 'name': 'KEMENTERIAN HAL EHWAL EKONOMI' },
-    { 'name': 'KEMENTERIAN INDUSTRI UTAMA' },
-    { 'name': 'KEMENTERIAN KERJA RAYA (KKR)' },
-    { 'name': 'KEMENTERIAN KESIHATAN MALAYSIA' },
-    { 'name': 'KEMENTERIAN KEWANGAN' },
-    { 'name': 'KEMENTERIAN KOMUNIKASI DAN MULTIMEDIA' },
-    { 'name': 'KEMENTERIAN LUAR NEGERI' },
-    { 'name': 'KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA MALAYSIA (MOTAC)' },
-    { 'name': 'KEMENTERIAN PEMBANGUNAN LUAR BANDAR' },
-    { 'name': 'KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (MEDAC)' },
-    { 'name': 'KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT (KPWKM)' },
-    { 'name': 'KEMENTERIAN PENDIDIKAN' },
-    { 'name': 'KEMENTERIAN PENGANGKUTAN' },
-    { 'name': 'KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI' },
-    { 'name': 'KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN HAL EHWAL PENGGUNA (KPDNHEP)' },
-    { 'name': 'KEMENTERIAN PERPADUAN NEGARA' },
-    { 'name': 'KEMENTERIAN PERTAHANAN' },
-    { 'name': 'KEMENTERIAN PERTANIAN DAN INDUSTRI ASAS TANI' },
-    { 'name': 'KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN' },
-    { 'name': 'KEMENTERIAN SUMBER MANUSIA' },
-    { 'name': 'KEMENTERIAN TENAGA DAN SUMBER ASLI' },
-    { 'name': 'KEMENTERIAN TENAGA, SAINS, TEKNOLOGI, ALAM SEKITAR DAN PERUBAHAN IKLIM (MESTECC)' },
-    { 'name': 'KEMENTERIAN WILAYAH PERSEKUTUAN' }
-  ]
-  departmentOptions: any[] = []
+  ministries: any[] = []
+  departments: any[] = []
 
   constructor(
-    private reCaptchaV3Service: ReCaptchaV3Service,
     private userService: UsersService,
-    private AuthService: AuthService,
     private fb: FormBuilder,
     private modalService: BsModalService,
     private router: Router,
-    private cdRef: ChangeDetectorRef,
     private fileService: LocalFilesService,
     private serviceService: ServicesService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private toastr: ToastrService
   ) {
     this.getUser()
     this.getData()
@@ -111,49 +77,28 @@ export class EgovComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
-    this.signUpForm = this.fb.group({
-      id: new FormControl(''),
-      recaptcha: new FormControl('', Validators.required),
-      full_name: new FormControl('Admin'),
-      password: new FormControl(''),
-      password2: new FormControl(''),
-      email: new FormControl('admin@gov.com.my'),
-      phone_number: new FormControl('0123456789'),
-      nric_number: new FormControl('910920114544'),
-      username: new FormControl('admintest'),
-      egov_request: new FormControl('PD'),
-
-      company_address_1: new FormControl(''),
-      company_address_2: new FormControl(''),
-      company_address_3: new FormControl(''),
-      company_city: new FormControl(''),
-      company_postcode: new FormControl(''),
-      company_state: new FormControl(''),
-      company_country: new FormControl(''),
-      position_or_grade: new FormControl(''),
-      head_of_department_name: new FormControl(''),
-      head_of_department_position: new FormControl(''),
-      head_of_department_email: new FormControl(''),
-      ministry_name: new FormControl(''),
-      division_name: new FormControl(''),
-      agency_name: new FormControl(''),
-      department_name: new FormControl('')
-    });
   }
 
   initForm() {
     this.registerForm = this.fb.group({
       user: new FormControl(null, Validators.required),
       egov_request: new FormControl('PD', Validators.required),
-      position_or_grade: new FormControl(),
-      head_of_department_name: new FormControl(),
-      head_of_department_position: new FormControl(),
-      head_of_department_email: new FormControl(),
-      ministry_name: new FormControl(),
-      division_name: new FormControl(),
-      agency_name: new FormControl(),
-      department_name: new FormControl()
+      position_or_grade: new FormControl(null, Validators.required),
+      head_of_department_name: new FormControl(null, Validators.required),
+      head_of_department_position: new FormControl(null, Validators.required),
+      head_of_department_email: new FormControl(null, Validators.required),
+      ministry_name: new FormControl(null, Validators.required),
+      department_name: new FormControl(null, Validators.required),
+      division_name: new FormControl(null, Validators.required),
+      address_1: new FormControl(null, Validators.required),
+      address_2: new FormControl(),
+      address_3: new FormControl(),
+      city: new FormControl(null, Validators.required),
+      postcode: new FormControl(null, Validators.required),
+      state: new FormControl(null, Validators.required),
+      attachment_letter: new FormControl()
     })
+    this.registerForm.controls['user'].setValue(this.user.id)
   }
 
   // SB start
@@ -166,10 +111,16 @@ export class EgovComponent implements OnInit {
   }
 
   getData() {
-    this.fileService.get('egov-list.json').subscribe(
+    forkJoin([
+      this.serviceService.getEgovMinistries(),
+      this.serviceService.getEgovDepartments()
+    ]).subscribe(
       (res) => {
-        this.departmentOptions = res
-      }
+        this.ministries = res[0]
+        this.departments = res[1]
+      },
+      () => {},
+      () => {}
     )
   }
 
@@ -179,14 +130,17 @@ export class EgovComponent implements OnInit {
     }
   }
 
-  
-  // SB end
-
-  signInUser() {
-    this.router.navigate(['/products/search-egov'])
+  openRegistration() {
+    this.isSignUp = true
+    setTimeout(
+      () => {
+        this.formRegistration.nativeElement.scrollIntoView({ behavior: 'smooth' })
+      }, 1000
+    )
   }
 
   register() {
+    // console.log(this.registerForm.value)
     this.loadingBar.useRef('http').start()
     this.serviceService.requestEgov(this.registerForm.value).subscribe(
       () => {
@@ -196,44 +150,48 @@ export class EgovComponent implements OnInit {
       () => {
         this.loadingBar.useRef('http').complete()
       },
-      () => {}
+      () => {
+        // let title = 'Success'
+        // let message = 'Logging out...'
+        // this.navigatePage('/home')
+        // this.toastr.success(message, title)
+      }
     )
   }
 
-  signUpUser() {
-    this.signUpForm.value.id = this.userService.currentUser.id
-    this.userService.update(
-      this.signUpForm.value.id,
-      this.signUpForm.value
-    ).subscribe(
-      (res) => {
-        console.log(res);
-        this.successAlert('Successfully sign up eGOV');
-        window.location.reload();
+  successAlert(message) {
+    swal.fire({
+      title: 'Success',
+      text: message,
+      icon: 'success',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-success rounded-pill',
       },
-      (err) => {
-        console.error(err);
+    })
+    .then((res) => {
+      if (res) {
+        console.log('Confirm')
       }
-    );
+    })
   }
 
-  signUp() {
-    this.isSignUp = true;
+  navigatePage(path: string) {
+    // console.log('Path: ', path)
+    // this.closeModal();
+    this.router.navigate([path]);
   }
+  
+  // SB end
 
-  scrollToDownload(element: any) {
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
-
+  
   ngOnDestroy() {
     var body = document.getElementsByTagName('body')[0];
     body.classList.remove('presentation-page');
     var navbar = document.getElementById('navbar-main');
     navbar.classList.remove('bg-primary');
-  }
-
-  registerUserDiv() {
-    this.registerDiv = true;
   }
 
   openModal(modalRef: TemplateRef<any>) {
@@ -255,45 +213,4 @@ export class EgovComponent implements OnInit {
     // this.editAppReqForm.reset();
   }
 
-  confirm(row) {
-    swal
-      .fire({
-        title: 'Confirmation',
-        text: 'Are you sure to delete this data ?',
-        icon: 'info',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Confirm',
-        customClass: {
-          cancelButton: 'btn btn-outline-primary ',
-          confirmButton: 'btn btn-primary ',
-        },
-      })
-      .then(() => {
-        // this.deleteApplicationData(row);
-      });
-  }
-
-  successAlert(task) {
-    swal.fire({
-      title: 'Success',
-      text: task,
-      icon: 'success',
-      // showCancelButton: true,
-      buttonsStyling: false,
-      confirmButtonText: 'Close',
-      customClass: {
-        cancelButton: 'btn btn-outline-success',
-        confirmButton: 'btn btn-success ',
-      },
-    });
-    // console.log('confirm');
-    this.navigatePage('/egov-details');
-  }
-
-  navigatePage(path: string) {
-    // console.log('Path: ', path)
-    // this.closeModal();
-    this.router.navigate([path]);
-  }
 }

@@ -43,6 +43,7 @@ import { ProductSearchResultPackage1Component } from './products/product-search-
 import { ProductSearchResultPackage2Component } from './products/product-search-result-package2/product-search-result-package2.component';
 import { ProductSearchResultPackage3Component } from './products/product-search-result-package3/product-search-result-package3.component';
 import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
+import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/product-search-egov-pi.component';
 
 
 
@@ -87,7 +88,11 @@ export const CoreRoutes: Routes = [
           {
             path: 'search-egov',
             component: ProductSearchEgovComponent
-          },          
+          },
+          {
+            path: 'search-egov-pi',
+            component: ProductSearchEgovPiComponent
+          },      
           {
             path: 'search-personal-involvement',
             component: ProductSearchPiComponent

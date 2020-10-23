@@ -23,7 +23,7 @@
         <h3 class="title font-weight-bolder">Company / Business Involvement</h3>
 
         <div class="row">
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <select class="form-control">
                         <option>ID type</option>
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <input class="form-control" placeholder="Type NRIC Number or Passport Number To Search" type="text"
                         (blur)="focus = false" (focus)="focus = true" />
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <select class="form-control" [(ngModel)]="entities">
                         <option>Entities</option>
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group" *ngIf="entities == 'roc'">
                     <select class="form-control">
                         <option>Involvement to purchase</option>
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="form-group">
                     <select class="form-control">
                         <option>EN</option>
@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-auto">
+            <div class="col-sm-12 col-lg-4">
                 <div class="custom-control custom-checkbox" *ngIf="entities == 'roc'">
                     <input type="checkbox" class="custom-control-input" id="addCTCROC" />
                     <label class="custom-control-label" for="addCTCROC">CTC (+RM10.00)</label>
@@ -97,12 +97,16 @@
                     <label class="custom-control-label" for="addCTCROB">CTC (+RM5.00)</label>
                 </div>
             </div>
-            <div class="col">
-                <button class="btn btn-default btn-sm" (click)="showSummary()">
+        </div>
+
+        <div class="row">
+            <div class="col text-right mb-4">
+                <button class="btn btn-ssm rounded-pill" (click)="showSummary()">
                     Add
                 </button>
             </div>
         </div>
+        
         <div class="container pt-3" *ngIf="clicked">
             <span class="text-center">
                 <br />

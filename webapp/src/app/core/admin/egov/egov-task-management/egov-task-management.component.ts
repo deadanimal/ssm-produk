@@ -4,34 +4,30 @@ import {
   OnDestroy,
   NgZone,
   TemplateRef,
-} from "@angular/core";
-import { User } from "src/assets/mock/admin-user/users.model";
-import { MocksService } from "src/app/shared/services/mocks/mocks.service";
+} from '@angular/core';
+import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 
-import * as moment from "moment";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
-am4core.useTheme(am4themes_animated);
+import * as moment from 'moment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
+} from '@angular/forms';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 import { forkJoin } from 'rxjs';
 import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
-  single = "single",
-  multi = "multi",
-  multiClick = "multiClick",
-  cell = "cell",
-  checkbox = "checkbox",
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
 }
 
 @Component({
@@ -61,16 +57,16 @@ export class EgovTaskManagementComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered",
+    class: 'modal-dialog-centered',
   };
 
   // Form
   registerForm: FormGroup;
   registerFormMessages = {
-    name: [{ type: "required", message: "Name is required" }],
+    name: [{ type: 'required', message: 'Name is required' }],
     email: [
-      { type: "required", message: "Email is required" },
-      { type: "email", message: "A valid email is required" },
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'A valid email is required' },
     ],
   };
 
@@ -80,16 +76,17 @@ export class EgovTaskManagementComponent implements OnInit {
     private formBuilder: FormBuilder,
     private zone: NgZone,
     private serviceService: ServicesService,
-    private quotaService: QuotasService
+    private quotaService: QuotasService,
+    private loadingBar: LoadingBarService
   ) {
     this.getData()
   }
 
   ngOnInit() {
     // this.registerForm = this.formBuilder.group({
-    //   name: new FormControl("", Validators.compose([Validators.required])),
+    //   name: new FormControl('', Validators.compose([Validators.required])),
     //   email: new FormControl(
-    //     "",
+    //     '',
     //     Validators.compose([Validators.required, Validators.email])
     //   ),
     // });
@@ -122,27 +119,27 @@ export class EgovTaskManagementComponent implements OnInit {
 
   confirm() {
     swal.fire({
-      title: "Success",
-      text: "You have successfully export report!",
-      type: "success",
+      title: 'Success',
+      text: 'You have successfully export report!',
+      type: 'success',
       buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
-      confirmButtonText: "Success",
+      confirmButtonClass: 'btn btn-success',
+      confirmButtonText: 'Success',
       showCancelButton: false,
-      // cancelButtonClass: "btn btn-danger",
-      // cancelButtonText: "Cancel"
+      // cancelButtonClass: 'btn btn-danger',
+      // cancelButtonText: 'Cancel'
     });
   }
 
   register() {
     swal
       .fire({
-        title: "Success",
-        text: "A new user has been created!",
-        type: "success",
+        title: 'Success',
+        text: 'A new user has been created!',
+        type: 'success',
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-success",
-        confirmButtonText: "Close",
+        confirmButtonClass: 'btn btn-success',
+        confirmButtonText: 'Close',
       })
       .then((result) => {
         if (result.value) {
@@ -150,45 +147,6 @@ export class EgovTaskManagementComponent implements OnInit {
           this.registerForm.reset();
         }
       });
-  }
-
-  initData() {
-    this.serviceService.getReport().subscribe(
-      (res) => {
-        this.tableRows = res;
-        this.tableRows.forEach(
-          (row) => {
-            if(row.pending_date) {
-              row.pending_date = moment(row.pending_date).format('DD/MM/YYYY')
-            }
-
-            if(row.completed_date) {
-              row.completed_date = moment(row.completed_date).format('DD/MM/YYYY')
-            }
-
-            if(row.created_date) {
-              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
-            }
-
-            if(row.modified_date) {
-              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
-            }
-          }
-        )        
-      },
-      (err) => {
-
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });        
-        console.log(this.tableTemp)
-      }
-    )
   }
 
   entriesChange($event) {
@@ -213,12 +171,14 @@ export class EgovTaskManagementComponent implements OnInit {
 
   getData() {
     console.log('getData')
+    this.loadingBar.start()
     forkJoin([
       this.serviceService.getEgovInvestigation(),
       this.serviceService.getEgovRequest(),
       this.quotaService.getEgov()
     ]).subscribe(
       (res) => {
+        this.loadingBar.complete()
         console.log('eg', res)
         this.investigationRequests = res[0]
         this.egovRequests = res[1]
@@ -310,17 +270,19 @@ export class EgovTaskManagementComponent implements OnInit {
         )
       },
       (fail) => {
+        this.loadingBar.complete()
         console.log(fail)
       },
       () => {
          console.log('aft')
+         this.tasks.sort((a, b) => new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime())
          this.tableRows = this.tasks
          this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
             id_index: key+1
           };
-        });        
+        });
         console.log(this.tableTemp)
       }
     )

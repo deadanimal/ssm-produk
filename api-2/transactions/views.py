@@ -8,7 +8,6 @@ from django.shortcuts import render,redirect
 from django.db.models import Q
 from django.utils import timezone
 
-
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -28,7 +27,10 @@ from .serializers import (
     TransactionExtendedSerializer
 )
 
-from carts.models import Cart
+from carts.models import (
+    Cart,
+    CartItem
+)
 
 class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
@@ -66,7 +68,10 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def pg_return(self, request, *args, **kwargs):  
 
         transaction_id = request.POST.get("PaymentID", "")   
+        pg_transaction_id = request.POST.get("TxnID", "")
         # print('tt', request.POST.get("PymtMethod", ""))
+        print(transaction_id)
+        print('tx', pg_transaction_id)
         transaction_method = request.POST.get("PymtMethod", "")
         transaction_status = request.POST.get("TxnStatus", "")[0]
         transaction = Transaction.objects.filter(reference_no=transaction_id).first()
@@ -76,15 +81,41 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         cart = Cart.objects.filter(id=transaction.cart.id).first()
         print(cart.cart_status)
 
+        timezone = pytz.timezone('Asia/Kuala_Lumpur')
+        current_year = str(datetime.datetime.now(timezone).year)
+        current_month = str(datetime.datetime.now(timezone).month)
+        current_day = str(datetime.datetime.now(timezone).day)
+        
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        filter_month = datetime.datetime.now(tz=timezone.utc).month
+        filter_day = datetime.datetime.now(tz=timezone.utc).day
+
         # transaction 0 - successful
         if transaction_status == '0':
             transaction.payment_status = 'OK'
-            transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
+            transaction.payment_gateway_update_date = datetime.datetime.now(timezone)
             transaction.payment_method = transaction_method
             transaction.save()
 
             cart.cart_status = 'CM'
             cart.save()
+
+            cart_items = CartItem.objects.filter(cart=cart.id)
+
+            for item in cart_items:
+                product_length = CartItem.objects.filter(
+                    Q(cart_item_type = 'PR') &
+                    Q(order_no__isnull=False) &
+                    Q(created_date__year=filter_year) &
+                    Q(created_date__month=filter_month) &
+                    Q(created_date__day=filter_day)
+                ).count()
+                running_no = "{0:0>6}".format(product_length)
+
+                if item.cart_item_type == 'PR':
+                    item.order_no = 'SSM' + current_year + current_month + current_day + running_no
+                    item.save()
+
             
         # transaction 1 - failed
         elif transaction_status == '1':
@@ -163,7 +194,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         user_id = request.GET.get('user', '') 
 
         delta = datetime.timedelta(days=7)      
-        current_time = datetime.datetime.now()
+        current_time = datetime.datetime.now(tz=timezone.utc)
         date_filter = current_time - delta
 
         all_latest_successful_transactions = Transaction.objects.filter(

@@ -62,6 +62,8 @@ class CartItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    order_no = models.CharField(max_length=100, null=True)
+    
     CART_ITEM_TYPE = [
         ('PS', 'Product Search Criteria'),
         ('PR', 'Product'),
@@ -92,6 +94,9 @@ class CartItem(models.Model):
 
     # PRODUCT SEARCH CRITERIA
     product_search_criteria = models.ForeignKey(ProductSearchCriteria, on_delete=models.CASCADE, null=True)
+
+    # DOCUMENT
+    output_document = models.FileField(null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

@@ -72,10 +72,11 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'egov',
     isCollapsed: true,
     children: [
+      { path: 'dashboard', title: 'Dashboard', type: 'link' },
       { path: 'task-management', title: 'Task Management', type: 'link' },
       { path: 'dropdown', title: 'eGov Dropdown', type: 'link' },
       { path: 'user-management', title: 'eGov User Management', type: 'link' },
-      { path: 'report', title: 'Report', type: 'link'}
+      // { path: 'report', title: 'Report', type: 'link'}
     ],
   },  
   {

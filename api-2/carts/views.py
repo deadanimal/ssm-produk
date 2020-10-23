@@ -64,24 +64,30 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=True)
     def add_item_to_cart(self, request, *args, **kwargs):    
 
-        cart_item_request = json.loads(request.body)    
+        cart_item_request = json.loads(request.body)   
+        # print('cit', cart_item_request)
 
+        # Post.objects.filter(user=request.user)
+        # product_length = CartItem.objects.filter(cart_item_type = 'PR').count()
+        # print("{0:0>6}".format(product_length))
+        # Item product
         if cart_item_request['item_type'] == 'product':
-            
             entity_id = cart_item_request['entity']
             product_id = cart_item_request['product']
             image_version_id = cart_item_request['image_version_id']
             image_form_type = cart_item_request['image_form_type']
             year1 = cart_item_request['year1']
             year2 = cart_item_request['year2']
-            print(year1)
-            print(year2)
 
             cart = self.get_object()
 
             entity = Entity.objects.filter(id=entity_id).first()
             product = Product.objects.filter(id=product_id).first()
-            
+
+            cart_items = CartItem.objects.filter(cart=cart.id)
+            print(cart_items)
+
+            # Document and image
             if image_version_id:
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
@@ -89,7 +95,9 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     image_form_type=image_form_type,
                     image_version_id=image_version_id,
                     cart= cart,
-                    cart_item_type='PR')
+                    cart_item_type='PR'
+                )
+            # Financial historical
             elif year1 and year2:
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
@@ -97,16 +105,18 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     year1=year1,
                     year2=year2,
                     cart= cart,
-                    cart_item_type='PR')
+                    cart_item_type='PR'
+                )
+            # Products
             else:
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
                     product=product, 
                     cart= cart,
-                    cart_item_type='PR')
-
+                    cart_item_type='PR'
+                )
+        # Item service
         elif cart_item_request['item_type'] == 'service':
-            
             service_request_id = str(cart_item_request['service_request_id'])
             service_request = ServiceRequest.objects.filter(id=service_request_id).first()
 
@@ -115,10 +125,10 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             new_cart_item = CartItem.objects.create(
                 service_request=service_request, 
                 cart= cart,
-                cart_item_type='SE')     
-
+                cart_item_type='SE'
+            )     
+        # Item quota
         elif cart_item_request['item_type'] == 'quota':
-            
             quota_id = str(cart_item_request['quota_id'])
             quota = Quota.objects.filter(id=quota_id).first()
 
@@ -127,7 +137,8 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             new_cart_item = CartItem.objects.create(
                 quota = quota,
                 cart= cart,
-                cart_item_type='QU')  
+                cart_item_type='QU'
+            )  
 
         elif cart_item_request['item_type'] == 'product_search_criteria':
             
@@ -139,7 +150,8 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             new_cart_item = CartItem.objects.create(
                 product_search_criteria=product_search_criteria,
                 cart= cart,
-                cart_item_type='PS')                                             
+                cart_item_type='PS'
+            )                                             
         else:
             pass
 

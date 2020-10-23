@@ -43,7 +43,7 @@ export class User {
   public username: string;
   public is_active: boolean;
   public egov_request: string;
-  public egov_quota: string;
+  public egov_quota: number;
   public egov_package: number;
 
   constructor(
@@ -90,7 +90,7 @@ export class User {
     username: string,
     is_active: boolean,
     egov_request: string,
-    egov_quota: string,
+    egov_quota: number,
     egov_package: number
   ) {
     this.id = id;
