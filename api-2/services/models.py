@@ -128,7 +128,8 @@ class EgovernmentMinistry(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
     name = models.CharField(max_length=100, blank=True, null=True)   
-
+    active = models.BooleanField(default=True)
+    
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
@@ -164,9 +165,10 @@ class EgovernmentRequest(models.Model):
     EGOV_REQUEST = [
         ('NA', 'NA'),
         ('AP', 'Approved'),
-        ('PD', 'Pending')
+        ('PD', 'Pending'),
+        ('RJ', 'Rejected')
     ]
-    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='NA')
+    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='PD')
 
     egov_package = models.IntegerField(default=0, null=False)
     egov_quota = models.IntegerField(default=0, null=True)
@@ -178,9 +180,17 @@ class EgovernmentRequest(models.Model):
     head_of_department_email = models.EmailField(max_length=100, blank=True, null=True)
 
     ministry_name = models.CharField(max_length=100, blank=True, null=True)
+    department_name = models.CharField(max_length=100, blank=True, null=True)   
     division_name = models.CharField(max_length=100, blank=True, null=True)
-    agency_name = models.CharField(max_length=100, blank=True, null=True)
-    department_name = models.CharField(max_length=100, blank=True, null=True)    
+
+    address_1 = models.CharField(max_length=100, blank=True, null=True)
+    address_2 = models.CharField(max_length=100, blank=True, null=True)
+    address_3 = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    postcode = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
+
+    attachment_letter = models.FileField(null=True, upload_to=PathAndRename('egovernment-request-attachment-letter'))
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

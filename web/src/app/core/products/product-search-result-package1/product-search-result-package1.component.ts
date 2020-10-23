@@ -12,6 +12,8 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+import * as moment from 'moment';
+
 class Entity {
   name: string;
   registration_no: string;
@@ -84,9 +86,16 @@ export class ProductSearchResultPackage1Component implements OnInit {
       (res: any) => {
         console.log(res)
         this.entity_data = res;
-      },(error: any) => {
+        if (this.entity_data['company_info']) {
+          if (this.entity_data['company_info']['dateOfChange']) {
+            this.entity_data['company_info']['dateOfChange'] = moment(this.entity_data['company_info']['dateOfChange']).format('DD-MM-YYYY')
+          }
+        }
+      },
+      (error: any) => {
 
-      },() => {
+      },
+      () => {
         this.spinner.hide()
       }
     )    

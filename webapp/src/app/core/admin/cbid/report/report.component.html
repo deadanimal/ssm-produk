@@ -46,9 +46,9 @@
 								*dropdownMenu 
 								class="dropdown-menu dropdown-menu-right"
 							>
-								  <a class="dropdown-item" (click)="export('excel')">Excel</a>
-								  <a class="dropdown-item" (click)="export('pdf')">PDF</a>
-								  <a class="dropdown-item" (click)="export('csv')">CSV</a>
+								  <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+								  <a class="dropdown-item" (click)="export('pdf')" >PDF</a>
+								  <a class="dropdown-item" (click)="exportCsv()">CSV</a>
 							</div>
 						</div>
 					</div>
@@ -71,10 +71,11 @@
 					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
 							<label class="form-control-label">Status</label>
-							<select class="form-control form-control-sm" (keyup)="filterTable($event, 'status')">
+							<select class="form-control form-control-sm" (change)="filterTable($event, 'status')">
 								<option value="PD">Pending</option>
 								<option value="CM">Completed</option>
 								<option value="IP">In Progress</option>
+								<option value="all" selected>All</option>
 							</select>
 						</div>
 					</div>
@@ -82,13 +83,13 @@
 					<div class="col-sm-12 col-md-3">
 						<div class="form-group">
 							<label class="form-control-label">Application Date</label>
-							<input class="form-control form-control-sm" type="date" (keyup)="filterTable($event, 'date')">
+							<input class="form-control form-control-sm" type="date" (change)="filterTable($event, 'date')">
 						</div>
 					</div>
 				</div>
 				<div class="dataTables_wrapper pb-4">
 					<div class="row">
-						<div class="col-sm-12 col-md-3">
+						<div class="col-sm-12 col-md-6">
 							<div class="dataTables_length" id="datatable_length">
 								<label>
 									Show
@@ -108,12 +109,6 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-md-4"></div>
-						<!-- <div class="col-sm-12 col-md-4 mr-2">
-							<div class="form-group">
-								<input class="form-control form-control-sm" placeholder="Search name...">
-							</div>
-						</div> -->
 					</div>
 
 					<ngx-datatable
@@ -330,7 +325,7 @@
 	</table>
 </div>
 
-<div class="table" id="reportTable1" *ngIf="!isHidden">
+<div class="table" id="reportTable" #reportTable *ngIf="!isHidden">
 	<table class="table table-responsive table-flush">
 		<thead>
 			<tr>

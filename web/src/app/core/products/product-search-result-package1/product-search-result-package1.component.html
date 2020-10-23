@@ -53,12 +53,12 @@
     <div class="row">
 
         <div class="col">
-            <label>Company Name</label>
+            <label class="font-weight-bolder title-transform">Company Name</label>
             <p>{{ entity_data['company_info']['companyName']}}</p>
         </div>    
 
         <div class="col">
-            <label>Last Old Name</label>
+            <label class="font-weight-bolder title-transform">Last Old Name</label>
             <p *ngIf="entity_data['company_info']['companyOldName']">{{ entity_data['company_info']['companyOldName']}}</p>
             <p *ngIf="!entity_data['company_info']['companyOldName']">NIL</p>
         </div>          
@@ -68,25 +68,23 @@
     <div class="row">
 
         <div class="col">
-            <label>Date of Change</label>
+            <label class="font-weight-bolder title-transform">Date of Change</label>
             <p *ngIf="entity_data['company_info']['dateOfChange']">{{ entity_data['company_info']['dateOfChange']}}</p>
             <p *ngIf="!entity_data['company_info']['dateOfChange']">NIL</p>
         </div>    
 
         <div class="col">
-            <label>Company Number</label>
+            <label class="font-weight-bolder title-transform">Company Number</label>
             <p>
                 <span *ngIf="entity.type_of_entity == 'AD'">
-                    {{ entity.audit_firm_number }} / {{entity.name}}
+                    {{ entity.audit_firm_number }}
                 </span>
                 <span *ngIf="entity.type_of_entity == 'BS'">
                     {{ entity.registration_number_new }}
-                    ({{ entity.registration_number }}-{{ entity.check_digit }}) /
-                    {{entity.name}}
+                    ({{ entity.registration_number }}-{{ entity.check_digit }})
                 </span>
                 <span *ngIf="entity.type_of_entity == 'CP'">
-                    {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
-                    {{entity.name}}
+                    {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}})
                 </span>
             </p>
         </div>          
@@ -96,12 +94,12 @@
     <div class="row">
 
         <div class="col">
-            <label>Incorporation Date</label>
+            <label class="font-weight-bolder title-transform">Incorporation Date</label>
             <p>{{ entity_data['incorp_date']}}</p>
         </div>    
 
         <div class="col">
-            <label>Type</label>
+            <label class="font-weight-bolder title-transform">Type</label>
             <p >
                 <span *ngIf="entity_data['company_info']['companyType'] =='B'">
                     LIMITED BY SHARE AND GUARANTEE 
@@ -130,16 +128,49 @@
     <div class="row">
 
         <div class="col">
-            <label>Status</label>
+            <label class="font-weight-bolder title-transform">Status</label>
             <p>
                 <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'E'">
                     Existing
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'W'">
+                    Winding Up
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'D'">
+                    Dissolved
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'R'">
+                    Removed
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'C'">
+                    Ceased Business
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'X'">
+                    Null and Void by Court Order
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'B'">
+                    Dissolved Conversion to LLP
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'Y'">
+                    Struck-off & Winding-up via Court Order
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'F'">
+                    Winding Up (Under SVA)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'G'">
+                    Existing Under JM (Under CVA)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'V'">
+                    Existing (Under CVS)
+                </span>
+                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'J'">
+                    Existing (Under JM)
                 </span>
             </p>
         </div>    
 
         <div class="col">
-            <label>Origin</label>
+            <label class="font-weight-bolder title-transform">Origin</label>
             <p>
                 <span *ngIf="entity_data['company_info']['companyCountry'] == 'MAL'">
                     MALAYSIA
@@ -152,8 +183,30 @@
     <div class="row">
 
         <div class="col">
-            <label>Registered Address</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Registered Address</label>
+            <p *ngIf="entity_data['registered_address_info']['address1']">
+                {{entity_data['registered_address_info']['address1']}},
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['address2']">
+                {{entity_data['registered_address_info']['address2']}},
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['address3']">
+                {{entity_data['registered_address_info']['address3']}},
+            </p>
+            <p>
+                <span *ngIf="entity_data['registered_address_info']['postcode']">
+                    {{entity_data['registered_address_info']['postcode']}},
+                </span>
+                <span *ngIf="entity_data['registered_address_info']['town']">
+                    {{entity_data['registered_address_info']['town']}},
+                </span>
+            </p>
+            <p *ngIf="entity_data['registered_address_info']['stateString']">
+                {{entity_data['registered_address_info']['stateString']}}
+            </p>
+            <p *ngIf="!entity_data['registered_address_info']">
+                NIL
+            </p>
         </div>    
 
     </div>    
@@ -161,8 +214,30 @@
     <div class="row">
 
         <div class="col">
-            <label>Business Address</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Business Address</label>
+            <p *ngIf="entity_data['business_address_info']['address1']">
+                {{entity_data['business_address_info']['address1']}},
+            </p>
+            <p *ngIf="entity_data['business_address_info']['address2']">
+                {{entity_data['business_address_info']['address2']}},
+            </p>
+            <p *ngIf="entity_data['business_address_info']['address3']">
+                {{entity_data['business_address_info']['address3']}},
+            </p>
+            <p>
+                <span *ngIf="entity_data['business_address_info']['postcode']">
+                    {{entity_data['business_address_info']['postcode']}},
+                </span>
+                <span *ngIf="entity_data['business_address_info']['town']">
+                    {{entity_data['business_address_info']['town']}},
+                </span>
+            </p>
+            <p *ngIf="entity_data['business_address_info']['stateString']">
+                {{entity_data['business_address_info']['stateString']}}
+            </p>
+            <p *ngIf="!entity_data['business_address_info']">
+                NIL
+            </p>
         </div>    
 
     </div>   
@@ -170,8 +245,13 @@
     <div class="row">
 
         <div class="col">
-            <label>Nature of Business</label>
-            <p>-</p>
+            <label class="font-weight-bolder title-transform">Nature of Business</label>
+            <p *ngIf="entity_data['company_info']['businessDescription']">
+                {{entity_data['company_info']['businessDescription']}}
+            </p>
+            <p *ngIf="!entity_data['company_info']['businessDescription']">
+                NIL
+            </p>
         </div>    
 
     </div>      
@@ -181,38 +261,42 @@
         <table class="table text-left borderless">
             <thead>
                 <tr>
-                    <th style="width:34%; border: 0;"></th>
-                    <th style="width:33%; border: 0;"></th>
-                    <th style="width:33%; border: 0;"></th> 
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:40%; border: 0;"></th> 
                 </tr>                
             </thead>
             <tbody>
               
 
                 <tr>
-                    <td><p id="secondary">TOTAL ISSUED (RM) {{entity_data['total_issued'] | number:'1.2-2'}}</p></td>
+                    <td>
+                        <p id="secondary">TOTAL ISSUED (RM) {{entity_data['total_issued'] | number:'1.4-4'}}</p>
+                    </td>
                     <td></td>
                     <td></td>
                 </tr>    
                 <tr>
                     <td></td>
-                    <td><p id="secondary"><b>CASH</b></p></td>
-                    <td><p id="secondary"><b>OTHERWISE THAN CASH</b></p></td>
+                    <td>
+                        <p id="secondary" class="ml-5 font-weight-bolder"><b>CASH</b></p>
+                    </td>
+                    <td><p id="secondary" class="ml-2 font-weight-bolder"><b>OTHERWISE THAN CASH</b></p></td>
                 </tr>    
                 <tr>
                     <td><p id="secondary">ORDINARY</p></td>
-                    <td><p id="secondary">{{ entity_data['ordinary_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['ordinary_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['ordinary_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['ordinary_issue_noncash']}}</p></td>
                 </tr>
                 <tr>
                     <td><p id="secondary">PREFERENCE</p></td>
-                    <td><p id="secondary">{{ entity_data['preference_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['preference_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['preference_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['preference_issue_noncash']}}</p></td>
                 </tr>
                 <tr>
                     <td><p id="secondary">OTHERS</p></td>
-                    <td><p id="secondary">{{ entity_data['others_issue_cash'] | number:'1.2-2'}}</p></td>
-                    <td><p id="secondary">{{ entity_data['others_issue_noncash'] | number:'1.2-2'}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['others_issue_cash']}}</p></td>
+                    <td><p id="secondary" class="text-right">{{ entity_data['others_issue_noncash']}}</p></td>
                 </tr>                                                                                                                       
               
 
@@ -239,9 +323,9 @@
                     <td><p id="secondary">
                         {{ officer.name }}<br>
                         {{ officer.address1 }}<br>
-                        {{ officer.address2 }}<br>
-                        {{ officer.address3 }}<br>
-                        {{ officer.postcode }} {{ officer.town }}<br>
+                        <span *ngIf="officer.address2">{{ officer.address2 }} <br></span>
+                        <span *ngIf="officer.address3">{{ officer.address3 }} <br></span>
+                        {{ officer.postcode }}, {{ officer.town }}<br>
                         {{ officer.state }}
                     </p></td>
                     <td><p id="secondary">{{ officer.idNo }}</p></td>
@@ -270,7 +354,7 @@
                 <tr *ngFor="let shareholder of entity_data['shareholders_data']">
                     <td><p id="secondary">{{ shareholder.id }}</p></td>
                     <td><p id="secondary">{{ shareholder.name }}</p></td>
-                    <td><p id="secondary" class="text-right">{{ shareholder.share | number:'1.2-2' }}</p></td>
+                    <td><p id="secondary" class="text-right">{{ shareholder.share }}</p></td>
                 </tr>                                                                                                                           
       
             </tbody>
@@ -280,10 +364,71 @@
 </div>
 
 <div class="container" *ngIf="entity_data && entity.type_of_entity == 'BS'">
-    
-    <h3 class="font-weight-bold text-center">*** BUSINESS INFORMATION ***</h3>
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">NAME</label>
+            <p>{{entity_data.bizInfo.registrationName}}</p>
+        </div>
 
-    <div class="table-responsive">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">REGISTRATION DATE</label>
+            <p>{{entity_data.bizInfo.regDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">REGISTRATION NO.</label>
+            <p>{{entity_data.bizInfo.registrationName}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS EXPIRY DATE</label>
+            <p>{{entity_data.bizInfo.endBusinessDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS START DATE</label>
+            <p>{{entity_data.bizInfo.bizStartDate}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">LAST AMMENDMENT DATE</label>
+            <p>{{entity_data.bizInfo.ammendmentDate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">BUSINESS OWNERSHIP</label>
+            <p>{{entity_data.bizInfo.bizOwnership}}</p>
+        </div>
+
+        <div class="col">
+            <label class="font-weight-bolder title-transform">STATUS</label>
+            <p>{{entity_data.bizInfo.status}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label class="font-weight-bolder title-transform">PRINCIPLE PLACE OF BUSINESSS</label>
+            <p id="secondary" class="mb-0">{{entity_data.bizInfo.address_1}} </p>
+            <p id="secondary" class="my-0" *ngIf="entity_data.bizInfo.address_2">{{entity_data.bizInfo.address_2}} </p>
+            <p id="secondary" class="my-0" *ngIf="entity_data.bizInfo.address_2">{{entity_data.bizInfo.address_3}} </p>
+            <p id="secondary" class="my-0">{{entity_data.bizInfo.postcode}}, {{entity_data.bizInfo.town}}  </p>
+            <p id="secondary" class="my-0">{{entity_data.bizInfo.state}} </p>
+        </div>
+
+        <div class="col">
+
+        </div>
+    </div>
+
+
+    <!-- <div class="table-responsive">
         <table class="table text-left borderless">
             <tbody>
                 <tr>
@@ -362,18 +507,86 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <h3 class="font-weight-bold text-center mt-5">*** BUSINESS TYPE ****</h3>
+    </div> -->
+    
+    <h3 class="font-weight-bold text-left mt-5"> BUSINESS TYPE </h3>
     <p id="secondary">{{entity_data.bizType.description}}</p>
 
-    <h3 class="font-weight-bold text-center mt-5">*** BRANCH INFORMATION ****</h3>
-    <p id="secondary" class="text-center">*** NO BRANCH ***</p>
+    <h3 class="font-weight-bold text-left mt-5"> BRANCH INFORMATION </h3>
+    <p id="secondary" class="text-left"> NO BRANCH </p>
     
-    <h3 class="font-weight-bold text-center pg-break">*** INFORMATION OF CURRENT OWNER ****</h3>
+    <h3 class="font-weight-bold text-left mt-5"> INFORMATION OF CURRENT OWNER </h3>
     <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
     <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
 
-    <div class="table-responsive">
+    <div *ngFor="let current of entity_data.ownerCurrentInfo">
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NAME</label>
+                <p>{{current.name}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RACE</label>
+                <p>{{current.race}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (OLD)</label>
+                <p>{{current.icNoOld}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">GENDER</label>
+                <p>{{current.gender}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (NEW)</label>
+                <p>{{current.icNoNew}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NATIONALITY</label>
+                <p>{{current.nationality}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF BIRTH</label>
+                <p>{{current.birthDate}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF ENTRY</label>
+                <p>{{current.entryDate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RESIDENTIAL ADDRESS</label>
+                <p id="secondary" class="mb-0">{{current.address_1}} </p>
+                <p id="secondary" class="my-0" *ngIf="current.address_2">{{current.address_2}} </p>
+                <p id="secondary" class="my-0" *ngIf="current.address_3">{{current.address_3}} </p>
+                <p id="secondary" class="my-0">{{current.postcode}}, {{current.town}}  </p>
+                <p id="secondary" class="my-0">{{current.state}} </p>
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+
+        <hr class="my-3 w-100" />
+    </div>
+
+    <!-- <div class="table-responsive">
         <table class="table text-left borderless">
             <tbody>
                 <div *ngFor="let current of entity_data.ownerCurrentInfo">
@@ -391,8 +604,8 @@
                     </td>
                     <td>
                         <p id="secondary" class="mb-0">: {{current.address_1}} </p>
-                        <p id="secondary" class="my-0">: {{current.address_2}} </p>
-                        <p id="secondary" class="my-0">: {{current.address_3}} </p>
+                        <p id="secondary" class="my-0" *ngIf="current.address_2">: {{current.address_2}} </p>
+                        <p id="secondary" class="my-0" *ngIf="current.address_3">: {{current.address_3}} </p>
                         <p id="secondary" class="my-0">: {{current.postcode}}, {{current.town}}  </p>
                         <p id="secondary" class="my-0">: {{current.state}} </p>
                     </td>                            
@@ -455,7 +668,7 @@
                 </div>
             </tbody>
         </table>
-    </div>
+    </div> -->
 </div>
 
 <ngx-spinner></ngx-spinner>

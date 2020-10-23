@@ -40,7 +40,7 @@ export class ApplicationRequestsComponent implements OnInit {
   };
 
   // Table
-  tableEntries: number = 10;
+  tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
@@ -202,7 +202,9 @@ export class ApplicationRequestsComponent implements OnInit {
 
     if (
       this.updateForm.value['in_progress'] &&
-      this.updateForm.value['in_progress_date']
+      this.updateForm.value['in_progress_date'] &&
+      !this.updateForm.value['completed'] &&
+      !this.updateForm.value['completed_date']
     ) {
       // console.log('In progress')
       // console.log('At progress', this.selectedRow['in_progress_date'])
@@ -220,13 +222,42 @@ export class ApplicationRequestsComponent implements OnInit {
       // console.log('Completed')
       // console.log('At completed', this.selectedRow['in_progress_date'])
       // console.log(this.updateForm.value['in_progress_date'])
-      console.log('2')
-      this.selectedRow['in_progress_date']
+      // console.log('2')
+      // this.selectedRow['in_progress_date']
+      // console.log(this.updateForm.value['in_progress_date'])
       let newCompletedDate = moment(this.updateForm.value['completed_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
       let newProgressDate = moment(this.selectedRow['in_progress_date'], 'DD/MM/YYYY').format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      console.log('pd', newProgressDate)
+      console.log('this is a test')
+
+      if (newProgressDate == 'Invalid dateT08:00:00.000000Z') {
+        console.log('oi')
+        newProgressDate = moment(this.updateForm.value['in_progress_date']).format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+        this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
+      }
+      else {
+        this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
+      }
+
+      if (!this.updateForm.value['in_progress']) {
+        this.updateForm.controls['in_progress_date'].setValue(newCompletedDate)
+        this.updateForm.controls['in_progress'].setValue(true)
+      }
+
       this.updateForm.controls['completed_date'].setValue(newCompletedDate)
-      this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
+      this.selectedRow['in_progress_date'] = this.updateForm.value['in_progress_date']
       console.log(this.updateForm.value)
+    }
+    else if (
+      this.updateForm.value['in_progress'] &&
+      !this.updateForm.value['in_progress_date'] &&
+      this.updateForm.value['completed'] &&
+      !this.updateForm.value['completed_date']
+    ) {
+      let newProgressDate = moment(this.selectedRow['in_progress_date'], 'DD/MM/YYYY').format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      let newCompletedDate = moment(this.selectedRow['completed_date'], 'DD/MM/YYYY').format('YYYY-MM-DD') + 'T08:00:00.000000Z'
+      this.updateForm.controls['in_progress_date'].setValue(newProgressDate)
+      this.updateForm.controls['completed_date'].setValue(newCompletedDate)
     }
 
     console.log(this.updateForm.value)
@@ -235,9 +266,11 @@ export class ApplicationRequestsComponent implements OnInit {
       (respond)=> {
         // console.log(respond)
         this.loadingBar.complete()
+        this.successAlert()
       },
       (error) => {
         this.loadingBar.complete()
+        this.errorAlert()
         this.closeModal()
       },
       () => {
@@ -251,6 +284,29 @@ export class ApplicationRequestsComponent implements OnInit {
 
 
   }
+
+  errorAlert() {
+    swal.fire({
+      title: 'Error',
+      text: 'Please Try Again!',
+      type: 'error',
+      buttonsStyling: false,
+      confirmButtonClass: 'btn btn-danger',
+      confirmButtonText: 'Close',
+    });
+  }
+
+  successAlert() {
+    swal.fire({
+      title: 'Success',
+      text: 'Successfully Update',
+      type: 'success',
+      buttonsStyling: false,
+      confirmButtonClass: 'btn btn-success',
+      confirmButtonText: 'Close',
+    });
+  }
+
   /*
 
   ngOnInit() {

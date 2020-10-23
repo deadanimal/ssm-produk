@@ -12,6 +12,8 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+import * as moment from 'moment';
+
 class Entity {
   name: string;
   registration_no: string;
@@ -36,6 +38,8 @@ export class ProductSearchResultPackage2Component implements OnInit {
   entity: any;
   entity_data: any;
 
+  stateCodes: any[] = []
+
   
   constructor(
     private toastr: ToastrService,
@@ -49,7 +53,7 @@ export class ProductSearchResultPackage2Component implements OnInit {
     public spinner: NgxSpinnerService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
-  
+    this.getData()
   }
 
   ngOnInit() {
@@ -84,12 +88,61 @@ export class ProductSearchResultPackage2Component implements OnInit {
       (res: any) => {
         console.log(res)
         this.entity_data = res;
+        if (this.entity_data['company_info']) {
+          if (this.entity_data['company_info']['dateOfChange']) {
+            this.entity_data['company_info']['dateOfChange'] = moment(this.entity_data['company_info']['dateOfChange']).format('DD-MM-YYYY')
+          }
+        }
       },(error: any) => {
 
       },() => {
         this.spinner.hide()
+
+        this.stateCodes.forEach(
+          (state) => {
+            if (this.entity_data['bizInfo']['state'] == state['code']) {
+              this.entity_data['bizInfo']['state'] = state['desc']
+            }
+
+            if (this.entity_data['ownerCurrentInfo']) {
+              this.entity_data['ownerCurrentInfo'].forEach(
+                (current) => {
+                  if (current['state'] == state['code']) {
+                    current['state'] = state['desc']
+                  } 
+                }
+              )
+            }
+
+            if (this.entity_data['officer_info']) {
+              this.entity_data['officer_info'].forEach(
+                (current) => {
+                  if (current['state'] == state['code']) {
+                    current['state'] = state['desc']
+                  } 
+                }
+              )
+            }
+
+            if (this.entity_data['bs_data']['auditFirmState']) {
+              if (this.entity_data['bs_data']['auditFirmState'] = state['code']) {
+                this.entity_data['bs_data']['auditFirmState'] = state['desc']
+              }
+            }
+          }
+        )
+        
       }
     )    
+  }
+
+  getData() {
+    this.fileService.get('state-codes.json').subscribe(
+      (res) => {
+        this.stateCodes = res
+        // console.log(this.formTypes)
+      }
+    )
   }
 
   goBack() {

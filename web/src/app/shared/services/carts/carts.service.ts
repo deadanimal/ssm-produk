@@ -36,7 +36,7 @@ export class CartsService {
     return this.http.post<any>(this.urlCarts, body).pipe(
       tap((res) => {
         this.cartCurrent = res
-        console.log('User: ', res);
+        console.log('Cart current: ', res);
       })
     );
   }
