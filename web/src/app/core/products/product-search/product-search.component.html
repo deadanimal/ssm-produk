@@ -132,7 +132,7 @@
 									prop="company_number_new"
 								>
 									<ng-template ngx-datatable-header-template>
-										<span>Entity No.</span>
+										<span class="table-header">Entity No.</span>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										<div *ngIf="row.type_of_entity == 'AD'">
@@ -153,7 +153,7 @@
 									prop="name"
 								>
 									<ng-template ngx-datatable-header-template>
-										<span>Entity Name</span>
+										<span class="table-header">Entity Name</span>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										{{ row.name }}
@@ -167,7 +167,7 @@
 									prop="type_of_entity"
 								>
 									<ng-template ngx-datatable-header-template>
-										<span>Entity Type</span>
+										<span class="table-header">Entity Type</span>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										<div *ngIf="row.type_of_entity == 'AD'">
@@ -188,7 +188,7 @@
 									[resizeable]="false"
 								>
 									<ng-template ngx-datatable-header-template>
-										<span></span>
+										<span class="table-header"></span>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
                                         <button 

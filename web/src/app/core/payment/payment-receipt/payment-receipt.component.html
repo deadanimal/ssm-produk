@@ -1,10 +1,10 @@
 <div class="wrapper">
 	<div class="container pt-9">
 		<div class="row">
-			<div class="col-md-10 mx-auto">
+			<div class="col-md-10 w-100">
 				<div class="card card-invoice" id="receipt" #receipt>
 					<div class="card-header text-center">
-						<h2 class="text-center py-2">OFFICIAL RECEIPT</h2>
+						
 						<div class="row justify-content-between">
 
 							<div class="col-md-4 text-left mt--2">
@@ -21,47 +21,28 @@
 								</p>
 								<p>
 									Tel: 03-77214000 <br />
-									Fax: 03-77214001 <br />
-									Email: enquiry@ssm.com.my
 								</p>
 							</div>
 						</div>
+
+						<h2 class="text-center py-2">OFFICIAL RECEIPT</h2>
 						
 						<hr class="my-3 w-100" style="border-top: 1px dotted black;">
 
 						<div class="row text-left">
 							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-4">
-										<p class="m-0">Name</p>
-									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: {{transaction?.name}}
+											{{transaction?.name}}
 										</p>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-4">
-										<p class="m-0">Email</p>
-									</div>
-									<div class="col">
-										<p class="m-0">
-											: {{transaction?.email_address}}
-										</p>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-4">
-										<p class="m-0">Address</p>
-									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: {{transaction?.address1}}, <br />
-											{{transaction?.address2}}, <br />
-											{{transaction?.address2}}, <br />
+											{{transaction?.address1}}, {{transaction?.address2}}, {{transaction?.address3}}, <br />
 											{{transaction?.postcode}}, {{transaction?.city}}<br />
 											{{transaction?.state}}, <br />
 											{{transaction?.country}}
@@ -70,14 +51,17 @@
 								</div>
 
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col">
 										<p class="m-0">
-											Phone No.
+											{{transaction?.email_address}}
 										</p>
 									</div>
+								</div>
+
+								<div class="row">
 									<div class="col-auto">
 										<p class="m-0">
-											: {{transaction?.phone_number}}
+											{{transaction?.phone_number}}
 										</p>
 									</div>
 								</div>
@@ -101,7 +85,7 @@
 									</div>
 									<div class="col">
 										<p class="m-0">
-											: {{transaction?.reference_no_new}}
+											: {{transaction?.reference_no}}
 										</p>
 									</div>
 								</div>
@@ -112,7 +96,22 @@
 									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: Credit Card
+											: 
+											<span *ngIf="transaction?.payment_method == 'CC'">
+												Credit Card
+											</span>
+
+											<span *ngIf="transaction?.payment_method == 'DD'">
+												Direct Debit
+											</span>
+
+											<span *ngIf="transaction?.payment_method == 'WA'">
+												e-Wallet
+											</span>
+
+											<span *ngIf="transaction?.payment_method == 'NA'">
+												Not Available
+											</span>
 										</p>
 									</div>
 								</div>
@@ -125,7 +124,7 @@
 									</div>
 									<div class="col-auto">
 										<p class="m-0">
-											: M{{transaction?.reference_no}}
+											: {{transaction?.transaction_id}}
 										</p>
 									</div>
 								</div>
@@ -146,151 +145,139 @@
 						</div>
 					</div>
 
-					<div class="card-body">
-						<div class="row">
-							<div class="col-12">
-								<div *ngIf="isReceipt" class="table-responsive" #receipt>
-									<table class="table text-right table-flush">
-										<thead class="bg-default">
-											<tr>
-												<th class="text-center text-white" scope="col">
-													No.
-												</th>
-												<th class="text-center text-white" scope="col">
-													Item
-												</th>
-												<th class="text-center text-white" scope="col">
-													Product
-												</th>
-												<th class="text-center text-white" scope="col">
-													Unit
-												</th>
-												<th class="text-center text-white" scope="col">
-													Unit Price (RM)
-												</th>
-												<th class="text-center text-white" scope="col">
-													Total (RM)
-												</th>
-											</tr>
-										</thead>
-										<tbody class="list">
-											<tr *ngFor="let item of items">
-												<td class="text-left">
-													<span>{{item?.index}}</span>
-												</td>
-												<td class="text-left">
-													
-													<div *ngIf="item?.entity">
-														<span *ngIf="item?.entity == 'CP'">
-															{{item?.entity.company_number_new}} 
-															({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
-														</span>
-	
-														<span *ngIf="item?.entity == 'BS'">
-															{{item?.entity.registration_number_new}} 
-															({{item?.entity.registration_number}}-{{item?.entity.check_digit}}) / 
-														</span>
-	
-														<span *ngIf="item?.entity == 'AD'">
-															{{item?.entity.audit_firm_number}} / 
-														</span>
-													</div>
+					<div class="card-body w-100">
+						<table class="table text-right w-100">
+							<thead class="bg-default">
+								<tr>
+									<th class="text-center text-white" scope="col">
+										No.
+									</th>
+									<th class="text-center text-white" scope="col">
+										Item
+									</th>
+									<th class="text-center text-white" scope="col">
+										Product
+									</th>
+									<th class="text-center text-white" scope="col">
+										Unit
+									</th>
+									<th class="text-center text-white" scope="col">
+										Unit Price (RM)
+									</th>
+									<th class="text-center text-white" scope="col">
+										Total (RM)
+									</th>
+								</tr>
+							</thead>
+							<tbody class="list">
+								<tr *ngFor="let item of items">
+									<td class="text-left" style ="word-break:break-all;">
+										<span>{{item?.index}}</span>
+									</td>
+									<td class="text-left" style ="word-break:break-all;">
+										
+										<div *ngIf="item?.entity">
+											<span *ngIf="item?.entity == 'CP'">
+												{{item?.entity.company_number_new}} 
+												({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
+											</span>
 
-													<span *ngIf="item?.entity">
-														{{item?.entity.name}}
-													</span>
+											<span *ngIf="item?.entity == 'BS'">
+												{{item?.entity.registration_number_new}} 
+												({{item?.entity.registration_number}}-{{item?.entity.check_digit}}) / 
+											</span>
 
-													<span *ngIf="item.product_search_criteria">
-														-
-													</span>
+											<span *ngIf="item?.entity == 'AD'">
+												{{item?.entity.audit_firm_number}} / 
+											</span>
+										</div>
 
-													<span *ngIf="item.service_request">
-														-
-													</span>
-												</td>
-												
-												<td class="text-left">
-													<span *ngIf="item?.product">
-														{{item?.product.name}}
-													</span>
+										<span *ngIf="item?.entity">
+											{{item?.entity.name}}
+										</span>
 
-													<span *ngIf="item?.product?.ctc">
-														- CTC
-													</span>
+										<span *ngIf="item.product_search_criteria">
+											-
+										</span>
 
-													<span *ngIf="item?.image_form_type != 'NA'">
-														{{item?.image_form_type}}
-													</span>
+										<span *ngIf="item.service_request">
+											-
+										</span>
+									</td>
+									
+									<td class="text-left" style ="word-break:break-all;">
+										<span *ngIf="item?.product">
+											{{item?.product.name}}
+										</span>
 
-													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='ST'">
-														{{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
-														{{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='ST'">
-														{{item.service_request?.service.name}}
-													</span>
-													<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
-														{{item.service_request?.service.name}}
-													</span>
+										<span *ngIf="item?.product?.ctc">
+											- CTC
+										</span>
 
-													<span *ngIf="item.product_search_criteria">
-														Customized Data Package A
-													</span>
-												</td>
-												<td class="text-left">
-													1
-												</td>
-												<td class="text-left">
-													<span *ngIf="item?.product">
-														{{item?.product.fee/100 | number: '1.2-2'}}
-													</span>
-													<span *ngIf="item.product_search_criteria">
-														RM4.00 / company
-													</span>
-													<span *ngIf="item.service_request">
-														{{item.service_request?.service.fee/100 | number: '1.2-2'}}
-													</span>
-												</td>
-												<td class="text-left">
-													<span *ngIf="item?.product">
-														{{item?.product.fee/100 | number: '1.2-2'}}
-													</span>
-													<span *ngIf="item.product_search_criteria">
-														{{item.product_search_criteria.total_price | number: '1.2-2'}}
-													</span>
-													<span *ngIf="item.service_request">
-														{{item.service_request?.service.fee/100 | number: '1.2-2'}}
-													</span>
-												</td>
-											</tr>
-										</tbody>
-										<tfoot>
-											<tr>
-												<th colspan="4"></th>
-												<th class="text-left h4">Total</th>
-												<th class="h4 text-left">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</div>
-						</div>
+										<span *ngIf="item?.image_form_type != 'NA'">
+											{{item?.image_form_type}}
+										</span>
+
+										<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='ST'">
+											{{item.service_request?.service.name}}
+										</span>
+										<span *ngIf="item.service_request?.service.entities_type =='RB' && item.service_request?.service.product_type =='LS'">
+											{{item.service_request?.service.name}}
+										</span>
+										<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='ST'">
+											{{item.service_request?.service.name}}
+										</span>
+										<span *ngIf="item.service_request?.service.entities_type =='RC' && item.service_request?.service.product_type =='LS'">
+											{{item.service_request?.service.name}}
+										</span>
+
+										<span *ngIf="item.product_search_criteria">
+											Customized Data Package A
+										</span>
+									</td>
+									<td class="text-left">
+										1
+									</td>
+									<td class="text-left" style ="word-break:break-all;">
+										<span *ngIf="item?.product">
+											{{item?.product.fee/100 | number: '1.2-2'}}
+										</span>
+										<span *ngIf="item.product_search_criteria">
+											RM4.00 / company
+										</span>
+										<span *ngIf="item.service_request">
+											{{item.service_request?.service.fee/100 | number: '1.2-2'}}
+										</span>
+									</td>
+									<td class="text-left">
+										<span *ngIf="item?.product">
+											{{item?.product.fee/100 | number: '1.2-2'}}
+										</span>
+										<span *ngIf="item.product_search_criteria">
+											{{item.product_search_criteria.total_price | number: '1.2-2'}}
+										</span>
+										<span *ngIf="item.service_request">
+											{{item.service_request?.service.fee/100 | number: '1.2-2'}}
+										</span>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="4"></th>
+									<th class="text-left h4">Total</th>
+									<th class="h4 text-left">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
+								</tr>
+							</tfoot>
+						</table>
 					</div>
 					<div class="card-footer text-center">
 						<div class="col-md-12 ml-auto">
 							<h5>Thank you!</h5>
 							<p class="description">
 								If you encounter any issues related to the invoice you can
-								contact us at:
+								contact us at email: enquiry@ssm.com.my
 							</p>
-							<h5 class="d-block">
-								email:
-								<span class="text-muted">
-									enquiry@ssm.com.my
-								</span>
-							</h5>
 						</div>
 					</div>
 				</div>

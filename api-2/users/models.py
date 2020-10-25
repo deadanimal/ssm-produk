@@ -62,16 +62,10 @@ class CustomUser(AbstractUser):
     company_state = models.CharField(max_length=20, blank=True, null=True)
     company_country = models.CharField(max_length=20, blank=True, null=True)
 
-    # KJAKP
-    EGOV_REQUEST = [
-        ('NA', 'NA'),
-        ('AP', 'Approved'),
-        ('PD', 'Pending')
-    ]
-    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='NA')
-
+    # eGOV 
     egov_package = models.IntegerField(default=0, null=False)
     egov_quota = models.IntegerField(default=0, null=True)
+    egov_expired_date = models.DateTimeField(null=True, blank=True)
     position_or_grade = models.CharField(max_length=30, blank=True, null=True)
 
     head_of_department_name = models.CharField(max_length=50, blank=True, null=True)
@@ -79,9 +73,9 @@ class CustomUser(AbstractUser):
     head_of_department_email = models.EmailField(max_length=50, blank=True, null=True)
 
     ministry_name = models.CharField(max_length=50, blank=True, null=True)
-    division_name = models.CharField(max_length=50, blank=True, null=True)
-    agency_name = models.CharField(max_length=50, blank=True, null=True)
     department_name = models.CharField(max_length=50, blank=True, null=True)
+    division_name = models.CharField(max_length=50, blank=True, null=True)
+    
 
     class Meta:
         ordering = ['full_name']

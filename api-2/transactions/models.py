@@ -17,8 +17,6 @@ from users.models import (
     CustomUser
 )
 
-
-
 class Transaction(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -56,13 +54,17 @@ class Transaction(models.Model):
     email_address = models.CharField(max_length=512, null=True) 
     phone_number = models.CharField(max_length=512, null=True) 
 
-    reference_no =  models.CharField(max_length=512, null=True)     
+    reference =  models.CharField(max_length=512, null=True)     
 
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
 
     payment_gateway_order_id = models.IntegerField(default=0)
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    reference_no = models.CharField(max_length=512, null=True)
+    transaction_id = models.CharField(max_length=512, null=True)
+    receipt_no = models.CharField(max_length=512, null=True)
+    receipt = models.FileField(null=True, upload_to=PathAndRename('transaction-receipt'))
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
