@@ -108,7 +108,8 @@ class DocumentRequest(models.Model):
 class DocumentRequestItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
-
+    reference_no = models.CharField(max_length=100, null=True, blank=True)
+    
     document_request = models.ForeignKey(DocumentRequest, on_delete=models.CASCADE, null=True, related_name='document_request_item')
 
     approved = models.BooleanField(default=False)
@@ -161,19 +162,29 @@ class EgovernmentRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    reference_no = models.CharField(max_length=100, null=True, blank=True)
 
-    EGOV_REQUEST = [
+    REQUEST_TYPE = [
+        ('RG', 'Registration'),
+        ('QU', 'Quota Request'),
+        ('RN', 'Renew Account'),
+        ('UI', 'Update Information')
+    ]
+    request_type = models.CharField(choices=REQUEST_TYPE, max_length=2, default='RG')
+
+    REQUEST_STATUS = [
         ('NA', 'NA'),
         ('AP', 'Approved'),
         ('PD', 'Pending'),
         ('RJ', 'Rejected')
     ]
-    egov_request = models.CharField(choices=EGOV_REQUEST, max_length=2, default='PD')
+    request_status = models.CharField(choices=REQUEST_STATUS, max_length=2, default='PD')
 
     egov_package = models.IntegerField(default=0, null=False)
     egov_quota = models.IntegerField(default=0, null=True)
     
     position_or_grade = models.CharField(max_length=100, blank=True, null=True)
+    phone_number = models.CharField(max_length=14, blank=True, null=True)
 
     head_of_department_name = models.CharField(max_length=100, blank=True, null=True)
     head_of_department_position = models.CharField(max_length=100, blank=True, null=True)
@@ -191,6 +202,9 @@ class EgovernmentRequest(models.Model):
     state = models.CharField(max_length=100, blank=True, null=True)
 
     attachment_letter = models.FileField(null=True, upload_to=PathAndRename('egovernment-request-attachment-letter'))
+    expired_date = models.DateTimeField(null=True, blank=True)
+
+    remarks = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

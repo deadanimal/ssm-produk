@@ -32,7 +32,7 @@ export class PaymentReturnComponent implements OnInit {
   }
 
   getData(val: string) {
-    let filter = 'reference_no=' + val
+    let filter = 'reference=' + val
     this.transactionService.filter(filter).subscribe(
       () => {
         this.loadedData = this.transactionService.transactionsFiltered[0]
