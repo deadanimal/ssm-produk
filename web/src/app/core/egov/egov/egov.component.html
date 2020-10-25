@@ -99,13 +99,22 @@
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Position Or Grade</label>
+                                    <label class="form-control-label">Position Or Grade 
+                                        <span class="error-message">*</span>
+                                    </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter position or grade"
                                         formControlName="position_or_grade" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.position_or_grade.invalid && registerForm.controls.position_or_grade.touched}"
                                     />
                                 </div>
+                                
+                                <ng-container *ngFor="let message of registerFormMessages.position_or_grade">
+                                    <div *ngIf="registerForm.get('position_or_grade').hasError(message.type) && (registerForm.get('position_or_grade').dirty || registerForm.get('position_or_grade').touched)">
+                                        <p class="error-message"><span>{{ message.message }}</span></p>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
 
@@ -125,26 +134,40 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Head of department name
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control"
                                         placeholder="Enter head of department name"
                                         formControlName="head_of_department_name" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.head_of_department_name.invalid && registerForm.controls.head_of_department_name.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.head_of_department_name">
+                                        <div *ngIf="registerForm.get('head_of_department_name').hasError(message.type) && (registerForm.get('head_of_department_name').dirty || registerForm.get('head_of_department_name').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Head of department position
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control"
                                         placeholder="Enter head of department position"
                                         formControlName="head_of_department_position" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.head_of_department_position.invalid && registerForm.controls.head_of_department_position.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.head_of_department_position">
+                                        <div *ngIf="registerForm.get('head_of_department_position').hasError(message.type) && (registerForm.get('head_of_department_position').dirty || registerForm.get('head_of_department_position').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -153,29 +176,43 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Head of department email
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control"
                                         placeholder="Enter head of department email"
                                         formControlName="head_of_department_email" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.head_of_department_email.invalid && registerForm.controls.head_of_department_email.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.head_of_department_email">
+                                        <div *ngIf="registerForm.get('head_of_department_email').hasError(message.type) && (registerForm.get('head_of_department_email').dirty || registerForm.get('head_of_department_email').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Ministry Name
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <select 
                                         class="form-control"
                                         formControlName="ministry_name" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.ministry_name.invalid && registerForm.controls.ministry_name.touched}"
                                     >
                                         <option selected hidden value="null">Please select</option>
                                         <option *ngFor="let option of ministries" value="{{option.name}}">
                                             {{option.name}}
                                         </option>
                                     </select>
+
+                                    <ng-container *ngFor="let message of registerFormMessages.ministry_name">
+                                        <div *ngIf="registerForm.get('ministry_name').hasError(message.type) && (registerForm.get('ministry_name').dirty || registerForm.get('position_or_grade').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -184,9 +221,13 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Department / Agency name
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
-                                    <select class="form-control" formControlName="department_name">
+                                    <select 
+                                        class="form-control" 
+                                        formControlName="department_name"
+                                        [ngClass]="{'is-invalid': registerForm.controls.department_name.invalid && registerForm.controls.department_name.touched}"
+                                    >
                                         <option selected hidden value="null">Please select</option>
                                         <ng-container
                                             *ngFor="let option of departments"
@@ -196,19 +237,32 @@
                                             </option>
                                         </ng-container>
                                     </select>
+
+                                    <ng-container *ngFor="let message of registerFormMessages.department_name">
+                                        <div *ngIf="registerForm.get('department_name').hasError(message.type) && (registerForm.get('department_name').dirty || registerForm.get('department_name').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Division / Section / Unit Name
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control"
                                         placeholder="Division Name"
                                         formControlName="division_name" 
+                                        [ngClass]="{'is-invalid': registerForm.controls.division_name.invalid && registerForm.controls.division_name.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.division_name">
+                                        <div *ngIf="registerForm.get('division_name').hasError(message.type) && (registerForm.get('division_name').dirty || registerForm.get('division_name').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -217,14 +271,22 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Address line 1
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter address line 1"
                                         formControlName="address_1"
+                                        [ngClass]="{'is-invalid': registerForm.controls.address_1.invalid && registerForm.controls.address_1.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.address_1">
+                                        <div *ngIf="registerForm.get('address_1').hasError(message.type) && (registerForm.get('address_1').dirty || registerForm.get('address_1').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
+                                
                             </div>
                         </div>
 
@@ -258,26 +320,42 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Postcode
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Potcode"
                                         formControlName="postcode"
+                                        type="number"
+                                        [ngClass]="{'is-invalid': registerForm.controls.postcode.invalid && registerForm.controls.postcode.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.postcode">
+                                        <div *ngIf="registerForm.get('postcode').hasError(message.type) && (registerForm.get('postcode').dirty || registerForm.get('postcode').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
+                                
                             </div>
 
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">City
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter city"
                                         formControlName="city"
+                                        [ngClass]="{'is-invalid': registerForm.controls.city.invalid && registerForm.controls.city.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.city">
+                                        <div *ngIf="registerForm.get('city').hasError(message.type) && (registerForm.get('city').dirty || registerForm.get('city').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -286,12 +364,13 @@
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">State
-                                        <span class="text-warning">*</span>
+                                        <span class="error-message">*</span>
                                     </label>
                                     <select 
                                         class="form-control" 
                                         placeholder="Enter state"
                                         formControlName="state"
+                                        [ngClass]="{'is-invalid': registerForm.controls.state.invalid && registerForm.controls.state.touched}"
                                     >
                                         <option hidden selected value="null">Please select</option>
                                         <option value="Perlis">Perlis</option>
@@ -311,6 +390,12 @@
                                         <option value="W.P. Kuala Lumpur">W.P. Kuala Lumpur</option>
                                         <option value="W.P. Putrajaya">W.P. Putrajaya</option>
                                     </select>
+
+                                    <ng-container *ngFor="let message of registerFormMessages.state">
+                                        <div *ngIf="registerForm.get('state').hasError(message.type) && (registerForm.get('state').dirty || registerForm.get('state').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +404,7 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Attachment (Official Letter from Government Agency)
-                                        <span class="text-warning">  *PDF format ONLY, 5MB maximum.</span>
+                                        <span class="error-message">  *PDF format ONLY, 5MB maximum.</span>
                                     </label>
                                     <div class="custom-file">
                                         <input 
@@ -327,12 +412,26 @@
                                             class="custom-file-input" 
                                             id="files" 
                                             lang="en"
-                                            (change)="onImageChange($event)" 
+                                            (change)="onFileChange($event)" 
                                             accept=".pdf"
-                                            size="5"
+                                            data-max-size="5000000"
+                                            [ngClass]="{'is-invalid': registerForm.controls.attachment_letter.invalid && registerForm.controls.attachment_letter.touched}"
                                         />
                                         <label class="custom-file-label" for="files">Select file</label>
                                     </div>
+
+                                    <ng-container *ngIf="registerForm.value['attachment_letter']">
+                                        <div>
+                                            <i 
+                                                class="fas fa-trash-alt text-warning mr-2"
+                                                placement="top" 
+                                                tooltip="Remove attachment"
+                                                (click)="removeFile()"
+                                            >
+                                            </i>
+                                            {{fileName}} [{{fileSize/1000000 | number: '1.2-2'}}MB]
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>

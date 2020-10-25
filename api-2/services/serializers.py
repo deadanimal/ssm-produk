@@ -8,6 +8,8 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from django.utils.timezone import now
 
+from drf_extra_fields.fields import Base64FileField
+
 from .models import (
     Service,
     ServiceRequest,
@@ -19,6 +21,12 @@ from .models import (
 )
 
 from users.serializers import CustomUserSerializer
+
+class PDFBase64File(Base64FileField):
+    ALLOWED_TYPES = ['pdf']
+
+    def get_file_extension(self, filename, decoded_file):
+        return 'pdf'
 
 class ServiceSerializer(serializers.ModelSerializer):
 
@@ -62,6 +70,7 @@ class DocumentRequestExtendedSerializer(serializers.ModelSerializer):
 
 class EgovernmentRequestSerializer(serializers.ModelSerializer):
 
+    attachment_letter = PDFBase64File()
     class Meta:
         model = EgovernmentRequest
         fields = '__all__'          

@@ -172,6 +172,11 @@
 										<div *ngIf="row.product">
 											{{row.product.name}}
 										</div>
+
+										<span *ngIf="row.product.ctc">
+											- CTC
+										</span>
+
 										<span *ngIf="row?.image_form_type != 'NA' && row?.image_form_type">
 											- {{row?.image_form_type}}
 										</span>

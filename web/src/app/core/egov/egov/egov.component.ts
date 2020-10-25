@@ -6,7 +6,6 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { ReCaptchaV3Service } from 'ngx-captcha';
 import {
   FormGroup,
   FormBuilder,
@@ -56,6 +55,48 @@ export class EgovComponent implements OnInit {
   // Form
   @ViewChild('formRegistration') formRegistration: ElementRef;
   registerForm: FormGroup
+  registerFormMessages = {
+    'position_or_grade': [
+      { type: 'required', message: 'Position or grade is required' }
+    ],
+    'head_of_department_name': [
+      { type: 'required', message: 'Head of department name is required' }
+    ],
+    'head_of_department_position': [
+      { type: 'required', message: 'Head of department position is required' }
+    ],
+    'head_of_department_email': [
+      { type: 'required', message: 'Head of department email is required' },
+      { type: 'email', message: 'A valid email is required'}
+    ],
+    'ministry_name': [
+      { type: 'required', message: 'Ministry name is required' }
+    ],
+    'department_name': [
+      { type: 'required', message: 'Department / agency name is required' }
+    ],
+    'division_name': [
+      { type: 'required', message: 'Division / section / unit name is required' }
+    ],
+    'address_1': [
+      { type: 'required', message: 'Address line 1 is required' }
+    ],
+    'city': [
+      { type: 'required', message: 'City is required' }
+    ],
+    'postcode': [
+      { type: 'required', message: 'Postcode is required' },
+      { type: 'pattern', message: 'A valid postcode is required' },
+    ],
+    'state': [
+      { type: 'required', message: 'State is required' }
+    ],
+    'attachment_letter': [
+      { type: 'requirement', message: 'Attachment (official letter from government agency is required)' }
+    ]
+  }
+  fileName: string
+  fileSize: number
 
   // List
   ministries: any[] = []
@@ -69,7 +110,8 @@ export class EgovComponent implements OnInit {
     private fileService: LocalFilesService,
     private serviceService: ServicesService,
     private loadingBar: LoadingBarService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cd: ChangeDetectorRef
   ) {
     this.getUser()
     this.getData()
@@ -81,22 +123,52 @@ export class EgovComponent implements OnInit {
 
   initForm() {
     this.registerForm = this.fb.group({
-      user: new FormControl(null, Validators.required),
-      egov_request: new FormControl('PD', Validators.required),
-      position_or_grade: new FormControl(null, Validators.required),
-      head_of_department_name: new FormControl(null, Validators.required),
-      head_of_department_position: new FormControl(null, Validators.required),
-      head_of_department_email: new FormControl(null, Validators.required),
-      ministry_name: new FormControl(null, Validators.required),
-      department_name: new FormControl(null, Validators.required),
-      division_name: new FormControl(null, Validators.required),
-      address_1: new FormControl(null, Validators.required),
+      user: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      egov_request: new FormControl('PD', Validators.compose([
+        Validators.required
+      ])),
+      position_or_grade: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      head_of_department_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      head_of_department_position: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      head_of_department_email: new FormControl(null, Validators.compose([
+        Validators.required,
+        Validators.email
+      ])),
+      ministry_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      department_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      division_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      address_1: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
       address_2: new FormControl(),
       address_3: new FormControl(),
-      city: new FormControl(null, Validators.required),
-      postcode: new FormControl(null, Validators.required),
-      state: new FormControl(null, Validators.required),
-      attachment_letter: new FormControl()
+      city: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      postcode: new FormControl(null, Validators.compose([
+        Validators.required,
+        Validators.pattern("^[0-9]*$")
+      ])),
+      state: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      attachment_letter: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
     })
     this.registerForm.controls['user'].setValue(this.user.id)
   }
@@ -145,10 +217,11 @@ export class EgovComponent implements OnInit {
     this.serviceService.requestEgov(this.registerForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
-        this.successAlert('Successfully sign up eGOV')
+        this.successAlert('Successfully sign up for eGOV')
       },
       () => {
         this.loadingBar.useRef('http').complete()
+        this.failedAlert('Error. Please try again later')
       },
       () => {
         // let title = 'Success'
@@ -177,22 +250,66 @@ export class EgovComponent implements OnInit {
       }
     })
   }
+  
+  failedAlert(message) {
+    swal.fire({
+      title: 'Success',
+      text: message,
+      icon: 'warning',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning rounded-pill',
+      },
+    })
+    .then((res) => {
+      if (res) {
+        console.log('Confirm')
+      }
+    })
+  }
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
     // this.closeModal();
     this.router.navigate([path]);
   }
+
+  onFileChange(event) {
+    let reader = new FileReader();
+    this.fileSize = event.target.files[0].size
+    this.fileName = event.target.files[0].name
+    if (
+      event.target.files && 
+      event.target.files.length &&
+      this.fileSize < 5000000
+    ) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file)
+      // readAsDataURL(file);
+      // console.log(event.target)
+      console.log(reader)
+      
+      reader.onload = () => {
+        this.registerForm.controls['attachment_letter'].setValue(reader.result)
+        // console.log(this.registerForm.value)
+        // console.log('he', this.registerForm.valid)
+        // console.log(this.isAgree)
+        // !registerForm.valid || !isAgree
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
+  removeFile() {
+    this.registerForm.controls['attachment_letter'].setValue(null)
+    delete this.fileName
+    delete this.fileSize
+  }
   
   // SB end
-
-  
-  ngOnDestroy() {
-    var body = document.getElementsByTagName('body')[0];
-    body.classList.remove('presentation-page');
-    var navbar = document.getElementById('navbar-main');
-    navbar.classList.remove('bg-primary');
-  }
 
   openModal(modalRef: TemplateRef<any>) {
     this.modal = this.modalService.show(
