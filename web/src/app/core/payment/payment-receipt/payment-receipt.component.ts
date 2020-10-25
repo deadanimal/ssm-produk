@@ -113,6 +113,8 @@ export class PaymentReceiptComponent implements OnInit {
     //   .from(content)
     //   .set(options)
     //   .save()
+    let url = this.transaction.receipt
+    window.open(url, '_blank');
   }
 
   navigatePage(path: string) {

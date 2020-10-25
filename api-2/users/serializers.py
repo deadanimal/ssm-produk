@@ -51,7 +51,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'company_postcode',
             'company_state',
             'company_country',
-            'egov_request',
             'egov_package',
             'egov_quota',
             'position_or_grade',
@@ -60,7 +59,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'head_of_department_email',
             'ministry_name',
             'division_name',
-            'agency_name',
             'department_name',
             'username',
             'is_active'

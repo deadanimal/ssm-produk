@@ -200,7 +200,26 @@
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.status}}
+                                <span 
+                                    class="badge badge-pill badge-warning"
+                                    *ngIf="row.status == 'Pending'"
+                                >
+                                    {{row.status}}
+                                </span>
+
+                                <span 
+                                    class="badge badge-pill badge-danger"
+                                    *ngIf="row.status == 'Rejected'"
+                                >
+                                    {{row.status}}
+                                </span>
+
+                                <span 
+                                    class="badge badge-pill badge-success"
+                                    *ngIf="row.status == 'Approved'"
+                                >
+                                    {{row.status}}
+                                </span>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -227,7 +246,11 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <a style="cursor: pointer">
-                                    <button class="btn btn-sm btn-info">
+                                    <button 
+                                        class="btn btn-sm btn-info"
+                                        *ngIf="row.task_type == 'New Registration'"
+                                        (click)="openModal(newRegistration)"
+                                    >
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </a>
@@ -240,10 +263,10 @@
     </div>
 </div>
 
-<ng-template #editModal>
+<ng-template #newRegistration>
     <div class="modal-header bg-default">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update Status
+            New Registration Approval
         </h6>
 
         <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
@@ -252,77 +275,88 @@
     </div>
 
     <div class="modal-body">
-        <form>
+        <form [formGroup]="registrationForm">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-                                <label class="custom-control-label" for="pendingCheck">Pending</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-control-label">Pending Date</label>
-                                <input class="form-control" [value]="selectedRow.created_date" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div clas="col">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="completedCheck">
-                                <label class="custom-control-label" for="completedCheck" ngDefaultControl
-                                    [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-control-label">Completed Date</label>
-                                <input class="form-control" ngDefaultControl [(ngModel)]="completedDate"
-                                    [ngModelOptions]="{standalone: true}" type="date">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4">
-                    <!--
-                <div class="row mt-2">
-                  <div clas="col">
+                <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                        <label class="form-control-label">Package</label>
+                        <select 
+                            class="form-control"
+                            formControlName="package"
+                            [ngClass]="{'is-invalid': registrationForm.controls.package.invalid && registrationForm.controls.package.touched}"
+                        >
+                            <option selected hidden>Please select package</option>
+                            <option value="1">Package 1</option>
+                            <option value="2">Package 2</option>
+                            <option value="3">Package 3</option>
+                            <option value="4">Package 4</option>
+                        </select>
+
+                        <ng-container *ngFor="let message of registrationFormMessages.package">
+                            <div *ngIf="registrationFormMessages.get('package').hasError(message.type) && (registrationFormMessages.get('package').dirty || registrationFormMessages.get('package').touched)">
+                                <p class="error-message"><span>{{ message.message }}</span></p>
+                            </div>
+                        </ng-container>
                     </div>
-                  </div>
                 </div>
-              -->
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Quota</label>
+                        <input 
+                            class="form-control" 
+                            formControlName="quota"
+                            [ngClass]="{'is-invalid': registrationForm.controls.quota.invalid && registrationForm.controls.quota.touched}"
+                        >
+
+                        <ng-container *ngFor="let message of registrationFormMessages.quota">
+                            <div *ngIf="registrationFormMessages.get('quota').hasError(message.type) && (registrationFormMessages.get('quota').dirty || registrationFormMessages.get('position_or_grade').touched)">
+                                <p class="error-message"><span>{{ message.message }}</span></p>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Expiry Date</label>
+                        <input class="form-control" type="date" formControlName="expired_date">
 
+                        <ng-container *ngFor="let message of registrationFormMessages.expired_date">
+                            <div *ngIf="registrationFormMessages.get('expired_date').hasError(message.type) && (registrationFormMessages.get('expired_date').dirty || registrationFormMessages.get('expired_date').touched)">
+                                <p class="error-message"><span>{{ message.message }}</span></p>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Remarks</label>
+                        <select 
+                            class="form-control"
+                            [(ngModel)]="package"
+                            [ngModelOptions]="{standalone: true}"
+                        >
+                            <option selected hidden>Please remarks</option>
+                            <option value="Attachment incomplete">Attachment incomplete</option>
+                            <option value="Head of department details">Head of department details</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="isRemarksOthers">
                 <div class="col">
                     <div class="form-group">
                         <label class="form-control-label">Remarks</label>
-                        <textarea class="form-control" [(ngModel)]="remarks"
-                            [ngModelOptions]="{standalone: true}"></textarea>
+                        <textarea class="form-control" formControlName="remarks"></textarea>
                     </div>
                 </div>
-
             </div>
-
         </form>
     </div>
 

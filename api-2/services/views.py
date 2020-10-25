@@ -214,19 +214,44 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=True)
     def add_item_to_document_request(self, request, *args, **kwargs):    
 
-        document_request_item_request = json.loads(request.body)    
-
+        document_request_item_request = json.loads(request.body) 
         image_version_id = document_request_item_request['image_version_id']
         image_form_type = document_request_item_request['image_form_type']
 
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        
+        current_year = str(datetime.datetime.now(timezone_).year)
+        current_month = str(datetime.datetime.now(timezone_).month)
+        current_day = str(datetime.datetime.now(timezone_).day)
+        
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        filter_month = datetime.datetime.now(tz=timezone.utc).month
+        filter_day = datetime.datetime.now(tz=timezone.utc).day
+
+        running_no_1_ = DocumentRequestItem.objects.filter(
+            Q(reference_no__isnull=False) &
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day)
+        ).count()
+
+        running_no_2_ = EgovernmentRequest.objects.filter(
+            Q(reference_no__isnull=False) &
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day)
+        ).count()
+
+        running_no_ = "{0:0>6}".format(running_no_1_ + running_no_2_)
+        
         document_request = self.get_object()
             
         new_document_request_item = DocumentRequestItem.objects.create(
             image_form_type=image_form_type,
             image_version_id=image_version_id,
-            document_request=document_request
+            document_request=document_request,
+            running_no='EGOV'+ current_year + current_month + current_day + running_no_
         )
-
 
         serializer = DocumentRequestExtendedSerializer(document_request)
         return Response(serializer.data)
@@ -288,7 +313,7 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = EgovernmentRequestSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'egov_request'
+        # 'egov_request'
     ]
     def get_permissions(self):
         if self.action == 'list':
@@ -308,7 +333,7 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def extended(self, request, *args, **kwargs):
 
-        queryset = EgovernmentRequest.objects.all()
+        queryset = EgovernmentRequest.objects.all().order_by('-modified_date')
         serializer_class = EgovernmentRequestExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
@@ -321,23 +346,88 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         user_id = egovernment_request_json['user_id']
         package = egovernment_request_json['package']
         quota = egovernment_request_json['quota']
-        egovernment_request = self.get_object()
+        expired_date = egovernment_request_json['expired_date']
+        remarks = egovernment_request_json['remarks']
+        egovernment_request_ = self.get_object()
 
         user = CustomUser.objects.filter(id=str(user_id)).first()
 
-        egovernment_request.egov_request = 'AP'
-        egovernment_request.egov_package = int(package)
-        egovernment_request.egov_quota = int(quota)
-        egovernment_request.save()
+        egovernment_request_.egov_request = 'AP'
+        egovernment_request_.egov_package = int(package)
+        egovernment_request_.egov_quota = int(quota)
+        egovernment_request_.expired_date = expired_date
+        egovernment_request_.remarks = remarks
+        egovernment_request_.save()
 
         user.egov_quota = int(quota)
-        user.egov_request = 'AP'
         user.egov_package = int(package)
+        user.egov_expired_date = expired_date
         user.save()
             
-        serializer = EgovernmentRequestSerializer(document_request)
+        serializer = EgovernmentRequestSerializer(egovernment_request_)
         return Response(serializer.data)            
 
+    @action(methods=['POST'], detail=True)
+    def approve_request(self, request, *args, **kwargs):
+
+        request_ = json.loads(request.body)
+        request_type = request_['request_type']
+        remarks = request_['remarks']
+
+        egovernment_request_ = self.get_object()
+        user = CustomUser.objects.filter(id=str(egovernment_request_.user)).first()
+
+        if request_type == 'quota':
+            quota_ = request_['quota']
+            egovernment_request_.quota = int(quota_)
+            egovernment_request_.request_status = 'AP'
+            egovernment_request_.remarks = remarks
+            egovernment_request_.save()
+
+            user.egov_quota = int(quota)
+            user.save()
+        elif request_type == 'update':
+            print('update')
+            user.position_and_grade = egovernment_request_['position_and_grade']
+            user.phone_number = egovernment_request_['phone_number']
+            user.hod_name = egovernment_request_['head_of_department_name']
+            user.hod_position = egovernment_request_['head_of_department_position']
+            user.hod_email = egovernment_request_['head_of_department_email']
+            user.ministry_name = egovernment_request_['ministry_name']
+            user.department_name = egovernment_request_['department_name']
+            user.agency_name = egovernment_request_['agency_name']
+            user.attachment_letter = egovernment_request_['attachment_letter']
+            user.address_1 = egovernment_request_['address_1']
+            user.address_2 = egovernment_request_['address_2']
+            user.address_3 = egovernment_request_['address_3']
+            user.postcode = egovernment_request_['postcode']
+            user.city = egovernment_request_['city']
+            user.state = egovernment_request_['state']
+            user.save()
+
+            egovernment_request_.request_status = 'AP'
+            egovernment_request_.remarks = remarks
+            egovernment_request_.save()
+        elif request_type == 'renew':
+            print('renew')
+            hod_name = request_['head_of_department_name']
+            hod_position = request_['head_of_department_position']
+            hod_email = request_['head_of_department_email']
+            attachment_letter = request_['attachment_letter']
+            expired_date = ['expired_date']
+
+            user.egov_quota = 1000
+            egov_expired_date = expired_date
+            user.save()
+
+            egovernment_request_.expired_date = expired_date
+            egovernment_request_.quota = 1000
+            egovernment_request_.request_status = 'AP'
+            egovernment_request_.remarks = remarks
+            egovernment_request_.save()
+
+        serializer = EgovernmentRequestSerializer(egovernment_request_)
+        return Response(serializer.data)            
 
 class EgovernmentMinistryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentMinistry.objects.all()
