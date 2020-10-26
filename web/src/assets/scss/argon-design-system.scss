@@ -39,7 +39,7 @@ Coded by www.creative-tim.com
 // Pipeline
 @import 'custom/pipe';
 @import 'custom/datatables';
-@import 'custom/plugin-ngx-datatable';
+// @import 'custom/plugin-ngx-datatable';
 
 // ngx-toastr
 // Regular style toast
@@ -54,3 +54,5 @@ Coded by www.creative-tim.com
 // or import a bootstrap 4 alert styled design (SASS ONLY)
 // Should be after your bootstrap imports, it uses bs4 variables, mixins, functions
 // @import '~ngx-toastr/toastr-bs4-alert';
+
+@import 'custom/pipe-ngx-datatable';

@@ -19,10 +19,15 @@
             header#header {
                 position: fixed;
                 top: 0;
-                left: 0;
 
                 height: 14.5rem;
                 width: 100%;
+            }
+            footer#footer {
+                position:fixed;
+                left: 0;
+                right: 0;
+                bottom:0;
             }
             img.logo {
                 height: 14rem !important;
@@ -69,18 +74,14 @@
     </head>
 
     <body>
-        <div class="default-template container">
-            <div class="text-center">
-                <h2 class="py-4">OFFICIAL RECEIPT</h2>
-            </div>
-
+        <header id="header" style="padding-top: 50px;" class="default-template">
             <div class="row justify-content-between">
 
-                <div class="col-4 text-left mt--2">
-                    <img alt="Logo" class="mb-2 w-100" style="max-width: 200px" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png" />
+                <div class="col-6 text-right mt--2">
+                    <img alt="Logo" class="mb-2 text-right" style="width: 400px" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png" />
                 </div>
 
-                <div class="col-5 col-6 text-left pt-4">
+                <div class="col-6 text-left pt-4">
                     <h4 class="mb-0">SURUHANJAYA SYARIKAT MALAYSIA</h4>
                     <p style="font-size: 16px">
                         MENARA SSM @ SENTRAL <br />
@@ -93,7 +94,14 @@
                     </p>
                 </div>
             </div>
+        </header>
 
+        <div class="default-template container pg-start">
+            <div class="text-center">
+                <h2 class="py-4">OFFICIAL RECEIPT</h2>
+            </div>
+
+            
             <hr class="my-3 w-100" style="border-top: 1px dotted black;">
 
             <div class="row text-left mt-4">
@@ -247,7 +255,7 @@
                                 {% for item in data.cart_items %}
                                 <tr *ngFor="let item of items">
                                     <td class="text-left" style ="word-break:break-all;">
-                                        <span>{{item.index}}</span>
+                                        <span>{{forloop.counter}}</span>
                                     </td>
                                     <td class="text-left" style ="word-break:break-all;" style ="word-break:break-all;">
                                         {% if item.entity == 'CP' %}
@@ -346,7 +354,7 @@
                                 <tr>
                                     <th colspan="4"></th>
                                     <th class="text-left font-weight-bolder">Total</th>
-                                    <th class="text-left font-weight-bolder">{{data.transaction.total_amount }}</th>
+                                    <th class="text-left font-weight-bolder">{{ data.transaction.total_amount }}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -363,12 +371,7 @@
         
     </body>
 
-    <footer style="
-        clear: both;
-        position: relative;
-        height: 200px;
-        margin-top: -200px;
-    ">
+    <footer id="footer" class="default-template">
         <h5 class="text-center">Thank you!</h5>
         <p class="description text-center">
             If you encounter any issues related to the invoice you can

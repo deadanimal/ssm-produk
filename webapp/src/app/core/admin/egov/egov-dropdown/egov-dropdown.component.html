@@ -268,6 +268,22 @@
 
                                     <ngx-datatable-column
                                         maxWidth="100"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="status"
+                                    >
+                                        <ng-template ngx-datatable-header-template>
+                                            <span class="table-header">Status</span>
+                                        </ng-template>
+            
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <span class="badge badge-success" *ngIf="row.active">Enabled</span>
+                                            <span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column
+                                        maxWidth="100"
                                         [sortable]="false"
                                         [resizeable]="false"
                                     >
@@ -343,8 +359,6 @@
 					</div>
 				</div>
 			</div>
-			
-
 		</form>
 	</div>
 
@@ -380,9 +394,22 @@
 						<input class="form-control" formControlName="name">
 					</div>
 				</div>
+            </div>
+            
+            <div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Status</label>
+						<select class="form-control" formControlName="active">
+							<option value="true">Enable</option>
+							<option value="false">Disable</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</form>
-	</div>
+    </div>
+    
 
 	<div class="modal-footer">
 		<button class="btn btn-success" type="button" (click)="updateMin()">

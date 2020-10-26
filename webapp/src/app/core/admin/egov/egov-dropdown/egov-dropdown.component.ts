@@ -76,7 +76,8 @@ export class EgovDropdownComponent implements OnInit {
 
     this.ministryUpdateForm = this.fb.group({
       id: new FormControl(),
-      name: new FormControl()
+      name: new FormControl(),
+      active: new FormControl()
     })
 
     this.departmentAddForm = this.fb.group({
@@ -87,7 +88,8 @@ export class EgovDropdownComponent implements OnInit {
 
     this.ministryAddForm = this.fb.group({
       id: new FormControl(),
-      name: new FormControl()
+      name: new FormControl(),
+      active: new FormControl()
     })
   }
 
@@ -171,7 +173,8 @@ export class EgovDropdownComponent implements OnInit {
     }
     else if (type == 'ministry') {
       this.ministryUpdateForm.controls['id'].setValue(row.id)
-      this.ministryUpdateForm.controls['name'].setValue(row.name)
+      this.ministryUpdateForm.controls['name'].setValue(row.name),
+      this.ministryUpdateForm.controls['active'].setValue(row.active)
     }
     // console.log(row)
     this.modal = this.modalService.show(
