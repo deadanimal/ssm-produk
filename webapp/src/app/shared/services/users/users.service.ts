@@ -19,6 +19,8 @@ export class UsersService {
   public users: User[] = []
   public usersFiltered: User[] = []
 
+  public currentUser: User = null
+
   constructor(
     private http: HttpClient
   ) { }
@@ -40,8 +42,8 @@ export class UsersService {
   }
 
   getOne(id: String): Observable<User> {
-    let urlUserOne = this.urlUser + id + '/'
-    return this.http.get<User>(urlUserOne).pipe(
+    let urlTemp = this.urlUser + id + '/'
+    return this.http.get<User>(urlTemp).pipe(
       tap((res) => {
         console.log('User: ', res)
       })

@@ -56,6 +56,12 @@ export class EgovComponent implements OnInit {
   @ViewChild('formRegistration') formRegistration: ElementRef;
   registerForm: FormGroup
   registerFormMessages = {
+    'phone_number': [
+      { type: 'required', message: 'Phone no. is required' },
+      { type: 'pattern', message: 'A valid phone no. is required' },
+      { type: 'minLength', message: 'A valid phone no. is required' },
+      { type: 'maxLength', message: 'A valid phone no. is required' },
+    ],
     'position_or_grade': [
       { type: 'required', message: 'Position or grade is required' }
     ],
@@ -87,6 +93,8 @@ export class EgovComponent implements OnInit {
     'postcode': [
       { type: 'required', message: 'Postcode is required' },
       { type: 'pattern', message: 'A valid postcode is required' },
+      { type: 'minLength', message: 'A valid postcode is required' },
+      { type: 'maxLength', message: 'A valid postcode is required' },
     ],
     'state': [
       { type: 'required', message: 'State is required' }
@@ -126,8 +134,14 @@ export class EgovComponent implements OnInit {
       user: new FormControl(null, Validators.compose([
         Validators.required
       ])),
-      egov_request: new FormControl('PD', Validators.compose([
+      request_type: new FormControl('RG', Validators.compose([
         Validators.required
+      ])),
+      phone_number: new FormControl(null, Validators.compose([
+        Validators.required,
+        Validators.pattern("^[0-9]*$"),
+        Validators.minLength(8),
+        Validators.maxLength(14)
       ])),
       position_or_grade: new FormControl(null, Validators.compose([
         Validators.required
@@ -161,7 +175,9 @@ export class EgovComponent implements OnInit {
       ])),
       postcode: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern("^[0-9]*$"),
+        Validators.minLength(5),
+        Validators.maxLength(5)
       ])),
       state: new FormControl(null, Validators.compose([
         Validators.required
@@ -253,7 +269,7 @@ export class EgovComponent implements OnInit {
   
   failedAlert(message) {
     swal.fire({
-      title: 'Success',
+      title: 'Error',
       text: message,
       icon: 'warning',
       // showCancelButton: true,
@@ -289,9 +305,11 @@ export class EgovComponent implements OnInit {
       reader.readAsDataURL(file)
       // readAsDataURL(file);
       // console.log(event.target)
-      console.log(reader)
+      // console.log(reader)
+      
       
       reader.onload = () => {
+        // console.log(reader['result'])
         this.registerForm.controls['attachment_letter'].setValue(reader.result)
         // console.log(this.registerForm.value)
         // console.log('he', this.registerForm.valid)

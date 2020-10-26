@@ -121,7 +121,8 @@ export class ServicesService {
   }
 
   requestEgov(body: any): Observable<any[]> {
-    return this.http.post<any>(this.urlEgovRequest, body).pipe(
+    let urlTemp = this.urlEgovRequest + 'add_request/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res
         // console.log('Requested: ', res)

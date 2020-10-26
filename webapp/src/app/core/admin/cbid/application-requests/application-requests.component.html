@@ -57,11 +57,18 @@
 						</div>
 					</div>
 
-					<ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
-						[footerHeight]="50" [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined"
-						[rows]="tableTemp" [scrollbarH]="true" (activate)="onActivate($event)">
+					<ngx-datatable 
+						class="bootstrap selection-cell"
+						[columnMode]="'force'"
+						[headerHeight]="50"
+						[footerHeight]="50"
+						[rowHeight]="'auto'"
+						[limit]="tableEntries != -1 ? tableEntries : undefined"
+						[rows]="tableTemp"
+						[scrollbarH]="true"
+					>
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="reference_id"
 						>
@@ -70,14 +77,12 @@
 							</ng-template>
 
 							<ng-template let-row="row" ngx-datatable-cell-template>
-
 								{{row.reference_id}}
-
 							</ng-template>
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="190"
 							[sortable]="true"
 							prop="receipt_no"
 						>
@@ -86,14 +91,12 @@
 							</ng-template>
 
 							<ng-template let-row="row" ngx-datatable-cell-template>
-
 								{{row.receipt_no}}
-
 							</ng-template>
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="name"
 						>
@@ -106,7 +109,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="organisation"
 						>
@@ -119,7 +122,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="address"
 						>
@@ -132,7 +135,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="email_address"
 						>
@@ -145,7 +148,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="phone_number"
 						>
@@ -172,7 +175,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="created_date"
 						>
@@ -185,7 +188,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="in_progress_date"
 						>
@@ -203,7 +206,7 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-								maxWidth="140"
+							[width]="180"
 							[sortable]="true"
 							prop="name"
 						>
@@ -220,7 +223,9 @@
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="180"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Remarks</span>
 							</ng-template>

@@ -21,6 +21,8 @@ import { ServicesService } from 'src/app/shared/services/services/services.servi
 import { forkJoin } from 'rxjs';
 import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { User } from 'src/app/shared/services/users/users.model';
 
 export enum SelectionType {
   single = 'single',
@@ -38,6 +40,7 @@ export enum SelectionType {
 export class EgovTaskManagementComponent implements OnInit {
 
   // Data
+  currentUser: User = null
   investigationRequests: any[] = []
   quotaRequests: any[] []
   egovRequests: any[] []
@@ -57,18 +60,18 @@ export class EgovTaskManagementComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: 'modal-dialog-centered',
+    class: 'modal-dialog-centered modal-lg',
   };
 
   // Form
   registerForm: FormGroup;
   
 
-  
+  selectedTask: any = null
 
   // Registration
   registrationForm: FormGroup
-  registerFormMessages = {
+  registrationFormMessages = {
     package: [
       { type: 'required', message: 'Name is required' }
     ],
@@ -80,12 +83,14 @@ export class EgovTaskManagementComponent implements OnInit {
     ]
   };
   isRemarksOthers: boolean = false
+  eGovRegRemarks = null
   
   constructor(
     private mockService: MocksService,
     private modalService: BsModalService,
     private fb: FormBuilder,
     private zone: NgZone,
+    private userService: UsersService,
     private serviceService: ServicesService,
     private quotaService: QuotasService,
     private loadingBar: LoadingBarService
@@ -103,6 +108,7 @@ export class EgovTaskManagementComponent implements OnInit {
     // });
 
     // this.initData();
+    this.initForm()
   }
 
   ngOnDestroy() {
@@ -115,6 +121,10 @@ export class EgovTaskManagementComponent implements OnInit {
 
   initForm() {
     this.registrationForm = this.fb.group({
+      user_id: new FormControl(null),
+      request_status: new FormControl('AP', Validators.compose([
+        Validators.required
+      ])),
       package: new FormControl(null, Validators.compose([
         Validators.required
       ])), 
@@ -124,19 +134,198 @@ export class EgovTaskManagementComponent implements OnInit {
       expired_date: new FormControl(null, Validators.compose([
         Validators.required
       ])), 
-      remarks: new FormControl(null, Validators.compose([
-        Validators.required
-      ])), 
+      remarks: new FormControl(null),
+      approver: new FormControl(null)
     })
   }
 
-  openModal(modalRef: TemplateRef<any>) {
+  getData() {
+    this.loadingBar.start()
+    forkJoin([
+      this.serviceService.getEgovRequest()
+    ]).subscribe(
+      (res) => {
+        this.loadingBar.complete()
+        this.tasks = []
+        this.egovRequests = res[0]
+
+        this.egovRequests.forEach(
+          (item) => {
+            let status_ = ''
+            let type_ = ''
+
+            if (item['request_status'] == 'PD') {
+              status_ = 'Pending'
+            }
+            else if (item['request_status'] == 'RJ') {
+              status_ = 'Rejected'
+            }
+            else if (item['request_status'] == 'AP') {
+              status_ = 'Approved'
+            }
+
+            if (item['request_type'] == 'RG') {
+              type_ = 'New Registration'
+            }
+            else if (item['request_type'] == 'QU') {
+              type_ = 'Quota Request'
+            }
+            else if (item['request_type'] == 'RN') {
+              type_ = 'Renew Account'
+            }
+            else if (item['request_type'] == 'UI') {
+              type_ = 'Update Information'
+            }
+
+            let user_name_ = null
+            let user_email_ = null
+            let approver_name_ = null
+            
+            if (item['user']) {
+              user_name_ = item['user']['full_name']
+              user_email_ = item['user']['username']
+            }
+            if (item['approver']) {
+              approver_name_ = item['approver']['full_name']
+            }
+            let add_ = {
+              task_type: type_,
+              reference_no: item['reference_no'],
+              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
+              email_address: user_email_,
+              name: user_name_,
+              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
+              approver: approver_name_,
+              status: status_,
+              remarks: item['remarks'],
+              item: item
+            }
+            this.tasks.push(add_)
+          }
+        )
+      },
+      (fail) => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.currentUser = this.userService.currentUser
+        this.tasks.sort((a, b) => new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime())
+        this.tableRows = this.tasks
+        this.tableTemp = this.tableRows.map((prop, key) => {
+        return {
+          ...prop,
+          id_index: key+1
+        };
+      });
+      console.log('Task management: ', this.tableTemp)
+      }
+    )
+
+    
+  }
+
+  onRemarksChange($event) {
+    console.log(this.isRemarksOthers)
+    if (this.eGovRegRemarks == 'Others') {
+      this.isRemarksOthers = true
+    }
+    else {
+      this.isRemarksOthers = false
+    }
+  }
+
+  approveRegistration() {
+    let current_user_id_ = this.selectedTask['item']['user']['id']
+    console.log(this.registrationForm.value['expired_date'])
+    let expiry_date = this.registrationForm.value['expired_date']+ 'T08:00:00.000000Z'
+    this.registrationForm.controls['approver'].patchValue(this.currentUser.id)
+    console.log(expiry_date)
+    this.registrationForm.controls['user_id'].patchValue(current_user_id_)
+    this.registrationForm.controls['expired_date'].patchValue(expiry_date)
+
+    if (!this.isRemarksOthers) {
+      this.registrationForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.approveRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully approved a registration')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.closeModal()
+        this.getData()
+      }
+    )
+  }
+
+  rejectRegistration() {
+    let current_user_id_ = this.selectedTask['item']['user']['id']
+    this.registrationForm.controls['approver'].patchValue(this.currentUser.id)
+    this.registrationForm.controls['user_id'].patchValue(current_user_id_)
+    this.registrationForm.controls['request_status'].patchValue('RJ')
+
+    if (!this.isRemarksOthers) {
+      this.registrationForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.approveRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully rejected a registration')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  successfullAlert(message) {
+    swal.fire({
+      title: 'Success',
+      text: message,
+      type: 'success',
+      buttonsStyling: false,
+      confirmButtonClass: 'btn btn-success',
+      confirmButtonText: 'Close',
+      showCancelButton: false,
+      // cancelButtonClass: 'btn btn-danger',
+      // cancelButtonText: 'Cancel'
+    });
+  }
+
+  failedAlert(message) {
+    swal.fire({
+      title: 'Error',
+      text: message,
+      type: 'warning',
+      buttonsStyling: false,
+      confirmButtonClass: 'btn btn-warning',
+      confirmButtonText: 'Close',
+      showCancelButton: false,
+      // cancelButtonClass: 'btn btn-danger',
+      // cancelButtonText: 'Cancel'
+    });
+  }
+
+  openModal(modalRef: TemplateRef<any>, row) {
+    this.selectedTask = row
+    this.currentUser = this.userService.currentUser
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   closeModal() {
     this.modal.hide();
-    this.registerForm.reset();
   }
 
   confirm() {
@@ -191,82 +380,11 @@ export class EgovTaskManagementComponent implements OnInit {
     this.tableActiveRow = event.row;
   } 
 
-  getData() {
-    this.loadingBar.start()
-    forkJoin([
-      this.serviceService.getEgovRequest()
-    ]).subscribe(
-      (res) => {
-        this.loadingBar.complete()
-        this.egovRequests = res[0]
+  
 
-        this.egovRequests.forEach(
-          (item) => {
-            let status_ = ''
-            let type_ = ''
+  
 
-            if (item['request_status'] == 'PD') {
-              status_ = 'Pending'
-            }
-            else if (item['request_status'] == 'RJ') {
-              status_ = 'Rejected'
-            }
-            else if (item['request_status'] == 'AP') {
-              status_ = 'Approved'
-            }
-
-            if (item['request_type'] == 'RG') {
-              type_ = 'New Registration'
-            }
-            else if (item['request_type'] == 'QU') {
-              type_ = 'Quota Request'
-            }
-            else if (item['request_type'] == 'RN') {
-              type_ = 'Renew Account'
-            }
-            else if (item['request_type'] == 'UI') {
-              type_ = 'Update Information'
-            }
-
-            let user_name_ = null
-            let user_email_ = null
-            
-            if (item['user']) {
-              user_name_ = item['user']['full_name']
-              user_email_ = item['user']['username']
-            }
-            let add_ = {
-              task_type: type_,
-              reference_no: item['reference_no'],
-              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
-              email_address: user_email_,
-              name: user_name_,
-              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
-              approver: '',
-              status: status_,
-              remarks: item['remarks'],
-              item: item
-            }
-            this.tasks.push(add_)
-          }
-        )
-      },
-      (fail) => {
-        this.loadingBar.complete()
-      },
-      () => {
-         this.tasks.sort((a, b) => new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime())
-         this.tableRows = this.tasks
-         this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });
-        console.log('Task management: ', this.tableTemp)
-      }
-    )
-  }
+  
 
   getData_1() {
     console.log('getData')

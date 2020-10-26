@@ -111,7 +111,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-        transaction_running_no = "{0:0>6}".format(transaction_length)
+        transaction_running_no = "{0:0>6}".format(transaction_length + 1)
 
         css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'
         
@@ -136,7 +136,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     Q(created_date__month=filter_month) &
                     Q(created_date__day=filter_day)
                 ).count()
-                order_running_no = "{0:0>6}".format(product_length)
+                order_running_no = "{0:0>6}".format(product_length + 1)
 
                 if item.cart_item_type == 'PR':
                     item.order_no = 'PD' + current_year + current_month + current_day + order_running_no
@@ -152,18 +152,21 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             for item in data_loaded['cart_items']:
                 # item['index'] = index_counter
                 index_counter = index_counter + 1
+                # item['index'] = index_counter
 
                 if item.product:
-                    # item.product.fee = format(item.product.fee/100, '.2f')
+                    item.product.fee = format(item.product.fee/100, '.2f')
                     print('he')
                 elif item.product_search_criteria:
-                    # item.product_search_criteria.fee = format(item.product_search_criteria.fee/100, '.2f')
+                    item.product_search_criteria.total_price = format(item.product_search_criteria.total_price/100, '.2f')
                     print('he')
                 elif item.service_request:
-                    # item.service_request.service.fee = format(item.service_request.service.fee/100, '.2f')
+                    item.service_request.service.fee = format(item.service_request.service.fee/100, '.2f')
                     print('he')
 
-            # data_loaded['transaction'].total_amount = format(data_loaded['transaction'].total_amount/100, '.2f')
+            total_amount_original = data_loaded['transaction'].total_amount
+
+            data_loaded['transaction'].total_amount = format(total_amount_original/100, '.2f')
 
             html_string = render_to_string('receipt/receipt.html', {'data': data_loaded})
             html = HTML(string=html_string)
@@ -179,6 +182,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             full_url_path = settings.MEDIA_ROOT + saved_file
             lol_ = file_path
             print(lol_)
+            print('oiiii', total_amount_original)
+            data_loaded['transaction'].total_amount = total_amount_original
             transaction.receipt = full_url_path
             
             transaction.save()
@@ -223,7 +228,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-        transaction_running_no = "{0:0>6}".format(transaction_length)
+        transaction_running_no = "{0:0>6}".format(transaction_length + 1)
 
         merchant_pwd = 'sm212345'
         encode_request = json.loads(request.body)

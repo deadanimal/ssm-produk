@@ -61,6 +61,7 @@ class DocumentRequestSerializer(serializers.ModelSerializer):
 class DocumentRequestExtendedSerializer(serializers.ModelSerializer):
 
     user = CustomUserSerializer(many=False)
+    
     document_request_item = DocumentRequestItemSerializer(many=True)
 
     class Meta:
@@ -79,7 +80,8 @@ class EgovernmentRequestSerializer(serializers.ModelSerializer):
 class EgovernmentRequestExtendedSerializer(serializers.ModelSerializer):
 
     user = CustomUserSerializer(many=False)
-
+    approver = CustomUserSerializer(many=False)
+    
     class Meta:
         model = EgovernmentRequest
         fields = '__all__'          
