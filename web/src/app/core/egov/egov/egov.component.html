@@ -121,11 +121,21 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Tel. No.</label>
+                                    <label class="form-control-label">Tel. No.
+                                        <span class="error-message">*</span>
+                                    </label>
                                     <input 
                                         class="form-control" 
                                         placeholder="Enter tel. no."
+                                        formControlName="phone_number"
+                                        [ngClass]="{'is-invalid': registerForm.controls.phone_number.invalid && registerForm.controls.phone_number.touched}"
                                     />
+
+                                    <ng-container *ngFor="let message of registerFormMessages.phone_number">
+                                        <div *ngIf="registerForm.get('phone_number').hasError(message.type) && (registerForm.get('phone_number').dirty || registerForm.get('phone_number').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -326,7 +336,6 @@
                                         class="form-control" 
                                         placeholder="Potcode"
                                         formControlName="postcode"
-                                        type="number"
                                         [ngClass]="{'is-invalid': registerForm.controls.postcode.invalid && registerForm.controls.postcode.touched}"
                                     />
 

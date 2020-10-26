@@ -172,7 +172,6 @@
 										<ngx-datatable-column
 											[sortable]="true"
 											prop="id_index"
-											maxWidth="80"
 										>
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">No.</span>
@@ -184,13 +183,13 @@
 
 										<ngx-datatable-column
 											[sortable]="true"
-											prop="invoice_no"
+											prop="receipt_no"
 										>
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Receipt No.</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.invoice_no}}
+												{{row.receipt_no}}
 											</ng-template>
 										</ngx-datatable-column>
 		
@@ -225,7 +224,7 @@
 												<span class="table-header">Reference</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												{{row.reference_no_new}}
+												{{row.reference_no}}
 											</ng-template>
 										</ngx-datatable-column>
 										
@@ -248,7 +247,7 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<a 
 													class="nav-link nav-link-icon cursor-pointer"
-													(click)="downloadRecipt(row)"
+													(click)="downloadReceipt(row)"
 												>
 													<i 
 														class="fas fa-file-download text-info"
@@ -294,7 +293,7 @@
 										(activate)="onActivate($event)"
 									>
 										<ngx-datatable-column
-											maxWidth="70"
+											maxWidth="100"
 											[sortable]="true"
 											prop="id_index"
 											[resizeable]="false"
@@ -313,7 +312,13 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<!-- {{row.product?.name}} -->
-												SSM2020100124442
+												
+												<span *ngIf="row.product">
+													{{row.order_no}}
+												</span>
+												<span *ngIf="!row.product">
+													SSM2020100124442
+												</span>
 											</ng-template>
 										</ngx-datatable-column>
 		
@@ -337,6 +342,9 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.product?.name}}
+												<span *ngIf="row.product.ctc">
+													- CTC
+												</span>
 												<span *ngIf="row.service_request">
 													{{row.service_request?.service.name}}
 												</span>
@@ -833,7 +841,7 @@
 											(activate)="onActivate($event)"
 										>
 											<ngx-datatable-column
-												maxWidth="70"
+												[width]="100"
 												[sortable]="true"
 												prop="id_index"
 												[resizeable]="false"
