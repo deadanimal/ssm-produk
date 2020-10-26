@@ -74,13 +74,13 @@
                         [scrollbarH]="true" 
                     >
                         <ngx-datatable-column
-                            maxWidth="80"
+                            [width]="100"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="id_index"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">No.</span>
+                                <span>No.</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -89,13 +89,13 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            maxWidth="140"
+                            [width]="150"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="task_type"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Applied For</span>
+                                <span>Applied For</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -104,13 +104,13 @@
                         </ngx-datatable-column>
 
                          <ngx-datatable-column
-                            maxWidth="160"
+                            [width]="190"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="reference_no"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Reference No.</span>
+                                <span>Reference No.</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -119,12 +119,13 @@
                         </ngx-datatable-column>
                         
                         <ngx-datatable-column
+                            [width]="190"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="created_at"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Application Date</span>
+                                <span>Application Date</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -133,12 +134,13 @@
                         </ngx-datatable-column>
                         
                         <ngx-datatable-column
+                            [width]="180"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="email_address"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Email Address</span>
+                                <span>Email Address</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -152,7 +154,7 @@
                             prop="name"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Full Name</span>
+                                <span>Full Name</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -161,13 +163,13 @@
                         </ngx-datatable-column>
                         
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="220"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="modified_at"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Update Status Date</span>
+                                <span>Update Status Date</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -182,7 +184,7 @@
                             prop="approver"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Approver</span>
+                                <span>Approver</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -196,7 +198,7 @@
                             prop="status"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Status</span>
+                                <span>Status</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -229,7 +231,7 @@
                             prop="remarks"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Remarks</span>
+                                <span>Remarks</span>
                             </ng-template>
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -242,14 +244,14 @@
                             [resizeable]="false"
                         >
                             <ng-template ngx-datatable-header-template>
-                                <span class="table-header">Action</span>
+                                <span>Action</span>
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <a style="cursor: pointer">
                                     <button 
-                                        class="btn btn-sm btn-info"
+                                        class="btn btn-sm btn-ssm"
                                         *ngIf="row.task_type == 'New Registration'"
-                                        (click)="openModal(newRegistration)"
+                                        (click)="openModal(newRegistration, row)"
                                     >
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -263,8 +265,9 @@
     </div>
 </div>
 
+<!-- New registration approval modal -->
 <ng-template #newRegistration>
-    <div class="modal-header bg-default">
+    <div class="modal-header bg-ssm">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
             New Registration Approval
         </h6>
@@ -275,6 +278,49 @@
     </div>
 
     <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email Address</label>
+                    <input class="form-control" [value]="selectedTask.email_address" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Full Name</label>
+                    <input class="form-control" [value]="selectedTask.name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No.</label>
+                    <input class="form-control" [value]="" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Position or Grade</label>
+                    <input class="form-control" [value]="selectedTask.item.position_or_grade" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Tel No.</label>
+                    <input class="form-control" [value]="selectedTask.item.phone_number" disabled>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4">Admin Action</h6>
         <form [formGroup]="registrationForm">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -285,7 +331,7 @@
                             formControlName="package"
                             [ngClass]="{'is-invalid': registrationForm.controls.package.invalid && registrationForm.controls.package.touched}"
                         >
-                            <option selected hidden>Please select package</option>
+                            <option selected hidden value="null">Please select package</option>
                             <option value="1">Package 1</option>
                             <option value="2">Package 2</option>
                             <option value="3">Package 3</option>
@@ -293,7 +339,7 @@
                         </select>
 
                         <ng-container *ngFor="let message of registrationFormMessages.package">
-                            <div *ngIf="registrationFormMessages.get('package').hasError(message.type) && (registrationFormMessages.get('package').dirty || registrationFormMessages.get('package').touched)">
+                            <div *ngIf="registrationForm.get('package').hasError(message.type) && (registrationForm.get('package').dirty || registrationForm.get('package').touched)">
                                 <p class="error-message"><span>{{ message.message }}</span></p>
                             </div>
                         </ng-container>
@@ -310,7 +356,7 @@
                         >
 
                         <ng-container *ngFor="let message of registrationFormMessages.quota">
-                            <div *ngIf="registrationFormMessages.get('quota').hasError(message.type) && (registrationFormMessages.get('quota').dirty || registrationFormMessages.get('position_or_grade').touched)">
+                            <div *ngIf="registrationForm.get('quota').hasError(message.type) && (registrationForm.get('quota').dirty || registrationForm.get('position_or_grade').touched)">
                                 <p class="error-message"><span>{{ message.message }}</span></p>
                             </div>
                         </ng-container>
@@ -325,7 +371,7 @@
                         <input class="form-control" type="date" formControlName="expired_date">
 
                         <ng-container *ngFor="let message of registrationFormMessages.expired_date">
-                            <div *ngIf="registrationFormMessages.get('expired_date').hasError(message.type) && (registrationFormMessages.get('expired_date').dirty || registrationFormMessages.get('expired_date').touched)">
+                            <div *ngIf="registrationForm.get('expired_date').hasError(message.type) && (registrationForm.get('expired_date').dirty || registrationForm.get('expired_date').touched)">
                                 <p class="error-message"><span>{{ message.message }}</span></p>
                             </div>
                         </ng-container>
@@ -337,10 +383,11 @@
                         <label class="form-control-label">Remarks</label>
                         <select 
                             class="form-control"
-                            [(ngModel)]="package"
+                            [(ngModel)]="eGovRegRemarks"
                             [ngModelOptions]="{standalone: true}"
+                            (change)="onRemarksChange($event)"
                         >
-                            <option selected hidden>Please remarks</option>
+                            <option selected hidden value="null">Please select remarks</option>
                             <option value="Attachment incomplete">Attachment incomplete</option>
                             <option value="Head of department details">Head of department details</option>
                             <option value="Others">Others</option>
@@ -360,13 +407,30 @@
         </form>
     </div>
 
-    <div class="modal-footer">
-        <button class="btn btn-success" type="button" (click)="updateApplication()"
-            [disabled]="!isCompleted && remarks=='' && completedDate==''">
-            Update
+    <div class="modal-footer text-center">
+        <button 
+            class="btn btn-ssm rounded-pill" 
+            type="button" 
+            (click)="approveRegistration()"
+            [disabled]="!registrationForm.valid">
+            Approve
         </button>
 
-        <button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="rejectRegistration()"
+        >
+            Reject
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
             Close
         </button>
     </div>

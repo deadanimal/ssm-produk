@@ -226,9 +226,9 @@ export class ProfileComponent implements OnInit {
               let month = (moment(item.created).month() + 1).toString()
               let day = (moment(item.created).date()).toString()
               console.log(year, month, day)
-              item['invoice_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
-              item['receipt_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
-              item['reference_no_new'] = 'PD' + year + month + day + item['reference_no'].slice(6,12)
+              // item['invoice_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
+              // item['receipt_no'] = 'PP' + year + month + day + item['reference_no'].slice(6,12)
+              // item['reference_no_new'] = 'PD' + year + month + day + item['reference_no'].slice(6,12)
             }
           )
 
@@ -1051,7 +1051,14 @@ export class ProfileComponent implements OnInit {
     this.modalTransactionDetail.hide();
   }
 
-  downloadReceipt() {}
+  downloadReceipt(row) {
+    if (row.receipt) {
+      window.open(
+        row.receipt,
+        '_blank'
+      )
+    }
+  }
 
   successDownload() {
     swal

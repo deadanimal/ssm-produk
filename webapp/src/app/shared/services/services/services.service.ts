@@ -138,6 +138,14 @@ export class ServicesService {
     )
   }
 
+  approveRegistration(id: any, body: any): Observable<any> {
+    let urlTemp = this.urlEgovRequest + id + '/approve_user/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+
+      })
+    )
+  }
 
 
 

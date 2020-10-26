@@ -62,12 +62,12 @@ export class NavbarComponent implements OnInit {
            console.log(event.error);
        }
    });
-
+   this.tempDev()
   }
 
   ngOnInit() {
     console.log('as: ', this.user)
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.listTitles = ROUTES.filter(listTitle => listTitle)
   }
 
   getTitle() {
@@ -108,6 +108,14 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.jwtService.destroyToken()
     this.navigatePage('home')
+  }
+
+  tempDev() {
+    this.userService.getOne('e7a6751f-c89a-41fa-8561-6a6254e0464f').subscribe(
+      (res) => {
+        this.userService.currentUser = res
+      }
+    )
   }
 
   openSearch() {
