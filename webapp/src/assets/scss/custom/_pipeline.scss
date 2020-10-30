@@ -20,11 +20,11 @@ a.bg-ssm:focus,
 a.bg-ssm:hover,
 button.bg-ssm:focus,
 button.bg-ssm:hover {
-    background-color: #211f46 !important;
+    background-color: #231e6d !important;
 }
   
 .text-ssm {
-    color: #211f46 !important;
+    color: #231e6d !important;
 }
   
 a.text-ssm:focus,
@@ -34,15 +34,15 @@ a.text-ssm:hover {
   
 .btn-ssm {
     color: #fff;
-    border-color: #211f46;
-    background-color: #211f46;
+    border-color: #231e6d;
+    background-color: #231e6d;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
   
 .btn-ssm:hover {
     color: #fff;
-    border-color: #211f46;
-    background-color: #211f46;
+    border-color: #231e6d;
+    background-color: #231e6d;
 }
   
 .btn-ssm.focus,
@@ -54,15 +54,15 @@ a.text-ssm:hover {
 .btn-ssm.disabled,
 .btn-ssm:disabled {
     color: #fff;
-    border-color: #211f46;
-    background-color: #211f46;
+    border-color: #231e6d;
+    background-color: #231e6d;
 }
   
 .btn-ssm:not(:disabled):not(.disabled).active,
 .btn-ssm:not(:disabled):not(.disabled):active,
 .show > .btn-ssm.dropdown-toggle {
     color: #fff;
-    border-color: #211f46;
+    border-color: #231e6d;
     background-color: #231e6d;
 }
   
@@ -73,16 +73,16 @@ a.text-ssm:hover {
 }
   
 .btn-outline-ssm {
-    color: #211f46;
-    border-color: #211f46;
+    color: #231e6d;
+    border-color: #231e6d;
     background-color: transparent;
     background-image: none;
 }
   
 .btn-outline-ssm:hover {
     color: #fff;
-    border-color: #211f46;
-    background-color: #211f46;
+    border-color: #231e6d;
+    background-color: #231e6d;
 }
   
 .btn-outline-ssm.focus,
@@ -92,7 +92,7 @@ a.text-ssm:hover {
   
 .btn-outline-ssm.disabled,
 .btn-outline-ssm:disabled {
-    color: #211f46;
+    color: #231e6d;
     background-color: transparent;
 }
   
@@ -100,8 +100,8 @@ a.text-ssm:hover {
 .btn-outline-ssm:not(:disabled):not(.disabled):active,
 .show > .btn-outline-ssm.dropdown-toggle {
     color: #fff;
-    border-color: #211f46;
-    background-color: #211f46;
+    border-color: #231e6d;
+    background-color: #231e6d;
 }
   
 .btn-outline-ssm:not(:disabled):not(.disabled).active:focus,

@@ -479,6 +479,7 @@ export class ProductSearchResultComponent implements OnInit {
     this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
+        this.refreshCart()
       },
       () => {
         this.loadingBar.useRef('http').complete()
@@ -489,6 +490,14 @@ export class ProductSearchResultComponent implements OnInit {
         this.cartForm.controls['year2'].setValue(null)
         this.productService.cart = true
       }
+    )
+  }
+
+  refreshCart() {
+    this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
+      () => {},
+      () => {},
+      () => {}
     )
   }
 

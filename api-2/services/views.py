@@ -45,6 +45,7 @@ from .serializers import (
     EgovernmentDepartmentExtendedSerializer
 )
 
+from entities.models import Entity
 from carts.models import Cart, CartItem
 from carts.serializers import CartItemSerializer, CartSerializer
 from transactions.models import Transaction
@@ -208,22 +209,16 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return queryset    
 
-
-    @action(methods=['GET'], detail=True)
-    def with_item(self, request, *args, **kwargs):  
-
-        document_request = self.get_object()
-
-        serializer = DocumentRequestExtendedSerializer(document_request)
-        return Response(serializer.data)
-
-
-    @action(methods=['POST'], detail=True)
-    def add_item_to_document_request(self, request, *args, **kwargs):    
-
-        document_request_item_request = json.loads(request.body) 
-        image_version_id = document_request_item_request['image_version_id']
-        image_form_type = document_request_item_request['image_form_type']
+    @action(methods=['POST'], detail=False)
+    def create_request(self, request, *args, **kwargs):
+        request_document_request = json.loads(request.body)
+        request_official_letter_request_original = request_document_request['official_letter_request']
+        request_official_letter_egov_original = request_document_request['official_letter_egov']
+        request_reference_letter_no = request_document_request['reference_letter_no']
+        request_ip_no = request_document_request['ip_no']
+        request_court_case_no = request_document_request['court_case_no']
+        request_offence = request_document_request['offence']
+        request_user_id = request_document_request['user']
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
         
@@ -235,31 +230,149 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         filter_month = datetime.datetime.now(tz=timezone.utc).month
         filter_day = datetime.datetime.now(tz=timezone.utc).day
 
-        running_no_1_ = DocumentRequestItem.objects.filter(
+        running_no_1_ = EgovernmentRequest.objects.filter(
             Q(reference_no__isnull=False) &
             Q(created_date__year=filter_year) &
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-
-        running_no_2_ = EgovernmentRequest.objects.filter(
+        running_no_2_ = DocumentRequest.objects.filter(
             Q(reference_no__isnull=False) &
             Q(created_date__year=filter_year) &
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-
         running_no_ = "{0:0>6}".format(running_no_1_ + running_no_2_ + 1)
+
+        request_user = CustomUser.objects.filter(id=str(request_user_id)).first()
+
+        request_official_letter_request_base64 = request_official_letter_request_original.encode('utf-8')
+        format, pdfstr = request_official_letter_request_base64.decode().split(';base64,') 
+        ext = format.split('/')[-1] 
+        request_official_letter_request = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
+
+        request_official_letter_egov_base64 = request_official_letter_egov_original.encode('utf-8')
+        format, pdfstr = request_official_letter_egov_base64.decode().split(';base64,') 
+        ext = format.split('/')[-1] 
+        request_official_letter_egov = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
+
+        new_document_request = DocumentRequest.objects.create(
+            reference_no='EGOV' + current_year + current_month + current_day + running_no_,
+            reference_letter_no=request_reference_letter_no,
+            ip_no=request_ip_no,
+            court_case_no=request_court_case_no,
+            official_letter_request=request_official_letter_request,
+            official_letter_egov=request_official_letter_egov,
+            offence=request_offence,
+            user=request_user
+        )
+
+        serializer = DocumentRequestExtendedSerializer(new_document_request)
+        return Response(serializer.data)
+
+
+    @action(methods=['GET'], detail=True)
+    def with_item(self, request, *args, **kwargs):  
+
+        document_request = self.get_object()
+
+        serializer = DocumentRequestExtendedSerializer(document_request)
+        return Response(serializer.data)
+
+    @action(methods=['POST'], detail=True)
+    def approve_item(self, request, *args, **kwargs):
+
+        item_request = json.loads(request.body)
+        item_request_item_id = item_request['item']
+        item_request_approver_id = item_request['approver']
+
+        item_document = DocumentRequestItem.objects.filter(id=str(item_request_item_id)).first()
+        approver = CustomUser.objects.filter(id=str(item_request_approver_id)).first()
+
+        item_document.document_status = 'AP'
+        item_document.approver = approver
+        item_document.approved_date = datetime.datetime.now()
+
+        item_document.save()
+
+        serializer = DocumentRequestItemSerializer(item_document)
+        return Response(serializer.data)
+
+
+    @action(methods=['POST'], detail=True)
+    def reject_item(self, request, *args, **kwargs):
+
+        item_request = json.loads(request.body)
+        item_request_item_id = item_request['item']
+        item_request_approver_id = item_request['approver']
+
+        item_document = DocumentRequestItem.objects.filter(id=str(item_request_item_id)).first()
+        approver = CustomUser.objects.filter(id=str(item_request_approver_id)).first()
+
+        item_document.document_status = 'RJ'
+        item_document.approver = approver
+        item_document.approved_date = datetime.datetime.now()
+
+        item_document.save()
+
+        serializer = DocumentRequestItemSerializer(item_document)
+        return Response(serializer.data)
+
+
+    @action(methods=['POST'], detail=True)
+    def add_item_to_document_request(self, request, *args, **kwargs):    
+
+        document_request_item_request = json.loads(request.body)
+        document_type = document_request_item_request['document_type']
+        
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        
+        current_year = str(datetime.datetime.now(timezone_).year)
+        current_month = str(datetime.datetime.now(timezone_).month)
+        current_day = str(datetime.datetime.now(timezone_).day)
+        
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        filter_month = datetime.datetime.now(tz=timezone.utc).month
+        filter_day = datetime.datetime.now(tz=timezone.utc).day
+
+        running_no_ = DocumentRequestItem.objects.filter(
+            Q(reference_no__isnull=False) &
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day)
+        ).count()
+
+        running_no = "{0:0>6}".format(running_no_ + 1)
         
         document_request = self.get_object()
             
-        new_document_request_item = DocumentRequestItem.objects.create(
-            image_form_type=image_form_type,
-            image_version_id=image_version_id,
-            document_request=document_request,
-            running_no='EGOV'+ current_year + current_month + current_day + running_no_
-        )
-
+        if document_type == 'FR':
+            request_image_version_id = document_request_item_request['image_version_id']
+            request_image_form_type = document_request_item_request['image_form_type']
+            request_document_name = document_request_item_request['document_name']
+            request_entity_id = document_request_item_request['entity_id']
+            request_entity = Entity.objects.filter(id=request_entity_id).first()
+            new_document_request_item = DocumentRequestItem.objects.create(
+                reference_no = 'GOV' + current_year + current_month + current_day + running_no,
+                document_type=document_type,
+                image_form_type=request_image_form_type,
+                image_version_id=request_image_version_id,
+                document_request=document_request,
+                document_name=request_document_name,
+                entity=request_entity
+            )
+        elif document_type == 'PF':
+            request_document_name = document_request_item_request['document_name']
+            request_entity_id = document_request_item_request['entity_id']
+            request_entity = Entity.objects.filter(id=request_entity_id).first()
+            new_document_request_item = DocumentRequestItem.objects.create(
+                reference_no = 'GOV' + current_year + current_month + current_day + running_no,
+                document_type=document_type,
+                document_request=document_request,
+                document_name=request_document_name,
+                entity=request_entity
+            )
+            
         serializer = DocumentRequestExtendedSerializer(document_request)
         return Response(serializer.data)
 
@@ -342,20 +455,7 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_items = json.loads(request.body) 
         request_user_id = request_items['user']
         request_request_type = request_items['request_type']
-        request_position_or_grade = request_items['position_or_grade']
-        request_head_of_department_name = request_items['head_of_department_name']
-        request_head_of_department_position = request_items['head_of_department_position']
-        request_head_of_department_email = request_items['head_of_department_email']
-        request_ministry_name = request_items['ministry_name']
-        request_department_name = request_items['department_name']
-        request_division_name = request_items['division_name']
-        request_address_1 = request_items['address_1']
-        request_address_2 = request_items['address_2']
-        request_address_3 = request_items['address_3']
-        request_city = request_items['city']
-        request_postcode = request_items['postcode']
-        request_state = request_items['state']
-        request_attachment_letter_base64 = request_items['attachment_letter'].encode('utf-8')
+        request_attachment_letter_original = request_items['attachment_letter']
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
         
@@ -367,39 +467,116 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         filter_month = datetime.datetime.now(tz=timezone.utc).month
         filter_day = datetime.datetime.now(tz=timezone.utc).day
 
-        running_no_ = EgovernmentRequest.objects.filter(
+        running_no_1_ = EgovernmentRequest.objects.filter(
             Q(reference_no__isnull=False) &
             Q(created_date__year=filter_year) &
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-        running_no_ = "{0:0>6}".format(running_no_ + 1)
+        running_no_2_ = DocumentRequest.objects.filter(
+            Q(reference_no__isnull=False) &
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day)
+        ).count()
+        running_no_ = "{0:0>6}".format(running_no_1_ + running_no_2_ + 1)
         request_user = CustomUser.objects.filter(id=str(request_user_id)).first()
 
         # Convert base64
-        format, pdfstr = request_attachment_letter_base64.decode().split(';base64,') 
-        ext = format.split('/')[-1] 
-        request_attachment_letter = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
+        if request_attachment_letter_original:
+            request_attachment_letter_base64 = request_attachment_letter_original.encode('utf-8')
+            format, pdfstr = request_attachment_letter_base64.decode().split(';base64,') 
+            ext = format.split('/')[-1] 
+            request_attachment_letter = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
+        else:
+            request_attachment_letter = None
             
-        new_egov_request = EgovernmentRequest.objects.create(
-            user=request_user,
-            request_type=request_request_type,
-            position_or_grade=request_position_or_grade,
-            reference_no='EGOV'+ current_year + current_month + current_day + running_no_,
-            head_of_department_name=request_head_of_department_name,
-            head_of_department_position=request_head_of_department_position,
-            head_of_department_email=request_head_of_department_email,
-            ministry_name=request_ministry_name,
-            department_name=request_department_name,
-            division_name=request_division_name,
-            address_1=request_address_1,
-            address_2=request_address_2,
-            address_3=request_address_3,
-            city=request_city,
-            postcode=request_postcode,
-            state=request_state,
-            attachment_letter=request_attachment_letter
-        )
+        if request_request_type == 'RG':
+            request_position_or_grade = request_items['position_or_grade']
+            request_head_of_department_name = request_items['head_of_department_name']
+            request_head_of_department_position = request_items['head_of_department_position']
+            request_head_of_department_email = request_items['head_of_department_email']
+            request_ministry_name = request_items['ministry_name']
+            request_department_name = request_items['department_name']
+            request_division_name = request_items['division_name']
+            request_address_1 = request_items['address_1']
+            request_address_2 = request_items['address_2']
+            request_address_3 = request_items['address_3']
+            request_city = request_items['city']
+            request_postcode = request_items['postcode']
+            request_state = request_items['state']
+            
+
+            new_egov_request = EgovernmentRequest.objects.create(
+                user=request_user,
+                request_type=request_request_type,
+                position_or_grade=request_position_or_grade,
+                reference_no='EGOV'+ current_year + current_month + current_day + running_no_,
+                head_of_department_name=request_head_of_department_name,
+                head_of_department_position=request_head_of_department_position,
+                head_of_department_email=request_head_of_department_email,
+                ministry_name=request_ministry_name,
+                department_name=request_department_name,
+                division_name=request_division_name,
+                address_1=request_address_1,
+                address_2=request_address_2,
+                address_3=request_address_3,
+                city=request_city,
+                postcode=request_postcode,
+                state=request_state,
+                attachment_letter=request_attachment_letter
+            )
+        elif request_request_type == 'QU':
+            new_egov_request = EgovernmentRequest.objects.create(
+                user=request_user,
+                request_type=request_request_type,
+                reference_no='EGOV'+ current_year + current_month + current_day + running_no_,
+                attachment_letter=request_attachment_letter
+            )
+        elif request_request_type == 'RN':
+            new_egov_request = EgovernmentRequest.objects.create(
+                user=request_user,
+                request_type=request_request_type,
+                reference_no='EGOV'+ current_year + current_month + current_day + running_no_,
+                attachment_letter=request_attachment_letter
+            )
+        elif request_request_type == 'UI':
+            request_phone_number = request_items['phone_number']
+            request_position_or_grade = request_items['position_or_grade']
+            request_head_of_department_name = request_items['head_of_department_name']
+            request_head_of_department_position = request_items['head_of_department_position']
+            request_head_of_department_email = request_items['head_of_department_email']
+            request_ministry_name = request_items['ministry_name']
+            request_department_name = request_items['department_name']
+            request_division_name = request_items['division_name']
+            request_address_1 = request_items['address_1']
+            request_address_2 = request_items['address_2']
+            request_address_3 = request_items['address_3']
+            request_city = request_items['city']
+            request_postcode = request_items['postcode']
+            request_state = request_items['state']
+
+            new_egov_request = EgovernmentRequest.objects.create(
+                user=request_user,
+                request_type=request_request_type,
+                phone_number=request_phone_number,
+                position_or_grade=request_position_or_grade,
+                reference_no='EGOV'+ current_year + current_month + current_day + running_no_,
+                head_of_department_name=request_head_of_department_name,
+                head_of_department_position=request_head_of_department_position,
+                head_of_department_email=request_head_of_department_email,
+                ministry_name=request_ministry_name,
+                department_name=request_department_name,
+                division_name=request_division_name,
+                address_1=request_address_1,
+                address_2=request_address_2,
+                address_3=request_address_3,
+                city=request_city,
+                postcode=request_postcode,
+                state=request_state,
+                attachment_letter=request_attachment_letter
+            )
+
 
         serializer = EgovernmentRequestExtendedSerializer(new_egov_request)
         return Response(serializer.data)
@@ -443,7 +620,27 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         user.save()
             
         serializer = EgovernmentRequestSerializer(egovernment_request_)
-        return Response(serializer.data)            
+        return Response(serializer.data)     
+
+    @action(methods=['POST'], detail=True)
+    def reject_user(self, request, *args, **kwargs):    
+
+        egovernment_request_json = json.loads(request.body)    
+        user_id = egovernment_request_json['user_id']
+        approver_id = egovernment_request_json['approver']
+        remarks = egovernment_request_json['remarks']
+        egovernment_request_ = self.get_object()
+
+        user = CustomUser.objects.filter(id=str(user_id)).first()
+        approver = CustomUser.objects.filter(id=str(approver_id)).first()
+
+        egovernment_request_.request_status = 'RJ'
+        egovernment_request_.remarks = remarks
+        egovernment_request_.approver = approver
+        egovernment_request_.save()
+            
+        serializer = EgovernmentRequestSerializer(egovernment_request_)
+        return Response(serializer.data)          
 
     @action(methods=['POST'], detail=True)
     def approve_request(self, request, *args, **kwargs):
@@ -451,42 +648,46 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_ = json.loads(request.body)
         request_type = request_['request_type']
         remarks = request_['remarks']
+        approver_id = request_['approver']
 
         egovernment_request_ = self.get_object()
-        user = CustomUser.objects.filter(id=str(egovernment_request_.user)).first()
+        user = CustomUser.objects.filter(id=str(egovernment_request_.user.id)).first()
+        approver = CustomUser.objects.filter(id=str(approver_id)).first()
 
-        if request_type == 'quota':
+        if request_type == 'QU':
             quota_ = request_['quota']
-            egovernment_request_.quota = int(quota_)
+            egovernment_request_.egov_quota = int(quota_)
             egovernment_request_.request_status = 'AP'
             egovernment_request_.remarks = remarks
+            egovernment_request_.approver = approver
             egovernment_request_.save()
 
-            user.egov_quota = int(quota)
+            user.egov_quota = int(quota_) + user.egov_quota
             user.save()
-        elif request_type == 'update':
+        elif request_type == 'UI':
             print('update')
-            user.position_and_grade = egovernment_request_['position_and_grade']
-            user.phone_number = egovernment_request_['phone_number']
-            user.hod_name = egovernment_request_['head_of_department_name']
-            user.hod_position = egovernment_request_['head_of_department_position']
-            user.hod_email = egovernment_request_['head_of_department_email']
-            user.ministry_name = egovernment_request_['ministry_name']
-            user.department_name = egovernment_request_['department_name']
-            user.agency_name = egovernment_request_['agency_name']
-            user.attachment_letter = egovernment_request_['attachment_letter']
-            user.address_1 = egovernment_request_['address_1']
-            user.address_2 = egovernment_request_['address_2']
-            user.address_3 = egovernment_request_['address_3']
-            user.postcode = egovernment_request_['postcode']
-            user.city = egovernment_request_['city']
-            user.state = egovernment_request_['state']
+            user.position_or_grade = egovernment_request_.position_or_grade
+            user.phone_number = egovernment_request_.phone_number
+            user.head_of_department_name = egovernment_request_.head_of_department_name
+            user.head_of_department_position = egovernment_request_.head_of_department_position
+            user.head_of_department_email = egovernment_request_.head_of_department_email
+            user.ministry_name = egovernment_request_.ministry_name
+            user.department_name = egovernment_request_.department_name
+            user.division_name = egovernment_request_.division_name
+            user.address_1 = egovernment_request_.address_1
+            user.address_2 = egovernment_request_.address_2
+            user.address_3 = egovernment_request_.address_3
+            user.city = egovernment_request_.city
+            user.postcode = egovernment_request_.postcode
+            user.state = egovernment_request_.state
+
             user.save()
 
             egovernment_request_.request_status = 'AP'
             egovernment_request_.remarks = remarks
+            egovernment_request_.approver = approver
             egovernment_request_.save()
-        elif request_type == 'renew':
+        elif request_type == 'RN':
             print('renew')
             hod_name = request_['head_of_department_name']
             hod_position = request_['head_of_department_position']
@@ -499,13 +700,34 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             user.save()
 
             egovernment_request_.expired_date = expired_date
-            egovernment_request_.quota = 1000
+            egovernment_request_.egov_quota = 1000
             egovernment_request_.request_status = 'AP'
             egovernment_request_.remarks = remarks
             egovernment_request_.save()
 
         serializer = EgovernmentRequestSerializer(egovernment_request_)
         return Response(serializer.data)            
+
+    @action(methods=['POST'], detail=True)
+    def reject_request(self, request, *args, **kwargs):
+
+        request_ = json.loads(request.body)
+        request_type = request_['request_type']
+        remarks = request_['remarks']
+        approver_id = request_['approver']
+
+        egovernment_request_ = self.get_object()
+        user = CustomUser.objects.filter(id=str(egovernment_request_.user.id)).first()
+        approver = CustomUser.objects.filter(id=str(approver_id)).first()
+
+        egovernment_request_.request_status = 'RJ'
+        egovernment_request_.remarks = remarks
+        egovernment_request_.approver = approver
+        egovernment_request_.save()
+
+        serializer = EgovernmentRequestSerializer(egovernment_request_)
+        return Response(serializer.data)            
+
 
 class EgovernmentMinistryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentMinistry.objects.all()

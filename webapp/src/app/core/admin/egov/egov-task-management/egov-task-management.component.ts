@@ -44,6 +44,7 @@ export class EgovTaskManagementComponent implements OnInit {
   investigationRequests: any[] = []
   quotaRequests: any[] []
   egovRequests: any[] []
+  egovInvestigations: any[]
   tasks: any[] = []
 
 
@@ -53,14 +54,23 @@ export class EgovTaskManagementComponent implements OnInit {
   tableTemp = [];
   tableActiveRow: any;
   tableRows: any[] = [];
+
+  tableItemEntries: number = 10;
+  tableItemSelected: any[] = [];
+  tableItemTemp = [];
+  tableItemActiveRow: any;
+  tableItemRows: any[] = [];
+
+
   SelectionType = SelectionType;
   requestList: any;
+  requestItemList: any
 
   // Modal
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: 'modal-dialog-centered modal-lg',
+    class: 'modal-dialog-centered modal-xl',
   };
 
   // Form
@@ -84,6 +94,26 @@ export class EgovTaskManagementComponent implements OnInit {
   };
   isRemarksOthers: boolean = false
   eGovRegRemarks = null
+
+  // Quota
+  quotaForm: FormGroup
+  quotaFormMessages = {
+    quota: [
+      { type: 'required', message: 'Quota is required'}
+    ]
+  }
+
+  // Update
+  updateForm: FormGroup
+  updateFormMessages = {
+
+  }
+
+  // Renew
+  renewForm: FormGroup
+  renewFormMessages = {
+    
+  }
   
   constructor(
     private mockService: MocksService,
@@ -137,17 +167,96 @@ export class EgovTaskManagementComponent implements OnInit {
       remarks: new FormControl(null),
       approver: new FormControl(null)
     })
+
+    this.quotaForm = this.fb.group({
+      request_type: new FormControl('quota'),
+      quota: new FormControl(1000, Validators.compose([
+        Validators.required
+      ])),
+      remarks: new FormControl(null),
+      approver: new FormControl(null)
+    })
+
+    this.updateForm = this.fb.group({
+      request_type: new FormControl('update'),
+      remarks: new FormControl(null),
+      approver: new FormControl(null)
+    })
+
+    this.renewForm = this.fb.group({
+      request_type: new FormControl('renew'),
+      head_of_department_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      head_of_department_position: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      head_of_department_email: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      attachment_letter: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    console.log(this.renewForm)
   }
 
   getData() {
     this.loadingBar.start()
     forkJoin([
-      this.serviceService.getEgovRequest()
+      this.serviceService.getEgovRequest(),
+      this.serviceService.getEgovInvestigation()
     ]).subscribe(
       (res) => {
         this.loadingBar.complete()
         this.tasks = []
         this.egovRequests = res[0]
+        this.egovInvestigations = res[1]
+        
+        // console.log(res[0])
+        // console.log(res[1])
+
+        this.egovInvestigations.forEach(
+          (request) => {
+            let status_overall_ = 'Approved'
+            let type_ = 'Investigation Document Request'
+            request['document_request_item'].forEach(
+              (item) => {
+                if (item['document_status'] == 'PD') {
+                  status_overall_ = 'Pending'
+                }
+                // console.log('pending')
+              }
+            )
+
+            let user_name_ = null
+            let user_email_ = null
+            let approver_name_ = null
+
+            if (request['user']) {
+              user_name_ = request['user']['full_name']
+              user_email_ = request['user']['username']
+            }
+            if (request['approver']) {
+              approver_name_ = request['approver']['full_name']
+            }
+            let add_ = {
+              task_type: type_,
+              reference_no: request['reference_no'],
+              created_at: moment(request['created_date']).format('DD/MM/YYYY'),
+              email_address: user_email_,
+              name: user_name_,
+              modified_at: moment(request['modified_at']).format('DD/MM/YYYY'),
+              approver: approver_name_,
+              status: status_overall_,
+              remarks: '',
+              item: request
+            }
+            // console.log('added')
+            this.tasks.push(add_)
+          }
+        )
 
         this.egovRequests.forEach(
           (item) => {
@@ -242,13 +351,14 @@ export class EgovTaskManagementComponent implements OnInit {
     console.log(expiry_date)
     this.registrationForm.controls['user_id'].patchValue(current_user_id_)
     this.registrationForm.controls['expired_date'].patchValue(expiry_date)
+    this.registrationForm.controls['request_status'].patchValue('AP')
 
     if (!this.isRemarksOthers) {
       this.registrationForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
 
     this.loadingBar.start()
-    this.serviceService.approveRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
+    this.serviceService.approveEgovRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully approved a registration')
@@ -275,7 +385,7 @@ export class EgovTaskManagementComponent implements OnInit {
     }
 
     this.loadingBar.start()
-    this.serviceService.approveRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
+    this.serviceService.rejectEgovRegistration(this.selectedTask['item']['id'], this.registrationForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully rejected a registration')
@@ -288,6 +398,209 @@ export class EgovTaskManagementComponent implements OnInit {
         this.getData()
       }
     )
+  }
+
+  approveQuota() {
+    this.quotaForm.controls['approver'].patchValue(this.currentUser.id)
+    this.quotaForm.controls['request_type'].patchValue('QU')
+
+    if (!this.isRemarksOthers) {
+      this.quotaForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.approveEgovRequest(this.selectedTask['item']['id'], this.quotaForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully approved a quota request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.closeModal()
+        this.getData()
+      }
+    )
+  }
+
+  rejectQuota() {
+    this.quotaForm.controls['approver'].patchValue(this.currentUser.id)
+    this.quotaForm.controls['request_type'].patchValue('QU')
+
+    if (!this.isRemarksOthers) {
+      this.quotaForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.rejectEgovRequest(this.selectedTask['item']['id'], this.quotaForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully rejected a quota request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  approveUpdate() {
+    this.updateForm.controls['approver'].patchValue(this.currentUser.id)
+    this.updateForm.controls['request_type'].patchValue('UI')
+
+    if (!this.isRemarksOthers) {
+      this.updateForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.approveEgovRequest(this.selectedTask['item']['id'], this.updateForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully approved an update request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.closeModal()
+        this.getData()
+      }
+    )
+  }
+
+  rejectUpdate() {
+    this.updateForm.controls['approver'].patchValue(this.currentUser.id)
+    this.updateForm.controls['request_type'].patchValue('UI')
+
+    if (!this.isRemarksOthers) {
+      this.updateForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.rejectEgovRequest(this.selectedTask['item']['id'], this.updateForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully rejected an update request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  approveRenew() {
+    this.renewForm.controls['approver'].patchValue(this.currentUser.id)
+    this.renewForm.controls['request_status'].patchValue('AP')
+
+    if (!this.isRemarksOthers) {
+      this.renewForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.approveEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully approved an update request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.closeModal()
+        this.getData()
+      }
+    )
+  }
+
+  rejectRenew() {
+    this.renewForm.controls['approver'].patchValue(this.currentUser.id)
+    this.renewForm.controls['request_status'].patchValue('RJ')
+
+    if (!this.isRemarksOthers) {
+      this.renewForm.controls['remarks'].patchValue(this.eGovRegRemarks)
+    }
+
+    this.loadingBar.start()
+    this.serviceService.rejectEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+      () => {
+        this.loadingBar.complete()
+        this.successfullAlert('Successfully rejected an update request')
+      },
+      () => {
+        this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  approveInvestigationAll() {
+    this.tableItemRows.forEach(
+      (req) => {
+        this.approveInvestigation(req.document_request, req)
+      }
+    )
+  }
+
+  rejectInvestigationAll() {
+    this.tableItemRows.forEach(
+      (req) => {
+        this.rejectInvestigation(req.document_request, req)
+      }
+    )
+  }
+  
+
+  approveInvestigation(id: string, item) {
+    this.loadingBar.start()
+    let body = {
+      'item': item.id,
+      'approver': this.currentUser.id
+    }
+    this.serviceService.approveDocReqItem(id, body).subscribe(
+      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()},
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  rejectInvestigation(id: string, item) {
+    this.loadingBar.start()
+    let body = {
+      'item': item.id,
+      'approver': this.currentUser.id
+    }
+    this.serviceService.rejectDocReqItem(id, body).subscribe(
+      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()},
+      () => {
+        this.getData()
+      }
+    )
+  }
+
+  openAttachment() {
+    if (this.selectedTask['item']['attachment_letter']) {
+      let url = this.selectedTask['item']['attachment_letter']
+      window.open(
+        url, '_blank'
+      )
+    }
   }
 
   successfullAlert(message) {
@@ -322,6 +635,18 @@ export class EgovTaskManagementComponent implements OnInit {
     this.selectedTask = row
     this.currentUser = this.userService.currentUser
     this.modal = this.modalService.show(modalRef, this.modalConfig);
+
+    if (this.selectedTask.task_type == 'Investigation Document Request') {
+      this.requestItemList = this.selectedTask.item.document_request_item
+      console.log(this.requestItemList)
+      this.tableItemRows = this.requestItemList
+      this.tableItemTemp = this.tableItemRows.map((prop, key) => {
+        return {
+          ...prop,
+          id_index: key+1
+        };
+      })
+    }
   }
 
   closeModal() {

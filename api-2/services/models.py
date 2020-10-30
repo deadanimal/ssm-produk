@@ -13,6 +13,10 @@ from users.models import (
     CustomUser
 )
 
+from entities.models import (
+    Entity
+)
+
 
 class Service(models.Model):
 
@@ -87,12 +91,12 @@ class ServiceRequest(models.Model):
 class DocumentRequest(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
-
+    reference_no = models.CharField(max_length=100, null=True, blank=True)
     reference_letter_no = models.CharField(max_length=100, null=True)
     ip_no = models.CharField(max_length=100, null=True)
     court_case_no = models.CharField(max_length=100, null=True)
 
-    offical_letter_request = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-request'))
+    official_letter_request = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-request'))
     official_letter_egov = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-egov'))
     
     offence = models.TextField(null=True)
@@ -109,17 +113,32 @@ class DocumentRequestItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)        
     reference_no = models.CharField(max_length=100, null=True, blank=True)
+
+    DOCUMENT_STATUS = [
+        ('PD', 'Pending'),
+        ('AP', 'Approve')
+    ]
+    document_status = models.CharField(max_length=2, choices=DOCUMENT_STATUS, default='PD')
     
+    DOCUMENT_TYPE = [
+        ('FR', 'Form'),
+        ('PF', 'Profile')
+    ]
+    document_type = models.CharField(max_length=2, choices=DOCUMENT_TYPE, default='FR')
     document_request = models.ForeignKey(DocumentRequest, on_delete=models.CASCADE, null=True, related_name='document_request_item')
 
-    approved = models.BooleanField(default=False)
+    document_name = models.CharField(max_length=100, blank=True, null=True)
+    image_form_type = models.CharField(max_length=100, blank=True, null=True)
+    image_version_id = models.CharField(max_length=100, blank=True, null=True)
+
+    entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
+    generated_profile = models.FileField(null=True, upload_to=PathAndRename('document-request-item-profile'))
+
+    approver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='document_request_approver')
     approved_date = models.DateTimeField(null=True)    
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-
-    image_form_type = models.CharField(max_length=100, default='NA', null=True)
-    image_version_id = models.CharField(max_length=100, default='NA', null=True)
 
     class meta:
         ordering = ['-created_date']    

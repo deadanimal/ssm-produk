@@ -102,6 +102,14 @@ export class CartComponent implements OnInit {
     private fileService: LocalFilesService,
     private router: Router
   ) {
+    this.getMapping()
+  }
+
+  ngOnInit(): void {
+    this.getData()
+  }
+
+  getMapping() {
     this.fileService.get('form-types.json').subscribe(
       (res) => {
         this.formTypes = res
@@ -135,10 +143,6 @@ export class CartComponent implements OnInit {
         console.log(this.companyTypes)
       }
     )
-  }
-
-  ngOnInit(): void {
-    this.getData()
   }
 
   getData() {

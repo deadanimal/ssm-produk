@@ -21,6 +21,7 @@ import { UserGuideComponent } from './user-guide/user-guide.component';
 import { HomeComponent } from './home/home.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { SsoComponent } from './sso/sso.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NotAuthorizedComponent } from './not-authorized/not-authorized.componen
     UserGuideComponent,
     HomeComponent,
     TermsConditionsComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    SsoComponent
   ],
   imports: [
     CommonModule,

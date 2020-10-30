@@ -55,7 +55,7 @@ ngx-datatable {
     ul
     li:not(.disabled).active
     a {
-        background-color: $default;
+        background-color: #231e6d; //$default;
         color: $white;
         font-weight: inherit;
     }
