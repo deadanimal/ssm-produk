@@ -17,21 +17,11 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { RouterModule } from '@angular/router';
 import { CoreRoutes } from './core.routing';
 
-import { TransactionsComponent } from './transactions/transactions.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
-
-import { ProfileComponent } from './profile/profile.component';
-
-
-
-
-import { KjakpComponent } from './kjakp/kjakp.component';
-
-import { CompanyDetailComponent } from './company-detail/company-detail.component';
-
-import { RequestInvestigationDocumentComponent } from './request-investigation-document/request-investigation-document.component';
-
+// Profile
+import { ProfileComponent } from './profile/profile/profile.component';
+import { ProfileEgovComponent } from './profile/profile-egov/profile-egov.component';
 
 // Product
 import { ProductSearchComponent } from './products/product-search/product-search.component';
@@ -79,24 +69,20 @@ import { EgovComponent } from './egov/egov/egov.component';
 import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
 import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/product-search-egov-pi.component';
 
+
 @NgModule({
   declarations: [
     CartComponent,
     CheckoutComponent,
-    TransactionsComponent,
     NotificationsComponent,
 
     ProfileComponent,
     EnquiryComponent,
     EnquiryGeneralComponent,
 
-    KjakpComponent,
-    
     CbidComponent,
     PaymentComponent,
-    CompanyDetailComponent,
 
-    RequestInvestigationDocumentComponent,
     EnquiryHistoryComponent,
     PaymentToConfirmComponent,
     PaymentCallbackComponent,
@@ -123,6 +109,7 @@ import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/
     ProductSearchResultPackage4Component,
     EgovHomeComponent,
     ProductSearchEgovPiComponent,
+    ProfileEgovComponent,
   ],
   imports: [
     CommonModule,

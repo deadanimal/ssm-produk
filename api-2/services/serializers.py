@@ -22,6 +22,8 @@ from .models import (
 
 from users.serializers import CustomUserSerializer
 
+from entities.serializers import EntitySerializer
+
 class PDFBase64File(Base64FileField):
     ALLOWED_TYPES = ['pdf']
 
@@ -46,12 +48,18 @@ class ServiceRequestSerializer(serializers.ModelSerializer):
 
 class DocumentRequestItemSerializer(serializers.ModelSerializer):
 
+    generated_profile  = PDFBase64File()
+    entity = EntitySerializer(many=False)
+    approver = CustomUserSerializer(many=False)
+
     class Meta:
         model = DocumentRequestItem
         fields = '__all__'  
 
 
 class DocumentRequestSerializer(serializers.ModelSerializer):
+    official_letter_request = PDFBase64File()
+    official_letter_egov = PDFBase64File()
 
     class Meta:
         model = DocumentRequest
@@ -61,7 +69,6 @@ class DocumentRequestSerializer(serializers.ModelSerializer):
 class DocumentRequestExtendedSerializer(serializers.ModelSerializer):
 
     user = CustomUserSerializer(many=False)
-    
     document_request_item = DocumentRequestItemSerializer(many=True)
 
     class Meta:

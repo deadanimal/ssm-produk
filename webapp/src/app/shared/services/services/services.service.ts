@@ -28,7 +28,7 @@ export class ServicesService {
     return this.http.get<any[]>(tempUrl).pipe(
       tap((res) => {
         this.requests = res
-        console.log('Service Requests: ', this.requests);
+        // console.log('Service Requests: ', this.requests);
       })
     );    
   }
@@ -46,7 +46,7 @@ export class ServicesService {
     let url = this.servicesURL + 'report/';
     return this.http.get(url).pipe(
       tap((res) => {
-        console.log('Service Request Report: ', res);
+        // console.log('Service Request Report: ', res);
       })
     );        
   }
@@ -55,7 +55,7 @@ export class ServicesService {
     let urlTemp = this.servicesURL + id + '/';
     return this.http.patch(urlTemp, body).pipe(
       tap((res) => {
-        console.log('Patch: ', res);
+        // console.log('Patch: ', res);
       })
     );        
   }
@@ -64,7 +64,7 @@ export class ServicesService {
     let urlTemp = this.urlDocumentRequest + id + '/accept_request/'
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('Approved:', res)
+        // console.log('Approved:', res)
       })
     )
   }
@@ -73,7 +73,7 @@ export class ServicesService {
     let urlTemp = this.urlDocumentRequest + 'all_with_item/'
     return this.http.get(urlTemp).pipe(
       tap((res) => {
-        console.log('EGov investigations: ', res)
+        // console.log('EGov investigations: ', res)
       })
     )
   }
@@ -82,7 +82,7 @@ export class ServicesService {
     let urlTemp = this.urlEgovRequest + 'extended/'
     return this.http.get(urlTemp).pipe(
       tap((res) => {
-        console.log('EGov requests: ', res)
+        // console.log('EGov requests: ', res)
       })
     )
   }
@@ -90,7 +90,7 @@ export class ServicesService {
   getEgovMinistries(): Observable<any[]> {
     return this.http.get<any>(this.urlEgovMinistry).pipe(
       tap((res) => {
-        console.log('Ministry: ', res)
+        // console.log('Ministry: ', res)
       })
     )
   }
@@ -99,7 +99,7 @@ export class ServicesService {
     let urlTemp = this.urlEgovDepartment + 'extended/'
     return this.http.get<any>(urlTemp).pipe(
       tap((res) => {
-        console.log('Department: ', res)
+        // console.log('Department: ', res)
       })
     )
   }
@@ -108,7 +108,7 @@ export class ServicesService {
     let urlTemp = this.urlEgovDepartment + id + '/'
     return this.http.patch<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('Patched: ', res)
+        // console.log('Patched: ', res)
       })
     )
   }
@@ -117,7 +117,7 @@ export class ServicesService {
     let urlTemp = this.urlEgovMinistry + id + '/'
     return this.http.patch<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('Patched: ', res)
+        // console.log('Patched: ', res)
       })
     )
   }
@@ -138,7 +138,7 @@ export class ServicesService {
     )
   }
 
-  approveRegistration(id: any, body: any): Observable<any> {
+  approveEgovRegistration(id: any, body: any): Observable<any> {
     let urlTemp = this.urlEgovRequest + id + '/approve_user/'
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
@@ -147,59 +147,50 @@ export class ServicesService {
     )
   }
 
-
-
-  /*
-  create(body: Form): Observable<CbidCart> {
-    return this.http.post<any>(this.urlCbidCart, body).pipe(
+  approveEgovRequest(id: string, body: any) {
+    let urlTemp = this.urlEgovRequest + id + '/approve_request/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('CbidCart: ', res);
+        // console.log('Approved:', res)
       })
-    );
+    )
   }
 
-  getAll(): Observable<CbidCart[]> {
-    return this.http.get<CbidCart[]>(this.urlCbidCart).pipe(
+  rejectEgovRegistration(id: any, body: any): Observable<any> {
+    let urlTemp = this.urlEgovRequest + id + '/reject_user/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('CbidCarts: ', res);
+
       })
-    );
+    )
   }
 
-  getOne(id: String): Observable<CbidCart> {
-    let urlCbidCartOne = this.urlCbidCart + id + '/';
-    return this.http.get<CbidCart>(urlCbidCartOne).pipe(
+  rejectEgovRequest(id: any, body: any): Observable<any> {
+    let urlTemp = this.urlEgovRequest + id +'/reject_request/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('CbidCart: ', res);
+
       })
-    );
+    )
   }
 
-  update(id: String, body: Form): Observable<CbidCart> {
-    let urlCbidCartOne = this.urlCbidCart + id + '/';
-    return this.http.put<CbidCart>(urlCbidCartOne, body).pipe(
+  approveDocReqItem(id: any, body: any): Observable<any> {
+    let urlTemp = this.urlDocumentRequest + id +'/approve_item/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('CbidCart', res);
+
       })
-    );
+    )
   }
 
-  filter(field: String): Observable<CbidCart[]> {
-    let urlFilter = this.urlCbidCart + '?' + field + '/';
-    return this.http.get<CbidCart[]>(urlFilter).pipe(
+
+  rejectDocReqItem(id: any, body: any): Observable<any> {
+    let urlTemp = this.urlDocumentRequest + id +'/reject_item/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
-        console.log('CbidCarts', res);
+
       })
-    );
+    )
   }
 
-  delete(id: String): Observable<CbidCart[]> {
-    let urlFilter = this.urlCbidCart + id;
-    return this.http.delete<CbidCart[]>(urlFilter).pipe(
-      tap((res) => {
-        console.log('CbidCarts', res);
-      })
-    );
-  }
-  */
 }

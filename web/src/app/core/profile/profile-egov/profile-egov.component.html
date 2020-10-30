@@ -1,0 +1,1559 @@
+<div class="wrapper">
+    <div class="section">
+        <div class="container-fluid pt-6 px-6">
+            <!-- eGov wrapper -->
+			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
+				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+					<!-- Information tab -->
+					<tab heading="My Account">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="heading mb-4">
+									User Information
+								</h5>
+								<div class="row">
+									<div class="col-5">
+										<p class="my-0">Note:</p>
+										<p class="font-smaller mt-0">
+											Any user information changes can be
+											updated at <a href="https://www.ssm4u.com.my" target="_blank">SSM4U</a> portal.
+										</p>
+									</div>
+
+									<div class="col-7 text-right" *ngIf="user?.user_type == 'EG'">
+										<button class="btn btn-ssm rounded-pill btn-sm mr-1" (click)="openModal(renewAccount)">Renew Account</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1" 
+											*ngIf="!isQuotaLow && user['egov_package'] != 3 && user['egov_package'] != 4" 
+											disabled
+										> 
+											Request Quota
+										</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1" 
+											*ngIf="isQuotaLow && user['egov_package'] != 3 && user['egov_package'] != 4"
+											(click)="openModal(requestQuota)"
+										>
+											Request Quota
+										</button>
+										<button 
+											class="btn btn-ssm rounded-pill btn-sm mr-1"
+											(click)="enableEdit()"
+										>
+											Update Information
+										</button>
+									</div>
+								</div>
+
+								<form [formGroup]="informationForm">
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Name</label>
+												<input class="form-control" [value]="user['full_name']" disabled>
+											</div>
+										</div>
+
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Email</label>
+												<input class="form-control" [value]="user['username']" disabled>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col" *ngIf="isEnableEdit">
+											<div class="form-group">
+												<label class="form-control-label">Mobile / Office No.</label>
+												<input 
+													class="form-control" 
+													formControlName="phone_number"
+												>
+											</div>
+										</div>
+
+										<div class="col" *ngIf="!isEnableEdit">
+											<div class="form-group">
+												<label class="form-control-label">Mobile / Office No.</label>
+												<input class="form-control" [value]="user['phone_number']" disabled>
+											</div>
+										</div>
+
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label"> IC No. </label>
+												<input class="form-control" disabled [value]="user['nric_number']">
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col" *ngIf="isEnableEdit">
+											<div class="form-group">
+												<label class="form-control-label">Position and Grade</label>
+												<input 
+													class="form-control" 
+													formControlName="position_or_grade"
+												>
+											</div>
+										</div>
+
+										<div class="col" *ngIf="!isEnableEdit">
+											<div class="form-group">
+												<label class="form-control-label">Position and Grade</label>
+												<input class="form-control" disabled value="Officer">
+											</div>
+										</div>
+										
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Package Type</label>
+												<input class="form-control" disabled [value]="user['egov_package']">
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-6">
+											<div class="form-group">
+												<label class="form-control-label">Expiry Date</label>
+												<input class="form-control" disabled value="20/10/2020">
+											</div>
+										</div>
+
+										<div class="col-6">
+											<div class="form-group" *ngIf="user['egov_package'] == 1 || user['egov_package'] == 2">
+												<label class="form-control-label">Balance Quota</label>
+												<input class="form-control" disabled [value]="user['egov_quota']">
+											</div>
+										</div>
+									</div>
+								
+
+									<hr class="my-2 w-100 text-black">
+
+									<h6 class="heading-small text-muted mb-4">
+										Work Information
+									</h6>
+
+									<div *ngIf="!isEnableEdit">
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Name</label>
+													<input class="form-control" disabled [value]="user['head_of_department_name']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Position</label>
+													<input class="form-control" disabled [value]="user['head_of_department_position']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Email</label>
+													<input class="form-control" disabled [value]="user['head_of_department_email']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Ministry Name</label>
+													<input class="form-control" disabled [value]="user['ministry_name']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Department / Agency Name</label>
+													<input class="form-control" disabled [value]="user['department_name']">
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Division / Section / Unit Name</label>
+													<input class="form-control" disabled [value]="user['department_name']">
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 1</label>
+													<input class="form-control"  disabled [value]="user['address_1']" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 2</label>
+													<input class="form-control" disabled [value]="user['address_2']"/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 3</label>
+													<input class="form-control" disabled [value]="user['address_3']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">City</label>
+													<input class="form-control" disabled [value]="user['city']"/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Postcode</label>
+													<input class="form-control" disabled [value]="user['postcode']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">State</label>
+													<input class="form-control" disabled [value]="user['state']"/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+											</div>
+										</div>
+									</div>
+
+									<div *ngIf="isEnableEdit">
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Name</label>
+													<input 
+														class="form-control" 
+														formControlName="head_of_department_name"
+													>
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Position</label>
+													<input 
+														class="form-control" 
+														formControlName="head_of_department_position"
+													/>
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Head of Department Email</label>
+													<input 
+														class="form-control" 
+														formControlName="head_of_department_email" 
+													/>
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Ministry Name</label>
+													<select 
+														class="form-control"
+														formControlName="ministry_name" 
+													>
+														<option selected hidden value="null">Please select</option>
+														<option *ngFor="let option of ministries" value="{{option.name}}">
+															{{option.name}}
+														</option>
+													</select>
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Department / Agency Name</label>
+													<select 
+														class="form-control" 
+														formControlName="department_name"
+													>
+														<option selected hidden value="null">Please select</option>
+														<ng-container
+															*ngFor="let option of departments"
+														>
+															<option value="{{option.name}}" *ngIf="option['ministry']['name'] == informationForm.value['ministry_name']">
+																{{option.name}}
+															</option>
+														</ng-container>
+													</select>
+												</div>
+											</div>
+	
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Division / Section / Unit Name</label>
+													<input 
+														class="form-control" 
+														formControlName="division_name" 
+													/>
+												</div>
+											</div>
+										</div>
+	
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 1</label>
+													<input 
+														class="form-control" 
+														formControlName="address_1"
+													/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 2</label>
+													<input 
+														class="form-control" 
+														formControlName="address_2" 
+													/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 3</label>
+													<input 
+														class="form-control" 
+														formControlName="address_3" 
+													/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">City</label>
+													<input 
+														class="form-control" 
+														formControlName="city" 
+													/>
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Postcode</label>
+													<input 
+														class="form-control" 
+														formControlName="postcode" 
+													/>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">State</label>
+													<select
+														class="form-control" 
+														formControlName="state" 
+													>
+														<option value="Perlis">Perlis</option>
+														<option value="Kedah">Kedah</option>
+														<option value="Pulau Pinang">Pulau Pinang</option>
+														<option value="Kelantan">Kelantan</option>
+														<option value="Terengganu">Terengganu</option>
+														<option value="Perak">Perak</option>
+														<option value="Selangor">Selangor</option>
+														<option value="Pahang">Pahang</option>
+														<option value="Negeri Sembilan">Negeri Sembilan</option>
+														<option value="Melaka">Melaka</option>
+														<option value="Johor">Johor</option>
+														<option value="Sabah">Sabah</option>
+														<option value="Sarawak">Sarawak</option>
+														<option value="W.P. Labuan">W.P. Labuan</option>
+														<option value="W.P. Kuala Lumpur">W.P. Kuala Lumpur</option>
+														<option value="W.P. Putrajaya">W.P. Putrajaya</option>
+													</select>
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label class="form-control-label">Attachment
+														<span class="text-red">*</span>
+													</label>
+													<div class="custom-file">
+														<input 
+															type="file" 
+															class="custom-file-input" 
+															id="files" 
+															lang="en"
+															(change)="onFileChange($event, 'renew')" 
+															accept=".pdf"
+															size="5"
+														/>
+														<label class="custom-file-label" for="files">Select file</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+
+								<div class="row" *ngIf="isEnableEdit">
+									<div class="col text-center">
+										<button 
+											class="btn btn-ssm rounded-pill"
+											(click)="requestUpdate()"
+										>
+											Submit
+										</button>
+
+										<button 
+											class="btn btn-outline-ssm rounded-pill"
+											(click)="disableEdit()"
+										>
+											Cancel
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</tab>
+					<!-- Investigation document tab -->
+                    <tab 
+                        heading="Request Investigation Document" 
+                        [active]="requestTabActive"
+                        *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
+                    >
+						<div class="card">
+							<div class="card-body">
+								<div *ngIf="!isShowForm">
+									<h5 class="heading mb-4">
+										Request Investigation Document
+									</h5>
+									<div class="row">
+										<div class="col-5">
+											<p class="my-0">Note:</p>
+											<p class="font-smaller mt-0">
+												Every application is subjected to SSM approval.
+											</p>
+										</div>
+
+										<div class="col-7 text-right">
+											<button 
+												class="btn btn-ssm btn-sm rounded-pill"
+												*ngIf="!isShowForm"
+												(click)="showForm()"
+											>
+												Open Investigation Form
+											</button>
+										</div>
+									</div>
+
+									<div class="dataTables_wrapper py-4">
+										<ngx-datatable 
+											class="bootstrap selection-cell"
+											[columnMode]="'force'"
+											[headerHeight]="50"
+											[footerHeight]="50"
+											[rowHeight]="'auto'"
+											[limit]="tableInvestigationEntries != -1 ? tableInvestigationEntries : undefined" 
+											[rows]="tableInvestigationTemp"
+											[scrollbarH]="true"
+										>
+											<ngx-datatable-column
+												[width]="100"
+												[sortable]="true"
+												prop="id_index"
+												[resizeable]="false"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">No.</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													{{row.id_index}}
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column
+												[width]="160"
+												[sortable]="true"
+												[resizeable]="false"
+												prop="document_reference_no"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Reference No.</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													{{row.reference_no}}
+												</ng-template>
+											</ngx-datatable-column>
+			
+											<ngx-datatable-column
+												[width]="160"
+												[sortable]="true"
+												[resizeable]="false"
+												prop="created_date"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Application Date</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													{{row.created_date}}
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column
+												[sortable]="true"
+												[resizeable]="false"
+												prop="officer_name"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Officer</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													{{row.officer_name}}
+												</ng-template>
+											</ngx-datatable-column>
+			
+											<ngx-datatable-column
+												[width]="180"
+												[sortable]="true"
+												[resizeable]="false"
+												prop="modified_date"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Updated Status Date</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													{{row.modified_date}}
+												</ng-template>
+											</ngx-datatable-column>
+
+											<ngx-datatable-column
+												[sortable]="true"
+												[resizeable]="false"
+												prop="status"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Status</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													<span class="badge badge-warning">Pending</span>
+												</ng-template>
+											</ngx-datatable-column>
+											
+											<ngx-datatable-column
+												[sortable]="false"
+												[resizeable]="false"
+											>
+												<ng-template ngx-datatable-header-template>
+													<span class="table-header">Action</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													<button 
+														class="btn btn-ssm btn-sm" 
+														(click)="openModalInvestigation(viewInvestigation, row)"
+													>
+														View application
+													</button>
+												</ng-template>
+											</ngx-datatable-column>
+										</ngx-datatable>
+									</div>
+								</div>
+
+								<div *ngIf="isShowForm">
+									<h5 class="heading mb-4">
+										New Request Investigation Document
+									</h5>
+									<div class="row">
+										<div class="col-5">
+											<p class="my-0">Note:</p>
+											<p class="font-smaller mt-0">
+												Every application is subjected to SSM approval.
+											</p>
+										</div>
+
+										<div class="col-7 text-right">
+											<button 
+												class="btn btn-ssm btn-sm rounded-pill"
+												*ngIf="!isShowForm"
+												(click)="hideForm()"
+											>
+												Close Investigation Form
+											</button>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Email</label>
+												<input class="form-control" [value]="user['username']" disabled>
+											</div>
+										</div>
+	
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Full Name</label>
+												<input class="form-control" [value]="user['full_name']" disabled>
+											</div>
+										</div>
+									</div>
+	
+									<hr class="my-2 w-100 text-black">
+	
+									<h6 class="heading-small text-muted mb-4">
+										Investigation Information
+									</h6>
+	
+									<div>
+										<form [formGroup]="investigationForm">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Officer Name
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['full_name']" disabled>
+													</div>
+												</div>
+		
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Designation 
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['position_or_grade']" disabled>
+													</div>
+												</div>
+											</div>
+		
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Department 
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['department_name']" disabled>
+													</div>
+												</div>
+		
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Mobile No. / Office No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['phone_number']" disabled>
+													</div>
+												</div>
+											</div>
+		
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">NRIC No. / Officer Authority Card
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['nric_number']" disabled>
+													</div>
+												</div>
+		
+												<div class="col">
+													<div class="form-group">
+														<label class="form-control-label">Official Email Address
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" [value]="user['username']" disabled>
+													</div>
+												</div>
+											</div>
+		
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Reference Letter No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="reference_letter_no" />
+													</div>
+												</div>
+			
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">IP No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="ip_no" />
+													</div>
+												</div>
+											</div>
+			
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Court Case No.
+															<span class="text-red">*</span>
+														</label>
+														<input class="form-control" formControlName="court_case_no" />
+													</div>
+												</div>
+											</div>
+			
+											<div class="row">
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Attachment (Official Letter of Company Information Request)
+															<span class="text-red">*</span>
+														</label>
+														<div class="custom-file">
+															<input 
+																type="file" 
+																class="custom-file-input" 
+																id="files" 
+																lang="en"
+																(change)="onFileChange($event, 'egovernment-letter')" 
+																accept=".pdf"
+																size="5"
+															/>
+															<label class="custom-file-label" for="files">Select file</label>
+														</div>
+													</div>
+												</div>
+			
+												<div class="col-sm-12 col-lg-6">
+													<div class="form-group">
+														<label class="form-control-label">Attachment (Official Letter from eGovernment)
+															<span class="text-red">*</span>
+														</label>
+														<div class="custom-file">
+															<input 
+																type="file" 
+																class="custom-file-input" 
+																id="files" 
+																lang="en"
+																(change)="onFileChange($event, 'request-letter')" 
+																accept=".pdf"
+																size="5"
+															/>
+															<label class="custom-file-label" for="files">Select file</label>
+														</div>
+													</div>
+												</div>
+											</div>
+	
+											<div class="form-group">
+												<label class="form-control-label">Offence (Please quote the relevent section)
+													<span class="text-red">*</span>
+												</label>
+												<textarea class="form-control" formControlName="offence"></textarea>
+											</div>
+
+											<div>
+												<p>*Mandatory fields</p>
+											</div>
+	
+											<div class="form-group mb-3" [hidden]="user['egov_package'] != 3">
+												<label class="form-control-label">Select search</label> <br />
+												<div class="custom-control custom-radio custom-control-inline">
+													<input 
+														type="radio" 
+														id="radioRequest1" 
+														name="radioRequest" 
+														class="custom-control-input" 
+														value="document"
+														[(ngModel)]="searchType"
+														[ngModelOptions]="{standalone: true}"
+													>
+													<label class="custom-control-label" for="radioRequest1">Document</label>
+												</div>
+
+												<div class="custom-control custom-radio custom-control-inline">
+													<input 
+														type="radio" 
+														id="radioRequest2" 
+														name="radioRequest" 
+														class="custom-control-input"
+														value="personal-involvement"
+														[(ngModel)]="searchType"
+														[ngModelOptions]="{standalone: true}"
+													>
+													<label class="custom-control-label" for="radioRequest2">Personal Involvement</label>
+												</div>
+											</div>
+	
+											<div>
+												<button
+													class="btn btn-ssm rounded-pill"
+													(click)="addItem()"
+												>
+													<span *ngIf="searchType == 'document'">
+														Search Company
+													</span>
+													<span *ngIf="searchType == 'personal-involvement'">
+														Search Personal Involvement
+													</span>
+												</button>
+											</div>
+										</form>
+
+										<div *ngIf="requestToAdd.length >= 1">
+											<span class="text-center">
+												<h3 class="py-2">Document Request</h3>
+											</span>
+					
+											<ngx-datatable 
+												class="bootstrap selection-cell"
+												[columnMode]="'force'"
+												[headerHeight]="50"
+												[footerHeight]="50"
+												[rowHeight]="'auto'"
+												[limit]="tableRequestToAddEntries != -1 ? tableRequestToAddEntries : undefined" 
+												[rows]="tableRequestToAddTemp"
+											>
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Entity No.</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														{{row.companyNo}}
+													</ng-template>
+												</ngx-datatable-column>
+					
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Entity Name</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.companyName}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Document Type</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.documentFormType}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+
+												<ngx-datatable-column
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span>Document Name</span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<div>
+															{{row.documentFormName}}
+														</div>
+													</ng-template>
+												</ngx-datatable-column>
+					
+												<ngx-datatable-column 
+													[sortable]="false"
+													[resizeable]="false"
+												>
+													<ng-template ngx-datatable-header-template>
+														<span class="table-header"></span>
+													</ng-template>
+													<ng-template let-row="row" ngx-datatable-cell-template>
+														<a 
+															class="nav-link nav-link-icon cursor-pointer"
+															(click)="removeInvestigationRequest(row)"
+														>
+															<i 
+																class="fas fa-trash-alt text-danger"
+																placement="top" 
+																tooltip="Remove"
+															> 
+															</i>
+														</a>
+													</ng-template>
+												</ngx-datatable-column>
+											</ngx-datatable>
+					
+											<div class="text-right py-3">
+												<button class="btn btn-ssm btn-icon btn-round" (click)="submitRequest()">
+													<span class="btn-inner--text"> Submit </span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</tab>
+					<!-- Request tab -->
+                    <tab 
+                        heading="My Request"
+                        *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
+                    >
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<p class="my-0">Notes:</p>
+										<ol class="font-weight-300">
+											<li>Every successful application will be kept in My Request menu for 7 day (s) from the approval date. Please download your document accordingly.</li>
+											<li>If customer are unable to download requested document within 7 days, please contact <a href="https://www.ssm4u.com.my" target="_blank">SSM Enquiry</a>.</li>
+										</ol>
+									</div>
+								</div>
+
+								<div class="dataTables_wrapper py-4">
+									<ngx-datatable 
+										class="bootstrap selection-cell"
+										[columnMode]="'force'"
+										[headerHeight]="50"
+										[footerHeight]="50"
+										[rowHeight]="'auto'"
+										[limit]="tableRequestEntries != -1 ? tableRequestEntries : undefined" 
+										[rows]="tableRequestTemp"
+										[scrollbarH]="true"
+									>
+										<ngx-datatable-column
+											[width]="120"
+											[sortable]="true"
+											prop="reference_no"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Order No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.reference_no}}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column
+											[width]="180"
+											[sortable]="true"
+											prop="approved_date"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Approved Date & Time</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.approved_date}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column
+											[width]="180"
+											[sortable]="true"
+											prop="item.entity.name"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Entity Name</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<span *ngIf="row.item.entity.type_of_entity == 'CP'">
+													{{row.item.entity.company_number_new}} ({{row.item.entity.company_number}}-{{row.item.entity.check_digit}})
+												</span>
+												<span *ngIf="row.item.entity.type_of_entity == 'BS'">
+													{{row.item.entity.registration_number_new}} ({{row.item.entity.registration_number}}-{{row.item.entity.check_digit}})
+												</span>
+												/ {{row.item.entity.name}}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column
+											[width]="180"
+											[sortable]="true"
+											prop="item.image_form_name"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Product Description</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.image_form_name}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Language</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												English
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Status</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<span class="badge badge-success">Success</span>
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Document Output</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<button 
+													class="btn btn-ssm btn-sm" 
+													(click)="initRequest(row)"
+												>
+													Download
+												</button>
+											</ng-template>
+										</ngx-datatable-column>
+									</ngx-datatable>
+								</div>
+							</div>
+						</div>
+					</tab>
+				</tabset>
+			</div>
+        </div>
+    </div>
+</div>
+
+<ng-template #transactionDetail>
+	<div class="modal-header bg-ssm">
+		<h4 class="modal-title text-white my-auto" id="modal-title-default">
+			Transaction detail
+		</h4>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeTransactionDetail()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<div class="table-responsive">
+			<table class="table align-items-center table-flush">
+				<thead class="thead-light">
+					<tr>
+						<th>Order Number</th>
+						<th>Product Description</th>
+						<th>Entity Name</th>
+						<th>Language</th>
+						<th>Status</th>
+						<th>Price</th>
+						<th>Service Fee</th>
+						<th>CTC Service Fee</th>
+						<th>Discount</th>
+						<th>Total</th>
+						<th>Buy Again?</th>
+					</tr>
+				</thead>
+				<tbody class="list">
+					<tr>
+						<td>SSMA2020082500001</td>
+						<td>Certificates of Incorporation / Registration</td>
+						<td>197201000557 (1211-D) / Yong Peng Batu Pahat Sdn. Bhd.</td>
+						<td><span class="badge badge-primary">EN</span></td>
+						<td><span class="badge badge-success">Success</span></td>
+						<td>RM20.00</td>
+						<td>RM0.00</td>
+						<td>RM0.00</td>
+						<td>RM0.00</td>
+						<td>RM25.00</td>
+						<td>
+							<button class="btn btn-ssm btn-sm">Add to cart</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="float-right text-right">
+			<p class="mb-0">Total document: 1</p>
+			<p class="m-0">Total (excluded SST): RM25.00</p>
+			<p class="m-0">SST @ 6% for Service Fee: RM0.00</p>
+			<p class="mt-0">Total amount: RM25.00</p>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-outline-ssm ml-auto rounded-pill" data-dismiss="modal" type="button"
+			(click)="closeTransactionDetail()">
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #renewAccount>
+	<div class="modal-header bg-ssm">
+		<h4 class="modal-title text-white my-auto" id="modal-title-default">
+			Renew Account
+		</h4>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="renewForm">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Name</label>
+						<input class="form-control" formControlName="head_of_department_name" />
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Position</label>
+						<input class="form-control" formControlName="head_of_department_position" />
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Email</label>
+						<input class="form-control" formControlName="head_of_department_email" />
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Ministry Name</label>
+						<select 
+							class="form-control"
+							formControlName="ministry_name" 
+						>
+							<option selected hidden value="null">Please select</option>
+							<option *ngFor="let option of ministries" value="{{option.name}}">
+								{{option.name}}
+							</option>
+						</select>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Department / Agency Name</label>
+						<select 
+							class="form-control" 
+							formControlName="department_name"
+						>
+							<option selected hidden value="null">Please select</option>
+							<ng-container
+								*ngFor="let option of departments"
+							>
+								<option value="{{option.name}}" *ngIf="option['ministry']['name'] == renewForm.value['ministry_name']">
+									{{option.name}}
+								</option>
+							</ng-container>
+						</select>
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Division / Section / Unit Name</label>
+						<input class="form-control" formControlName="division_name" />
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-12">
+					<div class="form-group">
+						<label class="form-control-label">Address 1</label>
+						<input class="form-control" formControlName="address_1">
+					</div>
+				</div>
+				<div class="col-sm-12 col-lg-12">
+					<div class="form-group">
+						<label class="form-control-label">Address 2</label>
+						<input class="form-control" formControlName="address_2">
+					</div>
+				</div>
+				<div class="col-sm-12 col-lg-12">
+					<div class="form-group">
+						<label class="form-control-label">Address 3</label>
+						<input class="form-control" formControlName="address_3">
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Postcode</label>
+						<input class="form-control" formControlName="postcode" />
+					</div>
+				</div>
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">City</label>
+						<input class="form-control" formControlName="city" />
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">State</label>
+						<select
+							class="form-control" 
+							formControlName="state" 
+						>
+							<option value="Perlis">Perlis</option>
+							<option value="Kedah">Kedah</option>
+							<option value="Pulau Pinang">Pulau Pinang</option>
+							<option value="Kelantan">Kelantan</option>
+							<option value="Terengganu">Terengganu</option>
+							<option value="Perak">Perak</option>
+							<option value="Selangor">Selangor</option>
+							<option value="Pahang">Pahang</option>
+							<option value="Negeri Sembilan">Negeri Sembilan</option>
+							<option value="Melaka">Melaka</option>
+							<option value="Johor">Johor</option>
+							<option value="Sabah">Sabah</option>
+							<option value="Sarawak">Sarawak</option>
+							<option value="W.P. Labuan">W.P. Labuan</option>
+							<option value="W.P. Kuala Lumpur">W.P. Kuala Lumpur</option>
+							<option value="W.P. Putrajaya">W.P. Putrajaya</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">
+							Attachment Official Letter from KJAKP
+						</label>
+						<div class="custom-file">
+							<input 
+								type="file" 
+								class="custom-file-input" 
+								id="files" 
+								lang="en"
+								(change)="onAttachment($event)" 
+								accept=".pdf"
+								size="5"
+							/>
+							<label class="custom-file-label" for="files">Select file</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button 
+			class="btn btn-ssm rounded-pill" 
+			(click)="requestUpdate()"
+		>
+			Submit
+		</button>
+		<button 
+			class="btn btn-outline-ssm ml-auto rounded-pill" 
+			data-dismiss="modal" 
+			type="button" 
+			(click)="closeModal()"
+		>
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #requestQuota>
+	<div class="modal-header bg-ssm">
+		<h4 class="modal-title text-white my-auto" id="modal-title-default">
+			Request Quota
+		</h4>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="quotaForm">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Full Name</label>
+						<input 
+							class="form-control" 
+							placeholder=""
+							[value]="user['full_name']"
+							disabled
+						/>
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Email Address</label>
+						<input 
+							class="form-control" 
+							placeholder="" 
+							[value]="user['username']"
+							disabled
+						/>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Name</label>
+						<input 
+							class="form-control" 
+							[value]="user['head_of_department_name']" 
+							disabled
+						/>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Head of Department Email</label>
+						<input 
+							class="form-control" 
+							[value]="user['head_of_department_email']" 
+							disabled
+						/>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-lg-12">
+					<div class="form-group">
+						<label class="form-control-label">Attachment (Official Letter From KJAKP)
+							<span class="error-message">  *PDF format ONLY, 5MB maximum.</span>
+						</label>
+						<div class="custom-file">
+							<input 
+								type="file" 
+								class="custom-file-input" 
+								id="files" 
+								lang="en"
+								(change)="onFileChange($event, 'quota')" 
+								accept=".pdf"
+								data-max-size="5000000"
+								[ngClass]="{'is-invalid': requestQuotaForm.controls.attachment_letter.invalid && requestQuotaForm.controls.attachment_letter.touched}"
+							/>
+							<label class="custom-file-label" for="files">Select file</label>
+						</div>
+
+						<ng-container *ngIf="requestQuotaForm.value['attachment_letter']">
+							<div>
+								<i 
+									class="fas fa-trash-alt text-warning mr-2"
+									placement="top" 
+									tooltip="Remove attachment"
+									(click)="removeFile('quota')"
+								>
+								</i>
+								{{fileName}} [{{fileSize/1000000 | number: '1.2-2'}}MB]
+							</div>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer text-right">
+		<button 
+			class="btn bg-ssm rounded-pill"
+			(click)="requestQuota()"
+		>
+			<span class="text-white">Submit</span>
+		</button>
+		<button 
+			class="btn btn-outline-ssm ml-auto rounded-pill" 
+			data-dismiss="modal" 
+			type="button" 
+			(click)="closeModal()"
+		>
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #viewInvestigation>
+	<div class="modal-header bg-ssm">
+		<h4 class="modal-title text-white my-auto" id="modal-title-default">
+			Investigation Detail
+		</h4>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="quotaForm">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Full Name</label>
+						<input 
+							class="form-control" 
+							placeholder=""
+							[value]="user['full_name']"
+							disabled
+						/>
+					</div>
+				</div>
+	
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Email Address</label>
+						<input 
+							class="form-control" 
+							placeholder="" 
+							[value]="user['username']"
+							disabled
+						/>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Reference No.</label>
+						<input 
+							class="form-control" 
+							[value]="selectedTask['reference_no']" 
+							disabled
+						/>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">IP No.</label>
+						<input 
+							class="form-control" 
+							[value]="selectedTask['ip_no']" 
+							disabled
+						/>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<div class="form-group">
+						<label class="form-control-label">Court Case No.</label>
+						<input 
+							class="form-control" 
+							[value]="selectedTask['court_case_no']" 
+							disabled
+						/>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-lg-12">
+					<div class="form-group">
+						<label class="form-control-label">Offence</label>
+						<textarea 
+							class="form-control" 
+							[value]="selectedTask['offence']" 
+							disabled
+						></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<button
+						class="btn btn-ssm btn-block"
+						(click)="openAttachment(selectedTask['official_letter_request'])"
+					>
+						Company Information Request Letter
+					</button>
+				</div>
+
+				<div class="col-sm-12 col-lg-6">
+					<button
+						class="btn btn-ssm btn-block"
+						(click)="openAttachment(selectedTask['official_letter_egov'])"
+					>
+						eGovernment Letter
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer text-right">
+		<button 
+			class="btn btn-outline-ssm ml-auto rounded-pill" 
+			data-dismiss="modal" 
+			type="button" 
+			(click)="closeModalInvestigation()"
+		>
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
+	<p style="color: white">Loading...</p>
+</ngx-spinner>

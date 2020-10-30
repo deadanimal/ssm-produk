@@ -256,6 +256,36 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </a>
+
+                                <a style="cursor: pointer">
+                                    <button 
+                                        class="btn btn-sm btn-ssm"
+                                        *ngIf="row.task_type == 'Quota Request'"
+                                        (click)="openModal(addQuota, row)"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+
+                                <a style="cursor: pointer">
+                                    <button 
+                                        class="btn btn-sm btn-ssm"
+                                        *ngIf="row.task_type == 'Update Information'"
+                                        (click)="openModal(updateInfo, row)"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+
+                                <a style="cursor: pointer">
+                                    <button 
+                                        class="btn btn-sm btn-ssm"
+                                        *ngIf="row.task_type == 'Investigation Document Request'"
+                                        (click)="openModal(investigationRequest, row)"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
                             </ng-template>
                         </ngx-datatable-column>
                     </ngx-datatable>
@@ -305,7 +335,7 @@
 
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Position or Grade</label>
+                    <label class="form-control-label">Position and Grade</label>
                     <input class="form-control" [value]="selectedTask.item.position_or_grade" disabled>
                 </div>
             </div>
@@ -314,13 +344,116 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Tel No.</label>
+                    <label class="form-control-label">Mobile / Office No.</label>
                     <input class="form-control" [value]="selectedTask.item.phone_number" disabled>
                 </div>
             </div>
         </div>
 
-        <h6 class="heading-small text-muted mb-4">Admin Action</h6>
+        <h6 class="heading-small text-muted mb-4">Applicant Work Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Position</label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_position" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Email</label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Ministry Name</label>
+                    <input class="form-control" [value]="selectedTask.item.ministry_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Division Name</label>
+                    <input class="form-control" [value]="selectedTask.item.division_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 1</label>
+                    <input class="form-control" [value]="selectedTask.item.address_1" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 2</label>
+                    <input class="form-control" [value]="selectedTask.item.address_2" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 3</label>
+                    <input class="form-control" [value]="selectedTask.item.address_3" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode</label>
+                    <input class="form-control" [value]="selectedTask.item.postcode" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City</label>
+                    <input class="form-control" [value]="selectedTask.item.city" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State</label>
+                    <input class="form-control" [value]="selectedTask.item.state" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button 
+                    type="button" 
+                    class="btn btn-ssm btn-block"
+                    (click)="openAttachment()"
+                >
+                    View Attachment
+                </button>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
         <form [formGroup]="registrationForm">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -412,7 +545,7 @@
             class="btn btn-ssm rounded-pill" 
             type="button" 
             (click)="approveRegistration()"
-            [disabled]="!registrationForm.valid">
+            [disabled]="!registrationForm.valid || selectedTask['item']['request_status'] != 'PD'">
             Approve
         </button>
 
@@ -420,9 +553,1097 @@
             class="btn btn-outline-ssm ml-1 rounded-pill" 
             data-dismiss="modal" 
             type="button" 
-            (click)="rejectRegistration()"
+            (click)="rejectRegistration()" 
+            [disabled]="!registrationForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
         >
             Reject
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<!-- Quota approval modal -->
+<ng-template #addQuota>
+    <div class="modal-header bg-ssm">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Quota Request Approval
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email Address</label>
+                    <input class="form-control" [value]="selectedTask.email_address" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Full Name</label>
+                    <input class="form-control" [value]="selectedTask.name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No.</label>
+                    <input class="form-control" [value]="" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Position and Grade</label>
+                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile / Office No.</label>
+                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4">Applicant Work Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Position</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_position" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Email</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Ministry Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.ministry_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Division Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.division_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 1</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_1" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 2</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_2" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 3</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_3" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode</label>
+                    <input class="form-control" [value]="selectedTask.item.user.postcode" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City</label>
+                    <input class="form-control" [value]="selectedTask.item.user.city" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State</label>
+                    <input class="form-control" [value]="selectedTask.item.user.state" disabled>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+                <button 
+                    type="button" 
+                    class="btn btn-ssm btn-block"
+                    (click)="openAttachment()"
+                >
+                    View Attachment
+                </button>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
+        <div *ngIf="selectedTask['item']['request_status'] == 'PD'">
+            <form [formGroup]="quotaForm">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label">Quota</label>
+                            <input 
+                                class="form-control" 
+                                formControlName="quota"
+                                [ngClass]="{'is-invalid': quotaForm.controls.quota.invalid && quotaForm.controls.quota.touched}"
+                            >
+    
+                            <ng-container *ngFor="let message of quotaFormMessages.quota">
+                                <div *ngIf="quotaForm.get('quota').hasError(message.type) && (quotaForm.get('quota').dirty || quotaForm.get('position_or_grade').touched)">
+                                    <p class="error-message"><span>{{ message.message }}</span></p>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+    
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label">Remarks</label>
+                            <select 
+                                class="form-control"
+                                [(ngModel)]="eGovRegRemarks"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="onRemarksChange($event)"
+                            >
+                                <option selected hidden value="null">Please select remarks</option>
+                                <option value="Attachment incomplete">Attachment incomplete</option>
+                                <option value="Head of department details">Head of department details</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row" *ngIf="isRemarksOthers">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">Remarks</label>
+                            <textarea class="form-control" formControlName="remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="selectedTask['item']['request_status'] != 'PD'">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Quota</label>
+                        <input 
+                            class="form-control" 
+                            disabled
+                            [value]="selectedTask.item.egov_quota"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Remarks</label>
+                        <textarea 
+                            class="form-control"
+                            disabled
+                            [value]="selectedTask.item.remarks"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button 
+            class="btn btn-ssm rounded-pill" 
+            type="button" 
+            (click)="approveQuota()"
+            [disabled]="!quotaForm.valid || selectedTask['item']['request_status'] != 'PD'">
+            Approve
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="rejectQuota()"
+            [disabled]="!quotaForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
+        >
+            Reject
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<!-- Update approval modal -->
+<ng-template #updateInfo>
+    <div class="modal-header bg-ssm">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Update Information Approval
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email Address</label>
+                    <input class="form-control" [value]="selectedTask.email_address" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Full Name</label>
+                    <input class="form-control" [value]="selectedTask.name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No.</label>
+                    <input class="form-control" [value]="" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Position and Grade
+                        <span class="text-red" *ngIf="selectedTask.item.position_or_grade != selectedTask.item.user.position_or_grade" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.position_or_grade" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile / Office No.
+                        <span class="text-red" *ngIf="selectedTask.item.phone_number != selectedTask.item.user.phone_number" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.phone_number" disabled>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4">Applicant Work Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Name
+                        <span class="text-red" *ngIf="selectedTask.item.head_of_department_name != selectedTask.item.user.head_of_department_name" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Position
+                        <span class="text-red" *ngIf="selectedTask.item.head_of_department_position != selectedTask.item.user.head_of_department_position" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_position" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Email
+                        <span class="text-red" *ngIf="selectedTask.item.head_of_department_email != selectedTask.item.user.head_of_department_email" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.head_of_department_email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Ministry Name
+                        <span class="text-red" *ngIf="selectedTask.item.ministry_name != selectedTask.item.user.ministry_name" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.ministry_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Department Name
+                        <span class="text-red" *ngIf="selectedTask.item.department_name != selectedTask.item.user.department_name" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Division Name
+                        <span class="text-red" *ngIf="selectedTask.item.division_name != selectedTask.item.user.division_name" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.division_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 1
+                        <span class="text-red" *ngIf="selectedTask.item.address_1 != selectedTask.item.user.address_1" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.address_1" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 2
+                        <span class="text-red" *ngIf="selectedTask.item.address_2 != selectedTask.item.user.address_2" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.address_2" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 3
+                        <span class="text-red" *ngIf="selectedTask.item.address_3 != selectedTask.item.user.address_3" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.address_3" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode
+                        <span class="text-red" *ngIf="selectedTask.item.postcode != selectedTask.item.user.postcode" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.postcode" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City
+                        <span class="text-red" *ngIf="selectedTask.item.city != selectedTask.item.user.city" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.city" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State
+                        <span class="text-red" *ngIf="selectedTask.item.state != selectedTask.item.user.state" class="badge badge-pill badge-success">Updated</span>
+                    </label>
+                    <input class="form-control" [value]="selectedTask.item.state" disabled>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+                <button 
+                    type="button" 
+                    class="btn btn-ssm btn-block"
+                    (click)="openAttachment()"
+                >
+                    View Attachment
+                </button>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
+        <div *ngIf="selectedTask['item']['request_status'] == 'PD'">
+            <form [formGroup]="updateForm">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label class="form-control-label">Remarks</label>
+                            <select 
+                                class="form-control"
+                                [(ngModel)]="eGovRegRemarks"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="onRemarksChange($event)"
+                            >
+                                <option selected hidden value="null">Please select remarks</option>
+                                <option value="Attachment incomplete">Attachment incomplete</option>
+                                <option value="Head of department details">Head of department details</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row" *ngIf="isRemarksOthers">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-control-label">Remarks</label>
+                            <textarea class="form-control" formControlName="remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="selectedTask['item']['request_status'] != 'PD'">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Remarks</label>
+                        <textarea 
+                            class="form-control"
+                            disabled
+                            [value]="selectedTask.item.remarks"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button 
+            class="btn btn-ssm rounded-pill" 
+            type="button" 
+            (click)="approveUpdate()"
+            [disabled]="!updateForm.valid || selectedTask['item']['request_status'] != 'PD'">
+            Approve
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            [disabled]="!updateForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
+            (click)="rejectUpdate()"
+        >
+            Reject
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<!-- Renew approval modal -->
+<ng-template #renewAcc>
+    <div class="modal-header bg-ssm">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Renew Account Approval
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email Address</label>
+                    <input class="form-control" [value]="selectedTask.email_address" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Full Name</label>
+                    <input class="form-control" [value]="selectedTask.name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No.</label>
+                    <input class="form-control" [value]="" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Position and Grade</label>
+                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile / Office No.</label>
+                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4">Applicant Work Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Position</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_position" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Email</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Ministry Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.ministry_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Division Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.division_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 1</label>
+                    <input class="form-control" [value]="selectedTask.user.item.address_1" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 2</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_2" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 3</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_3" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode</label>
+                    <input class="form-control" [value]="selectedTask.item.user.postcode" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City</label>
+                    <input class="form-control" [value]="selectedTask.item.user.city" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State</label>
+                    <input class="form-control" [value]="selectedTask.item.user.state" disabled>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+                <button 
+                    type="button" 
+                    class="btn btn-ssm btn-block"
+                    (click)="openAttachment()"
+                >
+                    View Attachment
+                </button>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
+        <form [formGroup]="quotaForm">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Quota</label>
+                        <input 
+                            class="form-control" 
+                            formControlName="quota"
+                            [ngClass]="{'is-invalid': quotaForm.controls.quota.invalid && quotaForm.controls.quota.touched}"
+                        >
+
+                        <ng-container *ngFor="let message of quotaFormMessages.quota">
+                            <div *ngIf="quotaForm.get('quota').hasError(message.type) && (quotaForm.get('quota').dirty || quotaForm.get('position_or_grade').touched)">
+                                <p class="error-message"><span>{{ message.message }}</span></p>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Remarks</label>
+                        <select 
+                            class="form-control"
+                            [(ngModel)]="eGovRegRemarks"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="onRemarksChange($event)"
+                        >
+                            <option selected hidden value="null">Please select remarks</option>
+                            <option value="Attachment incomplete">Attachment incomplete</option>
+                            <option value="Head of department details">Head of department details</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="isRemarksOthers">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">Remarks</label>
+                        <textarea class="form-control" formControlName="remarks"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button 
+            class="btn btn-ssm rounded-pill" 
+            type="button" 
+            (click)="approveUpdate()"
+            [disabled]="!updateForm.valid || selectedTask['item']['request_status'] != 'PD'">
+            Approve
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="rejectUpdate()"
+            [disabled]="!updateForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
+        >
+            Reject
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<!-- Investigation approval modal -->
+<ng-template #investigationRequest>
+    <div class="modal-header bg-ssm">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Investivation Request Approval
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Email Address</label>
+                    <input class="form-control" [value]="selectedTask.email_address" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Full Name</label>
+                    <input class="form-control" [value]="selectedTask.name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No.</label>
+                    <input class="form-control" [value]="" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Position and Grade</label>
+                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile / Office No.</label>
+                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4">Applicant Work Information</h6>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Position</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_position" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Head of Department Email</label>
+                    <input class="form-control" [value]="selectedTask.item.user.head_of_department_email" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Ministry Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.ministry_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.department_name" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Division Name</label>
+                    <input class="form-control" [value]="selectedTask.item.user.division_name" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 1</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_1" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 2</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_2" disabled>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-control-label">Address Line 3</label>
+                    <input class="form-control" [value]="selectedTask.item.user.address_3" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Postcode</label>
+                    <input class="form-control" [value]="selectedTask.item.user.postcode" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">City</label>
+                    <input class="form-control" [value]="selectedTask.item.user.city" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">State</label>
+                    <input class="form-control" [value]="selectedTask.item.user.state" disabled>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+                <button 
+                    type="button" 
+                    class="btn btn-ssm btn-block"
+                    (click)="openAttachment()"
+                >
+                    View Attachment
+                </button>
+            </div>
+        </div>
+
+        <h6 class="heading-small text-muted mb-4 mt-2">Request Information</h6>
+        <div class="dataTables_wrapper py-4">
+            <ngx-datatable 
+                class="bootstrap" 
+                [columnMode]="'force'" 
+                [headerHeight]="50"
+                [footerHeight]="50" 
+                [rowHeight]="'auto'" 
+                [limit]="tableItemEntries != -1 ? tableItemEntries : undefined"
+                [rows]="tableItemTemp" 
+                [scrollbarH]="true" 
+            >
+                <ngx-datatable-column
+                    [width]="100"
+                    [sortable]="false"
+                    [resizeable]="false"
+                >
+                    <ng-template ngx-datatable-header-template>
+                        <span>Entity No.</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span *ngIf="row.entity.type_of_entity == 'CP'">
+                            {{row.entity.company_number}}-{{row.entity.check_digit}}
+                        </span>
+                        <span *ngIf="row.entity.type_of_entity == 'BS'">
+                            {{row.entity.registration_number}}-{{row.entity.check_digit}}
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                    [width]="150"
+                    [sortable]="false"
+                    [resizeable]="false"
+                    prop="image_form_type"
+                >
+                    <ng-template ngx-datatable-header-template>
+                        <span>Document Type</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span *ngIf="row.image_form_type">
+                            {{row.image_form_type}}
+                        </span>
+                        <span *ngIf="!row.image_form_type && row.entity.type_of_entity == 'CP'">
+                            Company Profile
+                        </span>
+                        <span *ngIf="!row.image_form_type && row.entity.type_of_entity == 'BS'">
+                            Business Profile
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                 <ngx-datatable-column
+                    [width]="190"
+                    [sortable]="false"
+                    [resizeable]="false"
+                    prop="document_name"
+                >
+                    <ng-template ngx-datatable-header-template>
+                        <span>Document Name</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.document_name}}
+                    </ng-template>
+                </ngx-datatable-column>
+                
+                <ngx-datatable-column
+                    [sortable]="true"
+                    [resizeable]="false"
+                    prop="status"
+                >
+                    <ng-template ngx-datatable-header-template>
+                        <span>Status</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span 
+                            class="badge badge-pill badge-warning"
+                            *ngIf="row.document_status == 'Pending'"
+                        >
+                            {{row.document_status}}
+                        </span>
+
+                        <span 
+                            class="badge badge-pill badge-danger"
+                            *ngIf="row.document_status == 'Rejected'"
+                        >
+                            {{row.document_status}}
+                        </span>
+
+                        <span 
+                            class="badge badge-pill badge-success"
+                            *ngIf="row.document_status == 'Approved'"
+                        >
+                            {{row.document_status}}
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column
+                    [sortable]="false"
+                    [resizeable]="false"
+                >
+                    <ng-template ngx-datatable-header-template>
+                        <span>Action</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a style="cursor: pointer">
+                            <button 
+                                class="btn btn-sm btn-ssm mr-1"
+                                *ngIf="row.document_status == 'PD'"
+                                (click)="approveInvestigation(row.document_request, row)"
+                            >
+                                Approve
+                            </button>
+                        </a>
+
+                        <a style="cursor: pointer">
+                            <button 
+                                class="btn btn-sm btn-outline-ssm"
+                                *ngIf="row.document_status == 'PD'"
+                                (click)="rejectInvestigation(row.document_request, row)"
+                            >
+                                Reject
+                            </button>
+                        </a>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button 
+            class="btn btn-ssm rounded-pill" 
+            type="button" 
+            (click)="approveInvestigationAll()"
+        >
+            Approve for all
+        </button>
+
+        <button 
+            class="btn btn-outline-ssm ml-1 rounded-pill" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="rejectInvestigationAll()"
+        >
+            Reject for all
         </button>
 
         <button 

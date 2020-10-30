@@ -15,11 +15,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 
-class Entity {
-  name: string;
-  registration_no: string;
-}
-
 export enum SelectionType {
   single = 'single',
   multi = 'multi',
@@ -40,6 +35,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
   entity_data: any;
   imageList: any[] = []
   formTypes: any[] = []
+  documents: any[] = []
   requestedDocuments: any[] = []
 
   // Table
@@ -87,13 +83,12 @@ export class ProductSearchResultPackage3Component implements OnInit {
     private modalService: BsModalService,
     private router: Router,
     private fb: FormBuilder,
-    private cartService: CartsService,
     private loadingBar: LoadingBarService,
     public spinner: NgxSpinnerService,
     private serviceService: ServicesService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
-  
+    console.log(this.entity)
   }
 
   ngOnInit() {
@@ -127,10 +122,38 @@ export class ProductSearchResultPackage3Component implements OnInit {
 
 
     this.spinner.show()
+    
+    let entity_type_profile = ''
+    let entity_name = this.entity['name']
+    let entity_no = ''
+    
+    if (this.entity['type_of_entity'] == 'CP') {
+      entity_type_profile = 'Company Profile'
+      entity_no = this.entity['company_number_new'] + '(' + this.entity['company_number'] + '-' + this.entity['check_digit'] + ')'
+    }
+    else if (this.entity['type_of_entity'] == 'BS') {
+      entity_type_profile = 'Business Profile'
+      entity_no = this.entity['registration_number_new'] + '(' + this.entity['registration_number'] + '-' + this.entity['check_digit'] + ')'
+    }
+
+    let profile_data = {
+      'entity': this.entity['id'],
+      'companyNo': entity_no,
+      'companyName': entity_name,
+      'documentType': 'PF',
+      'documentFormType': '-',
+      'documentFormName': entity_type_profile,
+      'documentDate': '-',
+      'totalPage': '-',
+      'isChecked': false,
+      'verId': null
+    }
+     
+    this.documents.push(profile_data)
 
     this.productService.generateImage(request_).subscribe(
       (res) => {
-        console.log('Image list', res)
+        // console.log('Image list', res)
         this.imageList = res
       },
       () => {
@@ -139,20 +162,32 @@ export class ProductSearchResultPackage3Component implements OnInit {
       () => {
         this.spinner.hide()
 
+        this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
         this.imageList.forEach(
           (img) => {
-            this.formTypes.forEach(
-              (form) => {
-                if (img.formType == form.code) {
-                  img['formName'] = form.desc_en
-                  img['isCtc'] = false
-                  img['price'] = 1000 
-                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')
-                  img['isChecked'] = false
-                  img['companyName'] = this.entity['name']
-                }
+            let form_type_desc = ''
+            this.formTypes.filter((form) => {
+              if (img.formType == form.code) {
+                form_type_desc = form.desc_en
               }
-            )
+            })
+
+            let human_date = moment(img.dateFiler).format('YYYY-MM-DD')
+
+            let form_data = {
+              'entity': this.entity['id'],
+              'companyNo': entity_no,
+              'companyName': entity_name,
+              'documentType': 'FR',
+              'documentFormType': img['formType'],
+              'documentFormName': form_type_desc,
+              'documentDate': human_date,
+              'totalPage': img['totalPage'],
+              'isChecked': false,
+              'verId': img['verId']
+            }
+
+            this.documents.push(form_data)
           }
         )
 
@@ -167,7 +202,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
   }
 
   updateTable() {
-    this.tableRows = this.imageList
+    this.tableRows = this.documents
     this.tableTemp = this.tableRows.map((prop, key) => {
       return {
         ...prop,
@@ -197,12 +232,12 @@ export class ProductSearchResultPackage3Component implements OnInit {
         }
       }
     )
-    this.navigatePage('/profile')
+    this.navigatePage('/profile/egov')
   }
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    if (path == '/profile') {
+    if (path == '/profile/egov') {
       return this.router.navigate([path], { queryParams: { tab: 'request-doc' } })
     } else {
       return this.router.navigate([path])

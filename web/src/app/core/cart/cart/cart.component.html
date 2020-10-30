@@ -7,7 +7,7 @@
 				<div class="header-body text-center mb-9">
 					<div class="row justify-content-center">
 						<div class="col">
-							<h1 class="text-ssm font-weight-bolder mb-0">CART</h1>
+							<h1 class="text-ssm font-weight-bolder mb-0" style="font-size: 3.0rem;">CART</h1>
 						</div>
 					</div>
 				</div>
@@ -173,7 +173,7 @@
 											{{row.product.name}}
 										</div>
 
-										<span *ngIf="row.product.ctc">
+										<span *ngIf="row.product?.ctc">
 											- CTC
 										</span>
 

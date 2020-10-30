@@ -127,6 +127,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <p class="">* Mandatory fields.</p>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     
@@ -236,7 +242,7 @@
                         </ngx-datatable>
 
                         <div class="text-right py-3">
-                            <button class="btn btn-ssm btn-icon btn-round" (click)="addToCart()">
+                            <button class="btn btn-ssm btn-icon btn-round" (click)="addToCart()" [disabled]="!requestForm.valid">
                                 <span class="btn-inner--text"> Checkout </span>
                             </button>
                         </div>

@@ -257,7 +257,18 @@
 						<div class="dropdown-header noti-title">
 							<h6 class="text-overflow m-0">Welcome </h6>
 						</div>
-						<a class="dropdown-item" (click)="navigatePage('profile')">
+						<a 
+							class="dropdown-item" 
+							(click)="navigatePage('profile')" 
+							*ngIf="currentUser['user_type'] == 'PB'"
+						>
+							<i class="fas fa-user fa-fw"></i> <span>Profile</span>
+						</a>
+						<a 
+							class="dropdown-item" 
+							(click)="navigatePage('profile/egov')"
+							*ngIf="currentUser['user_type'] == 'EG'"
+						>
 							<i class="fas fa-user fa-fw"></i> <span>Profile</span>
 						</a>
 						<a class="dropdown-item" (click)="logout()">
