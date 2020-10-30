@@ -1,0 +1,554 @@
+<div class="wrapper">
+	<div class="section">
+		<div class="container-fluid pt-6 px-6">
+			<!-- Public wrapper -->
+			<div class="nav-wrapper" *ngIf="user?.user_type == 'PB'">
+				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+					<tab heading="My Account" [active]="accountTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="heading mb-4">
+									User Information
+								</h5>
+								<div class="row">
+									<div class="col-5">
+										<p class="my-0">Note:</p>
+										<p class="font-smaller mt-0">
+											Any user information changes can be
+											updated at <a href="https://www.ssm4u.com.my" target="_blank">SSM4U</a> portal.
+										</p>
+									</div>
+								</div>
+
+								<form>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Name</label>
+												<input class="form-control" value="Amin Redzuan" disabled>
+											</div>
+										</div>
+
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Email</label>
+												<input class="form-control" value="aminredz@gmail.com" disabled>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label class="form-control-label">Phone No.</label>
+												<input class="form-control" value="0187246746" disabled>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div>
+									<form [formGroup]="addressForm">
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 1</label>
+													<input class="form-control" formControlName="address1" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 2</label>
+													<input class="form-control" formControlName="address2" />
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">Address line 3</label>
+													<input class="form-control" formControlName="address3" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-6">
+												<div class="form-group">
+													<label class="form-control-label">City</label>
+													<input class="form-control" formControlName="city" />
+												</div>
+											</div>
+										</div>
+		
+										<div class="row">
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">Postcode</label>
+													<input class="form-control" formControlName="postcode" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">State</label>
+													<input class="form-control" formControlName="state" />
+												</div>
+											</div>
+		
+											<div class="col-sm-12 col-lg-4">
+												<div class="form-group">
+													<label class="form-control-label">Country</label>
+													<input class="form-control" formControlName="country" />
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+
+								<hr class="my-2 w-100 text-black">
+
+								<h6 class="heading-small text-muted mb-4" *ngIf="user?.user_type == 'EG'">
+									Work Information
+								</h6>
+							</div>
+						</div>
+					</tab>
+
+					<tab heading="My Transactions" [active]="transactionTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="mb-4 heading">
+									Transactions Information
+								</h5>
+
+								<div class="row">
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">Start date</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-calendar-alt"> </i>
+													</span>
+												</div>
+												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">End date</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="far fa-calendar-alt"> </i>
+													</span>
+												</div>
+												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 col-lg-3">
+										<div class="form-group">
+											<label class="form-control-label">Receipt No.</label>
+											<input class="form-control" (keyup)="filterTableTransactions($event, 'invoice')"/>
+										</div>
+									</div>
+								</div>
+
+								<div class="dataTables_wrapper py-4">
+									<ngx-datatable 
+										class="bootstrap selection-cell"
+										[columnMode]="'force'"
+										[headerHeight]="50"
+										[footerHeight]="50"
+										[rowHeight]="'auto'"
+										[limit]="tableEntries != -1 ? tableEntries : undefined" 
+										[rows]="tableTemp"
+										(activate)="onActivate($event)"
+									>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="id_index"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.id_index}}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="receipt_no"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Receipt No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.receipt_no}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="payment_gateway_update_date"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Date</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{ row.payment_gateway_update_date }}
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column
+											[sortable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Payment Method</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												Credit Card
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="reference_no"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Reference</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.reference_no}}
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="total_amount"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Total Price</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												RM{{row.total_amount/100 | number : '1.2-2'}}
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Receipt</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<a 
+													class="nav-link nav-link-icon cursor-pointer"
+													(click)="downloadReceipt(row)"
+												>
+													<i 
+														class="fas fa-file-download text-info"
+														placement="top" 
+														tooltip="Download receipt"
+													> 
+													</i>
+												</a>
+											</ng-template>
+										</ngx-datatable-column>
+									</ngx-datatable>
+								</div>
+							</div>
+						</div>
+					</tab>
+
+					<tab heading="My Orders" [active]="orderTabActive">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="heading mb-4">My orders</h5>
+								<p class="my-0">Disclaimer:</p>
+								<ol>
+									<li class="font-smaller">
+										Every successful purchase will be kept in order menu for 7
+										day(s) from the date purchased. Please download your
+										document accordingly.
+									</li>
+									<li class="font-smaller">
+										If customer are unable to download product purchased within
+										7 day(s). Please contact SSM Enquiry.
+									</li>
+								</ol>
+
+								<div class="dataTables_wrapper py-4">
+									<ngx-datatable 
+										class="bootstrap selection-cell"
+										[columnMode]="'force'"
+										[headerHeight]="50"
+										[footerHeight]="50"
+										[rowHeight]="'auto'"
+										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined" 
+										[rows]="tableOrderTemp"
+										(activate)="onActivate($event)"
+									>
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="id_index"
+											[resizeable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.id_index}}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Order No.</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<!-- {{row.product?.name}} -->
+												
+												<span *ngIf="row.product">
+													{{row.order_no}}
+												</span>
+												<span *ngIf="!row.product">
+													SSM2020100124442
+												</span>
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="created_date"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Datetime</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{ row.created_date }}
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column
+											[sortable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Product</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.product?.name}}
+												<span *ngIf="row.product.ctc">
+													- CTC
+												</span>
+												<span *ngIf="row.service_request">
+													{{row.service_request?.service.name}}
+												</span>
+												<span *ngIf="row.product_search_criteria">
+													Customized Data
+												</span>
+												<span *ngIf="row.quota?.quota_type == '0A'">
+													Customized Data Quota
+												</span>
+											</ng-template>
+										</ngx-datatable-column>
+		
+										<ngx-datatable-column
+											[sortable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Search Criteria</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												{{row.entity?.name}}
+												<span *ngIf="service_request?.service.service_type =='CB'">
+													-
+												</span>
+												<div *ngIf="row.product_search_criteria">
+													<a (click)="openModal(criteria, row)">Search criteria</a>
+												</div>
+												<span *ngIf="row.quota">
+													-
+												</span>
+												<span *ngIf="row.service_request">
+													-
+												</span>
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column
+											[sortable]="true"
+											prop="language"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Language</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<div *ngIf="row.product">
+													<span *ngIf="row.product.language == 'MS'">BM</span>
+													<span *ngIf="row.product.language == 'EN'">EN</span>
+													<span *ngIf="row.product.output_type == 'IM'">-</span>
+												</div>
+												<div *ngIf="!row.product">
+													-
+												</div>
+											</ng-template>
+										</ngx-datatable-column>
+
+										<ngx-datatable-column
+											[sortable]="false"
+										>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Status</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<span class="badge badge-success">Success</span>
+											</ng-template>
+										</ngx-datatable-column>
+										
+										<ngx-datatable-column>
+											<ng-template ngx-datatable-header-template>
+												<span class="table-header">Action</span>
+											</ng-template>
+											<ng-template let-row="row" ngx-datatable-cell-template>
+												<button 
+													class="btn btn-ssm btn-sm" 
+													(click)="initRequest(row)"
+													*ngIf="!row.service_request || row.quota"
+												>
+													Download
+												</button>
+											</ng-template>
+										</ngx-datatable-column>
+									</ngx-datatable>
+								</div>
+							</div>
+						</div>
+					</tab>
+				</tabset>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #criteria>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Search Criteria
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form *ngIf="selectedCriteria">
+            <div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Incorp / Reg Date From</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.IncorpFrom"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Incorp / Reg Date To</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.IncorpTo"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+
+            <div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Status</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyStatus"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Type</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyType"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="form-control-label">Business Code</label>
+				<input 
+				  class="form-control"
+				  [value]="selectedCriteria.BusinessCode"
+				  type="text"
+				>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Location</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyLocation"
+						  type="text"
+						>
+					</div>
+				</div>
+
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Company Origin</label>
+						<input 
+						  class="form-control"
+						  [value]="selectedCriteria.CompanyOrigin"
+						  type="text"
+						>
+					</div>
+				</div>
+			</div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button
+            class="btn btn-outline-ssm ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">
+	<p style="color: white">Loading...</p>
+</ngx-spinner>

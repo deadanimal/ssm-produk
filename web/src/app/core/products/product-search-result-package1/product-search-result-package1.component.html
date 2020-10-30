@@ -23,7 +23,7 @@
                                 Company Information
                             </div>                            
                         </h4>
-                        <h5 class="m-0">
+                        <label class="m-0 font-weight-bolder title-transform">
                             Entity name:
                             <span *ngIf="entity.type_of_entity == 'AD'">
                                 {{ entity.audit_firm_number }} / {{entity.name}}
@@ -37,7 +37,7 @@
                                 {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
                                 {{entity.name}}
                             </span>
-                        </h5>
+                        </label>
                     </div>
                 </div>
 
@@ -115,10 +115,10 @@
                     UNLIMITED 
                 </span>
                 <span *ngIf="entity_data['company_info']['companyStatus'] =='R'">
-                    PRIVATE LIMITED 
+                    (PRIVATE LIMITED)
                 </span>
                 <span *ngIf="entity_data['company_info']['companyStatus'] =='U'">
-                    PUBLIC LIMITED 
+                    (PUBLIC LIMITED)
                 </span>
             </p>
         </div>

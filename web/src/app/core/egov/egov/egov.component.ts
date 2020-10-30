@@ -41,7 +41,7 @@ export class EgovComponent implements OnInit {
   isAgree: boolean = false
 
   // Image
-  egovBanner = 'assets/img/background/putrajaya.jpg'
+  egovBanner = 'assets/img/background/egov-2.png'
   
   // Modal
   modal: BsModalRef;

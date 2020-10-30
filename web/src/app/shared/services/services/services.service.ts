@@ -91,7 +91,7 @@ export class ServicesService {
   }
 
   createDocumentRequest(body: any): Observable<Request> {
-    let urlTemp = this.urlDocumentRequest
+    let urlTemp = this.urlDocumentRequest + 'create_request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res
@@ -172,8 +172,8 @@ export class ServicesService {
     )
   }
 
-  requestQuota(): Observable<any[]> {
-    return this.http.get<any>(this.urlEgovRequest).pipe(
+  requestQuota(body: any): Observable<any[]> {
+    return this.http.post<any>(this.urlEgovRequest, body).pipe(
       tap((res) => {
         // this.request = res
         // console.log('Requested: ', res)

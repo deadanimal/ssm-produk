@@ -54,6 +54,9 @@ export class ProductSearchResultPackage2Component implements OnInit {
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
     this.getData()
+    if (this.entity.replaceUrl) {
+      this.router.navigate(['/products/search-egov'])
+    }
   }
 
   ngOnInit() {
@@ -62,7 +65,7 @@ export class ProductSearchResultPackage2Component implements OnInit {
       "ctc": "False",
     }
     
-    console.log(this.entity)
+    // console.log(this.entity)
 
     if (this.entity['type_of_entity'] == 'CP') {
       request_["name"] =  "company_profile"
@@ -81,12 +84,12 @@ export class ProductSearchResultPackage2Component implements OnInit {
     }
 
 
-    console.log('Calling service');
+    // console.log('Calling service');
     this.spinner.show()
 
     this.productService.generateDocument(request_).subscribe(
       (res: any) => {
-        console.log(res)
+        // console.log(res)
         this.entity_data = res;
         if (this.entity_data['company_info']) {
           if (this.entity_data['company_info']['dateOfChange']) {
@@ -100,8 +103,12 @@ export class ProductSearchResultPackage2Component implements OnInit {
 
         this.stateCodes.forEach(
           (state) => {
-            if (this.entity_data['bizInfo']['state'] == state['code']) {
+            if ( 
+              this.entity_data['bizInfo'] &&
+              this.entity_data['bizInfo']['state'] == state['code']
+            ) {
               this.entity_data['bizInfo']['state'] = state['desc']
+              // console.log('negeri')
             }
 
             if (this.entity_data['ownerCurrentInfo']) {
@@ -124,14 +131,16 @@ export class ProductSearchResultPackage2Component implements OnInit {
               )
             }
 
-            if (this.entity_data['bs_data']['auditFirmState']) {
+            if (
+              this.entity_data['bs_data'] && 
+              this.entity_data['bs_data']['auditFirmState']
+            ) {
               if (this.entity_data['bs_data']['auditFirmState'] = state['code']) {
                 this.entity_data['bs_data']['auditFirmState'] = state['desc']
               }
             }
           }
         )
-        
       }
     )    
   }
@@ -140,7 +149,7 @@ export class ProductSearchResultPackage2Component implements OnInit {
     this.fileService.get('state-codes.json').subscribe(
       (res) => {
         this.stateCodes = res
-        // console.log(this.formTypes)
+        // console.log(this.stateCodes)
       }
     )
   }

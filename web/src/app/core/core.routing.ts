@@ -3,13 +3,8 @@ import { Routes } from '@angular/router';
 
 import { NotificationsComponent } from './notifications/notifications.component';
 
-import { TransactionsComponent } from './transactions/transactions.component';
-import { ProfileComponent } from './profile/profile.component';
-
-import { KjakpComponent } from './kjakp/kjakp.component';
-
-import { CompanyDetailComponent } from './company-detail/company-detail.component';
-import { RequestInvestigationDocumentComponent } from './request-investigation-document/request-investigation-document.component';
+import { ProfileComponent } from './profile/profile/profile.component';
+import { ProfileEgovComponent } from './profile/profile-egov/profile-egov.component';
 
 import { PaymentComponent } from './payment/payment/payment.component';
 import { PaymentReturnComponent } from './payment/payment-return/payment-return.component';
@@ -52,31 +47,22 @@ export const CoreRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'company-detail',
-        component: CompanyDetailComponent,
-      },
-      {
-        path: 'kjakp',
-        component: KjakpComponent,
-      },
-      {
         path: 'notifications',
         component: NotificationsComponent,
       },
       {
         path: 'profile',
-        component: ProfileComponent,
+        children: [
+          {
+            path: '',
+            component: ProfileComponent,
+          },
+          {
+            path: 'egov',
+            component: ProfileEgovComponent
+          }
+        ]
       },
-      {
-        path: 'transactions',
-        component: TransactionsComponent,
-      },
-      {
-        path: 'request-investigation-document',
-        component: RequestInvestigationDocumentComponent,
-      },
-
-
       // Products
       {
         path: 'products',
