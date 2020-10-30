@@ -38,7 +38,8 @@ export class ProductSearchResultPackage1Component implements OnInit {
   entity: any;
   entity_data: any;
 
-  
+  stateCodes: any[] = []
+
   constructor(
     private toastr: ToastrService,
     private productService: ProductsService,
@@ -51,7 +52,10 @@ export class ProductSearchResultPackage1Component implements OnInit {
     public spinner: NgxSpinnerService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
-  
+    this.getData()
+    if (this.entity.replaceUrl) {
+      this.router.navigate(['/products/search-egov'])
+    }
   }
 
   ngOnInit() {
@@ -84,7 +88,7 @@ export class ProductSearchResultPackage1Component implements OnInit {
     request_["pdf"] = false
     this.productService.generateDocument(request_).subscribe(
       (res: any) => {
-        console.log(res)
+        // console.log(res)
         this.entity_data = res;
         if (this.entity_data['company_info']) {
           if (this.entity_data['company_info']['dateOfChange']) {
@@ -97,11 +101,61 @@ export class ProductSearchResultPackage1Component implements OnInit {
       },
       () => {
         this.spinner.hide()
+
+        this.stateCodes.forEach(
+          (state) => {
+            if ( 
+              this.entity_data['bizInfo'] &&
+              this.entity_data['bizInfo']['state'] == state['code']
+            ) {
+              this.entity_data['bizInfo']['state'] = state['desc']
+              // console.log('negeri')
+            }
+
+            if (this.entity_data['ownerCurrentInfo']) {
+              this.entity_data['ownerCurrentInfo'].forEach(
+                (current) => {
+                  if (current['state'] == state['code']) {
+                    current['state'] = state['desc']
+                  } 
+                }
+              )
+            }
+
+            if (this.entity_data['officer_info']) {
+              this.entity_data['officer_info'].forEach(
+                (current) => {
+                  if (current['state'] == state['code']) {
+                    current['state'] = state['desc']
+                  } 
+                }
+              )
+            }
+
+            if (
+              this.entity_data['bs_data'] && 
+              this.entity_data['bs_data']['auditFirmState']
+            ) {
+              if (this.entity_data['bs_data']['auditFirmState'] = state['code']) {
+                this.entity_data['bs_data']['auditFirmState'] = state['desc']
+              }
+            }
+          }
+        )
       }
     )    
   }
 
   goBack() {
     this.router.navigate(['products/search-egov'])
+  }
+
+  getData() {
+    this.fileService.get('state-codes.json').subscribe(
+      (res) => {
+        this.stateCodes = res
+        // console.log(this.formTypes)
+      }
+    )
   }
 }

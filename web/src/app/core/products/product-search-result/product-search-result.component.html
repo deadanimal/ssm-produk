@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h4 class="display-3">Product Listing</h4>
-                        <h5 class="m-0">
+                        <label class="m-0 font-weight-bolder title-transform">
                             Entity name:
                             <div *ngIf="entity.type_of_entity == 'AD'">
                                 {{ entity.audit_firm_number }} / {{entity.name}}
@@ -20,7 +20,7 @@
                                 {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
                                 {{entity.name}}
                             </div>
-                        </h5>
+                        </label>
 
                         <p class="lead">Available products and documents:</p>
                     </div>
