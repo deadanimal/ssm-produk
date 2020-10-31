@@ -12,6 +12,7 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
 
 export enum SelectionType {
   single = 'single',
@@ -35,6 +36,7 @@ export class ProductSearchResultComponent implements OnInit {
   registration_no: any
   formTypes: any[] = []
   imageList: any[] = []
+  availabilityList: any
 
   // Checker
   isProceed: boolean = false
@@ -110,49 +112,63 @@ export class ProductSearchResultComponent implements OnInit {
     private cartService: CartsService,
     private loadingBar: LoadingBarService
   ) {
-    this.entity = this.router.getCurrentNavigation().extras as any
-    this.getLastDigit()
-    this.getData()
-    // console.log(this.entity)
+    // console.log('chec', )
+    let checkerValid = this.router.getCurrentNavigation()
+    if (checkerValid == null || checkerValid == undefined) {
+      this.navigatePage('/products/search')
+    }
+    else {
+      this.entity = this.router.getCurrentNavigation().extras['entity'] as any
+      this.availabilityList = this.router.getCurrentNavigation().extras['availability'] as any
+
+      if (!this.entity) {
+        this.navigatePage('/products/search')
+      }
+      else {
+        this.getLastDigit()
+        this.getData()
+      }
+    }
   }
 
   ngOnInit(): void {
     // console.log(this.entity)
     this.initForm()
-
-    if (!this.entity.id) {
-      this.navigatePage('/products/search')
-    }
   }
 
   getData() {
-    this.fileService.get('form-types.json').subscribe(
-      (res) => {
-        this.formTypes = res
-        // console.log(this.formTypes)
-      }
-    )
-
-    this.productService.getAll().subscribe(
-      () => {
-        this.products = this.productService.products
-      },
-      () => {},
-      () => {}
-    )
-    // Ada API untuk call middleware untuk check product apa available untuk dirinya
     let imageBody = {
       'name': 'list',
       'registration_no': this.registration_no,
       'entity_type': 'ROC'
     }
-    console.log(imageBody)
-    this.productService.generateImage(imageBody).subscribe(
+
+    // let availabilityBody = {
+    //   'registration_no': this.registration_no,
+    //   'entity_type': 'ROC'
+    // }
+
+    this.loadingBar.useRef('http').start()
+
+    forkJoin([
+      this.productService.getAll(),
+      this.productService.generateImage(imageBody),
+      // this.productService.checkAvailability(availabilityBody),
+    ]).subscribe(
       (res) => {
-        console.log('Image list', res)
-        this.imageList = res
+        this.loadingBar.useRef('http').complete()
+        // Products list
+        this.products = res[0]
+        
+        // Image list
+        this.imageList = res[1]
+
+        // Available list
+        // this.availabilityList = res[2]
       },
-      () => {},
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
       () => {
         this.imageList.forEach(
           (img) => {
@@ -171,16 +187,13 @@ export class ProductSearchResultComponent implements OnInit {
         )
       }
     )
+    // Ada API untuk call middleware untuk check product apa available untuk dirinya
 
-    let checkBody = {
-      'registration_no': this.registration_no,
-      'entity_type': 'ROC'
-    }
-
-    this.productService.check(checkBody).subscribe(
-      () => {},
-      () => {},
-      () => {}
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        // console.log(this.formTypes)
+      }
     )
 
   }
@@ -194,8 +207,8 @@ export class ProductSearchResultComponent implements OnInit {
       product: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      year1: new FormControl(),
-      year2: new FormControl(),
+      year1: new FormControl(''),
+      year2: new FormControl(''),
       image_form_type: new FormControl(false),
       image_version_id: new FormControl(false)
     })

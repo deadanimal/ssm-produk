@@ -38,8 +38,8 @@ def get_is_name_changed(url, headers, registration_number):
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:isNameChangedResponse']['response']['checkIfExistReturn']
-   #  print('is_name_changed', parsed_response)
-    if parsed_response['answer']:
+    print('is_name_changed', parsed_response)
+    if parsed_response['answer'] == True or parsed_response['answer'] == 'true':
         return True
     else:
         return False
