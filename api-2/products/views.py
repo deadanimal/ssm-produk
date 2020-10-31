@@ -74,6 +74,7 @@ from .services.availability.get_info_incorp import get_info_incorp
 from .services.availability.get_list_address_changes_year import get_list_address_changes_year
 from .services.availability.get_is_act_2016 import get_is_act_2016
 from .services.availability.get_is_name_changed import get_is_name_changed
+from .services.availability.get_is_company_converted import get_is_company_converted
 from .services.availability.get_info_rob_termination_list import get_info_rob_termination_list
 from .services.availability.get_info_branch_listing import get_info_branch_listing
 
@@ -372,7 +373,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         list_address_changes_year = get_list_address_changes_year(information_url, request_headers, registration_)
         is_incorp_act_2016 = get_is_act_2016(information_url, request_headers, registration_)
         info_incorp_reg = get_info_incorp(information_url, request_headers, registration_, 'reg')
-        info_incorp_name_changed = get_is_name_changed(information_url, request_headers, registration_)
+        is_name_changed = get_is_name_changed(information_url, request_headers, registration_)
+        is_company_converted = get_is_company_converted(information_url, request_headers, registration_)
         info_termination_list = get_info_rob_termination_list(information_url, request_headers, registration_)
         info_branch_list = get_info_branch_listing(information_url, request_headers, registration_) 
 
@@ -384,8 +386,9 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'share_capital': info_incorp_share,
             'list_address_changes_year': list_address_changes_year,
             'info_incorp_reg': is_incorp_act_2016,
-            'is_name_changed': info_incorp_name_changed,
+            'is_name_changed': is_name_changed,
             'info_incorp': info_incorp_reg,
+            'is_company_converted': is_company_converted,
             'info_termination_list': info_termination_list,
             'info_branch_list': info_branch_list
         }   

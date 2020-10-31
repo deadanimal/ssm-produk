@@ -50,7 +50,7 @@ def get_info_rob_termination_list(url, headers, registration_number):
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoRobTerminationListResponse']['response']['getInfoRobTerminationListReturn']
-   #  print('info_rob_termination', parsed_response)
+    print('info_rob_termination', parsed_response)
     if parsed_response['errorMsg']:
         return False
     else:
