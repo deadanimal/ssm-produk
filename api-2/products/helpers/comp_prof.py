@@ -123,7 +123,9 @@ def comp_prof(mdw_1, mdw_2, lang):
 
     charges_info = mdw_1["rocChargesListInfo"]
 
-    if charges_info['errorMsg'] == None:
+    # print('ci', charges_info['errorMsg'])
+    # print('cs', charges_info["rocChargesInfos"]["rocChargesInfos"])
+    if charges_info['errorMsg'] == None and charges_info['errorMsg'] == 'No Data':
         for charge in charges_info["rocChargesInfos"]["rocChargesInfos"]:
             charge['chargeStatus'] = charge_code(charge['chargeStatus'])
             charge['chargeAmount'] = float(charge['chargeAmount'])

@@ -70,7 +70,7 @@ export class ServicesService {
   }
 
   getEgovInvestigation(): Observable<any>  {
-    let urlTemp = this.urlDocumentRequest + 'all_with_item/'
+    let urlTemp = this.urlDocumentRequest + 'all_with_item/?ordering=-created_date'
     return this.http.get(urlTemp).pipe(
       tap((res) => {
         // console.log('EGov investigations: ', res)
@@ -79,7 +79,7 @@ export class ServicesService {
   }
 
   getEgovRequest(): Observable<any> {
-    let urlTemp = this.urlEgovRequest + 'extended/'
+    let urlTemp = this.urlEgovRequest + 'extended/?ordering=-created_date'
     return this.http.get(urlTemp).pipe(
       tap((res) => {
         // console.log('EGov requests: ', res)

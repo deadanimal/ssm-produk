@@ -1,4 +1,4 @@
-<ngx-loading-bar ref="http"></ngx-loading-bar>
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <nav class="navbar navbar-main navbar-expand-lg navbar-dark headroom bg-ssm p-0" id="navbar-main">
 	<div class="container">
 		<a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
@@ -37,7 +37,11 @@
 					</a>
 				</li>
 
-				<a class="nav-link cursor-pointer" (click)="navigatePage('profile3')" *ngIf="isAuthenticated">
+				<a 
+					class="nav-link cursor-pointer" 
+					(click)="navigatePage('profile3')" 
+					*ngIf="isAuthenticated && currentUser['user_type' == 'PB']"
+				>
 					My Orders
 				</a>
 				

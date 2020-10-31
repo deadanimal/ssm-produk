@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_info_incorp(url, headers, registration_number):
+def get_info_incorp(url, headers, registration_number, query_type):
 
     payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -42,11 +42,24 @@ def get_info_incorp(url, headers, registration_number):
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoIncorpResponse']['response']['getInfoIncorpReturn']
-    print('incorp', parsed_response)
-    if parsed_response['errorMsg']:
-        return False
-    else:
-        return True
+   #  print('incorp', parsed_response)
+    if query_type == 'share':
+      if parsed_response['errorMsg']:
+         return False
+      elif parsed_response['companyType'] == 'G':
+         return False
+      else:
+         return True
+    elif query_type == 'reg':
+      if parsed_response['errorMsg']:
+         return False
+      else:
+         return {
+         'company_status': parsed_response['companyStatus'],
+         'company_type': parsed_response['companyType'],
+         'local_or_foreign': parsed_response['localforeignCompany'],
+      }
+    
 
 
 
