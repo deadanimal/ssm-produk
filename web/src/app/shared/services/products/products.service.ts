@@ -58,9 +58,9 @@ export class ProductsService {
     );
   }
 
-  check(body: any): Observable<any> {
+  checkAvailability(body: any): Observable<any> {
     let urlTemp = this.urlProducts + 'check_availability/'
-    console.log('hmmmm')
+    // console.log('hmmmm')
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         this.product = res

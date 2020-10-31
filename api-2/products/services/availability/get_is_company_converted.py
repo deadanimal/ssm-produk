@@ -39,7 +39,7 @@ def get_is_company_converted(url, headers, registration_number):
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:isCompanyConvertedResponse']['response']['checkIfExistReturn']
    #  print('is_company_converted', parsed_response)
-    if parsed_response['answer']:
-        return True
-    else:
+    if parsed_response['answer'] == False or parsed_response['answer'] == 'false':
         return False
+    else:
+        return parsed_response['formCode']

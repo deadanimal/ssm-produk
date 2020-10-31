@@ -38,7 +38,7 @@ def get_list_address_changes_year(url, headers, registration_number):
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
     parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getListAddressYearChgsResponse']['response']['getListYearChgsReturn']
-    # print('list_address_year', parsed_response)
+    print('list_address_year', parsed_response)
     if parsed_response['errorMsg']:
         return False
     elif parsed_response['year'] == None:
@@ -46,7 +46,7 @@ def get_list_address_changes_year(url, headers, registration_number):
     else:
         years = []
         years_original = parsed_response['year']
-        years_length = len(years_original)
+        years_length = len(years_original['year'])
         print('l', years_length)
 
         if years_length == 1:
@@ -54,8 +54,9 @@ def get_list_address_changes_year(url, headers, registration_number):
                 'year': years_original['year']['#text']
             })
         else:
-            for year_ in years_original:
+            for year_ in years_original['year']:
+                print(year_)
                 years.append({
-                    'year': year_['year']['#text']
+                    'year': year_['#text']
                 })
-        return years
+            return years
