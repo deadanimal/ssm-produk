@@ -53,6 +53,7 @@ export class ProductSearchComponent implements OnInit {
 
   constructor(
     private entityService: EntitiesService,
+    private productService: ProductsService,
     private loadingBar: LoadingBarService,
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -143,8 +144,38 @@ export class ProductSearchComponent implements OnInit {
 
   navigateItem(path: string, selectedEntity) {
     // console.log('Path: ', path)
-    let extras = selectedEntity
-    this.router.navigate([path], extras);
+    // console.log(selectedEntity)
+    let registration_no = ''
+    if (selectedEntity.type_of_entity == 'CP') {
+      registration_no = selectedEntity.company_number
+    }
+    else if (selectedEntity.type_of_entity == 'BS') {
+      registration_no = selectedEntity.registration_number
+    }
+    else if (selectedEntity.type_of_entity == 'AD') {
+      registration_no = selectedEntity.audit_firm_number
+    }
+    let availabilityBody = {
+      'registration_no': registration_no,
+      'entity_type': 'ROC'
+    }
+    
+    this.loadingBar.useRef('http').start()
+    this.productService.checkAvailability(availabilityBody).subscribe(
+      (res) => {
+        let extras = {
+          'entity': selectedEntity,
+          'availability': res
+        }
+        this.loadingBar.useRef('http').complete()
+        this.router.navigate([path], extras as any);
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      }
+    )
+
+    
   }
 
   navigatePage(path: string) {

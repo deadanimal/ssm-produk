@@ -34,3 +34,27 @@ export class Product {
         this.modified_date = modified_date
     }
 }
+
+export class Availability {
+    public info_charges: boolean
+    public financial_year: {
+        year2: boolean,
+        year3: boolean,
+        year5: boolean,
+        year10: boolean,
+        years: []
+    }
+    public acgs: boolean
+    public shareholders: boolean
+    public share_capital: boolean
+    public list_address_changes_year: boolean
+    public info_incorp_reg: boolean
+    public is_name_changed: boolean
+    public info_incorp: {
+        company_status: string,
+        company_type: string,
+        local_or_foreign: string
+    }
+    public info_termination_list: boolean
+    public info_branch_list: boolean 
+}
