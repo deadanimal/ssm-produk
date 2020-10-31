@@ -47,6 +47,7 @@ export class ProfileEgovComponent implements OnInit {
   ministries: any[] = []
   departments: any[] = []
   selectedTask: any
+  requestItemList: any
 
   // Table
   tableInvestigationEntries: number = 10
@@ -67,12 +68,83 @@ export class ProfileEgovComponent implements OnInit {
   tableRequestToAddActiveRow: any
   tableRequestToAddRows: any[] = []
 
+  tableItemEntries: number = 10;
+  tableItemSelected: any[] = [];
+  tableItemTemp = [];
+  tableItemActiveRow: any;
+  tableItemRows: any[] = [];
+
   // Form
-  quotaForm: FormGroup
   informationForm: FormGroup
-  renewForm: FormGroup
   investigationForm: FormGroup
+  quotaForm: FormGroup
+  
+  renewForm: FormGroup
+  
   requestForm: FormGroup
+
+  informationFormMessages = {
+    'phone_number': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'position_or_grade': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'head_of_department_name': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'head_of_department_position': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'head_of_department_email': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'ministry_name': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'department_name': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'division_name': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'address_1': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'city': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'postcode': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'state': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'attachment_letter': [
+      { type: 'requirement', message: 'Attachment (official letter from government agency is required)' }
+    ]
+  }
+
+  investigationFormMessages = {
+    'reference_letter_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'ip_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'court_case_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'official_letter_egov': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'official_letter_request': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'offence': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ]
+  }
 
   // Modal
   modal: BsModalRef
@@ -85,10 +157,17 @@ export class ProfileEgovComponent implements OnInit {
   isQuotaLow: boolean = false
   isEnableEdit: boolean = false
   isShowForm = false
+  isGotInvestigationFormValue = false
 
   // File attachment
   fileSize: any
   fileName: any
+  fileSizeInformation = null
+  fileNameInformation = null
+  fileSizeInvestigGov = null
+  fileNameInvestigGov = null
+  fileSizeInvestigReq = null
+  fileNameInvestigReq = null
 
   requestTabActive = false
 
@@ -145,6 +224,10 @@ export class ProfileEgovComponent implements OnInit {
         }
       })
     }
+
+    if (this.serviceService.investigationForm) {
+      this.isGotInvestigationFormValue = true
+    }
     
     let body = {
       'user': this.user['id']
@@ -177,7 +260,11 @@ export class ProfileEgovComponent implements OnInit {
           (resolve, reject) => {
             res[2].forEach(
               (request, index, array) => {
+                let created_date_main_ =  moment(request['created_date']).format('DD/MM/YYYY hh:mm:ss')
+                let modified_date_main_ =  moment(request['modified_date']).format('DD/MM/YYYY hh:mm:ss')
                 let documents = request['document_request_item']
+                let status_main_ = 'Approved'
+
                 if (documents) {
                   documents.forEach(
                     (document) => {
@@ -209,58 +296,59 @@ export class ProfileEgovComponent implements OnInit {
                           'offence': request['offence'],
                           'item': document
                         }
-  
+                        
+                        // status_main_ = 'Approved'
                         this.requestsApproved.push(req_)
                         // console.log('approve', this.requestsApproved)
-                      }
-                      else {
-                        let created_date_ =  moment(document['created_date']).format('DD/MM/YYYY hh:mm:ss')
-                        let modified_date_ =  moment(document['modified_date']).format('DD/MM/YYYY hh:mm:ss')
-                        let reference_unix = moment(document['created_date']).format('x')
-                        let year = (moment(document['modified_date']).year()).toString()
-                        let month = (moment(document['modified_date']).month() + 1).toString()
-                        let day = (moment(document['modified_date']).date()).toString()
-                        let reference_no = 'REF' + year + month + day + reference_unix.slice(6,12)
-  
-                        let req_ = {
-                          'id': document['id'],
-                          'reference_no': document['reference_no'],
-                          'status': 'pending',
-                          'approved_date': null,
-                          'created_date': created_date_,
-                          'modified_date': modified_date_,
-                          'image_form_type': document[''],
-                          'image_version_id': document[''],
-                          'officer_name': request['user']['full_name'],
-                          'position_or_grade': request['position_or_grade'],
-                          'reference_letter_no': request['reference_letter_no'],
-                          'ip_no': request['ip_no'],
-                          'court_case_no': request['court_case_no'],
-                          'official_letter_request': request['official_letter_request'],
-                          'official_letter_gov': request['official_letter_gov'],
-                          'offence': request['offence']
-                        }
-  
-                        this.requestsPending.push(req_)
-                        // console.log('pending', this.requestsPending)
                       }
                     }
                   )
                 }
 
-                setInterval(
+                request['document_request_item'].forEach(
+                  (item) => {
+                    if (item['document_status'] == 'PD') {
+                      status_main_ = 'Pending'
+                      // console.log('jumpa')
+                    }
+                    // console.log('pending')
+                  }
+                )
+
+                let req_main_ = {
+                  'id': request['id'],
+                  'reference_no': request['reference_no'],
+                  'status': status_main_,
+                  'created_date': created_date_main_,
+                  'modified_date': modified_date_main_,
+                  'officer_name': request['user']['full_name'],
+                  'position_or_grade': request['position_or_grade'],
+                  'reference_letter_no': request['reference_letter_no'],
+                  'ip_no': request['ip_no'],
+                  'court_case_no': request['court_case_no'],
+                  'official_letter_request': request['official_letter_request'],
+                  'official_letter_gov': request['official_letter_gov'],
+                  'offence': request['offence'],
+                  'item': request
+                }
+                
+                this.requestsPending.push(req_main_)
+
+                setTimeout(
                   () => {
+                    // this.requestsPending.push(req_main_)
                     if (index == array.length - 1) resolve();
                   }, 500
                 )
               }
             )
-  
           }
         )
 
         waitRes.then(
           () => {
+            this.requestsPending.sort((a, b) => new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime())
+            this.requestsApproved.sort((a, b) => new Date(b.modified_at).getTime() - new Date(a.modified_at).getTime())
             
             this.tableInvestigationRows = this.requestsPending 
             this.tableRequestRows = this.requestsApproved
@@ -291,24 +379,16 @@ export class ProfileEgovComponent implements OnInit {
   }
 
   initForm() {
-    this.quotaForm = this.fb.group({
-      request_type: new FormControl('QU', Validators.compose([
-        Validators.required
-      ])),
-      user: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      attachment_letter: new FormControl(null, Validators.compose([
-        Validators.required
-      ]))
-    })
-
     this.informationForm = this.fb.group({
       request_type: new FormControl('UI', Validators.compose([
         Validators.required
       ])),
-      phone_number: new FormControl(null),
-      position_or_grade: new FormControl(null),
+      phone_number: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      position_or_grade: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
       head_of_department_name: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -332,14 +412,56 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       address_2: new FormControl(null),
       address_3: new FormControl(null),
-      city: new FormControl(null),
-      postcode: new FormControl(null),
-      state: new FormControl(null),
+      city: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      postcode: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      state: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
       user: new FormControl(null, Validators.compose([
         Validators.required
       ])),
       attachment_letter: new FormControl(null)
     });
+
+    this.investigationForm = this.fb.group({
+      user: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      reference_letter_no: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      ip_no: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      court_case_no: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      official_letter_egov: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      official_letter_request: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      offence: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    });
+
+    this.quotaForm = this.fb.group({
+      request_type: new FormControl('QU', Validators.compose([
+        Validators.required
+      ])),
+      user: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      attachment_letter: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
 
     this.renewForm = this.fb.group({
       request_type: new FormControl('RN', Validators.compose([
@@ -391,30 +513,6 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ]))
     })
-    
-    this.investigationForm = this.fb.group({
-      user: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      reference_letter_no: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      ip_no: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      court_case_no: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      official_letter_egov: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      official_letter_request: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
-      offence: new FormControl(null, Validators.compose([
-        Validators.required
-      ]))
-    });
 
     this.informationForm.controls['phone_number'].patchValue(this.user['phone_number'])
     this.informationForm.controls['position_or_grade'].patchValue(this.user['position_or_grade'])
@@ -447,6 +545,21 @@ export class ProfileEgovComponent implements OnInit {
     this.renewForm.controls['user'].patchValue(this.user['id'])
 
     this.investigationForm.controls['user'].patchValue(this.user['id'])
+
+    let investigForm = this.serviceService.investigationForm
+    if (this.isGotInvestigationFormValue) {
+      this.investigationForm.controls['reference_letter_no'].patchValue(investigForm['reference_letter_no'])
+      this.investigationForm.controls['ip_no'].patchValue(investigForm['ip_no'])
+      this.investigationForm.controls['court_case_no'].patchValue(investigForm['court_case_no'])
+      this.investigationForm.controls['official_letter_egov'].patchValue(investigForm['official_letter_egov'])
+      this.investigationForm.controls['official_letter_request'].patchValue(investigForm['official_letter_request'])
+      this.investigationForm.controls['offence'].patchValue(investigForm['offence'])
+
+      this.fileSizeInvestigGov = this.serviceService.investigationFileSizeGov
+      this.fileNameInvestigGov = this.serviceService.investigationFileNameGov
+      this.fileSizeInvestigReq = this.serviceService.investigationFileSizeReq
+      this.fileNameInvestigReq = this.serviceService.investigationFileNameReq
+    }
   }
 
   getMapping() {
@@ -553,34 +666,64 @@ export class ProfileEgovComponent implements OnInit {
       
       reader.onload = () => {
         // console.log(reader['result'])
-        if (type == 'quota') {
-          this.quotaForm.controls['attachment_letter'].setValue(reader.result)
+        if (type == 'update') {
+          this.informationForm.controls['attachment_letter'].setValue(reader.result)
+          this.fileSizeInformation = this.fileSize
+          this.fileNameInformation = this.fileName
         }
         else if (type == 'egovernment-letter') {
           this.investigationForm.controls['official_letter_egov'].setValue(reader.result)
+          this.fileSizeInvestigGov = this.fileSize
+          this.fileNameInvestigGov = this.fileName
         }
         else if (type == 'request-letter') {
           this.investigationForm.controls['official_letter_request'].setValue(reader.result)
+          this.fileSizeInvestigReq = this.fileSize
+          this.fileNameInvestigReq = this.fileName
         }
+        if (type == 'quota') {
+          this.quotaForm.controls['attachment_letter'].setValue(reader.result)
+        }
+        
         // console.log(this.registerForm.value)
         // console.log('he', this.registerForm.valid)
         // console.log(this.isAgree)
         // !registerForm.valid || !isAgree
         // need to run CD since file load runs outside of zone
+        this.saveInvestigForm()
         this.cd.markForCheck();
       };
     }
   }
 
-  removeFile(type) {
-    if (type == 'quota') {
-      this.quotaForm.controls['attachment_letter'].setValue(null)
-    }
-    else if (type == 'information') {
+  onInvestigChange() {
+    this.saveInvestigForm()
+  }
 
+  saveInvestigForm() {
+    this.serviceService.investigationForm = this.investigationForm.value
+    this.serviceService.investigationFileSizeGov = this.fileSizeInvestigGov
+    this.serviceService.investigationFileNameGov = this.fileNameInvestigGov
+    this.serviceService.investigationFileSizeReq = this.fileSizeInvestigReq
+    this.serviceService.investigationFileNameReq = this.fileNameInvestigReq
+  }
+
+  removeFile(type) {
+     if (type == 'update') {
+      this.informationForm.controls['attachment_letter'].setValue(null)
+      this.fileSizeInformation = null
+      this.fileNameInformation = null
     }
-    delete this.fileName
-    delete this.fileSize
+    else if (type == 'egovernment-letter') {
+      this.fileSizeInvestigGov = null
+      this.fileNameInvestigGov = null
+    }
+    else if (type == 'request-letter') {
+      this.fileSizeInvestigReq = null
+      this.fileNameInvestigReq = null
+    }
+    this.fileName = null
+    this.fileSize = null
   }
 
   addItem() {
@@ -607,7 +750,7 @@ export class ProfileEgovComponent implements OnInit {
     )
   }
 
-  requestInvestigation(id: string) {
+  async requestInvestigation(id: string) {
     this.requestToAdd.forEach(
       (req) => {
         let body
@@ -632,12 +775,16 @@ export class ProfileEgovComponent implements OnInit {
           }
         }
         // console.log('to send', body)
-        this.serviceService.addDocumentRequestItem(id, body).subscribe(
+        setTimeout(
           () => {
-            this.removeInvestigationRequest(req)
-            this.hideForm()
-            this.getData()
-          }
+            this.serviceService.addDocumentRequestItem(id, body).subscribe(
+              () => {
+                this.removeInvestigationRequest(req)
+                this.hideForm()
+                this.getData()
+              }
+            )
+          }, 1000
         )
       }
     )
@@ -688,6 +835,15 @@ export class ProfileEgovComponent implements OnInit {
   openModalInvestigation(modalRef: TemplateRef<any>, row) {
     this.selectedTask = row
     this.modal = this.modalService.show(modalRef, this.modalConfig);
+    this.requestItemList = this.selectedTask.item.document_request_item
+    console.log(this.requestItemList)
+    this.tableItemRows = this.requestItemList
+    this.tableItemTemp = this.tableItemRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      };
+    })
   }
 
   closeModal() {

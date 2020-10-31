@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_info_acgs(url, headers, registration_number):
+def get_info_acgs_query(url, headers, registration_number):
    
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
@@ -23,7 +23,7 @@ def get_info_acgs(url, headers, registration_number):
             <!--Optional:-->
             <acgsQueryReq>
                <!--Optional:-->
-               <chkDigit>W</chkDigit>
+               <chkDigit></chkDigit>
                <!--Optional:-->
                <compNo>""" + str(registration_number) + """</compNo>
                <!--Optional:-->
@@ -38,7 +38,7 @@ def get_info_acgs(url, headers, registration_number):
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
    parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoAcgsQueryResponse']['response']['getInfoAcgsQueryReturn']
-   print('acgs', parsed_response)
+   # print('acgs', parsed_response)
    if parsed_response['errorMsg']:
       return False
    else:

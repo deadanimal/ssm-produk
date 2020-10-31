@@ -343,6 +343,7 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         ).count()
 
         running_no = "{0:0>6}".format(running_no_ + 1)
+        print(running_no)
         
         document_request = self.get_object()
             
