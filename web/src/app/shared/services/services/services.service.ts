@@ -26,100 +26,97 @@ export class ServicesService {
 
   public request: Request
 
+  // eGov investigations request to add 
   public requestToAdd: any[] = []
+
+  // Investigation form 
+  public investigationForm: any
+  public investigationFileSizeGov = null
+  public investigationFileNameGov = null
+  public investigationFileSizeReq = null
+  public investigationFileNameReq = null
 
   constructor(
     private http: HttpClient
   ) { }
 
-  query(field: string): Observable<Service[]> {
-    let urlTemp = this.urlServices + 'search?name=' + field
-    return this.http.get<Service[]>(urlTemp).pipe(
-      tap((res) => {
-        this.servicesQuery = res
-        console.log('Query: ', this.servicesQuery)
-      })
-    )
-  }
-
-  create(body: Form): Observable<Service> {
-    return this.http.post<Service>(this.urlServices, body).pipe(
-      tap((res) => {
-        this.service = res
-        console.log('Created: ', this.service)
-      })
-    )
-  }
-
+  // Request service; ie. CBID
   requestService(body: Form): Observable<Request> {
     let urlTemp = this.urlServices + 'request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         this.request = res
-        console.log('Requested: ', this.service)
+        // console.log('Requested: ', this.service)
       })
     )
   }
 
+  // Get available services
   getAll(): Observable<Service[]> {
     return this.http.get<Service[]>(this.urlServices).pipe(
       tap((res) => {
         this.services = res
-        console.log('Services: ', this.services);
+        // console.log('Services: ', this.services);
       })
     );
   }
 
+  // Get particular service
   getOne(id: string): Observable<Service> {
     let urlTemp = this.urlServices + id + '/'
     return this.http.get<Service>(urlTemp).pipe(
       tap((res) => {
         this.service = res
-        console.log('Service: ', this.service);
+        // console.log('Service: ', this.service);
       })
     );
   }
 
+  // Filter services
   filter(field: string): Observable<Service[]> {
     let urlTemp = this.urlServices + '?' + field
     return this.http.get<Service[]>(urlTemp).pipe(
       tap((res) => {
         this.servicesFiltered = res
-        console.log('Filtered', this.servicesFiltered);
+        // console.log('Filtered', this.servicesFiltered);
       })
     );
   }
 
+  // Create new document request
   createDocumentRequest(body: any): Observable<Request> {
     let urlTemp = this.urlDocumentRequest + 'create_request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res
-        console.log('Requested: ', this.service)
+        // console.log('Requested: ', this.service)
       })
     )
   }
 
+  // Add item to document request
   addDocumentRequestItem(id: string, body: any) {
-    let urlTemp = this.urlDocumentRequest + id + '/add_item_to_document_request/'
+    let urlTemp = this.urlDocumentRequest + id + 'add_item_to_document_request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res
-        console.log('Requested: ', this.service)
+        // console.log('Requested: ', this.service)
       })
     )
   }
 
+  // Get user requests - descending create date
   getSelfRequest(body: any): Observable<any[]> {
-    let urlTemp = this.urlDocumentRequest + 'user_request/'
+    let urlTemp = this.urlDocumentRequest + 'user_request/?ordering=-created_date'
     return this.http.post<any[]>(urlTemp, body).pipe(
       tap((res) => {
         // this.services = res
-        console.log('Request: ', res);
+        // console.log('Request: ', res);
       })
     );
   }
 
+  // Create eGov request
   requestEgov(body: any): Observable<any[]> {
     let urlTemp = this.urlEgovRequest + 'add_request/'
     return this.http.post<any>(urlTemp, body).pipe(
@@ -130,6 +127,7 @@ export class ServicesService {
     )
   }
 
+  // Read all eGov ministries
   getEgovMinistries(): Observable<any[]> {
     return this.http.get<any>(this.urlEgovMinistry).pipe(
       tap((res) => {
@@ -138,6 +136,7 @@ export class ServicesService {
     )
   }
 
+  // Read all eGov departments
   getEgovDepartments(): Observable<any[]> {
     let urlTemp = this.urlEgovDepartment + 'extended/'
     return this.http.get<any>(urlTemp).pipe(
@@ -146,48 +145,5 @@ export class ServicesService {
       })
     )
   }
-
-  patchDepartment(id: any, body: any): Observable<any[]> {
-    let urlTemp = this.urlEgovDepartment + id + '/'
-    return this.http.patch<any>(urlTemp, body).pipe(
-      tap((res) => {
-        console.log('Patched: ', res)
-      })
-    )
-  }
-
-  createDepartment(body: any): Observable<any[]> {
-    return this.http.post<any>(this.urlEgovMinistry, body).pipe(
-      tap((res) => {
-        
-      })
-    )
-  }
-
-  createMinistry(body: any): Observable<any[]> {
-    return this.http.post<any>(this.urlEgovMinistry, body).pipe(
-      tap((res) => {
-
-      })
-    )
-  }
-
-  requestQuota(body: any): Observable<any[]> {
-    return this.http.post<any>(this.urlEgovRequest, body).pipe(
-      tap((res) => {
-        // this.request = res
-        // console.log('Requested: ', res)
-      })
-    )
-  }
-
-  requestChange(): Observable<any> {
-    return this.http.get(this.urlEgovDepartment).pipe(
-      tap((res) => {
-        //
-      })
-    )
-  }
-
   
 }
