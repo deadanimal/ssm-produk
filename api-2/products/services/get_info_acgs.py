@@ -2,7 +2,8 @@ import requests
 import json
 import xmltodict
 
-def get_info_acgs(url, headers, registration_number, date_applied):
+# def get_info_acgs(url, headers, registration_number, date_applied):
+def get_info_acgs(url, headers, registration_number, entity_type):
 
     #date_applied = '2020-08-31T00:00:00'
 

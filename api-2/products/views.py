@@ -69,8 +69,13 @@ from products.services.get_co_page import get_co_page
 
 from .services.availability.get_info_charges_listing import get_info_charges_listing
 from .services.availability.get_info_financial_year import get_info_financial_year
-from .services.availability.get_info_acgs import get_info_acgs
+from .services.availability.get_info_acgs_query import get_info_acgs_query
 from .services.availability.get_info_incorp import get_info_incorp
+from .services.availability.get_list_address_changes_year import get_list_address_changes_year
+from .services.availability.get_is_act_2016 import get_is_act_2016
+from .services.availability.get_is_name_changed import get_is_name_changed
+from .services.availability.get_info_rob_termination_list import get_info_rob_termination_list
+from .services.availability.get_info_branch_listing import get_info_branch_listing
 
 from .helpers.info_acgs import info_acgs
 from .helpers.roc_business_officers import roc_business_officers
@@ -360,47 +365,30 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             'authorization': auth_code
         }
 
-        # css_file = 'https://pipeline-project.sgp1.digitaloceanspaces.com/mbpp-elatihan/css/template.css'        
-        
-
         info_charges = get_info_charges_listing(information_url, request_headers, registration_)
         financial_year = get_info_financial_year(information_url, request_headers, registration_)
-        acgs = get_info_acgs(information_url, request_headers, registration_)
-        info_incorp = get_info_incorp(information_url, request_headers, registration_)
-
-        # new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)        
-        # info_acgs = get_info_acgs(information_url, request_headers, registration_, entity_type_)
-        # cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        # cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        # cert_incorp = get_cert_incorp(information_url, request_headers, registration_)
-        # cert_reg_foreign = get_cert_reg_foreign(information_url, request_headers, registration_)
-        # info_comp_name_chg = get_info_comp_name_chg(information_url, request_headers, registration_)
-        # cert_conversion = get_cert_conversion(information_url, request_headers, registration_)
-        # info_fin2 = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
-        # info_fin3 = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
-        # info_fin5 = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
-        # info_fin10 = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
-        # roc_business_officers = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
-        # roc_changes_registered_address = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
-        # details_of_shareholders = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
-        # details_of_share_capital = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
-        # comp_prof = get_comp_prof(information_url, request_headers, registration_, entity_type_)
-        # biz_profile = get_biz_profile(information_url, request_headers, registration_)
-        # particulars_of_cosec = get_particulars_of_cosec(information_url, request_headers, registration_, entity_type_)
-        # particulars_of_adt_firm = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
-        # info_rob_termination = get_info_rob_termination(information_url, request_headers, registration_, entity_type_)
-        # info_charges = get_info_charges(information_url, request_headers, registration_, entity_type_)
-        # info_charges = get_info_charges(information_url, request_headers, registration_)   
+        acgs = get_info_acgs_query(information_url, request_headers, registration_)
+        info_incorp_share = get_info_incorp(information_url, request_headers, registration_, 'share')
+        list_address_changes_year = get_list_address_changes_year(information_url, request_headers, registration_)
+        is_incorp_act_2016 = get_is_act_2016(information_url, request_headers, registration_)
+        info_incorp_reg = get_info_incorp(information_url, request_headers, registration_, 'reg')
+        info_incorp_name_changed = get_is_name_changed(information_url, request_headers, registration_)
+        info_termination_list = get_info_rob_termination_list(information_url, request_headers, registration_)
+        info_branch_list = get_info_branch_listing(information_url, request_headers, registration_) 
 
         data_json = {
             'info_charges': info_charges,
-            'financial_year_2': financial_year['year2'],
-            'financial_year_3': financial_year['year3'],
-            'financial_year_5': financial_year['year5'],
-            'financial_year_10': financial_year['year10'],
+            'financial_year': financial_year, 
             'acgs': acgs,
-            'info_incorp': info_incorp
-        }     
+            'shareholders': info_incorp_share,
+            'share_capital': info_incorp_share,
+            'list_address_changes_year': list_address_changes_year,
+            'info_incorp_reg': is_incorp_act_2016,
+            'is_name_changed': info_incorp_name_changed,
+            'info_incorp': info_incorp_reg,
+            'info_termination_list': info_termination_list,
+            'info_branch_list': info_branch_list
+        }   
 
         return JsonResponse(data_json)
 
