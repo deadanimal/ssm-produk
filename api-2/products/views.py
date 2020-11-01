@@ -552,8 +552,9 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = info_rob_termination(middleware_data, new_entity_id, language_)
 
         elif name_ == 'company_charges':
+            com_profile = get_comp_prof(information_url, request_headers, registration_, entity_type_)
             middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
-            data_loaded = company_charges(middleware_data, new_entity_id, language_, entity_type_)
+            data_loaded = company_charges(middleware_data, new_entity_id, com_profile, language_, entity_type_)
 
         elif name_ == 'foreign_change_name':
             middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)

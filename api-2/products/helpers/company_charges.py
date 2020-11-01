@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-def company_charges(mdw_1, mdw_2, lang, entity_type):
+def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
     
 
     date_format = "%d-%m-%Y"
@@ -13,6 +13,9 @@ def company_charges(mdw_1, mdw_2, lang, entity_type):
 
     charges = mdw_1["SSMRegistrationChargesInfos"]["SSMRegistrationChargesInfos"]
     charges_list = []
+
+    # print(mdw_2)
+    company_info = mdw_3["rocCompanyInfo"]
 
     if isinstance(charges, list): 
         charges = charges
@@ -46,20 +49,29 @@ def company_charges(mdw_1, mdw_2, lang, entity_type):
         elif charge['chargeMortgageType'] == 'M':
             charge['chargeMortgageTypeString'] = 'MULTIPLE CURRENCIES'   
 
-        charge['chargeAmount'] = float(charge['chargeAmount'])
-        charge['chargeCreateDateString'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
-        charge['form40DateString'] = make_aware(datetime.strptime(charge['form40Date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        # print(charge['chargeAmount'])
+        if 'chargeAmount' in charge and charge['chargeAmount'] != None:
+            charge['chargeAmount'] = float(charge['chargeAmount'])
+            charge['chargeCreateDateString'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        else:
+            date_of_change_str = 'NIL'
+        
         if 'releaseDate' in charge:
             charge['releaseDateString'] = make_aware(datetime.strptime(charge['releaseDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
                       
         charges_list.append(charge)
 
+        if 'form40Date' in charge:
+            charge['form40DateString'] = make_aware(datetime.strptime(charge['form40Date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
     data_ready = {
         'mdw1': mdw_1,
         'mdw2': mdw_2,
+        'company_info': company_info,
         'charges_list': charges_list,
         'compNoNew': mdw_2['newFormatNo'],
-        'compNoOld': mdw_2['oldFormatNo'],        
+        'compNoOld': mdw_2['oldFormatNo'], 
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),       
     }
 
 

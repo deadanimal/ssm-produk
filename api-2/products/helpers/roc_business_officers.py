@@ -248,30 +248,48 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     temp_current_officers_arr = []
     temp_current_officers_arr_inside = []
 
-    for officer in temp_current_officers:
+    print('item',temp_current_officers)
+    print('instance',isinstance(temp_current_officers, list))
+    if isinstance(temp_current_officers, list):
+        for officer in temp_current_officers:
         
-        if officer['idType'] == 'MK':
+            if officer['idType'] == 'MK':
 
+                nric_1 = officer["idNo"][0:6]
+                nric_2 = officer["idNo"][6:8]
+                nric_3 = officer["idNo"][8:]
+                nric = nric_1 + '-' + nric_2 + '-' + nric_3
+            else:
+                nric = officer["idNo"]        
+            officer['idNo'] = nric
+            officer['state'] = state_mapping(officer['state'])
+            officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
+            print('sadasdsad', officer)
+            if officer['startDate']['#text']:
+                officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+            if len(temp_current_officers_arr_inside) < 5:
+                temp_current_officers_arr_inside.append(officer)
+
+                if len(temp_current_officers) == temp_current_officers.index(officer) + 1:
+                    temp_current_officers_arr.append(temp_current_officers_arr_inside)    
+            else:
+                temp_current_officers_arr.append(temp_current_officers_arr_inside)
+                temp_current_officers_arr_inside = []
+    else:
+        if officer['idType'] == 'MK':
             nric_1 = officer["idNo"][0:6]
             nric_2 = officer["idNo"][6:8]
             nric_3 = officer["idNo"][8:]
             nric = nric_1 + '-' + nric_2 + '-' + nric_3
         else:
-            nric = officer["idNo"]        
+            nric = officer["idNo"]    
+
         officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
+        print('sadasdsad', officer)
         officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
-
-        if len(temp_current_officers_arr_inside) < 5:
-            temp_current_officers_arr_inside.append(officer)
-
-            if len(temp_current_officers) == temp_current_officers.index(officer) + 1:
-                temp_current_officers_arr.append(temp_current_officers_arr_inside)    
-        else:
-            temp_current_officers_arr.append(temp_current_officers_arr_inside)
-            temp_current_officers_arr_inside = []
-
 
     if 'rocChangeCompanyOfficerListInfo' in data_mdw_1:
         if 'rocCompanyOfficerChgsInfos' in data_mdw_1['rocChangeCompanyOfficerListInfo']:

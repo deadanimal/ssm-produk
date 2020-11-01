@@ -12,7 +12,6 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -39,21 +38,26 @@
                 font-size: 11px;
             }
             .default-template p#secondary {
-                font-size: 18px;
+                font-size: 16px;
             }
             .default-template p#disclaimer {
-                font-size: 16px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
                 font-size: 22px;
                 text-align: justify;
             }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
             }
             table tr.heading td {
                 color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
             }
             .pg-break {
                 page-break-before: always; 
@@ -61,6 +65,16 @@
             }
             .pg-start {
                 margin-top: 15rem;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
             }
         </style>
     </head>
@@ -74,201 +88,244 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
-                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
-                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
-                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
-                INFORMATION.
+                <b>ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                    AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
+                     LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.</b>
             </p>
             <h2 class="font-weight-bold text-center">PARTICULARS OF REGISTERED ADDRESS</h2>
-            <h3 class="font-weight-bold text-center">*** CORPORATE INFORMATION ***</h3>
+            <h3 class="font-weight-bold text-center"> CORPORATE INFORMATION </h3>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p id="secondary">COMPANY NAME</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compName}}</p>
-                            </td>                            
-                        </tr>
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
 
-                        <tr>
-                            <td>
-                                <p id="secondary">LAST OLD NAME</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compNameOld}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">DATE OF CHANGE</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.changeDate}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">REGISTRATION DATE</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.regDate}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">COMPANY NUMBER</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compNo}}</p>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p id="secondary">TYPE</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compType}}</p>
-                                <p id="secondary">: {{data.corpInfo.compStatus}}</p>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p id="secondary">STATUS</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.statusOfCompany}}</p> 
-                            </td>                            
-                        </tr>
-                        <tr>       
-                            <td>
-                                <p id="secondary">REGISTERED ADDRESS</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.regAddress1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.regAddress1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.regAddress2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regAddress2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.regAddress3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regAddress3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.regTown %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regTown}}  </p>
-                                {% endif %}
-                                {% if data.corpInfo.regState %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regState}} </p>
-                                {% endif %}
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">POSTCODE</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.regPostcode}}</p>
-                            </td>                            
-                        </tr>     
-                        <tr>
-                            <td>
-                                <p id="secondary">ORIGIN</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.regOrigin}}</p>
-                            </td>                            
-                        </tr>  
-                        <tr>       
-                            <td>
-                                <p id="secondary">BUSINESS ADDRESS</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.bizAddress1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.bizAddress1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.bizAddress2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizAddress2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizAddress3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizAddress3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizTown %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizTown}}  </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizState %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizState}} </p>
-                                {% endif %}
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">POSTCODE</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.bizPostcode}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">NATURE OF BUSINESS</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.bizNature}}</p>
-                            </td>                            
-                        </tr>
-                    </tbody>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">COMPANY NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compName %}
+                            {{data.corpInfo.compName}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">LAST OLD NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compNameOld %}
+                            {{data.corpInfo.compNameOld}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">DATE OF CHANGE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.changeDate and data.corpInfo.changeDate != 'NIL' %}
+                            {{data.corpInfo.changeDate}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">COMPANY NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compNo %}
+                            {{data.corpInfo.compNo}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">INCORPORATION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.incorpDate and data.corpInfo.incorpDate != 'NIL' %}
+                            {{data.corpInfo.incorpDate}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.regDate and data.corpInfo.regDate != 'NIL' %}
+                            {{data.corpInfo.regDate}}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TYPE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {{data.corpInfo.compType}}
+                            <br>
+                            {{data.corpInfo.compStatus}}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">STATUS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {{data.corpInfo.statusOfCompany}}
+                        </p></td>  
+                    </tr>
+                
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTERED ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary" class="mb-0">{{data.corpInfo.regAddress1}}</p>
+                        {% if data.corpInfo.regAddress2 or data.corpInfo.regAddress2 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regAddress2}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regAddress3  or data.corpInfo.regAddress3 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regAddress3}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regTown  or data.corpInfo.regTown != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regTown}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regState  or data.corpInfo.regState != None %}
+                            <p id="secondary" class="mt-0">  {{data.corpInfo.regState}}</p>
+                        {% endif %}
+                        </td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.regPostcode %}
+                                {{data.corpInfo.regPostcode}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">ORIGIN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if 'MAL' in data.corpInfo.regOrigin %}
+                                <p id="secondary">MALAYSIA</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><p id="secondary">BUSINESS ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if data.corpInfo.bizAddress1 and data.corpInfo.bizAddress1 != 'NIL' %}
+                            <p id="secondary" class="mb-0">  {{data.corpInfo.bizAddress1}}</p>
+                            {% else %}
+                            <p id="secondary" class="mb-0">  NIL</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizAddress2 or data.corpInfo.bizAddress2 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.bizAddress2}}</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizAddress3 or data.corpInfo.bizAddress3 != None %}
+                                <p id="secondary" class="my-0">  {{data.corpInfo.bizAddress3}}</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizTown or data.corpInfo.bizTown != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.bizTown}} </p>
+                            {% endif %}
+                            {% if data.corpInfo.bizState or data.corpInfo.bizState != None %}
+                            <p id="secondary" class="mt-0">  {{data.corpInfo.bizState}} </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.bizPostcode %}
+                                {{data.corpInfo.bizPostcode}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">NATURE OF BUSINESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.bizNature %}
+                                {{data.corpInfo.bizNature}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
-            <h3 class="font-weight-bold text-center pg-break">*** CHANGES OF REGISTERED ADDRESS ****</h3>
+            <h3 class="font-weight-bold text-center pg-break"> CHANGES OF REGISTERED ADDRESS </h3>
             <p id="secondary">NAME: {{data.corpInfo.compName}}</p>
-            <p id="secondary">REGISTRATION NO.: {{data.corpInfo.changeDate}}</p>
+            <p id="secondary">COMPANY NO.: <b>{{data.corpInfo.compNo}}</b></p>
 
-            <p id="disclaimer">*Date of changes as of {{data.lastUpdateDate}}</p>
+            <p id="disclaimer"><b>*Date of changes as of {{data.lastUpdateDate}}</b></p>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <thead>
                         <tr>
-                            <td>
+                            <th>
                                 <p id="secondary">DATE OF CHANGE</p>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <p id="secondary">REGISTERED ADDRESS</p>
-                            </td>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for address in data.changeRegAddress %}
                         <tr>
                             <td>
-                                <p id="secondary">: {{address.changeDate}}</p>
+                                <p id="secondary">{{address.changeDate}}</p>
                             </td>   
                             <td>
                                 {% if address.address1 %}
-                                <p id="secondary" class="mb-0">: {{address.address1}} </p>
+                                <p id="secondary" class="mb-0">{{address.address1}} </p>
                                 {% else %}
-                                <p id="secondary">: NIL</p>
+                                <p id="secondary">NIL</p>
                                 {% endif %}
                                 {% if address.address2 %}
-                                <p id="secondary" class="my-0">: {{address.address2}} </p>
+                                <p id="secondary" class="my-0">{{address.address2}} </p>
                                 {% endif %}
                                 {% if address.adress3 %}
-                                <p id="secondary" class="my-0">: {{address.adress3}} </p>
+                                <p id="secondary" class="my-0">{{address.adress3}} </p>
                                 {% endif %}
                                 {% if address.postcode %}
-                                <p id="secondary" class="my-0">: {{address.postcode}}, {{address.town}}  </p>
+                                <p id="secondary" class="my-0">{{address.postcode}}, {{address.town}}  </p>
                                 {% endif %}
                                 {% if address.state %}
-                                <p id="secondary" class="my-0">: {{address.state}} </p>
+                                <p id="secondary" class="my-0">{{address.state}} </p>
                                 {% endif %}
                             </td>                          
                         </tr>
@@ -278,10 +335,10 @@
             </div>
             
 
-            {% for previous in data.ownerPreviousInfo %}
-            <h3 class="font-weight-bold text-center pg-break">*** PREVIOUS DIRECTORS/OFFICERS ****</h3>
-            <p id="secondary">NAME: {{data.corpInfo.registrationName}}</p>
-            <p id="secondary">REGISTRATION NO.: {{data.corpInfo.compNoNew}} {{data.corpInfo.registrationNo}}</p>
+            <!-- {% for previous in data.ownerPreviousInfo %}
+            <h3 class="font-weight-bold text-center pg-break"> PREVIOUS DIRECTORS/OFFICERS</h3>
+            <p id="secondary">NAMA: {{data.corpInfo.registrationName}}</p>
+            <p id="secondary">NO. PENDAFTARAN.: <b>{{data.corpInfo.compNo}}</b></p>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -400,12 +457,24 @@
                     </tbody>
                 </table>
             </div>
-            {% endfor %}
-        </div>
-    </body>
+            {% endfor %} -->
 
-    <footer>
-        <p></p>
-    </footer>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+    
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+        </div>
+
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 
