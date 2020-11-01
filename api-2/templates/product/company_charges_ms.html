@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +15,7 @@
                 size: A4 portait;
                 margin: 4.01cm 2.48cm 3.34cm 2.48cm;
                 @top-right{
-                    content: "Page " counter(page) " of " counter(pages);
+                    content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
             }
 
@@ -66,6 +67,16 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -77,18 +88,19 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
-                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
-                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
-                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
-                INFORMATION.
-            </p>
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 3rem; font-size: 12pt;"><u> COMPANY CHARGES </u></h2>
-            {% if 'No Data' == data.mdw1.errorMsg %}
-            <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">NO INFORMATION</h2>
+            {% for charge in data.charges_list %}
+
+            {% if forloop.first %}
+                <p id="disclaimer" style="font-size:8pt;text-align:justify;margin-right:100px;margin-left:100px">
+                    <b>SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN MAKLUMAT YANG DIBERI ADALAH BETUL DAN KEMASKINI PENDAFTAR SYARIKAT TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.</b>
+                </p>
+
+                <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> MAKLUMAT GADAIAN </u></h2>
             {% else %}
+                <h2 class="font-weight-bold text-center" style="page-break-before: always;margin-top: 15rem; font-size: 12pt;"><u> MAKLUMAT GADAIAN </u></h2>
+            {% endif %}
+
             <div class="table-responsive">
                 <table class="table text-left" >
                     <tr>
@@ -97,23 +109,18 @@
                         <th style="width:69%; border: 0;"></th>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">NAMA</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
-            </div>      
-            {% endif %}            
+            </div>            
 
-
-            {% if 'No Data' == data.mdw1.errorMsg %}
-                
-            {% else %}
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
@@ -123,51 +130,128 @@
                         <th style="width:50%; border: 0;"><p id="secondary"></p></th>
                       </tr>
                     <tbody>
-
-                        {% for charge in data.mdw1.rocChargesInfos.rocChargesInfos %}
+                        
                         <tr style="height:10px;">
-                            <td><p id="secondary">{{ forloop.counter }}</p></td>
-                            <td><p id="secondary">CHARGE NUMBER</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeNo }}</p></td>
+                            <td><p id="secondary"><b>{{ forloop.counter }}.</b></p></td>
+                            <td><p id="secondary"><b>NOMBOR GADAIAN</b></p></td>
+                            <td><p id="secondary"><b>:</b></p></td>
+                            <td><p id="secondary"><b>{{ charge.chargeNo }}</b></p></td>
                         </tr>  
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
-                            <td><p id="secondary">TOTAL OF CHARGE</p></td>
+                            <td><p id="secondary">PEMEGANG GADAIAN</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeAmount }}</p></td>
-                            
-                        </tr>         
+                            <td>
+                                <p id="secondary">{{ charge.chargeeName }}</p>
+                                <p id="secondary">
+                                    {{ charge.chargeeAddr1 }}
+                                </p>
+                                <p id="secondary">
+                                    {% if charge.chargeeAddr2 %}{{ charge.chargeeAddr2 }}{% endif %}  
+                                </p>
+                                <p id="secondary">
+                                    {% if charge.chargeeAddr3 %}{{ charge.chargeeAddr3 }}{% endif %}                            
+                                </p>
+                            </td>
+                        </tr>        
+
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
-                            <td><p id="secondary">DATE OF CREATION</p></td>
+                            <td><p id="secondary">STATUS GADAIAN</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeCreateDate }}</p></td>
-                        </tr>                                                 
+                            <td><p id="secondary">{{ charge.chargeStatusString }}</p></td>
+                        </tr>     
+                        
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
-                            <td><p id="secondary">NAME OF CHARGEE</p></td>
+                            <td><p id="secondary">JENIS SURAT CARA</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeeName }}</p></td>
+                            <td><p id="secondary">
+                                {% if charge.typeOfInstrument %}
+                                    {{ charge.typeOfInstrument }}
+                                {% else %}
+                                    N/A                                    
+                                {% endif %}                                
+                            </p></td>
+                        </tr>   
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">HARTANAH TERLIBAT</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.propertiesAffected }}</p></td>
+                        </tr>       
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">TARIKH WUJUD</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.chargeCreateDateString }}</p></td>
+                        </tr>  
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">JENIS GADAIAN</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">
+                                {% if charge.chargeMortgageTypeString %}
+                                    {{ charge.chargeMortgageTypeString }}
+                                {% else %}
+                                    N/A                                    
+                                {% endif %}
+                            </p></td>
+                        </tr>       
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">JUMLAH GADAIAN</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                        </tr>   
+                        
+                        <tr style="height:10px;">
+                            <td><p id="secondary"></p></td>
+                            <td><p id="secondary">TARIKH SIJIL PERAKUAN GADAIAN (FORM40)</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary">{{ charge.form40DateString }}</p></td>
                         </tr>    
+                        
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
-                            <td><p id="secondary">CHARGE STATUS</p></td>
+                            <td><p id="secondary">TARIKH PENYELESAIAN GADAIAN(JIKA ADA)</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeStatus }}</p></td>
-                        </tr>                                                     
-                        {% endfor %}
+                            <td><p id="secondary">
+                                {% if charge.releaseDateString %}
+                                    {{ charge.releaseDateString }}
+                                {% else %}
+                                    TIADA
+                                {% endif %}
+                            </p></td>
+                        </tr>                         
+                                                
                                                                                                                 
               
                     </tbody>
                 </table>
-            </div>            
-            {% endif %}
-        </div>
-    </body>
+            </div> 
+            {% endfor %}
 
-    <footer>
-        <p></p>
-    </footer>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+    
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+        </div>
+
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 

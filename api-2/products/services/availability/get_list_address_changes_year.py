@@ -46,13 +46,14 @@ def get_list_address_changes_year(url, headers, registration_number):
     else:
         years = []
         years_original = parsed_response['year']
-        years_length = len(years_original['year'])
+        years_length = len(years_original)
         print('l', years_length)
-
+        # return years_original
         if years_length == 1:
             years.append({
                 'year': years_original['year']['#text']
             })
+            return years
         else:
             for year_ in years_original['year']:
                 print(year_)

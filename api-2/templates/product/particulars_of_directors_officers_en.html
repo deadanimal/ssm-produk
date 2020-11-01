@@ -271,7 +271,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">REGISTRATION NO.</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>            
@@ -333,7 +333,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">REGISTRATION NO.</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>                 
@@ -376,24 +376,21 @@
             {% endfor %}
 
             <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+    
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>        
+        </div>
 
+        <footer id="footer">
             <div class="row">
                 <p class="col text-left">USER ID: @</p>
                 <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
             </div>
-    
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>        
-    
-
-
-        </div>
-
-        
-
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
     </body>
-
-    <footer>
-        <p></p>
-    </footer>
 </html>
 

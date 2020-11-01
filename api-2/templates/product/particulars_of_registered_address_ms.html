@@ -12,9 +12,8 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
                 @top-right{
-                    content: "Page " counter(page) " of " counter(pages);
+                    content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
             }
 
@@ -39,21 +38,26 @@
                 font-size: 11px;
             }
             .default-template p#secondary {
-                font-size: 18px;
+                font-size: 16px;
             }
             .default-template p#disclaimer {
-                font-size: 16px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
                 font-size: 22px;
                 text-align: justify;
             }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
             }
             table tr.heading td {
                 color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
             }
             .pg-break {
                 page-break-before: always; 
@@ -61,6 +65,16 @@
             }
             .pg-start {
                 margin-top: 15rem;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
             }
         </style>
     </head>
@@ -74,208 +88,242 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                Sungguhpun segala usaha telah diambil untuk memastikan maklumat yang 
-                diberi adalah betul dan kemaskini Pendaftar Syarikat tidak boleh 
-                dipertanggungkan bagi sebarang kerugian kerana maklumat yang tersilap 
-                atau tertinggal.
+                <b>SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN MAKLUMAT YANG DIBERI ADALAH BETUL DAN KEMASKINI PENDAFTAR SYARIKAT TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.</b>
             </p>
             <h2 class="font-weight-bold text-center">BUTIR-BUTIR ALAMAT BERDAFTAR</h2>
-            <h3 class="font-weight-bold text-center">*** MAKLUMAT SYARIKAT ***</h3>
+            <h3 class="font-weight-bold text-center"> MAKLUMAT SYARIKAT </h3>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p id="secondary">Nama Syarikat</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compName}}</p>
-                            </td>                            
-                        </tr>
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
 
-                        <tr>
-                            <td>
-                                <p id="secondary">Nama Syarikat Lama</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compNameOld}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">Tarikh Pertukaran</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.changeDate}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">No Syarikat</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compNo}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">Tarikh Penubuhan</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.incorpDate}}</p>
-                            </td>   
-                        <tr>
-                            <td>
-                                <p id="secondary">Tarikh Pendaftran</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.incorpDate}}</p>
-                            </td>                            
-                        </tr>                         
-                        </tr>
-                        <tr>
-                            <td>
-                                <p id="secondary">Jenis</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.compType}}</p>
-                                <p id="secondary">: {{data.corpInfo.compStatus}}</p>
-                            </td>                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <p id="secondary">Status</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.statusOfCompany}}</p> 
-                            </td>                            
-                        </tr>
-                        <tr>       
-                            <td>
-                                <p id="secondary">Alamat Berdaftar</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.regAddress1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.regAddress1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.regAddress2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regAddress2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.regAddress3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regAddress3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.regTown %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regTown}}  </p>
-                                {% endif %}
-                                {% if data.corpInfo.regState %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.regState}} </p>
-                                {% endif %}
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">Poskod</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.regPostcode}}</p>
-                            </td>                            
-                        </tr>     
-                        <tr>
-                            <td>
-                                <p id="secondary">Tempat Penubuhan</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.regOrigin}}</p>
-                            </td>                            
-                        </tr>  
-                        <tr>       
-                            <td>
-                                <p id="secondary">Alamat berniagaan</p>
-                            </td>
-                            <td>
-                                {% if data.corpInfo.bizAddress1 %}
-                                <p id="secondary" class="mb-0">: {{data.corpInfo.bizAddress1}} </p>
-                                {% else %}
-                                <p id="secondary">: NIL</p>
-                                {% endif %}
-                                {% if data.corpInfo.bizAddress2 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizAddress2}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizAddress3 %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizAddress3}} </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizTown %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizTown}}  </p>
-                                {% endif %}
-                                {% if data.corpInfo.bizState %}
-                                <p id="secondary" class="my-0">: {{data.corpInfo.bizState}} </p>
-                                {% endif %}
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">Poskod</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.bizPostcode}}</p>
-                            </td>                            
-                        </tr> 
-                        <tr>
-                            <td>
-                                <p id="secondary">Jenis Perniagaan</p>
-                            </td>
-                            <td>
-                                <p id="secondary">: {{data.corpInfo.bizNature}}</p>
-                            </td>                            
-                        </tr>
-                    </tbody>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAMA SYARIKAT</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compName %}
+                            {{data.corpInfo.compName}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAMA LAMA SYARIKAT</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compNameOld %}
+                            {{data.corpInfo.compNameOld}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TARIKH PERTUKARAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.changeDate and data.corpInfo.changeDate != 'NIL' %}
+                            {{data.corpInfo.changeDate}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NO. SYARIKAT</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.compNo %}
+                            {{data.corpInfo.compNo}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TARIKH PENUBUHAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.incorpDate and data.corpInfo.incorpDate != 'NIL' %}
+                            {{data.corpInfo.incorpDate}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TARIKH PENDAFTARAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.regDate and data.corpInfo.regDate != 'NIL' %}
+                            {{data.corpInfo.regDate}}
+                            {% else %}
+                            TIADA
+                            {% endif %}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">JENIS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {{data.corpInfo.compType}}
+                            <br>
+                            {{data.corpInfo.compStatus}}
+                        </p></td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">STATUS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {{data.corpInfo.statusOfCompany}}
+                        </p></td>  
+                    </tr>
+                
+                    <tr style="height:20px;">
+                        <td><p id="secondary">ALAMAT DAFTAR</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            <p id="secondary" class="mb-0">{{data.corpInfo.regAddress1}}</p>
+                        {% if data.corpInfo.regAddress2 or data.corpInfo.regAddress2 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regAddress2}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regAddress3  or data.corpInfo.regAddress3 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regAddress3}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regTown  or data.corpInfo.regTown != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.regTown}}</p>
+                        {% endif %}
+                        {% if data.corpInfo.regState  or data.corpInfo.regState != None %}
+                            <p id="secondary" class="mt-0">  {{data.corpInfo.regState}}</p>
+                        {% endif %}
+                        </td>  
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">POSKOD</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.regPostcode %}
+                                {{data.corpInfo.regPostcode}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TEMPAT PENUBUHAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if 'MAL' in data.corpInfo.regOrigin %}
+                                <p id="secondary">MALAYSIA</p> 
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><p id="secondary">ALAMAT PERNIAGAAAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td>
+                            {% if data.corpInfo.bizAddress1 and data.corpInfo.bizAddress1 != 'NIL' %}
+                            <p id="secondary" class="mb-0">  {{data.corpInfo.bizAddress1}}</p>
+                            {% else %}
+                            <p id="secondary" class="mb-0">  TIADA</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizAddress2 or data.corpInfo.bizAddress2 != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.bizAddress2}}</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizAddress3 or data.corpInfo.bizAddress3 != None %}
+                                <p id="secondary" class="my-0">  {{data.corpInfo.bizAddress3}}</p>
+                            {% endif %}
+                            {% if data.corpInfo.bizTown or data.corpInfo.bizTown != None %}
+                            <p id="secondary" class="my-0">  {{data.corpInfo.bizTown}} </p>
+                            {% endif %}
+                            {% if data.corpInfo.bizState or data.corpInfo.bizState != None %}
+                            <p id="secondary" class="mt-0">  {{data.corpInfo.bizState}} </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><p id="secondary">POSKOD</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.bizPostcode %}
+                                {{data.corpInfo.bizPostcode}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">JENIS PERNIAGAAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.bizNature %}
+                                {{data.corpInfo.bizNature}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                            </p>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
-            <h3 class="font-weight-bold text-center pg-break">*** PERUBAHAN ALAMAT BERDAFTAR ****</h3>
-            <p id="secondary">Nama Syarikat: {{data.corpInfo.compName}}</p>
-            <p id="secondary">No Syarikat.: {{data.corpInfo.changeDate}}</p>
+            <h3 class="font-weight-bold text-center pg-break"> CHANGES OF REGISTERED ADDRESS </h3>
+            <p id="secondary">NAMA: {{data.corpInfo.compName}}</p>
+            <p id="secondary">NO. PENDAFTARAN.: <b>{{data.corpInfo.compNo}}</b></p>
 
-            <p id="disclaimer">*Perubahan alamat berdaftar adalah bermula pada {{data.lastUpdateDate}}</p>
+            <p id="disclaimer"><b>*Perubahan alamat berdaftar adalah bermula pada {{data.lastUpdateDate}}</b></p>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <thead>
                         <tr>
-                            <td>
-                                <p id="secondary">Tarikh Perubahan</p>
-                            </td>
-                            <td>
-                                <p id="secondary">Alamat Berdaftar</p>
-                            </td>
+                            <th>
+                                <p id="secondary">TARIKH PERUBAHAN</p>
+                            </th>
+                            <th>
+                                <p id="secondary">ALAMAT BERDAFTAR</p>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for address in data.changeRegAddress %}
                         <tr>
                             <td>
-                                <p id="secondary">: {{address.changeDate}}</p>
+                                <p id="secondary">{{address.changeDate}}</p>
                             </td>   
                             <td>
                                 {% if address.address1 %}
-                                <p id="secondary" class="mb-0">: {{address.address1}} </p>
+                                <p id="secondary" class="mb-0">{{address.address1}} </p>
                                 {% else %}
-                                <p id="secondary">: NIL</p>
+                                <p id="secondary">NIL</p>
                                 {% endif %}
                                 {% if address.address2 %}
-                                <p id="secondary" class="my-0">: {{address.address2}} </p>
+                                <p id="secondary" class="my-0">{{address.address2}} </p>
                                 {% endif %}
                                 {% if address.adress3 %}
-                                <p id="secondary" class="my-0">: {{address.adress3}} </p>
+                                <p id="secondary" class="my-0">{{address.adress3}} </p>
                                 {% endif %}
                                 {% if address.postcode %}
-                                <p id="secondary" class="my-0">: {{address.postcode}}, {{address.town}}  </p>
+                                <p id="secondary" class="my-0">{{address.postcode}}, {{address.town}}  </p>
                                 {% endif %}
                                 {% if address.state %}
-                                <p id="secondary" class="my-0">: {{address.state}} </p>
+                                <p id="secondary" class="my-0">{{address.state}} </p>
                                 {% endif %}
                             </td>                          
                         </tr>
@@ -283,10 +331,148 @@
                     </tbody>
                 </table>
             </div>
-                </body>
+            
 
-    <footer>
-        <p></p>
-    </footer>
+            <!-- {% for previous in data.ownerPreviousInfo %}
+            <h3 class="font-weight-bold text-center pg-break"> PREVIOUS DIRECTORS/OFFICERS</h3>
+            <p id="secondary">NAMA: {{data.corpInfo.registrationName}}</p>
+            <p id="secondary">NO. PENDAFTARAN.: <b>{{data.corpInfo.compNo}}</b></p>
+
+            <div class="table-responsive">
+                <table class="table text-left borderless">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p id="secondary">NAME</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.name}}</p>
+                            </td>                            
+                        </tr>
+                        <tr>       
+                            <td>
+                                <p id="secondary">RESIDENTIAL ADDRESS</p>
+                            </td>
+                            <td>
+                                {% if previous.address_1 %}
+                                <p id="secondary" class="mb-0">: {{previous.address_1}} </p>
+                                {% else %}
+                                <p id="secondary">: NIL</p>
+                                {% endif %}
+                                {% if previous.address_2 %}
+                                <p id="secondary" class="my-0">: {{previous.address_2}} </p>
+                                {% endif %}
+                                {% if previous.address_3 %}
+                                <p id="secondary" class="my-0">: {{previous.address_3}} </p>
+                                {% endif %}
+                                {% if previous.postcode %}
+                                <p id="secondary" class="my-0">: {{previous.postcode}}, {{previous.town}}  </p>
+                                {% endif %}
+                                {% if previous.state %}
+                                <p id="secondary" class="my-0">: {{previous.state}} </p>
+                                {% endif %}
+                            </td>                            
+                        </tr>         
+                        <tr>       
+                            <td>
+                                <p id="secondary">IC (OLD)</p>
+                            </td>
+                            <td>
+                                {% if previous.icNoOld %}
+                                <p id="secondary" class="my-0">: {{previous.icNoOld}} </p>
+                                {% else %}
+                                <p id="secondary">: </p>
+                                {% endif %}
+                            </td>                            
+                        </tr> 
+                        <tr>       
+                            <td>
+                                <p id="secondary">IC (NEW)</p>
+                            </td>
+                            <td>
+                                {% if previous.icNoNew %}
+                                <p id="secondary" class="my-0">: {{previous.icNoNew}} </p>
+                                {% else %}
+                                <p id="secondary">: </p>
+                                {% endif %}
+                            </td>                            
+                        </tr>        
+                        <tr>       
+                            <td>
+                                <p id="secondary">DATE OF BIRTH</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.birthDate}}</p>
+                            </td>                            
+                        </tr>       
+                        <tr>       
+                            <td>
+                                <p id="secondary">RACE</p></td>
+                            <td>
+                                <p id="secondary">: {{previous.race}}</p>
+                            </td>                            
+                        </tr>     
+                        <tr>       
+                            <td>
+                                <p id="secondary">GENDER</p></td>
+                            <td>
+                                <p id="secondary">: {{previous.gender}}</p>
+                            </td>                            
+                        </tr>   
+                        <tr>       
+                            <td>
+                                <p id="secondary">NATIONALITY</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.nationality}}</p>
+                            </td>                            
+                        </tr>   
+                        <tr>       
+                            <td>
+                                <p id="secondary">DATE OF ENTRY</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.entryDate}}</p>
+                            </td>
+                        </tr>
+                        <tr>       
+                            <td>
+                                <p id="secondary">DATE OF WITHDRAWAL</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.withdrawDate}}</p>
+                            </td>
+
+                        </tr>
+                        <tr>       
+                            <td>
+                                <p id="secondary">REASON OF WITHDRAWAL</p>
+                            </td>
+                            <td>
+                                <p id="secondary">: {{previous.ammendmentType}}</p>
+                            </td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %} -->
+
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
+        </div>
+
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 

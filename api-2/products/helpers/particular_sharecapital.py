@@ -2,6 +2,7 @@ import string
 import pytz
 import json
 
+from .mapping import officer_designation_mapping, state_mapping, charge_code
 from datetime import datetime
 from django.utils.timezone import make_aware
 
@@ -19,6 +20,9 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     share_capital_info = mdw_1["shareCapitalSummary"]
     company_info = mdw_1["rocCompanyInfo"]
 
+    # print('regggg >>>>', registered_address_info)
+    registered_address_info['state'] = state_mapping(registered_address_info['state'])
+    business_address_info['state'] = state_mapping(business_address_info['state'])
     temp_comp_status_old = data_mdw_1["rocCompanyInfo"]['companyStatus']
     
     if temp_comp_status_old == 'E':
@@ -52,9 +56,6 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
         allotment_issued_share = allotment['issuedShare']
         print(allotment)
         print('\n')
-
-
-
 
     data_ready = {
         'mdw1': mdw_1,
