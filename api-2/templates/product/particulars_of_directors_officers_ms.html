@@ -67,6 +67,16 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -269,7 +279,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>            
@@ -331,7 +341,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>                  
@@ -373,25 +383,22 @@
             </div>    
             {% endfor %}
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
 
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
+        </div>
+
+        <footer id="footer">
             <div class="row">
                 <p class="col text-left">USER ID: @</p>
                 <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
             </div>
-    
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>        
-    
-
-
-        </div>
-
-        
-
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
     </body>
-
-    <footer>
-        <p></p>
-    </footer>
 </html>
 

@@ -14,7 +14,7 @@
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
                 @top-right{
-                    content: "Page " counter(page) " of " counter(pages);
+                    content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
             }
 
@@ -66,6 +66,16 @@
             }
             .pg-start {
                 margin-top: 15rem;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 3.5rem;
+                width: 100%;
             }
         </style>
     </head>
@@ -134,24 +144,24 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
                             {% if 'B' in data.company_info.companyType %}
-                                LIMITED BY SHARE AND GUARANTEE
+                                BERHAD MENURUT SAHAM DAN JAMINAN
                             {% endif %}
                             {% if 'G' in data.company_info.companyType %}
-                                LIMITED BY GUARANTEE
+                                BERHAD MENURUT JAMINAN
                             {% endif %}
                             {% if 'S' in data.company_info.companyType %}
-                                LIMITED BY SHARES
+                                BERHAD MENURUT SYER
                             {% endif %}
                             {% if 'U' in data.company_info.companyType %}
-                                UNLIMITED
+                                TIDAK TERHAD
                             {% endif %}
                             {% if 'R' in data.company_info.companyStatus %}
                             <br>
-                                PRIVATE LIMITED
+                                SYARIKAT PERSENDIRIAN
                             {% endif %}
                             {% if 'U' in data.company_info.companyStatus %}
                             <br>
-                                PUBLIC LIMITED
+                                SYARIKAT AWAM
                             {% endif %}
                             </p>
                         </td>
@@ -192,21 +202,31 @@
                         <td><p id="secondary">ALAMAT DAFTAR</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
-                                <p id="secondary">{{data.registered_address_info.address1}}</p>
-                            {% if data.registered_address_info.address2 %}
-                                <p id="secondary">  {{data.registered_address_info.address2}}</p>
+                            <p id="secondary" class="mb-0">{{data.registered_address_info.address1}}</p>
+                            {% if data.registered_address_info.address2 or data.registered_address_info.address2 != None %}
+                                <p id="secondary" class="my-0">  {{data.registered_address_info.address2}}</p>
                             {% endif %}
-                            {% if data.registered_address_info.address3 %}
-                                <p id="secondary">  {{data.registered_address_info.address3}}</p>
+                            {% if data.registered_address_info.address3  or data.registered_address_info.address3 != None %}
+                                <p id="secondary" class="my-0">  {{data.registered_address_info.address3}}</p>
                             {% endif %}
-                            <p id="secondary">  {{data.registered_address_info.town}}</p>
-                            <p id="secondary">  {{data.registered_address_info.stateString}}</p>
+                            {% if data.registered_address_info.town  or data.registered_address_info.town != None %}
+                                <p id="secondary" class="my-0">  {{data.registered_address_info.town}}</p>
+                            {% endif %}
+                            {% if data.registered_address_info.stateString  or data.registered_address_info.stateString != None %}
+                                <p id="secondary" class="mt-0">  {{data.registered_address_info.stateString}}</p>
+                            {% endif %}
                         </td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">POSKOD</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.registered_address_info.postcode}}</p></td>
+                        <td><p id="secondary">
+                            {% if data.business_address_info.postcode %}
+                                {{data.business_address_info.postcode}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">TEMPAT PENUBUHAN</p></td>
@@ -221,13 +241,23 @@
                         <td><p id="secondary">ALAMAT PERNIAGAAAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
-                            <p id="secondary">{{data.business_address_info.address1}} </p>
-                            <p id="secondary">  {{data.business_address_info.address2}}</p>
-                            {% if data.business_address_info.address3 %}
-                                <p id="secondary">  {{data.business_address_info.address3}}</p>
+                            {% if data.business_address_info.address1 or data.business_address_info.address1 != 'NIL' %}
+                            <p id="secondary" class="mb-0">  {{data.business_address_info.address1}}</p>
+                            {% else %}
+                            <p id="secondary" class="mb-0">  TIADA</p>
                             {% endif %}
-                            <p id="secondary">  {{data.business_address_info.town}} </p>
-                            <p id="secondary">  {{data.business_address_info.stateString}} </p>
+                            {% if data.business_address_info.address2 or data.business_address_info.address2 != None %}
+                            <p id="secondary" class="my-0">  {{data.business_address_info.address2}}</p>
+                            {% endif %}
+                            {% if data.business_address_info.address3 or data.business_address_info.address3 != None %}
+                                <p id="secondary" class="my-0">  {{data.business_address_info.address3}}</p>
+                            {% endif %}
+                            {% if data.business_address_info.town or data.business_address_info.town != None %}
+                            <p id="secondary" class="my-0">  {{data.business_address_info.town}} </p>
+                            {% endif %}
+                            {% if data.business_address_info.stateString or data.business_address_info.stateString != None %}
+                            <p id="secondary" class="mt-0">  {{data.business_address_info.stateString}} </p>
+                            {% endif %}
                         </td>
                     </tr>
                     <tr>
@@ -269,7 +299,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>             
@@ -299,13 +329,13 @@
                         </tr>    
                         <tr style="height:20px;">
                             <td></td>
-                            <td><p id="secondary">ORDINARY</p></td>
+                            <td><p id="secondary">BIASA</p></td>
                             <td><p id="secondary">{{ data.ordinary_issue_cash | intcomma}}</p></td>
                             <td><p id="secondary">{{ data.ordinary_issue_noncash | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
-                            <td><p id="secondary">PREFERENCE</p></td>
+                            <td><p id="secondary">PREFEREN</p></td>
                             <td><p id="secondary">{{ data.preference_issue_cash | intcomma}}</p></td>
                             <td><p id="secondary">{{ data.preference_issue_noncash | intcomma}}</p></td>
                         </tr>
@@ -314,10 +344,7 @@
                             <td><p id="secondary">OTHERS</p></td>
                             <td><p id="secondary">{{ data.others_issue_cash | intcomma}}</p></td>
                             <td><p id="secondary">{{ data.others_issue_noncash | intcomma}}</p></td>
-                        </tr>                                                                                                                       
-                      
-
-              
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -339,7 +366,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>                  
@@ -348,13 +375,11 @@
                 <table class="table text-left borderless">
                     <tr>
                         <th style="width:38%; border: 0;"><p id="secondary">NAMA / ALAMAT</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">IC / PASSPOT</p></th>
+                        <th style="width:20%; border: 0;"><p id="secondary">IC / PASPOT</p></th>
                         <th style="width:20%; border: 0;"><p id="secondary">JAWATAN</p></th>
                         <th style="width:22%; border: 0;"><p id="secondary">TARIKH LANTIKAN</p></th>
                       </tr>
                     <tbody>
-                      
-
                         {% for officer in data.officer_info %}
                         <tr style="height:20px;">
                             <td><p id="secondary">
@@ -362,18 +387,20 @@
                                 {{ officer.address1 }}<br>
                                 {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}
                                 {% if officer.address3 %}{{ officer.address3 }}<br>{% endif %}
-                                {{ officer.postcode }} {{ officer.town }}<br>
-                                {{ officer.state }}
+                                {% if officer.postcode %}{{ officer.postcode }} {{ officer.town }}<br>{% endif %}                        
+                                {% if officer.state %}{{ officer.state }}{% endif %}
                             </p></td>
                             <td><p id="secondary">{{ officer.idNo }}</p></td>
                             <td><p id="secondary">{{ officer.designationCode }}</p></td>
-                            <td><p id="secondary">{{ officer.startDate }}</p></td>
+                            <td><p id="secondary">
+                                {% if officer.startDate %}
+                                    {{ officer.startDate }}
+                                {% else %}
+                                    TIADA
+                                {% endif %}
+                            </p></td>
                         </tr>    
                         {% endfor %}
-                                                                                                                   
-                      
-
-              
                     </tbody>
                 </table>
             </div>    
@@ -387,15 +414,15 @@
                         <th style="width:1%; border: 0;"></th>
                         <th style="width:69%; border: 0;"></th>
                     </tr>
-                    <tr style="height:8px;">
+                    <tr style="height:20px;">
                         <td><p id="secondary">NAMA</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">{{ data.company_info.companyName }}</p></td>
                     </tr>
-                    <tr style="height:8px;">
+                    <tr style="height:20px;">
                         <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>              
@@ -403,22 +430,25 @@
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
-                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASSPOT/NO. PENDAFTARAN</p></th>
+                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASPOT/NO. PENDAFTARAN</p></th>
                         <th style="width:40%; border: 0;"><p id="secondary">NAMA/NAMA SYARIKAT</p></th>
                         <th style="width:27%; border: 0;"><p id="secondary" class="text-right">JUMLAH SYER</p></th>
                       </tr>
                     <tbody>
                         {% for shareholder in data.shareholders_data %}
                         <tr style="height:20px;">
-                            <td><p id="secondary">{{ shareholder.id }}</p></td>
+                            <td><p id="secondary">
+                                {% if shareholder.idType != 'C' %}
+                                    <p id="secondary">{{ shareholder.id }}</p>
+                                {% endif %}
+                                {% if shareholder.idType == 'C' %}
+                                    <p id="secondary"> {{ shareholder.companyNo }} ({{ shareholder.id }})</p>
+                                {% endif %}
+                            </p></td>
                             <td><p id="secondary">{{ shareholder.name }}</p></td>
-                            <td><p id="secondary" class="text-right">{{ shareholder.share | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{ shareholder.share | floatformat:0 | intcomma }}</p></td>
                         </tr>    
                         {% endfor %}
-                                                                                                                   
-                      
-
-              
                     </tbody>
                 </table>
             </div>    
@@ -441,7 +471,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>                    
@@ -460,7 +490,7 @@
                       </tr>
                     <tbody>
 
-                        {% for charge in data.charges_info.rocChargesInfos.rocChargesInfos %}
+                        {% for charge in data.charges_info %}
                         <tr style="height:10px;">
                             <td><p id="secondary">{{ forloop.counter }}</p></td>
                             <td><p id="secondary">NOMBOR GADAIAN</p></td>
@@ -483,7 +513,15 @@
                             <td><p id="secondary"></p></td>
                             <td><p id="secondary">NAME OF CHARGEE</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeeName }}</p></td>
+                            <td><p id="secondary">
+                                {% if charge.chargeeName %}
+                                    {{ charge.chargeeName }}
+                                {% endif%}
+
+                                {% if charge.chargeeName == None %}
+                                    TIADA
+                                {% endif%}
+                            </p></td>
                         </tr>    
                         <tr style="height:10px;">
                             <td><p id="secondary"></p></td>
@@ -492,8 +530,6 @@
                             <td><p id="secondary">{{ charge.chargeStatus }}</p></td>
                         </tr>                                                     
                         {% endfor %}
-                                                                                                                
-              
                     </tbody>
                 </table>
             </div>            
@@ -517,7 +553,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>            
@@ -544,15 +580,24 @@
                         <tr>
                             <td><p id="secondary">ALAMAT JURUAUDIT</td></p>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{data.bs_data.auditFirmAddress1}}<br>
-                                {{data.bs_data.auditFirmAddress2}}<br>
-                                {% if data.bs_data.auditFirmAddress3 != None %}
-                                    {{ data.bs_data.auditFirmAddress3 }}
+                            <td><p id="secondary">
+                                {{data.bs_data.auditFirmAddress1}}<br>
+                                {% if data.bs_data.auditFirmAddress2 != None %}
+                                    {{ data.bs_data.auditFirmAddress2 }} <br>
                                 {% endif %}
-                                {{data.bs_data.auditFirmPostcode}}<br>
-                                {{data.bs_data.auditFirmTown}}<br>
-                                {{data.bs_data.auditFirmState}}</p></td>
-
+                                {% if data.bs_data.auditFirmAddress3 != None %}
+                                    {{ data.bs_data.auditFirmAddress3 }} <br>
+                                {% endif %}
+                                {% if data.bs_data.auditFirmPostcode != None %}
+                                    {{ data.bs_data.auditFirmPostcode }} <br>
+                                {% endif %}
+                                {% if data.bs_data.auditFirmTown != None %}
+                                    {{ data.bs_data.auditFirmTown }} <br>
+                                {% endif %}
+                                {% if data.bs_data.auditFirmState != None %}
+                                    {{ data.bs_data.auditFirmState }} <br>
+                                {% endif %}
+                            </p></td>
                         </tr>
                         <tr style="height:8px;">
                             <td><p id="secondary">EXEMPT PRIVATE COMPANY</p></td>
@@ -684,25 +729,21 @@
                 </table>
             </div>                
 
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
+        </div>
 
+        <footer id="footer">
             <div class="row">
                 <p class="col text-left">USER ID: @</p>
                 <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
             </div>
-    
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>        
-    
-
-
-        </div>
-
-        
-
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
     </body>
-
-    <footer>
-        <p></p>
-    </footer>
 </html>

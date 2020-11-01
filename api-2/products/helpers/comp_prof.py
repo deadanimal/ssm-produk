@@ -24,12 +24,12 @@ def comp_prof(mdw_1, mdw_2, lang):
         temp_comp_status_new = 'Dissolved'
         
 
-    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     
     
     if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
-        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         date_of_change_str = 'NIL'
@@ -64,12 +64,16 @@ def comp_prof(mdw_1, mdw_2, lang):
                     nric_2 = shareholder["idNo"][6:8]
                     nric_3 = shareholder["idNo"][8:]
                     nric = nric_1 + '-' + nric_2 + '-' + nric_3
+                    company_no = None
                 else:
                     nric = shareholder["idNo"]
+                    company_no = shareholder["companyNo"]
 
                 shareholders_data.append({
                     'name': shareholder["name"],
                     'id': nric,
+                    'companyNo': company_no,
+                    'idType': shareholder["idType"],
                     'share': float(shareholder["share"])
                 })
         else: 
@@ -79,12 +83,16 @@ def comp_prof(mdw_1, mdw_2, lang):
                 nric_2 = shareholders["idNo"][6:8]
                 nric_3 = shareholders["idNo"][8:]
                 nric = nric_1 + '-' + nric_2 + '-' + nric_3
+                company_no = None
             else:
                 nric = shareholders["idNo"]
+                company_no = shareholders["companyNo"]
 
             shareholders_data.append({
                 'name': shareholders["name"],
                 'id': nric,
+                'companyNo': company_no,
+                'idType': shareholders["idType"],
                 'share': float(shareholders["share"])
             })
     else:
@@ -121,17 +129,50 @@ def comp_prof(mdw_1, mdw_2, lang):
 
 
 
-    charges_info = mdw_1["rocChargesListInfo"]
+    chargesinfotemp = mdw_1["rocChargesListInfo"]
+    
 
     # print('ci', charges_info['errorMsg'])
-    # print('cs', charges_info["rocChargesInfos"]["rocChargesInfos"])
-    if charges_info['errorMsg'] == None and charges_info['errorMsg'] == 'No Data':
-        for charge in charges_info["rocChargesInfos"]["rocChargesInfos"]:
-            charge['chargeStatus'] = charge_code(charge['chargeStatus'])
-            charge['chargeAmount'] = float(charge['chargeAmount'])
-            charge['chargeCreateDate'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    print('         ')
+    print('charges', chargesinfotemp)
+    print('         ')
+    charges_info = []
+    
+    print('1', chargesinfotemp['errorMsg'] == None )
+    print('2', chargesinfotemp['errorMsg'] != 'No Data' )
+    print('3', chargesinfotemp['rocChargesInfos'] != None )
+    print('4', chargesinfotemp['rocChargesInfos'] != 'No Data' )
+    print('5',(chargesinfotemp['errorMsg'] != None and chargesinfotemp['errorMsg']) != 'No Data' and (chargesinfotemp['rocChargesInfos'] != None and chargesinfotemp['rocChargesInfos'] != 'No Data'))
+    if chargesinfotemp['errorMsg'] == None and chargesinfotemp['errorMsg'] != 'No Data' and chargesinfotemp['rocChargesInfos'] != None and chargesinfotemp['rocChargesInfos'] != 'No Data':
+        # print('   ')
+        # print('charges', chargesinfotemp['rocChargesInfos'])
+        # print('   ')
+        charges_info_temp = chargesinfotemp["rocChargesInfos"]["rocChargesInfos"]
+        if isinstance(charges_info_temp, list):
+            for charge in charges_info_temp:
+                charge['chargeStatus'] = charge_code(charge['chargeStatus'])
+                charge['chargeAmount'] = float(charge['chargeAmount'])
+                charge['chargeCreateDate'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+                print('tes', charge['chargeCreateDate'])
+                print(charges_info)
+                charges_info.append(charge)
+        else:
+            charges_info_temp["chargeStatus"] = charge_code(charges_info_temp["chargeStatus"])
+            charges_info_temp["chargeAmount"] = float(charges_info_temp["chargeAmount"])
+            charges_info_temp["chargeCreateDate"] = make_aware(datetime.strptime(charges_info_temp['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+            charges_info.append(charges_info_temp)
+            print('ouuuk', charges_info_temp)
+    else:
+        print('dee')
+        charges_info = chargesinfotemp
 
     company_info = mdw_1["rocCompanyInfo"]
+
+    if 'latestDocUpdateDate' in company_info.keys():
+        company_info['latestDocUpdateDate'] = make_aware(datetime.strptime(company_info['latestDocUpdateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+         company_info['latestDocUpdateDate'] = None
+
     officer_info = mdw_1["rocCompanyOfficerListInfo"]["rocCompanyOfficerInfos"]["rocCompanyOfficerInfos"]
 
     for officer in officer_info:
@@ -146,7 +187,14 @@ def comp_prof(mdw_1, mdw_2, lang):
         officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
-        officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+
+        if 'startDate' in officer.keys():
+            officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        else:
+            officer['startDate'] = None
+
+        # officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
 
 
@@ -155,12 +203,34 @@ def comp_prof(mdw_1, mdw_2, lang):
             bss_ = balance_sheet_list[0]
             pll_ =  profit_loss_list[0]
         else:
-            bss_ = balance_sheet_list[-1]
-            pll_ =  profit_loss_list[-1]
-        financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+            temp_bss = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in balance_sheet_list]
+            temp_bss.sort()
+            length_temp_bss = len(temp_bss)
+
+            latest_date_bs = temp_bss[length_temp_bss-1]
+
+            for sheet in balance_sheet_list:
+                if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_bs:
+                    print(sheet)
+                    bss_ = sheet
+            
+            temp_pll = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in profit_loss_list]
+            temp_pll.sort()
+            length_temp_pll = len(temp_pll)
+
+            print('gegfege')
+            print(temp_pll)
+            latest_date_pl = temp_pll[length_temp_pll-1]
+
+            for sheet in profit_loss_list:
+                if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_pl:
+                    print(sheet)
+                    pll_ = sheet
+
+        financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-        date_of_tabling_old = make_aware(datetime.strptime(bss_['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        date_of_tabling_old = make_aware(datetime.strptime(bss_['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         date_of_tabling_new = date_of_tabling_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         financial_year_end_new = 'NONE'
@@ -215,7 +285,7 @@ def comp_prof(mdw_1, mdw_2, lang):
 
 
     if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
-        financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         financial_year_end_new = 'NONE'
@@ -298,7 +368,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         'pl_data': pl_data,
         'incorp_date': temp_incorpDate_new,
         'date_of_change': date_of_change_str,
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %H:%M:%S"),
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 
 
