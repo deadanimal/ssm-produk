@@ -13,7 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
                     content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
@@ -142,15 +142,20 @@
                             <td><p id="secondary">PEMEGANG GADAIAN</p></td>
                             <td><p id="secondary">:</p></td>
                             <td>
-                                <p id="secondary">{{ charge.chargeeName }}</p>
                                 <p id="secondary">
-                                    {{ charge.chargeeAddr1 }}
-                                </p>
-                                <p id="secondary">
-                                    {% if charge.chargeeAddr2 %}{{ charge.chargeeAddr2 }}{% endif %}  
-                                </p>
-                                <p id="secondary">
-                                    {% if charge.chargeeAddr3 %}{{ charge.chargeeAddr3 }}{% endif %}                            
+                                    {{ charge.chargeeName }}<br/>
+
+                                    {% if charge.chargeeAddr1 %}
+                                    {{ charge.chargeeAddr1 }} <br/>
+                                    {% endif %}
+
+                                    {% if charge.chargeeAddr2 %}
+                                    {{ charge.chargeeAddr2 }} <br/>
+                                    {% endif %}
+
+                                    {% if charge.chargeeAddr3 %}
+                                    {{ charge.chargeeAddr3 }} <br/>
+                                    {% endif %}
                                 </p>
                             </td>
                         </tr>        
@@ -206,7 +211,7 @@
                             <td><p id="secondary"></p></td>
                             <td><p id="secondary">JUMLAH GADAIAN</p></td>
                             <td><p id="secondary">:</p></td>
-                            <td><p id="secondary">{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary">RM{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
                         </tr>   
                         
                         <tr style="height:10px;">
@@ -236,12 +241,12 @@
             </div> 
             {% endfor %}
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
-    
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
         </div>
 
         <footer id="footer">

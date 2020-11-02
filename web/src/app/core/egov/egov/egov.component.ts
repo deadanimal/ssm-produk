@@ -192,8 +192,10 @@ export class EgovComponent implements OnInit {
   // SB start
 
   getUser() {
-    this.user = this.userService.currentUser
-    if (this.user['user_type'] == 'EG') {
+    if (this.userService.currentUser) {
+      this.user = this.userService.currentUser
+    }
+    if (this.user && this.user['user_type'] == 'EG') {
       this.navigatePage('/egov/home')
     }
   }

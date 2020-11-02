@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -66,6 +67,16 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -102,7 +113,13 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">LAST OLD NAME</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.company_info.companyOldName }}</p></td>
+                        <td><p id="secondary">
+                            {% if data.company_info.companyOldName  %}
+                            {{data.company_info.companyOldName }}
+                            {% else %}
+                            NIL
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">DATE OF CHANGE</p></td>
@@ -182,17 +199,25 @@
                         <td><p id="secondary">REGISTERED ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
-                                <p id="secondary">{{data.registered_address_info.address1}}</p>
-                            {% if data.registered_address_info.address2 %}
-                                <p id="secondary">  {{data.registered_address_info.address2}}</p>
-                            {% endif %}
-                            {% if data.registered_address_info.address3 %}
-                                <p id="secondary">  {{data.registered_address_info.address3}}</p>
-                            {% endif %}
-                                <p id="secondary">  {{data.registered_address_info.town}}</p>
-                            {% if 'J' in data.registered_address_info.state %}
-                                <p class="mt-0"> Johor</p> 
-                            {% endif %}
+                            <p id="secondary">
+                                {% if data.registered_address_info.address1 %}
+                                    {{data.registered_address_info.address1}} <br />
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                {% if data.registered_address_info.address2 %}
+                                    {{data.registered_address_info.address2}} <br />
+                                {% endif %}
+                                {% if data.registered_address_info.address3 %}
+                                    {{data.registered_address_info.address3}} <br />
+                                {% endif %}
+                                {% if data.registered_address_info.town %}
+                                    {{data.registered_address_info.town}} <br/>
+                                {% endif %}
+                                {% if data.registered_address_info.stateString %}
+                                    {{data.registered_address_info.stateString }}
+                                {% endif %}
+                            </p>
                         </td>
                     </tr>
                     <tr style="height:20px;">
@@ -213,21 +238,37 @@
                         <td><p id="secondary">BUSINESS ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td>
-                            <p id="secondary">{{data.business_address_info.address1}} </p>
-                            <p id="secondary">  {{data.business_address_info.address2}}</p>
-                            {% if data.business_address_info.address3 %}
-                                <p id="secondary">  {{data.business_address_info.address3}}</p>
-                            {% endif %}
-                            <p id="secondary">  {{data.business_address_info.town}} </p>
-                            {% if 'J' in data.business_address_info.state %}
-                                <p id="secondary"> Johor</p> 
-                            {% endif %}
+                            <p id="secondary">
+                                {% if data.business_address_info.address1 %}
+                                    {{data.business_address_info.address1}} <br />
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                {% if data.business_address_info.address2 %}
+                                    {{data.business_address_info.address2}} <br />
+                                {% endif %}
+                                {% if data.business_address_info.address3 %}
+                                    {{data.business_address_info.address3}} <br />
+                                {% endif %}
+                                {% if data.business_address_info.town %}
+                                    {{data.business_address_info.town}} <br/>
+                                {% endif %}
+                                {% if data.business_address_info.stateString %}
+                                    {{data.business_address_info.stateString }}
+                                {% endif %}
+                            </p>
                         </td>
                     </tr>
                     <tr>
                         <td><p id="secondary">POSTCODE</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.business_address_info.postcode}}</p></td>
+                        <td><p id="secondary">
+                            {% if data.business_address_info.postcode %}
+                                {{data.business_address_info.postcode}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr>
                         <td><p id="secondary">NATURE OF BUSINESS</p></td>
@@ -243,8 +284,6 @@
                     </tr>
                 </table>
             </div>
-            
-
 
             <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SUMMARY OF SHAREHOLDER </u></h2>
 
@@ -263,7 +302,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">REGISTRATION NO.</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
                     </tr>                    
                 </table>
             </div>            
@@ -282,19 +321,27 @@
                             <td><p id="secondary">{{ shareholder.name }}</p></td>
                             <td><p id="secondary" class="text-right">{{ shareholder.share  }}</p></td>
                         </tr>    
-                        {% endfor %}
-                                                                                                                   
-                      
-
-              
+                        {% endfor %}             
                     </tbody>
                 </table>
             </div> 
-        </div>
-    </body>
 
-    <footer>
-        <p></p>
-    </footer>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+    
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+        </div>
+
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 
