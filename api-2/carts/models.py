@@ -79,8 +79,8 @@ class CartItem(models.Model):
     # PRODUCT
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    year1 = models.CharField(null=True, max_length=4)
-    year2 = models.CharField(null=True, max_length=4)
+    year1 = models.CharField(null=True, max_length=100)
+    year2 = models.CharField(null=True, max_length=100)
     
     # PRODUCT IMAGE
     image_form_type = models.CharField(max_length=100, null=True)

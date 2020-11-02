@@ -1,217 +1,207 @@
 <div class="header pb-6">
-    <div class="container-fluid">
-      <div class="header-body">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <h6 class="h2 text-dark d-inline-block mb-0">
-              Statistics
-            </h6>
-  
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item">
-                  <a href="javascript:void(0)">
-                    <i class="fas fa-align-left text-dark"></i>
-                  </a>
-                </li>
-                <li class="breadcrumb-item">
-                  <a href="javascript:void(0)" class="text-dark"> Product </a>
-                </li>
-                <li aria-current="page" class="breadcrumb-item active">
-                    Statistics
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="container-fluid mt--6">
-    <div class="row">
-      <div class="col">
-        <div class="card">
-          <div class="card-header bg-secondary">
-            <h3 class="m-0">Landing Page Statistics</h3>
-          </div>
-          <div class="dataTables_wrapper py-4">
-            <div class="row">
-              <div class="col-sm-12 col-md-6">
-                <div class="dataTables_length" id="datatable_length">
-                  <label>
-                    Show
-                    <select
-                      name="datatable_length"
-                      aria-controls="datatable"
-                      class="form-control form-control-sm"
-                      (change)="entriesChange($event)">
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="-1">All</option>
-                    </select>
-                    records
-                  </label>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6">
-              </div>
-            </div>
-  
-            <ngx-datatable
-              class="bootstrap selection-cell"
-              [columnMode]="'force'"
-              [headerHeight]="50"
-              [footerHeight]="50"
-              [rowHeight]="'auto'"
-              [limit]="tableEntries != -1 ? tableEntries : undefined"
-              [rows]="tableTemp"
-              [scrollbarH]="true"
-              (activate)="onActivate($event)"
-            >
-              <ngx-datatable-column 
-                name="No"
-                maxWidth="80"
-                [sortable]="true"
-                prop="id_index"
-              >
-                <ng-template
-                  let-rowIndex="rowIndex"
-                  let-row="row"
-                  ngx-datatable-cell-template
-                >
-                  <strong>{{ rowIndex + 1 }}</strong>
-                </ng-template>
-              </ngx-datatable-column>
-  
-              <ngx-datatable-column
-                [sortable]="true"
-                prop="type"
-              >
-                <ng-template ngx-datatable-header-template>
-                  <span>Type</span>
-                </ng-template>
-                
-                <ng-template let-row="row" ngx-datatable-cell-template>                
-                    {{row.name}}
-                </ng-template>
-              </ngx-datatable-column>
-  
-              <ngx-datatable-column
-                [sortable]="true"
-                prop="value"
-              >
-                <ng-template ngx-datatable-header-template>
-                  <span>Total Registered Entity</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{row.value}}
-                </ng-template>
-              </ngx-datatable-column>            
-  
-              <ngx-datatable-column
-                [sortable]="true"
-              >
-                <ng-template ngx-datatable-header-template>
-                  <span>Status</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <span class="badge badge-success">Active</span>
-                </ng-template>
-              </ngx-datatable-column> 
-  
-              <ngx-datatable-column
-                [sortable]="true"
-                prop="created_date"
-              >
-                <ng-template ngx-datatable-header-template>
-                  <span>Created Date</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{row.created_date}}
-                </ng-template>
-              </ngx-datatable-column> 
-  
-              <ngx-datatable-column
-                [sortable]="true"
-                prop="modified_date"
-              >
-                <ng-template ngx-datatable-header-template>
-                  <span>Modified Date</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{row.modified_date}}
-                </ng-template>
-              </ngx-datatable-column>  
-              
-              <ngx-datatable-column>
-                <ng-template ngx-datatable-header-template>
-                  <span>Action</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a (click)="openModal(editModal, row)" style="cursor: pointer">
-                      <button class="btn btn-sm btn-info">
-                        <i class="fas fa-edit"></i>
-                      </button> 
-                    </a>
-                </ng-template>
-              </ngx-datatable-column>                
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-6 col-7">
+					<h6 class="h2 text-dark d-inline-block mb-0">
+						Statistics
+					</h6>
 
+					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)">
+									<i class="fas fa-align-left text-dark"></i>
+								</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="javascript:void(0)" class="text-dark"> Product </a>
+							</li>
+							<li aria-current="page" class="breadcrumb-item active">
+								Statistics
+							</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-            </ngx-datatable>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <ng-template #editModal>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update
-        </h6>
-  
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
-  
-    <div class="modal-body">
-        <form [formGroup]="updateForm">
-            <div class="form-group">
-              <label class="form-control-label">Name</label>
-              <input class="form-control" [value]="selectedRow['name']" disabled>
-            </div>
+<div class="container-fluid mt--6">
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<div class="card-header bg-secondary">
+					<h3 class="m-0">Landing Page Statistics</h3>
+				</div>
+				<div class="dataTables_wrapper py-4">
+					<div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="dataTables_length" id="datatable_length">
+								<label>
+									Show
+									<select name="datatable_length" aria-controls="datatable"
+										class="form-control form-control-sm" (change)="entriesChange($event)">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="-1">All</option>
+									</select>
+									records
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-6">
+						</div>
+					</div>
 
-            <div class="form-group">
-              <label class="form-control-label">Value</label>
-              <input class="form-control" formControlName="value">
-            </div>
-        </form>
-    </div>
-  
-    <div class="modal-footer">
-        <button 
-            class="btn btn-success"
-            type="button"
-            (click)="update()"
-        >
-            Update
-        </button>
-  
-        <button
-            class="btn btn-outline-danger ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()">
-            Close
-        </button>
-    </div>
-  </ng-template>
+					<ngx-datatable 
+						class="bootstrap" 
+						[columnMode]="'force'" 
+						[headerHeight]="50"
+						[footerHeight]="50" 
+						[rowHeight]="'auto'" 
+						[limit]="tableEntries != -1 ? tableEntries : undefined"
+						[rows]="tableTemp" 
+						[scrollbarH]="true" 
+					>
+						<ngx-datatable-column
+							[width]="100"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="id_index"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>No.</span>
+							</ng-template>
+
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.id_index}}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column 
+							[width]="120"
+							[sortable]="true" 
+							[resizeable]="false"
+							prop="type"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Type</span>
+							</ng-template>
+
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.name}}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column 
+							[width]="230"
+							[sortable]="true" 
+							[resizeable]="false"
+							prop="value"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Total Registered Entity</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.value}}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column 
+							[width]="100"
+							[sortable]="false"
+							[resizeable]="false"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Status</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<span class="badge badge-success">Active</span>
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column 
+							[width]="150"
+							[sortable]="true" 
+							[resizeable]="false"
+							prop="created_date"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Created Date</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.created_date}}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column 
+							[width]="150"
+							[sortable]="true" 
+							[resizeable]="false"
+							prop="modified_date"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Modified Date</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{row.modified_date}}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column>
+							<ng-template ngx-datatable-header-template>
+								<span>Action</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								<a (click)="openModal(editModal, row)" style="cursor: pointer">
+									<button class="btn btn-sm btn-ssm">
+										<i class="fas fa-edit"></i>
+									</button>
+								</a>
+							</ng-template>
+						</ngx-datatable-column>
+					</ngx-datatable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #editModal>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Update
+		</h6>
+
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="updateForm">
+			<div class="form-group">
+				<label class="form-control-label">Name</label>
+				<input class="form-control" [value]="selectedRow['name']" disabled>
+			</div>
+
+			<div class="form-group">
+				<label class="form-control-label">Value</label>
+				<input class="form-control" formControlName="value">
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-success" type="button" (click)="update()">
+			Update
+		</button>
+
+		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
+</ng-template>

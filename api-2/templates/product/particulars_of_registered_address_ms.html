@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -88,10 +89,16 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                <b>SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN MAKLUMAT YANG DIBERI ADALAH BETUL DAN KEMASKINI PENDAFTAR SYARIKAT TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.</b>
+                <b>
+                    SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK 
+                    MEMASTIKAN MAKLUMAT YANG DIBERI ADALAH BETUL 
+                    DAN KEMASKINI PENDAFTAR SYARIKAT TIDAK BOLEH 
+                    DIPERTANGGUNGKAN BAGI SEBARANG KERUGIAN KERANA 
+                    MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.
+                </b>
             </p>
             <h2 class="font-weight-bold text-center">BUTIR-BUTIR ALAMAT BERDAFTAR</h2>
-            <h3 class="font-weight-bold text-center"> MAKLUMAT SYARIKAT </h3>
+            <h3 class="font-weight-bold text-center"><u>MAKLUMAT SYARIKAT</u></h3>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -283,7 +290,7 @@
                 </table>
             </div>
 
-            <h3 class="font-weight-bold text-center pg-break"> CHANGES OF REGISTERED ADDRESS </h3>
+            <h3 class="font-weight-bold text-center pg-break"><u>CHANGES OF REGISTERED ADDRESS</u></h3>
             <p id="secondary">NAMA: {{data.corpInfo.compName}}</p>
             <p id="secondary">NO. PENDAFTARAN.: <b>{{data.corpInfo.compNo}}</b></p>
 
@@ -457,7 +464,7 @@
             </div>
             {% endfor %} -->
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+            <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h3>      
 
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>

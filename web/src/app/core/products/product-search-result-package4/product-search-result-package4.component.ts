@@ -41,7 +41,8 @@ export class ProductSearchResultPackage4Component implements OnInit {
   imageList: any[] = []
   formTypes: any[] = []
   requestedDocuments: any[] = []
-
+  documents: any[] = []
+  
   // Table
   tableEntries: number = 10
   tableSelected: any[] = []
@@ -103,7 +104,6 @@ export class ProductSearchResultPackage4Component implements OnInit {
       "name": "list"
     }
     
-
     if (this.entity['type_of_entity'] == 'CP') {
       request_["registration_no"] = Number(this.entity['company_number'])
       request_["entity_type"] = "ROC"
@@ -118,6 +118,34 @@ export class ProductSearchResultPackage4Component implements OnInit {
 
     }
 
+    let entity_type_profile = ''
+    let entity_name = this.entity['name']
+    let entity_no = ''
+    
+    if (this.entity['type_of_entity'] == 'CP') {
+      entity_type_profile = 'Company Profile'
+      entity_no = this.entity['company_number_new'] + '(' + this.entity['company_number'] + '-' + this.entity['check_digit'] + ')'
+    }
+    else if (this.entity['type_of_entity'] == 'BS') {
+      entity_type_profile = 'Business Profile'
+      entity_no = this.entity['registration_number_new'] + '(' + this.entity['registration_number'] + '-' + this.entity['check_digit'] + ')'
+    }
+
+    let profile_data = {
+      'entity': this.entity['id'],
+      'companyNo': entity_no,
+      'companyName': entity_name,
+      'documentType': 'PF',
+      'documentFormType': '-',
+      'documentFormName': entity_type_profile,
+      'documentDate': '-',
+      'totalPage': '-',
+      'isChecked': false,
+      'verId': null
+    }
+     
+    this.documents.push(profile_data)
+
     this.fileService.get('form-types.json').subscribe(
       (res) => {
         this.formTypes = res
@@ -125,41 +153,43 @@ export class ProductSearchResultPackage4Component implements OnInit {
       }
     )    
 
-
-    this.spinner.show()
-
-    this.productService.generateImage(request_).subscribe(
-      (res) => {
-        console.log('Image list', res)
-        this.imageList = res
-      },
-      () => {
-        this.spinner.hide()
-      },
-      () => {
-        this.spinner.hide()
-
-        this.imageList.forEach(
-          (img) => {
-            this.formTypes.forEach(
-              (form) => {
-                if (img.formType == form.code) {
-                  img['formName'] = form.desc_en
-                  img['isCtc'] = false
-                  img['price'] = 1000 
-                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')
-                  img['isChecked'] = false
-                  img['companyName'] = this.entity['name']
+    if (this.entity['entity_type'] == 'CP') {
+      this.spinner.show()
+      this.productService.generateImage(request_).subscribe(
+        (res) => {
+          console.log('Image list', res)
+          this.imageList = res
+        },
+        () => {
+          this.spinner.hide()
+        },
+        () => {
+          this.spinner.hide()
+  
+          this.imageList.forEach(
+            (img) => {
+              this.formTypes.forEach(
+                (form) => {
+                  if (img.formType == form.code) {
+                    img['formName'] = form.desc_en
+                    img['isCtc'] = false
+                    img['price'] = 1000 
+                    img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')
+                    img['isChecked'] = false
+                    img['companyName'] = this.entity['name']
+                  }
                 }
-              }
-            )
-          }
-        )
-
-        this.updateTable()
-      }
-    )
- 
+              )
+            }
+          )
+  
+          this.updateTable()
+        }
+      )
+    }
+    else {
+      this.updateTable()
+    }
   }
 
   goBack() {

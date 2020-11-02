@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -88,12 +89,15 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                <b>ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
                     AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
-                     LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.</b>
+                    LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
+                </b>
             </p>
+
             <h2 class="font-weight-bold text-center">PARTICULARS OF REGISTERED ADDRESS</h2>
-            <h3 class="font-weight-bold text-center"> CORPORATE INFORMATION </h3>
+            <h3 class="font-weight-bold text-center"><u>CORPORATE INFORMATION</u></h3>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -285,7 +289,7 @@
                 </table>
             </div>
 
-            <h3 class="font-weight-bold text-center pg-break"> CHANGES OF REGISTERED ADDRESS </h3>
+            <h3 class="font-weight-bold text-center pg-break"><u>CHANGES OF REGISTERED ADDRESS</u></h3>
             <p id="secondary">NAME: {{data.corpInfo.compName}}</p>
             <p id="secondary">COMPANY NO.: <b>{{data.corpInfo.compNo}}</b></p>
 
@@ -333,7 +337,6 @@
                     </tbody>
                 </table>
             </div>
-            
 
             <!-- {% for previous in data.ownerPreviousInfo %}
             <h3 class="font-weight-bold text-center pg-break"> PREVIOUS DIRECTORS/OFFICERS</h3>
@@ -459,7 +462,7 @@
             </div>
             {% endfor %} -->
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h3>
     
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>

@@ -6,6 +6,8 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 from .mapping import officer_designation_mapping, state_mapping, charge_code
 
+from collections import OrderedDict
+
 def roc_business_officers(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
@@ -248,8 +250,8 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     temp_current_officers_arr = []
     temp_current_officers_arr_inside = []
 
-    print('item',temp_current_officers)
-    print('instance',isinstance(temp_current_officers, list))
+    # print('item',temp_current_officers)
+    # print('instance',isinstance(temp_current_officers, list))
     if isinstance(temp_current_officers, list):
         for officer in temp_current_officers:
         
@@ -264,11 +266,12 @@ def roc_business_officers(mdw_1, mdw_2, lang):
             officer['idNo'] = nric
             officer['state'] = state_mapping(officer['state'])
             officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
-            print('sadasdsad', officer)
+            # print('sadasdsad', officer)
             if officer['startDate']['#text']:
                 officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-            if len(temp_current_officers_arr_inside) < 5:
+            print('asdasdasdasdasda', len(temp_current_officers_arr_inside))
+            if len(temp_current_officers_arr_inside) < 7:
                 temp_current_officers_arr_inside.append(officer)
 
                 if len(temp_current_officers) == temp_current_officers.index(officer) + 1:
@@ -288,7 +291,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
-        print('sadasdsad', officer)
+        # print('sadasdsad', officer)
         officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
     if 'rocChangeCompanyOfficerListInfo' in data_mdw_1:
@@ -319,8 +322,13 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
         officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
         officer['resignDate'] = make_aware(datetime.strptime(officer['resignDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+        if officer['removalDate']['@xsi:nil'] == 'true':
+            officer['removalDate'] = None
+        else:
+            officer['removalDate'] = make_aware(datetime.strptime(officer['removalDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
         
-        if len(temp_previous_officers_arr_inside) < 5:
+        if len(temp_previous_officers_arr_inside) < 7:
             temp_previous_officers_arr_inside.append(officer)
 
             if len(temp_previous_officers) == temp_previous_officers.index(officer) + 1:
@@ -376,6 +384,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         'incorp_date': temp_incorp_date_new,
         'business_address_info': business_address_info,
         'registered_address_info': registered_address_info,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 
     return data_ready

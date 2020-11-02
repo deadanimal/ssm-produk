@@ -50,14 +50,15 @@ export class ProductManagementComponent implements OnInit {
   SelectionType = SelectionType;
   requestList: any;
 
-  updateForm: FormGroup
-
   // 
   isCompleted: boolean = false;
   isRejected: boolean = false;
   completedDate: string = ''
   remarks: string = ''
   selectedRow;
+
+  // Form
+  updateForm: FormGroup
 
   constructor(
     private modalService: BsModalService,
@@ -82,8 +83,6 @@ export class ProductManagementComponent implements OnInit {
         this.tableRows = res;
         this.tableRows.forEach(
           (row) => {
-
-
             if(row.created_date) {
               row.created_date = moment(row.created_date).format('DD/MM/YYYY')
             }
@@ -91,7 +90,6 @@ export class ProductManagementComponent implements OnInit {
             if(row.modified_date) {
               row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
             }
-
           }
         )        
       },
@@ -133,10 +131,6 @@ export class ProductManagementComponent implements OnInit {
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
-  }
-
-  onActivate(event) {
-    this.tableActiveRow = event.row;
   }
   
   openModal(modalRef: TemplateRef<any>, row) {

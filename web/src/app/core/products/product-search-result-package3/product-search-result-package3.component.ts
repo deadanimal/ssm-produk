@@ -118,10 +118,7 @@ export class ProductSearchResultPackage3Component implements OnInit {
         this.formTypes = res
         // console.log(this.formTypes)
       }
-    )    
-
-
-    this.spinner.show()
+    )
     
     let entity_type_profile = ''
     let entity_name = this.entity['name']
@@ -151,50 +148,55 @@ export class ProductSearchResultPackage3Component implements OnInit {
      
     this.documents.push(profile_data)
 
-    this.productService.generateImage(request_).subscribe(
-      (res) => {
-        // console.log('Image list', res)
-        this.imageList = res
-      },
-      () => {
-        this.spinner.hide()
-      },
-      () => {
-        this.spinner.hide()
-
-        this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
-        this.imageList.forEach(
-          (img) => {
-            let form_type_desc = ''
-            this.formTypes.filter((form) => {
-              if (img.formType == form.code) {
-                form_type_desc = form.desc_en
+    if (this.entity['type_of_entity'] == 'CP') {
+      this.spinner.show()
+      this.productService.generateImage(request_).subscribe(
+        (res) => {
+          // console.log('Image list', res)
+          this.imageList = res
+        },
+        () => {
+          this.spinner.hide()
+        },
+        () => {
+          this.spinner.hide()
+  
+          this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
+          this.imageList.forEach(
+            (img) => {
+              let form_type_desc = ''
+              this.formTypes.filter((form) => {
+                if (img.formType == form.code) {
+                  form_type_desc = form.desc_en
+                }
+              })
+  
+              let human_date = moment(img.dateFiler).format('DD-MM-YYYY')
+  
+              let form_data = {
+                'entity': this.entity['id'],
+                'companyNo': entity_no,
+                'companyName': entity_name,
+                'documentType': 'FR',
+                'documentFormType': img['formType'],
+                'documentFormName': form_type_desc,
+                'documentDate': human_date,
+                'totalPage': img['totalPage'],
+                'isChecked': false,
+                'verId': img['verId']
               }
-            })
-
-            let human_date = moment(img.dateFiler).format('YYYY-MM-DD')
-
-            let form_data = {
-              'entity': this.entity['id'],
-              'companyNo': entity_no,
-              'companyName': entity_name,
-              'documentType': 'FR',
-              'documentFormType': img['formType'],
-              'documentFormName': form_type_desc,
-              'documentDate': human_date,
-              'totalPage': img['totalPage'],
-              'isChecked': false,
-              'verId': img['verId']
+  
+              this.documents.push(form_data)
             }
-
-            this.documents.push(form_data)
-          }
-        )
-
-        this.updateTable()
-      }
-    )
- 
+          )
+          this.updateTable()
+        }
+      )
+    }
+    else {
+      this.updateTable()
+    }
+    
   }
 
   goBack() {

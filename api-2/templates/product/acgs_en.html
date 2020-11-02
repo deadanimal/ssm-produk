@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +11,8 @@
             @page {
                 /* padding: 2cm; */
                 /* size: A4; Change from the default size of A4 */
-                /* padding: 2.0cm; Set margin on each page */
+                /* padding: 2.0cm;  Set margin on each page */
+                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
                 size: A4 portait;            
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
@@ -20,15 +22,13 @@
             }
 
             body {
-                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                /* background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg'); */
                 background-repeat:repeat-y;
                 background-position: right top;
                 background-attachment:fixed;
                 background-size: 100% 100%;
                 margin: 4.01cm 2.48cm 3.34cm 2.48cm;
-                         
             }
-          
 
             header#header {
                 position: fixed;
@@ -92,11 +92,6 @@
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
-
-
-
-               
-        
 
         <div class="default-template container pg-start" style="padding-right: 130px; padding-top: 100px;">
             <h1 class="font-weight-bold text-center mb-0" style="font-size:60px">

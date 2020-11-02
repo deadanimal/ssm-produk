@@ -199,7 +199,13 @@ export class ProfileEgovComponent implements OnInit {
   }
 
   getData() {
-    this.user = this.userService.currentUser
+    if (this.userService.currentUser) {
+      this.user = this.userService.currentUser
+    }
+    else {
+      this.navigatePage('home')
+    }
+    
 
     if (
       this.user['egov_package'] == 1 ||
