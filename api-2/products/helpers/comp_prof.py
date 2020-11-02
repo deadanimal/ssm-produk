@@ -151,17 +151,20 @@ def comp_prof(mdw_1, mdw_2, lang):
         if isinstance(charges_info_temp, list):
             for charge in charges_info_temp:
                 charge['chargeStatus'] = charge_code(charge['chargeStatus'])
-                charge['chargeAmount'] = float(charge['chargeAmount'])
+                if charge['chargeAmount']:
+                   charge['chargeAmount'] = float(charge['chargeAmount'])
+                else:
+                   charge['chargeAmount'] = None
                 charge['chargeCreateDate'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
                 print('tes', charge['chargeCreateDate'])
-                print(charges_info)
+                # print(charges_info)
                 charges_info.append(charge)
         else:
             charges_info_temp["chargeStatus"] = charge_code(charges_info_temp["chargeStatus"])
             charges_info_temp["chargeAmount"] = float(charges_info_temp["chargeAmount"])
             charges_info_temp["chargeCreateDate"] = make_aware(datetime.strptime(charges_info_temp['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
             charges_info.append(charges_info_temp)
-            print('ouuuk', charges_info_temp)
+            # print('ouuuk', charges_info_temp)
     else:
         print('dee')
         charges_info = chargesinfotemp
@@ -195,8 +198,11 @@ def comp_prof(mdw_1, mdw_2, lang):
             officer['startDate'] = None
 
         # officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    
+    # def get_designation(officer_info):
+    #     return officer_info.get('designationCode')
 
-
+    # sorted(officer_info, key=get_designation)
 
     if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
         if len(balance_sheet_list) == 1:

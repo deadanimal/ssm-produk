@@ -13,7 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -89,15 +89,17 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
-                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
-                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
-                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
-                INFORMATION.
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
+                    THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
+                    DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
+                    FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
+                    INFORMATION.
+                </b>
             </p>
 
-            <h2 class="font-weight-bold text-center" style="font-size: 16pt;"><u> PARTICULARS OF SHARE CAPITAL  </u></h2>
-            <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> CORPORATE INFORMATION </u></h2>
+            <h2 class="font-weight-bold text-center">PARTICULARS OF SHARE CAPITAL</h2>
+            <h3 class="font-weight-bold text-center"><u>CORPORATE INFORMATION</u></h3>
 
             <div class="table-responsive"  style="padding-right:200px; margin-left:100px;">
                 <table class="table text-left" >
@@ -267,10 +269,8 @@
                     </tr>
                 </table>
             </div>
-            
 
-
-            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SUMMARY OF SHARE CAPITAL </u></h2>
+            <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SUMMARY OF SHARE CAPITAL </u></h3>
 
             <div class="table-responsive">
                 <table class="table text-left" >
@@ -299,10 +299,9 @@
                         <th style="width:25%; border: 0;"></th>
                         <th style="width:25%; border: 0;"></th> 
                         <th style="width:25%; border: 0;"></th> 
-                      </tr>
-                    <tbody>
-                      
+                    </tr>
 
+                    <tbody>
                         <tr style="height:20px;">
                             <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:2 | intcomma}}</p></td>
                             <td></td>
@@ -333,15 +332,11 @@
                             <td><p id="secondary">{{ data.others_issue_cash | floatformat:2 | intcomma}}</p></td>
                             <td><p id="secondary">{{ data.others_issue_noncash | floatformat:2 | intcomma}}</p></td>
                         </tr>                                                                                                                       
-                      
-
-              
                     </tbody>
                 </table>
             </div>
 
-
-            <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SHARE DETAILS </u></h2>
+            <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SHARE DETAILS </u></h3>
 
             <div class="table-responsive">
                 <table class="table text-left" >
@@ -473,7 +468,7 @@
                 </table>
             </div>   
             
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h3>
     
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>

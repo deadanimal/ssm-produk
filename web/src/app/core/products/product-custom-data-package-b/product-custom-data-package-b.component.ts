@@ -1,6 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import swal from "sweetalert2";
+import Swal from 'sweetalert2';
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
+}
 
 @Component({
   selector: 'app-product-custom-data-package-b',
@@ -45,6 +53,26 @@ export class ProductCustomDataPackageBComponent implements OnInit {
       created_at: "2019-07-27T01:07:14Z",
     },
   ];
+
+  // Table
+  tableEntries: number = 10
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: any[] = []
+  SelectionType = SelectionType
+  tableMessages = {
+    // Message to show when array is presented
+    // but contains no values
+    emptyMessage: 'Empty search',
+  
+    // Footer total message
+    totalMessage: '',
+  
+    // Footer selected message
+    selectedMessage: 'selected'
+  }
+  tableResults: any[] = []
 
   constructor(private router: Router) {}
 

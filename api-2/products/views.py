@@ -39,6 +39,7 @@ from products.services.get_new_format_entity import get_new_format_entity
 from products.services.get_cert_incorp import get_cert_incorp
 from products.services.get_cert_reg_foreign import get_cert_reg_foreign
 from products.services.get_info_comp_name_chg import get_info_comp_name_chg
+from products.services.get_info_branch_listing import get_info_branch_listing
 from products.services.get_info_fin2 import get_info_fin2
 from products.services.get_info_fin3 import get_info_fin3
 from products.services.get_info_fin5 import get_info_fin5
@@ -76,7 +77,7 @@ from .services.availability.get_is_act_2016 import get_is_act_2016
 from .services.availability.get_is_name_changed import get_is_name_changed
 from .services.availability.get_is_company_converted import get_is_company_converted
 from .services.availability.get_info_rob_termination_list import get_info_rob_termination_list
-from .services.availability.get_info_branch_listing import get_info_branch_listing
+from .services.availability.get_info_branch_list import get_info_branch_list
 
 from .helpers.info_acgs import info_acgs
 from .helpers.roc_business_officers import roc_business_officers
@@ -376,7 +377,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         is_name_changed = get_is_name_changed(information_url, request_headers, registration_)
         is_company_converted = get_is_company_converted(information_url, request_headers, registration_)
         info_termination_list = get_info_rob_termination_list(information_url, request_headers, registration_)
-        info_branch_list = get_info_branch_listing(information_url, request_headers, registration_) 
+        info_branch_list = get_info_branch_list(information_url, request_headers, registration_) 
 
         data_json = {
             'info_charges': info_charges,
@@ -630,6 +631,32 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         return Response(data_)
 
+
+    @action(methods=['POST'], detail=False)
+    def generate_branch_list(self, request, *args, **kwargs):
+        
+        product_request_json = json.loads(request.body)
+
+        registration_ = product_request_json['registration_no']
+
+        info_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
+
+        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+
+        request_headers = {
+            'content-type': "text/xml;charset=UTF-8",
+            'authorization': auth_code
+        }
+
+        middleware_data = get_info_branch_listing(info_url, request_headers, registration_)
+        data_ = middleware_data['ssmRegistrationBranchAddressInfos']
+
+        return Response(data_)
+
+
     @action(methods=['POST'], detail=False)
     def generate_list(self, request, *args, **kwargs): 
         import xlsxwriter
@@ -670,7 +697,6 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 data_ = middleware_data
                 return Response(data_)                                       
 
-                
             elif package_ == 'B':
 
                 middleware_data = get_comp_listing_b(listing_url, request_headers, 
@@ -857,6 +883,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                           
             else:
                 return Response({})
+    
+
     @action(methods=['GET'], detail=False)
     def lala(self, request, *args, **kwargs):
 

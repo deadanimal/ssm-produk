@@ -20,6 +20,11 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     share_capital_info = mdw_1["shareCapitalSummary"]
     company_info = mdw_1["rocCompanyInfo"]
 
+    if 'latestDocUpdateDate' in company_info.keys():
+        company_info['latestDocUpdateDate'] = make_aware(datetime.strptime(company_info['latestDocUpdateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+         company_info['latestDocUpdateDate'] = None
+
     # print('regggg >>>>', registered_address_info)
     registered_address_info['state'] = state_mapping(registered_address_info['state'])
     business_address_info['state'] = state_mapping(business_address_info['state'])
@@ -71,7 +76,8 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
         'others_issue_cash': others_issue_cash,
         'others_issue_noncash': others_issue_noncash,
         'incorp_date': temp_incorpDate_new,    
-        'company_info': company_info    
+        'company_info': company_info,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"), 
     }
 
 

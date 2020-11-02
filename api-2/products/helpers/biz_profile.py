@@ -588,7 +588,8 @@ def biz_profile(mdw_1, mdw_2, lang):
 
         },
         'ownerCurrentInfo': temp_current_owner,
-        'ownerPreviousInfo': temp_previous_owner
+        'ownerPreviousInfo': temp_previous_owner,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 
     print(data_ready)

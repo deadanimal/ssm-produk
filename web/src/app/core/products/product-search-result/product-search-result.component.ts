@@ -150,21 +150,23 @@ export class ProductSearchResultComponent implements OnInit {
 
     this.loadingBar.useRef('http').start()
 
-    forkJoin([
-      this.productService.getAll(),
-      this.productService.generateImage(imageBody),
-      // this.productService.checkAvailability(availabilityBody),
-    ]).subscribe(
+    this.productService.getAll().subscribe(
       (res) => {
         this.loadingBar.useRef('http').complete()
-        // Products list
-        this.products = res[0]
-        
-        // Image list
-        this.imageList = res[1]
+        this.products = res
+      },
+      () => {
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
 
-        // Available list
-        // this.availabilityList = res[2]
+      }
+    )
+
+    this.productService.generateImage(imageBody).subscribe(
+      (res) => {
+        this.loadingBar.useRef('http').complete()
+        this.imageList = res
       },
       () => {
         this.loadingBar.useRef('http').complete()
@@ -178,7 +180,7 @@ export class ProductSearchResultComponent implements OnInit {
                   img['formName'] = form.desc_en
                   img['isCtc'] = false
                   img['price'] = 1000
-                  img['humanDate'] = moment(img.dateFiler).format('YYYY-MM-DD')               
+                  img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')               
                   this.updateTable()
                 }
               }
@@ -187,7 +189,6 @@ export class ProductSearchResultComponent implements OnInit {
         )
       }
     )
-    // Ada API untuk call middleware untuk check product apa available untuk dirinya
 
     this.fileService.get('form-types.json').subscribe(
       (res) => {

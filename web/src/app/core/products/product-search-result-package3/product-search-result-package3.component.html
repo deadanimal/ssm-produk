@@ -3,6 +3,28 @@
     <div class="cd-section">
         <div class="section features-7">
             <div class="container mt-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="display-3">Search result</h4>
+                        <label class="m-0 font-weight-bolder title-transform">
+                            Entity name:
+                            <div *ngIf="entity.type_of_entity == 'AD'">
+                                {{ entity.audit_firm_number }} / {{entity.name}}
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'BS'">
+                                {{ entity.registration_number_new }}
+                                ({{ entity.registration_number }}-{{ entity.check_digit }}) /
+                                {{entity.name}}
+                            </div>
+                            <div *ngIf="entity.type_of_entity == 'CP'">
+                                {{ entity.company_number_new }} ({{ entity.company_number }}-{{entity.check_digit}}) /
+                                {{entity.name}}
+                            </div>
+                        </label>
+
+                        <p class="lead">Available products and documents:</p>
+                    </div>
+                </div>
 
                 <tabset type="pills">
 
