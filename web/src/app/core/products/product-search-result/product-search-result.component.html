@@ -698,7 +698,7 @@
                                                                 <ng-container
                                                                     *ngFor="let year of availabilityList['financial_year']['years']"
                                                                 >
-                                                                    <option value="{{year}}">
+                                                                    <option value="{{year | date: 'yyyy'}}">
                                                                         {{year | date: 'yyyy'}}
                                                                     </option>
                                                                 </ng-container>
@@ -726,7 +726,7 @@
                                                                 <ng-container
                                                                     *ngFor="let year of availabilityList['financial_year']['years']"
                                                                 >
-                                                                    <option value="{{year}}">
+                                                                    <option value="{{year | date: 'yyyy'}}">
                                                                         {{year | date: 'yyyy'}}
                                                                     </option>
                                                                 </ng-container>

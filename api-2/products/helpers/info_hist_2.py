@@ -17,7 +17,9 @@ def info_hist_2(mdw_1, mdw_2, lang):
     import pprint
     pp = pprint.PrettyPrinter(indent=1)
     #pp.pprint(mdw_1)
-
+    print('   ')
+    print('historical year 1: ', data_mdw_1)
+    print('   ')
     temp_comp_status_old = data_mdw_1['rocCompanyInfo']['companyStatus']
     
     if temp_comp_status_old == 'E':

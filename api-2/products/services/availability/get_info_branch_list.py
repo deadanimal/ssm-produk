@@ -2,7 +2,7 @@ import requests
 import json
 import xmltodict
 
-def get_info_branch_listing(url, headers, registration_number):
+def get_info_branch_list(url, headers, registration_number):
 
     payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">

@@ -4,6 +4,7 @@ import json
 
 from datetime import datetime
 from django.utils.timezone import make_aware
+
 from .mapping import (
     state_mapping,
     time_mapping,
@@ -17,6 +18,9 @@ def particular_address(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
+
+    date_format = "%d-%m-%Y"
+    time_zone = 'Asia/Kuala_Lumpur'
 
     if mdw_1['rocCompanyInfo']['companyOldName'] == None:
         temp_old_name = 'NIL'
@@ -240,7 +244,8 @@ def particular_address(mdw_1, mdw_2, lang):
             'bizNature': mdw_1['rocCompanyInfo']['businessDescription']
         },
         'lastUpdateDate': temp_last_update_date,
-        'changeRegAddress': temp_change_reg_address
+        'changeRegAddress': temp_change_reg_address,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 
     print(data_ready)
