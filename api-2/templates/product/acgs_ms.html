@@ -15,12 +15,12 @@
                 size: A4 portait;
                 /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
-                    content: "Page " counter(page) " of " counter(pages);
+                    content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
             }
 
             body {
-                background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg');
+                /* background-image:url('https://pipeline-project.sgp1.digitaloceanspaces.com/misc/cert-frame.jpg'); */
                 background-repeat:repeat-y;
                 background-position: right top;
                 background-attachment:fixed;
@@ -81,6 +81,16 @@
                 font-size: 20px;
                 text-align: justify;
             }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 3.5rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -128,8 +138,12 @@
                 B. Syarikat telah menyerahsimpan penyata tahunan dan penyata kewangan 
                 atau sijil pengecualian syarikat (EPC) yang terkini;
                 <br>
-                C. Alamat berdaftar syarikat adalah di {{data.regAddress_address1}},
-                {{data.regAddress_address2}}, {{data.regAddress_address3}}, {{data.regAddress_postcode}}.          
+                C. Alamat berdaftar syarikat adalah di {% if data.regAddress_address1 %}{{data.regAddress_address1}}, 
+                {% endif %} {% if data.regAddress_address1 %}{{data.regAddress_address1}}, {% endif %}
+                {% if data.regAddress_address3 %}{{data.regAddress_address3}}, {% endif %}
+                {% if data.regAddress_postcode %}{{data.regAddress_postcode}},{% endif %}
+                {% if data.regAddress_town %}{{data.regAddress_town}}, {% endif %} 
+                {% if data.regAddress_state %}{{data.regAddress_state}}{% endif %}. 
             </p>            
 
             <p id="primary" class="mt-0" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">
@@ -146,8 +160,6 @@
                 yang mengesahkan kewujudan sesebuah syarikat yang 
                 telah memenuhi kriteria yang ditetapkan dalam ACGS.
             </p>
-
-
 
             
             <p id="primary" style="margin-left: 30px;">
@@ -193,13 +205,17 @@
                 <br>
                 7. Syarikat atau pengarah-pengarah syarikat tidak mempunyai sebarang
                 kes pendakwaan tertunggak dengan SSM.              
-            </p>               
-
+            </p>
         </div>
-    </body>
 
-    <footer>
-        <p></p>
-    </footer>
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-left">USER ID: @</p>
+                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+            </div>
+            
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 

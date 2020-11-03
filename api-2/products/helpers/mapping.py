@@ -81,7 +81,7 @@ def status_mapping(temp_status, lang):
     
     return temp_status
 
-def race_mapping(temp_race):
+def race_mapping(temp_race, lang):
 
     if temp_race == 'M':
         temp_race = 'MELAYU'
@@ -329,6 +329,20 @@ def charge_code(charge_code):
         charge_name = 'FULLY CEASED'   
 
     return charge_name
+
+
+def nationality_code(nationality_code, lang):
+
+    if nationality_code == 'MAL' and lang == 'ms':
+        nationality = 'WARGANEGARA MALAYSIA'
+    elif nationality_code == 'MAL' and lang == 'en':
+        nationality = 'MALAYSIAN CITIZEN'
+    elif nationality_code == 'PMR' and lang == 'ms':
+        nationality = 'PENDUDUK TETAP'
+    elif nationality_code == 'PMR' and lang == 'en':
+        nationality = 'PERMANENT RESIDENT'
+    
+    return nationality
 # AFG	AFGHANISTAN
 # AGL	ANGUILLA
 # AZB	REPUBLIC OF AZERBAIJAN

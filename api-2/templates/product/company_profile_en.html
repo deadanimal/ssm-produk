@@ -13,6 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
+                /* margin: 27mm 10mm 27mm 10mm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -81,7 +82,6 @@
     </head>
 
     <body>
-
         <header id="header">
             <div class="text-center">
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
@@ -89,14 +89,16 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer" style="font-size:8pt;text-align:justify;margin-right:100px;margin-left:100px">
-                <b>ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
                     AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
-                     LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.</b>
+                    LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
+                </b>
             </p>
             <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> CORPORATE INFORMATION </u></h2>
 
-            <div class="table-responsive"  style="padding-right:200px; margin-left:100px;">
+            <div class="table-responsive">
                 <table class="table text-left" >
                     <tr>
                         <th style="width:30%; border: 0;"></th>
@@ -252,7 +254,7 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="height:20px;">
                         <td><p id="secondary">POSTCODE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
@@ -277,8 +279,6 @@
                     </tr>
                 </table>
             </div>
-            
-
 
             <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem; font-size: 12pt;"><u> SUMMARY OF SHARE CAPITAL </u></h2>
 
