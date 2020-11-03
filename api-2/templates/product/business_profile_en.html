@@ -1,4 +1,4 @@
-{% load humanize %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -88,14 +88,16 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer" style="font-size:8pt;text-align:justify;margin-right:100px;margin-left:100px">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
                 THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
                 DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
                 FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
                 INFORMATION.
+                </b>
             </p>
-            <h3 class="font-weight-bold text-center">*** BUSINESS INFORMATION ***</h3>
+            <h3 class="font-weight-bold text-center">** BUSINESS INFORMATION **</h3>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -206,16 +208,31 @@
                 </table>
             </div>
 
-            <h3 class="font-weight-bold text-center mt-5">*** BUSINESS TYPE ***</h3>
+            <h3 class="font-weight-bold text-center mt-5">** BUSINESS TYPE **</h3>
             <p id="secondary">{{data.bizType.description}}</p>
 
-            <h3 class="font-weight-bold text-center mt-5">*** BRANCH INFORMATION ***</h3>
-            <p id="secondary" class="text-center">*** NO BRANCH ***</p>
+            <h3 class="font-weight-bold text-center mt-5">** BRANCH INFORMATION **</h3>
+            <p id="secondary" class="text-center">** NO BRANCH **</p>
             
             {% for current in data.ownerCurrentInfo %}
-            <h3 class="font-weight-bold text-center pg-break">*** INFORMATION OF CURRENT OWNER ***</h3>
-            <p id="secondary">NAME: {{data.bizInfo.registrationName}}</p>
-            <p id="secondary">REGISTRATION NO.: <b> {{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p>
+            <h3 class="font-weight-bold text-center pg-break">** INFORMATION OF CURRENT OWNER **</h3>
+            <table class="table text-left" >
+                <tr>
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:1%; border: 0;"></th>
+                    <th style="width:69%; border: 0;"></th>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">NAME</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">REGISTRATION NO.:</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                </tr>                    
+            </table>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -334,10 +351,51 @@
             </div>
             {% endfor %}
 
+            {% if data.OwnerPreviousInfo|length == '0' %}
+            <h3 class="font-weight-bold text-center pg-break">** PREVIOUS DIRECTORS/OFFICERS **</h3>
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">REGISTRATION NO.:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                    </tr>                    
+                </table>
+            </div>
+            <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">** NO INFORMATION **</h2>
+            {% endif %}
+
             {% for previous in data.ownerPreviousInfo %}
-            <h3 class="font-weight-bold text-center pg-break">*** PREVIOUS DIRECTORS/OFFICERS ***</h3>
-            <p id="secondary">NAME: {{data.bizInfo.registrationName}}</p>
-            <p id="secondary">REGISTRATION NO.:<b> {{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p>
+            <h3 class="font-weight-bold text-center pg-break">** PREVIOUS DIRECTORS/OFFICERS **</h3>
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">REGISTRATION NO.:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                    </tr>                    
+                </table>
+            </div>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
@@ -367,7 +425,7 @@
                                 {{previous.address_3}} <br />
                             {% endif %}
                             {% if previous.postcode %}
-                                {{previous.postcode}}, {{previous.town}}  <br />
+                                {{previous.postcode}}, {% if previous.town %} {{previous.town}}  {% endif %}<br />
                             {% endif %}
                             {% if previous.state %}
                                 {{previous.state}}
@@ -445,8 +503,8 @@
                         <td><p id="secondary">DATE OF ENTRY</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
-                            {% if current.entryDate %}
-                                {{current.entryDate}}
+                            {% if previous.entryDate %}
+                                {{previous.entryDate}}
                             {% else %}
                                 NIL
                             {% endif %}
@@ -456,8 +514,8 @@
                         <td><p id="secondary">DATE OF WITHDRAWAL</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
-                            {% if current.withdrawDate %}
-                                {{current.withdrawDate}}
+                            {% if previous.withdrawDate %}
+                                {{previous.withdrawDate}}
                             {% else %}
                                 NIL
                             {% endif %}
@@ -467,8 +525,8 @@
                         <td><p id="secondary">REASON OF WITHDRAWAL</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
-                            {% if current.ammendmentType %}
-                                {{current.ammendmentType}}
+                            {% if previous.ammendmentType %}
+                                {{previous.ammendmentType}}
                             {% else %}
                                 NIL
                             {% endif %}
