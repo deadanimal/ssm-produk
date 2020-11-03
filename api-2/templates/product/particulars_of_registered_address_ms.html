@@ -88,7 +88,7 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
                 <b>
                     SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK 
                     MEMASTIKAN MAKLUMAT YANG DIBERI ADALAH BETUL 
@@ -291,8 +291,25 @@
             </div>
 
             <h3 class="font-weight-bold text-center pg-break"><u>CHANGES OF REGISTERED ADDRESS</u></h3>
-            <p id="secondary">NAMA: {{data.corpInfo.compName}}</p>
-            <p id="secondary">NO. PENDAFTARAN.: <b>{{data.corpInfo.compNo}}</b></p>
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAMA</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.corpInfo.compNo }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NO. PENDAFTARAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{data.corpInfo.compNo}}</p></p></td>
+                    </tr>                    
+                </table>
+            </div>
 
             <p id="disclaimer"><b>*Perubahan alamat berdaftar adalah bermula pada {{data.lastUpdateDate}}</b></p>
 
