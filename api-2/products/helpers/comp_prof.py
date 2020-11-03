@@ -133,16 +133,16 @@ def comp_prof(mdw_1, mdw_2, lang):
     
 
     # print('ci', charges_info['errorMsg'])
-    print('         ')
-    print('charges', chargesinfotemp)
-    print('         ')
+    # print('         ')
+    # print('charges', chargesinfotemp)
+    # print('         ')
     charges_info = []
     
-    print('1', chargesinfotemp['errorMsg'] == None )
-    print('2', chargesinfotemp['errorMsg'] != 'No Data' )
-    print('3', chargesinfotemp['rocChargesInfos'] != None )
-    print('4', chargesinfotemp['rocChargesInfos'] != 'No Data' )
-    print('5',(chargesinfotemp['errorMsg'] != None and chargesinfotemp['errorMsg']) != 'No Data' and (chargesinfotemp['rocChargesInfos'] != None and chargesinfotemp['rocChargesInfos'] != 'No Data'))
+    # print('1', chargesinfotemp['errorMsg'] == None )
+    # print('2', chargesinfotemp['errorMsg'] != 'No Data' )
+    # print('3', chargesinfotemp['rocChargesInfos'] != None )
+    # print('4', chargesinfotemp['rocChargesInfos'] != 'No Data' )
+    # print('5',(chargesinfotemp['errorMsg'] != None and chargesinfotemp['errorMsg']) != 'No Data' and (chargesinfotemp['rocChargesInfos'] != None and chargesinfotemp['rocChargesInfos'] != 'No Data'))
     if chargesinfotemp['errorMsg'] == None and chargesinfotemp['errorMsg'] != 'No Data' and chargesinfotemp['rocChargesInfos'] != None and chargesinfotemp['rocChargesInfos'] != 'No Data':
         # print('   ')
         # print('charges', chargesinfotemp['rocChargesInfos'])
@@ -166,7 +166,7 @@ def comp_prof(mdw_1, mdw_2, lang):
             charges_info.append(charges_info_temp)
             # print('ouuuk', charges_info_temp)
     else:
-        print('dee')
+        # print('dee')
         charges_info = chargesinfotemp
 
     company_info = mdw_1["rocCompanyInfo"]
@@ -217,20 +217,20 @@ def comp_prof(mdw_1, mdw_2, lang):
 
             for sheet in balance_sheet_list:
                 if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_bs:
-                    print(sheet)
+                    # print(sheet)
                     bss_ = sheet
             
             temp_pll = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in profit_loss_list]
             temp_pll.sort()
             length_temp_pll = len(temp_pll)
 
-            print('gegfege')
-            print(temp_pll)
+            # print('gegfege')
+            # print(temp_pll)
             latest_date_pl = temp_pll[length_temp_pll-1]
 
             for sheet in profit_loss_list:
                 if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_pl:
-                    print(sheet)
+                    # print(sheet)
                     pll_ = sheet
 
         financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))

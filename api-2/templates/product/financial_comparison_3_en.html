@@ -13,7 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 27mm 10mm 27mm 10mm;
+                /* margin: 27mm 10mm 27mm 10mm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -39,11 +39,34 @@
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 11px;
             }
+            .default-template p#secondary {
+                font-size: 16px;
+            }
+            .default-template p#disclaimer {
+                font-size: 8pt;
+            }
+            .default-template p#primary {
+                word-spacing: 7pt;
+                font-size: 22px;
+                text-align: justify;
+            }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
             }
             table tr.heading td {
                 color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
+            }
+            .pg-break {
+                page-break-before: always; 
+                margin-top: 15rem;
+            }
+            .pg-start {
+                margin-top: 15rem;
             }
             footer#footer {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
@@ -64,12 +87,15 @@
                 <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
             </div>
         </header>
-        
 
-        <div class="default-template container" style="margin-top: 15rem;">
-            <p>Although all efforts has been carried out to ensure that the information provided is 
-                accurate and up to date, the Registrat of Companies will not be liable for any losses 
-                arising from any inaccurate or omitted information.</p>
+        <div class="default-template container pg-start">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                    AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
+                    LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
+                </b>
+            </p>
             <h3 class="font-weight-bold text-center">** CORPORATE INFORMATION **</h3>
 
             <div class="table-responsive">
@@ -271,13 +297,38 @@
             </div>
             
             <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;">*** KEY FINANCIAL INFORMATION ***</h3>
-            <p id="secondary">Name: {{ data.corpInfo.compName }}</p>
-            <p id="secondary">Registration No.: <b>{{data.corpInfo.compNoNew }} ({{data.corpInfo.compNoOld}}-{{data.corpInfo.checkDigit}})</b></p>
-            <p id="secondary">Auditor: {{ data.balance_sheet.0.auditor_name }} </p>
-            <p id="secondary">Auditor Address: {{ data.balance_sheet.0.auditor_address1 }}{{ data.balance_sheet.0.auditor_address2 }}
-                {{ data.balance_sheet.0.auditor_address3 }}{{ data.balance_sheet.0.auditor_postcode }}
-                {{ data.balance_sheet.0.auditor_town }}{{ data.balance_sheet.0.auditor_state }}   
-            </p>
+            <table class="table text-left" >
+                <tr>
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:1%; border: 0;"></th>
+                    <th style="width:69%; border: 0;"></th>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">NAME</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary">{{ data.corpInfo.compName }}</p></td>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">REGISTRATION NO.:</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary"><b>{{data.corpInfo.compNoNew }} ({{data.corpInfo.compNoOld}}-{{data.corpInfo.checkDigit}})</b></p></td>
+                </tr>    
+                <tr style="height:8px;">
+                    <td><p id="secondary">AUDITOR:</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}</p></td>
+                </tr>       
+                <tr style="height:8px;">
+                    <td><p id="secondary">AUDITOR ADDRESS:</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary">
+                        {{ data.balance_sheet.0.auditor_address1 }}{{ data.balance_sheet.0.auditor_address2 }}
+                        {{ data.balance_sheet.0.auditor_address3 }}{{ data.balance_sheet.0.auditor_postcode }}
+                        {{ data.balance_sheet.0.auditor_town }}{{ data.balance_sheet.0.auditor_state }}
+                    </p></td>
+                </tr>           
+            </table>
+
             <div class="table-responsive">
                 <table class="table text-left borderless">
     
@@ -361,15 +412,15 @@
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">RETAINED EARNING: </p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.inappropriateProfitCf }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.inappropriateProfitCf }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.inappropriateProfitCf }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.inappropriateProfitCf }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.inappropriateProfitCf }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.inappropriateProfitCf }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">MINORITY INTERESTS: </p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.minorityInterest }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.minorityInterest }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.minorityInterest }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">INCOME STATEMENT ITEMS</p></td>
@@ -378,33 +429,33 @@
                         </tr> 
                         <tr style="height: 4px;">
                             <td><p id="secondary">REVENUE:</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.revenue }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.revenue }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.revenue }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.revenue }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.revenue }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.revenue }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">PROFIT / (LOSS) BEFORE TAX:</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.profitBeforeTax }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.profitBeforeTax }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.profitBeforeTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.profitBeforeTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.profitBeforeTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.profitBeforeTax }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">PROFIT / (LOSS) AFTER TAX:</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.profitAfterTax }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.profitAfterTax }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.profitAfterTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.profitAfterTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.profitAfterTax }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.profitAfterTax }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">NET DIVIDEND:</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.netDividend }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.netDividend }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.netDividend }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.netDividend }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.netDividend }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.netDividend }}</p></td>
                         </tr>
                         <tr style="height: 4px;">
                             <td><p id="secondary">MINOTRIY INTERESTS:</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.2.minorityInterest }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.1.minorityInterest }}</p></td>
-                            <td><p id="secondaary">{{ data.profit_loss.0.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.2.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.1.minorityInterest }}</p></td>
+                            <td><p id="secondary">{{ data.profit_loss.0.minorityInterest }}</p></td>
                         </tr>
                     </tbody>
                 </table>
@@ -428,9 +479,5 @@
             <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
-
-    <footer>
-        <p></p>
-    </footer>
 </html>
 

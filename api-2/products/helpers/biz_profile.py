@@ -5,6 +5,11 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
+from .mapping import (
+    state_mapping,
+    nationality_code
+)
+
 def biz_profile(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
@@ -61,49 +66,8 @@ def biz_profile(mdw_1, mdw_2, lang):
     elif temp_main_state == None:
         temp_main_state = None
     else:
-        temp_main_state = temp_main_state
+        temp_main_state = state_mapping(temp_main_state)
 
-    if temp_main_state == 'R':
-        temp_main_state = 'PERLIS'
-    elif temp_main_state == 'K':
-        temp_main_state = 'KEDAH'
-    elif temp_main_state == 'P':
-        temp_main_state = 'PULAU PINANG'
-    elif temp_main_state == 'D':
-        temp_main_state = 'KELANTAN'
-    elif temp_main_state == 'T':
-        temp_main_state = 'TERENGGANU'
-    elif temp_main_state == 'A':
-        temp_main_state = 'PERAK'
-    elif temp_main_state == 'B':
-        temp_main_state = 'SELANGOR'
-    elif temp_main_state == 'C':
-        temp_main_state = 'PAHANG'
-    elif temp_main_state == 'M':
-        temp_main_state = 'MELAKA'
-    elif temp_main_state == 'J':
-        temp_main_state = 'JOHOR'
-    elif temp_main_state == 'X':
-        temp_main_state = 'SABAH'
-    elif temp_main_state == 'Y':
-        temp_main_state = 'SARAWAK'
-    elif temp_main_state == 'L':
-        temp_main_state = 'LABUAN'
-    elif temp_main_state == 'W':
-        temp_main_state = 'WILAYAH PERSEKUTUAN'
-    elif temp_main_state == 'Q':
-        temp_main_state = 'SINGAPURA'
-    elif temp_main_state == 'U':
-        temp_main_state = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_main_state == 'F':
-        temp_main_state = 'FOREIGN'
-    elif temp_main_state == 'I':
-        temp_main_state = 'INTERNET'
-    elif temp_main_state == 'S':
-        temp_main_state = 'SABAH'
-    elif temp_main_state == 'E':
-        temp_main_state = 'SARAWAK'
-    
     if int(data_mdw_1['robBusinessInfo']['ownerCount']) == 1 and lang == 'ms':
         temp_biz_ownership  = 'PEMILIKAN TUNGGAL'
     elif int(data_mdw_1['robBusinessInfo']['ownerCount']) > 1 and lang == 'ms':
@@ -128,25 +92,25 @@ def biz_profile(mdw_1, mdw_2, lang):
         temp_ammend_date = make_aware(datetime.strptime(temp_ammend_date, '%Y-%m-%dT%H:%M:%S.000Z'))
         temp_ammend_date = temp_ammend_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
-        temp_ammend_date = ''
+        temp_ammend_date = None
 
     temp_status = data_mdw_1['robBusinessInfo']['status']
     if temp_status == 'A' and lang == 'ms':
-        temp_status = 'Aktif'
+        temp_status = 'AKTIF'
     elif temp_status == 'L' and lang == 'ms':
-        temp_status = 'Luput'
+        temp_status = 'LUPUT'
     elif temp_status == 'T' and lang == 'ms':
-        temp_status = 'Penamatan'
+        temp_status = 'PENAMATAN'
     elif temp_status == 'B' and lang == 'ms':
-        temp_status = 'Bubar-Pertukaran kepada Perkongsian Liabiliti Terhad (PLT)'
+        temp_status = 'BUBAR-PERTUKARAN KEPADA PERKONGSIAN LIABILITI TERHAD (PLT)'
     elif temp_status == 'A' and lang == 'en':
-        temp_status = 'Active'
+        temp_status = 'ACTIVE'
     elif temp_status == 'L' and lang == 'en':
-        temp_status = 'Expired'
+        temp_status = 'EXPIRED'
     elif temp_status == 'T' and lang == 'en':
-        temp_status = 'Terminated'
+        temp_status = 'TERMINATED'
     elif temp_status == 'B' and lang == 'en':
-        temp_status = 'LLP Conversion'
+        temp_status = 'LLP CCONVERSION'
     
     temp_current_owner = []
 
@@ -206,48 +170,9 @@ def biz_profile(mdw_1, mdw_2, lang):
             elif temp_current_owner_state == None:
                 temp_current_owner_state = None
             else:
-                temp_current_owner_state = temp_current_owner_state
+                temp_current_owner_state = state_mapping(temp_current_owner_state)
 
-            if temp_current_owner_state == 'R':
-                temp_current_owner_state = 'PERLIS'
-            elif temp_current_owner_state == 'K':
-                temp_current_owner_state = 'KEDAH'
-            elif temp_current_owner_state == 'P':
-                temp_current_owner_state = 'PULAU PINANG'
-            elif temp_current_owner_state == 'D':
-                temp_current_owner_state = 'KELANTAN'
-            elif temp_current_owner_state == 'T':
-                temp_current_owner_state = 'TERENGGANU'
-            elif temp_current_owner_state == 'A':
-                temp_current_owner_state = 'PERAK'
-            elif temp_current_owner_state == 'B':
-                temp_current_owner_state = 'SELANGOR'
-            elif temp_current_owner_state == 'C':
-                temp_current_owner_state = 'PAHANG'
-            elif temp_current_owner_state == 'M':
-                temp_current_owner_state = 'MELAKA'
-            elif temp_current_owner_state == 'J':
-                temp_current_owner_state = 'JOHOR'
-            elif temp_current_owner_state == 'X':
-                temp_current_owner_state = 'SABAH'
-            elif temp_current_owner_state == 'Y':
-                temp_current_owner_state = 'SARAWAK'
-            elif temp_current_owner_state == 'L':
-                temp_current_owner_state = 'LABUAN'
-            elif temp_current_owner_state == 'W':
-                temp_current_owner_state = 'WILAYAH PERSEKUTUAN'
-            elif temp_current_owner_state == 'Q':
-                temp_current_owner_state = 'SINGAPURA'
-            elif temp_current_owner_state == 'U':
-                temp_current_owner_state = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-            elif temp_current_owner_state == 'F':
-                temp_current_owner_state = 'FOREIGN'
-            elif temp_current_owner_state == 'I':
-                temp_current_owner_state = 'INTERNET'
-            elif temp_current_owner_state == 'S':
-                temp_current_owner_state = 'SABAH'
-            elif temp_current_owner_state == 'E':
-                temp_current_owner_state = 'SARAWAK'
+            
             
             temp_new_ic_no = owner['newIcNo']
 
@@ -291,18 +216,17 @@ def biz_profile(mdw_1, mdw_2, lang):
                 temp_race = 'BUMIPUTERA SARAWAK'
             
             temp_nationality = owner['nationality']
-
-            if temp_nationality == 'MAL':
-                temp_nationality = 'MALAYSIAN'
+            temp_nationality = nationality_code(temp_nationality, lang)
 
             temp_gender = owner['gender']
-            if temp_gender == 'L' and 'en':
+
+            if temp_gender == 'L' and lang == 'en':
                 temp_gender = 'MALE'
-            elif temp_gender == 'P' and 'en':
+            elif temp_gender == 'P' and lang == 'en':
                 temp_gender = 'FEMALE'
-            elif temp_gender == 'L' and 'ms':
+            elif temp_gender == 'L' and lang == 'ms':
                 temp_gender = 'LELAKI'
-            elif temp_gender == 'P' and 'ms':
+            elif temp_gender == 'P' and lang == 'ms':
                 temp_gender = 'PEREMPUAN'
             else:
                 temp_gender = None
@@ -340,6 +264,10 @@ def biz_profile(mdw_1, mdw_2, lang):
     temp_previous_owner = []
 
     for owner in _list_:
+        print('stat', owner['status'])
+        print ('  ')
+        print(owner)
+        print('   ')
         if owner['status'] == 'T':
             temp_previous_owner_address_1 = owner['address1']
             temp_previous_owner_address_2 = owner['address2']
@@ -388,48 +316,7 @@ def biz_profile(mdw_1, mdw_2, lang):
             elif temp_previous_owner_state == None:
                 temp_previous_owner_state = None
             else:
-                temp_previous_owner_state = temp_previous_owner_state
-
-            if temp_previous_owner_state == 'R':
-                temp_previous_owner_state = 'PERLIS'
-            elif temp_previous_owner_state == 'K':
-                temp_previous_owner_state = 'KEDAH'
-            elif temp_previous_owner_state == 'P':
-                temp_previous_owner_state = 'PULAU PINANG'
-            elif temp_previous_owner_state == 'D':
-                temp_previous_owner_state = 'KELANTAN'
-            elif temp_previous_owner_state == 'T':
-                temp_previous_owner_state = 'TERENGGANU'
-            elif temp_previous_owner_state == 'A':
-                temp_previous_owner_state = 'PERAK'
-            elif temp_previous_owner_state == 'B':
-                temp_previous_owner_state = 'SELANGOR'
-            elif temp_previous_owner_state == 'C':
-                temp_previous_owner_state = 'PAHANG'
-            elif temp_previous_owner_state == 'M':
-                temp_previous_owner_state = 'MELAKA'
-            elif temp_previous_owner_state == 'J':
-                temp_previous_owner_state = 'JOHOR'
-            elif temp_previous_owner_state == 'X':
-                temp_previous_owner_state = 'SABAH'
-            elif temp_previous_owner_state == 'Y':
-                temp_previous_owner_state = 'SARAWAK'
-            elif temp_previous_owner_state == 'L':
-                temp_previous_owner_state = 'LABUAN'
-            elif temp_previous_owner_state == 'W':
-                temp_previous_owner_state = 'WILAYAH PERSEKUTUAN'
-            elif temp_previous_owner_state == 'Q':
-                temp_previous_owner_state = 'SINGAPURA'
-            elif temp_previous_owner_state == 'U':
-                temp_previous_owner_state = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-            elif temp_previous_owner_state == 'F':
-                temp_previous_owner_state = 'FOREIGN'
-            elif temp_previous_owner_state == 'I':
-                temp_previous_owner_state = 'INTERNET'
-            elif temp_previous_owner_state == 'S':
-                temp_previous_owner_state = 'SABAH'
-            elif temp_previous_owner_state == 'E':
-                temp_previous_owner_state = 'SARAWAK'
+                temp_previous_owner_state = state_mapping(temp_previous_owner_state)
             
             temp_new_ic_no = owner['newIcNo']
 
@@ -474,10 +361,10 @@ def biz_profile(mdw_1, mdw_2, lang):
             
             temp_nationality = owner['nationality']
 
-            if temp_nationality == 'MAL':
-                temp_nationality = 'MALAYSIAN'
+            temp_nationality = nationality_code(temp_nationality, lang)
 
             temp_gender = owner['gender']
+            print('gender', temp_gender)
             if temp_gender == 'L' and lang == 'en':
                 temp_gender = 'MALE'
             elif temp_gender == 'P' and lang == 'en':
@@ -494,12 +381,15 @@ def biz_profile(mdw_1, mdw_2, lang):
             temp_birth_date = temp_birth_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
             temp_entry_date = owner['entryDate']
+            print('edate', temp_entry_date)
             temp_entry_date = make_aware(datetime.strptime(temp_entry_date, '%Y-%m-%dT%H:%M:%S.000Z'))
             temp_entry_date = temp_entry_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
             temp_withdraw_date = owner['updateDate']
+            print('wdate', temp_withdraw_date)
             temp_withdraw_date = make_aware(datetime.strptime(temp_withdraw_date, '%Y-%m-%dT%H:%M:%S.000Z'))
             temp_withdraw_date = temp_withdraw_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+            print('wdate', temp_withdraw_date)
 
             temp_ammend_type = owner['ammendmentType']
 
@@ -562,8 +452,11 @@ def biz_profile(mdw_1, mdw_2, lang):
                 'withdrawDate': temp_withdraw_date,
                 'ammendmentType': temp_ammend_type
             })
-        
+    
+    # if len(temp_previous_owner) == 0:
+    #     temp_previous_owner = None
 
+    # print ('argggggg', len(temp_previous_owner))
     data_ready = {
         'bizInfo': {
             'registrationName': data_mdw_1['robBusinessInfo']['registrationName'],

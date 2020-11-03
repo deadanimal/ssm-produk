@@ -43,7 +43,7 @@
                 font-size: 16px;
             }
             .default-template p#disclaimer {
-                font-size: 18px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
@@ -89,10 +89,15 @@
         </header>
         
 
-        <div class="default-template container" style="margin-top: 15rem;">
-            <p>Although all efforts has been carried out to ensure that the information provided is 
-                accurate and up to date, the Registrat of Companies will not be liable for any losses 
-                arising from any inaccurate or omitted information.</p>
+        <div class="default-template container pg-start">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                    AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
+                    LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
+                </b>
+            </p>
+            
             <h3 class="font-weight-bold text-center">*** CORPORATE INFORMATION ***</h3>
 
             <div class="table-responsive">
@@ -294,12 +299,39 @@
             </div>
     
             <h3 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;">*** KEY FINANCIAL INFORMATION ***</h3>
-            <p id="secondary">Name: {{ data.corpInfo.compName }}</p>
-            <p id="secondary">Registration No.: <b>{{data.corpInfo.compNoNew }} ({{data.corpInfo.compNoOld}}-{{data.corpInfo.checkDigit}})</b></p>
-            <p id="secondary">Auditor: {{ data.balance_sheet.0.auditor_name }} </p>
-            <p id="secondary">Auditor Address: {{ data.balance_sheet.0.auditor_address1 }}{{ data.balance_sheet.0.auditor_address2 }}
-                {{ data.balance_sheet.0.auditor_address3 }}{{ data.balance_sheet.0.auditor_postcode }}
-                {{ data.balance_sheet.0.auditor_town }}{{ data.balance_sheet.0.auditor_state }}</p>
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.corpInfo.compName }}</p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">REGISTRATION NO.:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{data.corpInfo.compNoNew }} ({{data.corpInfo.compNoOld}}-{{data.corpInfo.checkDigit}})</b></p></td>
+                    </tr>    
+                    <tr style="height:8px;">
+                        <td><p id="secondary">AUDITOR:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}</p></td>
+                    </tr>       
+                    <tr style="height:8px;">
+                        <td><p id="secondary">AUDITOR ADDRESS:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {{ data.balance_sheet.0.auditor_address1 }}{{ data.balance_sheet.0.auditor_address2 }}
+                            {{ data.balance_sheet.0.auditor_address3 }}{{ data.balance_sheet.0.auditor_postcode }}
+                            {{ data.balance_sheet.0.auditor_town }}{{ data.balance_sheet.0.auditor_state }}
+                        </p></td>
+                    </tr>           
+                </table>
+            </div>
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
