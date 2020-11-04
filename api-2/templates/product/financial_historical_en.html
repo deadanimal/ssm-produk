@@ -68,6 +68,13 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            .end-report {
+                position: absolute;
+                bottom: 6.0rem;
+                left: 0;
+                height: 12rem;
+                width: 100%;
+            }
             footer#footer {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 11px;
@@ -75,7 +82,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 2.5rem;
+                height: 1.5rem;
                 width: 100%;
             }
         </style>
@@ -123,7 +130,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">REGISTRATION NO.</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</b></p></td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">INCORPORATION DATE</p></td>
@@ -192,19 +199,25 @@
                     <tr>
                         <td><p id="secondary">REGISTERED ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td>
-                                <p id="secondary">{{data.corpInfo.reg_address1}}</p>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.reg_address1 %}
+                                {{data.corpInfo.reg_address1}} <br />
+                            {% else %}
+                                NIL
+                            {% endif %}
                             {% if data.corpInfo.reg_address2 %}
-                                <p id="secondary">  {{data.corpInfo.reg_address2}}</p>
+                                {{data.corpInfo.reg_address2}} <br />
                             {% endif %}
                             {% if data.corpInfo.reg_address3 %}
-                                <p id="secondary">  {{data.corpInfo.reg_address3}}</p>
+                                {{data.corpInfo.reg_address3}} <br />
                             {% endif %}
-                                <p id="secondary">  {{data.corpInfo.reg_town}}</p>
-                            {% if 'J' in data.corpInfo.reg_state %}
-                                <p class="mt-0"> Johor</p> 
+                            {% if data.corpInfo.reg_town %}
+                                {{data.corpInfo.reg_town}} <br />
                             {% endif %}
-                        </td>
+                            {% if data.corpInfo.reg_state %}
+                                {{data.corpInfo.reg_state}}
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">POSTCODE</p></td>
@@ -223,17 +236,25 @@
                     <tr>
                         <td><p id="secondary">BUSINESS ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td>
-                            <p id="secondary">{{data.corpInfo.biz_address1}} </p>
-                            <p id="secondary">  {{data.corpInfo.biz_address2}}</p>
+                        <td><p id="secondary">
+                            {% if data.corpInfo.biz_address1 %}
+                                {{data.corpInfo.biz_address1}} <br />
+                            {% else %}
+                                NIL
+                            {% endif %}
+                            {% if data.corpInfo.biz_address2 %}
+                                {{data.corpInfo.biz_address2}} <br />
+                            {% endif %}
                             {% if data.corpInfo.biz_address3 %}
-                                <p id="secondary">  {{data.corpInfo.biz_address3}}</p>
+                                {{data.corpInfo.biz_address3}} <br />
                             {% endif %}
-                            <p id="secondary">  {{data.corpInfo.biz_town}} </p>
-                            {% if 'J' in data.corpInfo.biz_state %}
-                                <p id="secondary"> JOHOR</p> 
+                            {% if data.corpInfo.biz_town %}
+                                {{data.corpInfo.biz_town}} <br />
                             {% endif %}
-                        </td>
+                            {% if data.corpInfo.biz_state %}
+                                {{data.corpInfo.biz_state}}
+                            {% endif %}
+                        </p></td>
                     </tr>
                     <tr>
                         <td><p id="secondary">POSTCODE</p></td>
@@ -293,27 +314,31 @@
 
                         <tr style="height:20px;">
                             <td><p id="secondary">AUDITOR</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}</p></td>    
-                            <td><p id="secondary">{{data.balance_sheet.1.auditor_name}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}<b> ({{data.balance_sheet.0.auditor_no}})</b></p></td>    
+                            <td><p id="secondary">{{data.balance_sheet.1.auditor_name}}<b> ({{data.balance_sheet.1.auditor_no}})</b></p></td>
                         </tr>                        
                         <tr>
                             <td><p id="secondary">AUDITOR ADDRESS</td></p>
-                            <td><p id="secondary">{{data.balance_sheet.0.auditor_address1}}
-                                {{data.balance_sheet.0.auditor_address2}}
+                            <td><p id="secondary">
+                                {{data.balance_sheet.0.auditor_address1}} <br />
+                                {{data.balance_sheet.0.auditor_address2}} <br />
                                 {% if data.balance_sheet.0.auditor_address3 != None %}
-                                    {{ data.balance_sheet.0.auditor_address3 }}
+                                    {{ data.balance_sheet.0.auditor_address3 }} <br />
                                 {% endif %}
-                                {{data.balance_sheet.0.auditor_postcode}}
-                                {{data.balance_sheet.0.auditor_town}}
-                                {{data.balance_sheet.0.auditor_state}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.auditor_address1}}
-                                {{data.balance_sheet.1.auditor_address2}}
+                                {{data.balance_sheet.0.auditor_postcode}} <br />
+                                {{data.balance_sheet.0.auditor_town}} <br />
+                                {{data.balance_sheet.0.auditor_state}}
+                            </p></td>
+                            <td><p id="secondary">
+                                {{data.balance_sheet.1.auditor_address1}} <br />
+                                {{data.balance_sheet.1.auditor_address2}} <br />
                                 {% if data.balance_sheet.1.auditor_address3 != None %}
-                                    {{ data.balance_sheet.1.auditor_address3}}
+                                    {{ data.balance_sheet.1.auditor_address3}} <br />
                                 {% endif %}
-                                {{data.balance_sheet.1.auditor_postcode}}
-                                {{data.balance_sheet.1.auditor_town}}
-                                {{data.balance_sheet.1.auditor_state}}</p></td>
+                                {{data.balance_sheet.1.auditor_postcode}} <br />
+                                {{data.balance_sheet.1.auditor_town}} <br />
+                                {{data.balance_sheet.1.auditor_state}}
+                            </p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">EXEMPT PRIVATE COMPANY</p></td>
@@ -322,18 +347,18 @@
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">FINANCIAL YEAR END</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.financial_year_end}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.financial_year_end}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.financial_year_end}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.financial_year_end}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">UNQUALIFIED REPORT (Y/N)</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.financialReportType}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.financialReportType}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.financialReportType}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.financialReportType}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">CONSOLIDATED REPORT (Y/N)</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.accrualAccType}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.accrualAccType}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.accrualAccType}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.accrualAccType}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">DATE OF TABLING</p></td>
@@ -352,17 +377,17 @@
                             <td></td>
                         </tr> 
                         <tr style="height:20px;">
-                            <td><p id="secondary">NON CURRENT ASST</p></td>
+                            <td><p id="secondary">NON-CURRENT ASSETS</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
-                            <td><p id="secondary">CURRENT ASST</p></td>
+                            <td><p id="secondary">CURRENT ASSETS</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.currentAsset | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.currentAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
-                            <td><p id="secondary">NON CURRENT LIABILITIES</p></td>
+                            <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                         </tr>
@@ -431,12 +456,15 @@
                     </tbody>
                 </table>
             </div>
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            
+            <div class="end-report">
+                <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
     
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+                <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+            </div>
         </div>
 
         <footer id="footer">

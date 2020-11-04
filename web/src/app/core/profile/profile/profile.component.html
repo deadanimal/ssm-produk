@@ -167,7 +167,6 @@
 										[rowHeight]="'auto'"
 										[limit]="tableEntries != -1 ? tableEntries : undefined" 
 										[rows]="tableTemp"
-										(activate)="onActivate($event)"
 									>
 										<ngx-datatable-column
 											[sortable]="true"
@@ -283,14 +282,13 @@
 
 								<div class="dataTables_wrapper py-4">
 									<ngx-datatable 
-										class="bootstrap selection-cell"
+										class="bootstrap"
 										[columnMode]="'force'"
 										[headerHeight]="50"
 										[footerHeight]="50"
 										[rowHeight]="'auto'"
 										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined" 
 										[rows]="tableOrderTemp"
-										(activate)="onActivate($event)"
 									>
 										<ngx-datatable-column
 											[sortable]="true"

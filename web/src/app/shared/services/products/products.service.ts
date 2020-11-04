@@ -117,6 +117,15 @@ export class ProductsService {
       })
     )
   }
+
+  getBranches(body: any): Observable<any[]> {
+    let urlTemp = this.urlProducts + 'generate_branch_list/'
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        // console.log('Department: ', res)
+      })
+    )
+  }
   
 }
 

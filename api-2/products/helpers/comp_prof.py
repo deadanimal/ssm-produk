@@ -1,10 +1,12 @@
 import string
 import pytz
 import json
+import subprocess
 
 from .mapping import officer_designation_mapping, state_mapping, charge_code
 from datetime import datetime
 from django.utils.timezone import make_aware
+from products.services.get_new_format_entity import get_new_format_entity
 
 def comp_prof(mdw_1, mdw_2, lang):
     
@@ -13,6 +15,18 @@ def comp_prof(mdw_1, mdw_2, lang):
 
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
+
+    tz = pytz.timezone('Asia/Kuala_Lumpur')
+    now = datetime.now(tz=tz) 
+    print(now)
+    now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    url_info = 'http://integrasistg.ssm.com.my/InfoService/1'
+    auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+    headers = {
+        'content-type': "text/xml;charset=UTF-8",
+        'authorization': auth_code
+    }
 
     temp_comp_status_old = data_mdw_1["rocCompanyInfo"]['companyStatus']
     
@@ -67,7 +81,12 @@ def comp_prof(mdw_1, mdw_2, lang):
                     company_no = None
                 else:
                     nric = shareholder["idNo"]
-                    company_no = shareholder["companyNo"]
+                    company_no__ = get_new_format_entity(url_info, headers, shareholder["idNo"][:-2], 'ROC')
+
+                    if company_no__['errorMsg']:
+                        company_no = ''
+                    else:
+                        company_no = company_no__['newFormatNo']
 
                 shareholders_data.append({
                     'name': shareholder["name"],
@@ -86,7 +105,12 @@ def comp_prof(mdw_1, mdw_2, lang):
                 company_no = None
             else:
                 nric = shareholders["idNo"]
-                company_no = shareholders["companyNo"]
+                company_no__ = get_new_format_entity(url_info, headers, shareholder["idNo"][:-2], 'ROC')
+
+                if company_no__['errorMsg']:
+                    company_no = ''
+                else:
+                    company_no = company_no__['newFormatNo']
 
             shareholders_data.append({
                 'name': shareholders["name"],
@@ -374,6 +398,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         'pl_data': pl_data,
         'incorp_date': temp_incorpDate_new,
         'date_of_change': date_of_change_str,
+        'generated_at': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 

@@ -21,13 +21,14 @@ class TicketTopic(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, default='NA')
+    active = models.BooleanField(default=True)
 
-    TOPIC_CATEGORY = [
+    CATEGORY = [
         ('GN', 'General'),
         ('EG', 'eGovernment')
     ]
-    topic_category = models.CharField(
-        choices=TOPIC_CATEGORY,
+    category = models.CharField(
+        choices=CATEGORY,
         max_length=2,
         default='GN'
     )
@@ -46,16 +47,9 @@ class TicketSubject(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, default='NA')
+    active = models.BooleanField(default=True)
 
-    SUBJECT_CATEGORY = [
-        ('GN', 'General'),
-        ('EG', 'eGovernment')
-    ]
-    subject_category = models.CharField(
-        choices=SUBJECT_CATEGORY,
-        max_length=2,
-        default='GN'
-    )
+    topic = models.ForeignKey(TicketTopic, on_delete=models.CASCADE, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -93,10 +87,9 @@ class Ticket(models.Model):
         default='US'
     )
     
-    topic = models.ForeignKey(TicketTopic, on_delete=models.CASCADE, null=True)
-    subject = models.ForeignKey(TicketSubject, on_delete=models.CASCADE, null=True)
+    topic = models.CharField(max_length=100, null=True, blank=True)
+    subject = models.CharField(max_length=100, null=True, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-
 
     receipt_number = models.CharField(max_length=100, default='NA')
     attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))

@@ -652,7 +652,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         middleware_data = get_info_branch_listing(info_url, request_headers, registration_)
-        data_ = middleware_data['ssmRegistrationBranchAddressInfos']
+        data_ = middleware_data
 
         return Response(data_)
 

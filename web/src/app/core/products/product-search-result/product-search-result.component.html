@@ -1511,7 +1511,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 col-sm-12">
+                                <!-- <div class="col-lg-4 col-sm-12">
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
                                         <div class="card-body">
                                             <div class="card-title">
@@ -1557,7 +1557,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="col-lg-4 col-sm-12">
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
@@ -1878,6 +1878,146 @@
                                         <button
                                             class="btn btn-ssm btn-sm"
                                             (click)="addCartDocument(row)"
+                                        >
+                                            Add to cart RM{{row.price/100 | number: '1.2-2'}}
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </tab>
+
+                    <tab *ngIf="branches">
+                        <ng-template tabHeading> Business Certificate </ng-template>
+                        <div class="mt-2 mb-4">
+                            <ngx-datatable 
+                                class="bootstrap"
+                                [columnMode]="'force'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableBranchEntries != -1 ? tableBranchEntries : undefined" 
+                                [rows]="tableBranchTemp"
+                                [scrollbarH]="true" 
+                            >
+                                <ngx-datatable-column 
+                                    [width]="60" 
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="branchType"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Type</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.branchType}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    [width]="200"
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="formName"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Address</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.vchaddress">
+                                            {{row.vchaddress}}, 
+                                        </span>
+                                        <span *ngIf="row.vchaddress1">
+                                            {{row.vchaddress1}}, 
+                                        </span>
+                                        <span *ngIf="row.vchaddress2">
+                                            {{row.vchaddress2}}, 
+                                        </span>
+                                        <span *ngIf="row.vchpostcode">
+                                            {{row.vchpostcode}}, 
+                                        </span>
+                                        <span *ngIf="row.vchtown">
+                                            {{row.vchtown}}, 
+                                        </span>
+                                        <span *ngIf="row.chrstate">
+                                            {{row.vchaddress}}
+                                        </span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column 
+                                    [width]="80"
+                                    [sortable]="false"
+                                    [resizeable]="false"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Sample</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button
+                                            class="btn btn-outline-ssm btn-sm"
+                                        >
+                                            Sample
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column 
+                                    [width]="60"
+                                    [sortable]="false"
+                                    [resizeable]="false"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">Language</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="form-group">
+                                            <select 
+                                                class="form-control form-control-sm custom-select custom-select-sm" 
+                                                id="{{row.id_index}}"
+                                                [(ngModel)]="row.language"
+                                            >
+                                                <option value="BM">BM</option>
+                                                <option value="EN">EN</option>
+                                                <option value="BT">BOTH</option>
+                                            </select>
+                                            <label class="form-control-label" for="{{row.id_index}}"></label>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column 
+                                    [width]="100"
+                                    [resizeable]="false"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header">CTC</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <div class="custom-control custom-checkbox">
+                                            <input 
+                                                type="checkbox" 
+                                                class="custom-control-input" 
+                                                id="{{row.id_index}}"
+                                                checked
+                                                disabled
+                                            >
+                                            <label class="custom-control-label" for="{{row.id_index}}">CTC (+RM10.00)</label>
+                                        </div>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column 
+                                    [width]="80"
+                                    [resizeable]="false"
+                                    [sortable]="false"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span class="table-header"></span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button
+                                            class="btn btn-ssm btn-sm"
                                         >
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
