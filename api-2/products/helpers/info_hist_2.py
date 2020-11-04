@@ -32,8 +32,11 @@ def info_hist_2(mdw_1, mdw_2, lang):
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     
-    temp_comp_info_change_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_comp_info_change_date_new = temp_comp_info_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
+        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
+        temp_comp_info_change_date_new = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+        temp_comp_info_change_date_new = None
 
     temp_comp_info_incorp_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_comp_info_incorp_date_new = temp_comp_info_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
@@ -252,7 +255,14 @@ def info_hist_2(mdw_1, mdw_2, lang):
         temp_biz_town_new = temp_biz_town_old
 
     balance_sheet_list = data_mdw_1['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']
-    profit_loss_list = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
+    print('    ')
+    print('cendol!!! >>  ', data_mdw_1)
+    print('    ')
+    if 'rocProfitLossInfos' in data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']:
+        profit_loss_list = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
+    else:
+        data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']
+    
 
     balance_sheet_data = []
 
@@ -355,6 +365,7 @@ def info_hist_2(mdw_1, mdw_2, lang):
 
     year_data = {
         'auditor_name': balance_sheet_list['auditFirmName'],
+        'auditor_no': balance_sheet_list['auditFirmNo'],
         'auditor_address1': temp_audit_address_1_new,
         'auditor_address2': temp_audit_address_2_new,
         'auditor_address3': temp_audit_address_3_new,
@@ -440,7 +451,8 @@ def info_hist_2(mdw_1, mdw_2, lang):
             'biz_nature': data_mdw_1['rocCompanyInfo']['businessDescription']
         },
         'balance_sheet': balance_sheet_data,
-        'profit_loss': profit_loss_data
+        'profit_loss': profit_loss_data,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
     }
 
     return data_ready

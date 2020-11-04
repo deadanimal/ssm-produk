@@ -96,7 +96,7 @@ export class ServicesService {
 
   // Add item to document request
   addDocumentRequestItem(id: string, body: any) {
-    let urlTemp = this.urlDocumentRequest + id + 'add_item_to_document_request/'
+    let urlTemp = this.urlDocumentRequest + id + '/add_item_to_document_request/'
     return this.http.post<Request>(urlTemp, body).pipe(
       tap((res) => {
         // this.request = res

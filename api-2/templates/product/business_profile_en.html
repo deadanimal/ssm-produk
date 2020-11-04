@@ -54,11 +54,11 @@
             table tr.top table td.title {
                 color: #333;
             }
-            table tr.heading td {
-                color: #333;
-            }
             .table td, .table th {
                 border-top: 0px;
+            }
+            table tr.heading td {
+                color: #333;
             }
             .pg-break {
                 page-break-before: always; 
@@ -67,6 +67,16 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            ol#branch-list {
+                font-size: 18px;
+            }
+            .end-report {
+                position: absolute;
+                bottom: 6.0rem;
+                left: 0;
+                height: 12rem;
+                width: 100%;
+            }
             footer#footer {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 11px;
@@ -74,7 +84,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 6.5rem;
+                height: 1.5rem;
                 width: 100%;
             }
         </style>
@@ -205,6 +215,45 @@
                             {% endif %}
                         </p></td>
                     </tr>
+
+                    {% if data.llpInfo.llpName %}
+                    <tr style="height:20px;">
+                        <td><p id="secondary">LLP NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpName %}
+                                {{data.llpInfo.llpName}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpNo %}
+                                {{data.llpInfo.llpNo}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">CONVERSION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpDate %}
+                                {{data.llpInfo.llpDate}}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    {% endif %}
                 </table>
             </div>
 
@@ -212,7 +261,36 @@
             <p id="secondary">{{data.bizType.description}}</p>
 
             <h3 class="font-weight-bold text-center mt-5">** BRANCH INFORMATION **</h3>
+            {% if data.branchInfo|length is 0 %}
             <p id="secondary" class="text-center">** NO BRANCH **</p>
+            {% endif %}
+
+            {% if data.branchInfo|length is not 0 %}
+            <ol id="branch-list">
+                {% for branch in data.branchInfo %}
+                <li>
+                    {% if branch.address1 %}
+                        {{branch.address1}}, 
+                    {% endif %}
+                    {% if branch.address2 %}
+                        {{branch.address2}}, 
+                    {% endif %}
+                    {% if branch.address3 %}
+                        {{branch.address3}}, 
+                    {% endif %}
+                    {% if branch.postcode %}
+                        {{branch.postcode}}, 
+                    {% endif %}
+                    {% if branch.town %}
+                        {{branch.town}}, 
+                    {% endif %}
+                    {% if branch.state %}
+                        {{branch.state}}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol> 
+            {% endif %}
             
             {% for current in data.ownerCurrentInfo %}
             <h3 class="font-weight-bold text-center pg-break">** INFORMATION OF CURRENT OWNER **</h3>
@@ -351,7 +429,7 @@
             </div>
             {% endfor %}
 
-            {% if data.OwnerPreviousInfo|length == '0' %}
+            {% if data.OwnerPreviousInfo|length is 0 %}
             <h3 class="font-weight-bold text-center pg-break">** PREVIOUS DIRECTORS/OFFICERS **</h3>
             <div class="table-responsive">
                 <table class="table text-left" >
@@ -374,7 +452,7 @@
             </div>
             <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">** NO INFORMATION **</h2>
             {% endif %}
-
+            
             {% for previous in data.ownerPreviousInfo %}
             <h3 class="font-weight-bold text-center pg-break">** PREVIOUS DIRECTORS/OFFICERS **</h3>
             <div class="table-responsive">
@@ -536,12 +614,14 @@
             </div>
             {% endfor %}
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <div class="end-report">
+                <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
     
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
+                <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+            </div>
         </div>
 
         <footer id="footer">

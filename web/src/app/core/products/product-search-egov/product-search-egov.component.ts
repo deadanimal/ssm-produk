@@ -152,6 +152,9 @@ export class ProductSearchEgovComponent implements OnInit {
     else if (this.user.egov_package == 3) {
       return this.router.navigate(['/products/search-result-package3'], extras);
     }
+    else if (this.user.egov_package == 4) {
+      return this.router.navigate(['/products/search-result-package4'], extras);
+    }
     
   }
 
