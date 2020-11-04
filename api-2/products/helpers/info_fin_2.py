@@ -597,7 +597,8 @@ def info_fin_2(mdw_1, mdw_2, lang):
             'biz_nature': data_mdw_1['rocCompanyInfo']['businessDescription']
         },
         'balance_sheet': balance_sheet_data,
-        'profit_loss': profit_loss_data
+        'profit_loss': profit_loss_data,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
     }
 
     return data_ready

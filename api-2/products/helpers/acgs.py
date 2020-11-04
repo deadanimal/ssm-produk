@@ -125,6 +125,7 @@ def acgs(mdw_1, mdw_2, lang):
         'compStatus': data_mdw_1['compStatus'],
         'compNoNew': data_mdw_2['newFormatNo'],
         'compNoOld': data_mdw_2['oldFormatNo'],
+        'compType': data_mdw_1['compType'],
         'isAuditedFs': data_mdw_1['isAuditedFs'],
         'isBlacklist': data_mdw_1['isBlacklist'],
         'isDirNoOutsCompound': data_mdw_1['isDirNoOutsCompound'],
@@ -140,7 +141,9 @@ def acgs(mdw_1, mdw_2, lang):
         'regAddress_address3': temp_regAddress_address_3_new,
         'regAddress_postcode': temp_regAddress_postcode_new,
         'regAddress_state': temp_regAddress_state_new,
-        'regAddress_town': temp_regAddress_town_new
+        'regAddress_town': temp_regAddress_town_new,
+        'extract_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y"),
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
     }
 
     return data_ready

@@ -64,8 +64,18 @@
                 page-break-before: always; 
                 margin-top: 15rem;
             }
+            ol#branch-list {
+                font-size: 18px;
+            }
             .pg-start {
                 margin-top: 15rem;
+            }
+            .end-report {
+                position: absolute;
+                bottom: 6.0rem;
+                left: 0;
+                height: 12rem;
+                width: 100%;
             }
             footer#footer {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
@@ -74,7 +84,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 2.5rem;
+                height: 1.5rem;
                 width: 100%;
             }
         </style>
@@ -91,7 +101,7 @@
             <p id="disclaimer" style="font-size:8pt;text-align:justify">
                 <b>
                     SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN 
-                    MAKLUMAT YANG DIBERI ADALAH BETUL DAN KEMASKINI PENDAFTAR 
+                    MAKLUMAT YANG DIBERI ADALAH BETUL DAN KEMASKINI, PENDAFTAR 
                     PERNIAGAAN TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG 
                     KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.
                 </b>
@@ -204,6 +214,45 @@
                             {% endif %}
                         </p></td>
                     </tr>
+
+                    {% if data.llpInfo.llpName %}
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAMA PLT</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpName %}
+                                {{data.llpInfo.llpName}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NO. PENDAFTARAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpNo %}
+                                {{data.llpInfo.llpNo}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TARIKH PERTUKARAN</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.llpInfo.llpDate %}
+                                {{data.llpInfo.llpDate}}
+                            {% else %}
+                                TIADA
+                            {% endif %}
+                        </p></td>
+                    </tr>
+
+                    {% endif %}
                 </table>
             </div>
 
@@ -211,7 +260,39 @@
             <p id="secondary">{{data.bizType.description}}</p>
 
             <h3 class="font-weight-bold text-center mt-5">** MAKLUMAT CAWANGAN **</h3>
+            {% if data.branchInfo|length is 0 %}
             <p id="secondary" class="text-center">** TIADA CAWANGAN **</p>
+            {% endif %}
+
+            <!-- <h3 class="font-weight-bold text-center">** MAKLUMAT CAWANGAN **</h3> -->
+            
+            {% if data.branchInfo|length is not 0 %}
+            <ol id="branch-list">
+                {% for branch in data.branchInfo %}
+                <li>
+                    {% if branch.address1 %}
+                        {{branch.address1}}, 
+                    {% endif %}
+                    {% if branch.address2 %}
+                        {{branch.address2}}, 
+                    {% endif %}
+                    {% if branch.address3 %}
+                        {{branch.address3}}, 
+                    {% endif %}
+                    {% if branch.postcode %}
+                        {{branch.postcode}}, 
+                    {% endif %}
+                    {% if branch.town %}
+                        {{branch.town}}, 
+                    {% endif %}
+                    {% if branch.state %}
+                        {{branch.state}}
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol> 
+            {% endif %}
+            
             
             {% for current in data.ownerCurrentInfo %}
             <h3 class="font-weight-bold text-center pg-break">** MAKLUMAT PEMILIK PERNIAGAAN TERKINI **</h3>
@@ -227,7 +308,7 @@
                     <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
-                    <td><p id="secondary">NO. PEMDAFTARAN:</p></td>
+                    <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
                     <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
@@ -349,7 +430,6 @@
                 </table>
             </div>
             {% endfor %}
-            <!-- {{data.OwnerPreviousInfo|length}} -->
 
             {% if data.OwnerPreviousInfo|length is 0 %}
             <h3 class="font-weight-bold text-center pg-break">** MAKLUMAT PEMILIK PERNIAGAAN TERDAHULU **</h3>
@@ -365,7 +445,7 @@
                     <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
-                    <td><p id="secondary">NO. PEMDAFTARAN:</p></td>
+                    <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
                     <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
@@ -387,7 +467,7 @@
                     <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
-                    <td><p id="secondary">NO. PEMDAFTARAN:</p></td>
+                    <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
                     <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
@@ -532,21 +612,23 @@
             </div>
             {% endfor %}
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+            <div class="end-report">
+                <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
 
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+                <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandatangan tidak diperlukan.</p>
+            </div>
         </div>
 
         <footer id="footer">
             <div class="row">
                 <p class="col text-left">USER ID: @</p>
-                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+                <p class="col text-right">TARIKH CETAKAN: {{data.printing_time}}</p>
             </div>
             
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAKS: 03-7721 4001</p>  
         </footer>
     </body>
 </html>

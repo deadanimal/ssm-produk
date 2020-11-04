@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -21,6 +22,24 @@
                         </ol>
                     </nav>
                 </div>
+
+                <div class="col-lg-6 col-5 text-right">
+                    <button 
+                        class="btn btn-sm btn-neutral"
+                        *ngIf="isTopic"
+                        (click)="openModal(addTopic)"
+                    >
+                        Add Topic
+                    </button>
+
+                    <button 
+                        class="btn btn-sm btn-neutral"
+                        *ngIf="isSubject"
+                        (click)="openModal(addSubject)"
+                    >
+                        Add Subject
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -29,14 +48,911 @@
 <div class="container-fluid mt--6">
     <div class="row">
         <div class="col">
-            <div class="card">
-                <div class="card-header bg-secondary">
-                    <h3 clas="m-0"></h3>
-                </div>
-                <div class="card-body">
+            <div class="nav-wrapper">
+                <tabset type="pills" class="nav-fill flex-column flex-md-row">
+                    <tab heading="Notification Receiver" (selectTab)="onSelectTab($event)">
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label class="form-control-label">General Enquiry Email</label>
+                                                <input class="form-control" placeholder="Enter email">
+                                            </div>
+                                        </div>
+    
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label class="form-control-label">eGov Enquiry Email</label>
+                                                <input class="form-control" placeholder="Enter email">
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row text-right">
+                                        <div class="col">
+                                            <button
+                                                class="btn btn-ssm rounded-pill"
+                                            >
+                                                Save
+                                            </button>
+    
+                                            <button 
+                                                class="btn btn-outline-ssm rounded-pill"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </tab>
 
-                </div>
+                    <tab heading="Instruction Editor" (selectTab)="onSelectTab($event)">
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <h6 class="heading-small text-muted mb-4">Instruction - English</h6>
+                                <form>
+                                    <div
+                                        id="instructionEN"
+                                        data-toggle="quill"
+                                    >
+                                    </div>
+                                </form>
+
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4" />
+
+                                <h6 class="heading-small text-muted mb-4">Instruction - Bahasa Melayu</h6>
+                                <form>
+                                    <div
+                                        id="instructionBM"
+                                        data-toggle="quill"
+                                    >
+                                    </div>
+                                </form>
+
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Disclaimer Editor" (selectTab)="onSelectTab($event)">
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <h6 class="heading-small text-muted mb-4">Disclaimer - English</h6>
+                                <form>
+                                    <div
+                                        id="disclaimerEN"
+                                        data-toggle="quill"
+                                    >
+                                    </div>
+                                </form>
+
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4" />
+
+                                <h6 class="heading-small text-muted mb-4">Disclaimer - Bahasa Melayu</h6>
+                                <form>
+                                    <div
+                                        id="disclaimerBM"
+                                        data-toggle="quill"
+                                    >
+                                    </div>
+                                </form>
+
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
+                    <tab heading="Dropdown Editor" (selectTab)="onSelectTab($event)">
+                        <div class="mt-2">
+                            <tabset type="pills" class="nav-fill">
+                                <tab heading="Topic" (selectTab)="onSelectTabInside($event)">
+                                    <div class="card mt-2">
+                                        <div class="dataTables_wrapper py-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="dataTables_length" id="datatable_length">
+                                                        <label>
+                                                            Show
+                                                            <select 
+                                                                name="datatable_length" 
+                                                                aria-controls="datatable"
+                                                                class="form-control form-control-sm" 
+                                                                (change)="entriesChange($event)"
+                                                            >
+                                                                <option value="10">10</option>
+                                                                <option value="25">25</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                                <option value="-1">All</option>
+                                                            </select>
+                                                            records
+                                                        </label>
+                                                    </div>
+                                                </div>
+                        
+                                                <!-- <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <input class="form-control form-control-sm" placeholder="Search email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm" placeholder="Search st">
+                                                            <option hidden select>Select status</option>
+                                                            <option>Approved</option>
+                                                            <option>Pending</option>
+                                                            <option>Processed</option>
+                                                            <option>Rejected</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <input class="form-control form-control-sm" placeholder="Search...">
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                        
+                                            <ngx-datatable 
+                                                class="bootstrap" 
+                                                [columnMode]="'force'" 
+                                                [headerHeight]="50"
+                                                [footerHeight]="50" 
+                                                [rowHeight]="'auto'"
+                                                [limit]="tableTopicEntries != -1 ? tableTopicEntries : undefined"
+                                                [rows]="tableTopicTemp" 
+                                                [scrollbarH]="true"
+                                            >
+                                                <ngx-datatable-column
+                                                    [width]="40"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="id_index"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">No.</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.id_index}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                        
+                                                <ngx-datatable-column
+                                                    [width]="180"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="name"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Topic</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.name}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [width]="120"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="category"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Category</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        <span class="badge badge-info" *ngIf="row.category == 'GN'">General</span>
+                                                        <span class="badge badge-info" *ngIf="row.category == 'EG'">eGovernment</span>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+            
+                                                <ngx-datatable-column
+                                                    [width]="120"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="status"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Status</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        <span class="badge badge-success" *ngIf="row.active">Enabled</span>
+                                                        <span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+            
+                                                <ngx-datatable-column
+                                                    [width]="80"
+                                                    [sortable]="false"
+                                                    [resizeable]="false"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Action</span>
+                                                    </ng-template>
+                                                    <ng-template let-row="row" ngx-datatable-cell-template class="text-right">
+                                                        <a (click)="openModalUpdate(updateTopic, row, 'topic-update')" style="cursor: pointer">
+                                                            <button class="btn btn-sm btn-info">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                        </a>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                            </ngx-datatable>
+                                        </div>
+                                    </div>
+                                </tab>
+    
+                                <tab heading="Subject" (selectTab)="onSelectTabInside($event)">
+                                    <div class="card mt-2">
+                                        <div class="dataTables_wrapper py-4">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="dataTables_length" id="datatable_length">
+                                                        <label>
+                                                            Show
+                                                            <select 
+                                                                name="datatable_length" 
+                                                                aria-controls="datatable"
+                                                                class="form-control form-control-sm" 
+                                                                (change)="entriesChange($event)"
+                                                            >
+                                                                <option value="10">10</option>
+                                                                <option value="25">25</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                                <option value="-1">All</option>
+                                                            </select>
+                                                            records
+                                                        </label>
+                                                    </div>
+                                                </div>
+                        
+                                                <!-- <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <input class="form-control form-control-sm" placeholder="Search email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm" placeholder="Search st">
+                                                            <option hidden select>Select status</option>
+                                                            <option>Approved</option>
+                                                            <option>Pending</option>
+                                                            <option>Processed</option>
+                                                            <option>Rejected</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3">
+                                                    <div class="form-group">
+                                                        <input class="form-control form-control-sm" placeholder="Search...">
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                        
+                                            <ngx-datatable 
+                                                class="bootstrap selection-cell" 
+                                                [columnMode]="'force'" 
+                                                [headerHeight]="50"
+                                                [footerHeight]="50" 
+                                                [rowHeight]="'auto'"
+                                                [limit]="tableSubjectEntries != -1 ? tableSubjectEntries : undefined"
+                                                [rows]="tableSubjectTemp" 
+                                                [scrollbarH]="true"
+                                             >
+                                                <ngx-datatable-column
+                                                    maxWidth="80"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="id_index"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">No.</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.id_index}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="topic"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Topic</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.topic}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                        
+                                                <ngx-datatable-column
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="name"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Subject</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.name}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="name"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Category</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.name}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+            
+                                                <ngx-datatable-column
+                                                    maxWidth="100"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="active"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Status</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        <span class="badge badge-success" *ngIf="row.active">Enabled</span>
+                                                        <span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+            
+                                                <ngx-datatable-column
+                                                    maxWidth="100"
+                                                    [sortable]="false"
+                                                    [resizeable]="false"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header"></span>
+                                                    </ng-template>
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        <a (click)="openModalUpdate(updateSubject, row, 'subject-update')" style="cursor: pointer">
+                                                            <button class="btn btn-sm btn-info">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                        </a>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                            </ngx-datatable>
+                                        </div>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </tab>
+                </tabset>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #addTopic>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Add Topic
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="topicForm">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Topic</label>
+						<input class="form-control" formControlName="name">
+					</div>
+                </div>
+                
+                <div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Category</label>
+                        <select 
+                            class="form-control custom-select" 
+                            formControlName="category"
+                        >
+                            <option value="GN">General</option>
+                            <option value="EG">eGovernment</option>
+                        </select>
+					</div>
+				</div>
+            </div>
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="topicActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="topicActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="createTopic()"
+            [disabled]="!topicForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #updateTopic>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Update Topic
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="topicForm">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Topic</label>
+						<input class="form-control" formControlName="name">
+					</div>
+                </div>
+                
+                <div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Category</label>
+                        <select 
+                            class="form-control custom-select" 
+                            formControlName="category"
+                        >
+                            <option value="GN">General</option>
+                            <option value="EG">eGovernment</option>
+                        </select>
+					</div>
+				</div>
+            </div>
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="topicActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="topicActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="patchTopic()"
+            [disabled]="!topicForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #addSubject>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Add Subject
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="subjectForm">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Topic</label>
+						<input class="form-control" formControlName="name">
+					</div>
+                </div>
+                
+                <div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Topic</label>
+                        <select 
+                            class="form-control custom-select" 
+                            formControlName="topic"
+                        >
+                            <ng-template *ngFor="let topic of topics">
+                                <option value="{{topic.id}}">{{topic.name}}</option>
+                            </ng-template>
+                        </select>
+					</div>
+				</div>
+            </div>
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="topicActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="topicActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="createSubject()"
+            [disabled]="!subjectForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #updateSubject>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Update Subject
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="subjectForm">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Subject</label>
+						<input class="form-control" formControlName="name">
+					</div>
+                </div>
+                
+                <div class="col">
+					<div class="form-group">
+						<label class="form-control-label">Topic</label>
+                        <select 
+                            class="form-control custom-select" 
+                            formControlName="topic"
+                        >
+                            <ng-template *ngFor="let topic of topics">
+                                <option value="{{topic.id}}">{{topic.name}}</option>
+                            </ng-template>
+                        </select>
+					</div>
+				</div>
+            </div>
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="topicActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="topicActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="patchSubject()"
+            [disabled]="!subjectForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<!-- 
+
+    <div class="dataTables_wrapper py-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="datatable_length">
+                                            <label>
+                                                Show
+                                                <select 
+                                                    name="datatable_length" 
+                                                    aria-controls="datatable"
+                                                    class="form-control form-control-sm"
+                                                    (change)="entriesChange($event)"
+                                                >
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="-1">All</option>
+                                                </select>
+                                                records
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+                                </div>
+
+                                <ngx-datatable 
+                                    class="bootstrap selection-cell" 
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50" 
+                                    [footerHeight]="50" 
+                                    [rowHeight]="'auto'"
+                                    [limit]="tableInProgressEntries != -1 ? tableInProgressEntries : undefined" 
+                                    [rows]="tableInProgressTemp"
+                                    [scrollbarH]="true" 
+                                    (activate)="onActivate($event)"
+                                >
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No.</span>
+                                    </ng-template>
+
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Ticket #</span>
+                                        </ng-template>
+
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Email Address</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Tel No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Receipt No.</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Topic</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Subject List</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Created Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Modified Date</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Form Type</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Aging</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Status</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            
+                                        </ng-template>
+                                    </ngx-datatable-column>
+
+                                    <ngx-datatable-column>
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>Action</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a style="cursor: pointer">
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+
+ -->

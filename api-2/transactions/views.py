@@ -137,6 +137,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     Q(created_date__day=filter_day)
                 ).count()
                 order_running_no = "{0:0>6}".format(product_length + 1)
+                print('running > ', order_running_no)
 
                 if item.cart_item_type == 'PR':
                     item.order_no = 'PD' + current_year + current_month + current_day + order_running_no

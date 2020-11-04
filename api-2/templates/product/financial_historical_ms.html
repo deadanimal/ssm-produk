@@ -37,13 +37,13 @@
             .default-template {
                 color: #333;
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
-                font-size: 11px;
+                font-size: 18px;
             }
             .default-template p#secondary {
                 font-size: 16px;
             }
             .default-template p#disclaimer {
-                font-size: 18px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
@@ -68,6 +68,13 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            .end-report {
+                position: absolute;
+                bottom: 6.0rem;
+                left: 0;
+                height: 12rem;
+                width: 100%;
+            }
             footer#footer {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 11px;
@@ -75,7 +82,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 2.5rem;
+                height: 1.5rem;
                 width: 100%;
             }
         </style>
@@ -89,11 +96,13 @@
         </header>
         
         <div class="default-template container pg-start">
-            <p id="disclaimer">
-                Sungguhpun segala usaha telah diambil untuk memastikan maklumat yang 
-                diberi adalah betul dan kemaskini Pendaftar Syarikat tidak boleh 
-                dipertanggungkan bagi sebarang kerugian kerana maklumat yang tersilap 
-                atau tertinggal.
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN MAKLUMAT 
+                    YANG DIBERI ADALAH BETUL DAN KEMASKINI PENDAFTAR SYARIKAT TIDAK
+                    BOLEH DIPERTANGGUNGKAN BAGI SEBARANG KERUGIAN KERANA MAKLUMAT 
+                    YANG TERSILAP ATAU TERTINGGAL.
+                </b>
             </p>
             <h2 class="font-weight-bold text-center"><u> MAKLUMAT SYARIKAT </u></h2>
 
@@ -122,7 +131,7 @@
                     <tr style="height:20px;">
                         <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</p></td>
+                        <td><p id="secondary"><b>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</b></p></td>
                     </tr>
                     <tr style="height:20px;">
                         <td><p id="secondary">TARIKH PENUBUHAN</p></td>
@@ -232,21 +241,21 @@
                         <td><p id="secondary">:</p></td>
                         <td>
                             {% if data.corpInfo.biz_address1 or data.corpInfo.biz_address1 != 'NIL' %}
-                            <p id="secondary" class="mb-0">  {{data.corpInfo.biz_address1}}</p>
+                            <p id="secondary" class="mb-0">{{data.corpInfo.biz_address1}}</p>
                             {% else %}
-                            <p id="secondary" class="mb-0">  TIADA</p>
+                            <p id="secondary" class="mb-0">TIADA</p>
                             {% endif %}
                             {% if data.corpInfo.biz_address2 or data.corpInfo.biz_address2 != None %}
-                            <p id="secondary" class="my-0">  {{data.corpInfo.biz_address2}}</p>
+                            <p id="secondary" class="my-0">{{data.corpInfo.biz_address2}}</p>
                             {% endif %}
                             {% if data.corpInfo.biz_address3 or data.corpInfo.biz_address3 != None %}
-                                <p id="secondary" class="my-0">  {{data.corpInfo.biz_address3}}</p>
+                                <p id="secondary" class="my-0">{{data.corpInfo.biz_address3}}</p>
                             {% endif %}
                             {% if data.corpInfo.biz_town or data.corpInfo.biz_town != None %}
-                            <p id="secondary" class="my-0">  {{data.corpInfo.biz_town}} </p>
+                            <p id="secondary" class="my-0">{{data.corpInfo.biz_town}} </p>
                             {% endif %}
                             {% if data.corpInfo.biz_state or data.corpInfo.biz_state != None %}
-                            <p id="secondary" class="mt-0">  {{data.corpInfo.biz_state}} </p>
+                            <p id="secondary" class="mt-0">{{data.corpInfo.biz_state}} </p>
                             {% endif %}
                         </td>
                     </tr>
@@ -256,7 +265,7 @@
                         <td><p id="secondary">{{data.corpInfo.biz_postcode}}</p></td>
                     </tr>
                     <tr>
-                        <td><p id="secondary">Jenis Perniagaan</p></td>
+                        <td><p id="secondary">JENIS PERNIAGAAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
                             {% if data.corpInfo.biz_nature %}
@@ -273,8 +282,24 @@
 
 
             <h2 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 15rem;"><u> FINANCIAL HISTORICAL COMPARISON </u></h2>
-            <p id="secondary">NAMA: {{data.corpInfo.compName}}</p>
-            <p id="secondary">NO. PENDAFTARAN : <b>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld }})</b></p>
+            <table class="table text-left" >
+                <tr>
+                    <th style="width:30%; border: 0;"></th>
+                    <th style="width:1%; border: 0;"></th>
+                    <th style="width:69%; border: 0;"></th>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">NAMA</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary">{{data.corpInfo.compName}}</p></td>
+                </tr>
+                <tr style="height:8px;">
+                    <td><p id="secondary">NO. PENDAFTARAN:</p></td>
+                    <td><p id="secondary">:</p></td>
+                    <td><p id="secondary"><b>{{data.corpInfo.compNoNew}} ({{data.corpInfo.compNoOld}})</b></p></td>
+                </tr>                    
+            </table>
+
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
@@ -291,8 +316,8 @@
 
                         <tr style="height:20px;">
                             <td><p id="secondary">AUDITOR</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}</p></td>    
-                            <td><p id="secondary">{{data.balance_sheet.1.auditor_name}}</p></td>
+                            <td><p id="secondary">{{data.balance_sheet.0.auditor_name}}<b> ({{data.balance_sheet.0.auditor_no}})</b></p></td>    
+                            <td><p id="secondary">{{data.balance_sheet.1.auditor_name}}<b> ({{data.balance_sheet.1.auditor_no}})</b></p></td>
                         </tr>                        
                         <tr>
                             <td><p id="secondary">AUDITOR ADDRESS</td></p>
@@ -320,18 +345,18 @@
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">FINANCIAL YEAR END</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.financial_year_end}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.financial_year_end}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.financial_year_end}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.financial_year_end}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">UNQUALIFIED REPORT (Y/N)</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.financialReportType}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.financialReportType}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.financialReportType}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.financialReportType}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">CONSOLIDATED ACCOUNT (Y/N)</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.0.accrualAccType}}</p></td>
-                            <td><p id="secondary">{{data.balance_sheet.1.accrualAccType}}</p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.0.accrualAccType}}</b></p></td>
+                            <td><p id="secondary"><b>{{data.balance_sheet.1.accrualAccType}}</b></p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">DATE OF TABLING</p></td>
@@ -350,17 +375,17 @@
                             <td></td>
                         </tr> 
                         <tr style="height:20px;">
-                            <td><p id="secondary">NON CURRENT ASSET</p></td>
+                            <td><p id="secondary">NON-CURRENT ASSETS</p></td>
                             <td><p id="secondary">{{data.balance_sheet.0.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary">{{data.balance_sheet.1.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
-                            <td><p id="secondary">CURRENT ASSET</p></td>
+                            <td><p id="secondary">CURRENT ASSETS</p></td>
                             <td><p id="secondary">{{data.balance_sheet.0.currentAsset | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary">{{data.balance_sheet.1.currentAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
-                            <td><p id="secondary">NON CURRENT LIABILITIES</p></td>
+                            <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
                             <td><p id="secondary">{{data.balance_sheet.0.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                             <td><p id="secondary">{{data.balance_sheet.1.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                         </tr>
@@ -429,12 +454,15 @@
                     </tbody>
                 </table>
             </div>
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+            
+            <div class="end-report">
+                <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
 
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandangan tidak diperlukan.</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
+                <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandatangan tidak diperlukan.</p>
+            </div>
         </div>
         <footer id="footer">
             <div class="row">

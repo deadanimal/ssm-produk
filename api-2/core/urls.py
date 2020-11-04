@@ -139,6 +139,15 @@ tickets_router = router.register(
     'tickets', TicketViewSet
 )
 
+ticket_subjects_router = router.register(
+    'ticket-subjects', TicketSubjectViewSet
+)
+
+ticket_topics_router = router.register(
+    'ticket-topics', TicketTopicViewSet
+)
+
+
 enquiry_tickets_router = router.register(
     'enquiry-tickets', EnquiryTicketViewSet
 )
