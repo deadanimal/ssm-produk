@@ -15,11 +15,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
 
-class Entity {
-  name: string;
-  registration_no: string;
-}
-
 export enum SelectionType {
   single = 'single',
   multi = 'multi',
@@ -40,9 +35,9 @@ export class ProductSearchResultPackage4Component implements OnInit {
   entity_data: any;
   imageList: any[] = []
   formTypes: any[] = []
-  requestedDocuments: any[] = []
   documents: any[] = []
-  
+  requestedDocuments: any[] = []
+
   // Table
   tableEntries: number = 10
   tableSelected: any[] = []
@@ -88,13 +83,12 @@ export class ProductSearchResultPackage4Component implements OnInit {
     private modalService: BsModalService,
     private router: Router,
     private fb: FormBuilder,
-    private cartService: CartsService,
     private loadingBar: LoadingBarService,
     public spinner: NgxSpinnerService,
     private serviceService: ServicesService
   ) {
     this.entity = this.router.getCurrentNavigation().extras as any
-  
+    console.log(this.entity)
   }
 
   ngOnInit() {
@@ -104,11 +98,12 @@ export class ProductSearchResultPackage4Component implements OnInit {
       "name": "list"
     }
     
+
     if (this.entity['type_of_entity'] == 'CP') {
       request_["registration_no"] = Number(this.entity['company_number'])
       request_["entity_type"] = "ROC"
     } else if (this.entity['type_of_entity'] == 'BS') {
-      request_["registration_no"] = Number(this.entity['registration_number'])
+      request_["registration_no"] = this.entity['registration_number']
       request_["entity_type"] = "ROB"
     } else if (this.entity['type_of_entity'] == 'XX') {
 
@@ -118,6 +113,13 @@ export class ProductSearchResultPackage4Component implements OnInit {
 
     }
 
+    this.fileService.get('form-types.json').subscribe(
+      (res) => {
+        this.formTypes = res
+        // console.log(this.formTypes)
+      }
+    )
+    
     let entity_type_profile = ''
     let entity_name = this.entity['name']
     let entity_no = ''
@@ -146,18 +148,11 @@ export class ProductSearchResultPackage4Component implements OnInit {
      
     this.documents.push(profile_data)
 
-    this.fileService.get('form-types.json').subscribe(
-      (res) => {
-        this.formTypes = res
-        // console.log(this.formTypes)
-      }
-    )    
-
-    if (this.entity['entity_type'] == 'CP') {
+    if (this.entity['type_of_entity'] == 'CP') {
       this.spinner.show()
       this.productService.generateImage(request_).subscribe(
         (res) => {
-          console.log('Image list', res)
+          // console.log('Image list', res)
           this.imageList = res
         },
         () => {
@@ -166,23 +161,34 @@ export class ProductSearchResultPackage4Component implements OnInit {
         () => {
           this.spinner.hide()
   
+          this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
           this.imageList.forEach(
             (img) => {
-              this.formTypes.forEach(
-                (form) => {
-                  if (img.formType == form.code) {
-                    img['formName'] = form.desc_en
-                    img['isCtc'] = false
-                    img['price'] = 1000 
-                    img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')
-                    img['isChecked'] = false
-                    img['companyName'] = this.entity['name']
-                  }
+              let form_type_desc = ''
+              this.formTypes.filter((form) => {
+                if (img.formType == form.code) {
+                  form_type_desc = form.desc_en
                 }
-              )
+              })
+  
+              let human_date = moment(img.dateFiler).format('DD-MM-YYYY')
+  
+              let form_data = {
+                'entity': this.entity['id'],
+                'companyNo': entity_no,
+                'companyName': entity_name,
+                'documentType': 'FR',
+                'documentFormType': img['formType'],
+                'documentFormName': form_type_desc,
+                'documentDate': human_date,
+                'totalPage': img['totalPage'],
+                'isChecked': false,
+                'verId': img['verId']
+              }
+  
+              this.documents.push(form_data)
             }
           )
-  
           this.updateTable()
         }
       )
@@ -190,6 +196,7 @@ export class ProductSearchResultPackage4Component implements OnInit {
     else {
       this.updateTable()
     }
+    
   }
 
   goBack() {
@@ -197,7 +204,7 @@ export class ProductSearchResultPackage4Component implements OnInit {
   }
 
   updateTable() {
-    this.tableRows = this.imageList
+    this.tableRows = this.documents
     this.tableTemp = this.tableRows.map((prop, key) => {
       return {
         ...prop,
@@ -227,16 +234,15 @@ export class ProductSearchResultPackage4Component implements OnInit {
         }
       }
     )
-    this.navigatePage('/profile')
+    this.navigatePage('/profile/egov')
   }
 
   navigatePage(path: string) {
     // console.log('Path: ', path)
-    if (path == 'profile') {
-      return this.router.navigate([path], { queryParams: { tab: 'request' } })
+    if (path == '/profile/egov') {
+      return this.router.navigate([path], { queryParams: { tab: 'request-doc' } })
     } else {
       return this.router.navigate([path])
     }
   }
-
 }

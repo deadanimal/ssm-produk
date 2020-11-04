@@ -37,6 +37,7 @@ export class ProductSearchResultComponent implements OnInit {
   formTypes: any[] = []
   imageList: any[] = []
   availabilityList: any
+  branches: any[] = null
 
   // Checker
   isProceed: boolean = false
@@ -101,6 +102,24 @@ export class ProductSearchResultComponent implements OnInit {
     // Footer selected message
     selectedMessage: 'selected'
   }
+
+  // Table Branch
+  tableBranchEntries: number = 10
+  tableBranchSelected: any[] = []
+  tableBranchTemp = []
+  tableBranchActiveRow: any
+  tableBranchRows: any[] = []
+  tableBranchMessages = {
+    // Message to show when array is presented
+    // but contains no values
+    emptyMessage: 'Empty search',
+  
+    // Footer total message
+    totalMessage: '',
+  
+    // Footer selected message
+    selectedMessage: 'selected'
+  }
   
   constructor(
     private toastr: ToastrService,
@@ -141,6 +160,10 @@ export class ProductSearchResultComponent implements OnInit {
       'name': 'list',
       'registration_no': this.registration_no,
       'entity_type': 'ROC'
+    }
+
+    let branchBody = {
+      'registration_no': this.entity.registration_number
     }
 
     // let availabilityBody = {
@@ -190,12 +213,53 @@ export class ProductSearchResultComponent implements OnInit {
       }
     )
 
+    if (this.entity['type_of_entity'] == 'BS') {
+      this.productService.getBranches(branchBody).subscribe(
+        (res) => {
+          this.branches = res
+          console.log(res)
+        },
+        () => {
+          this.branches = null
+        },
+        () => {
+          this.updateTableBranch()
+        }
+      )
+    }
+
     this.fileService.get('form-types.json').subscribe(
       (res) => {
         this.formTypes = res
         // console.log(this.formTypes)
       }
     )
+
+  }
+
+  updateTableBranch() {
+    this.branches.forEach(
+      (branch) => {
+        if (branch['addressId'] == '0') {
+          branch['branchType'] = 'Main'
+          branch['language'] = 'EN'
+          branch['price'] = 1000
+        }
+        else {
+          branch['branchType'] = 'Branch'
+          branch['language'] = 'EN'
+          branch['price'] = 1000
+        }
+      }
+    )
+    
+    this.tableBranchRows = this.branches
+    this.tableBranchTemp = this.tableBranchRows.map((prop, key) => {
+      return {
+        ...prop,
+        id_index: key+1
+      }
+    })
 
   }
 

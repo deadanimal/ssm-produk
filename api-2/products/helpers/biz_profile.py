@@ -7,7 +7,8 @@ from django.utils.timezone import make_aware
 
 from .mapping import (
     state_mapping,
-    nationality_code
+    nationality_code,
+    status_mapping
 )
 
 def biz_profile(mdw_1, mdw_2, lang):
@@ -25,6 +26,23 @@ def biz_profile(mdw_1, mdw_2, lang):
     temp_main_postcode = data_mdw_1['robBusinessInfo']['mainPostcode']
     temp_main_town = data_mdw_1['robBusinessInfo']['mainTown']
     temp_main_state = data_mdw_1['robBusinessInfo']['mainState']
+
+    # print('status', data_mdw_1['robBusinessInfo']['status'])
+    if data_mdw_1['robBusinessInfo']['status'] == 'B':
+        temp_llp_name = data_mdw_1['robBusinessInfo']['llpName']
+        temp_llp_no = data_mdw_1['robBusinessInfo']['llpNo']
+        temp_llp_date_long = make_aware(datetime.strptime(data_mdw_1['robBusinessInfo']['llpconvertDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
+        temp_llp_date = temp_llp_date_long.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+        temp_llp_name = None
+        temp_llp_no = None
+        temp_llp_date = None
+    
+    temp_llp_info = {
+        'llpName': temp_llp_name,
+        'llpNo': temp_llp_no,
+        'llpDate': temp_llp_date
+    }
 
     if temp_main_address_1 == 'TIADA FAIL':
         temp_main_address_1 = None
@@ -457,6 +475,23 @@ def biz_profile(mdw_1, mdw_2, lang):
     #     temp_previous_owner = None
 
     # print ('argggggg', len(temp_previous_owner))
+    temp_branches = []
+
+    if data_mdw_1['robBranchListInfo']['errorMsg']:
+        temp_branches = []
+    else:
+        if isinstance(data_mdw_1['robBranchListInfo']['robBranchInfos']['robBranchInfos'], list):
+            temp_branch_list = data_mdw_1['robBranchListInfo']['robBranchInfos']['robBranchInfos']
+            for temp_branch in temp_branch_list:
+                temp_branch['state'] = state_mapping(temp_branch['state'])
+                temp_branch['status'] = status_mapping(temp_branch['status'], lang)
+                temp_branches.append(temp_branch)
+        else:
+            temp_branch = data_mdw_1['robBranchListInfo']['robBranchInfos']['robBranchInfos']
+            temp_branch['state'] = state_mapping(temp_branch['state'])
+            temp_branch['status'] = status_mapping(temp_branch['status'], lang)
+            temp_branches.append(temp_branch)
+
     data_ready = {
         'bizInfo': {
             'registrationName': data_mdw_1['robBusinessInfo']['registrationName'],
@@ -477,9 +512,8 @@ def biz_profile(mdw_1, mdw_2, lang):
         'bizType': {
             'description': data_mdw_1['robBusinessInfo']['description']
         },
-        'branchInfo': {
-
-        },
+        'branchInfo': temp_branches,
+        'llpInfo': temp_llp_info,
         'ownerCurrentInfo': temp_current_owner,
         'ownerPreviousInfo': temp_previous_owner,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),

@@ -27,6 +27,7 @@
                 </div>
 
                 <tabset type="pills">
+
                     <tab>
                         <ng-template tabHeading> Document & Form Images </ng-template>
 
@@ -41,34 +42,53 @@
                                 [rows]="tableTemp"
                                 [messages]="tableMessages"
                             >
-                                <ngx-datatable-column maxWidth="140">
+                                <ngx-datatable-column 
+                                    [width]="140"
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="documentType"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Type</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.formType}}
+                                        {{row.documentFormType}}
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column>
+                                <ngx-datatable-column
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="documentFormType"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Description</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.formName}}
+                                        {{row.documentFormName}}
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column maxWidth="150">
+                                <ngx-datatable-column 
+                                    [width]="150"
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="documentDate"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Date</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.humanDate}}
+                                        {{row.documentDate}}
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column maxWidth="120">
+                                <ngx-datatable-column
+                                    [width]="100"
+                                    [sortable]="true"
+                                    [resizeable]="false"
+                                    prop="totalPage"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Total Page</span>
                                     </ng-template>
@@ -78,7 +98,11 @@
                                 </ngx-datatable-column>
 
 
-                                <ngx-datatable-column maxWidth="120">
+                                <ngx-datatable-column
+                                    [width]="140"
+                                    [sortable]="false"
+                                    [resizeable]="false"
+                                >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Action</span>
                                     </ng-template>
@@ -97,7 +121,7 @@
                             </ngx-datatable>
                         </div>
 
-                        <div class="text-right">
+                        <div class="text-right mb-2">
                             <button 
                                 class="btn btn-ssm rounded-pill"
                                 (click)="submit()"
@@ -105,9 +129,6 @@
                                 Submit
                             </button>
                         </div>
-                        <br />
-                        <br />
-                        <br />
                     </tab>
                 </tabset>
             </div>
@@ -116,8 +137,6 @@
 </div>
 
 <div class="container" *ngIf="requestedDocuments.length > 0">
-
-
     <div class="mt-2">
         <ngx-datatable 
             class="bootstrap selection-cell"
@@ -170,10 +189,8 @@
                     {{row.totalPage}}
                 </ng-template>
             </ngx-datatable-column>
-
         </ngx-datatable>
     </div>
-
 </div>
 
 <ngx-spinner></ngx-spinner>

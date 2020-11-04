@@ -96,7 +96,7 @@
                     LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
                 </b>
             </p>
-            <h2 class="font-weight-bold text-center" style="font-size: 12pt;"><u> CORPORATE INFORMATION </u></h2>
+            <h2 class="font-weight-bold text-center" style="font-size: 12pt; margin-top: 1rem;"><u> CORPORATE INFORMATION </u></h2>
 
             <div class="table-responsive">
                 <table class="table text-left" >
@@ -328,20 +328,20 @@
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">ORDINARY</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_cash | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.ordinary_issue_noncash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.ordinary_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.ordinary_issue_noncash | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">PREFERENCE</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_cash | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.preference_issue_noncash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.preference_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.preference_issue_noncash | intcomma}}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td></td>
                             <td><p id="secondary">OTHERS</p></td>
-                            <td><p id="secondary">{{ data.others_issue_cash | intcomma}}</p></td>
-                            <td><p id="secondary">{{ data.others_issue_noncash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.others_issue_cash | intcomma}}</p></td>
+                            <td><p id="secondary" class="text-right">{{ data.others_issue_noncash | intcomma}}</p></td>
                         </tr>
                     </tbody>
                 </table>
@@ -731,7 +731,7 @@
             </div>            
 
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">END OF REPORT</h2>
     
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
             <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
@@ -744,8 +744,8 @@
                 <p class="col text-left">USER ID: @</p>
                 <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
             </div>
-            
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+            <p class="text-center" style="margin-bottom:0;font-size:10pt">THIS COMPANY INFORMATION IS GENERATED AS AT {{data.generated_at}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
 </html>
