@@ -245,9 +245,10 @@ def particular_address(mdw_1, mdw_2, lang):
         },
         'lastUpdateDate': temp_last_update_date,
         'changeRegAddress': temp_change_reg_address,
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"), 
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
     }
 
-    print(data_ready)
+    # print(data_ready)
 
     return data_ready

@@ -52,6 +52,7 @@ import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.compon
 import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-task-management.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { EgovUserManagementComponent } from './egov/egov-user-management/egov-us
     ReactiveFormsModule,
     LoadingBarModule,
     NgxDatatableModule,
+    QuillModule,
     RouterModule.forChild(AdminRoutes),
   ],
 })

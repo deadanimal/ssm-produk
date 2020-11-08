@@ -1,9 +1,11 @@
 import requests
 import json
 import xmltodict
+import datetime
+
+now = datetime.datetime.now()
 
 def get_info_fin10(url, headers, registration_number, entity_type, start_year, end_year):
-
    payload = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
     <soapenv:Header />
@@ -17,10 +19,10 @@ def get_info_fin10(url, headers, registration_number, entity_type, start_year, e
             <request>
                 <supplyFin10Req>
                     <coNo>""" + str(registration_number) + """</coNo>
-                    <startYear>2013</startYear>
+                    <startYear>""" + str(now.year - 10 )+ """</startYear>
                     <ipaddress></ipaddress>
                     <remark></remark>
-                    <endYear>2022</endYear>
+                    <endYear>""" + str(now.year) + """</endYear>
                     <type>INFOFINHISTY</type>
                 </supplyFin10Req>
             </request>

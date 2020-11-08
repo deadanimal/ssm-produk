@@ -8,7 +8,7 @@ from django.utils.timezone import make_aware
 from .mapping import (
     state_mapping,
     nationality_code,
-    status_mapping
+    status_biz_mapping
 )
 
 def biz_profile(mdw_1, mdw_2, lang):
@@ -18,7 +18,7 @@ def biz_profile(mdw_1, mdw_2, lang):
 
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
-    print(mdw_1)
+    # print(mdw_1)
 
     temp_main_address_1 = data_mdw_1['robBusinessInfo']['mainAddress1']
     temp_main_address_2 = data_mdw_1['robBusinessInfo']['mainAddress2']
@@ -112,23 +112,7 @@ def biz_profile(mdw_1, mdw_2, lang):
     else:
         temp_ammend_date = None
 
-    temp_status = data_mdw_1['robBusinessInfo']['status']
-    if temp_status == 'A' and lang == 'ms':
-        temp_status = 'AKTIF'
-    elif temp_status == 'L' and lang == 'ms':
-        temp_status = 'LUPUT'
-    elif temp_status == 'T' and lang == 'ms':
-        temp_status = 'PENAMATAN'
-    elif temp_status == 'B' and lang == 'ms':
-        temp_status = 'BUBAR-PERTUKARAN KEPADA PERKONGSIAN LIABILITI TERHAD (PLT)'
-    elif temp_status == 'A' and lang == 'en':
-        temp_status = 'ACTIVE'
-    elif temp_status == 'L' and lang == 'en':
-        temp_status = 'EXPIRED'
-    elif temp_status == 'T' and lang == 'en':
-        temp_status = 'TERMINATED'
-    elif temp_status == 'B' and lang == 'en':
-        temp_status = 'LLP CCONVERSION'
+    temp_status = status_biz_mapping(data_mdw_1['robBusinessInfo']['status'], lang)
     
     temp_current_owner = []
 
@@ -139,7 +123,7 @@ def biz_profile(mdw_1, mdw_2, lang):
         _list_.append(data_mdw_1['robOwnershipListInfo']['robOwnerShipInfos']['robOwnerShipInfos'])
 
     for owner in _list_:
-        print(owner)
+        # print(owner)
         if owner['status'] == 'A':
             temp_current_owner_address_1 = owner['address1']
             temp_current_owner_address_2 = owner['address2']
@@ -256,6 +240,9 @@ def biz_profile(mdw_1, mdw_2, lang):
             temp_entry_date = owner['entryDate']
             temp_entry_date = make_aware(datetime.strptime(temp_entry_date, '%Y-%m-%dT%H:%M:%S.000Z'))
             temp_entry_date = temp_entry_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+            last_update_date = owner['updateDate']
+            last_update_date = make_aware(datetime.strptime(last_update_date, '%Y-%m-%dT%H:%M:%S.000Z'))
+            last_update_date = last_update_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
             
             temp_current_owner.append({
                 'name': owner['ownerName'],
@@ -282,10 +269,10 @@ def biz_profile(mdw_1, mdw_2, lang):
     temp_previous_owner = []
 
     for owner in _list_:
-        print('stat', owner['status'])
-        print ('  ')
-        print(owner)
-        print('   ')
+        # print('stat', owner['status'])
+        # print ('  ')
+        # print(owner)
+        # print('   ')
         if owner['status'] == 'T':
             temp_previous_owner_address_1 = owner['address1']
             temp_previous_owner_address_2 = owner['address2']
@@ -382,7 +369,7 @@ def biz_profile(mdw_1, mdw_2, lang):
             temp_nationality = nationality_code(temp_nationality, lang)
 
             temp_gender = owner['gender']
-            print('gender', temp_gender)
+            # print('gender', temp_gender)
             if temp_gender == 'L' and lang == 'en':
                 temp_gender = 'MALE'
             elif temp_gender == 'P' and lang == 'en':
@@ -399,15 +386,15 @@ def biz_profile(mdw_1, mdw_2, lang):
             temp_birth_date = temp_birth_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
             temp_entry_date = owner['entryDate']
-            print('edate', temp_entry_date)
+            # print('edate', temp_entry_date)
             temp_entry_date = make_aware(datetime.strptime(temp_entry_date, '%Y-%m-%dT%H:%M:%S.000Z'))
             temp_entry_date = temp_entry_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
             temp_withdraw_date = owner['updateDate']
-            print('wdate', temp_withdraw_date)
+            # print('wdate', temp_withdraw_date)
             temp_withdraw_date = make_aware(datetime.strptime(temp_withdraw_date, '%Y-%m-%dT%H:%M:%S.000Z'))
             temp_withdraw_date = temp_withdraw_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-            print('wdate', temp_withdraw_date)
+            # print('wdate', temp_withdraw_date)
 
             temp_ammend_type = owner['ammendmentType']
 
@@ -484,12 +471,12 @@ def biz_profile(mdw_1, mdw_2, lang):
             temp_branch_list = data_mdw_1['robBranchListInfo']['robBranchInfos']['robBranchInfos']
             for temp_branch in temp_branch_list:
                 temp_branch['state'] = state_mapping(temp_branch['state'])
-                temp_branch['status'] = status_mapping(temp_branch['status'], lang)
+                temp_branch['status'] = status_biz_mapping(temp_branch['status'], lang)
                 temp_branches.append(temp_branch)
         else:
             temp_branch = data_mdw_1['robBranchListInfo']['robBranchInfos']['robBranchInfos']
             temp_branch['state'] = state_mapping(temp_branch['state'])
-            temp_branch['status'] = status_mapping(temp_branch['status'], lang)
+            temp_branch['status'] = status_biz_mapping(temp_branch['status'], lang)
             temp_branches.append(temp_branch)
 
     data_ready = {
@@ -516,9 +503,11 @@ def biz_profile(mdw_1, mdw_2, lang):
         'llpInfo': temp_llp_info,
         'ownerCurrentInfo': temp_current_owner,
         'ownerPreviousInfo': temp_previous_owner,
+        'last_update_date': last_update_date,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'generated_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
     }
 
-    print(data_ready)
+    # print(data_ready)
 
     return data_ready

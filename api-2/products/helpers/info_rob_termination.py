@@ -18,7 +18,9 @@ def info_rob_termination(mdw_1, mdw_2, lang):
         'mdw1': mdw_1,
         'mdw2': mdw_2,
         'currentDate': now,
-        'endDate': end_date
+        'endDate': end_date,
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'generated_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
     }
 
     print(data_ready)

@@ -739,6 +739,78 @@
 
         <hr class="my-3 w-100" />
     </div>
+
+    <h3 class="font-weight-bold text-left mt-5"> INFORMATION OF PREVIOUS OWNER </h3>
+    <p id="secondary">NAME: {{entity_data.bizInfo.registrationName}}</p>
+    <p id="secondary">REGISTRATION NO.: {{entity_data.bizInfo.compNoNew}} {{entity_data.bizInfo.registrationNo}}</p>
+    <p id="secondary" class="text-left" *ngIf="entity_data.ownerPreviousInfo.length == 0"> NO INFORMATION </p>
+
+    <div *ngFor="let previous of entity_data.ownerPreviousInfo">
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NAME</label>
+                <p>{{previous.name}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RACE</label>
+                <p>{{previous.race}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (OLD)</label>
+                <p>{{previous.icNoOld}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">GENDER</label>
+                <p>{{previous.gender}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">IC (NEW)</label>
+                <p>{{previous.icNoNew}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">NATIONALITY</label>
+                <p>{{previous.nationality}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF BIRTH</label>
+                <p>{{previous.birthDate}}</p>
+            </div>
+
+            <div class="col">
+                <label class="font-weight-bolder title-transform">DATE OF ENTRY</label>
+                <p>{{previous.entryDate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="font-weight-bolder title-transform">RESIDENTIAL ADDRESS</label>
+                <p id="secondary" class="mb-0">{{previous.address_1}} </p>
+                <p id="secondary" class="my-0" *ngIf="previous.address_2">{{previous.address_2}} </p>
+                <p id="secondary" class="my-0" *ngIf="previous.address_3">{{previous.address_3}} </p>
+                <p id="secondary" class="my-0">{{previous.postcode}}, {{previous.town}}  </p>
+                <p id="secondary" class="my-0">{{previous.state}} </p>
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+
+        <hr class="my-3 w-100" />
+    </div>
 </div>
 
 <ngx-spinner></ngx-spinner>

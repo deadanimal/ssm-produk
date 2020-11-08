@@ -340,14 +340,24 @@ def roc_business_officers(mdw_1, mdw_2, lang):
 
     company_info = mdw_1["rocCompanyInfo"]
 
-    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
-        if '#text' in data_mdw_1["rocCompanyInfo"]['dateOfChange']:
+    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"].keys():
+        if '#text' in data_mdw_1["rocCompanyInfo"]['dateOfChange'].keys():
             date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange']['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
             date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
         else:
             date_of_change_str = 'NIL'
     else:
-        date_of_change_str = 'NIL'    
+        date_of_change_str = 'NIL'
+
+    
+    if 'lastUpdateDate' in company_info.keys():
+        if '#text' in company_info["lastUpdateDate"].keys():
+            company_info["lastUpdateDate"] = make_aware(datetime.strptime(company_info["lastUpdateDate"]['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
+            company_info["lastUpdateDate"] = company_info["lastUpdateDate"].astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        else:
+            company_info["lastUpdateDate"] = 'NIL'
+    else:
+        company_info["lastUpdateDate"] = 'NIL'    
 
     data_ready = {
         'mdw1': data_mdw_1,
@@ -384,7 +394,8 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         'incorp_date': temp_incorp_date_new,
         'business_address_info': business_address_info,
         'registered_address_info': registered_address_info,
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"), 
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
     }
 
     return data_ready

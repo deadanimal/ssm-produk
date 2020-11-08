@@ -89,18 +89,23 @@ export class ProductSearchEgovComponent implements OnInit {
     private entityService: EntitiesService,
     private loadingBar: LoadingBarService
   ) {
-    this.getUser()
   }
 
   ngOnInit(): void {
 
-
+    this.getUser()
     this.initForms()
     // this.initData()
   }
 
   getUser() {
-    this.user = this.UsersService.currentUser
+    setTimeout(
+      () => {
+        this.user = this.UsersService.currentUser
+        console.log(this.user)
+      }, 1000
+    )
+    
   }
 
   initForms() {

@@ -34,9 +34,11 @@ export class EgovHomeComponent implements OnInit {
     // console.log('Path: ', path)
     // console.log('Package: ', this.user['egov_package'])
     if (
-      this.user['egov_package'] == 3 ||
-      this.user['egov_package'] == 4 &&
-      path == '/products/search-egov'
+      path == '/products/search-egov' &&
+      (
+        this.user['egov_package'] == 3 ||
+        this.user['egov_package'] == 4
+      )
     ) {
       this.router.navigate(['/profile/egov'], { queryParams: { tab: 'request-doc' }});
     }

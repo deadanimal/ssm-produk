@@ -13,7 +13,7 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
                     content: "Page " counter(page) " of " counter(pages);
                 }
@@ -43,15 +43,19 @@
                 font-size: 18px;
             }
             .default-template p#disclaimer {
-                font-size: 16px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
                 font-size: 22px;
                 text-align: justify;
             }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
+            }
+            .table td, .table th {
+                border-top: 0px;
             }
             table tr.heading td {
                 color: #333;
@@ -63,6 +67,23 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            .end-report {
+                position: absolute;
+                bottom: 8.5rem;
+                left: 0;
+                height: 5rem;
+                width: 100%;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 1rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -73,30 +94,40 @@
             </div>
         </header>
         
-        <div class="default-template container pg-start">
-            <div class="row">
-                <div class="col-2">
-                    <p id="disclaimer">
-                        NOTE:
-                    </p>
-                </div>
-                
-                <div class="col-10">
-                    <p id="disclaimer">
-                        ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO 
-                        ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
-                        AND UP TO DATE, THE REGISTRAR OF BUSINESSES WILL 
-                        NOT BE LIABLE FOR ANY LOSSES ARISING FROM ANY 
-                        INACCURATE OR OMITTED INFORMATION.
-                    </p>
-                </div>
-            </div>
+        <div class="default-template container pg-start" style="padding-right: 60px">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO 
+                    ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                    AND UP TO DATE, THE REGISTRAR OF BUSINESSES WILL 
+                    NOT BE LIABLE FOR ANY LOSSES ARISING FROM ANY 
+                    INACCURATE OR OMITTED INFORMATION.
+                </b>
+            </p>
 
-            <h3 class="font-weight-bold text-center">CERTIFICATION ON EXPIRY OF A BUSINESS REGISTRATION</h3>
-            <p id="secondary">NAME: {{ data.mdw1.robBusinessInfo.registrationName }}</p>
-            <p id="secondary">REGISTRATION NO.: {{ data.mdw2.newFormatNo }} ({{ data.mdw2.oldFormatNo }}) </p>
+            <h1 class="font-weight-bold text-center mt-5">CERTIFICATION ON EXPIRY OF A BUSINESS REGISTRATION</h1>
 
-            <p id="secondary">
+            <div class="table-responsive" class="my-5">
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{ data.mdw1.robBusinessInfo.registrationName }}</b></p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">REGISTRATION NO.:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{ data.mdw2.newFormatNo }} ({{ data.mdw2.oldFormatNo }})</b></p></td>
+                    </tr>                    
+                </table>
+            </div>  
+
+            <p id="secondary" style="text-align:justify;" class="mt-5">
                 Based on record kept at the Companies Commission of Malaysia, 
                 until this day {{data.currentDate}}, it is hereby certified 
                 that the above business registration has expired on {{data.endDate}}. 
@@ -104,17 +135,29 @@
                 <br />
             </p>
 
-            <p id="secondary">
+            <p id="secondary" style="text-align:justify;">
                 Application for the renewal of a business shall be made at any 
                 time before the expiry date up to twelve (12) months after 
                 the expiry date or the previous renewal.
             </p>
             
+            <div class="end-report">
+                <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">END OF REPORT</h3>
+    
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION ARE FROM THE BUSINESS'S DOCUMENT REGISTERED AS AT {{ data.printing_date}}. </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.</p>
+                <p style="margin-top:5px;margin-bottom:10px;font-size:10pt" class="text-center">REGISTRAR OF COMPANIES</p>
+            </div>
         </div>
-    </body>
 
-    <footer>
-        <p></p>
-    </footer>
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-center" style="margin-bottom:0px;font-size:8pt">USER ID: huzree@pipe.my</p>
+            </div>
+
+            <p class="text-center" style="margin-bottom:0;font-size:8pt">THIS BUSINESS INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_date}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom: 0;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 

@@ -27,7 +27,7 @@
                 background-position: right top;
                 background-attachment:fixed;
                 background-size: 100% 100%;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm; 
+                margin: 4.01cm 1.58cm 3.34cm 1.58cm; 
             }      
 
             header#header {
@@ -39,15 +39,15 @@
                 width: 100%;
             }
             img.logo {
-                height: 14rem !important;
+                height: 16rem !important;
             }
             html {
-                font-family: "Times New Roman",Arial, sans-serif;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
                 font-size: 11px;
             }
             .default-template {
                 color: #333;
-                font-family: "Times New Roman",Arial, sans-serif;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
             }
             .default-template p#secondary {
                 word-spacing: 7pt;
@@ -55,8 +55,8 @@
                 text-align: justify;
             }
             .default-template p#primary {
-                word-spacing: 7pt;
-                font-size: 22px;
+                word-spacing: 5pt;
+                font-size: 16pt; 
                 text-align: justify;
             }
             table tr.top table td.title {
@@ -78,28 +78,31 @@
             ol#bol {
                 list-style-type: decimal;
             }
-            ol#details {
-                margin-bottom:1 rem;
+            ol {
+                margin-bottom: 1rem;
                 margin-top: 1rem;
                 word-spacing: 7pt;
-                margin-left: 15px;
-                margin-right: 15px;
+                padding-left: 2rem;
+                padding-right: 2rem;
             }
             ol li {
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                word-spacing: 7pt;
-                font-size: 20px;
+                /* margin-top: 0.2rem; */
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-left: 4rem;
+                padding-right: 4rem;
+                word-spacing: 5pt;
+                font-size: 16pt;
                 text-align: justify;
             }
             footer#footer {
-                font-family: "Times New Roman",Arial, sans-serif;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
                 font-size: 11px;
                 position: fixed;
                 bottom: 0;
                 left: 0;
 
-                height: 11.5rem;
+                height: 10.5rem;
                 width: 100%;
             }
         </style>
@@ -112,21 +115,21 @@
             </div>
         </header>
 
-        <div class="default-template container pg-start" style="padding-right: 220px; padding-top: 100px;">
-            <h1 class="font-weight-bold text-center mb-0" style="font-size:60px">
+        <div class="default-template container pg-start" style="padding-right: 120px; padding-top: 50px;">
+            <h1 class="font-weight-bold text-center mb-0" style="font-size: 32pt">
                 ATTESTATION OF COMPANY
                 GOOD STANDING
             </h1>
 
-            <h1 class="font-weight-bold  text-center" style="font-size:40px; margin-top: 30px">
+            <h1 class="font-weight-bold  text-center" style="font-size: 23pt; margin-top: 30px; margin-bottom: 0;">
                 {{data.compName}}
             </h1>
 
-            <h1 class="font-weight-bold mb-7 text-center" style="font-size:30px; margin-top: 20px">
+            <h1 class="font-weight-bold mb-7 text-center" style="font-size: 23pt; margin-top: 5px">
                 {{data.compNoNew}} ({{data.compNoOld}})
             </h1>
 
-            <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px; margin-top: 20px">
+            <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px; margin-top: 30px">
                 This is to confirm that the above company was incorporated on
                 {{data.incorpDate}} as a {% if data.compType == 'R' %}private
                 {% endif %}{% if data.compType == 'U' %}public
@@ -139,7 +142,7 @@
                 Based on documents lodged with the Companies Commission of Malaysia:
             </p>
 
-            <ol id="details">
+            <ol>
                 <li>
                     The company is not in the process of being wound up or dissolved;
                 </li>
@@ -154,7 +157,7 @@
                     {% if data.regAddress_address3 %}{{data.regAddress_address3}}, {% endif %}
                     {% if data.regAddress_postcode %}{{data.regAddress_postcode}},{% endif %}
                     {% if data.regAddress_town %}{{data.regAddress_town}}, {% endif %} 
-                    {% if data.regAddress_state %}{{data.regAddress_state}}{% endif %}.  
+                    {% if data.regAddress_state %}{{data.regAddress_state}}{% endif %}.
                 </li>
             </ol>
 
@@ -164,10 +167,10 @@
 
             <p id="primary" class="mt-0 text-right" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">
                 <br>
-                Registrar of Companies Malaysia
+                <b>Registrar of Companies Malaysia</b>
             </p>
 
-            <h1 class="font-weight-bold text-center pg-break" style="font-size:40px;padding-top: 100px;">
+            <h1 class="font-weight-bold text-center pg-break" style="font-size: 23pt; padding-top: 100px; margin-left: 30px; margin-right: 30px;">
                 CRITERIA FOR THE ISSUANCE OF
                 <br>
                 ATTESTATION OF COMPANY GOOD STANDING
@@ -178,20 +181,16 @@
                 a company has met the criteria that was set in the issuance of this ACGS.
             </p>
             
-            <p id="primary" style="margin-left: 30px;">
+            <p id="primary" style="margin-left: 30px; font-size: 23pt !important; margin-bottom: 0 !important;">
                 <b>Product Overview</b>
             </p>             
             <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px">
                 ACGS will state the company name, registration number, incorporation date, 
                 whether the company is a private or public company and the registered address 
-                of the company. As an added feature, recipient can scan the QR Code from the 
-                print-out and able to view the stored copy of the ACGS as well as make comparison 
-                to verify the contents and ensure that there is no alteration made to the print-out.
+                of the company.
             </p>      
 
-
-            <br> 
-            <p id="primary" style="margin-left: 30px;">
+            <p id="primary" style="margin-left: 30px; font-size: 23pt !important; margin-bottom: 0 !important;">
                 <b>ACGS Product Criteria</b>
             </p>                      
 
@@ -200,46 +199,52 @@
                 The company must meet the criteria as listed below:
             </p>   
             
-            <p id="primary" style="margin-left: 60px;margin-right: 60px;">
-                1. The company has been incorporated for at least 18 months from the 
-                date of the ACGS;
-                <br>
-                2. The company has lodged its latest annual return and audited financial 
+            <ol>
+                <li>
+                    The company has been incorporated for at least 18 months from the 
+                    date of the ACGS;
+                </li>
+                <li>
+                    The company has lodged its latest annual return and audited financial 
                 statements or certificate relating to an exempt private company;
-                <br>
-                3. The company is in existence and not in the process of being wound up 
+                </li>
+                <li>
+                    The company is in existence and not in the process of being wound up 
                 or struck off or dissolved; 
-                <br>
-                4. The company is not dormant as per nature of business;
-                <br>
-                5. The company has a registered address;
-                <br>
-                6. The company or its directors do not have any outstanding compound; and
-                <br>
-                7. The company or its directors do not have any pending prosecution case.
-            </p>
+                </li>
+                <li>
+                    The company is not dormant as per nature of business;
+                </li>
+                <li>
+                    The company has a registered address;
+                </li>
+                <li>
+                    The company or its directors do not have any outstanding compound; and
+                </li>
+                <li>
+                    The company or its directors do not have any pending prosecution case.
+                </li>
+            </ol>
         </div>
 
-        <footer id="footer">
-            <p class="mb-0" style="margin-bottom:10px;font-size:10pt;text-align: justify;">
-                This attestation is issued based on the latest information lodged by
-                the company with the Registrar that has met the required criteria for
-                the issuance of this attestation. Although every effort has been made
-                to ensure that the information provided is accurate and up to date,
-                the Registrar shall be liable for any losses arising from any inaccurate
-                or omitted information.
+        <footer id="footer"> 
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">
+                THIS ATTESTATION IS ISSUED BASED ON THE LATEST INFORMATION LODGED BY THE 
+                COMPANY WITH THE REGISTRAR THAT HAS MET THE REQUIRED CRITERIA FOR THE ISSUANCE
+                OF THIS ATTESTATION. ALTHOUGH EVERY EFFORT HAS BEEN MADE TO ENSURE THAT THE INFORMATION PROVIDED
+                IS ACCURATE AND UP TO DATE, THE REGISTRAR SHALL NOT BE LIABLE FOR ANY LOSSES ARISING 
+                FROM ANY INACCURATE OR OMITTED INFORMATION.
             </p>  
-
-            <p class="text-center mt-0" style="margin-bottom:10px;font-size:10pt">
-                This information is computer generated. No signature is required.
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">
+                THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.
             </p>
 
             <div class="row">
-                <p class="col text-left">USER ID: @</p>
-                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+                <p class="col text-center" style="margin-bottom:0;font-size:10pt">USER ID: huzree@pipe.my</p>
             </div>
-            
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+
+            <p class="text-center" style="margin-bottom:0;font-size:10pt">THIS COMPANY INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
 </html>

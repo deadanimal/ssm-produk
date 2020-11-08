@@ -13,9 +13,9 @@
                 /* size: A4; Change from the default size of A4 */
                 /* padding: 2.0cm; Set margin on each page */
                 size: A4 portait;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm;
+                /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
                 @top-right{
-                    content: "Page " counter(page) " of " counter(pages);
+                    content: "Mukasurat " counter(page) " daripada " counter(pages);
                 }
             }
 
@@ -43,15 +43,19 @@
                 font-size: 18px;
             }
             .default-template p#disclaimer {
-                font-size: 16px;
+                font-size: 8pt;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
                 font-size: 22px;
                 text-align: justify;
             }
+            table {border: 0;} 
             table tr.top table td.title {
                 color: #333;
+            }
+            .table td, .table th {
+                border-top: 0px;
             }
             table tr.heading td {
                 color: #333;
@@ -63,6 +67,23 @@
             .pg-start {
                 margin-top: 15rem;
             }
+            .end-report {
+                position: absolute;
+                bottom: 8.5rem;
+                left: 0;
+                height: 5rem;
+                width: 100%;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 1rem;
+                width: 100%;
+            }
         </style>
     </head>
 
@@ -73,46 +94,66 @@
             </div>
         </header>
         
-        <div class="default-template container pg-start">
-            <div class="row">
-                <div class="col-2">
-                    <p id="disclaimer">
-                        PERHATIAN:
-                    </p>
-                </div>
-                
-                <div class="col-10">
-                    <p id="disclaimer">
-                        SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN 
-                        MAKLUMAT YANG DIBERI ADALAH BETUL DAN TERKINI PENDAFTAR 
-                        SYARIKAT TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG 
-                        KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.
-                    </p>
-                </div>
-            </div>
+        <div class="default-template container pg-start" style="padding-right: 60px">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL UNTUK MEMASTIKAN 
+                    MAKLUMAT YANG DIBERI ADALAH BETUL DAN TERKINI PENDAFTAR 
+                    SYARIKAT TIDAK BOLEH DIPERTANGGUNGKAN BAGI SEBARANG 
+                    KERUGIAN KERANA MAKLUMAT YANG TERSILAP ATAU TERTINGGAL.
+                </b>
+            </p>
 
-            <h3 class="font-weight-bold text-center">PENGESAHAN PENAMATAN PENDAFTARAN SUATU PERNIAGAAN</h3>
-            <p id="secondary">NAMA: </p>
-            <p id="secondary">NO. PENDAFTARAN: </p>
+            <h1 class="font-weight-bold text-center mt-5">PENGESAHAN PENAMATAN PENDAFTARAN SUATU PERNIAGAAN</h1>
+            <div class="table-responsive" class="my-5">
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NAMA</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{ data.mdw1.robBusinessInfo.registrationName }}</b></p></td>
+                    </tr>
+                    <tr style="height:8px;">
+                        <td><p id="secondary">NO. PENDAFTARAN:</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{ data.mdw2.newFormatNo }} ({{ data.mdw2.oldFormatNo }})</b></p></td>
+                    </tr>                    
+                </table>
+            </div> 
 
-            <p id="secondary">
+            <p id="secondary" style="text-align:justify;" class="mt-5">
                 Mengikut rekod yang terdapat dalam simpanan Suruhanjaya Syarikat Malaysia 
                 sehingga {{data.currentDate}}, dengan ini disahkan perniagaan yang tersebut 
                 di atas telah tamat pendaftarannya pada {{data.endDate}}.
                 <br />
             </p>
 
-            <p id="secondary">
+            <p id="secondary" style="text-align:justify;">
                 Permohonan pembaharuan  pendaftaran sesebuah perniagaan boleh dibuat bila-bila 
                 masa sebelum tarikh tamat pendaftaran sehingga dua belas (12) bulan selepas 
                 tarikh tamat pendaftaran atau pembaharuan terdahulu.
             </p>
-            
-        </div>
-    </body>
 
-    <footer>
-        <p></p>
-    </footer>
+            <div class="end-report">
+                <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">TAMAT LAPORAN</h3>      
+    
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">MAKLUMAT INI ADALAH EKSTRAK DARIPADA DOKUMEN PERNIAGAAN YANG DIDAFTARKAN SEHINGGA {{ data.printing_date}}. </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">MAKLUMAT INI ADALAH CETAKAN KOMPUTER. TANDATANGAN TIDAK DIPERLUKAN.</p>
+                <p style="margin-top:5px;margin-bottom:10px;font-size:10pt" class="text-center">PENDAFTAR SYARIKAT</p>
+            </div>
+        </div>
+
+        <footer id="footer">
+            <div class="row">
+                <p class="col text-center" style="margin-top:5px;margin-bottom:0px;font-size:8pt">USER ID: huzree@pipe.my</p>
+            </div>
+            <p class="text-center" style="margin-bottom:0;font-size:8pt">MAKLUMAT PERNIAGAAN INI DIJANA / DICETAK PADA {{data.generated_date}}</p>  
+            <p class="text-center" style="margin-top: 0;margin-bottom:10px;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+        </footer>
+    </body>
 </html>
 

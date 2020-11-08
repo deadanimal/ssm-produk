@@ -132,7 +132,8 @@ from tickets.views import (
     TicketInvestigationViewSet,
     EnquiryTicketViewSet,
     EnquiryTicketReplyViewSet,
-    EnquiryTicketSelectionViewSet
+    EnquiryTicketSelectionViewSet,
+    EnquiryNoteViewSet
 )
 
 tickets_router = router.register(
@@ -160,6 +161,9 @@ enquiry_ticket_selections_router = router.register(
     'enquiry-ticket-selections', EnquiryTicketSelectionViewSet
 )
 
+enquiry_notes_router = router.register(
+    'enquiry-notes', EnquiryNoteViewSet
+)
 
 
 
