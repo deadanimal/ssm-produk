@@ -430,7 +430,9 @@ export class ProfileEgovComponent implements OnInit {
       user: new FormControl(null, Validators.compose([
         Validators.required
       ])),
-      attachment_letter: new FormControl(null)
+      attachment_letter: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
     });
 
     this.investigationForm = this.fb.group({
@@ -536,18 +538,18 @@ export class ProfileEgovComponent implements OnInit {
     this.informationForm.controls['state'].patchValue(this.user['state'])
     this.informationForm.controls['user'].patchValue(this.user['id'])
 
-    this.renewForm.controls['head_of_department_name'].patchValue(this.user['head_of_department_name'])
-    this.renewForm.controls['head_of_department_email'].patchValue(this.user['head_of_department_email'])
-    this.renewForm.controls['head_of_department_position'].patchValue(this.user['head_of_department_position'])
-    this.renewForm.controls['ministry_name'].patchValue(this.user['ministry_name'])
-    this.renewForm.controls['department_name'].patchValue(this.user['department_name'])
-    this.renewForm.controls['division_name'].patchValue(this.user['division_name'])
-    this.renewForm.controls['address_1'].patchValue(this.user['address_1'])
-    this.renewForm.controls['address_2'].patchValue(this.user['address_2'])
-    this.renewForm.controls['address_3'].patchValue(this.user['address_3'])
-    this.renewForm.controls['city'].patchValue(this.user['city'])
-    this.renewForm.controls['postcode'].patchValue(this.user['postcode'])
-    this.renewForm.controls['state'].patchValue(this.user['state'])
+    // this.renewForm.controls['head_of_department_name'].patchValue(this.user['head_of_department_name'])
+    // this.renewForm.controls['head_of_department_email'].patchValue(this.user['head_of_department_email'])
+    // this.renewForm.controls['head_of_department_position'].patchValue(this.user['head_of_department_position'])
+    // this.renewForm.controls['ministry_name'].patchValue(this.user['ministry_name'])
+    // this.renewForm.controls['department_name'].patchValue(this.user['department_name'])
+    // this.renewForm.controls['division_name'].patchValue(this.user['division_name'])
+    // this.renewForm.controls['address_1'].patchValue(this.user['address_1'])
+    // this.renewForm.controls['address_2'].patchValue(this.user['address_2'])
+    // this.renewForm.controls['address_3'].patchValue(this.user['address_3'])
+    // this.renewForm.controls['city'].patchValue(this.user['city'])
+    // this.renewForm.controls['postcode'].patchValue(this.user['postcode'])
+    // this.renewForm.controls['state'].patchValue(this.user['state'])
     this.renewForm.controls['user'].patchValue(this.user['id'])
 
     this.investigationForm.controls['user'].patchValue(this.user['id'])

@@ -86,6 +86,11 @@
 											- CTC
 										</span>
 
+										<div *ngIf="row.product">
+											<span *ngIf="row.product.language == 'MS'">BM</span>
+											<span *ngIf="row.product.language == 'EN'">EN</span>
+										</div>
+
 										<span *ngIf="row?.image_form_type != 'NA' && row?.image_form_type">
 											- {{row?.image_form_type}}
 										</span>

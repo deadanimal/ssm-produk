@@ -89,11 +89,13 @@
         
         <div class="default-template container pg-start">
             <p id="disclaimer" style="font-size:8pt;text-align:justify;">
-                ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
-                THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
-                DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
-                FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
-                INFORMATION.
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE 
+                    THAT THE INFORMATION PROVIDED IS ACCURATE AND UP TO 
+                    DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE 
+                    FOR ANY LOSSES ARISING FROM ANY INACCURATE OR OMITTED 
+                    INFORMATION.
+                </b>
             </p>
 
             <h2 class="font-weight-bold text-center">PARTICULARS OF SHAREHOLDERS</h2>
@@ -327,21 +329,20 @@
                 </table>
             </div> 
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
+            <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">END OF REPORT</h3>
     
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION ARE FROM THE COMPANY'S DOCUMENT REGISTERED AS AT {{ data.company_info.latestDocUpdateDate}}. </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.</p>
+            <p style="margin-top:5px;margin-bottom:10px;font-size:10pt" class="text-center">REGISTRAR OF COMPANIES</p>
         </div>
 
         <footer id="footer">
             <div class="row">
-                <p class="col text-left">USER ID: @</p>
-                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+                <p class="col text-center" style="margin-bottom:0px;font-size:8pt">USER ID: huzree@pipe.my</p>
             </div>
-            
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+
+            <p class="text-center" style="margin-bottom:0;font-size:8pt">THIS COMPANY INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom:10px;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>   
         </footer>
     </body>
 </html>

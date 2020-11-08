@@ -236,7 +236,7 @@
                         <td><p id="secondary">:</p></td>
                         <td>
                             <p id="secondary">
-                                {% if data.business_address_info.address1 %}
+                                {% if data.business_address_info.address1 and data.business_address_info.address1 != 'NIL' %}
                                     {{data.business_address_info.address1}} <br />
                                 {% else %}
                                     TIADA
@@ -307,9 +307,9 @@
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
-                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASPOT/NO. PENDAFTARAN</p></th>
-                        <th style="width:40%; border: 0;"><p id="secondary">NAME/COMPANY NAME</p></th>
-                        <th style="width:27%; border: 0;"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
+                        <th style="width:33%; border: 0;"><p id="secondary">IC/PASPORT/NO. PENDAFTARAN</p></th>
+                        <th style="width:40%; border: 0;"><p id="secondary">NAMA/NAMA SYARIKAT</p></th>
+                        <th style="width:27%; border: 0;"><p id="secondary" class="text-right">JUMLAH SYER</p></th>
                       </tr>
                     <tbody>
                         {% for shareholder in data.shareholders_data %}
@@ -323,21 +323,19 @@
                 </table>
             </div> 
 
-            <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> TAMAT LAPORAN </u></h2>      
+            <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">TAMAT LAPORAN</h3>      
 
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Maklumat ini adalah ekstrak daripada dokumen syarikat yang didaftarkan sehingga {{ data.company_info.latestDocUpdateDate}} </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Pendaftar Syarikat</p>
-            <p style="margin-top:0;margin-bottom:0;font-size:10pt">Tarikh : {{data.printing_time}}</p>
-            <p style="margin-top:0;margin-bottom:10px;font-size:10pt">Maklumat ini adalah cetakan komputer. Tandatangan tidak diperlukan.</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">MAKLUMAT INI ADALAH EKSTRAK DARIPADA DOKUMEN  SYARIKAT YANG DIDAFTARKAN SEHINGGA {{ data.company_info.latestDocUpdateDate}}. </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">MAKLUMAT INI ADALAH CETAKAN KOMPUTER. TANDATANGAN TIDAK DIPERLUKAN.</p>
+            <p style="margin-top:5px;margin-bottom:10px;font-size:10pt" class="text-center">PENDAFTAR SYARIKAT</p>
         </div>
 
         <footer id="footer">
             <div class="row">
-                <p class="col text-left">USER ID: @</p>
-                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+                <p class="col text-center" style="margin-bottom:0px;font-size:8pt">USER ID: huzree@pipe.my</p>
             </div>
-            
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+            <p class="text-center" style="margin-bottom:0;font-size:8pt">MAKLUMAT SYARIKAT INI DIJANA / DICETAK PADA {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top: 0;margin-bottom:10px;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
 </html>

@@ -18,7 +18,7 @@ def comp_prof(mdw_1, mdw_2, lang):
 
     tz = pytz.timezone('Asia/Kuala_Lumpur')
     now = datetime.now(tz=tz) 
-    print(now)
+    # print(now)
     now_string = now.strftime("%Y-%m-%d %H:%M:%S")
 
     url_info = 'http://integrasistg.ssm.com.my/InfoService/1'
@@ -180,7 +180,7 @@ def comp_prof(mdw_1, mdw_2, lang):
                 else:
                    charge['chargeAmount'] = None
                 charge['chargeCreateDate'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
-                print('tes', charge['chargeCreateDate'])
+                # print('tes', charge['chargeCreateDate'])
                 # print(charges_info)
                 charges_info.append(charge)
         else:
@@ -244,18 +244,27 @@ def comp_prof(mdw_1, mdw_2, lang):
                     # print(sheet)
                     bss_ = sheet
             
-            temp_pll = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in profit_loss_list]
-            temp_pll.sort()
-            length_temp_pll = len(temp_pll)
+            print('********')
+            print('**>>>> ', len(profit_loss_list))
+            print(profit_loss_list)
+            print('********')
+            if isinstance(profit_loss_list, list):
+                temp_pll = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in profit_loss_list]
+                temp_pll.sort()
+                length_temp_pll = len(temp_pll)
 
-            # print('gegfege')
-            # print(temp_pll)
-            latest_date_pl = temp_pll[length_temp_pll-1]
+                # print('gegfege')
+                # print(temp_pll)
+                latest_date_pl = temp_pll[length_temp_pll-1]
 
-            for sheet in profit_loss_list:
-                if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_pl:
-                    # print(sheet)
-                    pll_ = sheet
+                for sheet in profit_loss_list:
+                    if datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") == latest_date_pl:
+                        # print(sheet)
+                        pll_ = sheet
+                        print('1 >>>>', pll_)
+            else: 
+                pll_ = profit_loss_list
+                print('2 >>>>', pll_)
 
         financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
@@ -267,6 +276,14 @@ def comp_prof(mdw_1, mdw_2, lang):
         date_of_tabling_new = 'NONE'
 
     if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+
+        if mdw_1["rocCompanyInfo"]['companyType'] == 'G':
+            non_current_liability = float(bss_['nonCurrentLiability'])
+            fund_reserve = float(bss_['fundAndReserve'])
+        else:
+            non_current_liability = float(bss_['nonCurrentLiability'])
+            fund_reserve = None
+
         bs_data = {
             'auditor_name': bss_['auditFirmName'],
             'auditor_no': bss_["auditFirmNo"],
@@ -283,11 +300,12 @@ def comp_prof(mdw_1, mdw_2, lang):
             'dateOfTabling': date_of_tabling_new,
             'nonCurrAsset':float(bss_['nonCurrAsset']),
             'currentAsset':float(bss_['currentAsset']),
-            'nonCurrentLiability':float(bss_['nonCurrentLiability']),
+            'nonCurrentLiability': non_current_liability,
             'liability':float(bss_['liability']),
             'paidUpCapital':float(bss_['paidUpCapital']),
             'reserves':float(bss_['reserves']),
             'minorityInterest':float(bss_['minorityInterest']),
+            'fundReserve': fund_reserve
         }
     else:
         bs_data = {
@@ -310,17 +328,21 @@ def comp_prof(mdw_1, mdw_2, lang):
             'paidUpCapital':'NONE',
             'reserves':'NONE',
             'minorityInterest':'NONE',
-        }        
+        }    
 
 
 
-    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
-        financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
-        financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if len(balance_sheet_list) > 0:
+        if isinstance(profit_loss_list, list):
+            financial_year_end_old = make_aware(datetime.strptime(profit_loss_list[-1]['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
+            financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        else:
+            financial_year_end_old = make_aware(datetime.strptime(profit_loss_list['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
+            financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         financial_year_end_new = 'NONE'
 
-    if mdw_1["rocCompanyInfo"]['localforeignCompany'] == 'L' and len(balance_sheet_list) > 0:
+    if len(balance_sheet_list) > 0:
         pl_data = {
             'extraOrdinaryItem': pll_['extraOrdinaryItem'],
             'financialReportType': pll_['financialReportType'],
@@ -398,7 +420,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         'pl_data': pl_data,
         'incorp_date': temp_incorpDate_new,
         'date_of_change': date_of_change_str,
-        'generated_at': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
     }
 
