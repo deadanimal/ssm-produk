@@ -18,12 +18,14 @@ from .models import (
     TicketInvestigation,
     EnquiryTicket,
     EnquiryTicketReply,
-    EnquiryTicketSelection
+    EnquiryTicketSelection,
+    EnquiryNote
 )
 
 from .serializers import (
     TicketTopicSerializer,
     TicketSubjectSerializer,
+    TicketSubjectExtendedSerializer,
     TicketSerializer,
     TicketExtendedSerializer,
     TicketCBIDSerializer,
@@ -31,7 +33,8 @@ from .serializers import (
     TicketInvestigationSerializer,
     EnquiryTicketSerializer,
     EnquiryTicketReplySerializer,
-    EnquiryTicketSelectionSerializer    
+    EnquiryTicketSelectionSerializer  ,
+    EnquiryNoteSerializer  
 )
 
 class TicketTopicViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -99,7 +102,16 @@ class TicketSubjectViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = TicketSubject.objects.filter(company=company.id)
         """
-        return queryset    
+        return queryset
+
+
+    @action(methods=['GET'], detail=False)
+    def extended(self, request, *args, **kwargs):
+        
+        queryset = TicketSubject.objects.all()
+        serializer_class = TicketSubjectExtendedSerializer(queryset, many=True)
+        
+        return Response(serializer_class.data)
  
 
 class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -317,5 +329,20 @@ class EnquiryTicketSelectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         queryset = EnquiryTicketSelection.objects.all()
         return queryset    
 
+class EnquiryNoteViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = EnquiryNote.objects.all()
+    serializer_class = EnquiryNoteSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
 
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
 
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = EnquiryNote.objects.all()
+        return queryset 

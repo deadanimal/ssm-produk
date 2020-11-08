@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Form } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Subject, Topic } from './tickets.model';
+import { Note, Subject, Topic } from './tickets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,7 @@ export class TicketsService {
   public ticketsURL: string = environment.baseUrl + 'v1/tickets/';
   public topicsURL: string = environment.baseUrl + 'v1/ticket-topics/';
   public subjectsURL: string = environment.baseUrl + 'v1/ticket-subjects/';
+  public notesURL: string = environment.baseUrl + 'v1/enquiry-notes/'
   
   // Data
   public ticket: any
@@ -26,8 +27,10 @@ export class TicketsService {
   public subject: Subject
   public subjects: Subject[] = []
 
-  constructor(private http: HttpClient) {}
+  public note: Note
+  public notes: Note[] = []
 
+  constructor(private http: HttpClient) {}
 
   // Ticket topic
   createTopic(body: any): Observable<any> {
@@ -79,7 +82,8 @@ export class TicketsService {
   }
 
   getSubjects(): Observable<Subject[]> {
-    return this.http.get<Subject[]>(this.subjectsURL).pipe(
+    let urlTemp = this.subjectsURL + 'extended/'
+    return this.http.get<Subject[]>(urlTemp).pipe(
       tap((res: Subject[]) => {
         // console.log('Subjects: ', res)
         this.subjects = res
@@ -103,6 +107,45 @@ export class TicketsService {
       tap((res: Subject) => {
         // console.log('Patch: ', res);
         this.subject = res
+      })
+    );        
+  }
+
+  // Ticket notes
+  createNote(body: any): Observable<Note> {
+    return this.http.post<Note>(this.subjectsURL, body).pipe(
+      tap((res: Note) => {
+        // console.log('Patch: ', res);
+        this.note = res
+      })
+    );  
+  }
+
+  getNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(this.notesURL).pipe(
+      tap((res: Note[]) => {
+        // console.log('Notes: ', res)
+        this.notes = res
+      })
+    )
+  }
+
+  getNote(id: any): Observable<Note> {
+    let urlTemp = this.notesURL + id + '/'
+    return this.http.get<Note>(urlTemp).pipe(
+      tap((res: Note) => {
+        // console.log('Topics: ', res)
+        this.note = res
+      })
+    )
+  }
+
+  patchNote(id: any, body: any): Observable<Note> {
+    let urlTemp = this.notesURL + id + '/'
+    return this.http.patch(urlTemp, body).pipe(
+      tap((res: Note) => {
+        // console.log('Patch: ', res);
+        this.note = res
       })
     );        
   }

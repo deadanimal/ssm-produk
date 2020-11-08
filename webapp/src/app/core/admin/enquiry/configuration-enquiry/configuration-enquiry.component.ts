@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
@@ -8,6 +8,8 @@ import Quill from 'quill';
 import { BsModalRef, BsModalService, TabDirective } from 'ngx-bootstrap';
 import { forkJoin } from 'rxjs';
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
+import { Note } from 'src/app/shared/services/tickets/tickets.model';
+import { QuillViewHTMLComponent } from 'ngx-quill';
 
 @Component({
   selector: 'app-configuration-enquiry',
@@ -33,6 +35,27 @@ export class ConfigurationEnquiryComponent implements OnInit {
     keyboard: true,
     class: 'modal-dialog-centered modal-lg',
   };
+
+  // Instructions & disclaimers
+  notes: Note[] = []
+
+  @ViewChild('instructionEN', {
+    static: true
+  }) instructionEN: QuillViewHTMLComponent
+  @ViewChild('instructionBM', {
+    static: true
+  }) instructionBM: QuillViewHTMLComponent
+  @ViewChild('disclaimerEN', {
+    static: true
+  }) disclaimerEN: QuillViewHTMLComponent
+  @ViewChild('disclaimerBM', {
+    static: true
+  }) disclaimerBM: QuillViewHTMLComponent
+
+  instructionENForm: FormGroup
+  instructionBMForm: FormGroup
+  disclaimerENForm: FormGroup
+  disclaimerBMForm: FormGroup
 
   // Dropdowns //
 
@@ -68,7 +91,7 @@ export class ConfigurationEnquiryComponent implements OnInit {
 
   ngOnInit() {
     this.initForm()
-    this.initQuill()
+    // this.initQuill()
   }
 
   initForm() {
@@ -77,6 +100,42 @@ export class ConfigurationEnquiryComponent implements OnInit {
         Validators.required
       ])),
       email: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.instructionENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.instructionBMForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.disclaimerENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.disclaimerBMForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
         Validators.required
       ]))
     })
@@ -106,82 +165,94 @@ export class ConfigurationEnquiryComponent implements OnInit {
     })
   }
 
-  initQuill() {
-    var quillInstructionEN = new Quill('#instructionEN',{
-			modules: {
-				toolbar: [
-					['bold', 'italic'],
-					['link', 'blockquote', 'code'],
-					[{
-						'list': 'ordered'
-					}, {
-						'list': 'bullet'
-					}]
-				]
-			},
-			placeholder: 'Quill WYSIWYG',
-			theme: 'snow'
-    });
-    
-    var quillInstructionBM = new Quill('#instructionBM',{
-			modules: {
-				toolbar: [
-					['bold', 'italic'],
-					['link', 'blockquote', 'code'],
-					[{
-						'list': 'ordered'
-					}, {
-						'list': 'bullet'
-					}]
-				]
-			},
-			placeholder: 'Quill WYSIWYG',
-			theme: 'snow'
-    });
-    
-    var quillDisclaimerEN = new Quill('#disclaimerEN',{
-			modules: {
-				toolbar: [
-					['bold', 'italic'],
-					['link', 'blockquote', 'code'],
-					[{
-						'list': 'ordered'
-					}, {
-						'list': 'bullet'
-					}]
-				]
-			},
-			placeholder: 'Quill WYSIWYG',
-			theme: 'snow'
-    });
-    
-    var quillDisclaimerBM = new Quill('#disclaimerBM',{
-			modules: {
-				toolbar: [
-					['bold', 'italic'],
-					['link', 'blockquote', 'code'],
-					[{
-						'list': 'ordered'
-					}, {
-						'list': 'bullet'
-					}]
-				]
-			},
-			placeholder: 'Quill WYSIWYG',
-			theme: 'snow'
-		});
+  entriesChange($event, type) {
+    if (type == 'topic') {
+      this.tableTopicEntries = $event.target.value;
+    }
+    else if (type == 'subject') {
+      this.tableSubjectEntries = $event.target.value;
+    }
   }
+
+  // initQuill() {
+  //   var quillInstructionEN = new Quill('#instructionEN',{
+	// 		modules: {
+	// 			toolbar: [
+	// 				['bold', 'italic'],
+	// 				['link', 'blockquote', 'code'],
+	// 				[{
+	// 					'list': 'ordered'
+	// 				}, {
+	// 					'list': 'bullet'
+	// 				}]
+	// 			]
+	// 		},
+	// 		placeholder: 'Quill WYSIWYG',
+	// 		theme: 'snow'
+  //   });
+    
+  //   var quillInstructionBM = new Quill('#instructionBM',{
+	// 		modules: {
+	// 			toolbar: [
+	// 				['bold', 'italic'],
+	// 				['link', 'blockquote', 'code'],
+	// 				[{
+	// 					'list': 'ordered'
+	// 				}, {
+	// 					'list': 'bullet'
+	// 				}]
+	// 			]
+	// 		},
+	// 		placeholder: 'Quill WYSIWYG',
+	// 		theme: 'snow'
+  //   });
+    
+  //   var quillDisclaimerEN = new Quill('#disclaimerEN',{
+	// 		modules: {
+	// 			toolbar: [
+	// 				['bold', 'italic'],
+	// 				['link', 'blockquote', 'code'],
+	// 				[{
+	// 					'list': 'ordered'
+	// 				}, {
+	// 					'list': 'bullet'
+	// 				}]
+	// 			]
+	// 		},
+	// 		placeholder: 'Quill WYSIWYG',
+	// 		theme: 'snow'
+  //   });
+    
+  //   var quillDisclaimerBM = new Quill('#disclaimerBM',{
+	// 		modules: {
+	// 			toolbar: [
+	// 				['bold', 'italic'],
+	// 				['link', 'blockquote', 'code'],
+	// 				[{
+	// 					'list': 'ordered'
+	// 				}, {
+	// 					'list': 'bullet'
+	// 				}]
+	// 			]
+	// 		},
+	// 		placeholder: 'Quill WYSIWYG',
+	// 		theme: 'snow'
+	// 	});
+  // }
 
   getData() {
     this.loadingBar.start()
     forkJoin([
       this.ticketService.getTopics(),
-      this.ticketService.getSubjects()
+      this.ticketService.getSubjects(),
+      this.ticketService.getNotes()
     ]).subscribe(
       (res) => {
         this.loadingBar.complete()
         this.topics = res[0]
         this.subjects = res[1]
+        this.notes = res[2]
+        // console.log(this.subjects)
       },
       (fail) => {
         console.log(fail)
@@ -189,6 +260,28 @@ export class ConfigurationEnquiryComponent implements OnInit {
       },
       () => {
         this.loadTable()
+
+        // console.log(this.notes)
+        for(let note of this.notes) {
+          // console.log(note)
+          if (note['slug'] == 'instruction_en') {
+            console.log(note)
+            this.instructionENForm.controls['description'].setValue(note['description'])
+            this.instructionENForm.controls['id'].setValue(note['id'])
+          }
+          else if (note['slug'] == 'instruction_bm') {
+            this.instructionBMForm.controls['description'].setValue(note['description'])
+            this.instructionBMForm.controls['id'].setValue(note['id'])
+          }
+          else if (note['slug'] == 'disclaimer_en') {
+            this.disclaimerENForm.controls['description'].setValue(note['description'])
+            this.disclaimerENForm.controls['id'].setValue(note['id'])
+          }
+          else if (note['slug'] == 'disclaimer_bm') {
+            this.disclaimerBMForm.controls['description'].setValue(note['description'])
+            this.disclaimerBMForm.controls['id'].setValue(note['id'])
+          }
+        }
       }
     )
   }
@@ -255,13 +348,7 @@ export class ConfigurationEnquiryComponent implements OnInit {
     else if (type == 'subject-update') {
       this.subjectForm.controls['name'].setValue(row.name)
       this.subjectForm.controls['active'].setValue(row.active)
-      
-      for(let topic of this.topics) {
-        if (topic.name == row.name) {
-          this.subjectForm.controls['name'].setValue(topic.name)
-          break;
-        }
-      }
+      this.subjectForm.controls['topic'].setValue(row.topic.id)
     }
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
@@ -272,6 +359,40 @@ export class ConfigurationEnquiryComponent implements OnInit {
   closeModal() {
     this.modal.hide()
     this.selectedRow = null
+  }
+
+  // Instruction & Disclaimer
+  patchNote(noteType: any) {
+    let noteBody = {}
+
+    if (noteType == 'instruction-en') {
+      noteBody = this.instructionENForm.value
+      console.log(noteBody)
+    }
+    else if (noteType == 'instruction-bm') {
+      noteBody = this.instructionBMForm.value
+    }
+    else if (noteType == 'disclaimer-en') {
+      noteBody = this.disclaimerENForm.value
+    }
+    else if (noteType == 'disclaimer-bm') {
+      noteBody = this.disclaimerBMForm.value
+    }
+
+    this.loadingBar.start()
+    this.ticketService.patchNote(this.selectedRow.id, noteBody).subscribe(
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.loadingBar.complete()
+        this.closeModal()
+      },
+      () => {
+        this.getData()
+        this.closeModal()
+      }
+    )
   }
 
   // Dropdown
@@ -330,7 +451,7 @@ export class ConfigurationEnquiryComponent implements OnInit {
 
   patchSubject() {
     this.loadingBar.start()
-    this.ticketService.patchTopic(this.selectedRow.id, this.subjectForm.value).subscribe(
+    this.ticketService.patchSubject(this.selectedRow.id, this.subjectForm.value).subscribe(
       () => {
         this.loadingBar.complete()
       },

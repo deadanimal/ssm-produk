@@ -27,17 +27,14 @@ def info_fin_2(mdw_1, mdw_2, lang):
     # elif temp_comp_status_old == 'D':
     #     temp_comp_status_new = 'Dissolved'
     
-    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
-        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
+    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"].keys():
+        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
         date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
         date_of_change_str = 'NIL'
 
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-    
-    temp_comp_info_change_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_comp_info_change_date_new = temp_comp_info_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
     temp_comp_info_incorp_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_comp_info_incorp_date_new = temp_comp_info_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
@@ -373,7 +370,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
                 'dateOfTabling': date_of_tabling_new,
                 'nonCurrAsset': float(bs_item['nonCurrAsset']),
                 'currentAsset': float(bs_item['currentAsset']),
-                'nonCurrentLiability': bs_item['nonCurrentLiability'],
+                'nonCurrentLiability': bs_item['longTermLiability'],
                 'liability': bs_item['liability'],
                 'paidUpCapital': bs_item['paidUpCapital'],
                 'reserves': bs_item['reserves'],
@@ -573,7 +570,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
         'corpInfo': {
             'compName': data_mdw_1['rocCompanyInfo']['companyName'],
             'compOldName': data_mdw_1['rocCompanyInfo']['companyOldName'],
-            'changeDate': temp_comp_info_change_date_new,
+            'changeDate': date_of_change_str,
             'compNoNew': data_mdw_2['newFormatNo'],
             'compNoOld': data_mdw_2['oldFormatNo'],
             'checkDigit': data_mdw_1['rocCompanyInfo']['checkDigit'],
@@ -598,6 +595,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
         },
         'balance_sheet': balance_sheet_data,
         'profit_loss': profit_loss_data,
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
     }
 

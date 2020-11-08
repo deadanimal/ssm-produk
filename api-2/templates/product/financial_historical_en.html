@@ -70,9 +70,9 @@
             }
             .end-report {
                 position: absolute;
-                bottom: 6.0rem;
+                bottom: 8.0rem;
                 left: 0;
-                height: 12rem;
+                height: 8rem;
                 width: 100%;
             }
             footer#footer {
@@ -82,7 +82,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 1.5rem;
+                height: 2.5rem;
                 width: 100%;
             }
         </style>
@@ -378,43 +378,43 @@
                         </tr> 
                         <tr style="height:20px;">
                             <td><p id="secondary">NON-CURRENT ASSETS</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.nonCurrAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">CURRENT ASSETS</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.currentAsset | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.currentAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.currentAsset | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.currentAsset | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.nonCurrentLiability | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">CURRENT LIABILITIES</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.liability | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.liability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.liability | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.liability | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">SHARE CAPITAL</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.paidUpCapital | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.paidUpCapital | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.paidUpCapital | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.paidUpCapital | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">                        
                             <td><p id="secondary">RESERVE</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.reserves | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.reserves | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.reserves | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.reserves | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">RETAINED EARNING</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.inappropriateProfitCf | floatformat:2 | intcomma }}</p></td>
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">MINORITY INTEREST</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.0.minorityInterest | floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.balance_sheet.1.minorityInterest | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.0.minorityInterest | floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.balance_sheet.1.minorityInterest | floatformat:2 | intcomma }}</p></td>
                         </tr>
 
                         <tr>
@@ -429,28 +429,28 @@
                         </tr> 
                         <tr style="height:20px;">
                             <td><p id="secondary">REVENUE</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.revenue| floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.revenue| floatformat:2 | intcomma }}</p></td>                          
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.revenue| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.revenue| floatformat:2 | intcomma }}</p></td>                          
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">PROFIT/(LOSS) BEFORE TAX</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.profitBeforeTax| floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.profitBeforeTax| floatformat:2 | intcomma }}</p></td>                         
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.profitBeforeTax| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.profitBeforeTax| floatformat:2 | intcomma }}</p></td>                         
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">PROFIT/(LOSS) AFTER TAX</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.profitAfterTax| floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.profitAfterTax| floatformat:2 | intcomma }}</p></td>                        
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.profitAfterTax| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.profitAfterTax| floatformat:2 | intcomma }}</p></td>                        
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">NET DIVIDENT</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.netDividend| floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.netDividend| floatformat:2 | intcomma }}</p></td>                      
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.netDividend| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.netDividend| floatformat:2 | intcomma }}</p></td>                      
                         </tr>
                         <tr style="height:20px;">
                             <td><p id="secondary">MINORITY INTEREST</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.0.minorityInterest| floatformat:2 | intcomma }}</p></td>
-                            <td><p id="secondary" style="text-align:right">{{data.profit_loss.1.minorityInterest| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.0.minorityInterest| floatformat:2 | intcomma }}</p></td>
+                            <td><p id="secondary" class="text-right">{{data.profit_loss.1.minorityInterest| floatformat:2 | intcomma }}</p></td>
                         </tr>
               
                     </tbody>
@@ -458,22 +458,20 @@
             </div>
             
             <div class="end-report">
-                <h2 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;"><u> END OF REPORT</u></h2>
-    
-                <p style="margin-top:0;margin-bottom:0;font-size:10pt">This information are from the company's document registered as at {{ data.company_info.latestDocUpdateDate}} </p>  
-                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Registrar of Companies</p>
-                <p style="margin-top:0;margin-bottom:0;font-size:10pt">Dated : {{data.printing_time}}</p>
-                <p style="margin-top:0;margin-bottom:10px;font-size:10pt">This information is computer generated. No signature is required.</p>
+                <h3 class="font-weight-bold text-center" style="margin-top: 50px; font-size: 12pt;">END OF REPORT</h3>
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION ARE FROM THE COMPANY'S DOCUMENT REGISTERED AS AT {{ data.printing_time}}. </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.</p>
+                <p style="margin-top:5px;margin-bottom:10px;font-size:10pt" class="text-center">REGISTRAR OF COMPANIES</p>
             </div>
         </div>
 
         <footer id="footer">
             <div class="row">
-                <p class="col text-left">USER ID: @</p>
-                <p class="col text-right">PRINTING DATE: {{data.printing_time}}</p>
+                <p class="col text-center" style="margin-bottom:0px;font-size:8pt">USER ID: huzree@pipe.my</p>
             </div>
-            
-            <p class="text-center" style="margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+
+            <p class="text-center" style="margin-bottom:0;font-size:8pt">THIS COMPANY INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom:10px;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
 </html>
