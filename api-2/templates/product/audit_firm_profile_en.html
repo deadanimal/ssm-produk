@@ -1,0 +1,278 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>
+            @charset "UTF-8";
+            @page {
+                /* padding: 2cm; */
+                /* size: A4; Change from the default size of A4 */
+                /* padding: 2.0cm; Set margin on each page */
+                size: A4 portait;
+                /* margin: 27mm 10mm 27mm 10mm; */
+                @top-right{
+                    content: "Page " counter(page) " of " counter(pages);
+                }
+            }
+
+            header#header {
+                position: fixed;
+                top: 0;
+                left: 0;
+
+                height: 14.5rem;
+                width: 100%;
+            }
+            img.logo {
+                height: 14rem !important;
+            }
+            html {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            .default-template {
+                color: #333;
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+            }
+            .default-template p#secondary {
+                font-size: 16px;
+            }
+            .default-template p#disclaimer {
+                font-size: 8pt;
+            }
+            .default-template p#primary {
+                word-spacing: 7pt;
+                font-size: 22px;
+                text-align: justify;
+            }
+            table {border: 0;} 
+            table tr.top table td.title {
+                color: #333;
+            }
+            table tr.heading td {
+                color: #333;
+            }
+
+            .table td, .table th {
+                border-top: 0px;
+            }
+            .pg-break {
+                page-break-before: always; 
+                margin-top: 15rem;
+            }
+            .pg-start {
+                margin-top: 15rem;
+            }
+            footer#footer {
+                font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
+                font-size: 11px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                height: 2.5rem;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header id="header">
+            <div class="text-center">
+                <img class="mb-5 logo" src="https://pipeline-project.sgp1.digitaloceanspaces.com/ssm/resources/SSM-Logo.png">
+            </div>
+        </header>
+        
+        <div class="default-template container pg-start">
+            <p id="disclaimer" style="font-size:8pt;text-align:justify;">
+                <b>
+                    ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
+                    AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
+                    LOSSES ARISING FROM ANY INACCURATE OR OMITTED INFORMATION.
+                </b>
+            </p>
+            <h2 class="font-weight-bold text-center">AUDIT FIRM PROFILE</h2>
+            <h3 class="font-weight-bold text-center"><u>PARTICULARS OF FIRM</u></h3>
+            
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME OF THE FIRM</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.audit_firm_info.firm_name }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">AUDIT FIRM NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.firm_no %}
+                                {{data.audit_firm_info.firm_no }}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">COMMENCEMENT DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.commence_date %}
+                                {{ data.audit_firm_info.commence_date }}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                                                        
+                        </p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">REGISTRATION DATE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.registration_date %}
+                                {{ data.audit_firm_info.registration_date }}
+                            {% else %}
+                                NIL
+                            {% endif %}
+                                                        
+                        </p></td>
+                    </tr>
+                    <tr>
+                        <td><p id="secondary">PRINCIPAL ADDRESS</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.address_1 %}
+                                {{data.audit_firm_info.address_1}},
+                            {% else %}
+                                NIL
+                            {% endif %}
+                            {% if data.audit_firm_info.address_2 %}
+                                {{data.audit_firm_info.address_2}},
+                            {% endif %}
+                            {% if data.audit_firm_info.address_3 %}
+                                {{data.audit_firm_info.address_3}},
+                            {% endif %}
+                            {% if data.audit_firm_info.town %}
+                                {{data.audit_firm_info.town}},
+                            {% endif %}
+                            {% if data.audit_firm_info.state %}
+                                {{data.audit_firm_info.state}}
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">POSTCODE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.postcode %}
+                                {{data.audit_firm_info.postcode}},
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">OFFICE PHONE NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.tel_no %}
+                                {{data.audit_firm_info.tel_no}},
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">TAX NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">
+                            {% if data.audit_firm_info.tax_no %}
+                                {{data.audit_firm_info.tax_no}},
+                            {% else %}
+                                NIL
+                            {% endif %}
+                        </p></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <h3 class="font-weight-bold text-center pg-break"><u>PARTICULARS OF BRANCH</u></h3>
+
+            <div class="table-responsive">
+                <table class="table text-left" >
+                    <tr>
+                        <th style="width:30%; border: 0;"></th>
+                        <th style="width:1%; border: 0;"></th>
+                        <th style="width:69%; border: 0;"></th>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">NAME OF THE FIRM</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary">{{ data.audit_firm_info.firm_name }}</p></td>
+                    </tr>
+                    <tr style="height:20px;">
+                        <td><p id="secondary">FIRM NO.</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary"><b>{{ data.audit_firm_info.firm_no }}</b></p></td>
+                    </tr>                    
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table text-left borderless">
+                    <tr>
+                        <th style="width:10%; border: 0;"><p id="secondary">NO.</p></th>
+                        <th style="width:60%; border: 0;"><p id="secondary">BRANCH ADDRESS</p></th>
+                        <th style="width:30%; border: 0;"><p id="secondary">PHONE NO.</p></th>
+                    </tr>
+                    <tbody>
+                        {% for branch in data.branch_info %}
+                        <tr style="height:20px;" class="mt-3">
+                            <td><p id="secondary">
+                                {{loop.index}}
+                            </p></td>
+                            <td><p id="secondary">{{ branch.idNo }}</p></td>
+                            <td><p id="secondary">
+                                {% if branch.address_1 %}
+                                    {{branch.address_1}},
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                {% if branch.address_2 %}
+                                    {{branch.address_2}},
+                                {% endif %}
+                                {% if branch.address_3 %}
+                                    {{branch.address_3}},
+                                {% endif %}
+                                {% if branch.town %}
+                                    {{branch.town}},
+                                {% endif %}
+                                {% if branch.state %}
+                                    {{branch.state}}
+                                {% endif %}
+                            </p></td>
+                            <td><p id="secondary">
+                                {% if branch.tel_no %}
+                                    {{ branch.tel_no }}
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                            </p></td>
+                        </tr>    
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> 
+        </div>
+    </body>
+</html>
+

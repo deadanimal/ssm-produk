@@ -235,3 +235,30 @@ class EnquiryTicketSelection(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class EnquiryNote(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    slug = models.CharField(max_length=100, null=True, blank=True)
+    
+    LANGUAGE = [
+        ('EN', 'ENGLISH'),
+        ('BM', 'BAHASA MELAYU')
+    ]
+    language = models.CharField(
+        choices=LANGUAGE,
+        max_length=2,
+        default='EN'
+    )
+    description = models.TextField(null=True, blank=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name

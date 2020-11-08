@@ -1,7 +1,7 @@
 import { Entity } from '../entities/entities.model'
 import { Product } from '../products/products.model'
 import { SearchCriteria } from '../search-criterias/search-criterias.model'
-import { ServiceRequestExtended } from '../service-requests/service-requests.model'
+// import { ServiceRequestExtended } from '../service-requests/service-requests.model'
 
 export class Cart {
     public id: string
@@ -103,7 +103,7 @@ export class CartItemExtended {
     public cart: string
     public entity: Entity
     public product: Product
-    public service_request: ServiceRequestExtended
+    public service_request: any
     public product_search_criteria: SearchCriteria
     public year1: string
     public year2: string
@@ -119,7 +119,7 @@ export class CartItemExtended {
         cart: string,
         entity: Entity,
         product: Product,
-        service_request: ServiceRequestExtended ,
+        service_request: any ,
         product_search_criteria: SearchCriteria,
         year1: string,
         year2: string,

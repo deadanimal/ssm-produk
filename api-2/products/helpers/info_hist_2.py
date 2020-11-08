@@ -452,6 +452,7 @@ def info_hist_2(mdw_1, mdw_2, lang):
         },
         'balance_sheet': balance_sheet_data,
         'profit_loss': profit_loss_data,
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
     }
 

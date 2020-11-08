@@ -517,7 +517,7 @@
 											<div class="col">
 												<div class="form-group">
 													<label class="form-control-label">Attachment
-														<span class="text-red">*</span>
+														<span class="text-red">*PDF format ONLY, 5MB maximum.</span>
 													</label>
 													<div class="custom-file">
 														<input 
@@ -898,7 +898,7 @@
 												<div class="col-sm-12 col-lg-6">
 													<div class="form-group">
 														<label class="form-control-label">Attachment (Official Letter of Company Information Request)
-															<span class="text-red">*</span>
+															<span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
 														</label>
 														<div class="custom-file">
 															<input 
@@ -938,7 +938,7 @@
 												<div class="col-sm-12 col-lg-6">
 													<div class="form-group">
 														<label class="form-control-label">Attachment (Official Letter from eGovernment)
-															<span class="text-red">*</span>
+															<span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
 														</label>
 														<div class="custom-file">
 															<input 
@@ -1020,6 +1020,7 @@
 														value="personal-involvement"
 														[(ngModel)]="searchType"
 														[ngModelOptions]="{standalone: true}"
+														[disabled]="requestToAdd.length >= 1"
 													>
 													<label class="custom-control-label" for="radioRequest2">Personal Involvement</label>
 												</div>

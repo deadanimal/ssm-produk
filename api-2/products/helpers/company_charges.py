@@ -17,6 +17,11 @@ def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
     # print(mdw_2)
     company_info = mdw_3["rocCompanyInfo"]
 
+    if 'latestDocUpdateDate' in company_info.keys():
+        company_info['latestDocUpdateDate'] = make_aware(datetime.strptime(company_info['latestDocUpdateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    else:
+         company_info['latestDocUpdateDate'] = None
+
     if isinstance(charges, list): 
         charges = charges
     else:
@@ -71,7 +76,7 @@ def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
         'charges_list': charges_list,
         'compNoNew': mdw_2['newFormatNo'],
         'compNoOld': mdw_2['oldFormatNo'], 
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),       
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),     
     }
 
 

@@ -19,6 +19,7 @@ import { PresentationModule } from './examples/presentation/presentation.module'
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   imports: [
@@ -39,6 +40,20 @@ import { ComponentsModule } from './components/components.module';
     }),
     LeafletModule,
     PresentationModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic'],
+          ['link', 'blockquote', 'code'],
+          [{
+            'list': 'ordered'
+          }, {
+            'list': 'bullet'
+          }]
+        ],
+      },
+      theme: 'snow'
+    })
     // ExportAsModule
   ],
   declarations: [

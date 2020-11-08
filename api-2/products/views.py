@@ -274,7 +274,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         # Business Profile – Non CTC / MS EN
         elif request_service_name == 'getBizProfile':            
-            json_response = get_biz_profile(url_info, headers, registration_number, entity_type)      
+            json_response = get_biz_profile(url_info, headers, registration_number)      
         
         # Business Profile – CTC / MS EN
         elif request_service_name == 'getBizProfileCtc':            

@@ -20,6 +20,8 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     share_capital_info = mdw_1["shareCapitalSummary"]
     company_info = mdw_1["rocCompanyInfo"]
 
+    company_info['compNoNew'] = mdw_2['newFormatNo']
+
     if 'latestDocUpdateDate' in company_info.keys():
         company_info['latestDocUpdateDate'] = make_aware(datetime.strptime(company_info['latestDocUpdateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
     else:
@@ -50,8 +52,8 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     others_issue_cash = float(mdw_1["shareCapitalSummary"]["othersCash"])
     others_issue_noncash = float(mdw_1["shareCapitalSummary"]["othersOtherwise"])
 
-    print(mdw_1)
-    print(mdw_1['allotmentOfShare'])
+    # print(mdw_1)
+    # print(mdw_1['allotmentOfShare'])
     list_of_allotments = mdw_1['allotmentOfShare']['allotmentShareList']['allotmentShareList']
 
     allotments_data = []
@@ -59,8 +61,8 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     for allotment in list_of_allotments:
         allotment_data = allotment['dtAllot']['#text']
         allotment_issued_share = allotment['issuedShare']
-        print(allotment)
-        print('\n')
+        # print(allotment)
+        # print('\n')
 
     data_ready = {
         'mdw1': mdw_1,
@@ -78,6 +80,7 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
         'incorp_date': temp_incorpDate_new,    
         'company_info': company_info,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"), 
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
     }
 
 

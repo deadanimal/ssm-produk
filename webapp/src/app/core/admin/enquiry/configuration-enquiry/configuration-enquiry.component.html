@@ -94,18 +94,18 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 <h6 class="heading-small text-muted mb-4">Instruction - English</h6>
-                                <form>
-                                    <div
-                                        id="instructionEN"
-                                        data-toggle="quill"
-                                    >
-                                    </div>
+                                <form [formGroup]="instructionENForm">
+                                    <quill-editor
+                                        #instructionEN 
+                                        formControlName="description">
+                                    </quill-editor>
                                 </form>
 
-                                <div class="row text-right">
+                                <div class="row text-right mt-2">
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('instruction-en')"
                                         >
                                             Save
                                         </button>
@@ -115,18 +115,18 @@
                                 <hr class="my-4" />
 
                                 <h6 class="heading-small text-muted mb-4">Instruction - Bahasa Melayu</h6>
-                                <form>
-                                    <div
-                                        id="instructionBM"
-                                        data-toggle="quill"
-                                    >
-                                    </div>
+                                <form [formGroup]="instructionBMForm">
+                                    <quill-editor
+                                        #instructionBM
+                                        formControlName="description">
+                                    </quill-editor>
                                 </form>
 
-                                <div class="row text-right">
+                                <div class="row text-right mt-2">
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('instruction-bm')"
                                         >
                                             Save
                                         </button>
@@ -140,18 +140,18 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 <h6 class="heading-small text-muted mb-4">Disclaimer - English</h6>
-                                <form>
-                                    <div
-                                        id="disclaimerEN"
-                                        data-toggle="quill"
-                                    >
-                                    </div>
+                                <form [formGroup]="disclaimerENForm">
+                                    <quill-editor
+                                        #disclaimerEN 
+                                        formControlName="description">
+                                    </quill-editor>
                                 </form>
 
-                                <div class="row text-right">
+                                <div class="row text-right mt-2">
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('disclaimer-en')"
                                         >
                                             Save
                                         </button>
@@ -161,18 +161,18 @@
                                 <hr class="my-4" />
 
                                 <h6 class="heading-small text-muted mb-4">Disclaimer - Bahasa Melayu</h6>
-                                <form>
-                                    <div
-                                        id="disclaimerBM"
-                                        data-toggle="quill"
-                                    >
-                                    </div>
+                                <form [formGroup]="disclaimerBMForm">
+                                    <quill-editor
+                                        #disclaimerBM 
+                                        formControlName="description">
+                                    </quill-editor>
                                 </form>
 
-                                <div class="row text-right">
+                                <div class="row text-right mt-2">
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('disclaimer-bm')"
                                         >
                                             Save
                                         </button>
@@ -197,7 +197,7 @@
                                                                 name="datatable_length" 
                                                                 aria-controls="datatable"
                                                                 class="form-control form-control-sm" 
-                                                                (change)="entriesChange($event)"
+                                                                (change)="entriesChange($event, 'topic')"
                                                             >
                                                                 <option value="10">10</option>
                                                                 <option value="25">25</option>
@@ -241,7 +241,6 @@
                                                 [rowHeight]="'auto'"
                                                 [limit]="tableTopicEntries != -1 ? tableTopicEntries : undefined"
                                                 [rows]="tableTopicTemp" 
-                                                [scrollbarH]="true"
                                             >
                                                 <ngx-datatable-column
                                                     [width]="40"
@@ -338,7 +337,7 @@
                                                                 name="datatable_length" 
                                                                 aria-controls="datatable"
                                                                 class="form-control form-control-sm" 
-                                                                (change)="entriesChange($event)"
+                                                                (change)="entriesChange($event, 'subject')"
                                                             >
                                                                 <option value="10">10</option>
                                                                 <option value="25">25</option>
@@ -375,14 +374,13 @@
                                             </div>
                         
                                             <ngx-datatable 
-                                                class="bootstrap selection-cell" 
+                                                class="bootstrap" 
                                                 [columnMode]="'force'" 
                                                 [headerHeight]="50"
                                                 [footerHeight]="50" 
                                                 [rowHeight]="'auto'"
                                                 [limit]="tableSubjectEntries != -1 ? tableSubjectEntries : undefined"
-                                                [rows]="tableSubjectTemp" 
-                                                [scrollbarH]="true"
+                                                [rows]="tableSubjectTemp"
                                              >
                                                 <ngx-datatable-column
                                                     maxWidth="80"
@@ -402,14 +400,28 @@
                                                 <ngx-datatable-column
                                                     [sortable]="true"
                                                     [resizeable]="false"
-                                                    prop="topic"
+                                                    prop="topic.name"
                                                 >
                                                     <ng-template ngx-datatable-header-template>
                                                         <span class="table-header">Topic</span>
                                                     </ng-template>
                         
                                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                                        {{row.topic}}
+                                                        {{row.topic.name}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="topic.category"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Category</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.topic.category}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
                         
@@ -420,20 +432,6 @@
                                                 >
                                                     <ng-template ngx-datatable-header-template>
                                                         <span class="table-header">Subject</span>
-                                                    </ng-template>
-                        
-                                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                                        {{row.name}}
-                                                    </ng-template>
-                                                </ngx-datatable-column>
-
-                                                <ngx-datatable-column
-                                                    [sortable]="true"
-                                                    [resizeable]="false"
-                                                    prop="name"
-                                                >
-                                                    <ng-template ngx-datatable-header-template>
-                                                        <span class="table-header">Category</span>
                                                     </ng-template>
                         
                                                     <ng-template let-row="row" ngx-datatable-cell-template>
@@ -660,7 +658,7 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Topic</label>
+						<label class="form-control-label">Subject</label>
 						<input class="form-control" formControlName="name">
 					</div>
                 </div>
@@ -672,9 +670,7 @@
                             class="form-control custom-select" 
                             formControlName="topic"
                         >
-                            <ng-template *ngFor="let topic of topics">
-                                <option value="{{topic.id}}">{{topic.name}}</option>
-                            </ng-template>
+                            <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
                         </select>
 					</div>
 				</div>
@@ -749,9 +745,7 @@
                             class="form-control custom-select" 
                             formControlName="topic"
                         >
-                            <ng-template *ngFor="let topic of topics">
-                                <option value="{{topic.id}}">{{topic.name}}</option>
-                            </ng-template>
+                            <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
                         </select>
 					</div>
 				</div>

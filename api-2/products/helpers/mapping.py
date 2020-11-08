@@ -81,6 +81,27 @@ def status_mapping(temp_status, lang):
     
     return temp_status
 
+def status_biz_mapping(temp_status, lang):
+
+    if temp_status == 'A' and lang == 'ms':
+        temp_status = 'AKTIF'
+    elif temp_status == 'L' and lang == 'ms':
+        temp_status = 'LUPUT'
+    elif temp_status == 'T' and lang == 'ms':
+        temp_status = 'PENAMATAN'
+    elif temp_status == 'B' and lang == 'ms':
+        temp_status = 'BUBAR-PERTUKARAN KEPADA PERKONGSIAN LIALIBITI TERHAD (PLT)'
+    elif temp_status == 'A' and lang == 'en':
+        temp_status = 'ACTIVE'
+    elif temp_status == 'L' and lang == 'en':
+        temp_status = 'EXPIRED'
+    elif temp_status == 'T' and lang == 'en':
+        temp_status = 'TERMINATED'
+    elif temp_status == 'B' and lang == 'en':
+        temp_status = 'DISSOLVED-CONVERSION TO LIMITED LIABILITY PARTNERSHIP (LLP)'
+    
+    return temp_status
+
 def race_mapping(temp_race, lang):
 
     if temp_race == 'M':
