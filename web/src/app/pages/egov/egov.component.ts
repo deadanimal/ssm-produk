@@ -5,7 +5,6 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import Glide from "@glidejs/glide";
-import { ReCaptchaV3Service } from "ngx-captcha";
 import {
   FormGroup,
   FormBuilder,
@@ -58,7 +57,6 @@ export class EgovComponent implements OnInit {
   signInForm: FormGroup;
 
   constructor(
-    private reCaptchaV3Service: ReCaptchaV3Service,
     private UsersService: UsersService,
     private AuthService: AuthService,
     private formBuilder: FormBuilder,
@@ -68,10 +66,6 @@ export class EgovComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.aFormGroup = this.formBuilder.group({
-    //   recaptcha: ["", Validators.required],
-    // });
-
     this.authSignInForm = this.formBuilder.group({
       username: new FormControl("", Validators.compose([Validators.required])),
       password: new FormControl(
@@ -80,17 +74,8 @@ export class EgovComponent implements OnInit {
       ),
     });
 
-    // this.authSignInForm = this.formBuilder.group({
-    //   recaptcha: new FormControl(""),
-    //   username: new FormControl(""),
-    //   password1: new FormControl(""),
-    //   password2: new FormControl(""),
-    //   email: new FormControl("test@gmail.com"),
-    // });
-
     this.signUpForm = this.formBuilder.group({
       id: new FormControl(""),
-      recaptcha: new FormControl("", Validators.required),
       full_name: new FormControl("Admin"),
       password: new FormControl(""),
       password2: new FormControl(""),

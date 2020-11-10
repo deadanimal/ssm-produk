@@ -48,7 +48,7 @@ class ServiceRequestSerializer(serializers.ModelSerializer):
 
 class DocumentRequestItemSerializer(serializers.ModelSerializer):
 
-    generated_profile  = PDFBase64File()
+    generated_profile = PDFBase64File()
     entity = EntitySerializer(many=False)
     approver = CustomUserSerializer(many=False)
 

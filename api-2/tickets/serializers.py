@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from django.utils.timezone import now
+from drf_extra_fields.fields import Base64FileField
 
 from .models import (
     TicketTopic,
@@ -17,12 +18,26 @@ from .models import (
     EnquiryTicket,
     EnquiryTicketReply,
     EnquiryTicketSelection,
-    EnquiryNote
+    EnquiryNote,
+    EnquiryMedia
 )
 
 from users.serializers import (
     CustomUserSerializer
 )
+
+class DocumentBase64File(Base64FileField):
+    ALLOWED_TYPES = [
+        'pdf',
+        'doc',
+        'docx',
+        'jpg',
+        'jpeg',
+        'png'
+    ]
+
+    def get_file_extension(self, filename, decoded_file):
+        return 'pdf'
 
 class TicketTopicSerializer(serializers.ModelSerializer):
 
@@ -47,17 +62,7 @@ class TicketSubjectExtendedSerializer(serializers.ModelSerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Ticket
-        fields = '__all__'
-
-
-class TicketExtendedSerializer(serializers.ModelSerializer):
-    topic = TicketTopicSerializer(read_only=True)
-    subject = TicketSubjectSerializer(read_only=True)
-    user = CustomUserSerializer(read_only=True)
-
+    
     class Meta:
         model = Ticket
         fields = '__all__'
@@ -98,6 +103,13 @@ class EnquiryTicketReplySerializer(serializers.ModelSerializer):
         model = EnquiryTicketReply
         fields = '__all__'
 
+class EnquiryTicketReplyExtendedSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(read_only=True)
+    class Meta:
+        model = EnquiryTicketReply
+        fields = '__all__'
+
+
 class EnquiryTicketSelectionSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -109,4 +121,22 @@ class EnquiryNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnquiryNote
-        fields = '__all__'                
+        fields = '__all__'
+
+class EnquiryMediaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EnquiryMedia
+        fields =  '__all__'
+
+
+class TicketExtendedSerializer(serializers.ModelSerializer):
+    topic = TicketTopicSerializer(read_only=True)
+    subject = TicketSubjectSerializer(read_only=True)
+    user = CustomUserSerializer(read_only=True)
+    ticket_replies = EnquiryTicketReplyExtendedSerializer(many=True)
+    ticket_attachments = EnquiryMediaSerializer(many=True)
+    
+    class Meta:
+        model = Ticket
+        fields = '__all__'

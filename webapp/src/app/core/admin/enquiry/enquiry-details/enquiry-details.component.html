@@ -1,0 +1,286 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0">View Ticket</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Enquiry </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                Enquiry Management
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="col-lg-6 col-5 text-right">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <div class="row">
+                        <div class="col-auto">
+                            <h3 class="m-0">
+                                <span *ngIf="ticket.ticket_no">
+                                    {{ticket.ticket_no}}
+                                </span>
+                            </h3>
+                        </div>
+
+                        <div class="col-auto">
+                            <span class="badge badge-pill badge-default">
+                                <span *ngIf="ticket.ticket_status == 'IP'">In Progress</span>
+                                <span *ngIf="ticket.ticket_status == 'IQ'">In Progress - Response Required</span>
+                                <span *ngIf="ticket.ticket_status == 'IC'">In Progress - Response Received</span>
+                                <span *ngIf="ticket.ticket_status == 'EC'">Escalation</span>
+                                <span *ngIf="ticket.ticket_status == 'CA'">Closed - Assigned</span>
+                                <span *ngIf="ticket.ticket_status == 'CR'">Closed - Not Related </span>
+                                <span *ngIf="ticket.ticket_status == 'CD'">Closed - Not Responded</span>
+                                <span *ngIf="ticket.ticket_status == 'CO'">Closed - Resolved</span>
+                                <span *ngIf="ticket.ticket_status == 'CL'">Closed </span>
+                                <span *ngIf="ticket.ticket_status == 'US'">In Progress </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Customer -->
+                    <h6 class=" heading-small text-muted mb-4">Customer Details</h6>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Name</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.user.full_name"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Email</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.user.username"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Telephone No.</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.user.phone_number"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Ticket -->
+                    <h6 class=" heading-small text-muted mb-4">Ticket Details</h6>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Topic</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.topic.name_en"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-control-label">Subject</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.subject.name_en"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Receipt No.</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    [value]="ticket.receipt_no"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control-label">Description</label>
+                        <textarea
+                            class="form-control"
+                            disabled
+                            [value]="ticket.description"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-control-label">Attachment</label>
+
+                        <div *ngIf="ticket.ticket_attachments.length == 0">
+                            <p>No documents included</p>
+                        </div>
+
+                        <ol>
+                            <li *ngFor="let doc of ticket.ticket_attachments">
+                                {{doc.name}} <a href="{{doc.attached_document}}">Document</a>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Action -->
+                    <h6 class=" heading-small text-muted mb-4">Action</h6>
+                    <form [formGroup]="replyForm">
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-12">
+                                <label class="form-control-label">Update Ticket Status</label>
+                                <select
+                                    class="form-control custom-select"
+                                    formControlName="type"
+                                    (change)="statusChanged()"
+                                >
+                                    <option value="IQ">In Progress - Response Required</option>
+                                    <option value="IC">In Progress - Response Received</option>
+                                    <option value="EC">Escalation</option>
+                                    <option value="AS">Assign</option>
+                                    <option value="CA">Closed - Assigned</option>
+                                    <option value="CR">Closed - Not Related</option>
+                                    <option value="CD">Closed - Not Responded</option>
+                                    <option value="CO">Closed - Resolved</option>
+                                    <option value="CL">Closed</option>
+                                </select>
+                            </div>
+    
+                            <div class="col-lg-4 col-sm-12">
+                                <label class="form-control-label">Assign To</label>
+                                <input
+                                    class="form-control"
+                                    [value]="actionAssignTo"
+                                    disabled
+                                />
+                            </div>
+    
+                            <div class="col-lg-4 col-sm-12">
+                                <label class="form-control-label">Escalation Email</label>
+                                <input
+                                    class="form-control"
+                                    disabled
+                                    *ngIf="replyForm.value['type'] != 'EC'"
+                                />
+                                <input
+                                    class="form-control"
+                                    *ngIf="replyForm.value['type'] == 'EC'"
+                                    formControlName="escalation_email"
+                                />
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label class="form-control-label">Response</label>
+                            <textarea
+                                class="form-control"
+                                formControlName="message"
+                            ></textarea>
+                        </div>
+    
+                        <div class="form-group">
+                            <label class="form-control-label">Remarks</label>
+                            <textarea
+                                class="form-control"
+                                formControlName="remarks"
+                            ></textarea>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col text-center">
+                                <button
+                                    class="btn btn-ssm rounded-pill"
+                                    (click)="replyTicket()"
+                                >
+                                    Update
+                                </button>
+    
+                                <button
+                                    class="btn btn-outline-ssm rounded-pill"
+                                    *ngIf="ticket.ticket_status == 'EC'"
+                                >
+                                    Push Reminder
+                                </button>
+    
+                                <button
+                                    class="btn btn-outline-ssm rounded-pill"
+                                    (click)="backPage()"
+                                >
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Action -->
+                    <h6 class=" heading-small text-muted mb-4">Ticket Log</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date & time</th>
+                                <th>Description</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let ticket of ticketLog">
+                                <td>{{ticket.index}}</td>
+                                <td>{{ticket.date}}</td>
+                                <td>
+                                    Status: {{ticket.status}} <br>
+                                    {{ticket.message}} <br>
+                                    {{ticket.response}} <br>
+                                </td>
+                                <td>{{ticket.user}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

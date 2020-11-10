@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -22,6 +23,72 @@
                     </nav>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats bg-warning">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class=" card-title text-uppercase text- mb-0">
+                                        In Progress
+                                    </h5>
+
+                                    <span class=" h2 font-weight-bold mb-0"> {{inProgressTicket.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats bg-danger">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class=" card-title text-uppercase text- mb-0">
+                                        Pending
+                                    </h5>
+
+                                    <span class=" h2 font-weight-bold mb-0"> {{pendingTicket.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats bg-success">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class=" card-title text-uppercase text- mb-0">
+                                        Closed
+                                    </h5>
+
+                                    <span class=" h2 font-weight-bold mb-0"> {{closedTicket.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats bg-info">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class=" card-title text-uppercase text- mb-0">
+                                        Total
+                                    </h5>
+
+                                    <span class=" h2 font-weight-bold mb-0"> {{allTicket.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -39,15 +106,13 @@
                                         <div class="dataTables_length" id="datatable_length">
                                             <label>
                                                 Show
-                                                <select 
-                                                    name="datatable_length" 
-                                                    aria-controls="datatable"
+                                                <select name="datatable_length" aria-controls="datatable"
                                                     class="form-control form-control-sm"
-                                                    (change)="entriesChange($event)"
-                                                >
-                                                    <option value="5">5</option>
+                                                    (change)="entriesChange($event)">
                                                     <option value="10">10</option>
-                                                    <option value="15">15</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
                                                     <option value="-1">All</option>
                                                 </select>
                                                 records
@@ -59,96 +124,144 @@
                                 </div>
 
                                 <ngx-datatable 
-                                    class="bootstrap selection-cell" 
+                                    class="bootstrap" 
                                     [columnMode]="'force'"
                                     [headerHeight]="50" 
                                     [footerHeight]="50" 
                                     [rowHeight]="'auto'"
-                                    [limit]="tableInProgressEntries != -1 ? tableInProgressEntries : undefined" 
-                                    [rows]="tableInProgressTemp"
-                                    [scrollbarH]="true" 
-                                    (activate)="onActivate($event)"
+                                    [limit]="tableInProgressEntries != -1 ? tableInProgressEntries : undefined"
+                                    [rows]="tableInProgressTemp" 
+                                    [scrollbarH]="true"
                                 >
-                                <ngx-datatable-column>
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>No.</span>
-                                    </ng-template>
+                                    <ngx-datatable-column
+                                        [width]="80"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="id_index"
+                                    >
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>No.</span>
+                                        </ng-template>
 
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        
-                                    </ng-template>
-                                </ngx-datatable-column>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.id_index}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="ticket_no"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Ticket #</span>
                                         </ng-template>
 
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_no}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.username"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Email Address</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.username}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.phone_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Tel No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.phone_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="receipt_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Receipt No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.receipt_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="topic.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Topic</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.topic?.name_en">
+                                                {{row.topic?.name_en}}
+                                            </span>
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="subject.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Subject List</span>
+                                            <span>Subject</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.subject?.name_en">
+                                                {{row.subject?.name_en}}
+                                            </span>
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="created_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.created_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="modified_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.modified_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -157,7 +270,7 @@
                                             <span>Form Type</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_type}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -166,7 +279,7 @@
                                             <span>Aging</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -175,7 +288,17 @@
                                             <span>Status</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.ticket_status == 'RS'">Closed</span> 
+                                            <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
+                                            <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
+                                            <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
+                                            <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
+                                            <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
+                                            <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
+                                            <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                                            <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -184,7 +307,7 @@
                                             <span>Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a style="cursor: pointer">
+                                            <a style="cursor: pointer" (click)="viewTicket(row)">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -204,15 +327,13 @@
                                         <div class="dataTables_length" id="datatable_length">
                                             <label>
                                                 Show
-                                                <select 
-                                                    name="datatable_length" 
-                                                    aria-controls="datatable"
+                                                <select name="datatable_length" aria-controls="datatable"
                                                     class="form-control form-control-sm"
-                                                    (change)="entriesChange($event)"
-                                                >
-                                                    <option value="5">5</option>
+                                                    (change)="entriesChange($event)">
                                                     <option value="10">10</option>
-                                                    <option value="15">15</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
                                                     <option value="-1">All</option>
                                                 </select>
                                                 records
@@ -223,97 +344,135 @@
                                     </div>
                                 </div>
 
-                                <ngx-datatable 
-                                    class="bootstrap selection-cell" 
-                                    [columnMode]="'force'"
-                                    [headerHeight]="50" 
-                                    [footerHeight]="50" 
-                                    [rowHeight]="'auto'"
-                                    [limit]="tablePendingEntries != -1 ? tablePendingEntries : undefined" 
-                                    [rows]="tablePendingTemp"
-                                    [scrollbarH]="true" 
-                                    (activate)="onActivate($event)"
-                                >
-                                <ngx-datatable-column>
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>No.</span>
-                                    </ng-template>
+                                <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                    [limit]="tablePendingEntries != -1 ? tablePendingEntries : undefined"
+                                    [rows]="tablePendingTemp" [scrollbarH]="true" (activate)="onActivate($event)">
+                                    <ngx-datatable-column
+                                        [width]="80"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="id_index"
+                                    >
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>No.</span>
+                                        </ng-template>
 
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        
-                                    </ng-template>
-                                </ngx-datatable-column>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.id_index}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="ticket_no"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Ticket #</span>
                                         </ng-template>
 
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_no}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.username"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Email Address</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.username}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.phone_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Tel No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.phone_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="receipt_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Receipt No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.receipt_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="topic.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Topic</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.topic?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="subject.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Subject List</span>
+                                            <span>Subject</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.subject?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [sortable]="true"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="created_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.created_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [sortable]="true"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="modified_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.modified_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -322,7 +481,7 @@
                                             <span>Form Type</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_type}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -331,7 +490,7 @@
                                             <span>Aging</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -340,7 +499,17 @@
                                             <span>Status</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.ticket_status == 'RS'">Closed</span> 
+                                            <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
+                                            <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
+                                            <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
+                                            <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
+                                            <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
+                                            <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
+                                            <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                                            <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -349,7 +518,7 @@
                                             <span>Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a style="cursor: pointer">
+                                            <a style="cursor: pointer" (click)="viewTicket(row)">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -369,12 +538,9 @@
                                         <div class="dataTables_length" id="datatable_length">
                                             <label>
                                                 Show
-                                                <select 
-                                                    name="datatable_length" 
-                                                    aria-controls="datatable"
+                                                <select name="datatable_length" aria-controls="datatable"
                                                     class="form-control form-control-sm"
-                                                    (change)="entriesChange($event)"
-                                                >
+                                                    (change)="entriesChange($event)">
                                                     <option value="20">20</option>
                                                     <option value="50">50</option>
                                                     <option value="100">100</option>
@@ -388,97 +554,135 @@
                                     </div>
                                 </div>
 
-                                <ngx-datatable 
-                                    class="bootstrap selection-cell" 
-                                    [columnMode]="'force'"
-                                    [headerHeight]="50" 
-                                    [footerHeight]="50" 
-                                    [rowHeight]="'auto'"
-                                    [limit]="tableClosedEntries != -1 ? tableClosedEntries : undefined" 
-                                    [rows]="tableClosedTemp"
-                                    [scrollbarH]="true" 
-                                    (activate)="onActivate($event)"
-                                >
-                                <ngx-datatable-column>
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>No.</span>
-                                    </ng-template>
+                                <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                    [limit]="tableClosedEntries != -1 ? tableClosedEntries : undefined"
+                                    [rows]="tableClosedTemp" [scrollbarH]="true" (activate)="onActivate($event)">
+                                    <ngx-datatable-column
+                                        [width]="80"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="id_index"
+                                    >
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>No.</span>
+                                        </ng-template>
 
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        
-                                    </ng-template>
-                                </ngx-datatable-column>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.id_index}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="ticket_no"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Ticket #</span>
                                         </ng-template>
 
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_no}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.username"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Email Address</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.username}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.phone_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Tel No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.phone_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="receipt_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Receipt No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.receipt_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="topic.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Topic</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.topic?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="subject.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Subject List</span>
+                                            <span>Subject</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.subject?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [resizeable]="false"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="created_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.created_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [resizeable]="false"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="modified_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.modified_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -487,7 +691,7 @@
                                             <span>Form Type</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_type}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -496,7 +700,7 @@
                                             <span>Aging</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -505,7 +709,17 @@
                                             <span>Status</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.ticket_status == 'RS'">Closed</span> 
+                                            <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
+                                            <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
+                                            <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
+                                            <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
+                                            <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
+                                            <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
+                                            <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                                            <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -514,7 +728,7 @@
                                             <span>Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a style="cursor: pointer">
+                                            <a style="cursor: pointer" (click)="viewTicket(row)">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -534,15 +748,13 @@
                                         <div class="dataTables_length" id="datatable_length">
                                             <label>
                                                 Show
-                                                <select 
-                                                    name="datatable_length" 
-                                                    aria-controls="datatable"
+                                                <select name="datatable_length" aria-controls="datatable"
                                                     class="form-control form-control-sm"
-                                                    (change)="entriesChange($event)"
-                                                >
-                                                    <option value="5">5</option>
+                                                    (change)="entriesChange($event)">
                                                     <option value="10">10</option>
-                                                    <option value="15">15</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
                                                     <option value="-1">All</option>
                                                 </select>
                                                 records
@@ -564,86 +776,131 @@
                                     [scrollbarH]="true" 
                                     (activate)="onActivate($event)"
                                 >
-                                <ngx-datatable-column>
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>No.</span>
-                                    </ng-template>
+                                    <ngx-datatable-column
+                                        [width]="80"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="id_index"
+                                    >
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>No.</span>
+                                        </ng-template>
 
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        
-                                    </ng-template>
-                                </ngx-datatable-column>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.id_index}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="ticket_no"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Ticket #</span>
                                         </ng-template>
 
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_no}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.username"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Email Address</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.username}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="user.phone_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Tel No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.user.phone_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="140"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="receipt_number"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Receipt No.</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.receipt_number}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="topic.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Topic</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.topic?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        [width]="180"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="subject.name_en"
+                                    >
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Subject List</span>
+                                            <span>Subject</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.subject?.name_en}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        prop="subject.name_en"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="created_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.created_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
-                                    <ngx-datatable-column>
+                                    <ngx-datatable-column
+                                        prop="subject.name_en"
+                                        [sortable]="true"
+                                        [resizeable]="false"
+                                        prop="modified_date_"
+                                    >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.modified_date_}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -652,7 +909,7 @@
                                             <span>Form Type</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            {{row.ticket_type}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -661,7 +918,7 @@
                                             <span>Aging</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -670,7 +927,17 @@
                                             <span>Status</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            
+                                            <span *ngIf="row.ticket_status == 'RS'">Closed</span> 
+                                            <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
+                                            <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
+                                            <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
+                                            <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
+                                            <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
+                                            <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
+                                            <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
+                                            <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                                            <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -679,7 +946,7 @@
                                             <span>Action</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <a style="cursor: pointer">
+                                            <a style="cursor: pointer" (click)="viewTicket(row)">
                                                 <button class="btn btn-sm btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </button>

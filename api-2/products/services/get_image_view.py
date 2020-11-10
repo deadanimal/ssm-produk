@@ -52,4 +52,5 @@ def get_image_view(url, headers, registration_number, entity_type, check_digit):
     response = requests.request("POST", url, data=payload, headers=headers)
     response_xml = response.content
     middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
+    print('>>>>>>>>> ', middleware_response_json)
     return middleware_response_json['soapenv:Envelope']['soapenv:Body']['doc:getImageViewResponse']['response']['getImageViewReturn']

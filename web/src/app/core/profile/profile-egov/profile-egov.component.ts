@@ -209,10 +209,13 @@ export class ProfileEgovComponent implements OnInit {
 
     if (
       this.user['egov_package'] == 1 ||
-      this.user['user_package'] == 2
+      this.user['egov_package'] == 2
     ) {
       if (this.user['egov_quota'] <= 100) {
         this.isQuotaLow = true
+        console.log('Quota')
+        console.log(this.isQuotaLow)
+        console.log(this.user['user_package'])
       }
     }
 

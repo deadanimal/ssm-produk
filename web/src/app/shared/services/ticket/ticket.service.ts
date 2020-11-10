@@ -12,53 +12,97 @@ import { Ticket } from './ticket.model';
 export class TicketsService {
   // URL
   public urlTicket: string = environment.baseUrl + 'v1/tickets/';
+  public urlNote: string = environment.baseUrl + 'v1/enquiry-notes/';
+  public urlTopic: string = environment.baseUrl + 'v1/ticket-topics/';
+  public urlSubject: string = environment.baseUrl + 'v1/ticket-subjects/';
 
   // Data
-  public Ticket: Ticket;
-  public Tickets: Ticket[] = [];
-  public TicketsFiltered: Ticket[] = [];
+  public Ticket: any;
+  public Tickets: any[] = [];
+  public TicketsFiltered: any[] = [];
+
+  public note: any
+  public notes: any[] = []
+
+  public topic: any
+  public topics: any[] = []
+
+  public subject: any
+  public subjects: any[] = []
 
   constructor(private http: HttpClient) {}
 
-  create(body: Form): Observable<Ticket> {
-    return this.http.post<any>(this.urlTicket, body).pipe(
+  // Ticket
+  create(body: Form): Observable<any> {
+    let urlTemp = this.urlTicket + 'create_ticket/'
+    return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         console.log('Ticket: ', res);
       })
     );
   }
 
-  getAll(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(this.urlTicket).pipe(
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlTicket).pipe(
       tap((res) => {
         console.log('Tickets: ', res);
       })
     );
   }
 
-  getOne(id: String): Observable<Ticket> {
+  getOne(id: String): Observable<any> {
     let urlTicketOne = this.urlTicket + id + '/';
-    return this.http.get<Ticket>(urlTicketOne).pipe(
+    return this.http.get<any>(urlTicketOne).pipe(
       tap((res) => {
         console.log('Ticket: ', res);
       })
     );
   }
 
-  update(id: String, body: Form): Observable<Ticket> {
+  update(id: String, body: Form): Observable<any> {
     let urlTicketOne = this.urlTicket + id + '/';
-    return this.http.put<Ticket>(urlTicketOne, body).pipe(
+    return this.http.put<any>(urlTicketOne, body).pipe(
       tap((res) => {
         console.log('Ticket', res);
       })
     );
   }
 
-  filter(field: String): Observable<Ticket[]> {
+  filter(field: String): Observable<any[]> {
     let urlFilter = this.urlTicket + '?' + field + '/';
-    return this.http.get<Ticket[]>(urlFilter).pipe(
+    return this.http.get<any[]>(urlFilter).pipe(
       tap((res) => {
         console.log('Tickets', res);
+      })
+    );
+  }
+  
+  // Notes
+  getNotes(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlNote).pipe(
+      tap((res) => {
+        console.log('Notes: ', res);
+        this.notes = res
+      })
+    );
+  }
+
+  // Topics
+  getTopics(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlTopic).pipe(
+      tap((res) => {
+        console.log('Topics: ', res);
+        this.topics = res
+      })
+    );
+  }
+
+  // Subjects
+  getSubjects(): Observable<any[]> {
+    return this.http.get<any[]>(this.urlSubject).pipe(
+      tap((res) => {
+        console.log('Subjects: ', res);
+        this.subjects = res
       })
     );
   }
