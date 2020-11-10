@@ -1,5 +1,10 @@
 from django.shortcuts import render
 from django.db.models import Q
+import json
+import datetime
+import pytz
+import base64
+from django.utils import timezone
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -7,6 +12,9 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets, status
 from rest_framework_extensions.mixins import NestedViewSetMixin
+
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -19,7 +27,8 @@ from .models import (
     EnquiryTicket,
     EnquiryTicketReply,
     EnquiryTicketSelection,
-    EnquiryNote
+    EnquiryNote,
+    EnquiryMedia
 )
 
 from .serializers import (
@@ -34,8 +43,11 @@ from .serializers import (
     EnquiryTicketSerializer,
     EnquiryTicketReplySerializer,
     EnquiryTicketSelectionSerializer  ,
-    EnquiryNoteSerializer  
+    EnquiryNoteSerializer,
+    EnquiryMediaSerializer
 )
+
+from users.models import CustomUser
 
 class TicketTopicViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = TicketTopic.objects.all()
@@ -146,15 +158,81 @@ class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = Ticket.objects.filter(company=company.id)
         """
         return queryset 
+    
+    @action(methods=['POST'], detail=False)
+    def create_ticket(self, request, *args, **kwargs):
+        ticket_request = json.loads(request.body)
+        # print('>>>>> ', ticket_request)
+        ticket_request_description = ticket_request['description']
+        ticket_request_type = ticket_request['ticket_type']
+        ticket_request_topic_id = ticket_request['topic']
+        ticket_request_subject_id = ticket_request['subject']
+        ticket_request_user_id = ticket_request['user']
+        ticket_request_receipt_number = ticket_request['receipt_number']
+        ticket_request_attached_documents_ = ticket_request['documents']
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        
+        current_year = str(datetime.datetime.now(timezone_).year)
+        current_month = str(datetime.datetime.now(timezone_).month)
+        current_day = str(datetime.datetime.now(timezone_).day)
+        
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        filter_month = datetime.datetime.now(tz=timezone.utc).month
+        filter_day = datetime.datetime.now(tz=timezone.utc).day
+
+        running_no_ = Ticket.objects.filter(
+            Q(ticket_no__isnull=False) &
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day)
+        ).count()
+        running_no_ = "{0:0>6}".format(running_no_ + 1)
+
+        ticket_request_user = CustomUser.objects.filter(id=str(ticket_request_user_id)).first()
+        ticket_request_topic = TicketTopic.objects.filter(id=str(ticket_request_topic_id)).first()
+        ticket_request_subject = TicketSubject.objects.filter(id=str(ticket_request_subject_id)).first()
+
+        if ticket_request_type == 'GN':
+            running_no = 'PG' + current_year + current_month + current_day + running_no_
+        else:
+            running_no = 'EG' + current_year + current_month + current_day + running_no_
+
+        new_ticket = Ticket.objects.create(
+            ticket_no=running_no,
+            description=ticket_request_description,
+            ticket_type=ticket_request_type,
+            topic=ticket_request_topic,
+            subject=ticket_request_subject,
+            user=ticket_request_user,
+            receipt_number=ticket_request_receipt_number
+        )
+
+        if ticket_request_attached_documents_:
+            for media in ticket_request_attached_documents_:
+                media_base64 = media['file'].encode('utf-8')
+                format, pdfstr = media_base64.decode().split(';base64,') 
+                ext = format.split('/')[-1] 
+                file_name = media['name']
+                media_ = ContentFile(base64.b64decode(pdfstr), name=file_name)
+                new_media = EnquiryMedia.objects.create(
+                    name=file_name,
+                    ticket=new_ticket,
+                    attached_document=media_
+                )
+
+        serializer = TicketExtendedSerializer(new_ticket)
+        return Response(serializer.data)
+
 
     @action(methods=['POST'], detail=True)
     def resolve_ticket(self, request, *args, **kwargs):
         ticket = self.get_object()
 
-        ticket.ticket_status == 'RS'
+        ticket.ticket_status = 'RS'
         ticket.save()
 
-        serializer = TicketSerializer(ticket)
+        serializer = TicketExtendedSerializer(ticket)
         return Response(serializer.data)   
     
     @action(methods=['GET'], detail=False)
@@ -164,6 +242,97 @@ class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer_class = TicketExtendedSerializer(queryset, many=True)
         
         return Response(serializer_class.data)
+    
+    @action(methods=['POST'], detail=True)
+    def status_ip_required(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'IQ'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)   
+    
+    @action(methods=['POST'], detail=True)
+    def status_ip_received(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'IC'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)   
+    
+    @action(methods=['POST'], detail=True)
+    def status_escalated(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'EC'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)   
+    
+    @action(methods=['POST'], detail=True)
+    def status_assign(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'AS'
+        ticket.ticket_type = 'EG'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data) 
+
+    @action(methods=['POST'], detail=True)
+    def status_closed_assigned(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'CA'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)   
+    
+    @action(methods=['POST'], detail=True)
+    def status_closed_not_related(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'CR'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)  
+
+    @action(methods=['POST'], detail=True)
+    def status_closed_not_responded(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'CD'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)  
+
+    @action(methods=['POST'], detail=True)
+    def status_closed_resolved(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'CO'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)     
+    
+    @action(methods=['POST'], detail=True)
+    def status_closed(self, request, *args, **kwargs):
+        ticket = self.get_object()
+
+        ticket.ticket_status = 'CL'
+        ticket.save()
+
+        serializer = TicketExtendedSerializer(ticket)
+        return Response(serializer.data)   
 
 
 class TicketCBIDViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -310,6 +479,31 @@ class EnquiryTicketReplyViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = EnquiryTicketReply.objects.all()
         return queryset    
+    
+
+    @action(methods=['POST'], detail=False)
+    def create_reply(self, request, *args, **kwargs):
+        reply_request = json.loads(request.body)
+        reply_request_ticket_id = reply_request['ticket']
+        reply_request_user_id = reply_request['user']
+        reply_request_type = reply_request['type']
+        reply_request_message = reply_request['message']
+        reply_request_remarks = reply_request['remarks']
+
+        reply_request_ticket = Ticket.objects.filter(id=str(reply_request_ticket_id)).first()
+        reply_request_user = CustomUser.objects.filter(id=str(reply_request_user_id)).first()
+
+        ticket_reply = EnquiryTicketReply.objects.create(
+            ticket=reply_request_ticket,
+            user=reply_request_user,
+            reply_type=reply_request_type,
+            message=reply_request_message,
+            remarks=reply_request_remarks
+        )
+
+        serializer = EnquiryTicketReplySerializer(ticket_reply)
+        return Response(serializer.data)
+
 
 class EnquiryTicketSelectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EnquiryTicketSelection.objects.all()

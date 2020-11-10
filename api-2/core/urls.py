@@ -133,7 +133,8 @@ from tickets.views import (
     EnquiryTicketViewSet,
     EnquiryTicketReplyViewSet,
     EnquiryTicketSelectionViewSet,
-    EnquiryNoteViewSet
+    EnquiryNoteViewSet,
+    # EnquiryMediaView
 )
 
 tickets_router = router.register(
@@ -157,16 +158,17 @@ enquiry_ticket_repliess_router = router.register(
     'enquiry-ticket-replies', EnquiryTicketReplyViewSet
 )
 
-enquiry_ticket_selections_router = router.register(
-    'enquiry-ticket-selections', EnquiryTicketSelectionViewSet
-)
+# enquiry_ticket_selections_router = router.register(
+#     'enquiry-ticket-selections', EnquiryTicketSelectionViewSet
+# )
 
 enquiry_notes_router = router.register(
     'enquiry-notes', EnquiryNoteViewSet
 )
 
-
-
+# enquiry_medias_router = router.register(
+#     'enquiry-medias', EnquiryMediaSerializer
+# )
 
 # Transactions app
 

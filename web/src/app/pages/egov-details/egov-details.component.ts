@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import Glide from "@glidejs/glide";
-import { ReCaptchaV3Service } from "ngx-captcha";
 import {
   FormGroup,
   FormBuilder,
@@ -50,7 +49,6 @@ export class EgovDetailsComponent implements OnInit {
   userPackage: string;
 
   constructor(
-    private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router,

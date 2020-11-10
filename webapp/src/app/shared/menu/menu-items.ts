@@ -90,7 +90,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'general', title: 'General Enquiry', type: 'link' },
       { path: 'egov', title: 'eGov Enquiry', type: 'link' },
       { path: 'configuration', title: 'Configuration', type: 'link' },
-      { path: 'report', title: 'Report', type: 'link' }
+      // { path: 'report', title: 'Report', type: 'link' }
     ],
   },
   {

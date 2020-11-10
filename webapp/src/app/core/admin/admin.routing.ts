@@ -29,6 +29,7 @@ import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
+import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -132,6 +133,10 @@ export const AdminRoutes: Routes = [
           {
             path: 'report',
             component: ReportEnquiryComponent
+          },
+          {
+            path: 'details',
+            component: EnquiryDetailsComponent
           }
         ],
       },

@@ -30,7 +30,7 @@ class Product(models.Model):
     )    
     
     ctc = models.BooleanField(default=True)
-    language = models.BooleanField(default=True)
+    # language = models.BooleanField(default=True)
 
     LANGUAGE= [
         ('EN', 'English'),

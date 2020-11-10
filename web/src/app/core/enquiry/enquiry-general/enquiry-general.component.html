@@ -1,9 +1,12 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="wrapper">
     <section class="section-shaped title-bg bg-mini">
         <div class="page-header page-header-small header-filter-white">
-            <div class="page-header-image" style="
-            background-image: url('assets/img/banner/banner-kjakp-enquiry.png');
-          "></div>
+            <div 
+                class="page-header-image" 
+                style="background-image: url('assets/img/banner/banner-kjakp-enquiry.png');"
+            ></div>
+
             <div class="container">
                 <div class="header-body text-center mb-9">
                     <div class="row justify-content-center">
@@ -21,27 +24,26 @@
             <h3 class="title font-weight-bolder">SERVICES / PRODUCTS / OPERATION</h3>
             <h1 class="title font-weight-bolder text-ssm">ENQUIRY FORM</h1>
             <h5>INSTRUCTION</h5>
-            <ul>
-                <li>SSM will treat all information you provide as confidential.</li>
-                <li>
-                    Under the law, the scope of SSM role is to address complaint on
-                    matters that might potentially be in breach of the laws that we
-                    govern, primarily the Companies Act 1965, the Registration of
-                    Businesses Act 1956 and the Limited Liability Parnership Act 2012.
-                </li>
-            </ul>
+
+            <div *ngFor="let note of notes">
+                <div *ngIf="note.slug == 'instruction_en'" [innerHTML]="note.description">
+                    {{note.description}}
+                </div>
+            </div>
+
             <form [formGroup]="enquiryForm">
                 <div class="row">
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label">Name</label>
-                            <input class="form-control" placeholder="Enter Name" />
+                            <input class="form-control" [value]="user['full_name']" disabled />
                         </div>
                     </div>
+                    
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label">Email Address</label>
-                            <input class="form-control" placeholder="Enter email address" />
+                            <input class="form-control" [value]="user['username']" disabled />
                         </div>
                     </div>
                 </div>
@@ -52,16 +54,16 @@
                             <label class="form-control-label">Telephone number
                                 <span class="text-red">*</span>
                             </label>
-                            <input class="form-control" placeholder="Enter telephone number" />
+                            <input class="form-control" [value]="user['phone_number']" disabled />
                         </div>
                     </div>
 
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label">Receipt No.
-                                <span class="text-red">*</span>
+                                <span class="text-red"></span>
                             </label>
-                            <input class="form-control" placeholder="Enter receipt no.">
+                            <input class="form-control" placeholder="Enter receipt no." formControlName="receipt_number">
                         </div>
                     </div>
                 </div>
@@ -72,11 +74,16 @@
                             <label class="form-control-label">Topic
                                 <span class="text-red">*</span>
                             </label>
-                            <select class="form-control" formControlName="topic">
-                                <option value="Package1">Product</option>
-                                <option value="Package2">Web Issues (Portal Related Issue)</option>
-                                <option value="Package3">Image Document</option>
-                                <option value="Package4">Others</option>
+                            <select class="form-control custom-select" formControlName="topic">
+                                <option>Please Select</option>
+                                <ng-container *ngFor="let topic of topics">
+                                    <option 
+                                        *ngIf="topic.category == 'GN' && topic.active" 
+                                        value="{{topic.id}}"
+                                    >
+                                        {{topic.name_en}}
+                                    </option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
@@ -86,21 +93,16 @@
                             <label class="form-control-label">Subject List
                                 <span class="text-red">*</span>
                             </label>
-                            <select class="form-control" formControlName="subject">
+                            <select class="form-control custom-select" formControlName="subject">
                                 <option>Please Select</option>
-                                <option value="searchnotfound">Search Not Found</option>
-                                <option value="paymenterror">Payment Error</option>
-                                <option value="receiptnotgenerated">
-                                    Receipt Not Generated
-                                </option>
-                                <option value="notreceivingpurcahsedoc">
-                                    Not Receiving Purchase Document
-                                </option>
-                                <option value="paymenterror">
-                                    Purchase Document / Image Not Clear
-                                </option>
-                                <option value="paymenterror">Get Wrong Image / Document</option>
-                                <option>Others</option>
+                                <ng-container *ngFor="let subject of subjects">
+                                    <option 
+                                        value="{{subject.id}}"
+                                        *ngIf="enquiryForm.value['topic'] == subject.topic && subject.active"
+                                    >
+                                        {{subject.name_en}}
+                                    </option>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
@@ -131,11 +133,23 @@
                                     class="custom-file-input cursor-pointer" 
                                     id="files" 
                                     lang="en"
-                                    formControlName="attached_document" 
-                                    (change)="onImageChange($event)" 
+                                    (change)="onFileChange($event)" 
                                     accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
                                 />
                                 <label class="custom-file-label" for="files">Select file</label>
+
+                                <ng-container *ngIf="files.length > 0">
+                                    <div *ngFor="let file_ of files">
+                                        <i 
+                                            class="fas fa-trash-alt text-warning mr-2"
+                                            placement="top" 
+                                            tooltip="Remove attachment"
+                                            (click)="removeFile(file_)"
+                                        >
+                                        </i>
+                                        {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
@@ -151,15 +165,11 @@
                     
                     <div class="notes p-3 mb-2">
                         <b>Notes</b>
-                        <h3>
-                            If you have any problems related to the payment of the application
-                            transaction, please provide the documents below for further action:
-                        </h3>
-                        <ul>
-                            <li>Application transaction payment set</li>
-                            <li>Receipt</li>
-                            <li>Proof of payment from e-statement or e-banking</li>
-                        </ul>
+                        <span *ngFor="let note of notes">
+                            <span *ngIf="note.slug == 'notes_en'" [innerHTML]="note.description">
+                                {{note.description}}
+                            </span>
+                        </span>
                     </div>
 
                     <b>Disclaimer</b>
@@ -167,14 +177,22 @@
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="disclaimer">
                         <label class="custom-control-label" for="disclaimer">
-                            I declare that all of the above information has been reviewed and is correct and true.
+                            <span *ngFor="let note of notes">
+                                <span *ngIf="note.slug == 'disclaimer_en'" [innerHTML]="note.description">
+                                    {{note.description}}
+                                </span>
+                            </span>
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="text-right">
-                <button class="btn btn-ssm rounded-pill" (click)="submit()">
+                <button 
+                    class="btn btn-ssm rounded-pill" 
+                    (click)="submit()"
+                    [disabled]="!enquiryForm.valid"
+                >
                     Submit
                 </button>
             </div>

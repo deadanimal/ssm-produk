@@ -182,6 +182,52 @@
                         </div>
                     </tab>
 
+                    <tab heading="Notes Editor" (selectTab)="onSelectTab($event)">
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <h6 class="heading-small text-muted mb-4">Notes - English</h6>
+                                <form [formGroup]="notesENForm">
+                                    <quill-editor
+                                        #notesEN 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('notes-en')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4" />
+
+                                <h6 class="heading-small text-muted mb-4">Notes - Bahasa Melayu</h6>
+                                <form [formGroup]="notesBMForm">
+                                    <quill-editor
+                                        #notesBM 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('notes-bm')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+
                     <tab heading="Dropdown Editor" (selectTab)="onSelectTab($event)">
                         <div class="mt-2">
                             <tabset type="pills" class="nav-fill">
@@ -261,14 +307,29 @@
                                                     [width]="180"
                                                     [sortable]="true"
                                                     [resizeable]="false"
-                                                    prop="name"
+                                                    prop="name_en"
                                                 >
                                                     <ng-template ngx-datatable-header-template>
-                                                        <span class="table-header">Topic</span>
+                                                        <span class="table-header">Topic - English</span>
                                                     </ng-template>
                         
                                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                                        {{row.name}}
+                                                        {{row.name_en}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [width]="180"
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="name_bm"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Topic - Bahasa Melayu</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.name_bm}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
 
@@ -400,14 +461,14 @@
                                                 <ngx-datatable-column
                                                     [sortable]="true"
                                                     [resizeable]="false"
-                                                    prop="topic.name"
+                                                    prop="topic.name_en"
                                                 >
                                                     <ng-template ngx-datatable-header-template>
-                                                        <span class="table-header">Topic</span>
+                                                        <span class="table-header">Topic - English</span>
                                                     </ng-template>
                         
                                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                                        {{row.topic.name}}
+                                                        {{row.topic.name_en}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
 
@@ -428,14 +489,28 @@
                                                 <ngx-datatable-column
                                                     [sortable]="true"
                                                     [resizeable]="false"
-                                                    prop="name"
+                                                    prop="name_en"
                                                 >
                                                     <ng-template ngx-datatable-header-template>
-                                                        <span class="table-header">Subject</span>
+                                                        <span class="table-header">Subject - English</span>
                                                     </ng-template>
                         
                                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                                        {{row.name}}
+                                                        {{row.name_en}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+
+                                                <ngx-datatable-column
+                                                    [sortable]="true"
+                                                    [resizeable]="false"
+                                                    prop="name_bm"
+                                                >
+                                                    <ng-template ngx-datatable-header-template>
+                                                        <span class="table-header">Subject - Bahasa Melayu</span>
+                                                    </ng-template>
+                        
+                                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                                        {{row.name_bm}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
             
@@ -506,23 +581,28 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Topic</label>
-						<input class="form-control" formControlName="name">
+						<label class="form-control-label">Topic - English</label>
+						<input class="form-control" formControlName="name_en">
 					</div>
                 </div>
                 
                 <div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Category</label>
-                        <select 
-                            class="form-control custom-select" 
-                            formControlName="category"
-                        >
-                            <option value="GN">General</option>
-                            <option value="EG">eGovernment</option>
-                        </select>
+						<label class="form-control-label">Topic - Bahasa Melayu</label>
+						<input class="form-control" formControlName="name_bm">
 					</div>
 				</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Category</label>
+                <select 
+                    class="form-control custom-select" 
+                    formControlName="category"
+                >
+                    <option value="GN">General</option>
+                    <option value="EG">eGovernment</option>
+                </select>
             </div>
             
             <div class="form-group">
@@ -582,23 +662,28 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Topic</label>
-						<input class="form-control" formControlName="name">
+						<label class="form-control-label">Topic - English</label>
+						<input class="form-control" formControlName="name_en">
 					</div>
                 </div>
                 
                 <div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Category</label>
-                        <select 
-                            class="form-control custom-select" 
-                            formControlName="category"
-                        >
-                            <option value="GN">General</option>
-                            <option value="EG">eGovernment</option>
-                        </select>
+                    <div class="form-group">
+						<label class="form-control-label">Topic - Bahasa Melayu</label>
+						<input class="form-control" formControlName="name_bm">
 					</div>
 				</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Category</label>
+                <select 
+                    class="form-control custom-select" 
+                    formControlName="category"
+                >
+                    <option value="GN">General</option>
+                    <option value="EG">eGovernment</option>
+                </select>
             </div>
             
             <div class="form-group">
@@ -658,22 +743,27 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Subject</label>
-						<input class="form-control" formControlName="name">
+						<label class="form-control-label">Subject - English</label>
+						<input class="form-control" formControlName="name_en">
 					</div>
                 </div>
                 
                 <div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Topic</label>
-                        <select 
-                            class="form-control custom-select" 
-                            formControlName="topic"
-                        >
-                            <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
-                        </select>
+                    <div class="form-group">
+						<label class="form-control-label">Subject - Bahasa Melayu</label>
+						<input class="form-control" formControlName="name_bm">
 					</div>
 				</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Topic</label>
+                <select 
+                    class="form-control custom-select" 
+                    formControlName="topic"
+                >
+                    <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name_en}}</option>
+                </select>
             </div>
             
             <div class="form-group">
@@ -733,22 +823,27 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label class="form-control-label">Subject</label>
-						<input class="form-control" formControlName="name">
+						<label class="form-control-label">Subject - English</label>
+						<input class="form-control" formControlName="name_en">
 					</div>
                 </div>
                 
                 <div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Topic</label>
-                        <select 
-                            class="form-control custom-select" 
-                            formControlName="topic"
-                        >
-                            <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name}}</option>
-                        </select>
+                    <div class="form-group">
+						<label class="form-control-label">Subject - Bahasa Melayu</label>
+						<input class="form-control" formControlName="name_bm">
 					</div>
 				</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Topic</label>
+                <select 
+                    class="form-control custom-select" 
+                    formControlName="topic"
+                >
+                    <option *ngFor="let topic of topics" value="{{topic.id}}">{{topic.name_en}}</option>
+                </select>
             </div>
             
             <div class="form-group">
