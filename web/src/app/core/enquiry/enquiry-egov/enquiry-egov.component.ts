@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import {
   FormGroup,
@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 /// get ticket service
 import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-enquiry-egov',
@@ -21,76 +22,131 @@ export class EnquiryEgovComponent implements OnInit {
   topicOptions
   subjectOptions
 
+  topics: any[] = []
+  subjects: any[] = []
+  notes: any[] = []
+
   // Form
   enquiryForm: FormGroup
+
+  fileName: string
+  fileSize: number
 
   addNewInquiryForm: FormGroup;
   fileToUpload: File = null;
 
   constructor(
-    private TicketsService: TicketsService,
+    private ticketService: TicketsService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.addNewInquiryForm = this.fb.group({
-      id: new FormControl(''),
-      title: new FormControl('qwew'),
-      description: new FormControl(''),
-      ticket_type: new FormControl('EG'),
-      // attached_document: new FormControl(this.fileToUpload),
-      // error_screenshot: new FormControl(''),
-      // error_supporting_document: new FormControl(''),
-      // error_product: new FormControl('qweqe'),
-      // topic: new FormControl('asd'),
-      // subject: new FormControl(''),
-      user: new FormControl(''),
-    });
+    // this.addNewInquiryForm = this.fb.group({
+    //   id: new FormControl(''),
+    //   title: new FormControl('qwew'),
+    //   description: new FormControl(''),
+    //   ticket_type: new FormControl('EG'),
+    //   // attached_document: new FormControl(this.fileToUpload),
+    //   // error_screenshot: new FormControl(''),
+    //   // error_supporting_document: new FormControl(''),
+    //   // error_product: new FormControl('qweqe'),
+    //   // topic: new FormControl('asd'),
+    //   // subject: new FormControl(''),
+    //   user: new FormControl(''),
+    // });
+    this.getData()
+    this.initForm()
+  }
+
+  getData() {
+    forkJoin([
+      this.ticketService.getTopics(),
+      this.ticketService.getSubjects(),
+      this.ticketService.getNotes()
+    ]).subscribe(
+      (res) => {
+        this.topics = res[0]
+        this.subjects = res[1]
+        this.notes = res[2]
+      },
+      () => {},
+      () => {}
+    )
   }
 
   initForm() {
     this.enquiryForm = this.fb.group({
-      ticket_type: new FormControl('', Validators.required)
+      description: new FormControl(null, Validators.required),
+      ticket_type: new FormControl('EG', Validators.required),
+      topic: new FormControl(null, Validators.required),
+      subject: new FormControl(null, Validators.required),
+      user: new FormControl(null, Validators.required),
+      name: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
+      tel_number: new FormControl(null, Validators.required),
+      receipt_number: new FormControl(null, Validators.required),
+      attached_document: new FormControl(null, Validators.required)
     })
   }
 
-  onImageChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.addNewInquiryForm.get('image').setValue(file);
+  onFileChange(event) {
+    let reader = new FileReader();
+    this.fileSize = event.target.files[0].size
+    this.fileName = event.target.files[0].name
+    if (
+      event.target.files && 
+      event.target.files.length &&
+      this.fileSize < 5000000
+    ) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file)
+      // readAsDataURL(file);
+      // console.log(event.target)
+      // console.log(reader)
+      
+      
+      reader.onload = () => {
+        // console.log(reader['result'])
+        this.enquiryForm.controls['attached_document'].setValue(reader.result)
+        // console.log(this.registerForm.value)
+        // console.log('he', this.registerForm.valid)
+        // console.log(this.isAgree)
+        // !registerForm.valid || !isAgree
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
     }
   }
 
-  onDocumentChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.addNewInquiryForm.get('document').setValue(file);
-    }
+  removeFile() {
+    this.enquiryForm.controls['attachment_letter'].setValue(null)
+    delete this.fileName
+    delete this.fileSize
   }
 
-  handleFileInput(files: FileList) {
-    console.log('asdasd');
-    this.fileToUpload = files.item(0);
-  }
+  submit() {
+    console.log(this.enquiryForm.value);
 
-  newApplicationData() {
-    console.log(this.addNewInquiryForm.value);
-    // this.addNewInquiryForm.value.attached_document = this.fileToUpload;
-    this.TicketsService.create(this.addNewInquiryForm.value).subscribe(
+    // const formData = new FormData();
+    // formData.append(
+    //   'attached_document',
+    //   this.enquiryForm.get('attached_document').value
+    // );
+    // formData.append('image', this.enquiryForm.get('image').value);
+    // formData.append('document', this.enquiryForm.get('document').value);
+
+    // this.enquiryForm.value.attached_document = this.fileToUpload;
+    this.ticketService.create(this.enquiryForm.value).subscribe(
       (res) => {
         console.log(res);
         // console.log(res.id);
-        this.successAlert('Successfully submit inquiry.');
+        this.successAlert('Successfully submit enquiry.');
         // window.location.reload();
-        // console.log('data = ', this.listEntity);
       },
       (err) => {
         console.log(err);
-        // Activityed
-        // this.isLoading = false
-        // this.successMessage();
-        // this.errorAlert('edit');
       }
     );
   }

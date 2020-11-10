@@ -53,6 +53,7 @@ import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-task-management.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { QuillModule } from 'ngx-quill';
+import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { QuillModule } from 'ngx-quill';
     EgovDropdownComponent,
     EgovReportComponent,
     EgovTaskManagementComponent,
-    EgovUserManagementComponent
+    EgovUserManagementComponent,
+    EnquiryDetailsComponent
   ],
   imports: [
     CommonModule,
