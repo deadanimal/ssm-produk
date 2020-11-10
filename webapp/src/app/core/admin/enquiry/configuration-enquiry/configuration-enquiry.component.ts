@@ -51,11 +51,19 @@ export class ConfigurationEnquiryComponent implements OnInit {
   @ViewChild('disclaimerBM', {
     static: true
   }) disclaimerBM: QuillViewHTMLComponent
+  @ViewChild('notesEN', {
+    static: true
+  }) notesEN: QuillViewHTMLComponent
+  @ViewChild('notesBM', {
+    static: true
+  }) notesBM: QuillViewHTMLComponent
 
   instructionENForm: FormGroup
   instructionBMForm: FormGroup
   disclaimerENForm: FormGroup
   disclaimerBMForm: FormGroup
+  notesENForm: FormGroup
+  notesBMForm: FormGroup
 
   // Dropdowns //
 
@@ -140,8 +148,29 @@ export class ConfigurationEnquiryComponent implements OnInit {
       ]))
     })
 
+    this.notesENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.notesBMForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
     this.topicForm = this.fb.group({
-      name: new FormControl(null, Validators.compose([
+      name_en: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      name_bm: new FormControl(null, Validators.compose([
         Validators.required
       ])),
       active: new FormControl(true, Validators.compose([
@@ -153,7 +182,10 @@ export class ConfigurationEnquiryComponent implements OnInit {
     })
 
     this.subjectForm = this.fb.group({
-      name: new FormControl(null, Validators.compose([
+      name_en: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      name_bm: new FormControl(null, Validators.compose([
         Validators.required
       ])),
       active: new FormControl(true, Validators.compose([
@@ -281,6 +313,14 @@ export class ConfigurationEnquiryComponent implements OnInit {
             this.disclaimerBMForm.controls['description'].setValue(note['description'])
             this.disclaimerBMForm.controls['id'].setValue(note['id'])
           }
+          else if (note['slug'] == 'notes_en') {
+            this.notesENForm.controls['description'].setValue(note['description'])
+            this.notesENForm.controls['id'].setValue(note['id'])
+          }
+          else if (note['slug'] == 'notes_bm') {
+            this.notesBMForm.controls['description'].setValue(note['description'])
+            this.notesBMForm.controls['id'].setValue(note['id'])
+          }
         }
       }
     )
@@ -341,12 +381,14 @@ export class ConfigurationEnquiryComponent implements OnInit {
     
     if (type == 'topic-update') {
       console.log(row.name)
-      this.topicForm.controls['name'].setValue(row.name)
+      this.topicForm.controls['name_en'].setValue(row.name_en)
+      this.topicForm.controls['name_bm'].setValue(row.name_bm)
       this.topicForm.controls['active'].setValue(row.active)
       this.topicForm.controls['category'].setValue(row.category)
     }
     else if (type == 'subject-update') {
-      this.subjectForm.controls['name'].setValue(row.name)
+      this.subjectForm.controls['name_en'].setValue(row.name_en)
+      this.subjectForm.controls['name_bm'].setValue(row.name_bm)
       this.subjectForm.controls['active'].setValue(row.active)
       this.subjectForm.controls['topic'].setValue(row.topic.id)
     }
@@ -378,9 +420,15 @@ export class ConfigurationEnquiryComponent implements OnInit {
     else if (noteType == 'disclaimer-bm') {
       noteBody = this.disclaimerBMForm.value
     }
+    else if (noteType == 'notes-en') {
+      noteBody = this.notesENForm.value
+    }
+    else if (noteType == 'notes-bm') {
+      noteBody = this.notesBMForm.value
+    }
 
     this.loadingBar.start()
-    this.ticketService.patchNote(this.selectedRow.id, noteBody).subscribe(
+    this.ticketService.patchNote(noteBody['id'], noteBody).subscribe(
       () => {
         this.loadingBar.complete()
       },

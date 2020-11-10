@@ -207,7 +207,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             transaction.save()
             
         # portal.ssm.prototype.com.my
-        url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + reference
+        # url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + reference
+        url = 'https://xcessdev.ssm.com.my/#/payment/return?transactionId=' + reference
         return redirect(url)      
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import Glide from "@glidejs/glide";
-import { ReCaptchaV3Service } from "ngx-captcha";
+
 import {
   FormGroup,
   FormBuilder,
@@ -35,7 +35,6 @@ export class EgovDetails2Component implements OnInit {
   slider4 = "assets/img/banner/banner portal-04.png";
 
   constructor(
-    private reCaptchaV3Service: ReCaptchaV3Service,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private router: Router
@@ -54,9 +53,6 @@ export class EgovDetails2Component implements OnInit {
     var navbar = document.getElementById("navbar-main");
     navbar.classList.add("bg-primary");
 
-    this.aFormGroup = this.formBuilder.group({
-      recaptcha: ["", Validators.required],
-    });
   }
 
   signUp() {

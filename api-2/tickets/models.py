@@ -20,7 +20,8 @@ from users.models import (
 class TicketTopic(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, default='NA')
+    name_en = models.CharField(max_length=100, default='NA')
+    name_bm = models.CharField(max_length=100, default='NA')
     active = models.BooleanField(default=True)
 
     CATEGORY = [
@@ -37,16 +38,17 @@ class TicketTopic(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['name']
+        ordering = ['-created_date']
     
     def __str__(self):
-        return self.name
+        return self.name_en
 
 
 class TicketSubject(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, default='NA')
+    name_en = models.CharField(max_length=100, default='NA')
+    name_bm = models.CharField(max_length=100, default='NA')
     active = models.BooleanField(default=True)
 
     topic = models.ForeignKey(TicketTopic, on_delete=models.CASCADE, null=True)
@@ -55,16 +57,17 @@ class TicketSubject(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['name']
+        ordering = ['-created_date']
     
     def __str__(self):
-        return self.name
+        return self.name_en
 
 
 class Ticket(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, default='NA')
+    ticket_no = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(default='NA')
 
     TICKET_TYPE = [
@@ -79,23 +82,33 @@ class Ticket(models.Model):
     
     TICKET_STATUS = [
         ('RS', 'Resolved'),
-        ('US', 'Unresolved')
+        ('US', 'Unresolved'),
+        ('AS', 'Assigned'),
+        ('IP', 'In Progress'),
+        ('IQ', 'In Progress - Response Required'),
+        ('IC', 'In Progress - Response Received'),
+        ('EC', 'Escalation'),
+        ('CA', 'Closed - Assigned'),
+        ('CR', 'Closed - Not Related'),
+        ('CD', 'Closed - Not Responded'),
+        ('CO', 'Closed - Resolved'),
+        ('CL', 'Closed')
     ]
     ticket_status = models.CharField(
         choices=TICKET_STATUS,
         max_length=2,
-        default='US'
+        default='IP'
     )
     
-    topic = models.CharField(max_length=100, null=True, blank=True)
-    subject = models.CharField(max_length=100, null=True, blank=True)
+    topic = models.ForeignKey(TicketTopic, on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.ForeignKey(TicketSubject, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    # name = models.CharField(max_length=100, null=True, blank=True)
+    # email = models.CharField(max_length=100, null=True, blank=True)
+    # tel_number = models.CharField(max_length=100, null=True, blank=True)
 
-    receipt_number = models.CharField(max_length=100, default='NA')
-    attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))
-    error_screenshot = models.ImageField(null=True, upload_to=PathAndRename('enquiry-error-screenshot'))
-    error_supporting_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-supporting-document'))
-    error_product = models.CharField(max_length=100, default='NA')
+    receipt_number = models.CharField(max_length=100, null=True, blank=True)
+    # attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -203,24 +216,38 @@ class EnquiryTicket(models.Model):
 class EnquiryTicketReply(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=100, default='NA')
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True, related_name='ticket_replies') 
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    escalation_email = models.CharField(max_length=100, null=True, blank=True)
+    
+    REPLY_TYPE = [
+        ('IP', 'In Progress'),
+        ('IQ', 'In Progress - Response Required'),
+        ('IC', 'In Progress - Response Received'),
+        ('AS', 'Assigned'),
+        ('EC', 'Escalation'),
+        ('CA', 'Closed - Assigned'),
+        ('CR', 'Closed - Not Related'),
+        ('CD', 'Closed - Not Responded'),
+        ('CO', 'Closed - Resolved'),
+        ('CL', 'Closed')
+    ] 
+    reply_type = models.CharField(
+        choices=REPLY_TYPE,
+        max_length=2,
+        default='IP'
+    )
 
-    enquiry_ticket = models.ForeignKey(EnquiryTicket, on_delete=models.CASCADE) 
-    receipt_number = models.CharField(max_length=100, default='NA')
-    #document
-    #error_supporting_doc
-    #error_prodict
-    #error_screenshot
-
-    message = models.TextField(null=True)
+    message = models.TextField(null=True, blank=True)
+    remarks = models.TextField(null=True, blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     class meta:
-        ordering = ['name']
+        ordering = ['-created_date']
     
     def __str__(self):
-        return self.name
+        return self.ticket
 
 
 class EnquiryTicketSelection(models.Model):
@@ -262,3 +289,10 @@ class EnquiryNote(models.Model):
     
     def __str__(self):
         return self.name
+
+class EnquiryMedia(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True, related_name='ticket_attachments') 
+    attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))

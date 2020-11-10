@@ -61,7 +61,6 @@ import { PersonalInvolvementSearchComponent } from './personal-involvement/perso
 // CBID
 import { CbidComponent } from './cbid/cbid/cbid.component';
 
-import { NgxCaptchaModule } from 'ngx-captcha';
 import { ProductSearchResultPackage4Component } from './products/product-search-result-package4/product-search-result-package4.component';
 
 // EGov
@@ -125,7 +124,6 @@ import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/
     TabsModule.forRoot(),
     RouterModule.forChild(CoreRoutes),
     TooltipModule,
-    NgxCaptchaModule,
     LoadingBarModule
   ],
 })

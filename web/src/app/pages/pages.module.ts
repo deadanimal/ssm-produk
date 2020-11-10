@@ -21,7 +21,6 @@ import { Landing4Component } from "./landing4/landing4.component";
 import { AuditTrailComponent } from "./audit-trail/audit-trail.component";
 import { ChangelogComponent } from "./changelog/changelog.component";
 import { TmNgOdometerModule } from "tm-ng-odometer";
-import { NgxCaptchaModule } from "ngx-captcha";
 import { EgovDetailsComponent } from "./egov-details/egov-details.component";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { EgovDetails2Component } from './egov-details2/egov-details2.component';
@@ -54,7 +53,6 @@ import { EgovDetails2Component } from './egov-details2/egov-details2.component';
     TabsModule.forRoot(),
     RouterModule.forChild(PagesRoutes),
     TmNgOdometerModule,
-    NgxCaptchaModule,
     HttpClientModule,
   ],
 })
