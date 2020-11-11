@@ -105,7 +105,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     # name = models.CharField(max_length=100, null=True, blank=True)
     # email = models.CharField(max_length=100, null=True, blank=True)
-    # tel_number = models.CharField(max_length=100, null=True, blank=True)
+    phone_number = models.CharField(max_length=100, null=True, blank=True)
 
     receipt_number = models.CharField(max_length=100, null=True, blank=True)
     # attached_document = models.FileField(null=True, upload_to=PathAndRename('enquiry-attached-document'))
@@ -114,10 +114,10 @@ class Ticket(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['name']
+        ordering = ['-ticket_no']
     
     def __str__(self):
-        return self.name
+        return self.ticket_no
 
 
 class TicketCBID(models.Model):

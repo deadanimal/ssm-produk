@@ -21,6 +21,7 @@
 
     <div class="section mt--9">
         <div class="container">
+            <p class="cursor-pointer" (click)="navigatePage('/enquiry')"><i class="fas fa-angle-double-left"></i> Back to previous page</p>
             <h3 class="title font-weight-bolder">SERVICES / PRODUCTS / OPERATION</h3>
             <h1 class="title font-weight-bolder text-ssm">ENQUIRY FORM</h1>
             <h5>INSTRUCTION</h5>
@@ -54,7 +55,7 @@
                             <label class="form-control-label">Telephone number
                                 <span class="text-red">*</span>
                             </label>
-                            <input class="form-control" [value]="user['phone_number']" disabled />
+                            <input class="form-control" formControlName="phone_number" />
                         </div>
                     </div>
 
@@ -184,6 +185,12 @@
                             </span>
                         </label>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <p class="">* Mandatory fields.</p>
                 </div>
             </div>
 
