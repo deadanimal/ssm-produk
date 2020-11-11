@@ -1,0 +1,102 @@
+<div class="wrapper">
+    <section class="section-shaped title-bg bg-mini">
+        <div class="page-header page-header-small header-filter-white">
+            <div class="page-header-image" style="
+            background-image: url('assets/img/banner/banner-kjakp-enquiry.png');
+          "></div>
+            <div class="container">
+                <div class="header-body text-center mb-9">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <h1 class="text-ssm font-weight-bolder" style="font-size: 3.0rem;">ENQUIRY DETAILS</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section mt--9">
+        <div class="container">
+            <p class="cursor-pointer" (click)="navigatePage('/enquiry/history')"><i class="fas fa-angle-double-left"></i> Back to previous page</p>
+            <h2>{{ticket.ticket_no}}</h2>
+            <div class="accordion" id="accordionExample" *ngFor="let log of ticketLog">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button 
+                                aria-controls="collapseOne"
+                                class="btn btn-link w-100 text-ssm text-left"
+                                [attr.aria-expanded]="!isCollapsed" 
+                                (click)="isCollapsed = !isCollapsed"
+                                id="collapseOne"
+                                type="button">
+                                {{log.date}} 
+                                <span *ngIf="log.message">
+                                    - {{log.message}}
+                                </span>
+
+                                <span *ngIf="log.status">
+                                    - {{log.status}}
+                                </span>
+                                
+                                <i class="ni ni-bold-down float-right pt-1"> </i>
+                            </button>
+                        </h5>
+                    </div>
+                    <div 
+                        aria-labelledby="headingOne"
+                        class="show"
+                        data-parent="#accordionExample"
+                        [isAnimated]="true"
+                        [collapse]="isCollapsed"
+                        id="collapseOne">
+                        <div class="card-body opacity-8">
+                            {{log.response}}
+
+                            <div *ngIf="log.status == 'In Progress - Response Required'">
+                                <div class="form-group">
+                                    <label class="form-control-label">Response</label>
+                                    <textarea class="form-control"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-control-label">Attachment</label>
+                                    <div class="custom-file">
+                                        <input 
+                                            type="file" 
+                                            class="custom-file-input cursor-pointer" 
+                                            id="files" 
+                                            lang="en"
+                                            accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
+                                        />
+                                        <label class="custom-file-label" for="files">Select file</label>
+        
+                                        <!-- <ng-container *ngIf="files.length > 0">
+                                            <div *ngFor="let file_ of files">
+                                                <i 
+                                                    class="fas fa-trash-alt text-warning mr-2"
+                                                    placement="top" 
+                                                    tooltip="Remove attachment"
+                                                    (click)="removeFile(file_)"
+                                                >
+                                                </i>
+                                                {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                            </div>
+                                        </ng-container> -->
+                                    </div>
+                                </div>
+
+                                <div class="text-right">
+                                    <div class="btn btn-ssm rounded-pill">
+                                        Reply
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

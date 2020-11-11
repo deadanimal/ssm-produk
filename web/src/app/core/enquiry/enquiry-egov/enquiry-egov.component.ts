@@ -6,10 +6,18 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /// get ticket service
 import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
 import { forkJoin } from 'rxjs';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
+export class FileType {
+  name: string
+  size: number
+  file: string | ArrayBuffer
+}
 
 @Component({
   selector: 'app-enquiry-egov',
@@ -18,44 +26,28 @@ import { forkJoin } from 'rxjs';
 })
 export class EnquiryEgovComponent implements OnInit {
 
-  // Data
-  topicOptions
-  subjectOptions
+  // Form
+  enquiryForm: FormGroup;
+  fileToUpload: File = null;
+
+  user: any
 
   topics: any[] = []
   subjects: any[] = []
   notes: any[] = []
 
-  // Form
-  enquiryForm: FormGroup
-
-  fileName: string
-  fileSize: number
-
-  addNewInquiryForm: FormGroup;
-  fileToUpload: File = null;
+  files: FileType[] = []
 
   constructor(
     private ticketService: TicketsService,
     private fb: FormBuilder,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private userService: UsersService,
+    private loadingBar: LoadingBarService
   ) {}
 
   ngOnInit(): void {
-    // this.addNewInquiryForm = this.fb.group({
-    //   id: new FormControl(''),
-    //   title: new FormControl('qwew'),
-    //   description: new FormControl(''),
-    //   ticket_type: new FormControl('EG'),
-    //   // attached_document: new FormControl(this.fileToUpload),
-    //   // error_screenshot: new FormControl(''),
-    //   // error_supporting_document: new FormControl(''),
-    //   // error_product: new FormControl('qweqe'),
-    //   // topic: new FormControl('asd'),
-    //   // subject: new FormControl(''),
-    //   user: new FormControl(''),
-    // });
     this.getData()
     this.initForm()
   }
@@ -79,26 +71,46 @@ export class EnquiryEgovComponent implements OnInit {
   initForm() {
     this.enquiryForm = this.fb.group({
       description: new FormControl(null, Validators.required),
-      ticket_type: new FormControl('EG', Validators.required),
+      ticket_type: new FormControl('GN', Validators.required),
       topic: new FormControl(null, Validators.required),
       subject: new FormControl(null, Validators.required),
       user: new FormControl(null, Validators.required),
-      name: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
-      tel_number: new FormControl(null, Validators.required),
-      receipt_number: new FormControl(null, Validators.required),
-      attached_document: new FormControl(null, Validators.required)
+      phone_number: new FormControl(null, Validators.required),
+      receipt_number: new FormControl(null),
+      documents: new FormControl(null),
+      egov_package: new FormControl(null)
     })
+    
+    while(!this.user) {
+      if (this.userService.currentUser != undefined) {
+        this.user = this.userService.currentUser
+        this.enquiryForm.controls['user'].patchValue(this.user['id'])
+        this.enquiryForm.controls['phone_number'].patchValue(this.user['phone_number'])
+        this.enquiryForm.controls['egov_package'].patchValue(this.user['egov_package'])
+        console.log('Gotcha')
+      }
+    }
   }
 
   onFileChange(event) {
     let reader = new FileReader();
-    this.fileSize = event.target.files[0].size
-    this.fileName = event.target.files[0].name
+    let file_: FileType = {
+      'size': event.target.files[0].size,
+      'name': event.target.files[0].name,
+      'file': null
+    }
+
     if (
+      file_['size'] > 2000000 ||
+      this.files.length > 5
+    ) {
+      let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
+      this.errorAlert(task)
+    }
+    else if (
       event.target.files && 
       event.target.files.length &&
-      this.fileSize < 5000000
+      file_['size'] < 2000000
     ) {
       const [file] = event.target.files;
       reader.readAsDataURL(file)
@@ -109,7 +121,15 @@ export class EnquiryEgovComponent implements OnInit {
       
       reader.onload = () => {
         // console.log(reader['result'])
-        this.enquiryForm.controls['attached_document'].setValue(reader.result)
+        file_ = {
+          'size': event.target.files[0].size,
+          'name': event.target.files[0].name,
+          'file': reader.result
+        }
+        this.files.push(file_)
+        console.log('file: ', this.files)
+        console.log('form', this.enquiryForm.value)
+        this.enquiryForm.controls['documents'].patchValue(this.files)
         // console.log(this.registerForm.value)
         // console.log('he', this.registerForm.valid)
         // console.log(this.isAgree)
@@ -120,54 +140,38 @@ export class EnquiryEgovComponent implements OnInit {
     }
   }
 
-  removeFile() {
-    this.enquiryForm.controls['attachment_letter'].setValue(null)
-    delete this.fileName
-    delete this.fileSize
+  removeFile(row) {
+    this.files.splice(this.files.findIndex(req => req['name'] === row['name']), 1)
+
+    if (this.files.length == 0) {
+      this.enquiryForm.controls['documents'].patchValue(null)
+    }
+    else {
+      this.enquiryForm.controls['documents'].patchValue(this.files)
+    }
   }
 
   submit() {
     console.log(this.enquiryForm.value);
-
-    // const formData = new FormData();
-    // formData.append(
-    //   'attached_document',
-    //   this.enquiryForm.get('attached_document').value
-    // );
-    // formData.append('image', this.enquiryForm.get('image').value);
-    // formData.append('document', this.enquiryForm.get('document').value);
-
-    // this.enquiryForm.value.attached_document = this.fileToUpload;
+    this.loadingBar.useRef('http').start()
     this.ticketService.create(this.enquiryForm.value).subscribe(
       (res) => {
-        console.log(res);
+        this.loadingBar.useRef('http').complete()
         // console.log(res.id);
-        this.successAlert('Successfully submit enquiry.');
+
+        let message = 'Your enquiry is submitted. Your ticket number is ' + res.ticket_no
+        this.successAlert(message);
+
+        this.enquiryForm.reset()
+        this.files = []
+        
         // window.location.reload();
       },
       (err) => {
+        this.loadingBar.useRef('http').complete()
         console.log(err);
       }
     );
-  }
-
-  confirm(row) {
-    swal
-      .fire({
-        title: 'Confirmation',
-        text: 'Are you sure to delete this data ?',
-        icon: 'info',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Confirm',
-        customClass: {
-          cancelButton: 'btn btn-outline-primary ',
-          confirmButton: 'btn btn-primary ',
-        },
-      })
-      .then(() => {
-        // this.deleteApplicationData(row);
-      });
   }
 
   successAlert(task) {
@@ -182,8 +186,28 @@ export class EnquiryEgovComponent implements OnInit {
         cancelButton: 'btn btn-outline-success',
         confirmButton: 'btn btn-success ',
       },
-    });
+    })
+    .then(() => {
+      this.initForm()
+      this.navigatePage('/enquiry/history')
+    })
     // this.navigatePage('/enquiry');
+  }
+
+  errorAlert(task) {
+    swal.fire({
+      title: 'Error',
+      text: task,
+      icon: 'warning',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
   }
 
   navigatePage(path: string) {

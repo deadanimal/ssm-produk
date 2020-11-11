@@ -168,6 +168,7 @@ class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         ticket_request_topic_id = ticket_request['topic']
         ticket_request_subject_id = ticket_request['subject']
         ticket_request_user_id = ticket_request['user']
+        ticket_request_phone_number = ticket_request['phone_number']
         ticket_request_receipt_number = ticket_request['receipt_number']
         ticket_request_attached_documents_ = ticket_request['documents']
 
@@ -187,7 +188,7 @@ class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             Q(created_date__month=filter_month) &
             Q(created_date__day=filter_day)
         ).count()
-        running_no_ = "{0:0>6}".format(running_no_ + 1)
+        running_no_ = "{0:0>5}".format(running_no_ + 1)
 
         ticket_request_user = CustomUser.objects.filter(id=str(ticket_request_user_id)).first()
         ticket_request_topic = TicketTopic.objects.filter(id=str(ticket_request_topic_id)).first()
@@ -205,6 +206,7 @@ class TicketViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             topic=ticket_request_topic,
             subject=ticket_request_subject,
             user=ticket_request_user,
+            phone_number=ticket_request_phone_number,
             receipt_number=ticket_request_receipt_number
         )
 
