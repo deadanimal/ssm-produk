@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
-import { UsersService } from 'src/app/shared/services/users/users.service';
-
 import * as moment from 'moment';
-
+import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
+import { UsersService } from 'src/app/shared/services/users/users.service';
 @Component({
   selector: 'app-enquiry-details',
   templateUrl: './enquiry-details.component.html',
@@ -21,28 +19,24 @@ export class EnquiryDetailsComponent implements OnInit {
   
   replyForm: FormGroup
 
-  // Actions
-  actionAssignTo: string = 'General'
-  isAssignEnable: boolean = false
-  isEscalationEnable: boolean = false
+  isCollapsed = false;
 
   constructor(
-    private router: Router,
-    private fb: FormBuilder,
     private loadingBar: LoadingBarService,
+    private fb: FormBuilder,
     private ticketService: TicketsService,
+    private router: Router,
     private userService: UsersService
   ) { 
     this.ticket = this.router.getCurrentNavigation().extras['ticket']
     this.user = this.userService.currentUser
     console.log(this.ticket)
     if (!this.ticket) {
-      this.navigatePage('/admin/enquiry/general')
+      this.navigatePage('/enquiry')
     }
   }
 
-  ngOnInit() {
-    this.initForm()
+  ngOnInit(): void {
     let index_ = 0
     if (this.ticket['ticket_replies']) {
       this.ticket['ticket_replies'].forEach(
@@ -95,23 +89,6 @@ export class EnquiryDetailsComponent implements OnInit {
           })
         }
       )
-
-      if (this.replyForm.value['type'] == 'AS') {
-        if (this.ticket['ticket_type'] == 'General') {
-          this.actionAssignTo = 'eGovernment'
-        }
-        else {
-          this.actionAssignTo = 'General'
-        }
-      }
-      else {
-        if (this.ticket['ticket_type'] == 'General') {
-          this.actionAssignTo = 'General'
-        }
-        else {
-          this.actionAssignTo = 'eGovernment'
-        }
-      }
     }
 
     let created_ = this.ticket['created_date']
@@ -149,29 +126,18 @@ export class EnquiryDetailsComponent implements OnInit {
   }
 
   replyTicket() {
-    this.loadingBar.start()
+    this.loadingBar.useRef('http').start()
     this.ticketService.createReply(this.replyForm.value).subscribe(
       () => {
-        this.loadingBar.complete()
+        this.loadingBar.useRef('http').complete()
       },
       () => {
-        this.loadingBar.complete()
+        this.loadingBar.useRef('http').complete()
       },
       () => {
         this.changeStatus()
       }
     )
-  }
-  
-  statusChanged() {
-    if (this.replyForm.value['type'] == 'AS') {
-      if (this.ticket['ticket_type'] == 'General') {
-        this.actionAssignTo = 'eGovernment'
-      }
-      else {
-        this.actionAssignTo = 'General'
-      }
-    }
   }
 
   changeStatus() {
@@ -179,27 +145,13 @@ export class EnquiryDetailsComponent implements OnInit {
       () => {},
       () => {},
       () => {
-        if (this.ticket['ticket_type'] == 'General') {
-          this.navigatePage('/admin/enquiry/general')
-        }
-        else {
-          this.navigatePage('/admin/enquiry/egov')
-        }
+
       }
     )
-  }
-
-  backPage() {
-    if (this.ticket['ticket_type'] == 'General') {
-      this.navigatePage('/admin/enquiry/general')
-    }
-    else {
-      this.navigatePage('/admin/enquiry/egov')
-    }
   }
 
   navigatePage(path) {
     this.router.navigate([path])
   }
-   /// PUSH REMINDER UNTUK ESCALATION ONLY !!
+
 }

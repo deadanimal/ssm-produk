@@ -75,6 +75,7 @@ export class EnquiryGeneralComponent implements OnInit {
       topic: new FormControl(null, Validators.required),
       subject: new FormControl(null, Validators.required),
       user: new FormControl(null, Validators.required),
+      phone_number: new FormControl(null, Validators.required),
       receipt_number: new FormControl(null),
       documents: new FormControl(null)
     })
@@ -83,6 +84,7 @@ export class EnquiryGeneralComponent implements OnInit {
       if (this.userService.currentUser != undefined) {
         this.user = this.userService.currentUser
         this.enquiryForm.controls['user'].patchValue(this.user['id'])
+        this.enquiryForm.controls['phone_number'].patchValue(this.user['phone_number'])
         console.log('Gotcha')
       }
     }
@@ -185,6 +187,7 @@ export class EnquiryGeneralComponent implements OnInit {
     })
     .then(() => {
       this.initForm()
+      this.navigatePage('/enquiry/history')
     })
     // this.navigatePage('/enquiry');
   }
@@ -201,7 +204,7 @@ export class EnquiryGeneralComponent implements OnInit {
       },
     })
     .then(() => {
-      this.initForm()
+      // this.initForm()
     })
   }
 

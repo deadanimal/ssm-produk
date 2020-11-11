@@ -18,22 +18,23 @@
 
     <div class="section mt--9">
         <div class="container">
+            <p class="cursor-pointer" (click)="navigatePage('/enquiry')"><i class="fas fa-angle-double-left"></i> Back to previous page</p>
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <div class="row p-3">
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label">
                                         Search By Ticket Number
                                     </label>
                                     <div class="input-group">
-                                        <input class="form-control" placeholder="Search By Ticket Number" />
+                                        <input class="form-control" placeholder="Search By Ticket Number" (keyup)="filterTable($event, 'ticket_no')" />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label">
                                         Search By Topic Issue
@@ -44,18 +45,15 @@
                                                 <i class="fas fa-receipt"> </i>
                                             </span>
                                         </div>
-                                        <input class="form-control" placeholder="Search By Topic Issue" type="text" />
+                                        <input class="form-control" placeholder="Search By Topic Issue" type="text" (keyup)="filterTable($event, 'topic')" />
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <button class="btn btn-primary mt-4">Search</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="card mb-8">
                 <div class="table-responsive mb-0">
                     <table class="table table-striped mb-0">
@@ -70,19 +68,29 @@
                         </thead>
 
                         <tbody>
-                            <!-- <tr *ngFor="let item of listTickets">
-                  <td class="text-center py-4">No records found</td>
-                </tr> -->
-
-                            <tr *ngFor="let item of listTickets">
-                                <td class="text-center">Ticket Number</td>
+                            <tr *ngFor="let item of ticketTemp">
                                 <td class="text-center">
-                                    {{ item.created_date }}
+                                    {{item.ticket_no}}
                                 </td>
-                                <td class="text-center">{{ item.topic }}</td>
-                                <td class="text-center">In-Progress</td>
                                 <td class="text-center">
-                                    <a style="cursor: pointer" (click)="(listTickets.id)">
+                                    {{ item.created_date_ }}
+                                </td>
+                                <td class="text-center">{{ item.topic.name_en }}</td>
+                                <td class="text-center">
+                                    <span *ngIf="item.ticket_status == 'IP'">In Progress</span>
+                                    <span *ngIf="item.ticket_status == 'IQ'">In Progress</span>
+                                    <span *ngIf="item.ticket_status == 'IC'">In Progress</span>
+                                    <span *ngIf="item.ticket_status == 'EC'">In Progress</span>
+                                    <span *ngIf="item.ticket_status == 'CA'">In Progress</span>
+                                    <span *ngIf="item.ticket_status == 'CR'">Closed</span>
+                                    <span *ngIf="item.ticket_status == 'CD'">Closed</span>
+                                    <span *ngIf="item.ticket_status == 'CO'">Closed</span>
+                                    <span *ngIf="item.ticket_status == 'CL'">Closed</span>
+                                    <span *ngIf="item.ticket_status == 'US'">In Progress </span>
+                                    <span *ngIf="item.ticket_status == 'AS'">In Progress</span>
+                                </td>
+                                <td class="text-center">
+                                    <a style="cursor: pointer" (click)="viewTicket(item)">
                                         <i class="fas fa-eye text-default"> </i>
                                     </a>
                                 </td>

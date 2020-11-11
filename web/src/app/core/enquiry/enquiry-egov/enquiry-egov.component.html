@@ -19,6 +19,7 @@
 
     <div class="section mt--9">
         <div class="container">
+            <p class="cursor-pointer" (click)="navigatePage('/enquiry')"><i class="fas fa-angle-double-left"></i> Back to previous page</p>
             <h3 class="title font-weight-bolder">SERVICES / PRODUCTS / OPERATION</h3>
             <h1 class="title font-weight-bolder text-ssm">ENQUIRY FORM</h1>
             <h5>INSTRUCTION</h5>
@@ -33,13 +34,13 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label">Name</label>
-                            <input class="form-control" placeholder="Enter Name" disabled/>
+                            <input class="form-control" [value]="user['full_name']" disabled/>
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label class="form-control-label">Email Address</label>
-                            <input class="form-control" placeholder="Enter email address" disabled/>
+                            <input class="form-control" [value]="user['username']" disabled/>
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
                             <label class="form-control-label">Telephone number
                                 <span class="text-red">*</span>
                             </label>
-                            <input class="form-control" placeholder="Enter telephone number" disabled/>
+                            <input class="form-control" formControlName="phone_number" />
                         </div>
                     </div>
 
@@ -59,7 +60,7 @@
                             <label class="form-control-label">Package
                                 <span class="text-red">*</span>
                             </label>
-                            <select class="form-control custom-select">
+                            <select class="form-control custom-select" formControl="egov_package" disabled>
                                 <option value="1">Package 1</option>
                                 <option value="2">Package 2</option>
                                 <option value="3">Package 3</option>
@@ -79,10 +80,10 @@
                                 <option>Please pick</option>
                                 <ng-template *ngFor="let topic of topics">
                                     <option 
-                                        *ngIf="topic.category == 'EG'" 
-                                        value="{{topic.name}}"
+                                        *ngIf="topic.category == 'EG' && topic.active" 
+                                        value="{{topic.id}}"
                                     >
-                                        {{topic.name}}
+                                        {{topic.name_en}}
                                     </option>
                                 </ng-template>
                             </select>
@@ -98,9 +99,10 @@
                                 <option>Please Select</option>
                                 <ng-container *ngFor="let subject of subjects">
                                     <option 
-                                        value="{{subject.name}}"
+                                        value="{{subject.id}}"
+                                        *ngIf="enquiryForm.value['topic'] == subject.topic && subject.active"
                                     >
-                                        {{subject.name}}
+                                        {{subject.name_en}}
                                     </option>
                                 </ng-container>
                             </select>
@@ -138,16 +140,16 @@
                                 />
                                 <label class="custom-file-label" for="files">Select file</label>
 
-                                <ng-container *ngIf="enquiryForm.value['attached_document']">
-                                    <div>
+                                <ng-container *ngIf="files.length > 0">
+                                    <div *ngFor="let file_ of files">
                                         <i 
                                             class="fas fa-trash-alt text-warning mr-2"
                                             placement="top" 
                                             tooltip="Remove attachment"
-                                            (click)="removeFile()"
+                                            (click)="removeFile(file_)"
                                         >
                                         </i>
-                                        {{fileName}} [{{fileSize/1000000 | number: '1.2-2'}}MB]
+                                        {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
                                     </div>
                                 </ng-container>
                             </div>
@@ -162,7 +164,7 @@
                         Maximum number of attachments is 5. Maximum size for each 2MB file
                         (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)
                     </p>
-                   
+                    
                     <div class="notes p-3 mb-2">
                         <b>Notes</b>
                         <span *ngFor="let note of notes">
@@ -171,7 +173,7 @@
                             </span>
                         </span>
                     </div>
-                    
+
                     <b>Disclaimer</b>
                     <br />
                     <div class="custom-control custom-checkbox">
@@ -187,8 +189,18 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col">
+                    <p class="">* Mandatory fields.</p>
+                </div>
+            </div>
+
             <div class="text-right">
-                <button class="btn btn-ssm rounded-pill">
+                <button 
+                    class="btn btn-ssm rounded-pill" 
+                    (click)="submit()"
+                    [disabled]="!enquiryForm.valid"
+                >
                     Submit
                 </button>
             </div>
