@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as moment from 'moment';
+import * as xlsx from 'xlsx';
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 
 export enum SelectionType {
@@ -53,6 +54,8 @@ export class EgovEnquiryComponent implements OnInit {
   closedTicket: any[] = []
   tickets: any[]
 
+  isHidden = true
+
   constructor(
     private ticketService: TicketsService,
     private router: Router
@@ -75,8 +78,8 @@ export class EgovEnquiryComponent implements OnInit {
       () => {
         this.tickets.forEach(
           (ticket) => {
-            ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY')
-            ticket['modified_date_'] = moment(ticket['modified_date']).format('DD/MM/YYYY')
+            ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY HH:mm')
+            ticket['modified_date_'] = moment(ticket['modified_date']).format('DD/MM/YYYY HH:mm')
 
             if (ticket['ticket_type'] == 'EG') {
               ticket['ticket_type'] = 'eGovernment'
@@ -167,6 +170,19 @@ export class EgovEnquiryComponent implements OnInit {
     }
     let path = '/admin/enquiry/details/'
     this.router.navigate([path], extras as any)
+  }
+
+  exportExcel() {
+    let fileName = 'Enquiry_EGOV.xlsx'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
   }
 
 }

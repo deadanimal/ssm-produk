@@ -30,6 +30,11 @@ import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.compon
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
 import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
+import { MasterTableComponent } from './finance/master-table/master-table.component';
+import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-dropdowns.component';
+import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.component';
+import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
+import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -151,6 +156,27 @@ export const AdminRoutes: Routes = [
             path: 'fees',
             component: FeesComponent,
           },
+          {
+            path: 'master-transaction-table',
+            children: [
+              {
+                path: 'summary-report',
+                component: SummaryReportComponent
+              },
+              {
+                path: 'detailed-report',
+                component: DetailedReportComponent
+              }
+            ]
+          },
+          {
+            path: 'refund-dropdowns',
+            component: RefundDropdownsComponent
+          },
+          {
+            path: 'gaf-generator',
+            component: GafGeneratorComponent
+          }
         ],
       },
       {

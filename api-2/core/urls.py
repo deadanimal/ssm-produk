@@ -174,10 +174,15 @@ enquiry_notes_router = router.register(
 
 from transactions.views import (
     TransactionViewSet,
+    RefundDropdownViewSet
 )
 
 transactions_router = router.register(
     'transactions', TransactionViewSet
+)
+
+refund_dropdowns_router = router.register(
+    'refund-dropdowns', RefundDropdownViewSet
 )
 # Users app
 
