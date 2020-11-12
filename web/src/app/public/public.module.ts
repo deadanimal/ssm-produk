@@ -22,6 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { SsoComponent } from './sso/sso.component';
+import { RefundComponent } from './refund/refund.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SsoComponent } from './sso/sso.component';
     HomeComponent,
     TermsConditionsComponent,
     NotAuthorizedComponent,
-    SsoComponent
+    SsoComponent,
+    RefundComponent
   ],
   imports: [
     CommonModule,

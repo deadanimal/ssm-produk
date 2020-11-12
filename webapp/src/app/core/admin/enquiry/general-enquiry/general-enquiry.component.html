@@ -742,6 +742,26 @@
 
                     <tab heading="All">
                         <div class="card mt-2">
+                            <div class="text-right">
+                                <div class="my-1 mr-4 dropdown" dropdown placement="bottom-right">
+                                    <button 
+                                        class="btn btn-outline-default dropdown-toggle"
+                                        type="button" 
+                                        id="dropdownMenuButton" 
+                                        dropdownToggle
+                                    >
+                                          Export
+                                    </button>
+                                    <div  
+                                        aria-labelledby="dropdownMenuButton" 
+                                        *dropdownMenu 
+                                        class="dropdown-menu dropdown-menu-right"
+                                    >
+                                          <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="dataTables_wrapper py-4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
@@ -961,4 +981,77 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="table" id="reportTable" #reportTable [hidden]="isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>No.</th>
+				<th>Ticket #</th>
+				<th>Email Address</th>
+				<th>Tel No.</th>
+                <th>Receipt No.</th>
+                <th>Topic</th>
+				<th>Subject</th>
+				<th>Created Date</th>
+				<th>Modified Date</th>
+				<th>Form Type</th>
+                <th>Aging</th>
+                <th>Status</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+                <td>
+                    {{row.id_index}}
+                </td>
+				<td>
+					{{row.ticket_no}}
+				</td>
+				<td>
+					{{row.user.username}}
+				</td>
+				<td>
+					{{row.user.phone_number}}
+				</td>
+				<td>
+					{{row.receipt_number}}
+				</td>
+				<td>
+					{{row.topic?.name_en}}
+				</td>
+				<td>
+					{{row.subject?.name_en}}
+				</td>
+				<td>
+					{{row.created_date_}}
+				</td>
+				<td>
+					{{row.modified_date_}}
+				</td>
+				<td>
+					{{row.ticket_type}}
+				</td>
+				<td>
+					
+                </td>
+                <td>
+                    <span *ngIf="row.ticket_status == 'RS'">Closed</span> 
+                    <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
+                    <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
+                    <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
+                    <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
+                    <span *ngIf="row.ticket_status == 'AS'">Assigned</span> 
+                    <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
+                    <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
+                    <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
+                    <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
+                    <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                    <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
+                </td>
+			</tr>
+		</tbody>
+	</table>
 </div>

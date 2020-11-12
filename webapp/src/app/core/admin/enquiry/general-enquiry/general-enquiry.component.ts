@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as moment from 'moment';
+import * as xlsx from 'xlsx';
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 
 export enum SelectionType {
@@ -51,6 +52,8 @@ export class GeneralEnquiryComponent implements OnInit {
   inProgressTicket: any[] = []
   closedTicket: any[] = []
   tickets: any[]
+
+  isHidden = true
 
   constructor(
     private ticketService: TicketsService,
@@ -165,6 +168,19 @@ export class GeneralEnquiryComponent implements OnInit {
     }
     let path = '/admin/enquiry/details/'
     this.router.navigate([path], extras as any)
+  }
+
+  exportExcel() {
+    let fileName = 'Enquiry_EGOV.xlsx'
+    let element = document.getElementById('reportTable'); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
   }
 
 }

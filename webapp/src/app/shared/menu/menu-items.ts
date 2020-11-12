@@ -101,8 +101,12 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'finance',
     isCollapsed: true,
     children: [
-      { path: 'reconcile', title: 'Reconcile', type: 'link' },
-      { path: 'fees', title: 'Fees Management', type: 'link' },
+      { path: 'master-transaction-table', title: 'Master Transaction Table', type: 'sub', children: [
+        { path: 'summary-report', title: 'Summary Report', type: 'link' },
+        { path: 'detailed-report', title: 'Detailed Report', type: 'link' }
+      ]},
+      { path: 'refund-dropdowns', title: 'Refund Dropdowns', type: 'link' },
+      { path: 'gaf-generator', title: 'GAF Generator', type: 'link' },
     ],
   },
 
