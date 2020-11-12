@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { SsoComponent } from './sso/sso.component';
+import { RefundComponent } from './refund/refund.component';
 
 export const PublicRoutes: Routes = [
     {
@@ -38,6 +39,10 @@ export const PublicRoutes: Routes = [
             {
                 path: 'sso',
                 component: SsoComponent
+            },
+            {
+                path: 'refund',
+                component: RefundComponent
             }
         ]
     }

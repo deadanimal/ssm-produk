@@ -1,0 +1,261 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0">Refund Dropdowns</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Finance </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                Refund Dropdowns
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="col-lg-6 col-5 text-right">
+                    <button 
+                        class="btn btn-sm btn-neutral"
+                        (click)="openModal(addDropdown)"
+                    >
+                        Add Dropdown
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3 clas="m-0"></h3>
+                </div>
+                <div class="dataTables_wrapper py-4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="datatable_length">
+                                <label>
+                                    Show
+                                    <select name="datatable_length" aria-controls="datatable"
+                                        class="form-control form-control-sm"
+                                        (change)="entriesChange($event)">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="-1">All</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                        </div>
+                    </div>
+
+                    <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'"
+                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                        [limit]="tableEntries != -1 ? tableEntries : undefined"
+                        [rows]="tableTemp" [scrollbarH]="true" (activate)="onActivate($event)">
+                        <ngx-datatable-column
+                            [width]="80"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="id_index"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.id_index}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="name"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Reasoning</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.name}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="120"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="active"
+                            >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Status</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span class="badge badge-success" *ngIf="row.active">Enabled</span>
+                                <span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="80"
+                            [sortable]="false"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span class="table-header">Action</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template class="text-right">
+                                <a (click)="openModalUpdate(updateDropdown, row)" style="cursor: pointer">
+                                    <button class="btn btn-sm btn-info">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #addDropdown>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Add Dropdown
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="dropdownForm">
+			<div class="form-group">
+                <label class="form-control-label">Reasoning</label>
+                <input class="form-control" formControlName="name">
+            </div>
+
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="dropdownActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="dropdownActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="createDropdown()"
+            [disabled]="!dropdownForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #updateDropdown>
+	<div class="modal-header bg-ssm">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Update Dropdown
+		</h6>
+
+        <button 
+            aria-label="Close"
+            class="close" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<form [formGroup]="dropdownForm">
+			<div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Reasoning</label>
+                    <input class="form-control" formControlName="name">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="dropdownActive"
+                        formControlName="active"
+                    >
+                    <label class="custom-control-label" for="dropdownActive">Enable?</label>
+                </div>
+            </div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+        <button 
+            class="btn btn-ssm" 
+            type="button" 
+            (click)="patchDropdown()"
+            [disabled]="!dropdownForm.valid"
+        >
+			Save
+		</button>
+
+        <button 
+            class="btn btn-outline-ss, ml-auto" 
+            data-dismiss="modal" 
+            type="button" 
+            (click)="closeModal()"
+        >
+			Close
+		</button>
+	</div>
+</ng-template>

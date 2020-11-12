@@ -29,12 +29,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Transaction,
+    RefundDropdown
 )
 
 from .serializers import (
     TransactionSerializer,
     TransactionWithCartSerializer,
-    TransactionExtendedSerializer
+    TransactionExtendedSerializer,
+    RefundDropdownSerializer
 )
 
 from carts.models import (
@@ -67,7 +69,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def with_cart(self, request, *args, **kwargs):  
 
-        transactions = Transaction.objects.all()
+        transactions = Transaction.objects.all().order_by('-created_date')
 
         serializer = TransactionWithCartSerializer(transactions, many=True)
         return Response(serializer.data)
@@ -314,6 +316,26 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class RefundDropdownViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = RefundDropdown.objects.all()
+    serializer_class = RefundDropdownSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = ['reference']
+
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+
+    def get_queryset(self):
+        queryset = RefundDropdown.objects.all()
+        return queryset
 
 # Dari app pass reference to PG : 20201012000001
 # PG pass transaction_id: SM00000020201012000001

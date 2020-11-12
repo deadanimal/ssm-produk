@@ -15,8 +15,26 @@ class Product(models.Model):
     name = models.CharField(max_length=100, default='NA')
     description = models.TextField(default='NA')
     slug = models.CharField(max_length=100, default='NA')
-    
+
+    active = models.BooleanField(default=True)
+    ctc = models.BooleanField(default=True)
+    roc = models.BooleanField(default=True)
+
     fee = models.IntegerField(default=0)
+
+    tax = models.IntegerField(default=0)
+    tax_start_date = models.DateTimeField(null=True)
+    tax_end_date = models.DateTimeField(null=True)
+
+    discount = models.IntegerField(default=0)
+    discount_start_date = models.DateTimeField(null=True)
+    discount_end_date = models.DateTimeField(null=True)
+
+    coa_code = models.CharField(max_length=100, null=True, blank=True)
+    coa_description = models.CharField(max_length=100, null=True, blank=True)
+
+    webservice = models.CharField(max_length=100, null=True, blank=True)
+    channel = models.CharField(max_length=100, null=True, blank=True)
     
     OUTPUT_TYPE = [
         ('DO', 'Document'),
@@ -27,10 +45,7 @@ class Product(models.Model):
         choices=OUTPUT_TYPE,
         max_length=2,
         default='CP'
-    )    
-    
-    ctc = models.BooleanField(default=True)
-    # language = models.BooleanField(default=True)
+    )
 
     LANGUAGE= [
         ('EN', 'English'),

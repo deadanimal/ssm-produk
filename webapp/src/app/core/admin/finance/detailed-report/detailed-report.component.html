@@ -1,0 +1,379 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-10 col-10">
+                    <h6 class="h2 text-dark d-inline-block mb-0">Master Transaction Table</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Finance </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Master Transaction Table </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                Detailed Report
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label class="form-control-label">Start Date</label>
+                <input class="form-control" type="date">
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label class="form-control-label">End Date</label>
+                <input class="form-control" type="date">
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label class="form-control-label">Filter Selection</label>
+                <select class="form-control custom-select">
+                    <option hidden selected>Please select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3 clas="m-0"></h3>
+                </div>
+                <div class="dataTables_wrapper py-4">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="datatable_length">
+                                <label>
+                                    Show
+                                    <select name="datatable_length" aria-controls="datatable"
+                                        class="form-control form-control-sm"
+                                        (change)="entriesChange($event)">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="-1">All</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                        </div>
+                    </div>
+
+                    <ngx-datatable 
+                        class="bootstrap" 
+                        [columnMode]="'force'"
+                        [headerHeight]="50" 
+                        [footerHeight]="50" 
+                        [rowHeight]="'auto'"
+                        [limit]="tableEntries != -1 ? tableEntries : undefined"
+                        [rows]="tableTemp" 
+                        [scrollbarH]="true"
+                        (activate)="onActivate($event)"
+                    >
+                        <ngx-datatable-column
+                            [width]="80"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="id_index"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.id_index}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="140"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="created_date"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Date</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.created_date}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="140"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Channel</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                Online
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.name">
+                                    {{row.name}}
+                                </span>
+                                <span *ngIf="!row.name">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Email Address</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.email_address">
+                                    {{row.email_address}}
+                                </span>
+                                <span *ngIf="!row.email_address">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Phone Number</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.phone_number">
+                                    {{row.phone_number}}
+                                </span>
+                                <span *ngIf="!row.phone_number">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Address 1</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.address_1">
+                                    {{row.address_1}}
+                                </span>
+                                <span *ngIf="!row.address_1">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Address 2</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.address_2">
+                                    {{row.address_2}}
+                                </span>
+                                <span *ngIf="!row.address_2">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Address 3</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.address_3">
+                                    {{row.address_3}}
+                                </span>
+                                <span *ngIf="!row.address_3">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Postcode</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.postcode">
+                                    {{row.postcode}}
+                                </span>
+                                <span *ngIf="!row.postcode">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer City</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.city">
+                                    {{row.city}}
+                                </span>
+                                <span *ngIf="!row.city">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer State</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.state">
+                                    {{row.state}}
+                                </span>
+                                <span *ngIf="!row.state">
+                                    N/A
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer Country</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                Malaysia
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="total_amount"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Gross Amount</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                RM{{row.total_amount / 100 | number: '1.2-2'}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="140"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Payment Status</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.payment_status == 'OK'">
+                                    Success
+                                </span>
+                                <span *ngIf="row.payment_status == 'PD'">
+                                    Pending
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="140"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="receipt_no"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Receipt No.</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.receipt_no}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

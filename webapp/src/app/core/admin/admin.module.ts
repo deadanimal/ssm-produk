@@ -54,6 +54,11 @@ import { EgovTaskManagementComponent } from './egov/egov-task-management/egov-ta
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { QuillModule } from 'ngx-quill';
 import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
+import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-dropdowns.component';
+import { MasterTableComponent } from './finance/master-table/master-table.component';
+import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.component';
+import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
+import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +95,12 @@ import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-detai
     EgovReportComponent,
     EgovTaskManagementComponent,
     EgovUserManagementComponent,
-    EnquiryDetailsComponent
+    EnquiryDetailsComponent,
+    RefundDropdownsComponent,
+    MasterTableComponent,
+    GafGeneratorComponent,
+    SummaryReportComponent,
+    DetailedReportComponent
   ],
   imports: [
     CommonModule,
