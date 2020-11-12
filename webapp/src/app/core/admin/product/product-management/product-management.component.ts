@@ -1,20 +1,19 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
 } from '@angular/forms';
-import swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
+
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
 
 import { ProductsService } from '../../../../shared/services/products/products.service';
 
 import * as moment from 'moment';
+import swal from 'sweetalert2';
 
 export enum SelectionType {
   single = 'single',
@@ -42,20 +41,20 @@ export class ProductManagementComponent implements OnInit {
   };
 
   // Table
-  tableEntries: number = 10;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
-  requestList: any;
+  tableEntries: number = 10
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  tableRows: any[] = []
+  SelectionType = SelectionType
+  requestList: any
 
   // 
-  isCompleted: boolean = false;
-  isRejected: boolean = false;
+  isCompleted: boolean = false
+  isRejected: boolean = false
   completedDate: string = ''
   remarks: string = ''
-  selectedRow;
+  selectedRow
 
   // Form
   updateForm: FormGroup
@@ -71,7 +70,7 @@ export class ProductManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initData();
+    this.initData()
     this.initForm()
   }
 
@@ -154,8 +153,12 @@ export class ProductManagementComponent implements OnInit {
   update() {
     this.loadingBar.start()
     this.productService.patch(this.selectedRow.id, this.updateForm).subscribe(
-      () => {},
-      () => {},
+      () => {
+        this.loadingBar.complete()
+      },
+      () => {
+        this.loadingBar.complete()
+      },
       () => {}
     )
   }  

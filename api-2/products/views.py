@@ -111,6 +111,15 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = [
+        'active',
+        'ctc',
+        'roc',
+        'channel',
+        'webservice',
+        'output_type',
+        'language'
+    ]
 
     def get_permissions(self):
         if self.action == 'list':

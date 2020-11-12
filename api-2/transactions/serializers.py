@@ -10,7 +10,7 @@ from django.utils.timezone import now
 
 from .models import (
     Transaction,
-
+    RefundDropdown
 )
 
 from carts.serializers import CartSerializer, CartExtendedSerializer
@@ -36,3 +36,9 @@ class TransactionExtendedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'        
+
+class RefundDropdownSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RefundDropdown
+        fields = '__all__'

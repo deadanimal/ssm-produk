@@ -1,0 +1,116 @@
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0">GAF Generator</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Finance </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                GAF Generator
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label class="form-control-label">Start Date</label>
+                <input class="form-control" type="date">
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label class="form-control-label">End Date</label>
+                <input class="form-control" type="date">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button
+                class="btn btn-ssm"
+            >
+                Generate
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="table" id="reportTable" #reportTable *ngIf="!isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>Reference ID</th>
+				<th>Receipt No.</th>
+				<th>Name</th>
+				<th>Organization</th>
+				<th>Phone No.</th>
+				<th>Application Date</th>
+				<th>Amount (RM)</th>
+				<th>Status</th>
+				<th>PIC</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row.reference_id}}  
+				</td>
+				<td>
+					{{row.receipt_no}}  
+				</td>
+				<td>
+					{{row.name}}
+				</td>
+				<td>
+					{{row.organisation}}
+				</td>
+				<td>
+					{{row.phone_number}}
+				</td>
+				<td>
+					{{row.modified_date}}
+				</td>
+				<td>
+					{{row.service.fee/100 | number: '1.2-2'}}
+				</td>
+				<td>
+					<span class="badge badge-danger" *ngIf="row.pending && !row.in_progress && !row.completed">Pending</span>
+					<span class="badge badge-info" *ngIf="row.pending && row.in_progress && !row.completed">In Progress</span>
+					<span class="badge badge-success" *ngIf="row.pending && row.in_progress && row.completed">Completed</span>
+				</td>
+				<td>
+					<span *ngIf="!row.completed">
+						NA
+					</span>
+					<span *ngIf="row.completed">
+						Ali Imran
+					</span>
+				</td>
+				<td>
+					{{row.remarks}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div> -->
