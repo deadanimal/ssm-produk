@@ -12,9 +12,9 @@
                     </li>
                     <li>
                         Borang Permohonan Bayaran Balik yang lengkap hendaklah dikemukakan kepada SSM 
-                        melalui email refund[at]ssm.com.my. Dokumen sokongan berikut juga perlu dilampirkan semasa 
+                        melalui email refundxcess@ssm.com.my. Dokumen sokongan berikut juga perlu dilampirkan semasa 
                         permohonan dibuat:
-                        <ol>
+                        <ol type="i">
                             <li>
                                 Salinan resit rasmi SSM berkaitan transaksi yang dipohon;
                             </li>
@@ -37,7 +37,7 @@
                     </li>
                     <li>
                         Sebarang pertanyaan berhubung status permohonan bayaran balik boleh dikemukakan melalui emel 
-                        kepada refund[at]ssm.com.my. Sila nyatakan nombor rujukan kes semasa berurusan.
+                        kepada refundxcess@ssm.com.my. Sila nyatakan nombor rujukan kes semasa berurusan.
                     </li>
                 </ol>
 
@@ -54,7 +54,7 @@
                     50623 Kuala Lumpur.
                 </p>
                 <p class="m-0 text-center">
-                    Emel: refund[at]ssm.com.my
+                    Emel: refundxcess@ssm.com.my
                 </p>
 
                 <h2 class="text-center py-1">BORANG PERMOHONAN BAYARAN BALIK (REFUND)</h2>
@@ -127,7 +127,7 @@
                     <label class="form-control-label"> Aplikasi Pendaftaran
                         <span class="text-red">*</span>
                     </label>
-                    <input class="form-control">
+                    <input class="form-control" value="Product Portal">
                 </div>
 
                 <div class="form-group">
@@ -158,7 +158,7 @@
                                 RM
                             </span>
                         </div>
-                        <input class="form-control" />
+                        <input class="form-control" type="number" />
                     </div>
                 </div>
 
@@ -245,7 +245,41 @@
                     <label class="form-control-label"> Nama Bank
                         <span class="text-red">*</span>
                     </label>
-                    <input class="form-control">
+                    <select class="form-control custom-control">
+                        <option value="AFB">AFFIN BANK BERHAD</option>
+                        <option value="AHI">AFFIN HWANG INVESTMENT BANK BERHAD</option>
+                        <option value="ALI">ALLIANCE INVESTMENT BANK BERHAD</option>
+                        <option value="AMB">AMBANK (M) BERHAD</option>
+                        <option value="ABB">AMINVESTMENT BANK BERHAD</option>
+                        <option value="BBB">BANGKOK BANK BERHAD</option>
+                        <option value="BAM">BANK OF AMERICA MALAYSIA BERHAD</option>
+                        <option value="BOC">BANK OF CHINA (MALAYSIA) BERHAD</option>
+                        <option value="CCB">CHINA CONSTRUCTION BANK (MALAYSIA)</option>
+                        <option value="CBB">CIMB BANK BERHAD</option>
+                        <option value="CIB">CIMB INVESTMENT BANK BERHAD</option>
+                        <option value="CTB">CITIBANK BERHAD</option>
+                        <option value="DEB">DEUTSCHE BANK (MALAYSIA) BERHAD</option>
+                        <option value="HLB">HONG LEONG BANK BERHAD</option>
+                        <option value="HLI">HONG LEONG INVESTMENT BANK BERHAD</option>
+                        <option value="HBM">HSBC BANK MALAYSIA BERHAD</option>
+                        <option value="IIB">INDIA INTERNATIONAL BANK (MALAYSIA) BERHAD</option>
+                        <option value="IAC">INDUSTRIAL AND COMMERCIAL BANK OF CHINA (MALAYSIA) BERHAD</option>
+                        <option value="JPM">J.P MORGAN CHASE BANK BERHAD</option>
+                        <option value="KAF">KAF INVESTMENT BANK BERHAD</option>
+                        <option value="KIB">KENANGA INVESTMENT BANK BERHAD</option>
+                        <option value="MBB">MALAYAN BANKING BERHAD</option>
+                        <option value="MIB">MAYBANK INVESTMENT BANK BERHAD</option>
+                        <option value="MID">MIDF AMANAH INVESTMENT BANK BERHAD</option>
+                        <option value="MBM">MIZUHO BANK (MALAYSIA) BERHAD</option>
+                        <option value="MUF">MUFG BANK (MALAYSIA) BERHAD</option>
+                        <option value="OCB">OCBC BANK (MALAYSIA) BERHAD</option>
+                        <option value="PBB">PUBLIC BANK BERHAD</option>
+                        <option value="PIB">PUBLIC INVESTMENT BANK BERHAD</option>
+                        <option value="RBB">RHB BANK BERHAD</option>
+                        <option value="RIB">RHB INVESTMENT BANK BERHAD</option>
+                        <option value="SCB">STANDARD CHARTERED BANK MALAYSIA BERHAD</option>
+                        <option value="SMB">SUMITOMO MITSUI BANKING CORPORATION MALAYSIA BERHAD</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -270,14 +304,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label"> No. Pendaftaran / No. Kad Pengenalan
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Yang Didaftarkan di Sistem Bank
+                    <label class="form-control-label"> No. Pendaftaran / No. Kad Pengenalan Yang Didaftarkan di Sistem Bank
                         <span class="text-red">*</span>
                     </label>
                     <input class="form-control">
@@ -286,7 +313,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label class="form-control-label"> Jenis Bank
+                            <label class="form-control-label"> Jenis Akaun
                                 <span class="text-red">*</span>
                             </label>
                             <select class="form-control custom-select">
@@ -326,7 +353,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label">Surat Penolakan / Kueri / Pembatalan Program Yang Dikeluarkan SSM 
+                    <label class="form-control-label">Surat Penolakan / Kueri / Pembatalan Program Yang Dikeluarkan SSM berkaitan dengan transaksi
                         <span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
                     </label>
                     <div class="custom-file">

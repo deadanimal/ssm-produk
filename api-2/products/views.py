@@ -438,6 +438,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         if name_ == 'acgs':
             middleware_data = get_info_acgs(information_url, request_headers, registration_, entity_type_)
+            latest_doc_date = get_comp_prof(information_url, request_headers, registration_, entity_type_)['rocCompanyInfo']['latestDocUpdateDate']
+            middleware_data['latest_doc_date'] = latest_doc_date
             data_loaded = acgs(middleware_data, new_entity_id, language_)
 
         elif name_ == 'certificate_of_incorporation_registration':

@@ -42,4 +42,7 @@ def get_info_acgs_query(url, headers, registration_number):
    if parsed_response['errorMsg']:
       return False
    else:
-      return True
+      if parsed_response['flag'] == 'NO':
+         return False
+      else:
+         True

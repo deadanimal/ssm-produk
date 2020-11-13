@@ -49,7 +49,6 @@
             }
             .default-template p#disclaimer {
                 font-size: 10pt;
-                text-align: justify;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
@@ -94,7 +93,7 @@
             h4 {
                 font-size: 14pt;
             }
-            h4#end {
+            h4#end{
                 margin-top: 50px; 
                 font-size: 14pt;
             }
@@ -122,7 +121,7 @@
             {% for charge in data.charges_list %}
 
             {% if forloop.first %}
-                <p id="disclaimer">
+                <p id="disclaimer" style="text-align:justify">
                     <b>
                         ALTHOUGH ALL EFFORTS HAVE BEEN CARRIED OUT TO ENSURE THAT THE INFORMATION PROVIDED IS ACCURATE 
                         AND UP TO DATE, THE REGISTRAR OF COMPANIES WILL NOT BE LIABLE FOR ANY 
@@ -132,7 +131,7 @@
 
                 <h4 class="font-weight-bold text-center"><u> COMPANY CHARGES (DETAILS) </u></h4>
             {% else %}
-                <h4 class="font-weight-bold text-center" style="page-break-before: always; margin-top: 12rem;"><u> COMPANY CHARGES(DETAIL) </u></h4>
+                <h4 class="font-weight-bold text-center pg-break"><u> COMPANY CHARGES(DETAIL) </u></h4>
             {% endif %}
 
             <div class="table-responsive">
@@ -180,16 +179,16 @@
                             <p id="secondary">
                                 {{ charge.chargeeName }} <br/>
 
-                                {% if charge.chargeeAddr1 %}
-                                {{ charge.chargeeAddr1 }} <br/>
+                                {% if charge.chargeeAddr1 and charge.chargeeAddr1 != 'NULL' %}
+                                    {{ charge.chargeeAddr1 }} <br/>
                                 {% endif %}
 
-                                {% if charge.chargeeAddr2 %}
-                                {{ charge.chargeeAddr2 }} <br/>
+                                {% if charge.chargeeAddr2 and charge.chargeeAddr2 != 'NULL' %}
+                                    {{ charge.chargeeAddr2 }} <br/>
                                 {% endif %}
 
-                                {% if charge.chargeeAddr3 %}
-                                {{ charge.chargeeAddr3 }} <br/>
+                                {% if charge.chargeeAddr3 and charge.chargeeAddr3 != 'NULL' %}
+                                    {{ charge.chargeeAddr3 }} <br/>
                                 {% endif %}
                             </p>
                         </td>
@@ -210,7 +209,7 @@
                             {% if charge.typeOfInstrument %}
                                 {{ charge.typeOfInstrument }}
                             {% else %}
-                                N/A                                    
+                                NIL                                  
                             {% endif %}                                
                         </p></td>
                     </tr>   
@@ -234,10 +233,10 @@
                         <td><p id="secondary">CHARGE TYPE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
-                            {% if charge.chargeMortgageTypeString %}
-                                {{ charge.chargeMortgageTypeString }}
+                            {% if charge.chargeTypeString %}
+                                {{ charge.chargeTypeString }}
                             {% else %}
-                                N/A                                    
+                                NIL                                  
                             {% endif %}
                         </p></td>
                     </tr>       
@@ -246,7 +245,13 @@
                         <td><p id="secondary"></p></td>
                         <td><p id="secondary">CHARGE AMOUNT</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">RM{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                        <td><p id="secondary">
+                            {% if charge.chargeAmount != 0.00 %}
+                                RM{{ charge.chargeAmount | floatformat:2 | intcomma }}
+                            {% else %}
+                                {{charge.chargeMortgageTypeString}}
+                            {% endif %}
+                        </p></td>
                     </tr>   
                     
                     <tr style="height:10px;">
@@ -264,7 +269,7 @@
                             {% if charge.releaseDateString %}
                                 {{ charge.releaseDateString }}
                             {% else %}
-                                N/A
+                                NIL
                             {% endif %}
                         </p></td>
                     </tr> 
@@ -272,20 +277,22 @@
             </div> 
             {% endfor %}
 
-            <h4 id="end" class="font-weight-bold text-center">END OF REPORT</h4>
+            <div class="end-report">
+                <h4 class="font-weight-bold text-center">END OF REPORT</h4>
     
-            <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">THIS INFORMATION ARE FROM THE COMPANY'S DOCUMENT REGISTERED AS AT {{ data.company_info.latestDocUpdateDate}}. </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.</p>
-            <p style="margin-top:5px;margin-bottom:10px;font-size: 12pt" class="text-center">REGISTRAR OF COMPANIES</p>
+            <p style="margin-top:0;margin-bottom:0;font-size:12pt" class="text-center">THIS INFORMATION ARE FROM THE COMPANY'S DOCUMENT REGISTERED AS AT {{ data.company_info.latestDocUpdateDate}}. </p>  
+            <p style="margin-top:0;margin-bottom:0;font-size:12pt" class="text-center">THIS INFORMATION IS COMPUTER GENERATED. NO SIGNATURE IS REQUIRED.</p>
+            <p style="margin-top:5px;margin-bottom:10px;font-size:12pt" class="text-center">REGISTRAR OF COMPANIES</p>
+            </div>
         </div>
 
         <footer id="footer">
             <div class="row">
-                <p class="col text-center" style="margin-bottom:0px;font-size: 10pt">USER ID: huzree@pipe.my</p>
+                <p class="col text-center" style="margin-bottom:0px;font-size:10pt">USER ID: huzree@pipe.my</p>
             </div>
 
-            <p class="text-center" style="margin-bottom:0;font-size: 10pt">THIS COMPANY INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_time}}</p>  
-            <p class="text-center" style="margin-top:0; margin-bottom: 10px;font-size: 10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+            <p class="text-center" style="margin-bottom:0;font-size:10pt">THIS COMPANY INFORMATION IS GENERATED / PRINTED AS AT {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top:0; margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
         </footer>
     </body>
 </html>

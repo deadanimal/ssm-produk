@@ -1,6 +1,7 @@
 import string
 import pytz
 import json
+import locale
 
 from datetime import datetime
 from django.utils.timezone import make_aware
@@ -28,6 +29,12 @@ def acgs(mdw_1, mdw_2, lang):
 
     temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+
+    if lang == 'en':
+        temp_latest_doc_date = make_aware(datetime.strptime(mdw_1['latest_doc_date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y")
+    else:
+        # locale.setlocale(locale.LC_ALL, locale['locale_alias']['ms_my'])
+        temp_latest_doc_date = make_aware(datetime.strptime(mdw_1['latest_doc_date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y")
 
     temp_regAddress_address_1_old = data_mdw_1['regAddress']['address1']
     temp_regAddress_address_2_old = data_mdw_1['regAddress']['address2']
@@ -144,7 +151,8 @@ def acgs(mdw_1, mdw_2, lang):
         'regAddress_town': temp_regAddress_town_new,
         'extract_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
-        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
+        'latest_document_date': temp_latest_doc_date
     }
 
     return data_ready

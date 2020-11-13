@@ -260,6 +260,8 @@ def origin_country_mapping(temp_origin):
         temp_origin = 'MALAYSIA'
     elif temp_origin == 'SIN':
         temp_origin = 'SINGAPORE'
+    elif temp_origin == 'FRA':
+        temp_origin = 'FRANCE'
     
     return temp_origin
 
@@ -351,6 +353,21 @@ def charge_code(charge_code):
 
     return charge_name
 
+
+def charge_type(charge_code):
+
+    if charge_code == 'C':
+        charge_type_ = 'FIXED'
+    elif charge_code == 'D':
+        charge_type_ = 'FLOATING'
+    elif charge_code == 'X':
+        charge_type_ = 'FIXED AND FLOATING'
+    elif charge_code == 'E':
+        charge_type_ = 'EQUITABLE'
+    elif charge_code == 'O':
+        charge_type_ = 'FIXED AND/OR FLOATING'
+
+    return charge_type_
 
 def nationality_code(nationality_code, lang):
 

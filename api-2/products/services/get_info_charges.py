@@ -8,7 +8,7 @@ def get_info_charges(url, headers, registration_number, entity_type):
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inf="http://inf.ssm.com.my">
    <soapenv:Header/>
    <soapenv:Body>
-      <inf:getInfoChargeList>
+      <inf:getInfoCharges>
          <header>
             <customerId>SSMProduk</customerId>
             <customerReferenceNo>MBDDTest</customerReferenceNo>
@@ -26,7 +26,7 @@ def get_info_charges(url, headers, registration_number, entity_type):
                <type>INFOROCCHRGE</type>
             </supplyChargesReq>
          </request>
-      </inf:getInfoChargeList>
+      </inf:getInfoCharges>
    </soapenv:Body>
 </soapenv:Envelope>
 """
@@ -34,4 +34,4 @@ def get_info_charges(url, headers, registration_number, entity_type):
    response = requests.request("POST", url, data=payload, headers=headers)
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
-   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoChargeListResponse']['response']['getInfoChargeListReturn']
+   return middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoChargesResponse']['response']['getInfoChargesReturn']

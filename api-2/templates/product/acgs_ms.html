@@ -25,8 +25,8 @@
                 background-position: right top;
                 background-attachment:fixed;
                 background-size: 100% 100%;
-                margin: 4.01cm 2.48cm 3.34cm 2.48cm; 
-            }            
+                margin: 4.01cm 1.58cm 3.34cm 1.58cm; 
+            }      
 
             header#header {
                 position: fixed;
@@ -37,7 +37,7 @@
                 width: 100%;
             }
             img.logo {
-                height: 14rem !important;
+                height: 16rem !important;
             }
             html {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -53,8 +53,8 @@
                 text-align: justify;
             }
             .default-template p#primary {
-                word-spacing: 7pt;
-                font-size: 13pt;
+                word-spacing: 5pt;
+                font-size: 16pt; 
                 text-align: justify;
             }
             table tr.top table td.title {
@@ -84,11 +84,13 @@
                 padding-right: 2rem;
             }
             ol li {
-                margin-top: 0.6rem;
-                padding-left: 3rem;
-                padding-right: 3rem;
-                word-spacing: 7pt;
-                font-size: 13pt;
+                /* margin-top: 0.2rem; */
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-left: 4rem;
+                padding-right: 4rem;
+                word-spacing: 5pt;
+                font-size: 16pt;
                 text-align: justify;
             }
             footer#footer {
@@ -98,7 +100,7 @@
                 bottom: 0;
                 left: 0;
 
-                height: 7.5rem;
+                height: 12.5rem;
                 width: 100%;
             }
         </style>
@@ -112,13 +114,13 @@
         </header>
         
 
-        <div class="default-template container pg-start" style="padding-right: 220px; padding-top: 50px;">
+        <div class="default-template container pg-start" style="padding-right: 120px; padding-top: 50px;">
             <h1 class="font-weight-bold text-center mb-0" style="font-size: 32pt;">
                 PERAKUAN KEUTUHAN
                 SYARIKAT
             </h1>
 
-            <h2 class="font-weight-bold mt-0 text-center" style="font-size: 23pt;">
+            <h2 class="font-weight-bold mt-0 text-center" style="font-size: 23pt; margin-top: 30px;">
                 (Attestation of Company Good Standing)
             </h2>            
 
@@ -126,11 +128,11 @@
                 {{data.compName}}
             </h1>
 
-            <h1 class="font-weight-bold mb-7 text-center" style="font-size: 23pt; margin-top: 20px">
+            <h1 class="font-weight-bold mb-7 text-center" style="font-size: 23pt; margin-top: 5px">
                 {{data.compNoNew}} ({{data.compNoOld}})
             </h1>
             
-            <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px; margin-top: 60px">
+            <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px; margin-top: 30px">
                 Perakuan ini adalah untuk mengesahkan bahawa syarikat di 
                 atas telah diperbadankan pada {{data.incorpDate}} sebagai sebuah 
                 syarikat {% if data.compType == 'R' %}persendirian.
@@ -162,7 +164,7 @@
             </ol>
 
             <p id="primary" class="mt-0" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">
-                Butir-butir di atas adalah ekstrak daripada dokumen yang telah didaftarkan sehingga tarikh {{data.extract_date}}.
+                Butir-butir di atas adalah ekstrak daripada dokumen yang telah didaftarkan sehingga tarikh {{data.latest_document_date}}.
             </p>
 
             <p id="primary" class="mt-0 text-right" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">
@@ -182,7 +184,7 @@
             </p>
 
             <br> 
-            <p id="primary" style="margin-left: 30px; font-size: 23pt !important;">
+            <p id="primary" style="margin-left: 30px; font-size: 23pt !important; margin-bottom: 0 !important;">
                 <b>Keterangan Produk</b>
             </p>             
             <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px;">
@@ -193,7 +195,7 @@
 
 
             <br> 
-            <p id="primary" style="margin-left: 30px; font-size: 23pt !important;">
+            <p id="primary" style="margin-left: 30px; font-size: 23pt !important; margin-bottom: 0 !important;">
                 <b>Kriteria Produk ACGS</b>
             </p>                      
 
@@ -233,22 +235,22 @@
         </div>
 
         <footer id="footer">
-            <p style="margin-top:0;margin-bottom:0;font-size:8pt" class="text-center">
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">
                 PERAKUAN INI DIKELUARKAN BERDASARKAN MAKLUMAT TERKINI YANG TELAH DISERAHSIMPAN OLEH 
                 SYARIKAT DENGAN PENDAFTAR DAN TELAH MEMENUHI KRITERIA YANG DITETAPKAN. WALAUPUN 
                 SEGALA USAHA TELAH DILAKUKAN UNTUK MEMASTIKAN MAKLUMAT YANG DIBERIKAN ADALAH TEPAT DAN TERKINI,
                 PENDAFTAR TIDAK AKAN BERTANGGUNGJAWAB TERHADAP APA-APA KERUGIAN YANG TIMBUL DARIPADA APA-APA 
                 YANG TIDAK TEPAT ATAU MAKLUMAT YANG TERTINGGAL.
             </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size:8pt" class="text-center">
+            <p style="margin-top:0;margin-bottom:0;font-size:10pt" class="text-center">
                 MAKLUMAT INI ADALAH CETAKAN KOMPUTER. TANDATANGAN TIDAK DIPERLUKAN.
             </p>
 
             <div class="row">
-                <p class="col text-center" style="margin-bottom:0;font-size:8pt">USER ID: huzree@pipe.my</p>
+                <p class="col text-center" style="margin-bottom:0;font-size:10pt">USER ID: huzree@pipe.my</p>
             </div>
-            <p class="text-center" style="margin-bottom:0;font-size:8pt">MAKLUMAT SYARIKAT INI DIJANA / DICETAK PADA {{data.generated_time}}</p>  
-            <p class="text-center" style="margin-top: 0;margin-bottom:10px;font-size:8pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAX: 03-7721 4001</p>  
+            <p class="text-center" style="margin-bottom:0;font-size:10pt">PERAKUAN INI DIJANA / DICETAK PADA {{data.generated_time}}</p>  
+            <p class="text-center" style="margin-top: 0;margin-bottom:10px;font-size:10pt">MENARA SSM@SENTRAL, NO.7, JALAN STESEN SENTRAL 5, KUALA LUMPUR SENTRAL, 50623 KUALA LUMPUR<br>TEL: 03-7721 4000 FAKS: 03-7721 4001</p>  
         </footer>
     </body>
 </html>

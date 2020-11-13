@@ -5,14 +5,13 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-from products.helpers.mapping import comp_type_mapping, comp_status_mapping, comp_status_mapping, branch_code
+from products.helpers.mapping import comp_type_mapping, comp_status_mapping, branch_code
 
 def cert_incorp(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
     
-
     print(mdw_1)
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
@@ -80,22 +79,28 @@ def cert_incorp(mdw_1, mdw_2, lang):
         act_year = '1965'
     else:
         act_year = '2016'
-
+    
+    if mdw_1['companyStatus'] == 'R' and lang == 'en':
+        comp_status_ = 'PRIVATE'
+    elif mdw_1['companyStatus'] == 'U' and lang == 'en':
+        comp_status_ = 'PUBLIC'
+    elif mdw_1['companyStatus'] == 'R' and lang == 'ms':
+        comp_status_ = 'SYARIKAT PERSENDIRIAN'
+    elif mdw_1['companyStatus'] == 'U' and lang == 'ms':
+        comp_status_ = 'SYARIKAT AWAM'
 
     data_ready = {
         'mdw1': mdw_1,
         'mdw2': mdw_2,
-        'companyStatus': comp_status_mapping(mdw_1['companyStatus'],lang),
+        'companyStatus': comp_status_,
         'companyType': comp_type_mapping(mdw_1['companyType'],lang),
         'incorpDate': incorp_date_str,
-        'incorporate_day': incorp_date.day,
+        'incorporate_day': incorp_date.day + 1,
         'incorporate_month': incorp_month,
         'incorporate_year': incorp_date.year,
         'branch_name': branch_name,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %H:%M:%S"),
         'act_year': act_year
-
     }
-
 
     return data_ready
