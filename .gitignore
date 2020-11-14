@@ -8,5 +8,5 @@ misc
 
 Archive.zip
 
-script/data
+script/data/original/*.txt
 script/output
