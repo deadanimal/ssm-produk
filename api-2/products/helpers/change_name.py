@@ -17,9 +17,12 @@ def change_name(mdw_1, mdw_2, lang):
 
     incorp_date = data_mdw_1['incorpDate']
     incorp_date = make_aware(datetime.strptime(incorp_date, '%Y-%m-%dT%H:%M:%S.000Z'))
-    incorp_date_str = incorp_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    incorp_date = incorp_date.astimezone(pytz.timezone(time_zone))
+    incorp_date_str = incorp_date.strftime(date_format)
     
-    print(mdw_1)
+    print('_______')
+    print('change', mdw_1)
+    print('_______')
 
     if lang == 'ms':
         if incorp_date.month == 1:
@@ -72,62 +75,63 @@ def change_name(mdw_1, mdw_2, lang):
         elif incorp_date.month == 12:
             incorp_month = "December"      
 
-    change_name_date = data_mdw_1['dateOfChange']
-    change_name_date = make_aware(datetime.strptime(change_name_date, '%Y-%m-%dT%H:%M:%S.000Z'))
-    change_name_date_str = change_name_date.astimezone(pytz.timezone(time_zone)).strftime(date_format)   
+    change_date = data_mdw_1['dateOfChange']
+    change_date = make_aware(datetime.strptime(change_date, '%Y-%m-%dT%H:%M:%S.000Z'))
+    change_date = change_date.astimezone(pytz.timezone(time_zone))
+    change_date_str = change_date.strftime(date_format)   
 
     if lang == 'ms':
-        if change_name_date.month == 1:
-            change_name_month = "Januari"
-        elif change_name_date.month == 2:
-            change_name_month = "Februari"
-        elif change_name_date.month == 3:
-            change_name_month = "Mac"            
-        elif change_name_date.month == 4:
-            change_name_month = "April"            
-        elif change_name_date.month == 5:
-            change_name_month = "Mei"            
-        elif change_name_date.month == 6:
-            change_name_month = "Jun"            
-        elif change_name_date.month == 7:
-            change_name_month = "Julai"            
-        elif change_name_date.month == 8:
-            change_name_month = "Ogos"            
-        elif change_name_date.month == 9:
-            change_name_month = "September"            
-        elif change_name_date.month == 10:
-            change_name_month = "Oktober"            
-        elif change_name_date.month == 11:
-            change_name_month = "November"            
-        elif change_name_date.month == 12:
-            change_name_month = "Disember"  
+        if change_date.month == 1:
+            change_month = "Januari"
+        elif change_date.month == 2:
+            change_month = "Februari"
+        elif change_date.month == 3:
+            change_month = "Mac"            
+        elif change_date.month == 4:
+            change_month = "April"            
+        elif change_date.month == 5:
+            change_month = "Mei"            
+        elif change_date.month == 6:
+            change_month = "Jun"            
+        elif change_date.month == 7:
+            change_month = "Julai"            
+        elif change_date.month == 8:
+            change_month = "Ogos"            
+        elif change_date.month == 9:
+            change_month = "September"            
+        elif change_date.month == 10:
+            change_month = "Oktober"            
+        elif change_date.month == 11:
+            change_month = "November"            
+        elif change_date.month == 12:
+            change_month = "Disember"  
     else:
-        if change_name_date.month == 1:
-            change_name_month = "January"
-        elif change_name_date.month == 2:
-            change_name_month = "February"
-        elif change_name_date.month == 3:
-            change_name_month = "March"            
-        elif change_name_date.month == 4:
-            change_name_month = "April"            
-        elif change_name_date.month == 5:
-            change_name_month = "May"            
-        elif change_name_date.month == 6:
-            change_name_month = "June"            
-        elif change_name_date.month == 7:
-            change_name_month = "July"            
-        elif change_name_date.month == 8:
-            change_name_month = "August"            
-        elif change_name_date.month == 9:
-            change_name_month = "September"            
-        elif change_name_date.month == 10:
-            change_name_month = "October"            
-        elif change_name_date.month == 11:
-            change_name_month = "November"            
-        elif change_name_date.month == 12:
-            change_name_month = "December"                       
+        if change_date.month == 1:
+            change_month = "January"
+        elif change_date.month == 2:
+            change_month = "February"
+        elif change_date.month == 3:
+            change_month = "March"            
+        elif change_date.month == 4:
+            change_month = "April"            
+        elif change_date.month == 5:
+            change_month = "May"            
+        elif change_date.month == 6:
+            change_month = "June"            
+        elif change_date.month == 7:
+            change_month = "July"            
+        elif change_date.month == 8:
+            change_month = "August"            
+        elif change_date.month == 9:
+            change_month = "September"            
+        elif change_date.month == 10:
+            change_month = "October"            
+        elif change_date.month == 11:
+            change_month = "November"            
+        elif change_date.month == 12:
+            change_month = "December"                       
 
-    branch_name = branch_code(mdw_1['branchCode'])
+    branch = branch_code(mdw_1['branchCode'])
 
     act_year_enacted = datetime(year=2017,month=1, day=31).astimezone(pytz.timezone(time_zone))
     
@@ -145,11 +149,11 @@ def change_name(mdw_1, mdw_2, lang):
         'incorporate_day': incorp_date.day,
         'incorporate_month': incorp_month,
         'incorporate_year': incorp_date.year,
-        'change_name_date': change_name_date_str,
-        'change_name_day': change_name_date.day,
-        'change_name_month': change_name_month,
-        'change_name_year': incorp_date.year,        
-        'branch_name': branch_name,
+        'change_date': change_date_str,
+        'change_day': change_date.day,
+        'change_month': change_month,
+        'change_year': change_date.year,        
+        'branch': branch,
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %H:%M:%S"),
         'act_year': act_year
     }

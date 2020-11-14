@@ -50,7 +50,6 @@
             }
             .default-template p#disclaimer {
                 font-size: 10pt;
-                text-align: justify;
             }
             .default-template p#primary {
                 word-spacing: 7pt;
@@ -95,7 +94,7 @@
             h4 {
                 font-size: 14pt;
             }
-            h4#end {
+            h4#end{
                 margin-top: 50px; 
                 font-size: 14pt;
             }
@@ -123,7 +122,7 @@
             {% for charge in data.charges_list %}
 
             {% if forloop.first %}
-                <p id="disclaimer">
+                <p id="disclaimer" style="text-align:justify">
                     <b>
                         SUNGGUHPUN SEGALA USAHA TELAH DIAMBIL 
                         UNTUK MEMASTIKAN MAKLUMAT YANG DIBERI 
@@ -136,7 +135,7 @@
 
                 <h4 class="font-weight-bold text-center"><u> MAKLUMAT GADAIAN </u></h4>
             {% else %}
-                <h4 class="font-weight-bold text-center" style="page-break-before: always;margin-top: 12rem;"><u> MAKLUMAT GADAIAN </u></h4>
+                <h4 class="font-weight-bold text-center pg-break"><u> MAKLUMAT GADAIAN </u></h4>
             {% endif %}
 
             <div class="table-responsive">
@@ -184,15 +183,15 @@
                             <p id="secondary">
                                 {{ charge.chargeeName }}<br/>
 
-                                {% if charge.chargeeAddr1 %}
+                                {% if charge.chargeeAddr1 and charge.chargeeAddr1 != 'NULL' %}
                                 {{ charge.chargeeAddr1 }} <br/>
                                 {% endif %}
 
-                                {% if charge.chargeeAddr2 %}
+                                {% if charge.chargeeAddr2 and charge.chargeeAddr2 != 'NULL' %}
                                 {{ charge.chargeeAddr2 }} <br/>
                                 {% endif %}
 
-                                {% if charge.chargeeAddr3 %}
+                                {% if charge.chargeeAddr3 and charge.chargeeAddr3 != 'NULL'%}
                                 {{ charge.chargeeAddr3 }} <br/>
                                 {% endif %}
                             </p>
@@ -238,10 +237,10 @@
                         <td><p id="secondary">JENIS GADAIAN</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary">
-                            {% if charge.chargeMortgageTypeString %}
-                                {{ charge.chargeMortgageTypeString }}
+                            {% if charge.chargeTypeString %}
+                                {{ charge.chargeTypeString }}
                             {% else %}
-                                N/A                                    
+                                NIL                                  
                             {% endif %}
                         </p></td>
                     </tr>       
@@ -250,7 +249,13 @@
                         <td><p id="secondary"></p></td>
                         <td><p id="secondary">JUMLAH GADAIAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">RM{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                        <td><p id="secondary">
+                            {% if charge.chargeAmount != 0.00 %}
+                                RM{{ charge.chargeAmount | floatformat:2 | intcomma }}
+                            {% else %}
+                                {{charge.chargeMortgageTypeString}}
+                            {% endif %}
+                        </p></td>
                     </tr>   
                     
                     <tr style="height:10px;">
@@ -268,7 +273,7 @@
                             {% if charge.releaseDateString %}
                                 {{ charge.releaseDateString }}
                             {% else %}
-                                TIADA
+                                NIL
                             {% endif %}
                         </p></td>
                     </tr>
@@ -276,11 +281,13 @@
             </div> 
             {% endfor %}
 
-            <h4 id="end" class="font-weight-bold text-center">TAMAT LAPORAN</h4>      
+            <div class="end-report">
+                <h4 id="end" class="font-weight-bold text-center">TAMAT LAPORAN</h4>      
 
-            <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">MAKLUMAT INI ADALAH EKSTRAK DARIPADA DOKUMEN  SYARIKAT YANG DIDAFTARKAN SEHINGGA {{ data.company_info.latestDocUpdateDate}}. </p>  
-            <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">MAKLUMAT INI ADALAH CETAKAN KOMPUTER. TANDATANGAN TIDAK DIPERLUKAN.</p>
-            <p style="margin-top:5px;margin-bottom:10px;font-size: 12pt" class="text-center">PENDAFTAR SYARIKAT</p>
+                <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">MAKLUMAT INI ADALAH EKSTRAK DARIPADA DOKUMEN  SYARIKAT YANG DIDAFTARKAN SEHINGGA {{ data.company_info.latestDocUpdateDate}}. </p>  
+                <p style="margin-top:0;margin-bottom:0;font-size: 12pt" class="text-center">MAKLUMAT INI ADALAH CETAKAN KOMPUTER. TANDATANGAN TIDAK DIPERLUKAN.</p>
+                <p style="margin-top:5px;margin-bottom:10px;font-size: 12pt" class="text-center">PENDAFTAR SYARIKAT</p>
+            </div>
         </div>
 
         <footer id="footer">

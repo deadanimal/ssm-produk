@@ -71,7 +71,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         transactions = Transaction.objects.all().order_by('-created_date')
 
-        serializer = TransactionWithCartSerializer(transactions, many=True)
+        serializer = TransactionExtendedSerializer(transactions, many=True)
         return Response(serializer.data)
 
 

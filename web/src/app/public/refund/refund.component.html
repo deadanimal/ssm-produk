@@ -1,368 +1,580 @@
 <div class="wrapper">
     <div class="container pt-9">
-        <h3 class="title font-weight-bolder">REFUND</h3>
+        <h3 class="title font-weight-bolder">BORANG PERMOHONAN BAYARAN BALIK (REFUND)</h3>
 
-        <div class="card">
-            <div class="card-header">
-                <p class="my-0">Notes:</p>
-                <ol>
-                    <li>
-                        Semua permohonan bayaran balik hasil ke Suruhanjaya Syarikat Malaysia (SSM) 
-                        hendaklah dibuat melalui Borang Permohonan Bayaran Balik.
-                    </li>
-                    <li>
-                        Borang Permohonan Bayaran Balik yang lengkap hendaklah dikemukakan kepada SSM 
-                        melalui email refund[at]ssm.com.my. Dokumen sokongan berikut juga perlu dilampirkan semasa 
-                        permohonan dibuat:
-                        <ol>
-                            <li>
-                                Salinan resit rasmi SSM berkaitan transaksi yang dipohon;
-                            </li>
-                            <li>
-                                Salinan Surat Penolakan / Kueri / Pembatalan Progran yang 
-                                dikeluarkan dengan transaksi;
-                            </li>
-                            <li>
-                                Salinan bukti pembayaran yang berkaitan
-                            </li>
-                        </ol>
-                    </li>
-                    <li>
-                        Hanya permohonan bayaran balik yang lengkap sahaja akan diproses dalam tempoh 
-                        30 hari bekerja daripada tarikh penerimaan borang.
-                    </li>
-                    <li>
-                        Bayaran bagi permohonan bayaran balik yang diluluskan akan dibuat melalui arahan 
-                        pindahan melalui arahan pindahan terus ke akaun bank (electronic fund transfer).
-                    </li>
-                    <li>
-                        Sebarang pertanyaan berhubung status permohonan bayaran balik boleh dikemukakan melalui emel 
-                        kepada refund[at]ssm.com.my. Sila nyatakan nombor rujukan kes semasa berurusan.
-                    </li>
-                </ol>
+        <div *ngIf="!isAgree" class="mb-4">
+            <p class="my-0">Nota:</p>
+            <ol class="justify">
+                <li>
+                    Semua permohonan bayaran balik hasil ke Suruhanjaya Syarikat Malaysia (SSM) 
+                    hendaklah dibuat melalui Borang Permohonan Bayaran Balik.
+                </li>
+                <li>
+                    Borang Permohonan Bayaran Balik yang lengkap hendaklah dikemukakan kepada SSM 
+                    melalui emel <b>refundxcess@ssm.com.my</b>. Dokumen sokongan berikut juga perlu dilampirkan semasa 
+                    permohonan dibuat:
+                    <ol type="i">
+                        <li>
+                            Salinan resit rasmi SSM berkaitan transaksi yang dipohon;
+                        </li>
+                        <li>
+                            Salinan Surat Penolakan / Kueri / Pembatalan Progran yang 
+                            dikeluarkan dengan transaksi;
+                        </li>
+                        <li>
+                            Salinan bukti pembayaran yang berkaitan
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Hanya permohonan bayaran balik yang lengkap sahaja akan diproses dalam tempoh 
+                    30 hari bekerja daripada tarikh penerimaan borang.
+                </li>
+                <li>
+                    Bayaran bagi permohonan bayaran balik yang diluluskan akan dibuat melalui arahan 
+                    pindahan melalui arahan pindahan terus ke akaun bank (electronic fund transfer).
+                </li>
+                <li>
+                    Sebarang pertanyaan berhubung status permohonan bayaran balik boleh dikemukakan melalui emel 
+                    kepada <b>refundxcess@ssm.com.my</b>. Sila nyatakan nombor rujukan kes semasa berurusan.
+                </li>
+            </ol>
 
-                <div class="row justify-content-between text-center">
-                    <div class="mt--2 mx-auto">
-                        <img alt="Logo" class="mb-2 w-25" src="assets/img/logo/SSM-Logo.png" />
-                    </div>
-                </div>
-                <h4 class="mb-0 text-center">SURUHANJAYA SYARIKAT MALAYSIA</h4>
-                <p class="m-0 text-center">
-                    MENARA SSM @ SENTRAL <br />
-                    No 7, Jalan Stesen Sentral 5,<br />
-                    Kuala Lumpur Sentral,<br />
-                    50623 Kuala Lumpur.
-                </p>
-                <p class="m-0 text-center">
-                    Emel: refund[at]ssm.com.my
-                </p>
-
-                <h2 class="text-center py-1">BORANG PERMOHONAN BAYARAN BALIK (REFUND)</h2>
-            </div>
-            <div class="card-body">
-                <h5 class="heading mb-4">
-                    Maklumat Pemohon
-                </h5>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Nama Pemohon
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> No. KP/ Syarikat
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> No. Tel
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> Emel Aktif
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <h5 class="heading mb-4">
-                    Maklumat Berkaitan Bayaran Yang Dibuat
-                </h5>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Tarikh Transaksi
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control" type="date">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> No. Rujukan Transaksi
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-control-label"> Syarikat / PLT / Perniagaan / Program Latihan Yang Terlibat
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Aplikasi Pendaftaran
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Kaedah Bayaran
-                        <span class="text-red">*</span>
-                    </label>
-                    <select class="form-control custom-select">
-                        <option>Kredit Kad / Debit Kad</option>
-                        <option>Online Banking</option>
-                        <option>e-Wallet</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> No. Resit
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Jumlah Bayaran Balik Yang Dipohon
-                        <span class="text-red">*</span>
-                    </label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-secondary">
-                                RM
-                            </span>
-                        </div>
-                        <input class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Alasan Untuk Bayaran Balik
-                        <span class="text-red">*</span>
-                    </label>
-                    <select class="form-control custom-select">
-                        <option>Bayaran Berganda</option>
-                        <option>Bekalan Maklumat Tiada</option>
-                        <option>Kesilapan Memasukkan Nama Perniagaan Untuk pembelian Bekalan Maklumat</option>
-                        <option>Pembelian Bekalan Maklumat Yang Sama</option>
-                    </select>
-                </div>
-
-                <h5 class="heading mb-4">
-                    Maklumat Berkaitan Bayaran Yang Dibuat
-                </h5>
-                
-                <div class="form-group">
-                    <label class="form-control-label"> Nama Syarikat / Pemohon
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Nama Pemilik
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Alamat Syarikat
-                        <span class="text-red">*</span>
-                    </label>
-                    <textarea class="form-control"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Alamat Surat Menyurat
-                        <span class="text-red">*</span>
-                    </label>
-                    <textarea class="form-control"></textarea>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> No. Tel
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> Alamat Emel
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="form-control-label"> No. Faks
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <h5 class="heading mb-4">
-                    Maklumat Bank
-                </h5>
-                
-                <div class="form-group">
-                    <label class="form-control-label"> Nama Bank
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Nama Pemilik Akaun
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Alamat Bank
-                        <span class="text-red">*</span>
-                    </label>
-                    <textarea class="form-control"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> No. Akaun Bank
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> No. Pendaftaran / No. Kad Pengenalan
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label"> Yang Didaftarkan di Sistem Bank
-                        <span class="text-red">*</span>
-                    </label>
-                    <input class="form-control">
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> Jenis Bank
-                                <span class="text-red">*</span>
-                            </label>
-                            <select class="form-control custom-select">
-                                <option>Simpanan</option>
-                                <option>Semasa</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="form-control-label"> Cawangan Bank
-                                <span class="text-red">*</span>
-                            </label>
-                            <input class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <h5 class="heading mb-4">
-                    Muatnaik Dokumen
-                </h5>
-
-                <div class="form-group">
-                    <label class="form-control-label">Salinan Resit Rasmi SSM Yang Berkaitan Dengan Transaksi / Salinan Bukti Pembayaran
-                        <span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
-                    </label>
-                    <div class="custom-file">
-                        <input 
-                            type="file" 
-                            class="custom-file-input" 
-                            id="files" 
-                            lang="en"
-                        />
-                        <label class="custom-file-label" for="files">Select file</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label">Surat Penolakan / Kueri / Pembatalan Program Yang Dikeluarkan SSM 
-                        <span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
-                    </label>
-                    <div class="custom-file">
-                        <input 
-                            type="file" 
-                            class="custom-file-input" 
-                            id="files" 
-                            lang="en"
-                        />
-                        <label class="custom-file-label" for="files">Select file</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label">Salinan Muka Hadapan Penyata Bank
-                        <span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
-                    </label>
-                    <div class="custom-file">
-                        <input 
-                            type="file" 
-                            class="custom-file-input" 
-                            id="files" 
-                            lang="en"
-                        />
-                        <label class="custom-file-label" for="files">Select file</label>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button
-                        class="btn btn-ssm rounded-pill"
-                    >
-                        Submit
-                    </button>
-                </div>
+            <div class="text-center">
+                <button 
+                    class="btn btn-ssm rounded-pill"
+                    (click)="continueRefund()"
+                >
+                    Continue
+                </button>
             </div>
         </div>
+
+        <div *ngIf="isAgree">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row justify-content-between text-center">
+                        <div class="mt--2 mx-auto">
+                            <img alt="Logo" class="mb-2 w-25" src="assets/img/logo/SSM-Logo.png" />
+                        </div>
+                    </div>
+                    <h4 class="mb-0 text-center">SURUHANJAYA SYARIKAT MALAYSIA</h4>
+                    <p class="m-0 text-center">
+                        MENARA SSM @ SENTRAL <br />
+                        No 7, Jalan Stesen Sentral 5,<br />
+                        Kuala Lumpur Sentral,<br />
+                        50623 Kuala Lumpur.
+                    </p>
+                    <p class="m-0 text-center">
+                        Emel: <b>refundxcess@ssm.com.my</b>
+                    </p>
+    
+                    <h2 class="text-center py-1">BORANG PERMOHONAN BAYARAN BALIK (REFUND)</h2>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="refundForm">
+                        <h5 class="heading mb-4">
+                            MAKLUMAT PEMOHON
+                        </h5>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NAMA PEMOHON
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="name" 
+                                (input)="refundForm.controls['name'].patchValue(refundForm.value['name'].toUpperCase())"
+                            >
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NO. KP / SYARIKAT / PERNIAGAAN
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="id_number"
+                                (input)="refundForm.controls['id_number'].patchValue(refundForm.value['id_number'].toUpperCase())"
+                            >
+                        </div>
+        
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> NO. TEL
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <input class="form-control" formControlName="tel_number">
+    
+                                    <ng-container *ngFor="let message of refundFormMessages.tel_number">
+                                        <div *ngIf="refundForm.get('tel_number').hasError(message.type) && (refundForm.get('tel_number').dirty || refundForm.get('tel_number').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+        
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> EMEL AKTIF
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <input class="form-control" formControlName="email">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <h5 class="heading mb-4">
+                            MAKLUMAT BERKAITAN BAYARAN YANG DIBUAT
+                        </h5>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> TARIKH TRANSAKSI
+                                <span class="text-red">*</span>
+                            </label>
+                            <input class="form-control" type="date" formControlName="transaction_date">
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NO. RUJUKAN TRANSAKSI
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="transaction_reference_no"
+                                (input)="refundForm.controls['transaction_reference_no'].patchValue(refundForm.value['transaction_reference_no'].toUpperCase())"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label"> SYARIKAT / PLT / PERNIAGAAN YANG TERLIBAT
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="entity"
+                                (input)="refundForm.controls['entity'].patchValue(refundForm.value['entity'].toUpperCase())"
+                            >
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> APLIKASI PENDAFTARAN
+                                <span class="text-red">*</span>
+                            </label>
+                            <input class="form-control" value="XCESS PORTAL" disabled formControlName="registration_application">
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> KAEDAH BAYARAN
+                                <span class="text-red">*</span>
+                            </label>
+                            <select class="form-control custom-select" formControlName="payment_method">
+                                <option value="CC">KREDIT KAD / DEBIT KAD</option>
+                                <option value="OB">ONLINE BANKING</option>
+                                <option disabled>e-WALLET</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NO. RESIT
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control"
+                                formControlName="receipt_no"
+                                (input)="refundForm.controls['receipt_no'].patchValue(refundForm.value['receipt_no'].toUpperCase())">
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> JUMLAH BAYARAN BALIK YANG DIPOHON
+                                <span class="text-red">*</span>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-secondary">
+                                        RM
+                                    </span>
+                                </div>
+                                <input 
+                                    class="form-control" 
+                                    type="number" 
+                                    formControlName="total_payment_request"
+                                />
+                            </div>
+                            <ng-container *ngFor="let message of refundFormMessages.total_payment_request">
+                                <div *ngIf="refundForm.get('total_payment_request').hasError(message.type) && (refundForm.get('total_payment_request').dirty || refundForm.get('total_payment_request').touched)">
+                                    <p class="error-message"><span>{{ message.message }}</span></p>
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> ALASAN UNTUK BAYARAN BALIK
+                                <span class="text-red">*</span>
+                            </label>
+                            <select class="form-control custom-select" formControlName="reason">
+                                <ng-container *ngFor="let dropdown of dropdowns">
+                                    <option *ngIf="dropdown.active" value="{{dropdown.name}}">
+                                        {{dropdown.name}}
+                                    </option>
+                                </ng-container>
+                                <!-- <option value="BB">BAYARAN BERGANDA</option>
+                                <option value="BM">BEKALAN MAKLUMAT TIADA</option>
+                                <option value="KM">KESILAPAN MEMASUKKAN NAMA PERNIAGAAN UNTUK PEMBELIAN BEKALAN MAKLUMAT</option>
+                                <option value="PB">PEMBELIAN BEKALAN MAKLUMAT YANG SAMA</option> -->
+                            </select>
+                        </div>
+        
+                        <h5 class="heading mb-4">
+                            MAKLUMAT BERKAITAN BAYARAN YANG DIBUAT
+                        </h5>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label"> NAMA SYARIKAT / PERNIAGAAN / PLT
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="company_requestor_name"
+                                (input)="refundForm.controls['company_requestor_name'].patchValue(refundForm.value['company_requestor_name'].toUpperCase())">
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NAMA PEMILIK
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="company_owner_name"
+                                (input)="refundForm.controls['company_owner_name'].patchValue(refundForm.value['company_owner_name'].toUpperCase())">
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> ALAMAT PERNIAGAAN
+                                <span class="text-red">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                formControlName="company_address"
+                                (input)="refundForm.controls['company_address'].patchValue(refundForm.value['company_address'].toUpperCase())"></textarea>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> ALAMAT SURAT MENYURAT
+                                <span class="text-red">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                formControlName="company_mail_address"
+                                (input)="refundForm.controls['company_mail_address'].patchValue(refundForm.value['company_mail_address'].toUpperCase())"></textarea>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> NO. TEL
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <input class="form-control" formControlName="company_tel_number">
+    
+                                    <ng-container *ngFor="let message of refundFormMessages.company_tel_number">
+                                        <div *ngIf="refundForm.get('company_tel_number').hasError(message.type) && (refundForm.get('company_tel_number').dirty || refundForm.get('company_tel_number').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+        
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> ALAMAT EMEL
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <input class="form-control" formControlName="company_email">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label"> NO. FAKS
+                                        <span class="text-red"></span>
+                                    </label>
+                                    <input class="form-control" formControlName="company_fax_number">
+    
+                                    <ng-container *ngFor="let message of refundFormMessages.company_fax_number">
+                                        <div *ngIf="refundForm.get('company_fax_number').hasError(message.type) && (refundForm.get('company_fax_number').dirty || refundForm.get('company_fax_number').touched)">
+                                            <p class="error-message"><span>{{ message.message }}</span></p>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <h5 class="heading mb-4">
+                            MAKLUMAT BANK
+                        </h5>
+                        
+                        <div class="form-group">
+                            <label class="form-control-label"> NAMA BANK
+                                <span class="text-red">*</span>
+                            </label>
+                            <select class="form-control custom-select" formControlName="bank_name">
+                                <option value="AFB">AFFIN BANK BERHAD</option>
+                                <option value="AHI">AFFIN HWANG INVESTMENT BANK BERHAD</option>
+                                <option value="ALI">ALLIANCE INVESTMENT BANK BERHAD</option>
+                                <option value="AMB">AMBANK (M) BERHAD</option>
+                                <option value="ABB">AMINVESTMENT BANK BERHAD</option>
+                                <option value="BBB">BANGKOK BANK BERHAD</option>
+                                <option value="BAM">BANK OF AMERICA MALAYSIA BERHAD</option>
+                                <option value="BOC">BANK OF CHINA (MALAYSIA) BERHAD</option>
+                                <option value="CCB">CHINA CONSTRUCTION BANK (MALAYSIA)</option>
+                                <option value="CBB">CIMB BANK BERHAD</option>
+                                <option value="CIB">CIMB INVESTMENT BANK BERHAD</option>
+                                <option value="CTB">CITIBANK BERHAD</option>
+                                <option value="DEB">DEUTSCHE BANK (MALAYSIA) BERHAD</option>
+                                <option value="HLB">HONG LEONG BANK BERHAD</option>
+                                <option value="HLI">HONG LEONG INVESTMENT BANK BERHAD</option>
+                                <option value="HBM">HSBC BANK MALAYSIA BERHAD</option>
+                                <option value="IIB">INDIA INTERNATIONAL BANK (MALAYSIA) BERHAD</option>
+                                <option value="IAC">INDUSTRIAL AND COMMERCIAL BANK OF CHINA (MALAYSIA) BERHAD</option>
+                                <option value="JPM">J.P MORGAN CHASE BANK BERHAD</option>
+                                <option value="KAF">KAF INVESTMENT BANK BERHAD</option>
+                                <option value="KIB">KENANGA INVESTMENT BANK BERHAD</option>
+                                <option value="MBB">MALAYAN BANKING BERHAD</option>
+                                <option value="MIB">MAYBANK INVESTMENT BANK BERHAD</option>
+                                <option value="MID">MIDF AMANAH INVESTMENT BANK BERHAD</option>
+                                <option value="MBM">MIZUHO BANK (MALAYSIA) BERHAD</option>
+                                <option value="MUF">MUFG BANK (MALAYSIA) BERHAD</option>
+                                <option value="OCB">OCBC BANK (MALAYSIA) BERHAD</option>
+                                <option value="PBB">PUBLIC BANK BERHAD</option>
+                                <option value="PIB">PUBLIC INVESTMENT BANK BERHAD</option>
+                                <option value="RBB">RHB BANK BERHAD</option>
+                                <option value="RIB">RHB INVESTMENT BANK BERHAD</option>
+                                <option value="SCB">STANDARD CHARTERED BANK MALAYSIA BERHAD</option>
+                                <option value="SMB">SUMITOMO MITSUI BANKING CORPORATION MALAYSIA BERHAD</option>
+                            </select>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NAMA PEMILIK AKAUN
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="bank_account_owner"
+                                (input)="refundForm.controls['bank_account_owner'].patchValue(refundForm.value['bank_account_owner'].toUpperCase())"
+                            >
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> ALAMAT BANK
+                                <span class="text-red">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                formControlName="bank_address"
+                                (input)="refundForm.controls['bank_address'].patchValue(refundForm.value['bank_address'].toUpperCase())"
+                            ></textarea>
+                        </div>
+                        
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NO. AKAUN BANK
+                                <span class="text-red">*</span>
+                            </label>
+                            <input class="form-control" formControlName="bank_account_number">
+    
+                            <ng-container *ngFor="let message of refundFormMessages.bank_account_number">
+                                <div *ngIf="refundForm.get('bank_account_number').hasError(message.type) && (refundForm.get('bank_account_number').dirty || refundForm.get('bank_account_number').touched)">
+                                    <p class="error-message"><span>{{ message.message }}</span></p>
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label"> NO. PENDAFTARAN / NO. KAD PENGENALAN DIDAFTARKAN  DI SISTEM BANK
+                                <span class="text-red">*</span>
+                            </label>
+                            <input 
+                                class="form-control" 
+                                formControlName="bank_registered_nric"
+                                (input)="refundForm.controls['bank_registered_nric'].patchValue(refundForm.value['bank_registered_nric'].toUpperCase())"
+                            >
+                        </div>
+        
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> JENIS AKAUN
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <select class="form-control custom-select" formControlName="bank_account_type">
+                                        <option value="SP">SIMPANAN</option>
+                                        <option value="SM">SEMASA</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-control-label"> CAWANGAN BANK
+                                        <span class="text-red">*</span>
+                                    </label>
+                                    <input 
+                                        class="form-control" 
+                                        formControlName="bank_branch"
+                                        (input)="refundForm.controls['bank_branch'].patchValue(refundForm.value['bank_branch'].toUpperCase())"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+        
+                        <h5 class="heading mb-4">
+                            MUATNAIK DOKUMEN
+                        </h5>
+        
+                        <div class="form-group">
+                            <label class="form-control-label">SALINAN RESIT RASMI SSM YANG BERKAITAN DENGAN TRANSAKSI
+                                <span class="text-red">*</span>
+                            </label>
+                            <div class="custom-file">
+                                <input 
+                                    type="file" 
+                                    class="custom-file-input" 
+                                    id="files" 
+                                    lang="en"
+                                    (change)="onFileChange($event, 'attached_receipt')" 
+                                    accept=".pdf"
+                                />
+                                <label class="custom-file-label" for="files">Select file</label>
+                            </div>
+    
+                            <div>
+                                <p class="error-message"><span>*PDF FORMAT ONLY, 5MB MAXIMUM</span></p>
+                            </div>
+    
+                            <ng-container *ngIf="refundForm.value['attached_receipt']">
+                                <div>
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile('attached_receipt')"
+                                    >
+                                    </i>
+                                    {{fileNameReceipt}} [{{fileSizeReceipt/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label">SALINAN BUKTI PEMBAYARAN BERKAITAN DENGAN TRANSAKSI
+                                <span class="text-red">*</span>
+                            </label>
+                            <div class="custom-file">
+                                <input 
+                                    type="file" 
+                                    class="custom-file-input" 
+                                    id="files" 
+                                    lang="en"
+                                    (change)="onFileChange($event, 'attached_error_transaction')" 
+                                    accept=".pdf"
+                                />
+                                <label class="custom-file-label" for="files">Select file</label>
+                            </div>
+    
+                            <div>
+                                <p class="error-message"><span>*PDF FORMAT ONLY, 5MB MAXIMUM</span></p>
+                            </div>
+    
+                            <ng-container *ngIf="refundForm.value['attached_error_transaction']">
+                                <div>
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile('attached_error_transaction')"
+                                    >
+                                    </i>
+                                    {{fileNameError}} [{{fileSizeError/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="form-control-label">SALINAN MUKA HADAPAN PENYATA BANK (SEKIRANYA ADA)
+                                <span class="text-red"></span>
+                            </label>
+                            <div class="custom-file">
+                                <input 
+                                    type="file" 
+                                    class="custom-file-input" 
+                                    id="files" 
+                                    lang="en"
+                                    (change)="onFileChange($event, 'attached_bank_statement')" 
+                                    accept=".pdf"
+                                />
+                                <label class="custom-file-label" for="files">Select file</label>
+                            </div>
+    
+                            <div>
+                                <p class="error-message"><span>*PDF FORMAT ONLY, 5MB MAXIMUM</span></p>
+                            </div>
+    
+                            <ng-container *ngIf="refundForm.value['attached_bank_statement']">
+                                <div>
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile('attached_bank_statement')"
+                                    >
+                                    </i>
+                                    {{fileNameStatement}} [{{fileSizeStatement/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col">
+                                <p class="">* Mandatory fields.</p>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col">
+                                <div class="custom-control custom-checkbox">
+                                    <input 
+                                        type="checkbox" 
+                                        class="custom-control-input" 
+                                        id="checkRefund" 
+                                        formControlName="toc"
+                                    />
+                                    <label class="custom-control-label" for="checkRefund">
+                                        Saya mengesahkan bahawa kesemua maklumat diberikan
+                                        di dalam borang ini adalah benar dan sahih. Sekiranya 
+                                        maklumat ini didapati palsu, permohonan saya akan 
+                                        terbatal dengan serta merta.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+    
+                    <div class="text-center">
+                        <button
+                            class="btn btn-ssm rounded-pill"
+                            [disabled]="!refundForm.valid || !refundForm.value['toc']"
+                            (click)="submitRefundForm()"
+                        >
+                            SUBMIT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>     
     </div>
 </div>

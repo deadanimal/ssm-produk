@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
+from .mapping import charge_type
+
 def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
     
 
@@ -53,6 +55,8 @@ def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
             charge['chargeMortgageTypeString'] = 'AMOUNT'                
         elif charge['chargeMortgageType'] == 'M':
             charge['chargeMortgageTypeString'] = 'MULTIPLE CURRENCIES'   
+        
+        charge['chargeTypeString'] = charge_type(charge['chargeType'])
 
         # print(charge['chargeAmount'])
         if 'chargeAmount' in charge and charge['chargeAmount'] != None:

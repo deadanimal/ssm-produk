@@ -15,6 +15,7 @@ export class TransactionsService {
   // URL
   public urlTransactions: string = environment.baseUrl + 'v1/transactions/'
   public urlTransactionsExtended: string = environment.baseUrl + 'v1/transactions/with_cart/'
+  public dropdownsURL: string = environment.baseUrl + 'v1/refund-dropdowns/';
 
   // Data
   public transaction: any
@@ -109,6 +110,16 @@ export class TransactionsService {
       tap((res) => {
         // this. = res
         console.log('Updated: ', res)
+      })
+    )
+  }
+
+  getDropdowns(): Observable<any> {
+    let urlTemp = this.dropdownsURL + '?ordering=-created_date'
+    return this.http.get<any>(urlTemp).pipe(
+      tap((res) => {
+        // console.log('Topics: ', res)
+        // this.tickets = res
       })
     )
   }
