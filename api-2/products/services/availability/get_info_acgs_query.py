@@ -38,11 +38,14 @@ def get_info_acgs_query(url, headers, registration_number):
    response_xml = response.content
    middleware_response_json = json.loads(json.dumps(xmltodict.parse(response_xml)))
    parsed_response = middleware_response_json['soapenv:Envelope']['soapenv:Body']['inf:getInfoAcgsQueryResponse']['response']['getInfoAcgsQueryReturn']
+   
+   # print('________')
    # print('acgs', parsed_response)
+   # print('________')
    if parsed_response['errorMsg']:
       return False
    else:
       if parsed_response['flag'] == 'NO':
-         return False
+         return True # False
       else:
          True

@@ -7,3 +7,6 @@ misc
 *.DS_Store
 
 Archive.zip
+
+script/data
+script/output

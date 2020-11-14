@@ -131,7 +131,8 @@
 
             <p id="primary" class="mt-7" style="margin-left: 30px; margin-right: 30px; margin-top: 30px">
                 This is to confirm that the above company was incorporated on
-                {{data.incorpDate}} as a {% if data.compType == 'R' %}private
+                {{data.incorporate_day}} {{data.incorporate_month}}  {{data.incorporate_year}} 
+                as a {% if data.compType == 'R' %}private
                 {% endif %}{% if data.compType == 'U' %}public
                 {% endif %}company. The company has complied with 
                 the requirements for the issuance of this attestation and in 
@@ -162,7 +163,7 @@
             </ol>
 
             <p id="primary" class="mt-0" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">
-                The above particulars are extracted from documents registered as at {{data.latest_document_date}}.
+                The above particulars are extracted from documents registered as at {{data.latest_doc_day}} {{data.latest_doc_month}}  {{data.latest_doc_year}}.
             </p>
 
             <p id="primary" class="mt-0 text-right" style="margin-left: 30px; margin-right: 30px; margin-top: 40px">

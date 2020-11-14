@@ -19,7 +19,7 @@
                             <li class="breadcrumb-item">
                                 <a href="javascript:void(0)" class="text-dark"> Master Transaction Table </a>
                             </li>
-                            <li aria-current="page" class="breadcrumb-item active">
+                            <li aria-current="page" class="breadcrumb-item text-dark">
                                 Detailed Report
                             </li>
                         </ol>
@@ -127,7 +127,7 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="140"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -141,7 +141,21 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Customer ID</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -159,7 +173,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column
+                        <!-- <ngx-datatable-column
                             [width]="180"
                             [sortable]="true"
                             [resizeable]="false"
@@ -252,10 +266,10 @@
                                     N/A
                                 </span>
                             </ng-template>
-                        </ngx-datatable-column>
-
+                        </ngx-datatable-column> -->
+                        
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -274,7 +288,7 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -293,7 +307,7 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -312,7 +326,7 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="180"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                         >
@@ -322,6 +336,118 @@
 
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 Malaysia
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Product Type</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Product Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Entity Name</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Entity Number</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Product Fee</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span> Discount Charge </span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                        [width]="200"
+                        [sortable]="true"
+                        [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span> Tax Amount </span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span> CA Charge </span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -340,7 +466,134 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="140"
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="transaction_id"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Transaction ID</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.transaction_id}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="transaction_id"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Transaction Date</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+   
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="transaction_id"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Transaction Time</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+   
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="transaction_id"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Transaction Date</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+   
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_method"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Payment Method</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.payment_method == 'DD'">Direct Debit</span>
+                                <span *ngIf="row.payment_method == 'CC'">Credit Card</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Net Amount</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Charge Amount</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Receipt No.</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="payment_status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Receipt Time</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="payment_status"
@@ -359,7 +612,7 @@
                         </ngx-datatable-column>
 
                         <ngx-datatable-column
-                            [width]="140"
+                            [width]="200"
                             [sortable]="true"
                             [resizeable]="false"
                             prop="receipt_no"
@@ -371,6 +624,22 @@
                                 {{row.receipt_no}}
                             </ng-template>
                         </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="200"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="reference"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Reference ID</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.reference}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        
                     </ngx-datatable>
                 </div>
             </div>

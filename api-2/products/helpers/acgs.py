@@ -27,14 +27,117 @@ def acgs(mdw_1, mdw_2, lang):
 
     print(mdw_1)
 
-    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    incorp_date = data_mdw_1['incorpDate']
+    incorp_date = make_aware(datetime.strptime(incorp_date, '%Y-%m-%dT%H:%M:%S.000Z'))
+    incorp_date = incorp_date.astimezone(pytz.timezone(time_zone))
+    incorp_date_str = incorp_date.strftime("%d %B %Y")
 
-    if lang == 'en':
-        temp_latest_doc_date = make_aware(datetime.strptime(mdw_1['latest_doc_date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y")
+    if lang == 'ms':
+        if incorp_date.month == 1:
+            incorp_month = "Januari"
+        elif incorp_date.month == 2:
+            incorp_month = "Februari"
+        elif incorp_date.month == 3:
+            incorp_month = "Mac"            
+        elif incorp_date.month == 4:
+            incorp_month = "April"            
+        elif incorp_date.month == 5:
+            incorp_month = "Mei"            
+        elif incorp_date.month == 6:
+            incorp_month = "Jun"            
+        elif incorp_date.month == 7:
+            incorp_month = "Julai"            
+        elif incorp_date.month == 8:
+            incorp_month = "Ogos"            
+        elif incorp_date.month == 9:
+            incorp_month = "September"            
+        elif incorp_date.month == 10:
+            incorp_month = "Oktober"            
+        elif incorp_date.month == 11:
+            incorp_month = "November"            
+        elif incorp_date.month == 12:
+            incorp_month = "Disember"  
     else:
-        # locale.setlocale(locale.LC_ALL, locale['locale_alias']['ms_my'])
-        temp_latest_doc_date = make_aware(datetime.strptime(mdw_1['latest_doc_date'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y")
+        if incorp_date.month == 1:
+            incorp_month = "January"
+        elif incorp_date.month == 2:
+            incorp_month = "February"
+        elif incorp_date.month == 3:
+            incorp_month = "March"            
+        elif incorp_date.month == 4:
+            incorp_month = "April"            
+        elif incorp_date.month == 5:
+            incorp_month = "May"            
+        elif incorp_date.month == 6:
+            incorp_month = "June"            
+        elif incorp_date.month == 7:
+            incorp_month = "July"            
+        elif incorp_date.month == 8:
+            incorp_month = "August"            
+        elif incorp_date.month == 9:
+            incorp_month = "September"            
+        elif incorp_date.month == 10:
+            incorp_month = "October"            
+        elif incorp_date.month == 11:
+            incorp_month = "November"            
+        elif incorp_date.month == 12:
+            incorp_month = "December"
+
+    latest_doc_date = data_mdw_1['latest_doc_date']
+    latest_doc_date = make_aware(datetime.strptime(latest_doc_date, '%Y-%m-%dT%H:%M:%S.000Z'))
+    latest_doc_date = latest_doc_date.astimezone(pytz.timezone(time_zone))
+    latest_doc_date_str = latest_doc_date.strftime("%d %B %Y")
+
+    if lang == 'ms':
+        if latest_doc_date.month == 1:
+            latest_doc_month = "Januari"
+        elif latest_doc_date.month == 2:
+            latest_doc_month = "Februari"
+        elif latest_doc_date.month == 3:
+            latest_doc_month = "Mac"            
+        elif latest_doc_date.month == 4:
+            latest_doc_month = "April"            
+        elif latest_doc_date.month == 5:
+            latest_doc_month = "Mei"            
+        elif latest_doc_date.month == 6:
+            latest_doc_month = "Jun"            
+        elif latest_doc_date.month == 7:
+            latest_doc_month = "Julai"            
+        elif latest_doc_date.month == 8:
+            latest_doc_month = "Ogos"            
+        elif latest_doc_date.month == 9:
+            latest_doc_month = "September"            
+        elif latest_doc_date.month == 10:
+            latest_doc_month = "Oktober"            
+        elif latest_doc_date.month == 11:
+            latest_doc_month = "November"            
+        elif latest_doc_date.month == 12:
+            latest_doc_month = "Disember"  
+    else:
+        if latest_doc_date.month == 1:
+            latest_doc_month = "January"
+        elif latest_doc_date.month == 2:
+            latest_doc_month = "February"
+        elif latest_doc_date.month == 3:
+            latest_doc_month = "March"            
+        elif latest_doc_date.month == 4:
+            latest_doc_month = "April"            
+        elif latest_doc_date.month == 5:
+            latest_doc_month = "May"            
+        elif latest_doc_date.month == 6:
+            latest_doc_month = "June"            
+        elif latest_doc_date.month == 7:
+            latest_doc_month = "July"            
+        elif latest_doc_date.month == 8:
+            latest_doc_month = "August"            
+        elif latest_doc_date.month == 9:
+            latest_doc_month = "September"            
+        elif latest_doc_date.month == 10:
+            latest_doc_month = "October"            
+        elif latest_doc_date.month == 11:
+            latest_doc_month = "November"            
+        elif latest_doc_date.month == 12:
+            latest_doc_month = "December"
 
     temp_regAddress_address_1_old = data_mdw_1['regAddress']['address1']
     temp_regAddress_address_2_old = data_mdw_1['regAddress']['address2']
@@ -142,7 +245,10 @@ def acgs(mdw_1, mdw_2, lang):
         'isIncorp18Months': data_mdw_1['isIncorp18Months'],
         'isLatestArLodged': data_mdw_1['isLatestArLodged'],
         'isRegAddrExist': data_mdw_1['isRegAddrExist'],
-        'incorpDate': temp_incorpDate_new,
+        'incorpDate': incorp_date_str,
+        'incorporate_day': incorp_date.day,
+        'incorporate_month': incorp_month,
+        'incorporate_year': incorp_date.year,
         'regAddress_address1': temp_regAddress_address_1_new.title(),
         'regAddress_address2': temp_regAddress_address_2_new,
         'regAddress_address3': temp_regAddress_address_3_new,
@@ -152,7 +258,10 @@ def acgs(mdw_1, mdw_2, lang):
         'extract_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d %B %Y"),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
         'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
-        'latest_document_date': temp_latest_doc_date
+        'latestDocDate': latest_doc_date_str,
+        'latest_doc_day': latest_doc_date.day,
+        'latest_doc_month': latest_doc_month,
+        'latest_doc_year': latest_doc_date.year
     }
 
     return data_ready
