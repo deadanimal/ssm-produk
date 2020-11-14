@@ -6,11 +6,7 @@ misc
 
 *.DS_Store
 
-<<<<<<< HEAD
 Archive.zip
 
 script/data/original/*.txt
 script/output
-=======
-Archive.zip
->>>>>>> d37a34d91d45e7c42be0e25a8c12b10ef8dae024
