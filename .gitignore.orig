@@ -1,0 +1,12 @@
+node_modules
+*env
+misc
+
+*.pyc
+
+*.DS_Store
+
+Archive.zip
+
+script/data/original/*.txt
+script/output
