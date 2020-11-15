@@ -36,18 +36,18 @@ class Entity(models.Model):
         default='CP'
     )
 
-    check_digit = models.CharField(max_length=2, default='NA')
+    check_digit = models.CharField(max_length=2, blank=True, null=True)
 
     # Business
-    registration_number = models.CharField(max_length=20, default='NA')
-    registration_number_new = models.CharField(max_length=20, default='NA')
+    registration_number = models.CharField(max_length=20, blank=True, null=True)
+    registration_number_new = models.CharField(max_length=20, blank=True, null=True)
 
     # Company
-    company_number = models.CharField(max_length=20, default='NA')
-    company_number_new = models.CharField(max_length=20, default='NA')
+    company_number = models.CharField(max_length=20, blank=True, null=True)
+    company_number_new = models.CharField(max_length=20, blank=True, null=True)
 
     # Audit firm
-    audit_firm_number = models.CharField(max_length=20, default='NA')
+    audit_firm_number = models.CharField(max_length=20, blank=True, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

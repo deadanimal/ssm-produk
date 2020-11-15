@@ -484,23 +484,29 @@ export class ProductSearchResultComponent implements OnInit {
 
   addCart(selected) {
     console.log('clicked', selected.value)
+    let product_found = false
+
     this.products.forEach(
       (product) => {
-        if (selected.value['language'] == 'BT') {
+        if (selected.value['language'] == 'BT' && !product_found) {
           if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product['ctc'] &&
-            product['language'] == 'MS'
+            product['language'] == 'MS' &&
+            !product_found
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
+            product_found = true
             this.addItem()
           }
           else if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product ['ctc'] &&
-            product['language'] == 'EN'
+            product['language'] == 'EN' &&
+            !product_found
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
+            product_found = true
             this.addItem()
           }
         }
@@ -508,9 +514,11 @@ export class ProductSearchResultComponent implements OnInit {
           if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product['ctc'] &&
-            selected.value['language'] == product['language']
+            selected.value['language'] == product['language'] &&
+            !product_found
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
+            product_found = true
             this.addItem()
           }
         }
@@ -553,7 +561,7 @@ export class ProductSearchResultComponent implements OnInit {
     let title = 'Success'
     let message = 'Item is added to the cart'
     this.loadingBar.useRef('http').start()
-    console.log('erqerqwrqwr', this.cartForm.value)
+    console.log('Item to add to cart: ', this.cartForm.value)
     this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()

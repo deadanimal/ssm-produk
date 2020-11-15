@@ -5,12 +5,18 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
+from .mapping import state_mapping, origin_country_mapping
+
 def info_acgs(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
-    print(data_mdw_1['compName'])
+    # print(data_mdw_1['compName'])
+
+    print('_____________')
+    print('info_acgs:   ', data_mdw_1)
+    print('_____________')
 
     date_format = "%d %B %Y"
     time_zone = 'Asia/Kuala_Lumpur'
@@ -74,48 +80,7 @@ def info_acgs(mdw_1, mdw_2, lang):
     elif temp_regAddress_state_old == None:
         temp_regAddress_state_new = None
     else:
-        temp_regAddress_state_new = temp_regAddress_state_old
-
-    if temp_regAddress_state_old == 'R':
-        temp_regAddress_state_new = 'Perlis'
-    elif temp_regAddress_state_old == 'K':
-        temp_regAddress_state_new = 'Kedah'
-    elif temp_regAddress_state_old == 'P':
-        temp_regAddress_state_new = 'Pulau Pinang'
-    elif temp_regAddress_state_old == 'D':
-        temp_regAddress_state_new = 'Kelantan'
-    elif temp_regAddress_state_old == 'T':
-        temp_regAddress_state_new = 'Terengganu'
-    elif temp_regAddress_state_old == 'A':
-        temp_regAddress_state_new = 'Perak'
-    elif temp_regAddress_state_old == 'B':
-        temp_regAddress_state_new = 'Selangor'
-    elif temp_regAddress_state_old == 'C':
-        temp_regAddress_state_new = 'Pahang'
-    elif temp_regAddress_state_old == 'M':
-        temp_regAddress_state_new = 'Melaka'
-    elif temp_regAddress_state_old == 'J':
-        temp_regAddress_state_new = 'Johor'
-    elif temp_regAddress_state_old == 'X':
-        temp_regAddress_state_new = 'Sabah'
-    elif temp_regAddress_state_old == 'Y':
-        temp_regAddress_state_new = 'Sarawak'
-    elif temp_regAddress_state_old == 'L':
-        temp_regAddress_state_new = 'Labuan'
-    elif temp_regAddress_state_old == 'W':
-        temp_regAddress_state_new = 'Wilayah Persekutuan'
-    elif temp_regAddress_state_old == 'Q':
-        temp_regAddress_state_new = 'Singapura'
-    elif temp_regAddress_state_old == 'U':
-        temp_regAddress_state_new = 'Wilayah Persekutuan Putrajaya'
-    elif temp_regAddress_state_old == 'F':
-        temp_regAddress_state_new = 'Foreign'
-    elif temp_regAddress_state_old == 'I':
-        temp_regAddress_state_new = 'Internet'
-    elif temp_regAddress_state_old == 'S':
-        temp_regAddress_state_new = 'Sabah'
-    elif temp_regAddress_state_old == 'E':
-        temp_regAddress_state_new = 'Sarawak'
+        temp_regAddress_state_new = state_mapping(temp_regAddress_state_old)
 
     data_ready = {
         'ci_': data_mdw_1['compName'],

@@ -30,6 +30,11 @@ class Transaction(models.Model):
 
         ('NA', 'Not Available')
     ]
+
+    transaction_type = models.CharField(max_length=255, blank=True, null=True)
+    transaction_message = models.CharField(max_length=255, blank=True, null=True)
+    card_holder = models.CharField(max_length=255, blank=True, null=True)
+    card_no_mask = models.CharField(max_length=255, blank=True, null=True)
     
     payment_status = models.CharField(choices=PAYMENT_STATUS, max_length=2, default='PD')    
     payment_gateway_update_date = models.DateTimeField(null=True) 

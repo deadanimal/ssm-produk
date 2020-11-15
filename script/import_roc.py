@@ -6,7 +6,7 @@ import xlrd
 import csv
 
 
-with open('data/roc.txt', mode='r') as txt_file:
+with open('output/roc.json', mode='r') as txt_file:
     txt_reader = csv.reader(txt_file, delimiter='|')
     fields = [next(txt_reader)]
     base_url = 'https://ssm-product-api.pipe.my/'

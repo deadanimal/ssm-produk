@@ -15,7 +15,9 @@ def particular_audit_firm(mdw_1, mdw_2, lang):
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
-    print('asdasdasdasdas >>>>>>> ', data_mdw_1)
+    print('____________   ')
+    print('particular_audit_firm: ', data_mdw_1)
+    print('____________   ')
 
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'

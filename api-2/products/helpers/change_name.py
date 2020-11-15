@@ -21,7 +21,7 @@ def change_name(mdw_1, mdw_2, lang):
     incorp_date_str = incorp_date.strftime(date_format)
     
     print('_______')
-    print('change', mdw_1)
+    print('change_name:     ', mdw_1)
     print('_______')
 
     if lang == 'ms':

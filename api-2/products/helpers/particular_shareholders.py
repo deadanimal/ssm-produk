@@ -13,6 +13,10 @@ def particular_shareholders(mdw_1, mdw_2, lang, entity_type):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
+    print('____________   ')
+    print('particular_shareholder: ', data_mdw_1)
+    print('____________   ')
+
     data_ready = {
         'mdw1': mdw_1,
         'mdw2': mdw_2,

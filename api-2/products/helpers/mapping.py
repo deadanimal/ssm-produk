@@ -52,13 +52,88 @@ def state_mapping(temp_state):
 
 def time_mapping(temp_time):
 
-    date_format = "%d-%m-%Y"
+    date_format = '%d-%m-%Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
     temp_time = make_aware(datetime.strptime(temp_time, '%Y-%m-%dT%H:%M:%S.000Z'))
     temp_time = temp_time.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
     return temp_time
+
+def time_mapping_aware(temp_time):
+
+    date_format = '%d %B %Y'
+    time_zone = 'Asia/Kuala_Lumpur'
+
+    temp_time = make_aware(datetime.strptime(temp_time, '%Y-%m-%dT%H:%M:%S.000Z'))
+    temp_time = temp_time.astimezone(pytz.timezone(time_zone))
+
+    return temp_time
+
+def time_mapping_string(temp_time):
+
+    date_format = '%d %B %Y'
+    time_zone = 'Asia/Kuala_Lumpur'
+
+    temp_time = temp_time.strftime(date_format)
+
+    return temp_time
+
+def month_mapping(temp_month, lang):
+
+    if lang == 'ms':
+        if temp_month == 1:
+            month_string = 'Januari'
+        elif temp_month == 2:
+            month_string = 'Februari'
+        elif temp_month == 3:
+            month_string = 'Mac'            
+        elif temp_month == 4:
+            month_string = 'April'            
+        elif temp_month == 5:
+            month_string = 'Mei'            
+        elif temp_month == 6:
+            month_string = 'Jun'            
+        elif temp_month == 7:
+            month_string = 'Julai'            
+        elif temp_month == 8:
+            month_string = 'Ogos'            
+        elif temp_month == 9:
+            month_string = 'September'            
+        elif temp_month == 10:
+            month_string = 'Oktober'            
+        elif temp_month == 11:
+            month_string = 'November'            
+        elif temp_month == 12:
+            month_string = 'Disember'  
+    else:
+        if temp_month == 1:
+            month_string = 'January'
+        elif temp_month == 2:
+            month_string = 'February'
+        elif temp_month == 3:
+            month_string = 'March'            
+        elif temp_month == 4:
+            month_string = 'April'            
+        elif temp_month == 5:
+            month_string = 'May'            
+        elif temp_month == 6:
+            month_string = 'June'            
+        elif temp_month == 7:
+            month_string = 'July'            
+        elif temp_month == 8:
+            month_string = 'August'            
+        elif temp_month == 9:
+            month_string = 'September'            
+        elif temp_month == 10:
+            month_string = 'October'            
+        elif temp_month == 11:
+            month_string = 'November'            
+        elif temp_month == 12:
+            month_string = 'December'
+    
+    return month_string
+
 
 def status_mapping(temp_status, lang):
 
@@ -104,42 +179,80 @@ def status_biz_mapping(temp_status, lang):
 
 def race_mapping(temp_race, lang):
 
-    if temp_race == 'M':
-        temp_race = 'MELAYU'
-    elif temp_race == 'C':
-        temp_race = 'CINA'
-    elif temp_race == 'I':
-        temp_race = 'INDIA'
-    elif temp_race == 'R':
-        temp_race = 'PERSENDIRIAN (SDN BHD)'
-    elif temp_race == 'U':
-        temp_race = 'UMUM (SYKT AWAM)'
-    elif temp_race == 'F':
-        temp_race = 'FOREIGNER'
-    elif temp_race == 'S':
-        temp_race = 'PERNIAGAAN'
-    elif temp_race == 'A':
-        temp_race = 'PERBADANAN'
-    elif temp_race == 'K':
-        temp_race = 'KADAZAN'
-    elif temp_race == 'D':
-        temp_race = 'DUSUN'
-    elif temp_race == 'J':
-        temp_race = 'BAJAU'
-    elif temp_race == 'Y':
-        temp_race = 'BIDAYUH'
-    elif temp_race == 'T':
-        temp_race = 'IBAN'
-    elif temp_race == 'E':
-        temp_race = 'MELANAU'
-    elif temp_race == 'O':
-        temp_race = 'LAIN-LAIN BANGSA'
-    elif temp_race == 'N':
-        temp_race = 'NATIVE'
-    elif temp_race == 'B':
-        temp_race = 'BUMIPUTERA SABAH'
-    elif temp_race == 'W':
-        temp_race = 'BUMIPUTERA SARAWAK'
+    if lang == 'ms':
+        if temp_race == 'M':
+            temp_race = 'MELAYU'
+        elif temp_race == 'C':
+            temp_race = 'CINA'
+        elif temp_race == 'I':
+            temp_race = 'INDIA'
+        elif temp_race == 'R':
+            temp_race = 'PERSENDIRIAN (SDN BHD)'
+        elif temp_race == 'U':
+            temp_race = 'UMUM (SYKT AWAM)'
+        elif temp_race == 'F':
+            temp_race = 'ASING'
+        elif temp_race == 'S':
+            temp_race = 'PERNIAGAAN'
+        elif temp_race == 'A':
+            temp_race = 'PERBADANAN'
+        elif temp_race == 'K':
+            temp_race = 'KADAZAN'
+        elif temp_race == 'D':
+            temp_race = 'DUSUN'
+        elif temp_race == 'J':
+            temp_race = 'BAJAU'
+        elif temp_race == 'Y':
+            temp_race = 'BIDAYUH'
+        elif temp_race == 'T':
+            temp_race = 'IBAN'
+        elif temp_race == 'E':
+            temp_race = 'MELANAU'
+        elif temp_race == 'O':
+            temp_race = 'LAIN-LAIN BANGSA'
+        elif temp_race == 'N':
+            temp_race = 'NATIVE'
+        elif temp_race == 'B':
+            temp_race = 'BUMIPUTERA SABAH'
+        elif temp_race == 'W':
+            temp_race = 'BUMIPUTERA SARAWAK'
+    elif lang == 'en':
+        if temp_race == 'M':
+            temp_race = 'MALAY'
+        elif temp_race == 'C':
+            temp_race = 'CHINESE'
+        elif temp_race == 'I':
+            temp_race = 'INDIAN'
+        elif temp_race == 'R':
+            temp_race = 'PRIVATE (SDN BHD)'
+        elif temp_race == 'U':
+            temp_race = 'PUBLIC'
+        elif temp_race == 'F':
+            temp_race = 'FOREIGNER'
+        elif temp_race == 'S':
+            temp_race = 'BUSINESS'
+        elif temp_race == 'A':
+            temp_race = 'INCORPORATION'
+        elif temp_race == 'K':
+            temp_race = 'KADAZAN'
+        elif temp_race == 'D':
+            temp_race = 'DUSUN'
+        elif temp_race == 'J':
+            temp_race = 'BAJAU'
+        elif temp_race == 'Y':
+            temp_race = 'BIDAYUH'
+        elif temp_race == 'T':
+            temp_race = 'IBAN'
+        elif temp_race == 'E':
+            temp_race = 'MELANAU'
+        elif temp_race == 'O':
+            temp_race = 'OTHER RACE'
+        elif temp_race == 'N':
+            temp_race = 'NATIVE'
+        elif temp_race == 'B':
+            temp_race = 'BUMIPUTERA SABAH'
+        elif temp_race == 'W':
+            temp_race = 'BUMIPUTERA SARAWAK'
     
     return temp_race
 
@@ -203,6 +316,19 @@ def comp_status_mapping(temp_comp_status, lang):
         temp_comp_status = 'PRIVATE LIMITED'
     elif temp_comp_status == 'U' and lang == 'en':
         temp_comp_status = 'PUBLIC LIMITED'
+    elif temp_comp_status == 'R' and lang == 'ms':
+        temp_comp_status = 'SYARIKAT PERSENDIRIAN'
+    elif temp_comp_status == 'U' and lang == 'ms':
+        temp_comp_status = 'SYARIKAT AWAM'
+
+    return temp_comp_status
+
+def comp_status_conversion_mapping(temp_comp_status, lang):
+
+    if temp_comp_status == 'R' and lang == 'en':
+        temp_comp_status = 'PRIVATE'
+    elif temp_comp_status == 'U' and lang == 'en':
+        temp_comp_status = 'PUBLIC'
     elif temp_comp_status == 'R' and lang == 'ms':
         temp_comp_status = 'SYARIKAT PERSENDIRIAN'
     elif temp_comp_status == 'U' and lang == 'ms':
@@ -1512,191 +1638,16 @@ def nationality_code(nationality_code, lang):
         nationality = 'KAZAKHSTAN CITIZEN'
     
     return nationality
-# AFG	AFGHANISTAN
-# AGL	ANGUILLA
-# AZB	REPUBLIC OF AZERBAIJAN
-# NCD	NEW CALEDONIA
-# LVA	LATVIA
-# ALG	ALGERIA
-# ALM	ALMAIN
-# AND	ANDORRA
-# ANG	ANGOLA
-# ANT	ANTIGUA
-# ARG	ARGENTINA
-# ASA	AMERICAN SAMOA
-# AST	AUSTRIA
-# AUS	AUSTRALIA
-# AZO	AZORES
-# BAH	BAHRAIN
-# BAL	BELEARIC ISLAND
-# BAN	BANGLADESH
-# BAR	BARBADOS
-# BEL	BELGIUM
-# BER	BERMUDA
-# BHM	BAHAMAS
-# BIS	BISSAU
-# BOS	BOSNIA HERZOGOVINA
-# BOL	BOLIVIA
-# BRA	BRAZIL
-# BRU	BRUNEI
-# BUL	BULGARIA
-# BUR	MYAMMAR
-# BWI	BRITISH WEST INDIES
-# CAM	CAMERON
-# CAN	CANADA
-# CEU	CEUTA & MELLILA
-# CHA	CHAD
-# CHI	CHILE
-# CNI	CAYMAN ISLAND
-# CRA	COSTA RICA
-# CSI	CHRISTMAS ISLAND
-# CUB	CUBA
-# CVI	CAPE VERDE ISLAND
-# CYI	CANARY ISLAND
-# CYP	CYPRUS
-# CZE	CZECHOSLOVAKIA
-# DEN	DENMARK
-# DOM	COMMONWEALTH OF DOMINICA
-# DRK	KOREA (DEM. P.R)
-# EGY	EGYPT
-# EIR	EIRE
-# EQU	EQUADOR
-# ESR	EL SALVADOR
-# ETH	ETHIOPIA
-# FEI	FAEROE ISLAND
-# FII	FIJI ISLAND
-# FIN	FINLAND
-# FRA	FRANCE
-# FWI	FRENCH W. INDIES
-# GAB	GABON
-# GAM	GAMBIA
-# GER	GERMANY
-# GHA	GHANA
-# GIB	GIBRALTAR
-# GRA	GRANADA
-# GRE	GREECE
-# GTE	GUATEMALA
-# GUA	GUAM
-# GUI	GUINEA
-# GUY	GUYANA
-# HKG	HONG KONG
-# HON	HONDURAS
-# HUN	HUNGARY
-# ICE	ICELAND
-# INA	INDONESIA
-# IND	INDIA
-# IRN	IRAN
-# IRQ	IRAQ
-# ITA	ITALY
-# JAM	JAMAICA
-# JAP	JAPAN
-# JOR	JORDAN
-# KAM	KAMPUCHEA
-# KEN	KENYA
-# KUW	KUWAIT
-# LAO	LAOS
-# LEB	LEBANON
-# LIB	LIBERIA
-# LUX	LUXEMBORG
-# MAC	MACAO
-# MAD	MADERIA
-# IRL	IRELAND
-# MAL	MALAYSIA
-# MAU	MAURITANIA
-# MEX	MEXICO
-# MLI	MALI
-# MLT	MALTA
-# MLW	MALAWI
-# MON	MONTSERRAT
-# MOR	MOROCCO
-# MOZ	MOZAMBIQUE
-# MRT	MAURITIUS
-# MSI	MALDIVES ISLAND
-# NAU	NAURA
-# NEP	NEPAL
-# NET	NETHERLANDS
-# NGR	NIGER
-# NHS	NEW HEBRIDES
-# NIC	NICARAGUA
-# NIG	NIGERIA
-# NIU	NIUE
-# NKI	NORFOLD ISLAND
-# NOR	NORWAY
-# NWI	NETHERLANDS WI
-# NZD	NEW ZEALAND
-# OMA	OMAN
-# PAK	PAKISTAN
-# PAN	PANAMA
-# PAR	PARAGUAY
-# PER	PERU
-# PHI	PHILIPPINES
-# PLD	POLAND
-# PNG	PAPUA NEW GUINEA
-# POR	PORTUGAL
-# PRC	CHINA (PEOPLES REPUBLIC)
-# PUE	PUERTO RICO
-# RUM	RUMANIA
-# SAN	SANAA (YEMEN ARAB REPUBLIC)
-# SAU	SAUDIA ARABIA
-# SEN	SENEGAL
-# SEY	SEYCHELLES
-# SIA	ST. LUCIA
-# SIN	SINGAPORE
-# SKA	ST. KITTA
-# ALB	ALBANIA
-# SNI	SOLOMON ISLAND
-# SOK	KOREA SOUTH
-# SOM	SOMALIA
-# SPA	SPAIN
-# SRI	SRI LANKA
-# STP	ST. THOME & PRINCIPTE
-# SUD	SUDAN
-# SVT	ST. VINCENT
-# SWE	SWEDEN
-# SWI	SWITZERLAND
-# TAH	TAHITI
-# TAR	TANGIER
-# THA	THAILAND
-# TON	TONGUA
-# TSI	TURKS ISLAND
-# TTO	TRINIDAD & TABAGO
-# TUN	TUNISIA
-# TUR	TURKEY
-# UAE	UNITED ARAB EMIRATES
-# UGA	UGANDA
-# UKG	UNITED KINGDOM
-# URU	URUGUAY
-# USA	UNITED STATES OF AMERICA
-# USR	U.S.S.R.
-# UVA	UPPER VOLTA
-# VAT	VATICAN CITY
-# VEN	VENEZUELA
-# VIB	VIRGIN ISLAND (BRI)
-# VIE	VIETNAM
-# VIU	VIRGIN ISLAND (US)
-# WSA	WESTERN SAMOA
-# YUG	YUGOSLAVIA
-# ZAI	ZAIRE
-# ZAM	ZAMBIA
-# ZIM	ZIMBABWE
-# KOR	SOUTH KOREA
-# IOM	ISLE OF MAN,BRITAIN
-# TAI	TAIWAN
-# SCO	SCOTLAND
-# AFR	AFRICA
-# SAF	SOUTH AFRICA
-# BVI	BRITISH VIRGIN ISLANDS
-# YAM	YAMAN
-# LIA	LIBYA
-# SYR	SYRIA
-# CRO	CROATIA
-# UBK	UZBEKISTAN
-# CON	REPUBLIC OF CONGO
-# KIR	REP. OF KIRIBATI
-# COL	REPUBLIC OF COLOMBIA
-# TAJ	REPUBLIK TAJIKISTAN
-# LCH	LIECHTENSTEIN
-# REB	REPUBLIC OF BELARUS
-# PSE	PALESTINE
-# QAT	QATAR
-# KZT	KAZAKHSTAN
+
+def business_ownership_mapping(owner_count, lang):
+    if owner_count == 1 and lang == 'ms':
+        temp_biz_ownership  = 'PEMILIKAN TUNGGAL'
+    elif owner_count > 1 and lang == 'ms':
+        temp_biz_ownership  = 'PERKONGSIAN'
+    elif owner_count == 1 and lang == 'en':
+        temp_biz_ownership  = 'SOLE PROPRIETORSHIP'
+    elif owner_count > 1 and lang == 'en':
+        temp_biz_ownership  = 'PARTNERSHIP'
+    
+    return temp_biz_ownership
+

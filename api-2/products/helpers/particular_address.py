@@ -22,6 +22,10 @@ def particular_address(mdw_1, mdw_2, lang):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
+    print('____________   ')
+    print('particular_address: ', data_mdw_1)
+    print('____________   ')
+
     if mdw_1['rocCompanyInfo']['companyOldName'] == None:
         temp_old_name = 'NIL'
     else:

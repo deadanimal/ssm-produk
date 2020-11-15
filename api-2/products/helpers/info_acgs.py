@@ -10,9 +10,12 @@ def info_acgs(mdw_1, mdw_2, lang):
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
-
     date_format = "%d %B %Y"
     time_zone = 'Asia/Kuala_Lumpur'
+
+    print('_____________')
+    print('acgs:   ', data_mdw_1)
+    print('_____________')
 
     temp_comp_status_old = data_mdw_1['compStatus']
     
