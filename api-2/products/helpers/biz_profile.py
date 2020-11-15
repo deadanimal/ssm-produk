@@ -20,6 +20,10 @@ def biz_profile(mdw_1, mdw_2, lang):
     time_zone = 'Asia/Kuala_Lumpur'
     # print(mdw_1)
 
+    print('_____________')
+    print('biz_profile:   ', data_mdw_1)
+    print('_____________')
+
     temp_main_address_1 = data_mdw_1['robBusinessInfo']['mainAddress1']
     temp_main_address_2 = data_mdw_1['robBusinessInfo']['mainAddress2']
     temp_main_address_3 = data_mdw_1['robBusinessInfo']['mainAddress3']

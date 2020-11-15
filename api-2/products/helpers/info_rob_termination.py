@@ -5,10 +5,16 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
+from .mapping import state_mapping, origin_country_mapping
+
 def info_rob_termination(mdw_1, mdw_2, lang):
 
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
+
+    print('____________   ')
+    print('rob_termination: ', mdw_1)
+    print('____________   ')
 
     now = datetime.now().astimezone(pytz.timezone(time_zone)).strftime(date_format)
     end_date = make_aware(datetime.strptime(mdw_1["robBusinessInfo"]["endBusinessDate"]["#text"], '%Y-%m-%dT%H:%M:%S.000Z'))

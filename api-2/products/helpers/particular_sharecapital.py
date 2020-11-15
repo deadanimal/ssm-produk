@@ -14,6 +14,9 @@ def particular_sharecapital(mdw_1, mdw_2, lang, entity_type):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
+    print('____________   ')
+    print('particular_sharecapital: ', data_mdw_1)
+    print('____________   ')
 
     business_address_info = mdw_1["rocBusinessAddressInfo"]
     registered_address_info = mdw_1["rocRegAddressInfo"]

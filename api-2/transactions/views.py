@@ -80,11 +80,18 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         reference = request.POST.get("PaymentID", "")   
         pg_transaction_id = request.POST.get("TxnID", "")
-        # print('tt', request.POST.get("PymtMethod", ""))
-        print(reference)
-        print('tx', pg_transaction_id)
         transaction_method = request.POST.get("PymtMethod", "")
         transaction_status = request.POST.get("TxnStatus", "")[0]
+        pg_transaction_type = request.POST.get('TransactionType', '')
+        pg_transaction_payment_method = request.POST.get('PymtMethod', '')
+        pg_transaction_message = request.POST.get('TxnMessage', '')
+        pg_transaction_card_holder = request.POST.get('CardHolder', '')
+        pg_transaction_card_no_mask = request.POST.get('CardNoMask', '')
+        # print('tt', request.POST.get("PymtMethod", ""))
+        print('______________')
+        print('Reference', reference)
+        print('PG Transaction ID', pg_transaction_id)
+        
         transaction = Transaction.objects.filter(reference=reference).first()
 
         print('\n')
@@ -106,7 +113,13 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         transaction_id_unix = str(int(transaction.created_date.timestamp()))[-6:]
         # print('ori', int(transaction.created_date.timestamp()))
         # print('edite', transaction_id_unix)
-        transaction.payment_method = transaction_method
+        
+        transaction.transaction_type = pg_transaction_type
+        transaction.payment_method = pg_transaction_payment_method
+        transaction.transaction_message = pg_transaction_message
+        transaction.card_holder = pg_transaction_card_holder
+        transaction.card_no_mask = pg_transaction_card_no_mask
+
         transaction.reference_no = 'P' + current_year + current_month + transaction_id_unix
         transaction_length = Transaction.objects.filter(
             Q(created_date__year=filter_year) &
@@ -207,7 +220,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.payment_method = transaction_method
             transaction.save()
-            
+        
+        print('______________')
         # portal.ssm.prototype.com.my
         # url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + reference
         url = 'https://xcessdev.ssm.com.my/#/payment/return?transactionId=' + reference
@@ -314,6 +328,14 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         all_ok_transactions = Transaction.objects.filter(payment_status='OK').filter()
         serializer = TransactionExtendedSerializer(all_ok_transactions, many=True)
         return Response(serializer.data)
+
+    @action(methods=['POST'], detail=False)
+    def query_request(self, request, *args, **kwargs):
+        print('query_request')
+
+    @action(methods=['POST'], detail=False)
+    def generate_report_table(self, reust, *args, **kwargs):
+        print('generate_report_table')
 
 
 class RefundDropdownViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

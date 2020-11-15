@@ -16,6 +16,10 @@ def company_charges(mdw_1, mdw_2, mdw_3, lang, entity_type):
     charges = mdw_1["SSMRegistrationChargesInfos"]["SSMRegistrationChargesInfos"]
     charges_list = []
 
+    print('_____________')
+    print('charges:   ', charges)
+    print('_____________')
+
     # print(mdw_2)
     company_info = mdw_3["rocCompanyInfo"]
 

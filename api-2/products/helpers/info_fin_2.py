@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
+from .mapping import state_mapping, origin_country_mapping
+
 def info_fin_2(mdw_1, mdw_2, lang):
     
     data_mdw_1 = mdw_1
@@ -13,6 +15,9 @@ def info_fin_2(mdw_1, mdw_2, lang):
     date_format = "%d-%m-%Y"
     time_zone = 'Asia/Kuala_Lumpur'
 
+    print('_____________')
+    print('info_fin:   ', data_mdw_1)
+    print('_____________')
 
     import pprint
     pp = pprint.PrettyPrinter(indent=1)
@@ -96,48 +101,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
     elif temp_reg_state_old == None:
         temp_reg_state_new = None
     else:
-        temp_reg_state_new = temp_reg_state_old
-
-    if temp_reg_state_old == 'R':
-        temp_reg_state_new = 'PERLIS'
-    elif temp_reg_state_old == 'K':
-        temp_reg_state_new = 'KEDAH'
-    elif temp_reg_state_old == 'P':
-        temp_reg_state_new = 'PULAU PINANG'
-    elif temp_reg_state_old == 'D':
-        temp_reg_state_new = 'KELANTAN'
-    elif temp_reg_state_old == 'T':
-        temp_reg_state_new = 'TERENGGANU'
-    elif temp_reg_state_old == 'A':
-        temp_reg_state_new = 'PERAK'
-    elif temp_reg_state_old == 'B':
-        temp_reg_state_new = 'SELANGOR'
-    elif temp_reg_state_old == 'C':
-        temp_reg_state_new = 'PAHANG'
-    elif temp_reg_state_old == 'M':
-        temp_reg_state_new = 'MELAKA'
-    elif temp_reg_state_old == 'J':
-        temp_reg_state_new = 'JOHOR'
-    elif temp_reg_state_old == 'X':
-        temp_reg_state_new = 'SABAH'
-    elif temp_reg_state_old == 'Y':
-        temp_reg_state_new = 'SARAWAK'
-    elif temp_reg_state_old == 'L':
-        temp_reg_state_new = 'LABUAN'
-    elif temp_reg_state_old == 'W':
-        temp_reg_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_reg_state_old == 'Q':
-        temp_reg_state_new = 'SINGAPURA'
-    elif temp_reg_state_old == 'U':
-        temp_reg_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_reg_state_old == 'F':
-        temp_reg_state_new = 'FOREIGN'
-    elif temp_reg_state_old == 'I':
-        temp_reg_state_new = 'INTERNET'
-    elif temp_reg_state_old == 'S':
-        temp_reg_state_new = 'SABAH'
-    elif temp_reg_state_old == 'E':
-        temp_reg_state_new = 'SARAWAK'
+        temp_reg_state_new = state_mapping(temp_reg_state_old)
     
     if temp_reg_postcode_old == 'TIADA FAIL':
         temp_reg_postcode_new = None
@@ -155,12 +119,12 @@ def info_fin_2(mdw_1, mdw_2, lang):
     
     temp_comp_origin_old = data_mdw_1['rocCompanyInfo']['companyCountry']
 
-    if temp_comp_origin_old == 'MAL':
-        temp_comp_origin_new = 'MALAYSIA'
-    elif temp_comp_origin_old == None:
+    if temp_comp_origin_old == 'TIADA FAIL':
+        temp_comp_origin_new = None
+    elif temp_comp_origin_old:
         temp_comp_origin_new = None
     else:
-        temp_comp_origin_new = None
+        temp_comp_origin_new = origin_country_mapping(temp_comp_origin_old)
     
     temp_biz_address_1_old = data_mdw_1['rocBusinessAddressInfo']['address1']
     temp_biz_address_2_old = data_mdw_1['rocBusinessAddressInfo']['address2']
@@ -195,48 +159,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
     elif temp_biz_state_old == None:
         temp_biz_state_new = None
     else:
-        temp_biz_state_new = temp_biz_state_old
-
-    if temp_biz_state_old == 'R':
-        temp_biz_state_new = 'PERLIS'
-    elif temp_biz_state_old == 'K':
-        temp_biz_state_new = 'KEDAH'
-    elif temp_biz_state_old == 'P':
-        temp_biz_state_new = 'PULAU PINANG'
-    elif temp_biz_state_old == 'D':
-        temp_biz_state_new = 'KELANTAN'
-    elif temp_biz_state_old == 'T':
-        temp_biz_state_new = 'TERENGGANU'
-    elif temp_biz_state_old == 'A':
-        temp_biz_state_new = 'PERAK'
-    elif temp_biz_state_old == 'B':
-        temp_biz_state_new = 'SELANGOR'
-    elif temp_biz_state_old == 'C':
-        temp_biz_state_new = 'PAHANG'
-    elif temp_biz_state_old == 'M':
-        temp_biz_state_new = 'MELAKA'
-    elif temp_biz_state_old == 'J':
-        temp_biz_state_new = 'JOHOR'
-    elif temp_biz_state_old == 'X':
-        temp_biz_state_new = 'SABAH'
-    elif temp_biz_state_old == 'Y':
-        temp_biz_state_new = 'SARAWAK'
-    elif temp_biz_state_old == 'L':
-        temp_biz_state_new = 'LABUAN'
-    elif temp_biz_state_old == 'W':
-        temp_biz_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_biz_state_old == 'Q':
-        temp_biz_state_new = 'SINGAPURA'
-    elif temp_biz_state_old == 'U':
-        temp_biz_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_biz_state_old == 'F':
-        temp_biz_state_new = 'FOREIGN'
-    elif temp_biz_state_old == 'I':
-        temp_biz_state_new = 'INTERNET'
-    elif temp_biz_state_old == 'S':
-        temp_biz_state_new = 'SABAH'
-    elif temp_biz_state_old == 'E':
-        temp_biz_state_new = 'SARAWAK'
+        temp_biz_state_new = state_mapping(temp_biz_state_old)
     
     if temp_biz_postcode_old == 'TIADA FAIL':
         temp_biz_postcode_new = None
@@ -293,48 +216,7 @@ def info_fin_2(mdw_1, mdw_2, lang):
             elif temp_audit_state_old == None:
                 temp_audit_state_new = None
             else:
-                temp_audit_state_new = temp_audit_state_old
-
-            if temp_audit_state_old == 'R':
-                temp_audit_state_new = 'PERLIS'
-            elif temp_audit_state_old == 'K':
-                temp_audit_state_new = 'KEDAH'
-            elif temp_audit_state_old == 'P':
-                temp_audit_state_new = 'PULAU PINANG'
-            elif temp_audit_state_old == 'D':
-                temp_audit_state_new = 'KELANTAN'
-            elif temp_audit_state_old == 'T':
-                temp_audit_state_new = 'TERENGGANU'
-            elif temp_audit_state_old == 'A':
-                temp_audit_state_new = 'PERAK'
-            elif temp_audit_state_old == 'B':
-                temp_audit_state_new = 'SELANGOR'
-            elif temp_audit_state_old == 'C':
-                temp_audit_state_new = 'PAHANG'
-            elif temp_audit_state_old == 'M':
-                temp_audit_state_new = 'MELAKA'
-            elif temp_audit_state_old == 'J':
-                temp_audit_state_new = 'JOHOR'
-            elif temp_audit_state_old == 'X':
-                temp_audit_state_new = 'SABAH'
-            elif temp_audit_state_old == 'Y':
-                temp_audit_state_new = 'SARAWAK'
-            elif temp_audit_state_old == 'L':
-                temp_audit_state_new = 'LABUAN'
-            elif temp_audit_state_old == 'W':
-                temp_audit_state_new = 'WILAYAH PERSEKUTUAN'
-            elif temp_audit_state_old == 'Q':
-                temp_audit_state_new = 'SINGAPURA'
-            elif temp_audit_state_old == 'U':
-                temp_audit_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-            elif temp_audit_state_old == 'F':
-                temp_audit_state_new = 'FOREIGN'
-            elif temp_audit_state_old == 'I':
-                temp_audit_state_new = 'INTERNET'
-            elif temp_audit_state_old == 'S':
-                temp_audit_state_new = 'SABAH'
-            elif temp_audit_state_old == 'E':
-                temp_audit_state_new = 'SARAWAK'
+                temp_audit_state_new = state_mapping(temp_audit_state_old)
         
             if temp_audit_postcode_old == 'TIADA FAIL':
                 temp_audit_postcode_new = None
@@ -413,49 +295,8 @@ def info_fin_2(mdw_1, mdw_2, lang):
         elif temp_audit_state_old == None:
             temp_audit_state_new = None
         else:
-            temp_audit_state_new = temp_audit_state_old
+            temp_audit_state_new = state_mapping(temp_audit_state_old)
 
-        if temp_audit_state_old == 'R':
-            temp_audit_state_new = 'PERLIS'
-        elif temp_audit_state_old == 'K':
-            temp_audit_state_new = 'KEDAH'
-        elif temp_audit_state_old == 'P':
-            temp_audit_state_new = 'PULAU PINANG'
-        elif temp_audit_state_old == 'D':
-            temp_audit_state_new = 'KELANTAN'
-        elif temp_audit_state_old == 'T':
-            temp_audit_state_new = 'TERENGGANU'
-        elif temp_audit_state_old == 'A':
-            temp_audit_state_new = 'PERAK'
-        elif temp_audit_state_old == 'B':
-            temp_audit_state_new = 'SELANGOR'
-        elif temp_audit_state_old == 'C':
-            temp_audit_state_new = 'PAHANG'
-        elif temp_audit_state_old == 'M':
-            temp_audit_state_new = 'MELAKA'
-        elif temp_audit_state_old == 'J':
-            temp_audit_state_new = 'JOHOR'
-        elif temp_audit_state_old == 'X':
-            temp_audit_state_new = 'SABAH'
-        elif temp_audit_state_old == 'Y':
-            temp_audit_state_new = 'SARAWAK'
-        elif temp_audit_state_old == 'L':
-            temp_audit_state_new = 'LABUAN'
-        elif temp_audit_state_old == 'W':
-            temp_audit_state_new = 'WILAYAH PERSEKUTUAN'
-        elif temp_audit_state_old == 'Q':
-            temp_audit_state_new = 'SINGAPURA'
-        elif temp_audit_state_old == 'U':
-            temp_audit_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-        elif temp_audit_state_old == 'F':
-            temp_audit_state_new = 'FOREIGN'
-        elif temp_audit_state_old == 'I':
-            temp_audit_state_new = 'INTERNET'
-        elif temp_audit_state_old == 'S':
-            temp_audit_state_new = 'SABAH'
-        elif temp_audit_state_old == 'E':
-            temp_audit_state_new = 'SARAWAK'
-    
         if temp_audit_postcode_old == 'TIADA FAIL':
             temp_audit_postcode_new = None
         elif temp_audit_postcode_old == None:

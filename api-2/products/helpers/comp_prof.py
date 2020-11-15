@@ -18,8 +18,11 @@ def comp_prof(mdw_1, mdw_2, lang):
 
     tz = pytz.timezone('Asia/Kuala_Lumpur')
     now = datetime.now(tz=tz) 
-    # print(now)
     now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    print('_____________')
+    print('comp_profile:   ', data_mdw_1)
+    print('_____________')
 
     url_info = 'http://integrasistg.ssm.com.my/InfoService/1'
     auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
@@ -244,10 +247,10 @@ def comp_prof(mdw_1, mdw_2, lang):
                     # print(sheet)
                     bss_ = sheet
             
-            print('********')
-            print('**>>>> ', len(profit_loss_list))
-            print(profit_loss_list)
-            print('********')
+            # print('********')
+            # print('**>>>> ', len(profit_loss_list))
+            # print(profit_loss_list)
+            # print('********')
             if isinstance(profit_loss_list, list):
                 temp_pll = [datetime.strptime(sheet['financialYearEndDate'], "%Y-%m-%dT%H:%M:%S.000Z") for sheet in profit_loss_list]
                 temp_pll.sort()
@@ -264,7 +267,7 @@ def comp_prof(mdw_1, mdw_2, lang):
                         print('1 >>>>', pll_)
             else: 
                 pll_ = profit_loss_list
-                print('2 >>>>', pll_)
+                # print('2 >>>>', pll_)
 
         financial_year_end_old = make_aware(datetime.strptime(bss_['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
         financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
