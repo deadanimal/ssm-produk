@@ -139,7 +139,7 @@
 
             <p id="primary" class="mt-7 text-left" style="font-size:16pt; margin-left: 100px; margin-right: 100px; margin-top: 20px; text-align: justify !important;">
 
-                which was formed or incorporated in {{data.origin}} was, on the {{data.incorpDate}}, duly registered under section 562(3) of the Companies Act {{data.act_year}}.
+                which was formed or incorporated in {{data.origin}} was, on the {{data.incorpDate}}, duly registered under section {% if data.act_year == 1965 %} 332(1) {% else %} 562(3) {% endif %} of the Companies Act {{data.act_year}}.
 
                 <br></br><br>
                 Dated at <b>{{data.branch_name}}</b> this {{data.incorpDate}}.

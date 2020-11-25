@@ -13,6 +13,8 @@ export class TransactionsService {
   // URL
   public transactionsURL: string = environment.baseUrl + 'v1/transactions/';
   public dropdownsURL: string = environment.baseUrl + 'v1/refund-dropdowns/';
+  public tableURL: string = environment.baseUrl + 'v1/transactions/generate_report_table/';
+  public gafURL: string = environment.baseUrl + 'v1/transactions/generate_gaf/'
 
   constructor(private http: HttpClient) {}
 
@@ -60,6 +62,26 @@ export class TransactionsService {
     let urlTemp = this.dropdownsURL + id + '/'
     return this.http.patch<any>(urlTemp, body).pipe(
       tap((res) => {
+        // console.log('Topics: ', res)
+        // this.reply = res
+      })
+    )
+  }
+
+  generateTable(body: any): Observable<any> {
+    return this.http.post<any>(this.tableURL, body, {responseType: 'blob' as 'json'}).pipe(
+      tap((res) => {
+        console.log('F: ', res)
+        // console.log('Topics: ', res)
+        // this.reply = res
+      })
+    )
+  }
+
+  generateGaf(body): Observable<any> {
+    return this.http.post<any>(this.gafURL, body, {responseType: 'blob' as 'json'}).pipe(
+      tap((res) => {
+        console.log('F: ', res)
         // console.log('Topics: ', res)
         // this.reply = res
       })

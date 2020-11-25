@@ -534,8 +534,8 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             data_loaded = particular_address(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'particulars_of_shareholders':
-            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
-            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
+            middleware_data = get_details_of_shareholders(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_shareholders(middleware_data, new_entity_id, language_)  
 
         elif name_ == 'particulars_of_share_capital':
             middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
@@ -604,6 +604,7 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = data_loaded
         serializer['pdflink'] = 'https://pipeline-project.sgp1.digitaloceanspaces.com/' + file_path
         return Response(serializer)
+
 
     @action(methods=['POST'], detail=False)
     def generate_image(self, request, *args, **kwargs):
@@ -894,6 +895,165 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                           
             else:
                 return Response({})
+    
+
+    @action(methods=['POST'], detail=False)
+    def generate_egov(self, request, *args, **kwargs):
+
+        product_request_json = json.loads(request.body)
+
+        name_ = product_request_json['name']
+        language_ = product_request_json['language']
+        ctc_ = product_request_json['ctc']
+        registration_ = product_request_json['registration_no']
+        entity_type_ = product_request_json['entity_type']
+
+        information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
+        listing_url = 'http://integrasistg.ssm.com.my/ListingService/1'
+        document_url = 'http://integrasistg.ssm.com.my/DocufloService/1'
+
+        now = datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur')) 
+
+        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        auth_code = subprocess.check_output(['java', '-jar', 'authgen.jar', 'SSMProduk', now_string, '27522718']).decode("utf-8").rstrip("\n")
+
+        request_headers = {
+            'content-type': "text/xml;charset=UTF-8",
+            'authorization': auth_code
+        }
+      
+        #css_file = 'http://127.0.0.1:8000/static/css/template.css'
+
+        new_entity_id = get_new_format_entity(information_url, request_headers, registration_, entity_type_)
+
+        if name_ == 'acgs':
+            middleware_data = get_info_acgs(information_url, request_headers, registration_, entity_type_)
+            latest_doc_date = get_comp_prof(information_url, request_headers, registration_, entity_type_)['rocCompanyInfo']['latestDocUpdateDate']
+            middleware_data['latest_doc_date'] = latest_doc_date
+            data_loaded = acgs(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'certificate_of_incorporation_registration':
+            middleware_data = get_cert_incorp(information_url, request_headers, registration_)
+            data_loaded = cert_incorp(middleware_data, new_entity_id, language_)
+
+            if middleware_data['companyStatus'] == 'U':
+                if middleware_data['companyType'] == 'S':
+                    name_ = 'public_incorp_cert'
+                else:
+                    name_ = 'public_guarantee_incorp_cert'
+            else:
+                name_ = 'certificate_of_incorporation_registration'
+
+            if middleware_data['localforeignCompany'] != 'L':
+                name_ = 'foreign_incorp_cert'
+
+        elif name_ == 'certificate_of_change_of_name':
+            middleware_data = get_info_comp_name_chg(information_url, request_headers, registration_)
+            data_loaded = change_name(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'certificate_of_conversion':
+            middleware_data = get_cert_conversion(information_url, request_headers, registration_)
+            data_loaded = change_name(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_historical':
+            year1 = product_request_json['year1']
+            year2 = product_request_json['year2']
+            middleware_data_year1 = get_info_hist2(information_url, request_headers, registration_, entity_type_, year1)
+            middleware_data_year2 = get_info_hist2(information_url, request_headers, registration_, entity_type_, year2)
+            data_loaded_1 = info_hist_2(middleware_data_year1,new_entity_id, language_)
+            data_loaded_2 = info_hist_2(middleware_data_year2,new_entity_id, language_)
+            data_loaded = data_loaded_1
+
+            balance_sheet_year1 = data_loaded_1['balance_sheet'][0]
+            balance_sheet_year2 = data_loaded_2['balance_sheet'][0]
+            
+            profit_loss_year1 = data_loaded_1['profit_loss'][0]
+            profit_loss_year2 = data_loaded_2['profit_loss'][0]
+
+            del data_loaded['balance_sheet']
+            del data_loaded['profit_loss']
+            data_loaded['balance_sheet'] = []
+            data_loaded['profit_loss'] = []
+
+            data_loaded['balance_sheet'].append(balance_sheet_year1)
+            data_loaded['balance_sheet'].append(balance_sheet_year2)
+            data_loaded['profit_loss'].append(profit_loss_year1)
+            data_loaded['profit_loss'].append(profit_loss_year2)
+
+            # print(data_loaded)
+
+        elif name_ == 'financial_comparison_2':
+            now = datetime.now()
+            middleware_data = get_info_fin2(information_url, request_headers, registration_, entity_type_, str(now.year-2), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_3':
+            now = datetime.now()
+            middleware_data = get_info_fin3(information_url, request_headers, registration_, entity_type_, str(now.year-3), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_5':
+            now = datetime.now()
+            middleware_data = get_info_fin5(information_url, request_headers, registration_, entity_type_, str(now.year-5), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'financial_comparison_10':
+            now = datetime.now()
+            middleware_data = get_info_fin10(information_url, request_headers, registration_, entity_type_, str(now.year-10), str(now.year))
+            data_loaded = info_fin_2(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'particulars_of_directors_officers':
+            middleware_data = get_roc_business_officers(information_url, request_headers, registration_, entity_type_)
+            data_loaded = roc_business_officers(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particulars_of_registered_address':
+            middleware_data = get_roc_changes_registered_address(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_address(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particulars_of_shareholders':
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'particulars_of_share_capital':
+            middleware_data = get_details_of_share_capital(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_sharecapital(middleware_data, new_entity_id, language_,entity_type_)
+
+        elif name_ == 'company_profile':
+            now = datetime.now()
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'business_profile':
+            # print(entity_type_ )
+            middleware_data = get_biz_profile(information_url, request_headers, registration_)
+            data_loaded = biz_profile(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'particulars_of_company_secretary':
+            middleware_data = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            data_loaded = comp_prof(middleware_data, new_entity_id, language_)   
+
+        elif name_ == 'audit_firm_profile':
+            middleware_data = get_particulars_of_adt_firm(information_url, request_headers, registration_, entity_type_)
+            data_loaded = particular_audit_firm(middleware_data, new_entity_id, language_)  
+
+        elif name_ == 'business_termination_letter':
+            middleware_data = get_info_rob_termination(information_url, request_headers, registration_)
+            data_loaded = info_rob_termination(middleware_data, new_entity_id, language_)
+
+        elif name_ == 'company_charges':
+            com_profile = get_comp_prof(information_url, request_headers, registration_, entity_type_)
+            middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
+            data_loaded = company_charges(middleware_data, new_entity_id, com_profile, language_, entity_type_)
+
+        elif name_ == 'foreign_change_name':
+            middleware_data = get_info_charges(information_url, request_headers, registration_, entity_type_)
+            data_loaded = change_name(middleware_data, new_entity_id, language_)            
+
+        else:
+            pass
+
+        serializer = data_loaded
+        return Response(serializer)
     
 
     @action(methods=['GET'], detail=False)

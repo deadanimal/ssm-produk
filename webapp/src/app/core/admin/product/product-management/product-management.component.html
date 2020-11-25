@@ -1,4 +1,4 @@
-<ngx-loading-bar></ngx-loading-bar>
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
 	<div class="container-fluid">
 		<div class="header-body">
@@ -43,7 +43,7 @@
 								<label>
 									Show
 									<select name="datatable_length" aria-controls="datatable"
-										class="form-control form-control-sm" (change)="entriesChange($event)">
+										class="form-control form-control-sm custom-select custom-select-sm" (change)="entriesChange($event)">
 										<option value="10">10</option>
 										<option value="20">20</option>
 										<option value="50">50</option>
@@ -84,13 +84,13 @@
 						</ngx-datatable-column>
 
 						<ngx-datatable-column
-							[width]="150"
+							[width]="240"
 							[sortable]="true"
 							[resizeable]="false"
 							prop="name"
 						>
 							<ng-template ngx-datatable-header-template>
-								<span>Product</span>
+								<span>Product Name</span>
 							</ng-template>
 
 							<ng-template let-row="row" ngx-datatable-cell-template>
@@ -108,8 +108,8 @@
 								<span>CTC</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								<span class="badge badge-info" *ngIf="row.ctc">CTC</span>
-								<span class="badge badge-info" *ngIf="!row.ctc">Non-CTC</span>
+								<span class="badge badge-default" *ngIf="row.ctc">CTC</span>
+								<span class="badge badge-default" *ngIf="!row.ctc">Non-CTC</span>
 							</ng-template>
 						</ngx-datatable-column>
 
@@ -122,7 +122,8 @@
 								<span>ROB/ROC</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								ROB/ROC
+								<span class="badge badge-default" *ngIf="row.roc">ROC</span>
+								<span class="badge badge-default" *ngIf="!row.roc">ROB</span>
 							</ng-template>
 						</ngx-datatable-column>
 
@@ -142,7 +143,12 @@
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="140"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="fee"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Fee</span>
 							</ng-template>
@@ -151,120 +157,190 @@
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="140"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="tax"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Tax</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="row.tax == 0">-</span>
+								<span *ngIf="row.tax >= 1">{{row.tax}}%</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="180"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="tax_start_date"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Tax Start Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="!row.tax_start_date">-</span>
+								<span *ngIf="row.tax_start_date">{{row.tax_start_date}}</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="160"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="tax_end_date"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Tax End Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="!row.tax_end_date">-</span>
+								<span *ngIf="row.tax_end_date">{{row.tax_end_date}}</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="140"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="discount"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Discount</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="row.discount == 0">-</span>
+								<span *ngIf="row.discount >= 1">{{row.discount}}%</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="200"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="discount_start_date"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Discount Start Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="!row.discount_start_date">-</span>
+								<span *ngIf="row.discount_start_date">{{row.discount_start_date}}</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="200"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="discount_end_date"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Discount End Date</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span *ngIf="!row.discount_end_date">-</span>
+								<span *ngIf="row.discount_end_date">{{row.discount_end_date}}</span>
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="200"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Additional Charge Type</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								-
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="140"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="fee"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Total</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								{{ row.fee /100 | number:'1.2-2' }}
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="180"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="coa_description"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>COA Description</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								{{row.coa_description}}
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="180"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="coa_code"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>COA Code</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								{{row.coa_code}}
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="160"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="webservice"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Webservice</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								{{row.webservice}}
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="160"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="channel"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Channel</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<!-- {{row.channel}} -->
+								SSM Xcess Portal
 							</ng-template>
 						</ngx-datatable-column>
 
-						<ngx-datatable-column>
+						<ngx-datatable-column
+							[width]="140"
+							[sortable]="true"
+							[resizeable]="false"
+							prop="active"
+						>
 							<ng-template ngx-datatable-header-template>
 								<span>Status</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								N/A
+								<span class="badge badge-success" *ngIf="row.active">Enabled</span>
+								<span class="badge badge-warning" *ngIf="!row.active">Disabled</span>
 							</ng-template>
 						</ngx-datatable-column>
 

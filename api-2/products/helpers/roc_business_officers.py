@@ -4,7 +4,16 @@ import json
 
 from datetime import datetime
 from django.utils.timezone import make_aware
-from .mapping import officer_designation_mapping, state_mapping, charge_code
+from .mapping import (
+    officer_designation_mapping, 
+    state_mapping, 
+    charge_code,
+    time_mapping,
+    comp_status_mapping,
+    comp_type_mapping,
+    status_of_comp_mapping,
+    origin_country_mapping
+)
 
 from collections import OrderedDict
 
@@ -13,48 +22,30 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
-    date_format = "%d-%m-%Y"
+    print('____________   ')
+    print('particular_biz_officer: ', data_mdw_1)
+    print('____________   ')
+
+    date_format = '%d-%m-%Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
-    
-    business_address_info = mdw_1["rocBusinessAddressInfo"]
-    business_address_info['stateString'] = state_mapping(business_address_info["state"]) 
-    registered_address_info = mdw_1["rocRegAddressInfo"]
-    registered_address_info['stateString'] = state_mapping(registered_address_info["state"]) 
+    business_address_info = mdw_1['rocBusinessAddressInfo']
+    business_address_info['stateString'] = state_mapping(business_address_info['state']) 
 
-    #weird_change_date_old = data_mdw_1['rocCompanyInfo']['dateOfChange']
-    weird_incorp_date_old = data_mdw_1['rocCompanyInfo']['incorpDate']['#text']
+    registered_address_info = mdw_1['rocRegAddressInfo']
+    registered_address_info['stateString'] = state_mapping(registered_address_info['state']) 
 
-
-    #temp_change_date_old = make_aware(datetime.strptime(weird_change_date_old, '%Y-%m-%dT%H:%M:%S.000Z'))
-    #temp_change_date_new = temp_change_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-    temp_incorp_date_old = make_aware(datetime.strptime(weird_incorp_date_old, '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_incorp_date_new = temp_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-
+    temp_incorp_date_old = data_mdw_1['rocCompanyInfo']['incorpDate']['#text']
+    temp_incorp_date_new = time_mapping(temp_incorp_date_old)
 
     temp_comp_type_old = data_mdw_1['rocCompanyInfo']['companyStatus']
-    if temp_comp_type_old == 'R':
-        temp_comp_type_new = 'PRIVATE LIMITED'
-    elif temp_comp_type_old == 'U':
-        temp_comp_type_new = 'PUBLIC LIMITED'
+    temp_comp_type_new = comp_status_mapping(temp_comp_type_old, lang)
     
     temp_comp_status_old = data_mdw_1['rocCompanyInfo']['companyType']
-    if temp_comp_status_old == 'S':
-        temp_comp_status_new = 'LIMITED BY SHARES'
-    elif temp_comp_status_old == 'G':
-        temp_comp_status_new = 'LIMITED BY GUARANTEE'
-    elif temp_comp_status_old == 'B':
-        temp_comp_status_new = 'LIMITED BY SHARE AND GUARANTEE'
-    elif temp_comp_status_old == 'U':
-        temp_comp_status_new = 'UNLIMITED'
+    temp_comp_status_new = comp_type_mapping(temp_comp_status_old, lang)
 
     temp_status_of_comp_old = data_mdw_1['rocCompanyInfo']['statusOfCompany']
-    if temp_status_of_comp_old == 'E':
-        temp_status_of_comp_new = 'Existing'
-    elif temp_status_of_comp_old == 'W':
-        temp_status_of_comp_new = 'Winding Up'
-    elif temp_status_of_comp_old == 'D':
-        temp_status_of_comp_new = 'Dissolved'
+    temp_status_of_comp_new = status_of_comp_mapping(temp_status_of_comp_old)
     
     temp_reg_address_1_old = data_mdw_1['rocRegAddressInfo']['address1']
     temp_reg_address_2_old = data_mdw_1['rocRegAddressInfo']['address2']
@@ -89,49 +80,8 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     elif temp_reg_state_old == None:
         temp_reg_state_new = None
     else:
-        temp_reg_state_new = temp_reg_state_old
+        temp_reg_state_new = state_mapping(temp_reg_state_old)
 
-    if temp_reg_state_old == 'R':
-        temp_reg_state_new = 'PERLIS'
-    elif temp_reg_state_old == 'K':
-        temp_reg_state_new = 'KEDAH'
-    elif temp_reg_state_old == 'P':
-        temp_reg_state_new = 'PULAU PINANG'
-    elif temp_reg_state_old == 'D':
-        temp_reg_state_new = 'KELANTAN'
-    elif temp_reg_state_old == 'T':
-        temp_reg_state_new = 'TERENGGANU'
-    elif temp_reg_state_old == 'A':
-        temp_reg_state_new = 'PERAK'
-    elif temp_reg_state_old == 'B':
-        temp_reg_state_new = 'SELANGOR'
-    elif temp_reg_state_old == 'C':
-        temp_reg_state_new = 'PAHANG'
-    elif temp_reg_state_old == 'M':
-        temp_reg_state_new = 'MELAKA'
-    elif temp_reg_state_old == 'J':
-        temp_reg_state_new = 'JOHOR'
-    elif temp_reg_state_old == 'X':
-        temp_reg_state_new = 'SABAH'
-    elif temp_reg_state_old == 'Y':
-        temp_reg_state_new = 'SARAWAK'
-    elif temp_reg_state_old == 'L':
-        temp_reg_state_new = 'LABUAN'
-    elif temp_reg_state_old == 'W':
-        temp_reg_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_reg_state_old == 'Q':
-        temp_reg_state_new = 'SINGAPURA'
-    elif temp_reg_state_old == 'U':
-        temp_reg_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_reg_state_old == 'F':
-        temp_reg_state_new = 'FOREIGN'
-    elif temp_reg_state_old == 'I':
-        temp_reg_state_new = 'INTERNET'
-    elif temp_reg_state_old == 'S':
-        temp_reg_state_new = 'SABAH'
-    elif temp_reg_state_old == 'E':
-        temp_reg_state_new = 'SARAWAK'
-    
     if temp_reg_postcode_old == 'TIADA FAIL':
         temp_reg_postcode_new = None
     elif temp_reg_postcode_old == None:
@@ -147,13 +97,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         temp_reg_town_new = temp_reg_town_old
     
     temp_comp_origin_old = data_mdw_1['rocCompanyInfo']['companyCountry']
-
-    if temp_comp_origin_old == 'MAL':
-        temp_comp_origin_new = 'MALAYSIA'
-    elif temp_comp_origin_old == None:
-        temp_comp_origin_new = None
-    else:
-        temp_comp_origin_new = None
+    temp_comp_origin_new = origin_country_mapping(temp_comp_origin_old)
     
     temp_biz_address_1_old = data_mdw_1['rocBusinessAddressInfo']['address1']
     temp_biz_address_2_old = data_mdw_1['rocBusinessAddressInfo']['address2']
@@ -188,48 +132,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     elif temp_biz_state_old == None:
         temp_biz_state_new = None
     else:
-        temp_biz_state_new = temp_biz_state_old
-
-    if temp_biz_state_old == 'R':
-        temp_biz_state_new = 'PERLIS'
-    elif temp_biz_state_old == 'K':
-        temp_biz_state_new = 'KEDAH'
-    elif temp_biz_state_old == 'P':
-        temp_biz_state_new = 'PULAU PINANG'
-    elif temp_biz_state_old == 'D':
-        temp_biz_state_new = 'KELANTAN'
-    elif temp_biz_state_old == 'T':
-        temp_biz_state_new = 'TERENGGANU'
-    elif temp_biz_state_old == 'A':
-        temp_biz_state_new = 'PERAK'
-    elif temp_biz_state_old == 'B':
-        temp_biz_state_new = 'SELANGOR'
-    elif temp_biz_state_old == 'C':
-        temp_biz_state_new = 'PAHANG'
-    elif temp_biz_state_old == 'M':
-        temp_biz_state_new = 'MELAKA'
-    elif temp_biz_state_old == 'J':
-        temp_biz_state_new = 'JOHOR'
-    elif temp_biz_state_old == 'X':
-        temp_biz_state_new = 'SABAH'
-    elif temp_biz_state_old == 'Y':
-        temp_biz_state_new = 'SARAWAK'
-    elif temp_biz_state_old == 'L':
-        temp_biz_state_new = 'LABUAN'
-    elif temp_biz_state_old == 'W':
-        temp_biz_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_biz_state_old == 'Q':
-        temp_biz_state_new = 'SINGAPURA'
-    elif temp_biz_state_old == 'U':
-        temp_biz_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_biz_state_old == 'F':
-        temp_biz_state_new = 'FOREIGN'
-    elif temp_biz_state_old == 'I':
-        temp_biz_state_new = 'INTERNET'
-    elif temp_biz_state_old == 'S':
-        temp_biz_state_new = 'SABAH'
-    elif temp_biz_state_old == 'E':
-        temp_biz_state_new = 'SARAWAK'
+        temp_biz_state_new = state_mapping(temp_biz_state_old)
     
     if temp_biz_postcode_old == 'TIADA FAIL':
         temp_biz_postcode_new = None
@@ -245,10 +148,10 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     else:
         temp_biz_town_new = temp_biz_town_old
 
-
+    # Start current officers
     temp_current_officers = data_mdw_1['rocCompanyOfficerListInfo']['rocCompanyOfficerInfos']['rocCompanyOfficerInfos']
+    temp_current_officers.sort(key = lambda x:x['startDate']['#text'], reverse=True) 
     temp_current_officers_arr = []
-    temp_current_officers_arr_inside = []
 
     # print('item',temp_current_officers)
     # print('instance',isinstance(temp_current_officers, list))
@@ -257,12 +160,12 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         
             if officer['idType'] == 'MK':
 
-                nric_1 = officer["idNo"][0:6]
-                nric_2 = officer["idNo"][6:8]
-                nric_3 = officer["idNo"][8:]
+                nric_1 = officer['idNo'][0:6]
+                nric_2 = officer['idNo'][6:8]
+                nric_3 = officer['idNo'][8:]
                 nric = nric_1 + '-' + nric_2 + '-' + nric_3
             else:
-                nric = officer["idNo"]        
+                nric = officer['idNo']        
             officer['idNo'] = nric
             officer['state'] = state_mapping(officer['state'])
             officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
@@ -270,23 +173,16 @@ def roc_business_officers(mdw_1, mdw_2, lang):
             if officer['startDate']['#text']:
                 officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-            print('asdasdasdasdasda', len(temp_current_officers_arr_inside))
-            if len(temp_current_officers_arr_inside) < 7:
-                temp_current_officers_arr_inside.append(officer)
+            temp_current_officers_arr.append(officer)
 
-                if len(temp_current_officers) == temp_current_officers.index(officer) + 1:
-                    temp_current_officers_arr.append(temp_current_officers_arr_inside)    
-            else:
-                temp_current_officers_arr.append(temp_current_officers_arr_inside)
-                temp_current_officers_arr_inside = []
     else:
         if officer['idType'] == 'MK':
-            nric_1 = officer["idNo"][0:6]
-            nric_2 = officer["idNo"][6:8]
-            nric_3 = officer["idNo"][8:]
+            nric_1 = officer['idNo'][0:6]
+            nric_2 = officer['idNo'][6:8]
+            nric_3 = officer['idNo'][8:]
             nric = nric_1 + '-' + nric_2 + '-' + nric_3
         else:
-            nric = officer["idNo"]    
+            nric = officer['idNo']    
 
         officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
@@ -298,6 +194,9 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         if 'rocCompanyOfficerChgsInfos' in data_mdw_1['rocChangeCompanyOfficerListInfo']:
             if data_mdw_1['rocChangeCompanyOfficerListInfo']['rocCompanyOfficerChgsInfos']:
                 temp_previous_officers = data_mdw_1['rocChangeCompanyOfficerListInfo']['rocCompanyOfficerChgsInfos']['rocCompanyOfficerChgsInfos']
+                # print('0------------')
+                # print('hehehe', temp_previous_officers)
+                temp_previous_officers.sort(key = lambda x:('#text' in x['resignDate'], x['resignDate'].get('#text')), reverse=True) 
                 temp_previous_officers_arr = []
                 temp_previous_officers_arr_inside = []
             else:
@@ -311,38 +210,35 @@ def roc_business_officers(mdw_1, mdw_2, lang):
     for officer in temp_previous_officers:
         if officer['idType'] == 'MK':
 
-            nric_1 = officer["idNo"][0:6]
-            nric_2 = officer["idNo"][6:8]
-            nric_3 = officer["idNo"][8:]
+            nric_1 = officer['idNo'][0:6]
+            nric_2 = officer['idNo'][6:8]
+            nric_3 = officer['idNo'][8:]
             nric = nric_1 + '-' + nric_2 + '-' + nric_3
         else:
-            nric = officer["idNo"]        
+            nric = officer['idNo']        
         officer['idNo'] = nric
         officer['state'] = state_mapping(officer['state'])
         officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
         officer['startDate'] = make_aware(datetime.strptime(officer['startDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
-        officer['resignDate'] = make_aware(datetime.strptime(officer['resignDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        
+        if '@xsi:nil' in officer['resignDate']:
+            officer['resignDate'] = None
+        else:
+            officer['resignDate'] = make_aware(datetime.strptime(officer['resignDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-        if officer['removalDate']['@xsi:nil'] == 'true':
+        if '@xsi:nil' in officer['removalDate']:
             officer['removalDate'] = None
         else:
             officer['removalDate'] = make_aware(datetime.strptime(officer['removalDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
         
-        if len(temp_previous_officers_arr_inside) < 7:
-            temp_previous_officers_arr_inside.append(officer)
-
-            if len(temp_previous_officers) == temp_previous_officers.index(officer) + 1:
-                temp_previous_officers_arr.append(temp_previous_officers_arr_inside)               
-        else:
-            temp_previous_officers_arr.append(temp_previous_officers_arr_inside)
-            temp_previous_officers_arr_inside = []
+        temp_previous_officers_arr.append(officer)
 
 
-    company_info = mdw_1["rocCompanyInfo"]
+    company_info = mdw_1['rocCompanyInfo']
 
-    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"].keys():
-        if '#text' in data_mdw_1["rocCompanyInfo"]['dateOfChange'].keys():
-            date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange']['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
+    if 'dateOfChange' in data_mdw_1['rocCompanyInfo'].keys():
+        if '#text' in data_mdw_1['rocCompanyInfo']['dateOfChange'].keys():
+            date_of_change = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['dateOfChange']['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
             date_of_change_str = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
         else:
             date_of_change_str = 'NIL'
@@ -351,13 +247,13 @@ def roc_business_officers(mdw_1, mdw_2, lang):
 
     
     if 'lastUpdateDate' in company_info.keys():
-        if '#text' in company_info["lastUpdateDate"].keys():
-            company_info["lastUpdateDate"] = make_aware(datetime.strptime(company_info["lastUpdateDate"]['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
-            company_info["lastUpdateDate"] = company_info["lastUpdateDate"].astimezone(pytz.timezone(time_zone)).strftime(date_format)
+        if '#text' in company_info['lastUpdateDate'].keys():
+            company_info['lastUpdateDate'] = make_aware(datetime.strptime(company_info['lastUpdateDate']['#text'], '%Y-%m-%dT%H:%M:%S.000Z'))
+            company_info['lastUpdateDate'] = company_info['lastUpdateDate'].astimezone(pytz.timezone(time_zone)).strftime(date_format)
         else:
-            company_info["lastUpdateDate"] = 'NIL'
+            company_info['lastUpdateDate'] = 'NIL'
     else:
-        company_info["lastUpdateDate"] = 'NIL'    
+        company_info['lastUpdateDate'] = 'NIL'    
 
     data_ready = {
         'mdw1': data_mdw_1,
@@ -378,7 +274,7 @@ def roc_business_officers(mdw_1, mdw_2, lang):
             'reg_postcode': temp_reg_postcode_new,
             'reg_origin': temp_comp_origin_new,
             'biz_address1': temp_biz_address_1_new,
-            'biz_address3': temp_biz_address_2_new,
+            'biz_address2': temp_biz_address_2_new,
             'biz_address3': temp_biz_address_3_new,
             'biz_state': temp_biz_state_new,
             'biz_town': temp_biz_town_new,
@@ -394,8 +290,9 @@ def roc_business_officers(mdw_1, mdw_2, lang):
         'incorp_date': temp_incorp_date_new,
         'business_address_info': business_address_info,
         'registered_address_info': registered_address_info,
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"), 
-        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S")
+        'latest_update_date': time_mapping(data_mdw_1['rocCompanyInfo']['latestDocUpdateDate']['#text']),
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y'), 
+        'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S')
     }
 
     return data_ready

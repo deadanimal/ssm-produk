@@ -22,7 +22,7 @@ def cert_incorp(mdw_1, mdw_2, lang):
     incorp_date = data_mdw_1['incorpDate']
     incorp_date = make_aware(datetime.strptime(incorp_date, '%Y-%m-%dT%H:%M:%S.000Z'))
     incorp_date = incorp_date.astimezone(pytz.timezone(time_zone))
-    incorp_date_str = incorp_date.strftime("%d %B %Y")
+    incorp_date_str = incorp_date.strftime("%-d %B %Y")
 
     country = origin_country_mapping(data_mdw_1['companyCountry'])
 

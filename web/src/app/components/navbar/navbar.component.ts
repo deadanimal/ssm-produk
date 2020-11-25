@@ -12,6 +12,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
 import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -43,6 +44,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private fileService: LocalFilesService,
+    private authService: AuthService
   ) {
     router.events.subscribe(
       (val) => {
@@ -235,5 +237,16 @@ export class NavbarComponent implements OnInit {
     else {
       return this.router.navigate([path])
     }
+  }
+
+  ssoLogin() {
+    // this.authService.ssoLogin().subscribe()
+    // const sso = new XMLHttpRequest();
+    const url = 'http://127.0.0.1:8000/SSOLogin/?sso';
+    // sso.open('GET', url, true);
+    // sso.withCredentials = true;
+    // // sso.onreadystatechange = handler;
+    // sso.send(); 
+    window.open(url)
   }
 }

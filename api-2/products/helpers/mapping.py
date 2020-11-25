@@ -52,7 +52,7 @@ def state_mapping(temp_state):
 
 def time_mapping(temp_time):
 
-    date_format = '%d-%m-%Y'
+    date_format = '%-d-%m-%Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
     temp_time = make_aware(datetime.strptime(temp_time, '%Y-%m-%dT%H:%M:%S.000Z'))
@@ -62,7 +62,7 @@ def time_mapping(temp_time):
 
 def time_mapping_aware(temp_time):
 
-    date_format = '%d %B %Y'
+    date_format = '%-d %B %Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
     temp_time = make_aware(datetime.strptime(temp_time, '%Y-%m-%dT%H:%M:%S.000Z'))
@@ -72,7 +72,7 @@ def time_mapping_aware(temp_time):
 
 def time_mapping_string(temp_time):
 
-    date_format = '%d %B %Y'
+    date_format = '%-d %B %Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
     temp_time = temp_time.strftime(date_format)
@@ -330,9 +330,9 @@ def comp_status_conversion_mapping(temp_comp_status, lang):
     elif temp_comp_status == 'U' and lang == 'en':
         temp_comp_status = 'PUBLIC'
     elif temp_comp_status == 'R' and lang == 'ms':
-        temp_comp_status = 'SYARIKAT PERSENDIRIAN'
+        temp_comp_status = 'PERSENDIRIAN'
     elif temp_comp_status == 'U' and lang == 'ms':
-        temp_comp_status = 'SYARIKAT AWAM'
+        temp_comp_status = 'AWAM'
 
     return temp_comp_status
 
@@ -354,6 +354,14 @@ def status_of_comp_mapping(temp_status_of_comp):
         temp_status_of_comp = 'NULL AND VOID BY COURT ORDER'
     elif temp_status_of_comp == 'Y':
         temp_status_of_comp = 'STRUCK-OFF & WINDING-UP VIA COURT ORDER'
+    elif temp_status_of_comp == 'F':
+        temp_status_of_comp = 'WINDING UP (UNDER SVA)'
+    elif temp_status_of_comp == 'G':
+        temp_status_of_comp = 'EXISTING UNDER JM (UNDER CVA)'
+    elif temp_status_of_comp == 'V':
+        temp_status_of_comp = 'EXISTING (UNDER CVS)'
+    elif temp_status_of_comp == 'J':
+        temp_status_of_comp = 'EXISTING (UNDER JM)'
 
     return temp_status_of_comp
 
@@ -377,6 +385,16 @@ def comp_type_mapping(temp_comp_type, lang):
         temp_comp_type = 'TIDAK TERHAD'
 
     return temp_comp_type
+
+def winding_up_mapping(wup_type):
+
+    if wup_type == 'S':
+        wup_type = 'EXISTING (STRIKING OFF IN PROCESS)'
+        print(wup_type)
+    else:
+        wup_type = 'EXISTING'
+
+    return wup_type
 
 def origin_country_mapping(temp_origin):
 
@@ -758,6 +776,8 @@ def origin_country_mapping(temp_origin):
         temp_origin = 'QATAR'
     elif temp_origin == 'KZT':
         temp_origin = 'KAZAKHSTAN'
+    elif temp_origin == 'BLZ':
+        temp_origin = 'BELIZE'
     
     return temp_origin
 
@@ -790,36 +810,104 @@ def officer_designation_mapping(temp_designation):
 
 def branch_code(branch_code):
 
-    if branch_code == 'AS':
-        branch_name = 'KEDAH'
+    if branch_code == 'CT':
+        branch_name = 'TEMERLOH'
+    elif branch_code == 'MP':
+        branch_name = 'MAJLIS PERBANDARAN SELAYANG'
+    elif branch_code == 'AS':
+        branch_name = 'ALOR SETAR'
     elif branch_code == 'PG':
-        branch_name = 'PULAU PINANG'    
+        branch_name = 'SEBERANG JAYA, PULAU PINANG'
     elif branch_code == 'IP':
-        branch_name = 'PERAK'        
+        branch_name = 'IPOH'
     elif branch_code == 'SA':
         branch_name = 'SHAH ALAM'
     elif branch_code == 'MA':
-        branch_name = 'MELAKA'    
+        branch_name = 'MELAKA BANDARAYA BERSEJARAH'
     elif branch_code == 'JM':
-        branch_name = 'JOHOR BAHRU'    
+        branch_name = 'JOHOR BAHRU'
     elif branch_code == 'KT':
-        branch_name = 'KELANTAN'   
+        branch_name = 'KOTA BHARU'
     elif branch_code == 'TR':
-        branch_name = 'TERENGGANU'
+        branch_name = 'KUALA TERENGGANU'
     elif branch_code == 'CA':
-        branch_name = 'PAHANG'         
+        branch_name = 'KUANTAN'
     elif branch_code == 'KL':
-        branch_name = 'KUALA LUMPUR' 
+        branch_name = 'KUALA LUMPUR'
     elif branch_code == 'LA':
-        branch_name = 'W.P. LABUAN'  
+        branch_name = 'W.P. LABUAN'
     elif branch_code == 'RA':
-        branch_name = 'PERLIS'
+        branch_name = 'KANGAR'
     elif branch_code == 'NS':
-        branch_name = 'N. SEMBILAN'
+        branch_name = 'SEREMBAN'
+    elif branch_code == 'MR':
+        branch_name = 'MIRI'
+    elif branch_code == 'KV':
+        branch_name = 'LANGKAWI'
+    elif branch_code == 'RC':
+        branch_name = 'PERLIS'
+    elif branch_code == 'JR':
+        branch_name = 'MUAR'
+    elif branch_code == 'JC':
+        branch_name = 'JOHOR'
+    elif branch_code == 'KC':
+        branch_name = 'KEDAH'
+    elif branch_code == 'PC':
+        branch_name = 'PULAU PINANG'
+    elif branch_code == 'AC':
+        branch_name = 'PERAK'
+    elif branch_code == 'BC':
+        branch_name = 'SELANGOR'
+    elif branch_code == 'NC':
+        branch_name = 'NEGERI SEMBILAN'
+    elif branch_code == 'MC':
+        branch_name = 'MELAKA'
+    elif branch_code == 'CC':
+        branch_name = 'PAHANG'
+    elif branch_code == 'TC':
+        branch_name = 'TERENGGANU'
+    elif branch_code == 'DC':
+        branch_name = 'KELANTAN'
     elif branch_code == 'SW':
-        branch_name = 'SARAWAK'
+        branch_name = 'KUCHING'
     elif branch_code == 'SB':
-        branch_name = 'SABAH'
+        branch_name = 'KOTA KINABALU'
+    elif branch_code == 'KP':
+        branch_name = 'KL PUTRA'
+    elif branch_code == 'DB':
+        branch_name = 'DEWAN BANDARAYA KUALA LUMPUR'
+    elif branch_code == 'KD':
+        branch_name = 'KPDNKK PUTRAJAYA'
+    elif branch_code == 'EL':
+        branch_name = 'KUALA LUMPUR'
+    elif branch_code == 'TW':
+        branch_name = 'TAWAU'
+    elif branch_code == 'IT':
+        branch_name = 'K. LUMPUR'
+    elif branch_code == 'IU':
+        branch_name = 'INACTIVE USERS'
+    elif branch_code == 'MY':
+        branch_name = 'MYCOID'
+    elif branch_code == 'UT':
+        branch_name = 'UTC MELAKA'
+    elif branch_code == 'UP':
+        branch_name = 'UTC PUDU SENTRAL'
+    elif branch_code == 'UK':
+        branch_name = 'UTC PAHANG'
+    elif branch_code == 'UA':
+        branch_name = 'UTC ALOR SETAR'
+    elif branch_code == 'MB':
+        branch_name = 'SISTEM EZBIZ'
+    elif branch_code == 'YC':
+        branch_name = 'CYBERJAYA'
+    elif branch_code == 'SI':
+        branch_name = 'SIBU'
+    elif branch_code == 'XB':
+        branch_name = 'XBRL'
+    elif branch_code == 'BR':
+        branch_name = 'BANK RAKYAT'
+    elif branch_code == 'BS':
+        branch_name = 'BSN'
     elif branch_code == 'MY':
         # repeatative coding
         branch_name = 'KUALA LUMPUR'

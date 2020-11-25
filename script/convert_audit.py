@@ -2,7 +2,7 @@ import csv
 import json
 import time
 
-input_csv_path = './data/original/audit_firm.txt'
+input_csv_path = './data/original/audit.txt'
 output_json_path = './output/audit.json'
 
 data = []
@@ -21,7 +21,9 @@ with open(input_csv_path, mode='r') as csv_input:
                 'name': audit_firm[0],
                 'local_or_foreign': 'LC',
                 'type_of_entity': 'AD',
-                'audit_firm_number': audit_firm[1]
+                'audit_firm_number': audit_firm[1],
+                'created_date': '2020-09-30T23:50:19.071287Z',
+                'modified_date': '2020-09-30T23:50:19.071314Z'
             }
         }
         data.append(data_json_)

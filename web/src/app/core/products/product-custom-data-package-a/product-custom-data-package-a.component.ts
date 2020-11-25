@@ -45,6 +45,9 @@ export class ProductCustomDataPackageAComponent implements OnInit {
   quotaForm: FormGroup
   cartForm: FormGroup
 
+  selectedDivision
+  selectedSector
+
   // Table
   tableEntries: number = 10
   tableSelected: any[] = []
@@ -114,6 +117,20 @@ export class ProductCustomDataPackageAComponent implements OnInit {
       (res) => {
         this.businessCodes = res
         console.log(this.businessCodes)
+      }
+    )
+
+    this.fileService.get('sector.json').subscribe(
+      (res) => {
+        this.sectors = res
+        console.log(this.sectors)
+      }
+    )
+
+    this.fileService.get('division.json').subscribe(
+      (res) => {
+        this.divisions = res
+        console.log(this.divisions)
       }
     )
 

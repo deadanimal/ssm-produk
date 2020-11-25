@@ -68,6 +68,7 @@ import { EgovComponent } from './egov/egov/egov.component';
 import { EgovHomeComponent } from './egov/egov-home/egov-home.component';
 import { ProductSearchEgovPiComponent } from './products/product-search-egov-pi/product-search-egov-pi.component';
 import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-detai
   imports: [
     CommonModule,
     FormsModule,
+    NgSelectModule,
     NgxDatatableModule,
     NgxSpinnerModule,
     ReactiveFormsModule,

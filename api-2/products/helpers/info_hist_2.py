@@ -5,7 +5,15 @@ import json
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-from .mapping import state_mapping, origin_country_mapping
+from .mapping import (
+    state_mapping, 
+    origin_country_mapping,
+    status_of_comp_mapping,
+    status_mapping,
+    comp_type_mapping,
+    time_mapping,
+    comp_status_mapping
+)
 
 def info_hist_2(mdw_1, mdw_2, lang):
     
@@ -22,51 +30,22 @@ def info_hist_2(mdw_1, mdw_2, lang):
     print('____________   ')
     print('historical year 1: ', data_mdw_1)
     print('____________   ')
-
-    temp_comp_status_old = data_mdw_1['rocCompanyInfo']['companyStatus']
     
-    if temp_comp_status_old == 'E':
-        temp_comp_status_new = 'Existing'
-    elif temp_comp_status_old == 'W':
-        temp_comp_status_new = 'Winding Up'
-    elif temp_comp_status_old == 'D':
-        temp_comp_status_new = 'Dissolved'
-
-    temp_incorpDate_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_incorpDate_new = temp_incorpDate_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
-    
-    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
-        date_of_change = make_aware(datetime.strptime(data_mdw_1["rocCompanyInfo"]['dateOfChange'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone))
-        temp_comp_info_change_date_new = date_of_change.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if 'incorpDate' in data_mdw_1["rocCompanyInfo"]:
+        temp_incorp_date = time_mapping(data_mdw_1["rocCompanyInfo"]['incorpDate'])
     else:
-        temp_comp_info_change_date_new = None
+        temp_incorp_date = None
 
-    temp_comp_info_incorp_date_old = make_aware(datetime.strptime(data_mdw_1['rocCompanyInfo']['incorpDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    temp_comp_info_incorp_date_new = temp_comp_info_incorp_date_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if 'dateOfChange' in data_mdw_1["rocCompanyInfo"]:
+        temp_date_of_change = time_mapping(data_mdw_1["rocCompanyInfo"]['dateOfChange'])
+    else:
+        temp_date_of_change = None
 
-    temp_comp_type_old = data_mdw_1['rocCompanyInfo']['companyType']
-    if temp_comp_type_old == 'R':
-        temp_comp_type_new = 'PRIVATE LIMITED'
-    elif temp_comp_type_old == 'U':
-        temp_comp_type_new = 'PUBLIC LIMITED'
+    temp_comp_type = comp_type_mapping(data_mdw_1['rocCompanyInfo']['companyType'], lang)
     
-    temp_comp_status_old = data_mdw_1['rocCompanyInfo']['companyStatus']
-    if temp_comp_status_old == 'S':
-        temp_comp_status_new = 'LIMITED BY SHARES'
-    elif temp_comp_status_old == 'G':
-        temp_comp_status_new = 'LIMITED BY GUARANTEE'
-    elif temp_comp_status_old == 'B':
-        temp_comp_status_new = 'LIMITED BY SHARE AND GUARANTEE'
-    elif temp_comp_status_old == 'U':
-        temp_comp_status_new = 'UNLIMITED'
+    temp_comp_status = comp_status_mapping(data_mdw_1['rocCompanyInfo']['companyStatus'], lang)
 
-    temp_status_of_comp_old = data_mdw_1['rocCompanyInfo']['statusOfCompany']
-    if temp_status_of_comp_old == 'E':
-        temp_status_of_comp_new = 'Existing'
-    elif temp_status_of_comp_old == 'W':
-        temp_status_of_comp_new = 'Winding Up'
-    elif temp_status_of_comp_old == 'D':
-        temp_status_of_comp_new = 'Dissolved'
+    temp_status_of_comp = status_of_comp_mapping(data_mdw_1['rocCompanyInfo']['statusOfCompany'])
     
     temp_reg_address_1_old = data_mdw_1['rocRegAddressInfo']['address1']
     temp_reg_address_2_old = data_mdw_1['rocRegAddressInfo']['address2']
@@ -179,10 +158,14 @@ def info_hist_2(mdw_1, mdw_2, lang):
     print('    ')
     print('cendol!!! >>  ', data_mdw_1)
     print('    ')
+    
     if 'rocProfitLossInfos' in data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']:
         profit_loss_list = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
     else:
-        data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']
+        profit_loss_list =   data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']
+    
+    # balance_sheet_list.sort(key = lambda x:('financialYearEndDate' in x, x['financialYearEndDate']), reverse=True) 
+    # profit_loss_list.sort(key = lambda x:('financialYearEndDate' in x, x['financialYearEndDate']), reverse=True) 
     
 
     balance_sheet_data = []
@@ -221,49 +204,8 @@ def info_hist_2(mdw_1, mdw_2, lang):
     elif temp_audit_state_old == None:
         temp_audit_state_new = None
     else:
-        temp_audit_state_new = temp_audit_state_old
+        temp_audit_state_new = state_mapping(temp_audit_state_old)
 
-    if temp_audit_state_old == 'R':
-        temp_audit_state_new = 'PERLIS'
-    elif temp_audit_state_old == 'K':
-        temp_audit_state_new = 'KEDAH'
-    elif temp_audit_state_old == 'P':
-        temp_audit_state_new = 'PULAU PINANG'
-    elif temp_audit_state_old == 'D':
-        temp_audit_state_new = 'KELANTAN'
-    elif temp_audit_state_old == 'T':
-        temp_audit_state_new = 'TERENGGANU'
-    elif temp_audit_state_old == 'A':
-        temp_audit_state_new = 'PERAK'
-    elif temp_audit_state_old == 'B':
-        temp_audit_state_new = 'SELANGOR'
-    elif temp_audit_state_old == 'C':
-        temp_audit_state_new = 'PAHANG'
-    elif temp_audit_state_old == 'M':
-        temp_audit_state_new = 'MELAKA'
-    elif temp_audit_state_old == 'J':
-        temp_audit_state_new = 'JOHOR'
-    elif temp_audit_state_old == 'X':
-        temp_audit_state_new = 'SABAH'
-    elif temp_audit_state_old == 'Y':
-        temp_audit_state_new = 'SARAWAK'
-    elif temp_audit_state_old == 'L':
-        temp_audit_state_new = 'LABUAN'
-    elif temp_audit_state_old == 'W':
-        temp_audit_state_new = 'WILAYAH PERSEKUTUAN'
-    elif temp_audit_state_old == 'Q':
-        temp_audit_state_new = 'SINGAPURA'
-    elif temp_audit_state_old == 'U':
-        temp_audit_state_new = 'WILAYAH PERSEKUTUAN PUTRAJAYA'
-    elif temp_audit_state_old == 'F':
-        temp_audit_state_new = 'FOREIGN'
-    elif temp_audit_state_old == 'I':
-        temp_audit_state_new = 'INTERNET'
-    elif temp_audit_state_old == 'S':
-        temp_audit_state_new = 'SABAH'
-    elif temp_audit_state_old == 'E':
-        temp_audit_state_new = 'SARAWAK'
-    
     if temp_audit_postcode_old == 'TIADA FAIL':
         temp_audit_postcode_new = None
     elif temp_audit_postcode_old == None:
@@ -277,12 +219,16 @@ def info_hist_2(mdw_1, mdw_2, lang):
         temp_audit_town_new = None
     else:
         temp_audit_town_new = temp_audit_town_old
-    
-    financial_year_end_old = make_aware(datetime.strptime(balance_sheet_list['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
 
-    date_of_tabling_old = make_aware(datetime.strptime(balance_sheet_list['dateOfTabling'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    date_of_tabling_new = date_of_tabling_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if 'financialYearEndDate' in balance_sheet_list:
+        financial_year_end = time_mapping(balance_sheet_list['financialYearEndDate'])
+    else:
+        financial_year_end = None
+    
+    if 'dateOfTabling' in balance_sheet_list:
+        date_of_tabling = time_mapping(balance_sheet_list['dateOfTabling'])
+    else:
+        date_of_tabling = None
 
     year_data = {
         'auditor_name': balance_sheet_list['auditFirmName'],
@@ -293,10 +239,10 @@ def info_hist_2(mdw_1, mdw_2, lang):
         'auditor_postcode': temp_audit_postcode_new,
         'auditor_town': temp_audit_town_new,
         'auditor_state': temp_audit_state_new,
-        'financial_year_end': financial_year_end_new,
+        'financial_year_end': financial_year_end,
         'financialReportType': balance_sheet_list['financialReportType'],
         'accrualAccType': balance_sheet_list['accrualAccType'],
-        'dateOfTabling': date_of_tabling_new,
+        'dateOfTabling': date_of_tabling,
         'nonCurrAsset':float(balance_sheet_list['nonCurrAsset']),
         'currentAsset':float(balance_sheet_list['currentAsset']),
         'nonCurrentLiability':float(balance_sheet_list['nonCurrentLiability']),
@@ -310,14 +256,15 @@ def info_hist_2(mdw_1, mdw_2, lang):
 
     profit_loss_data = []
 
-    
-    financial_year_end_old = make_aware(datetime.strptime(profit_loss_list['financialYearEndDate'], '%Y-%m-%dT%H:%M:%S.000Z'))
-    financial_year_end_new = financial_year_end_old.astimezone(pytz.timezone(time_zone)).strftime(date_format)
+    if 'financialYearEndDate' in profit_loss_list:
+        financial_year_end_pl = time_mapping(profit_loss_list['financialYearEndDate'])
+    else:
+        financial_year_end_pl = None
 
     year_data = {
         'extraOrdinaryItem': profit_loss_list['extraOrdinaryItem'],
         'financialReportType': profit_loss_list['financialReportType'],
-        'financialYearEndDate': profit_loss_list['financialYearEndDate'],
+        'financialYearEndDate': financial_year_end_pl,
         'grossDividendRate': profit_loss_list['grossDividendRate'],
         'inappropriateProfitBf': profit_loss_list['inappropriateProfitBf'],
         'inappropriateProfitCf': profit_loss_list['inappropriateProfitCf'],
@@ -340,22 +287,20 @@ def info_hist_2(mdw_1, mdw_2, lang):
         'turnover': profit_loss_list['turnover']
     }
 
-
-    
     profit_loss_data.append(year_data)
 
     data_ready = {
         'corpInfo': {
             'compName': data_mdw_1['rocCompanyInfo']['companyName'],
             'compOldName': data_mdw_1['rocCompanyInfo']['companyOldName'],
-            'changeDate': temp_comp_info_change_date_new,
+            'changeDate': temp_date_of_change,
             'compNoNew': data_mdw_2['newFormatNo'],
             'compNoOld': data_mdw_2['oldFormatNo'],
             'checkDigit': data_mdw_1['rocCompanyInfo']['checkDigit'],
-            'incorpDate': temp_comp_info_incorp_date_new,
-            'companyType': temp_comp_type_old,
-            'companyStatus': temp_comp_status_old,
-            'statusOfCompany': temp_status_of_comp_new,
+            'incorpDate': temp_incorp_date,
+            'companyType': temp_comp_type,
+            'companyStatus': temp_comp_status,
+            'statusOfCompany': temp_status_of_comp,
             'reg_address1': temp_reg_address_1_new,
             'reg_address2': temp_reg_address_2_new,
             'reg_address3': temp_reg_address_3_new,
@@ -374,7 +319,8 @@ def info_hist_2(mdw_1, mdw_2, lang):
         'balance_sheet': balance_sheet_data,
         'profit_loss': profit_loss_data,
         'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'mdw': data_mdw_1
     }
 
     return data_ready

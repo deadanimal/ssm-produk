@@ -119,7 +119,7 @@ def acgs(mdw_1, mdw_2, lang):
         'regAddress_address2': temp_regAddress_address_2_new,
         'regAddress_address3': temp_regAddress_address_3_new,
         'regAddress_postcode': temp_regAddress_postcode_new,
-        'regAddress_state': temp_regAddress_state_new,
+        'regAddress_state': temp_regAddress_state_new.title(),
         'regAddress_town': temp_regAddress_town_new,
         'extract_date': datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d %B %Y'),
         'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y'),

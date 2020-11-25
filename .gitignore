@@ -7,6 +7,6 @@ misc
 *.DS_Store
 
 Archive.zip
-
+*/seed
 script/data/original/*.txt
 script/output

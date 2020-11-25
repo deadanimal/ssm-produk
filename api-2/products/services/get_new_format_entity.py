@@ -17,7 +17,7 @@ def get_new_format_entity(url, headers, registration_number, entity_type):
             <request>
                 <newFormatEntityNoReq>
                     <agencyId>SSMProduk</agencyId>
-                    <checkDigit>H</checkDigit>
+                    <checkDigit></checkDigit>
                     <formatType></formatType>
                     <regNo>""" + str(registration_number) + """</regNo>
                     <tableId></tableId>

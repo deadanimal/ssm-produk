@@ -50,6 +50,9 @@ Coded by www.creative-tim.com
 @import '~@swimlane/ngx-datatable/themes/material.scss';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
+// ng-select
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 // Bootstrap style toast
 // or import a bootstrap 4 alert styled design (SASS ONLY)
 // Should be after your bootstrap imports, it uses bs4 variables, mixins, functions

@@ -4,34 +4,34 @@ import {
   OnDestroy,
   NgZone,
   TemplateRef,
-} from "@angular/core";
-import { User } from "src/assets/mock/admin-user/users.model";
-import { MocksService } from "src/app/shared/services/mocks/mocks.service";
+} from '@angular/core';
+import { User } from 'src/assets/mock/admin-user/users.model';
+import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 
-import * as moment from "moment";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import * as moment from 'moment';
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4charts from '@amcharts/amcharts4/charts';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 am4core.useTheme(am4themes_animated);
 
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormControl,
-} from "@angular/forms";
+} from '@angular/forms';
 import { UsersService } from 'src/app/shared/services/users/users.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 export enum SelectionType {
-  single = "single",
-  multi = "multi",
-  multiClick = "multiClick",
-  cell = "cell",
-  checkbox = "checkbox",
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox',
 }
-
 
 @Component({
   selector: 'app-customer-management',
@@ -39,6 +39,7 @@ export enum SelectionType {
   styleUrls: ['./customer-management.component.scss']
 })
 export class CustomerManagementComponent implements OnInit {
+
   // Table
   tableEntries: number = 10;
   tableSelected: any[] = [];
@@ -52,16 +53,16 @@ export class CustomerManagementComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered modal-lg",
+    class: 'modal-dialog-centered modal-lg',
   };
 
   // Form
   registerForm: FormGroup;
   registerFormMessages = {
-    name: [{ type: "required", message: "Name is required" }],
+    name: [{ type: 'required', message: 'Name is required' }],
     email: [
-      { type: "required", message: "Email is required" },
-      { type: "email", message: "A valid email is required" },
+      { type: 'required', message: 'Email is required' },
+      { type: 'email', message: 'A valid email is required' },
     ],
   };
 
@@ -71,20 +72,21 @@ export class CustomerManagementComponent implements OnInit {
     private formBuilder: FormBuilder,
     private zone: NgZone,
     private usersService: UsersService,
+    private loadingBar: LoadingBarService
   ) {
     // this.getData()
   }
 
   ngOnInit() {
     // this.registerForm = this.formBuilder.group({
-    //   name: new FormControl("", Validators.compose([Validators.required])),
+    //   name: new FormControl('', Validators.compose([Validators.required])),
     //   email: new FormControl(
-    //     "",
+    //     '',
     //     Validators.compose([Validators.required, Validators.email])
     //   ),
     // });
 
-    this.initData();
+    this.getData();
   }
 
   ngOnDestroy() {
@@ -101,6 +103,41 @@ export class CustomerManagementComponent implements OnInit {
     // })
   }
 
+  getData() {
+    this.loadingBar.start()
+    this.usersService.getEgovUsers().subscribe(
+      (res) => {
+
+        this.tableRows = res;
+        this.tableRows.forEach(
+          (row) => {
+            if(row.created_date) {
+              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
+            }
+
+            if(row.modified_date) {
+              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
+            }
+          }
+        )
+      },
+      (err) => {
+        // 
+        this.loadingBar.start()
+      },
+      () => {
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id_index: key+1
+          };
+        });        
+        // console.log('Table: ', this.tableTemp)
+        this.loadingBar.complete()
+      }
+    )
+  }
+
   openModal(modalRef: TemplateRef<any>) {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
@@ -112,27 +149,27 @@ export class CustomerManagementComponent implements OnInit {
 
   confirm() {
     swal.fire({
-      title: "Success",
-      text: "You have successfully export report!",
-      type: "success",
+      title: 'Success',
+      text: 'You have successfully export report!',
+      type: 'success',
       buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
-      confirmButtonText: "Success",
+      confirmButtonClass: 'btn btn-success',
+      confirmButtonText: 'Success',
       showCancelButton: false,
-      // cancelButtonClass: "btn btn-danger",
-      // cancelButtonText: "Cancel"
+      // cancelButtonClass: 'btn btn-danger',
+      // cancelButtonText: 'Cancel'
     });
   }
 
   register() {
     swal
       .fire({
-        title: "Success",
-        text: "A new user has been created!",
-        type: "success",
+        title: 'Success',
+        text: 'A new user has been created!',
+        type: 'success',
         buttonsStyling: false,
-        confirmButtonClass: "btn btn-success",
-        confirmButtonText: "Close",
+        confirmButtonClass: 'btn btn-success',
+        confirmButtonText: 'Close',
       })
       .then((result) => {
         if (result.value) {
@@ -140,40 +177,6 @@ export class CustomerManagementComponent implements OnInit {
           this.registerForm.reset();
         }
       });
-  }
-
-  initData() {
-    this.usersService.getEgovUsers().subscribe(
-      (res) => {
-        this.tableRows = res;
-        this.tableRows.forEach(
-          (row) => {
-
-
-            if(row.created_date) {
-              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
-            }
-
-            if(row.modified_date) {
-              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
-            }
-            
-          }
-        )        
-      },
-      (err) => {
-
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });        
-        console.log(this.tableTemp)
-      }
-    )
   }
 
   entriesChange($event) {

@@ -1,0 +1,442 @@
+[
+    {
+      "sector": "A",
+      "division": 1,
+      "description": "CROPS AND ANIMAL PRODUCTION, HUNTING AND RELATED SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "A",
+      "division": 2,
+      "description": "FORESTRY AND LOGGING"
+    },
+    {
+      "sector": "B",
+      "division": 3,
+      "description": "FISHING AND AQUACULTURE"
+    },
+    {
+      "sector": "B",
+      "division": 5,
+      "description": "MINING OF COAL AND LIGNITE"
+    },
+    {
+      "sector": "B",
+      "division": 6,
+      "description": "EXTRACTION OF CRUDE PETROLEUM AND NATURAL GAS"
+    },
+    {
+      "sector": "B",
+      "division": 7,
+      "description": "MINING OF METAL ORES"
+    },
+    {
+      "sector": "B",
+      "division": 8,
+      "description": "OTHER MINING AND QUARRYING"
+    },
+    {
+      "sector": "B",
+      "division": 9,
+      "description": "MINING SUPPORT SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "C",
+      "division": 10,
+      "description": "MANUFACTURE OF FOOD PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 11,
+      "description": "MANUFACTURE OF BEVERAGES"
+    },
+    {
+      "sector": "C",
+      "division": 12,
+      "description": "MANUFACTURE OF TOBACCO PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 13,
+      "description": "MANUFACTURE OF TEXTILES"
+    },
+    {
+      "sector": "C",
+      "division": 14,
+      "description": "MANUFACTURE OF WEARING APPAREL"
+    },
+    {
+      "sector": "C",
+      "division": 15,
+      "description": "MANUFACTURE OF LEATHER AND RELATED PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 16,
+      "description": "MANUFACTURE OF WOOD AND PRODUCTS OF WOOD AND CORK, EXCEPT FURNITURE"
+    },
+    {
+      "sector": "C",
+      "division": 17,
+      "description": "MANUFACTURE OF PAPER AND PAPER PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 18,
+      "description": "PRINTING AND REPRODUCTION OF RECORDED MEDIA"
+    },
+    {
+      "sector": "C",
+      "division": 19,
+      "description": "MANUFACTURE OF COKE AND REFINED PETROLEUM PRODUCTS MANUFACTURE OF COKE OVEN PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 20,
+      "description": "MANUFACTURE OF CHEMICALS AND CHEMICAL PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 21,
+      "description": "MANUFACTURE OF BASIC PHARMACEUTICAL PRODUCTS AND PHARMACEUTICAL PREPARATIONS"
+    },
+    {
+      "sector": "C",
+      "division": 22,
+      "description": "MANUFACTURE OF RUBBER AND PLASTICS PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 23,
+      "description": "MANUFACTURE OF OTHER NON-METALLIC MINERAL PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 24,
+      "description": "MANUFACTURE OF BASIC METALS"
+    },
+    {
+      "sector": "C",
+      "division": 25,
+      "description": "MANUFACTURE OF FABRICATED METAL PRODUCTS, EXCEPT MACHINERY AND EQUIPMENT"
+    },
+    {
+      "sector": "C",
+      "division": 26,
+      "description": "MANUFACTURE OF COMPUTER, ELECTRONIC AND OPTICAL PRODUCTS"
+    },
+    {
+      "sector": "C",
+      "division": 27,
+      "description": "MANUFACTURE OF ELECTRICAL EQUIPMENT"
+    },
+    {
+      "sector": "C",
+      "division": 28,
+      "description": "MANUFACTURE OF MACHINERY AND EQUIPMENT N.E.C."
+    },
+    {
+      "sector": "C",
+      "division": 29,
+      "description": "MANUFACTURE OF MOTOR VEHICLES, TRAILERS AND SEMI- TRAILERS"
+    },
+    {
+      "sector": "C",
+      "division": 30,
+      "description": "MANUFACTURE OF OTHER TRANSPORT EQUIPMENT"
+    },
+    {
+      "sector": "C",
+      "division": 31,
+      "description": "MANUFACTURE OF FURNITURE"
+    },
+    {
+      "sector": "C",
+      "division": 32,
+      "description": "OTHER MANUFACTURING"
+    },
+    {
+      "sector": "C",
+      "division": 33,
+      "description": "REPAIR AND INSTALLATION OF MACHINERY AND EQUIPMENT"
+    },
+    {
+      "sector": "D",
+      "division": 35,
+      "description": "ELECTRICITY, GAS, STEAM AND AIR CONDITIONING SUPPLY"
+    },
+    {
+      "sector": "E",
+      "division": 36,
+      "description": "WATER COLLECTION, TREATMENT AND SUPPLY"
+    },
+    {
+      "sector": "E",
+      "division": 37,
+      "description": "SEWERAGE"
+    },
+    {
+      "sector": "E",
+      "division": 38,
+      "description": "WASTE COLLECTION, TREATMENT AND DISPOSAL ACTIVITIES"
+    },
+    {
+      "sector": "E",
+      "division": 39,
+      "description": "REMEDIATION ACTIVITIES AND OTHER WASTE MANAGEMENT SERVICES"
+    },
+    {
+      "sector": "F",
+      "division": 41,
+      "description": "CONSTRUCTION OF BUILDINGS"
+    },
+    {
+      "sector": "F",
+      "division": 42,
+      "description": "CIVIL ENGINEERING"
+    },
+    {
+      "sector": "F",
+      "division": 43,
+      "description": "SPECIALIZED CONSTRUCTION ACTIVITIES"
+    },
+    {
+      "sector": "G",
+      "division": 45,
+      "description": "WHOLESALE AND RETAIL TRADE AND REPAIR OF MOTOR VEHICLES AND MOTORCYCLES"
+    },
+    {
+      "sector": "G",
+      "division": 46,
+      "description": "WHOLESALE TRADE, EXCEPT OF MOTOR VEHICLES AND MOTORCYCLES"
+    },
+    {
+      "sector": "G",
+      "division": 47,
+      "description": "RETAIL TRADE, EXCEPT OF MOTOR VEHICLES AND MOTORCYCLES"
+    },
+    {
+      "sector": "H",
+      "division": 49,
+      "description": "LAND TRANSPORT AND TRANSPORT VIA PIPELINES"
+    },
+    {
+      "sector": "H",
+      "division": 50,
+      "description": "WATER TRANSPORT"
+    },
+    {
+      "sector": "H",
+      "division": 51,
+      "description": "AIR TRANSPORT"
+    },
+    {
+      "sector": "H",
+      "division": 52,
+      "description": "WAREHOUSING AND SUPPORT ACTIVITIES FOR TRANSPORTATION"
+    },
+    {
+      "sector": "H",
+      "division": 53,
+      "description": "POSTAL AND COURIER ACTIVITIES"
+    },
+    {
+      "sector": "I",
+      "division": 55,
+      "description": "ACCOMMODATION"
+    },
+    {
+      "sector": "I",
+      "division": 56,
+      "description": "FOOD AND BEVERAGE SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "division": 58,
+      "description": "PUBLISHING ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "division": 59,
+      "description": "MOTION PICTURE, VIDEO AND TELEVISION PROGRAMME PRODUCTION, SOUND RECORDING AND MUSIC PUBLISHING ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "division": 60,
+      "description": "PROGRAMMING AND BROADCASTING ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "division": 61,
+      "description": "TELECOMMUNICATIONS"
+    },
+    {
+      "sector": "J",
+      "division": 62,
+      "description": "COMPUTER PROGRAMMING, CONSULTANCY AND RELATED ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "division": 63,
+      "description": "INFORMATION SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "K",
+      "division": 64,
+      "description": "FINANCIAL SERVICE ACTIVITIES, EXCEPT INSURANCE/TAKAFUL AND PENSION FUNDING"
+    },
+    {
+      "sector": "K",
+      "division": 65,
+      "description": "INSURANCE/TAKAFUL, REINSURANCE/RETAKAFUL AND PENSION FUNDING, EXCEPT COMPULSORY SOCIAL SECURITY"
+    },
+    {
+      "sector": "K",
+      "division": 66,
+      "description": "ACTIVITIES AUXILIARY TO FINANCIAL SERVICE AND INSURANCE/ TAKAFUL ACTIVITIES"
+    },
+    {
+      "sector": "L",
+      "division": 68,
+      "description": "REAL ESTATE ACTIVITIES"
+    },
+    {
+      "sector": "M",
+      "division": 69,
+      "description": "LEGAL AND ACCOUNTING ACTIVITIES"
+    },
+    {
+      "sector": "M",
+      "division": 70,
+      "description": "ACTIVITIES OF HEAD OFFICES"
+    },
+    {
+      "sector": "M",
+      "division": 71,
+      "description": "ARCHITECTURAL AND ENGINEERING ACTIVITIES"
+    },
+    {
+      "sector": "M",
+      "division": 72,
+      "description": "SCIENTIFIC RESEARCH AND DEVELOPMENT"
+    },
+    {
+      "sector": "M",
+      "division": 73,
+      "description": "ADVERTISING AND MARKET RESEARCH"
+    },
+    {
+      "sector": "M",
+      "division": 74,
+      "description": "OTHER PROFESSIONAL, SCIENTIFIC AND TECHNICAL ACTIVITIES"
+    },
+    {
+      "sector": "M",
+      "division": 75,
+      "description": "VETERINARY ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 77,
+      "description": "RENTAL AND LEASING ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 78,
+      "description": "EMPLOYMENT ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 79,
+      "description": "TRAVEL AGENCY, TOUR OPERATOR, RESERVATION SERVICE AND RELATED ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 80,
+      "description": "SECURITY AND INVESTIGATION ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 81,
+      "description": "SERVICES TO BUILDINGS AND LANDSCAPE ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "division": 82,
+      "description": "OFFICE ADMINISTRATIVE, OFFICE SUPPORT AND OTHER BUSINESS SUPPORT ACTIVITIES"
+    },
+    {
+      "sector": "O",
+      "division": 84,
+      "description": "PUBLIC ADMINISTRATION AND DEFENCE"
+    },
+    {
+      "sector": "P",
+      "division": 85,
+      "description": "EDUCATION"
+    },
+    {
+      "sector": "Q",
+      "division": 86,
+      "description": "HUMAN HEALTH AND SOCIAL WORK ACTIVITIES HUMAN HEALTH ACTIVITIES"
+    },
+    {
+      "sector": "Q",
+      "division": 87,
+      "description": "RESIDENTIAL CARE ACTIVITIES"
+    },
+    {
+      "sector": "Q",
+      "division": 88,
+      "description": "SOCIAL WORK ACTIVITIES WITHOUT ACCOMMODATION"
+    },
+    {
+      "sector": "R",
+      "division": 90,
+      "description": "CREATIVE, ARTS AND ENTERTAINMENT ACTIVITIES"
+    },
+    {
+      "sector": "R",
+      "division": 91,
+      "description": "LIBRARIES, ARCHIVES, MUSEUMS AND OTHER CULTURAL ACTIVITIES"
+    },
+    {
+      "sector": "R",
+      "division": 92,
+      "description": "GAMBLING AND BETTING ACTIVITIES"
+    },
+    {
+      "sector": "R",
+      "division": 93,
+      "description": "SPORTS ACTIVITIES AND AMUSEMENT AND RECREATION ACTIVITIES"
+    },
+    {
+      "sector": "S",
+      "division": 94,
+      "description": "ACTIVITIES OF MEMBERSHIP ORGANIZATIONS"
+    },
+    {
+      "sector": "S",
+      "division": 95,
+      "description": "REPAIR OF COMPUTERS AND PERSONAL AND HOUSEHOLD GOODS"
+    },
+    {
+      "sector": "S",
+      "division": 96,
+      "description": "OTHER PERSONAL SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "T",
+      "division": 97,
+      "description": "ACTIVITIES OF HOUSEHOLDS AS EMPLOYERS OF DOMESTIC PERSONNEL"
+    },
+    {
+      "sector": "T",
+      "division": 98,
+      "description": "UNDIFFERENTIATED GOODS- AND SERVICES-PRODUCING ACTIVITIES OF PRIVATE HOUSEHOLDS FOR OWN USE"
+    },
+    {
+      "sector": "U",
+      "division": 99,
+      "description": "ACTIVITIES OF EXTRATERRITORIAL ORGANIZATIONS AND BODIES"
+    }
+]

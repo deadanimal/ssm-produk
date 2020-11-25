@@ -24,7 +24,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'afeezaziz.ngrok.io',
-    'syafiqbasri.ngrok.io'
+    'syafiqbasri.ngrok.io',
+    'identitypro.ssm.com.my'
 ]
 
 # Application definition
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_filters',
     'django.contrib.humanize',
+    'django_saml2_auth',
 
     'anymail',
     'allauth',
@@ -148,12 +150,14 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
-    'http://localhost'
+    'http://localhost',
+    'https://identitypro.ssm.com.my'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
-    'http://localhost'
+    'http://localhost',
+    'https://identitypro.ssm.com.my'
 ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -210,9 +214,56 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# SSO SAML
+SAML_FOLDER = os.path.join(BASE_DIR, 'saml')
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+# SSO SAML
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
 GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+SAML2_AUTH = {
+    # Metadata is required, choose either remote url or local file path
+    'METADATA_AUTO_CONF_URL': 'https://identitypro.ssm.com.my:8443/nidp/saml2/metadata',
+    # 'METADATA_LOCAL_FILE_PATH': 'acs/sp-metadata.xml',
+
+    # Optional settings below
+    # 'DEFAULT_NEXT_URL': '/auth/login',  # Custom target redirect URL after the user get logged in. Default to /admin if not set. This setting will be overwritten if you have parameter ?next= specificed in the login URL.
+    'CREATE_USER': 'TRUE', # Create a new Django user when a new user logs in. Defaults to True.
+    'NEW_USER_PROFILE': {
+        'USER_GROUPS': [],  # The default group name when a new user logs in
+        'ACTIVE_STATUS': True,  # The default active status for new users
+        'STAFF_STATUS': False,  # The staff status for new users
+        'SUPERUSER_STATUS': False,  # The superuser status for new users
+    },
+    'ATTRIBUTES_MAP': {  # Change Email/UserName/FirstName/LastName to corresponding SAML2 userprofile attributes.
+        'email': 'ssmEServicesName',
+        'username': 'ssmADUserID',
+        'full_name': 'fullName',
+        'identification_type': 'ssmIDType',
+        'nric_number': 'ssmNRIC',
+        'address_1': 'ssmHomeAdd01',
+        'address_2': 'ssmHomeAdd02',
+        'address_3': 'ssmHomeAdd03',
+        'city': 'ssmHomeCity',
+        'postcode': 'ssmHomePostal',
+        'state': 'ssmHomeState',
+        'gender': 'ssmGender',
+        'race': 'ssmRace',
+        'title': 'ssmTitle'
+    },
+    'TRIGGER': {
+        'CREATE_USER': 'rest_auth.registration.urls',
+        # 'BEFORE_LOGIN': 'path.to.your.login.hook.method',
+    },
+    'ASSERTION_URL': 'https://xcessdev.ssm.com.my/#/sso/acs', # Custom URL to validate incoming SAML requests against
+    # 'ENTITY_ID': 'SSMProduk', # Populates the Issuer element in authn request
+    'NAME_ID_FORMAT': 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified', # Sets the Format property of authn NameIDPolicy element
+    'USE_JWT': True, # Set this to True if you are running a Single Page Application (SPA) with Django Rest Framework (DRF), and are using JWT authentication to authorize client users
+    'FRONTEND_URL': 'https://xcessdev.ssm.com.my/#/home' # Redirect URL for the client if you are using JWT auth with DRF. See explanation below
+}

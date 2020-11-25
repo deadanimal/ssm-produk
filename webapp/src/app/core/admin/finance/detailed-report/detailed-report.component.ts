@@ -3,6 +3,7 @@ import { TransactionsService } from 'src/app/shared/services/transactions/transa
 
 import * as moment from 'moment';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-detailed-report',
@@ -20,14 +21,26 @@ export class DetailedReportComponent implements OnInit {
 
   transactions: any[] = []
 
+  searchForm: FormGroup
+
   constructor(
     private transactionService: TransactionsService,
-    private loadingBar: LoadingBarService
+    private loadingBar: LoadingBarService,
+    private fb: FormBuilder
   ) { 
-    this.getData()
+    // this.getData()
   }
 
   ngOnInit() {
+    this.initForm()
+  }
+
+  initForm() {
+    this.searchForm = this.fb.group({
+      type: new FormControl('csv'),
+      start_date: new FormControl(null),
+      end_date: new FormControl(null)
+    })
   }
 
   getData() {
@@ -75,6 +88,39 @@ export class DetailedReportComponent implements OnInit {
         id_index: key+1
       };
     })
+  }
+
+  generateReport() {
+    this.loadingBar.start()
+    this.searchForm.controls['start_date'].setValue(this.searchForm.value['start_date'] + 'T08:00:00.000000Z')
+    this.searchForm.controls['end_date'].setValue(this.searchForm.value['end_date'] + 'T08:00:00.000000Z')
+    console.log(this.searchForm.value)
+    this.transactionService.generateTable(this.searchForm.value).subscribe(
+      (res) => {
+        this.loadingBar.complete()
+        console.log(res)
+        console.log('co')
+        const blob = new Blob([res], { type: 'application/octet-stream' });
+        // const url = window.URL.createObjectURL(blob);
+        // console.log(url)
+        // window.open(url, '_blank');
+        let link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        let fileName = '';
+        if (this.searchForm.value['type'] == 'excel') {
+          fileName='xcess-mtt.xlsx'
+        }
+        else {
+          fileName='xcess-mtt.csv'
+        }
+        link.download = fileName;
+        link.click();
+      },
+      (error) => {
+        console.log('f ', error)
+        this.loadingBar.complete()
+      }
+    )
   }
 
 }
