@@ -7,6 +7,8 @@ from django.contrib.gis import admin
 from rest_framework import routers
 from rest_framework_extensions.routers import NestedRouterMixin
 
+import django_saml2_auth.views
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -14,7 +16,10 @@ from rest_framework_simplejwt.views import (
 )
 
 from users.views import (
-    MyTokenObtainPairView
+    MyTokenObtainPairView,
+    attrs,
+    index,
+    metadata
 )
 
 class NestedDefaultRouter(NestedRouterMixin, routers.DefaultRouter):
@@ -195,9 +200,19 @@ users_router = router.register(
 )
 
 urlpatterns = [
+    # These are the SAML2 related URLs. You can change "^saml2_auth/" regex to
+    # any path you want, like "^sso_auth/", "^sso_login/", etc. (required)
+    # url(r'^saml2_auth/', include('django_saml2_auth.urls')),
+    # url(r'^accounts/login/$', django_saml2_auth.views.signin),
+    # url(r'^admin/login/$', django_saml2_auth.views.signin),
+    url(r'^SSOLogin/$', index, name='index'),
+    url(r'^SSOLogin/attrs/$', attrs, name='attrs'),
+    url(r'^SSOLogin/metadata/$', metadata, name='metadata'),
+    
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),
     url(r'auth/registration/', include('rest_auth.registration.urls')),
+    # url(r'sso/sso_auth/', include('django_saml2_auth.urls')),
 
     url('auth/obtain/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

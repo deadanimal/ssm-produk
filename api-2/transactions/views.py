@@ -3,6 +3,11 @@ import json
 import datetime
 import pytz
 import uuid
+import xlsxwriter
+import csv
+import io
+
+from django.utils.timezone import make_aware
 
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
@@ -42,6 +47,18 @@ from .serializers import (
 from carts.models import (
     Cart,
     CartItem
+)
+
+from services.models import (
+    ServiceRequest
+)
+
+from entities.models import (
+    Entity
+)
+
+from products.models import (
+    Product
 )
 
 class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -334,9 +351,466 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         print('query_request')
 
     @action(methods=['POST'], detail=False)
-    def generate_report_table(self, reust, *args, **kwargs):
-        print('generate_report_table')
+    def generate_report_table(self, request, *args, **kwargs):
+        table_request = json.loads(request.body)
+        report_column = table_request['type']
+        report_start_date = table_request['start_date']
+        report_end_date = table_request['end_date']
 
+        date_format = '%-d-%m-%Y '
+        time_zone = 'Asia/Kuala_Lumpur'
+
+        combined_generated_table = []
+
+        if report_column == 'csv':
+            filtered_table = Transaction.objects.filter(
+                created_date__range=(report_start_date, report_end_date)
+            ).all()
+
+            for transaction_row in filtered_table:
+                print('ane cendol', transaction_row)
+                transaction_ = Transaction.objects.filter(id=transaction_row.id).first()
+                cart_items_ = CartItem.objects.filter(cart=transaction_.cart).all()
+                for cart_item_row in cart_items_:
+                    if cart_item_row.product and cart_item_row.entity:
+                        print('heheheh', cart_item_row.product)
+                        product_ = Product.objects.filter(id=cart_item_row.product.id).first()
+                        entity_ = Entity.objects.filter(id=cart_item_row.entity.id).first()
+
+                        if entity_.type_of_entity == 'AD':
+                            entity_reg_no_ = entity_.audit_firm_number
+                        elif entity_.type_of_entity == 'BS':
+                            entity_reg_no_ = entity_.registration_number_new + '(' + entity_.registration_number + '-' + entity_.check_digit + ')'
+                        elif entity_.type_of_entity == 'CP':
+                            entity_reg_no_ = entity_.company_number_new + '(' + entity_.company_number + '-' + entity_.check_digit + ')'
+
+                        new_row = [
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            'Online',
+                            transaction_.name,
+                            transaction_.email_address,
+                            transaction_.phone_number,
+                            transaction_.address1,
+                            transaction_.address2,
+                            transaction_.address3,
+                            transaction_.postcode,
+                            transaction_.city,
+                            transaction_.state,
+                            product_.description,
+                            entity_.name,
+                            entity_reg_no_,
+                            product_.fee/100,
+                            product_.discount,
+                            product_.tax,
+                            product_.fee/100,
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            transaction_.transaction_id,
+                            transaction_.transaction_type,
+                            transaction_.payment_method,
+                            transaction_.card_holder,
+                            transaction_.card_no_mask,
+                            transaction_.total_amount/100,
+                            transaction_.payment_status,
+                            transaction_.receipt_no,
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            ''
+                        ]
+                        combined_generated_table.append(new_row)
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="xcess_portal_mtt.csv"'
+
+            csv_writer = csv.writer(response)   
+            csv_writer.writerow([
+                'Date', 
+                'Channel', 
+                'Customer Name', 
+                'Customer Email Address',
+                'Customer Phone No.',
+                'Customer Address 1',
+                'Customer Address 2',
+                'Customer Address 3',
+                'Customer Postcode',
+                'Customer City',
+                'Product Type',
+                'Product Name',
+                'Entity Name',
+                'Entity No.',
+                'Product Fee',
+                'Discount Amount',
+                'Tax Amount',
+                'Gross Amount',
+                'Transaction Date',
+                'Payment Transaction ID',
+                'Transaction Type',
+                'Payment Mode',
+                'Card Holder',
+                'Card No.',
+                'Charge Amount',
+                'Transaction Status',
+                'Receipt No.',
+                'Receipt Date',
+                'Ministry Name',
+                'Department / Agency Name',
+                'Division / Section / Unit Name',
+                'Address 1',
+                'Address 2',
+                'Address 3',
+                'Postcode',
+                'City',
+                'State',
+                'KJAKP Email Address',
+                'KJAKP IC No.',
+                'KJAKP Package',
+                'KJAKP HOD Name',
+                'KJAKP HOD Position',
+                'KJAKP HOD Email',
+                'KJAKP Approval Date',
+                'KJAKP Expiry Date',
+                'KJAKP Quota',
+                'KJAKP Total Document',
+                'KJAKP Status'
+            ])
+
+            for row in combined_generated_table:
+                csv_writer.writerow(row)
+    
+        elif report_column == 'excel':
+            filtered_table = Transaction.objects.filter(
+                created_date__range=(report_start_date, report_end_date)
+            ).all()
+
+            for transaction_row in filtered_table:
+                print('ane cendol', transaction_row)
+                transaction_ = Transaction.objects.filter(id=transaction_row.id).first()
+                cart_items_ = CartItem.objects.filter(cart=transaction_.cart).all()
+                for cart_item_row in cart_items_:
+                    if cart_item_row.product and cart_item_row.entity:
+                        print('heheheh', cart_item_row.product)
+                        product_ = Product.objects.filter(id=cart_item_row.product.id).first()
+                        entity_ = Entity.objects.filter(id=cart_item_row.entity.id).first()
+
+                        if entity_.type_of_entity == 'AD':
+                            entity_reg_no_ = entity_.audit_firm_number
+                        elif entity_.type_of_entity == 'BS':
+                            entity_reg_no_ = entity_.registration_number_new + '(' + entity_.registration_number + '-' + entity_.check_digit + ')'
+                        elif entity_.type_of_entity == 'CP':
+                            entity_reg_no_ = entity_.company_number_new + '(' + entity_.company_number + '-' + entity_.check_digit + ')'
+
+                        new_row = [
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            'Online',
+                            transaction_.name,
+                            transaction_.email_address,
+                            transaction_.phone_number,
+                            transaction_.address1,
+                            transaction_.address2,
+                            transaction_.address3,
+                            transaction_.postcode,
+                            transaction_.city,
+                            transaction_.state,
+                            product_.description,
+                            product_.description,
+                            entity_.name,
+                            entity_reg_no_,
+                            product_.fee/100,
+                            product_.discount,
+                            product_.tax,
+                            product_.fee/100,
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            transaction_.transaction_id,
+                            transaction_.transaction_type,
+                            transaction_.total_amount/100,
+                            transaction_.payment_status,
+                            transaction_.receipt_no,
+                            transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            ''
+                        ]
+                        combined_generated_table.append(new_row)
+
+            output = io.BytesIO()
+ 
+            workbook = xlsxwriter.Workbook(output)
+            worksheet2 = workbook.add_worksheet('Master Transaction Table')
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename="xcess_portal_mtt.csv"'
+
+            data_ = [[
+                'Date', 
+                'Channel', 
+                'Customer Name', 
+                'Customer Email Address',
+                'Customer Phone No.',
+                'Customer Address 1',
+                'Customer Address 2',
+                'Customer Address 3',
+                'Customer Postcode',
+                'Customer City',
+                'Product Type',
+                'Product Name',
+                'Entity Name',
+                'Entity No.',
+                'Product Fee',
+                'Discount Amount',
+                'Tax Amount',
+                'Gross Amount',
+                'Payment Transaction ID',
+                'Transaction Date',
+                'Payment Mode',
+                'Charge Amount',
+                'Transaction Status',
+                'Receipt No.',
+                'Receipt Date',
+                'Ministry Name',
+                'Department / Agency Name',
+                'Division / Section / Unit Name',
+                'Address 1',
+                'Address 2',
+                'Address 3',
+                'Postcode',
+                'City',
+                'State',
+                'KJAKP Email Address',
+                'KJAKP IC No.',
+                'KJAKP Package',
+                'KJAKP HOD Name',
+                'KJAKP HOD Position',
+                'KJAKP HOD Email',
+                'KJAKP Approval Date',
+                'KJAKP Expiry Date',
+                'KJAKP Quota',
+                'KJAKP Total Document',
+                'KJAKP Status'
+            ]]
+
+            for row in combined_generated_table:
+                data_.append(row)
+
+            for row_num, columns in enumerate(data_):
+                for col_num, cell_data in enumerate(columns):
+                    worksheet2.write(row_num, col_num, cell_data)
+            
+            workbook.close()
+            output.seek(0)
+            file_name = 'xcess_portal_mtt.xlsx'
+            response = HttpResponse(
+                    output,
+                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                )
+            response['Content-Disposition'] = 'attachment; filename=%s' % file_name
+            # print(response)
+        print('generate_report_table')
+        return response
+
+    @action(methods=['POST'], detail=False)
+    def generate_gaf(self, request, *args, **kwargs):
+        print('generate_gaf')
+        request_ = json.loads(request.body)
+        start_date_ = request_['start_date']
+        end_date_ = request_['end_date']
+
+        date_format = '%-d-%m-%Y '
+        time_zone = 'Asia/Kuala_Lumpur'
+
+        combined_data_ = []
+
+        s_counter = 0
+        transaction_total = 0
+        l_counter = 0
+        debit_sum = 0
+        credit_sum = 0
+        balance = 0
+        
+        filtered_table = Transaction.objects.filter(
+            created_date__range=(start_date_, end_date_)
+        ).all()
+
+        start_date_new_ = make_aware(datetime.datetime.strptime(start_date_, '%Y-%m-%dT%H:%M:%S.%fZ'))
+        end_date_new_ = make_aware(datetime.datetime.strptime(end_date_, '%Y-%m-%dT%H:%M:%S.%fZ'))
+        
+        combined_data_.append([
+            'C',
+            'SURUHANJAYA SYARIKAT MALAYSIA',
+            '',
+            '000640557056',
+            start_date_new_.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+            end_date_new_.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+            datetime.datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+            'XCESS',
+            'GAFv1.0.0'
+        ])
+        index_1 = 1
+        for transaction_row in filtered_table:
+            # print('ane cendol', transaction_row)
+            
+            transaction_ = Transaction.objects.filter(id=transaction_row.id).first()
+            cart_items_ = CartItem.objects.filter(cart=transaction_.cart).all()
+            item_counter = 1
+            print('S: ', index_1, 'Transaction ID', transaction_.receipt_no)
+            print('Old ', transaction_total/100)
+            transaction_total = transaction_total + transaction_.total_amount
+            print('New ', transaction_total/100)
+            # print('sssss', transaction_.created_date)
+            index_1 = index_1 + 1
+
+            for supply_item in cart_items_:
+                if supply_item.product and supply_item.entity:
+                    # print('heheheh', supply_item.product)
+                    product_ = Product.objects.filter(id=supply_item.product.id).first()
+
+                    new_row = [
+                        'S', 
+                        transaction_.name,
+                        transaction_.phone_number,
+                        transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+                        transaction_.receipt_no,
+                        item_counter,
+                        product_.webservice,
+                        product_.fee/100,
+                        '0.00',
+                        'OS',
+                        'MALAYSIA',
+                        'MYR',
+                        '0.00',
+                        '0.00'
+                    ]
+                    combined_data_.append(new_row)
+                    item_counter = item_counter + 1
+                    s_counter = s_counter + 1
+        
+        for transaction_ledger in filtered_table:
+            transaction_ = Transaction.objects.filter(id=transaction_ledger.id).first()
+            cart_items_ = CartItem.objects.filter(cart=transaction_.cart).all()
+            item_counter = 1
+
+            ledger_length = len(cart_items_)
+            ledger_index = 0
+
+            for ledger_item in cart_items_:
+                if ledger_item.product and ledger_item.entity:
+                    # print('heheheh', ledger_item.product)
+                    product_ = Product.objects.filter(id=ledger_item.product.id).first()
+                    
+                    new_row_debit = [
+                        'L', 
+                        transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+                        'S-H01-000-000-A16003',
+                        'EGHL006',
+                        transaction_.reference_no,
+                        transaction_.name,
+                        transaction_.transaction_id,
+                        transaction_.receipt_no,
+                        'AR',
+                        product_.fee/100,
+                        '0.00',
+                        '0.00',
+                        'OS',
+                        '',
+                        '',
+                        '',
+                        ''
+                    ]
+                    l_counter = l_counter + 1
+                    debit_sum = debit_sum + product_.fee
+                    combined_data_.append(new_row_debit)
+
+                    new_row_credit = [
+                        'L', 
+                        transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
+                        product_.coa_code,
+                        'EGHL006',
+                        product_.webservice,
+                        transaction_.name,
+                        transaction_.reference_no,
+                        transaction_.receipt_no,
+                        'AR',
+                        '0.00',
+                        product_.fee/100,
+                        '0.00',
+                        'OS',
+                        '',
+                        '',
+                        '',
+                        ''
+                    ]
+                    l_counter = l_counter + 1
+                    credit_sum = credit_sum + product_.fee
+                    print('Sum: ', credit_sum, 'Transaction ID', transaction_.receipt_no)
+                    combined_data_.append(new_row_credit)
+                    
+                    item_counter = item_counter + 1
+        
+        combined_data_.append([
+            'F',
+            '0',
+            '0',
+            '0',
+            s_counter,
+            transaction_total/100,
+            '0',
+            l_counter,
+            debit_sum/100,
+            credit_sum/100,
+            (debit_sum - credit_sum) / 100
+        ])
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+
+        current_year = str(datetime.datetime.now(timezone_).year)
+        current_month = str(datetime.datetime.now(timezone_).month)
+        current_day = str(datetime.datetime.now(timezone_).day)
+
+        file_name = 'GAF-XCESS-' + current_year + current_month + current_day + '.txt'
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="' + file_name +'"'
+
+        csv_writer = csv.writer(response, delimiter='|')   
+
+        for row in combined_data_:
+            csv_writer.writerow(row)
+        
+        return response
 
 class RefundDropdownViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = RefundDropdown.objects.all()

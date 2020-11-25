@@ -25,7 +25,8 @@ class EntityViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'local_or_foreign',
         'type_of_entity',
-        'check_digit'
+        'check_digit',
+        'company_number'
     ]
 
     def get_permissions(self):

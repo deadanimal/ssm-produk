@@ -178,11 +178,14 @@ def info_fin_2(mdw_1, mdw_2, lang):
     balance_sheet_list = data_mdw_1['rocBalanceSheetListInfo']['rocBalanceSheetInfos']['rocBalanceSheetInfos']
     profit_loss_list = data_mdw_1['rocProfitLossListInfo']['rocProfitLossInfos']['rocProfitLossInfos']
 
+    balance_sheet_list.sort(key = lambda x:('financialYearEndDate' in x, x['financialYearEndDate']), reverse=True) 
+    profit_loss_list.sort(key = lambda x:('financialYearEndDate' in x, x['financialYearEndDate']), reverse=True) 
+
     balance_sheet_data = []
-    print('bsl >>>>>>>>', balance_sheet_list)
+    # print('bsl >>>>>>>>', balance_sheet_list)
     if isinstance(balance_sheet_list, list):
         for bs_item in balance_sheet_list:
-            print('bsssss >>>', bs_item)
+            # print('bsssss >>>', bs_item)
             temp_audit_address_1_old = bs_item['auditFirmAddress1']
             temp_audit_address_2_old = bs_item['auditFirmAddress2']
             temp_audit_address_3_old = bs_item['auditFirmAddress3']
@@ -437,7 +440,8 @@ def info_fin_2(mdw_1, mdw_2, lang):
         'balance_sheet': balance_sheet_data,
         'profit_loss': profit_loss_data,
         'generated_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y %-H:%M:%S"),
-        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y")
+        'printing_time': datetime.now().astimezone(pytz.timezone(time_zone)).strftime("%d-%m-%Y"),
+        'mdw1': mdw_1
     }
 
     return data_ready

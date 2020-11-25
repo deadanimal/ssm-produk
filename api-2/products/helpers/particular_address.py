@@ -151,75 +151,82 @@ def particular_address(mdw_1, mdw_2, lang):
         temp_biz_state = state_mapping(temp_biz_state)
     
 
-    temp_last_update_date = time_mapping(data_mdw_1['rocCompanyInfo']['lastUpdateDate']['#text'])
+    temp_last_update_date = time_mapping(data_mdw_1['rocCompanyInfo']['latestDocUpdateDate']['#text'])
 
     temp_change_reg_address = []
 
-    for changes in mdw_1['rocChangesRegAddressListInfo']['rocChangesRegAddressInfo']['rocChangesRegAddressInfo']:
+    changes_reg_address = mdw_1['rocChangesRegAddressListInfo']['rocChangesRegAddressInfo']['rocChangesRegAddressInfo']
 
-        temp_address_1 = data_mdw_1['rocRegAddressInfo']['address1']
-        temp_address_2 = data_mdw_1['rocRegAddressInfo']['address2']
-        temp_address_3 = data_mdw_1['rocRegAddressInfo']['address3']
-        temp_postcode = data_mdw_1['rocRegAddressInfo']['postcode']
-        temp_town = data_mdw_1['rocRegAddressInfo']['town']
-        temp_state = data_mdw_1['rocRegAddressInfo']['state']
+    if isinstance(changes_reg_address, list):
+        for change_reg in changes_reg_address:
 
-        if temp_address_1 == 'TIADA FAIL':
-            temp_address_1 = None
-        elif temp_address_1 == None:
-            temp_address_1 = None
-        else:
-            temp_address_1 = temp_address_1
+            temp_address_1 = change_reg['address1']
+            temp_address_2 = change_reg['address2']
+            temp_address_3 = change_reg['address3']
+            temp_postcode = change_reg['postcode']
+            temp_town = change_reg['town']
+            temp_state = change_reg['state']
+            temp_date = change_reg['changeOfDate']
 
-        if temp_address_2 == 'TIADA FAIL':
-            temp_address_2 = None
-        elif temp_address_2 == None:
-            temp_address_2 = None
-        else:
-            temp_address_2 = temp_address_2
 
-        if temp_address_3 == 'TIADA FAIL':
-            temp_address_3 = None
-        elif temp_address_3 == None:
-            temp_address_3 = None
-        else:
-            temp_address_3 = temp_address_3
-        
-        if temp_postcode == 'TIADA FAIL':
-            temp_postcode = None
-        elif temp_postcode == None:
-            temp_postcode = None
-        else:
-            temp_postcode = temp_postcode
+            if temp_address_1 == 'TIADA FAIL':
+                temp_address_1 = None
+            elif temp_address_1 == None:
+                temp_address_1 = None
+            else:
+                temp_address_1 = temp_address_1
 
-        if temp_town == 'TIADA FAIL':
-            temp_town = None
-        elif temp_town == None:
-            temp_town = None
-        else:
-            temp_town = temp_town
+            if temp_address_2 == 'TIADA FAIL':
+                temp_address_2 = None
+            elif temp_address_2 == None:
+                temp_address_2 = None
+            else:
+                temp_address_2 = temp_address_2
 
-        if temp_state == 'TIADA FAIL':
-            temp_state = None
-        elif temp_state == None:
-            temp_state = None
-        else:
-            temp_state = state_mapping(temp_state)
+            if temp_address_3 == 'TIADA FAIL':
+                temp_address_3 = None
+            elif temp_address_3 == None:
+                temp_address_3 = None
+            else:
+                temp_address_3 = temp_address_3
+            
+            if temp_postcode == 'TIADA FAIL':
+                temp_postcode = None
+            elif temp_postcode == None:
+                temp_postcode = None
+            else:
+                temp_postcode = temp_postcode
 
-        if '@xsi:nil' in data_mdw_1['rocCompanyInfo']['dateOfChange']:
-            temp_date = 'NIL'
-        else:
-            temp_date = time_mapping(data_mdw_1['rocCompanyInfo']['dateOfChange']['#text'])
+            if temp_town == 'TIADA FAIL':
+                temp_town = None
+            elif temp_town == None:
+                temp_town = None
+            else:
+                temp_town = temp_town
 
-        temp_change_reg_address.append({
-            'address1': temp_address_1,
-            'address2': temp_address_2,
-            'adress3': temp_address_3,
-            'postcode': temp_postcode,
-            'town': temp_town,
-            'state': temp_state,
-            'changeDate': temp_date 
-        })
+            if temp_state == 'TIADA FAIL':
+                temp_state = None
+            elif temp_state == None:
+                temp_state = None
+            else:
+                temp_state = state_mapping(temp_state)
+
+            if '@xsi:nil' in temp_date:
+                temp_date = None
+            else:
+                temp_date = time_mapping(temp_date['#text'])
+                
+
+            if temp_date:
+                temp_change_reg_address.append({
+                'address1': temp_address_1,
+                'address2': temp_address_2,
+                'adress3': temp_address_3,
+                'postcode': temp_postcode,
+                'town': temp_town,
+                'state': temp_state,
+                'changeDate': temp_date 
+            })
         
     data_ready = {
         'corpInfo': {

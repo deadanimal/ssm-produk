@@ -29,33 +29,32 @@
                 width: 100%;
             }
             img.logo {
-                height: 12rem !important;
+                height: 11rem !important;
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
             }
             html {
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
-                font-size: 14pt;
+                font-size: 15pt;
             }
             .default-template {
                 color: #333;
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
-                font-size: 12pt;
+                font-size: 13pt;
                 padding-left: 2.5rem !important;
                 padding-right: 2.5rem !important;
             }
             .default-template p#secondary {
-                font-size: 12pt;
-                margin-bottom: 0;
+                font-size: 13pt;
+                margin-bottom: 6pt;
             }
             .default-template p#disclaimer {
-                font-size: 10pt;
+                font-size: 11pt;
             }
             .default-template p#primary {
-                word-spacing: 7pt;
-                font-size: 12pt;
+                word-spacing: 5pt;
+                font-size: 13pt;
                 text-align: justify;
-                margin-left: 2pt;
             }
             table {border: 0;} 
             table tr.top table td.title {
@@ -69,17 +68,29 @@
             table tr.heading td {
                 color: #333;
             }
+            table tr#zero {
+                padding-top: 0; 
+                padding-bottom: 0; 
+                margin-top: 0; 
+                margin-bottom: 0;
+            }
+            table tr th#head-zero {
+                padding-top: 0; 
+                padding-bottom: 0; 
+                margin-top: 0; 
+                margin-bottom: 0;
+            }
             .pg-break {
                 page-break-before: always; 
                 margin-top: 12rem;
             }
             ol#branch-list {
-                font-size: 12pt;
+                font-size: 13pt;
             }
             ol > li {
                 margin-bottom: 0;
                 margin-top: 0;
-                font-size: 12pt;
+                font-size: 13pt;
             }
             .pg-start {
                 margin-top: 12rem;
@@ -90,11 +101,24 @@
                 left: 0;
                 height: 10rem;
                 width: 100%;
+                padding-right: 30px;
             }
             h4 {
-                font-size: 14pt;
+                font-size: 15pt;
             }
-            h4#end{
+            hr {
+                box-sizing: content-box;
+                height: 0;
+                overflow: visible;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                border: 0;
+                border-top-color: currentcolor;
+                border-top-style: none;
+                border-top-width: 0px;
+                border-top: 1px solid rgba(0,0,0,.1);
+            }
+            h4#end {
                 margin-top: 50px; 
                 font-size: 14pt;
             }
@@ -139,17 +163,17 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NAMA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                        <td><p id="secondary" class="pl-2">{{data.bizInfo.registrationName}}</p></td>
                     </tr>
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary"><b>{{data.bizInfo.registrationNo}}</b></p></td>
+                        <td><p id="secondary" class="pl-2"><b>{{data.bizInfo.registrationNo}}</b></p></td>
                     </tr>
                     <tr style="height:8px;">
                         <td><p id="secondary">ALAMAT UTAMA PERNIAGAAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.address_1 %}
                                 {{data.bizInfo.address_1}} <br />
                             {% else %}
@@ -172,7 +196,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">BENTUK PERNIAGAAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.bizOwnership %}
                                 {{data.bizInfo.bizOwnership}}
                             {% else %}
@@ -183,7 +207,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH MULA BERNIAGA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.bizStartDate %}
                                {{data.bizInfo.bizStartDate}}
                             {% else %}
@@ -194,7 +218,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.regDate %}
                                 {{data.bizInfo.regDate}}
                             {% else %}
@@ -205,7 +229,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH LUPUT PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.endBusinessDate %}
                                 {{data.bizInfo.endBusinessDate}}
                             {% else %}
@@ -217,7 +241,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH PERUBAHAN TERAKHIR</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {{data.bizInfo.ammendmentDate}}
                         </p></td>
                     </tr>
@@ -225,7 +249,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">STATUS</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.bizInfo.status %}
                                 {{data.bizInfo.status}}
                             {% else %}
@@ -238,7 +262,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NAMA PLT</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.llpInfo.llpName %}
                                 {{data.llpInfo.llpName}}
                             {% else %}
@@ -250,7 +274,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO. PENDAFTARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.llpInfo.llpNo %}
                                 {{data.llpInfo.llpNo}}
                             {% else %}
@@ -262,7 +286,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH PERTUKARAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if data.llpInfo.llpDate %}
                                 {{data.llpInfo.llpDate}}
                             {% else %}
@@ -324,34 +348,34 @@
                 <tr style="height:8px;">
                     <td><p id="secondary">NAMA</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                    <td><p id="secondary" class="pl-2">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
                     <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                    <td><p id="secondary" class="pl-2"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
             </table>
 
-            <hr class="my-3 w-100" />
+            <hr class="my-3" />
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
-                    <tr>
-                        <th style="width:30%; border: 0;"></th>
-                        <th style="width:1%; border: 0;"></th>
-                        <th style="width:69%; border: 0;"></th>
+                    <tr id="zero">
+                        <th style="width:30%;" id="head-zero"></th>
+                        <th style="width:1%;" id="head-zero"></th>
+                        <th style="width:69%;" id="head-zero"></th>
                     </tr>
                     
                     <tr style="height:8px;">
                         <td><p id="secondary">NAMA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{current.name}}</p></td>
+                        <td><p id="secondary" class="pl-2">{{current.name}}</p></td>
                     </tr>
                     <tr style="height:8px;">
                         <td><p id="secondary">ALAMAT KEDIAMAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.address_1 %}
                                 {{current.address_1}} <br />
                             {% else %}
@@ -374,7 +398,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO K/P (LAMA)</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.icNoOld %}
                                 {{current.icNoOld}}
                             {% else %}
@@ -386,7 +410,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO K/P (BARU)</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.icNoNew %}
                                 {{current.icNoNew}}
                             {% else %}
@@ -397,7 +421,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH LAHIR</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.birthDate %}
                                 {{current.birthDate}}
                             {% else %}
@@ -408,7 +432,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">BANGSA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.race %}
                                 {{current.race}}
                             {% else %}
@@ -419,7 +443,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">JANTINA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.gender %}
                                 {{current.gender}}
                             {% else %}
@@ -430,7 +454,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">KEWARGANEGARAAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.nationality %}
                                 {{current.nationality}}
                             {% else %}
@@ -441,7 +465,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH MASUK</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if current.entryDate %}
                                 {{current.entryDate}}
                             {% else %}
@@ -464,12 +488,12 @@
                 <tr style="height:8px;">
                     <td><p id="secondary">NAMA</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                    <td><p id="secondary" class="pl-2">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
                     <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                    <td><p id="secondary" class="pl-2"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
             </table>
 
@@ -480,42 +504,42 @@
             <h4 class="font-weight-bold text-center pg-break"><u>MAKLUMAT PEMILIK PERNIAGAAN TERDAHULU</u></h4>
 
             <table class="table text-left" >
-                <tr>
-                    <th style="width:30%; border: 0;"></th>
-                    <th style="width:1%; border: 0;"></th>
-                    <th style="width:69%; border: 0;"></th>
+                <tr id="zero">
+                    <th style="width:30%;" id="head-zero"></th>
+                    <th style="width:1%;" id="head-zero"></th>
+                    <th style="width:69%;" id="head-zero"></th>
                 </tr>
                 <tr style="height:8px;">
                     <td><p id="secondary">NAMA</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary">{{data.bizInfo.registrationName}}</p></td>
+                    <td><p id="secondary" class="pl-2">{{data.bizInfo.registrationName}}</p></td>
                 </tr>
                 <tr style="height:8px;">
                     <td><p id="secondary">NO. PENDAFTARAN:</p></td>
                     <td><p id="secondary">:</p></td>
-                    <td><p id="secondary"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
+                    <td><p id="secondary" class="pl-2"><b>{{data.bizInfo.compNoNew}} {{data.bizInfo.registrationNo}}</b></p></td>
                 </tr>                    
             </table>
 
-            <hr class="my-3 w-100" />
+            <hr class="my-3" />
 
             <div class="table-responsive">
                 <table class="table text-left borderless">
-                    <tr>
-                        <th style="width:30%; border: 0;"></th>
-                        <th style="width:1%; border: 0;"></th>
-                        <th style="width:69%; border: 0;"></th>
+                    <tr id="zero">
+                        <th style="width:30%;" id="head-zero"></th>
+                        <th style="width:1%;" id="head-zero"></th>
+                        <th style="width:69%;" id="head-zero"></th>
                     </tr>
 
                     <tr style="height:8px;">
                         <td><p id="secondary">NAME</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">{{previous.name}}</p></td>
+                        <td><p id="secondary" class="pl-2">{{previous.name}}</p></td>
                     </tr>
                     <tr style="height:8px;">
                         <td><p id="secondary">RESIDENTIAL ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.address_1 %}
                                 {{previous.address_1}} <br />
                             {% else %}
@@ -538,7 +562,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO K/P (LAMA)</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.icNoOld %}
                                 {{previous.icNoOld}}
                             {% else %}
@@ -550,7 +574,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">NO K/P (BARU)</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.icNoNew %}
                                 {{previous.icNoNew}}
                             {% else %}
@@ -561,7 +585,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH LAHIR</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.birthDate %}
                                 {{previous.birthDate}}
                             {% else %}
@@ -572,7 +596,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">BANGSA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.race %}
                                 {{previous.race}}
                             {% else %}
@@ -583,7 +607,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">JANTINA</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.gender %}
                                 {{previous.gender}}
                             {% else %}
@@ -594,7 +618,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">KEWARGANEGARAAN</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.nationality %}
                                 {{previous.nationality}}
                             {% else %}
@@ -605,7 +629,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH MASUK</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.entryDate %}
                                 {{previous.entryDate}}
                             {% else %}
@@ -616,7 +640,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">TARIKH KELUAR</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.withdrawDate %}
                                 {{previous.withdrawDate}}
                             {% else %}
@@ -627,7 +651,7 @@
                     <tr style="height:8px;">
                         <td><p id="secondary">SEBAB KELUAR</p></td>
                         <td><p id="secondary">:</p></td>
-                        <td><p id="secondary">
+                        <td><p id="secondary" class="pl-2">
                             {% if previous.ammendmentType %}
                                 {{previous.ammendmentType}}
                             {% else %}

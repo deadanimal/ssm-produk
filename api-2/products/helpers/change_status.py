@@ -19,7 +19,7 @@ def change_status(mdw_1, mdw_2, lang):
     data_mdw_1 = mdw_1
     data_mdw_2 = mdw_2
 
-    date_format = '%d-%m-%Y'
+    date_format = '%-d-%m-%Y'
     time_zone = 'Asia/Kuala_Lumpur'
 
     print('_____________')

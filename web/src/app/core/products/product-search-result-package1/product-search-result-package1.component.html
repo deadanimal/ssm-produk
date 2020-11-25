@@ -4,14 +4,18 @@
         <div class="section features-7">
             <div class="container mt-6">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col">
                         <button
-                        class="btn btn-secondary btn-block"
-                        (click)="goBack()">
-                        Back
-                      </button>
+                            class="btn btn-ssm rounded-pill btn-icon"
+                            (click)="goBack()"
+                        >
+                            <span class="btn-inner--icon"><i class="fas fa-angle-left"></i></span>
+                            <span class="btn-inner--text">Back</span>
+                        </button>
                     </div>
-                    <div class="col-md-10">
+                </div>
+                <div class="row">
+                    <div class="col">
                         <h4 class="display-3">
                             <div *ngIf="entity.type_of_entity == 'AD'">
                                 Audit Firm Information

@@ -23,7 +23,9 @@ with open(input_csv_path, mode='r') as csv_input:
                 'type_of_entity': 'CP',
                 'check_digit': company[2],
                 'company_number': company[1],
-                'company_number_new': company[3]
+                'company_number_new': company[3],
+                'created_date': '2020-09-30T23:50:19.071287Z',
+                'modified_date': '2020-09-30T23:50:19.071314Z'
             }
         }
         data.append(data_json_)

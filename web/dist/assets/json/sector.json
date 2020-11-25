@@ -1,0 +1,86 @@
+[
+    {
+      "sector": "A",
+      "description": "AGRICULTURE, FORESTRY AND FISHING"
+    },
+    {
+      "sector": "B",
+      "description": "MINING AND QUARRYING"
+    },
+    {
+      "sector": "C",
+      "description": "MANUFACTURING"
+    },
+    {
+      "sector": "D",
+      "description": "ELECTRICITY, GAS, STEAM AND AIR CONDITIONING SUPPLY"
+    },
+    {
+      "sector": "E",
+      "description": "WATER SUPPLY; SEWERAGE, WASTE MANAGEMENT AND REMEDIATION ACTIVITIES"
+    },
+    {
+      "sector": "F",
+      "description": "CONSTRUCTION"
+    },
+    {
+      "sector": "G",
+      "description": "WHOLESALE AND RETAIL TRADE"
+    },
+    {
+      "sector": "H",
+      "description": "TRANSPORTATION AND STORAGE"
+    },
+    {
+      "sector": "I",
+      "description": "ACCOMMODATION AND FOOD SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "J",
+      "description": "INFORMATION AND COMMUNICATION"
+    },
+    {
+      "sector": "K",
+      "description": "FINANCIAL AND INSURANCE/TAKAFUL ACTIVITIES"
+    },
+    {
+      "sector": "L",
+      "description": "REAL ESTATE ACTIVITIES"
+    },
+    {
+      "sector": "M",
+      "description": "PROFESSIONAL, SCIENTIFIC AND TECHNICAL ACTIVITIES"
+    },
+    {
+      "sector": "N",
+      "description": "ADMINISTRATIVE AND SUPPORT SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "O",
+      "description": "PUBLIC ADMINISTRATION AND DEFENCE"
+    },
+    {
+      "sector": "P",
+      "description": "EDUCATION"
+    },
+    {
+      "sector": "Q",
+      "description": "HUMAN HEALTH AND SOCIAL WORK ACTIVITIES"
+    },
+    {
+      "sector": "R",
+      "description": "ARTS, ENTERTAINMENT AND RECREATION"
+    },
+    {
+      "sector": "S",
+      "description": "OTHER SERVICE ACTIVITIES"
+    },
+    {
+      "sector": "T",
+      "description": "ACTIVITIES OF HOUSEHOLDS AS EMPLOYERS"
+    },
+    {
+      "sector": "U",
+      "description": "ACTIVITIES OF EXTRATERRITORIAL ORGANIZATIONS AND BODIES"
+    }
+  ]

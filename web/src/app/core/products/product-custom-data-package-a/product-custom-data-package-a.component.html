@@ -64,13 +64,15 @@
                             </div>
                         </div>
 
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Sector</label>
-                                    <select class="form-control" formControlName="sector">
-                                        <option hidden select>Please select</option>
-                                    </select>
+                                    <ng-select [(ngModel)]="selectedSector" [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let sector of sectors" [value]="sector.sector">
+                                            {{sector.description}}
+                                        </ng-option>
+                                     </ng-select>
                                 </div>
                             </div>
                         </div>
@@ -79,18 +81,20 @@
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Division</label>
-                                    <select class="form-control" formControlName="division">
-                                        <option hidden select>Please select</option>
-                                    </select>
+                                    <ng-select [(ngModel)]="selectedDivision" [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let division of divisions" [value]="division.division">
+                                            {{division.description}}
+                                        </ng-option>
+                                     </ng-select>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="row">
                             <div class="col-lg-12 col-sm-12">
                                 <div class="form-group">
                                     <label class="form-control-label">Business Code</label>
-                                    <select 
+                                    <!-- <select 
                                         class="custom-select" 
                                         [(ngModel)]="bizCodes"
                                         [ngModelOptions]="{standalone: true}"
@@ -103,7 +107,13 @@
                                         >
                                            <span class="text-light">{{business.business_code}}</span> - {{business.desc_en}}
                                         </option>
-                                    </select>
+                                    </select> -->
+
+                                    <ng-select [(ngModel)]="bizCodes" [ngModelOptions]="{standalone: true}" [multiple]="true">
+                                        <ng-option *ngFor="let code of businessCodes" [value]="code.desc_en">
+                                            {{code.biz_code}} {{code.desc_en}}
+                                        </ng-option>
+                                     </ng-select>
                                 </div>
                             </div>
                         </div>

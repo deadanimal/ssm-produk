@@ -70,11 +70,11 @@ export class ProductManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initData()
+    this.getData()
     this.initForm()
   }
 
-  initData() {
+  getData() {
     this.loadingBar.start()
     this.productService.getAll().subscribe(
       (res) => {

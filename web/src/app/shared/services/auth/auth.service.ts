@@ -20,6 +20,7 @@ export class AuthService {
   public urlTokenRefresh: string = environment.baseUrl + 'auth/refresh/'
   public urlTokenVerify: string = environment.baseUrl + 'auth/token/verify/'
   public urlUser: string = environment.baseUrl + 'v1/users/'
+  public urlSso: string = environment.baseUrl + 'SSOLogin/?sso'
 
   // Data
   public token: TokenResponse
@@ -139,5 +140,14 @@ export class AuthService {
       user_type: decodedToken.user_type,
     };
     return user_obj;
+  }
+
+  ssoLogin() {
+    return this.http.get<any>(this.urlSso).pipe(
+      tap((res) => {
+        this.userDetail = res;
+        // console.log('User detail', this.userDetail)
+      })
+    );
   }
 }

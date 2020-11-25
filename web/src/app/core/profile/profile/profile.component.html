@@ -211,7 +211,21 @@
 												<span class="table-header">Payment Method</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												Credit Card
+												<span *ngIf="row.payment_method == 'CC'">
+													Credit Card
+												</span>
+	
+												<span *ngIf="row.payment_method == 'DD'">
+													Direct Debit
+												</span>
+	
+												<span *ngIf="row.payment_method == 'WA'">
+													e-Wallet
+												</span>
+	
+												<span *ngIf="row.payment_method == 'NA'">
+													NA
+												</span>
 											</ng-template>
 										</ngx-datatable-column>
 		

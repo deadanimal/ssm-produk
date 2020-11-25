@@ -485,28 +485,29 @@ export class ProductSearchResultComponent implements OnInit {
   addCart(selected) {
     console.log('clicked', selected.value)
     let product_found = false
+    let product_found_both = 0
 
     this.products.forEach(
       (product) => {
-        if (selected.value['language'] == 'BT' && !product_found) {
+        if (selected.value['language'] == 'BT' && product_found_both != 2) {
           if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product['ctc'] &&
             product['language'] == 'MS' &&
-            !product_found
+            product_found_both != 2
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
-            product_found = true
+            product_found_both = product_found_both + 1
             this.addItem()
           }
           else if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product ['ctc'] &&
             product['language'] == 'EN' &&
-            !product_found
+            product_found_both != 2
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
-            product_found = true
+            product_found_both = product_found_both + 1
             this.addItem()
           }
         }

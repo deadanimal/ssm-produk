@@ -137,7 +137,7 @@
                                 <input
                                     class="form-control"
                                     disabled
-                                    [value]="ticket.receipt_no"
+                                    [value]="ticket.receipt_number"
                                 />
                             </div>
                         </div>
@@ -161,7 +161,7 @@
 
                         <ol>
                             <li *ngFor="let doc of ticket.ticket_attachments">
-                                {{doc.name}} <a href="{{doc.attached_document}}">Document</a>
+                                {{doc.name}} <a href="{{doc.attached_document}}"  target="_blank">Document</a>
                             </li>
                         </ol>
                     </div>

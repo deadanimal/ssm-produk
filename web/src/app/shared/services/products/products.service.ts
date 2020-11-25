@@ -80,7 +80,7 @@ export class ProductsService {
   }
 
   generateEgovData(body: any): Observable<any> {
-    let urlTemp = this.urlProducts + 'generate_product/'
+    let urlTemp = this.urlProducts + 'generate_egov/'
     return this.http.post(urlTemp, body).pipe(
       tap((res) => {
         console.log(res)
