@@ -2,13 +2,13 @@
     "strict": true,
     "debug": true,
     "sp": {
-        "entityId": "http://127.0.0.1:8000/metadata/",
+        "entityId": "https://xcessdev.ssm.com.my/#/SSOLogin/metadata/",
         "assertionConsumerService": {
-            "url": "http://127.0.0.1:8000/?acs",
+            "url": "https://xcessdev.ssm.com.my/#/SSOLogin/acs/",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
         },
         "singleLogoutService": {
-            "url": "http://127.0.0.1:8000/?sls",
+            "url": "https://xcessdev.ssm.com.my/#/SSOLogin/sls/",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
         },
         "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",

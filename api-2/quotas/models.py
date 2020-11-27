@@ -25,7 +25,7 @@ class Quota(models.Model):
         ('E3', 'EGov Package 3'),
         ('E4', 'EGov Package 4'),
 
-        ('IM', 'Image Search'),
+        ('DS', 'Document Search'),
     ]
     quota_type  = models.CharField(
         choices=QOUTA_TYPE ,
@@ -34,10 +34,12 @@ class Quota(models.Model):
     )    
     
     quota = models.IntegerField(default=0)
-    entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
+    # entity = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
+    class meta:
+        ordering = ['-created_date']
 

@@ -581,6 +581,7 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   refreshCart() {
+    console.log('Refresh')
     this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
       () => {},
       () => {},

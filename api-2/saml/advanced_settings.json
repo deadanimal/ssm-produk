@@ -1,6 +1,6 @@
 {
     "security": {
-        "nameIdEncrypted": false,
+        "nameIdEncrypted": true,
         "authnRequestsSigned": true,
         "logoutRequestSigned": false,
         "logoutResponseSigned": false,
@@ -9,7 +9,7 @@
         "wantAssertionsSigned": true,
         "wantNameId" : true,
         "wantNameIdEncrypted": false,
-        "wantAssertionsEncrypted": false,
+        "wantAssertionsEncrypted": true,
         "signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
         "digestAlgorithm": "http://www.w3.org/2001/04/xmlenc#sha256"
     }

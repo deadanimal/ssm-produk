@@ -106,7 +106,18 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getData()
+    // this.getData()
+    // do {
+    //   if (this.cartService.cartCurrent) {
+    //     this.getData()
+    //   }
+    // }
+    // while(!this.cartService.cartCurrent)
+    setTimeout(
+      () => {
+        this.getData()
+      }, 2000
+    )
   }
 
   getMapping() {

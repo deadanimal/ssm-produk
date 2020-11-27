@@ -59,77 +59,82 @@ def comp_prof(mdw_1, mdw_2, lang):
     others_issue_noncash = int(mdw_1['rocShareCapitalInfo']['othIssuedNonCash']['#text'])
 
 
-    if mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L':
-        if mdw_1['rocCompanyInfo']['companyStatus'] == 'U':
-            if mdw_1['rocCompanyInfo']['companyType'] == 'G' or mdw_1['rocCompanyInfo']['companyType'] == 'U':
-                shareholders = []
+    if mdw_1['rocShareholderListInfo']['errorMsg'] != 'No Data':
+        if mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L':
+            if mdw_1['rocCompanyInfo']['companyStatus'] == 'U':
+                if mdw_1['rocCompanyInfo']['companyType'] == 'G' or mdw_1['rocCompanyInfo']['companyType'] == 'U':
+                    shareholders = []
+                else:
+                    shareholders = mdw_1['rocShareholderListInfo']['rocShareholderInfos']['rocShareholderInfos']    
             else:
-                shareholders = mdw_1['rocShareholderListInfo']['rocShareholderInfos']['rocShareholderInfos']    
-        else:
-            shareholders = mdw_1['rocShareholderListInfo']['rocShareholderInfos']['rocShareholderInfos']
-            
-        shareholder_list = shareholders
-        shareholders_data = []
-        if isinstance(shareholders, list): 
-            for shareholder in shareholders:
+                shareholders = mdw_1['rocShareholderListInfo']['rocShareholderInfos']['rocShareholderInfos']
+                
+            shareholder_list = shareholders
+            shareholders_data = []
+            if isinstance(shareholders, list): 
+                for shareholder in shareholders:
 
-                if shareholder['idType'] == 'MK':
+                    if shareholder['idType'] == 'MK':
 
-                    nric_1 = shareholder['idNo'][0:6]
-                    nric_2 = shareholder['idNo'][6:8]
-                    nric_3 = shareholder['idNo'][8:]
+                        nric_1 = shareholder['idNo'][0:6]
+                        nric_2 = shareholder['idNo'][6:8]
+                        nric_3 = shareholder['idNo'][8:]
+                        nric = nric_1 + '-' + nric_2 + '-' + nric_3
+                        company_no = None
+                    else:
+                        nric = shareholder['idNo']
+                        company_no__ = get_new_format_entity(url_info, headers, shareholder['idNo'][:-2], 'ROC')
+
+                        if company_no__['errorMsg']:
+                            company_no = ''
+                        else:
+                            company_no = company_no__['newFormatNo']
+
+                    shareholders_data.append({
+                        'name': shareholder['name'],
+                        'id': nric,
+                        'companyNo': company_no,
+                        'idType': shareholder['idType'],
+                        'share': float(shareholder['share'])
+                    })
+            else: 
+                if shareholders['idType'] == 'MK':
+
+                    nric_1 = shareholders['idNo'][0:6]
+                    nric_2 = shareholders['idNo'][6:8]
+                    nric_3 = shareholders['idNo'][8:]
                     nric = nric_1 + '-' + nric_2 + '-' + nric_3
                     company_no = None
-                else:
-                    nric = shareholder['idNo']
-                    company_no__ = get_new_format_entity(url_info, headers, shareholder['idNo'][:-2], 'ROC')
+                elif shareholders['idType'] == 'C' or shareholders['idType'] == 'F':
+                    print('----------')
+                    print(shareholders['idType'])
+                    print(shareholders['idNo'])
+                    print('----------')
+                    nric = shareholders['idNo']
+                    company_no__ = get_new_format_entity(url_info, headers, shareholders['idNo'][:-2], 'ROC')
 
                     if company_no__['errorMsg']:
                         company_no = ''
                     else:
                         company_no = company_no__['newFormatNo']
+                else:
+                    print('----------')
+                    print(shareholders['idType'])
+                    print('----------')
+                    nric = shareholders['idNo']
+                    company_no = None
 
                 shareholders_data.append({
-                    'name': shareholder['name'],
+                    'name': shareholders['name'],
                     'id': nric,
                     'companyNo': company_no,
-                    'idType': shareholder['idType'],
-                    'share': float(shareholder['share'])
+                    'idType': shareholders['idType'],
+                    'share': float(shareholders['share'])
                 })
-        else: 
-            if shareholders['idType'] == 'MK':
-
-                nric_1 = shareholders['idNo'][0:6]
-                nric_2 = shareholders['idNo'][6:8]
-                nric_3 = shareholders['idNo'][8:]
-                nric = nric_1 + '-' + nric_2 + '-' + nric_3
-                company_no = None
-            elif shareholders['idType'] == 'C' or shareholders['idType'] == 'F':
-                print('----------')
-                print(shareholders['idType'])
-                print(shareholders['idNo'])
-                print('----------')
-                nric = shareholders['idNo']
-                company_no__ = get_new_format_entity(url_info, headers, shareholders['idNo'][:-2], 'ROC')
-
-                if company_no__['errorMsg']:
-                    company_no = ''
-                else:
-                    company_no = company_no__['newFormatNo']
-            else:
-                print('----------')
-                print(shareholders['idType'])
-                print('----------')
-                nric = shareholders['idNo']
-                company_no = None
-
-            shareholders_data.append({
-                'name': shareholders['name'],
-                'id': nric,
-                'companyNo': company_no,
-                'idType': shareholders['idType'],
-                'share': float(shareholders['share'])
-            })
+        else:
+            shareholders = []
+            shareholder_list = shareholders
+            shareholders_data = []
     else:
         shareholders = []
         shareholder_list = shareholders
@@ -247,31 +252,36 @@ def comp_prof(mdw_1, mdw_2, lang):
     else:
          company_info['latestDocUpdateDate'] = None
 
-    officer_info = mdw_1['rocCompanyOfficerListInfo']['rocCompanyOfficerInfos']['rocCompanyOfficerInfos']
+    if mdw_1['rocCompanyOfficerListInfo']['errorMsg'] != 'No Data':
+        officer_info = mdw_1['rocCompanyOfficerListInfo']['rocCompanyOfficerInfos']['rocCompanyOfficerInfos']
+
+        for officer in officer_info:
+            if officer['idType'] == 'MK':
+
+                nric_1 = officer['idNo'][0:6]
+                nric_2 = officer['idNo'][6:8]
+                nric_3 = officer['idNo'][8:]
+                nric = nric_1 + '-' + nric_2 + '-' + nric_3
+            else:
+                nric = officer['idNo']        
+            officer['idNo'] = nric
+            officer['state'] = state_mapping(officer['state'])
+            officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
+
+
+            if 'startDate' in officer.keys():
+                officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+            else:
+                officer['startDate'] = None
+    else:
+        officer_info = None
 
     if company_info['companyCountry']:
         company_info['companyCountry'] = origin_country_mapping(company_info['companyCountry'])
     else:
         company_info['companyCountry'] = None
 
-    for officer in officer_info:
-        if officer['idType'] == 'MK':
-
-            nric_1 = officer['idNo'][0:6]
-            nric_2 = officer['idNo'][6:8]
-            nric_3 = officer['idNo'][8:]
-            nric = nric_1 + '-' + nric_2 + '-' + nric_3
-        else:
-            nric = officer['idNo']        
-        officer['idNo'] = nric
-        officer['state'] = state_mapping(officer['state'])
-        officer['designationCode'] = officer_designation_mapping(officer['designationCode'])
-
-
-        if 'startDate' in officer.keys():
-            officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
-        else:
-            officer['startDate'] = None
+    
 
         # officer['startDate'] = make_aware(datetime.strptime(officer['startDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
     

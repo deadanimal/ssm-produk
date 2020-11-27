@@ -145,36 +145,36 @@
 						</div>
 					</div>
 
-					<div class="card-body w-100">
-						<table class="table text-right w-100">
+					<div class="card-body w-100 p-0">
+						<table class="table text-right overflow-auto">
 							<thead class="bg-default">
 								<tr>
-									<th class="text-center text-white" scope="col">
+									<td class="text-center text-white" style="width: 10% !important;">
 										No.
-									</th>
-									<th class="text-center text-white" scope="col">
+									</td>
+									<td class="text-center text-white" style="width: 30% !important;">
 										Item
-									</th>
-									<th class="text-center text-white" scope="col">
+									</td>
+									<td class="text-center text-white" style="width: 30% !important;">
 										Product
-									</th>
-									<th class="text-center text-white" scope="col">
+									</td>
+									<td class="text-center text-white" style="width: 10% !important;">
 										Unit
-									</th>
-									<th class="text-center text-white" scope="col">
+									</td>
+									<td class="text-center text-white" style="width: 10% !important;">
 										Unit Price (RM)
-									</th>
-									<th class="text-center text-white" scope="col">
+									</td>
+									<td class="text-center text-white" style="width: 10% !important;">
 										Total (RM)
-									</th>
+									</td>
 								</tr>
 							</thead>
 							<tbody class="list">
 								<tr *ngFor="let item of items">
-									<td class="text-left" style="word-break:break-all;">
+									<td class="text-center" style="word-break:break-all !important;">
 										<span>{{item?.index}}</span>
 									</td>
-									<td class="text-left" style="word-break:break-all;">
+									<td class="text-left" style="word-break:break-all !important;">
 										
 										<div *ngIf="item?.entity">
 											<span *ngIf="item?.entity == 'CP'">
@@ -205,7 +205,7 @@
 										</span>
 									</td>
 									
-									<td class="text-left" style="word-break:break-all;">
+									<td class="text-left" style="word-break:break-all !important;">
 										<span *ngIf="item?.product">
 											{{item?.product.name}}
 										</span>
@@ -243,7 +243,7 @@
 									<td class="text-left">
 										1
 									</td>
-									<td class="text-left" style="word-break:break-all;">
+									<td class="text-left" style="word-break:break-all !important;">
 										<span *ngIf="item?.product">
 											{{item?.product.fee/100 | number: '1.2-2'}}
 										</span>
