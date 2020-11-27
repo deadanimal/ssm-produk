@@ -204,24 +204,33 @@ export class NavbarComponent implements OnInit {
   }
 
   checkCart() {
-    let field = 'user=' + this.userService.currentUser.id + '&cart_status=CR'
-    this.cartService.filter(field).subscribe(
-      (res) => {
-        // if 
-        if (res.length == 0) {
-          let body = {
-            'user': this.userService.currentUser.id,
-            'cart_status': 'CR'
-          }
-          this.cartService.create(body).subscribe(
-            () => {
-              this.getData('1')
-            }
-          )
+    this.cartService.checkCart(this.userService.currentUser.id).subscribe(
+      () => {
+        this.cartService.cartCurrent = this.cartService.cart
+        this.cartItems = this.cartService.cart.cart_item
+        console.log(this.cartItems)
+      },
+      () => {},
+      () => {
+        if (this.cartItems.length > 0) {
+          this.isEmpty = false
         }
         else {
-          this.getData('2')
+          this.isEmpty = true
         }
+        this.cartItems.forEach(
+          (item) => {
+            if (item['image_form_type']) {
+              this.formTypes.forEach(
+                (code) => {
+                  if (code.code == item['image_form_type']) {
+                    item['image_form_type'] = code.desc_en
+                  } 
+                }
+              )
+            }
+          }
+        )
       }
     )
   }

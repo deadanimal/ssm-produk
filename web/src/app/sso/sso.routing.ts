@@ -5,7 +5,7 @@ import { SlsComponent } from './sls/sls.component';
 
 export const SsoRouters: Routes = [
     {
-        path: 'sso',
+        path: 'SSOLogin',
         children: [
             {
                 path: 'acs',

@@ -173,7 +173,7 @@ def index(request):
     attributes = False
     paint_logout = False
 
-    target_url = 'https://eservicesstg.ssm.com.my/Pages/services.aspx'
+    target_url = 'https:/xcessdev.ssm.com.my/#/home'
 
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login(return_to=target_url))

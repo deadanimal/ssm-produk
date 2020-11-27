@@ -11,10 +11,17 @@ export class AcsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData()
+    this.redirectSSO()
   }
 
   getData() {
     console.log('Assertion Consumer Service')
+  }
+
+  redirectSSO() {
+    // const url = 'http://127.0.0.1:8000/SSOLogin/?sso';
+    const url = 'https://ssm-product-api.pipe.my/SSOLogin/?acs'
+    window.open(url, '_self')
   }
 
 }

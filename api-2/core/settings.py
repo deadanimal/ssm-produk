@@ -109,6 +109,31 @@ DATABASES = {
     }
 }
 
+# INFORMIX
+
+# 'default': {
+#     'ENGINE': 'django_informixdb',
+#     'NAME': 'myproject',
+#     'SERVER': 'ifxserver',
+#     'USER' : 'sysadmin',
+#     'PASSWORD': 'P@ssw0rd',
+#     'OPTIONS': {
+#         'DRIVER': '/path/to/iclit09b.so'. # Or iclit09b.dylib on macOS
+#         'CPTIMEOUT': 120,
+#         'CONN_TIMEOUT': 120,
+#         'ISOLATION_LEVEL': 'READ_UNCOMMITTED',
+#         'LOCK_MODE_WAIT': 0,
+#         'VALIDATE_CONNECTION': True,
+#     },
+#     'CONNECTION_RETRY': {
+#         'MAX_ATTEMPTS': 10,
+#     },
+#     'TEST': {
+#         'NAME': 'portal',
+#         'CREATE_DB': False
+#     }
+# }
+
 
 import dj_database_url
 db_from_env = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=500)

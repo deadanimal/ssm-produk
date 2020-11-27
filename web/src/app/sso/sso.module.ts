@@ -7,12 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule, CarouselModule, CollapseModule, ModalModule, PaginationModule, TabsModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { SsoRouters } from './sso.routing';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AcsComponent,
     MetadataComponent, 
-    SlsComponent
+    SlsComponent, LoginComponent
   ],
   imports: [
     CommonModule,

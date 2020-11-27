@@ -33,6 +33,7 @@ from .serializers import (
 
 from transactions.models import Transaction
 
+from users.models import CustomUser
 
 class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Cart.objects.all()
@@ -52,6 +53,35 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Cart.objects.all()
         return queryset    
+
+    @action(methods=['POST'], detail=False)
+    def check_cart(self, request, *args, **kwargs):
+
+        request_ = json.loads(request.body)
+        request_user_id_ = request_['user']
+
+        request_user_ = CustomUser.objects.filter(
+            id=request_user_id_
+        ).first()
+        
+        cart_ = Cart.objects.filter(
+            user=request_user_id_,
+            cart_status='CR'
+        ).first()
+        print('hello', cart_)
+        
+        if cart_:
+            print('ada')
+            serializer = CartExtendedSerializer(cart_)
+        else:
+            print('xde')
+            new_cart_ = Cart.objects.create(
+                user=request_user_
+            )
+            serializer = CartExtendedSerializer(new_cart_)
+        
+        return Response(serializer.data)
+        
 
     @action(methods=['GET'], detail=True)
     def with_item(self, request, *args, **kwargs):  
@@ -158,6 +188,14 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = CartExtendedSerializer(cart)
         return Response(serializer.data)
 
+
+    @action(methods=['POST'], detail=True)
+    def add_item_to_cart_bulk(self, request, *args, **kwargs):
+        cart_item_request_ = json.loads(request.body)
+
+        for item in cart_item_request_:
+            pass
+        print('Hello')
 
     @action(methods=['POST'], detail=True)
     def remove_item_from_cart(self, request, *args, **kwargs):  

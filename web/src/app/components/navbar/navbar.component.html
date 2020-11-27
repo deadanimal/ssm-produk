@@ -108,9 +108,9 @@
 
 				<li 
 					class="nav-item dropdown" 
-					(mouseenter)="getData()"
-					(mouseover)="getData()"
-					(click)="getData()"
+					(mouseenter)="checkCart()"
+					(mouseover)="checkCart()"
+					(click)="checkCart()"
 					*ngIf="isAuthenticated"
 				>
 					<button class="btn dropdown-toggle bg-transparent btn-icon btn-2 ml-2 p-1 nav-link" data-toggle="dropdown" placement="bottom-right">
@@ -130,7 +130,7 @@
 						<!-- Dropdown header -->
 						<div class="px-3 py-3" *ngIf="!isEmpty">
 							<h5 class="text-sm text-muted m-0">
-								You have <strong class="text-primary">{{ cartItems.length }}</strong> items in cart.
+								You have <strong class="text-primary">{{ cartItems.length}}</strong> items in cart.
 							</h5>
 						</div>
 						<div class="px-3 py-3" *ngIf="isEmpty">

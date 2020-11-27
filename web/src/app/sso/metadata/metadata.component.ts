@@ -14,11 +14,18 @@ export class MetadataComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData()
+    this.redirectSSO()
   }
 
   getData() {
     console.log('Metadata')
-    this.authService.ssoLogin()
+    // this.authService.ssoLogin()
+  }
+
+  redirectSSO() {
+    // const url = 'http://127.0.0.1:8000/SSOLogin/?sso';
+    const url = 'https://ssm-product-api.pipe.my/SSOLogin/metadata/'
+    window.open(url, '_self')
   }
 
 }

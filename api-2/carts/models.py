@@ -29,12 +29,11 @@ from users.models import (
     CustomUser
 )
 
-
-
 class Cart(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    active = models.BooleanField(default=True)
     total_price_before_tax = models.IntegerField(default=0)
     total_tax = models.IntegerField(default=0)
     total_tax_after_tax = models.IntegerField(default=0)
@@ -54,13 +53,15 @@ class Cart(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['created_date']
+        ordering = ['-created_date']
     
 
 
 class CartItem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    active = models.BooleanField(default=True)
 
     order_no = models.CharField(max_length=100, null=True)
     
@@ -102,4 +103,4 @@ class CartItem(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     class meta:
-        ordering = ['created_date']
+        ordering = ['-created_date']

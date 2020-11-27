@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Cart, CartExtended, CartItem } from './carts.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Form } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UsersService } from '../users/users.service';
 
@@ -26,6 +26,9 @@ export class CartsService {
   public cartCurrent: any
 
   public cartTemp: CartItem[]
+
+  public cartChanged = new Subject<any>()
+  public cartItemChanged = new Subject<any>()
 
   constructor(
     private http: HttpClient,
@@ -56,6 +59,8 @@ export class CartsService {
       tap((res) => {
         this.cart = res
         console.log('Cart: ', this.cart);
+        this.cartItemChanged.next(this.cart)
+        this.cartChanged.next(this.cartCurrent)
       })
     );
   }
@@ -113,6 +118,24 @@ export class CartsService {
       tap((res) => {
         this.cart = res
         console.log('Carts: ', this.cart);
+      })
+    );
+  }
+
+  checkCart(id: string): Observable<CartExtended> {
+    let urlTemp = this.urlCarts + 'check_cart/'
+    let body = {
+      'user': id
+    }
+
+    return this.http.post<any>(urlTemp, body).pipe(
+      tap((res) => {
+        this.cartCurrent = res
+        this.cart = res
+        this.cartChanged.next(this.cartCurrent)
+        this.cartItemChanged.next(this.cart)
+        // this.cartPending = res
+        // console.log('Cart: ', this.cart);
       })
     );
   }

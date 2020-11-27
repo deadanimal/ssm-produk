@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sls',
-  templateUrl: './sls.component.html',
-  styleUrls: ['./sls.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
-export class SlsComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   constructor() { }
 
@@ -15,12 +15,12 @@ export class SlsComponent implements OnInit {
   }
 
   getData() {
-    console.log('Single Logout Service')
+    console.log('Login')
   }
 
   redirectSSO() {
     // const url = 'http://127.0.0.1:8000/SSOLogin/?sso';
-    const url = 'https://ssm-product-api.pipe.my/SSOLogin/?sls'
+    const url = 'https://ssm-product-api.pipe.my/SSOLogin/?sso'
     window.open(url, '_self')
   }
 

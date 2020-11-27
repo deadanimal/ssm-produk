@@ -46,7 +46,7 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
 											<select 
-												class="form-control custom-control" 
+												class="form-control custom-select" 
 												[(ngModel)]="searchEntityType"
 												(change)="filterTable()"
 											>
@@ -101,7 +101,7 @@
 											<select 
 												name="datatable_submitted_length" 
 												aria-controls="datatable"
-												class="form-control form-control-sm" 
+												class="form-control form-control-sm custom-select custom-select-sm" 
 												(change)="entriesChange($event)"
 											>
 												<option value="10" [selected]="tableEntries == 10">10</option>
