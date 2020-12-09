@@ -16,15 +16,14 @@
                 /* margin: 4.01cm 2.48cm 3.34cm 2.48cm; */
             }
 
-            header#header {
-                position: fixed;
+            div#header {
+                position: sticky;
                 top: 0;
 
                 height: 14.5rem;
                 /* width: 100%; */
             }
-            footer#footer {
-                position:fixed;
+            div#footer {
                 left: 0;
                 right: 0;
                 bottom:0;
@@ -37,7 +36,7 @@
                 font-size: 16px;
             }
             .default-template {
-                color: #333;
+                color: black;
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 16px;
             }
@@ -54,10 +53,10 @@
             }
             table {border: 0;} 
             table tr.top table td.title {
-                color: #333;
+                color: black;
             }
             table tr.heading td {
-                color: #333;
+                color: black;
             }
 
             .table td, .table th {
@@ -68,13 +67,13 @@
                 margin-top: 15rem;
             }
             .pg-start {
-                margin-top: 15rem;
+                margin-top: 10rem;
             }
         </style>
     </head>
 
     <body>
-        <header id="header" style="padding-top: 50px;" class="default-template container">
+        <div id="header" style="padding-top: 50px;" class="default-template container">
             <div class="row">
 
                 <div class="col-6 text-left pt--4">
@@ -94,9 +93,9 @@
                     </p>
                 </div>
             </div>
-        </header>
+        </div>
 
-        <div class="default-template container pg-start">
+        <div class="default-template container">
             <div class="text-center">
                 <h2 class="py-4">OFFICIAL RECEIPT</h2>
             </div>
@@ -225,161 +224,207 @@
                 </div>
             </div>
             
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="w-100">
-                        <table class="table text-right table-striped">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="text-left align-top" scope="col">
-                                        No.
-                                    </th>
-                                    <th class="text-left align-top" scope="col">
-                                        Item
-                                    </th>
-                                    <th class="text-left align-top" scope="col">
-                                        Product
-                                    </th>
-                                    <th class="text-left align-top" scope="col">
-                                        Unit
-                                    </th>
-                                    <th class="text-left align-top" scope="col">
-                                        Unit Price (RM)
-                                    </th>
-                                    <th class="text-left align-top" scope="col">
-                                        Total (RM)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="list">
-                                {% for item in data.cart_items %}
-                                <tr *ngFor="let item of items">
-                                    <td class="text-left" style ="word-break:break-all;">
-                                        <span>{{forloop.counter}}</span>
-                                    </td>
-                                    <td class="text-left" style ="word-break:break-all;" style ="word-break:break-all;">
-                                        {% if item.entity == 'CP' %}
-                                            {{item.entity.company_number_new}} 
-                                            ({{item.entity.company_number}}-{{item.entity.check_digit}})
-                                        {% endif %}
+            <div class="mt-4">
+                <div class="w-100">
+                    <table class="table text-right table-striped">
+                        <tr>
+                            <th class="text-left align-top" scope="col">
+                                No.
+                            </th>
+                            <th class="text-left align-top" scope="col">
+                                Item
+                            </th>
+                            <th class="text-left align-top" scope="col">
+                                Product
+                            </th>
+                            <th class="text-left align-top" scope="col">
+                                Unit
+                            </th>
+                            <th class="text-left align-top" scope="col">
+                                Unit Price (RM)
+                            </th>
+                            <th class="text-left align-top" scope="col">
+                                Total (RM)
+                            </th>
+                        </tr>
+                        {% for item in data.cart_items %}
+                            <tr>
+                                <td class="text-left">
+                                    <span>{{forloop.counter}}</span>
+                                </td>
+                                <td class="text-left">
+                                    {% if item.entity %}
+                                        {{item.entity.name}}
+                                    {% endif %}
 
-                                        {% if item.entity == 'BS' %}
-                                            {{item.entity.registration_number_new}} 
-                                            ({{item.entity.registration_number}}-{{item.entity.check_digit}})
-                                        {% endif %}
+                                    {% if item.entity.type_of_entity == 'CP' %}
+                                        {{item.entity.company_number_new}} 
+                                        ({{item.entity.company_number}}-{{item.entity.check_digit}})
+                                    {% endif %}
 
-                                        {% if item.entity == 'AD' %}
-                                            {{item.entity.audit_firm_number}}
-                                        {% endif %}
+                                    {% if item.entity.type_of_entity == 'BS' %}
+                                        {{item.entity.registration_number_new}} 
+                                        ({{item.entity.registration_number}}-{{item.entity.check_digit}})
+                                    {% endif %}
 
-                                        {% if item.entity %}
-                                            {{item.entity.name}}
-                                        {% endif %}
+                                    {% if item.entity.type_of_entity == 'AD' %}
+                                        {{item.entity.audit_firm_number}}
+                                    {% endif %}
 
-                                        {% if item.product_search_criteria %}
-                                            -
-                                        {% endif %}
+                                    {% if item.product_search_criteria %}
+                                        -
+                                    {% endif %}
 
-                                        {% if item.service_request %}
-                                            -
-                                        {% endif %}
-                                    </td>
+                                    {% if item.service_request %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                
+                                <td class="text-left">
+                                    {% if item.product %}
+                                        {{item.product.name}}
+                                    {% endif %}
+
+                                    {% if item.product.ctc %}
+                                        - CTC
+                                    {% endif %}
+
+                                    {% if item.image_form_type != 'NA' and item.image_form_type %}
+                                        {{item.image_form_type}}
+                                    {% endif %}
+
+                                    {% if item.service_request.service.entities_type == 'RB' and item.service_request.service.product_type == 'ST' %}
+                                        {{item.service_request.service.name}}
+                                    {% endif %}
                                     
-                                    <td class="text-left" style ="word-break:break-all;">
-                                        {% if item.product %}
-                                            {{item.product.name}}
-                                        {% endif %}
+                                    {% if item.service_request.service.entities_type == 'RB' and item.service_request.service.product_type == 'LS' %}
+                                        {{item.service_request.service.name}}
+                                    {% endif %}
 
-                                        {% if item.product.ctc %}
-                                            - CTC
-                                        {% endif %}
+                                    {% if item.service_request.service.entities_type == 'RC' and item.service_request.service.product_type == 'ST' %}
+                                        {{item.service_request.service.name}}
+                                    {% endif %}
 
-                                        {% if item.image_form_type != 'NA' and item.image_form_type %}
-                                            {{item.image_form_type}}
-                                        {% endif %}
+                                    {% if item.service_request.service.entities_type == 'RC' and item.service_request.service.product_type == 'LS' %}
+                                        {{item.service_request.service.name}}
+                                    {% endif %}
 
-                                        {% if item.service_request.service.entities_type == 'RB' and item.service_request.service.product_type == 'ST' %}
-                                            {{item.service_request.service.name}}
-                                        {% endif %}
-                                        
-                                        {% if item.service_request.service.entities_type == 'RB' and item.service_request.service.product_type == 'LS' %}
-                                            {{item.service_request.service.name}}
-                                        {% endif %}
+                                    {% if item.product_search_criteria %}
+                                        Customized Data Package A
+                                    {% endif %}
+                                </td>
+                                <td class="text-left">
+                                    1
+                                </td>
+                                <td class="text-left">
+                                    {% if item.product %}
+                                        {{item.product.fee}}
+                                    {% endif %}
 
-                                        {% if item.service_request.service.entities_type == 'RC' and item.service_request.service.product_type == 'ST' %}
-                                            {{item.service_request.service.name}}
-                                        {% endif %}
+                                    {% if item.product_search_criteria %}
+                                        RM4.00 / company
+                                    {% endif %}
 
-                                        {% if item.service_request.service.entities_type == 'RC' and item.service_request.service.product_type == 'LS' %}
-                                            {{item.service_request.service.name}}
-                                        {% endif %}
+                                    {% if item.service_request %}
+                                        {{item.service_request.service.fee}}
+                                    {% endif %}
+                                </td>
+                                <td class="text-left">
+                                    {% if item.product %}
+                                        {{item.product.fee}}
+                                    {% endif %}
 
-                                        {% if item.product_search_criteria %}
-                                            Customized Data Package A
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-left" style ="word-break:break-all;">
-                                        1
-                                    </td>
-                                    <td class="text-left" style ="word-break:break-all;">
-                                        {% if item.product %}
-                                            {{item.product.fee}}
-                                        {% endif %}
+                                    {% if item.product_search_criteria %}
+                                        {{item.product_search_criteria.total_price}}
+                                    {% endif %}
 
-                                        {% if item.product_search_criteria %}
-                                            RM4.00 / company
-                                        {% endif %}
-
-                                        {% if item.service_request %}
-                                            {{item.service_request.service.fee}}
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-left" style ="word-break:break-all;">
-                                        {% if item.product %}
-                                            {{item.product.fee}}
-                                        {% endif %}
-
-                                        {% if item.product_search_criteria %}
-                                            {{item.product_search_criteria.total_price}}
-                                        {% endif %}
-
-                                        {% if item.service_request %}
-                                            {{item.service_request.service.fee}}
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="4"></th>
-                                    <th class="text-left font-weight-bolder">Total</th>
-                                    <th class="text-left font-weight-bolder">{{ data.transaction.total_amount }}</th>
-                                </tr>
-                            </tfoot>
+                                    {% if item.service_request %}
+                                        {{item.service_request.service.fee}}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% if forloop.counter|divisibleby:10 and data.cart_items|length > 10 and forloop.counter == 10 %}
                         </table>
                     </div>
+                </div>
+
+                <div class="mt-4 pg-break">
+                    <div class="w-100">
+                        <table class="table text-right table-striped">
+                            <tr>
+                                <th class="text-left align-top" scope="col">
+                                    No.
+                                </th>
+                                <th class="text-left align-top" scope="col">
+                                    Item
+                                </th>
+                                <th class="text-left align-top" scope="col">
+                                    Product
+                                </th>
+                                <th class="text-left align-top" scope="col">
+                                    Unit
+                                </th>
+                                <th class="text-left align-top" scope="col">
+                                    Unit Price (RM)
+                                </th>
+                                <th class="text-left align-top" scope="col">
+                                    Total (RM)
+                                </th>
+                            </tr>
+                    {% elif forloop.counter|divisibleby:16 and data.cart_items|length > 16 and forloop.counter > 19  %}
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pg-break">
+                            <div class="w-100">
+                                <table class="table text-right table-striped">
+                                    <tr>
+                                        <th class="text-left align-top" scope="col">
+                                            No.
+                                        </th>
+                                        <th class="text-left align-top" scope="col">
+                                            Item
+                                        </th>
+                                        <th class="text-left align-top" scope="col">
+                                            Product
+                                        </th>
+                                        <th class="text-left align-top" scope="col">
+                                            Unit
+                                        </th>
+                                        <th class="text-left align-top" scope="col">
+                                            Unit Price (RM)
+                                        </th>
+                                        <th class="text-left align-top" scope="col">
+                                            Total (RM)
+                                        </th>
+                                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                        <tr>
+                            <th colspan="4"></th>
+                            <th class="text-left font-weight-bolder">Total</th>
+                            <th class="text-left font-weight-bolder">{{ data.transaction.total_amount }}</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
     
             <div class="row">
                 <div class="col">
-                    
+                    <div id="footer" class="default-template">
+                        <h5 class="text-center">Thank you!</h5>
+                        <p class="description text-center">
+                            If you encounter any issues related to the invoice you can
+                            contact us at email: enquiry@ssm.com.my
+                        </p>
+                        <p class="description text-center">
+                            This receipt is computer generated, no signature required.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-        
     </body>
-
-    <footer id="footer" class="default-template">
-        <h5 class="text-center">Thank you!</h5>
-        <p class="description text-center">
-            If you encounter any issues related to the invoice you can
-            contact us at email: enquiry@ssm.com.my
-        </p>
-        <p class="description text-center">
-            This receipt is computer generated, no signature required.
-        </p>
-    </footer>
 </html>
 
