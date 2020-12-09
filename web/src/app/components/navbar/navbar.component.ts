@@ -70,22 +70,22 @@ export class NavbarComponent implements OnInit {
     if (obtainedUserId) {
       this.loadingBar.useRef('http').start()
       this.userService.getOne(obtainedUserId).subscribe(
-      (res: any) => {
-        this.loadingBar.useRef('http').complete()
-        let title = 'Success'
-        let message = 'Logging in...'
-        this.currentUser = this.userService.currentUser
-        this.isAuthenticated = true
-        // this.toastr.success(message, title)
-      },
-      () => {
-        this.loadingBar.useRef('http').complete()
-      },
-      () => {
-        this.checkCart()
-        this.cookieService.saveCookie('userId', this.currentUser.id)
-      }
-    )
+        (res: any) => {
+          this.loadingBar.useRef('http').complete()
+          let title = 'Success'
+          let message = 'Logging in...'
+          this.currentUser = this.userService.currentUser
+          this.isAuthenticated = true
+          // this.toastr.success(message, title)
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.checkCart()
+          this.cookieService.saveCookie('userId', this.currentUser.id)
+        }
+      )
     }
   }
 
@@ -96,7 +96,7 @@ export class NavbarComponent implements OnInit {
           this.cartService.cartCurrent = this.cartService.cart
           this.cartItems = this.cartService.cart.cart_item
         },
-        () => {},
+        () => { },
         () => {
           if (this.cartItems.length > 0) {
             this.isEmpty = false
@@ -106,7 +106,7 @@ export class NavbarComponent implements OnInit {
           }
         }
       )
-    } 
+    }
     else {
       if (this.cartService.cartPending) {
         this.cartService.getOne(this.cartService.cartPending.id).subscribe(
@@ -114,7 +114,7 @@ export class NavbarComponent implements OnInit {
             this.cartService.cartCurrent = this.cartService.cart
             this.cartItems = this.cartService.cart.cart_item
           },
-          () => {},
+          () => { },
           () => {
             if (this.cartItems.length > 0) {
               this.isEmpty = false
@@ -129,7 +129,7 @@ export class NavbarComponent implements OnInit {
                     (code) => {
                       if (code.code == item['image_form_type']) {
                         item['image_form_type'] = code.desc_en
-                      } 
+                      }
                     }
                   )
                 }
@@ -139,7 +139,7 @@ export class NavbarComponent implements OnInit {
         )
       }
     }
-    
+
   }
 
   mobileView() {
@@ -210,7 +210,7 @@ export class NavbarComponent implements OnInit {
         this.cartItems = this.cartService.cart.cart_item
         console.log(this.cartItems)
       },
-      () => {},
+      () => { },
       () => {
         if (this.cartItems.length > 0) {
           this.isEmpty = false
@@ -225,7 +225,7 @@ export class NavbarComponent implements OnInit {
                 (code) => {
                   if (code.code == item['image_form_type']) {
                     item['image_form_type'] = code.desc_en
-                  } 
+                  }
                 }
               )
             }
@@ -239,10 +239,10 @@ export class NavbarComponent implements OnInit {
     // console.log('Path: ', path)
     if (path == 'profile') {
       return this.router.navigate([path], { queryParams: { tab: 'profile' } })
-    } 
+    }
     else if (path == 'profile3') {
       return this.router.navigate(['profile'], { queryParams: { tab: 'order' } })
-    } 
+    }
     else {
       return this.router.navigate([path])
     }

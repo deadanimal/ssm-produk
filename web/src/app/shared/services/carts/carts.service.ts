@@ -74,7 +74,7 @@ export class CartsService {
         console.log('Cart: ', this.cart);
       })
     );
-  }  
+  }
 
   filter(field: string): Observable<CartExtended[]> {
     let urlTemp = this.urlCarts + '?' + field

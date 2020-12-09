@@ -27,7 +27,7 @@ export enum SelectionType {
   cell = 'cell',
   checkbox = 'checkbox',
 }
-  // Aduh
+// Aduh
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -53,10 +53,10 @@ export class CartComponent implements OnInit {
     // Message to show when array is presented
     // but contains no values
     emptyMessage: 'Empty cart',
-  
+
     // Footer total message
     totalMessage: '',
-  
+
     // Footer selected message
     selectedMessage: 'selected'
   }
@@ -140,7 +140,7 @@ export class CartComponent implements OnInit {
         console.log(this.stateCodes)
       }
     )
-    
+
     this.fileService.get('company-origins.json').subscribe(
       (res) => {
         this.companyOrigins = res
@@ -171,13 +171,13 @@ export class CartComponent implements OnInit {
             if (item.product) {
               this.total += item.product.fee
             }
-            else if(item.service_request) {
+            else if (item.service_request) {
               this.total += item.service_request.service.fee
             }
-            else if(item.quota) {
+            else if (item.quota) {
               this.total += 2000
             }
-            else if(item.product_search_criteria) {
+            else if (item.product_search_criteria) {
               this.total += item.product_search_criteria.total_price
             }
 
@@ -189,7 +189,7 @@ export class CartComponent implements OnInit {
                     item['image_form_type'] = code.desc_en
                     console.log('meaning:', code.desc_en)
                     console.log(item['image_form_type'])
-                  } 
+                  }
                 }
               )
             }
@@ -203,7 +203,7 @@ export class CartComponent implements OnInit {
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
-            id_index: key+1
+            id_index: key + 1
           }
         })
         this.totaldocument = this.tableRows.length
@@ -238,28 +238,30 @@ export class CartComponent implements OnInit {
   }
 
   checkRow(selected) {
+
     this.total = 0
     this.totaldocument = 0
+    console.log(this.tableRows)
     this.tableRows.forEach(
       (item) => {
-        if (item['id'] == selected['id']) {
+        if (item['id'] === selected['id']) {
           item['isTick'] = !item['isTick']
           this.tableCheckbox = false
-          console.log(item)
-          console.log(this.tableRows)
+          // console.log(item)
+          // console.log(this.tableRows)
         }
 
-        if (item['isTick']) {
+        if (item['isTick'] == true) {
           if (item.product) {
             this.total += item.product.fee
           }
-          else if(item.service_request) {
+          else if (item.service_request) {
             this.total += item.service_request.service.fee
           }
-          else if(item.quota) {
+          else if (item.quota) {
             this.total += 2000
           }
-          else if(item.product_search_criteria) {
+          else if (item.product_search_criteria) {
             this.total += item.product_search_criteria.total_price
           }
           this.totaldocument = this.totaldocument + 1
@@ -269,9 +271,45 @@ export class CartComponent implements OnInit {
   }
 
   selectAllRow() {
+    console.log('qweqwe')
+    this.totaldocument = 0
+    this.total = 0
     this.tableTemp.forEach(
       (item) => {
+        console.log(item)
         item['isTick'] = this.tableCheckbox
+        console.log(item['isTick'])
+        if (item['isTick'] == false) {
+          console.log('qweqwe')
+          if (item.product) {
+            this.total = 0
+          }
+          else if (item.service_request) {
+            this.total -= item.service_request.service.fee
+          }
+          else if (item.quota) {
+            this.total -= 2000
+          }
+          else if (item.product_search_criteria) {
+            this.total -= item.product_search_criteria.total_price
+          }
+          this.totaldocument = 0
+        } else if (item['isTick'] == true) {
+          console.log('asdasda')
+          if (item.product) {
+            this.total += item.product.fee
+          }
+          else if (item.service_request) {
+            this.total += item.service_request.service.fee
+          }
+          else if (item.quota) {
+            this.total += 2000
+          }
+          else if (item.product_search_criteria) {
+            this.total += item.product_search_criteria.total_price
+          }
+          this.totaldocument = this.totaldocument + 1
+        }
       }
     )
   }
@@ -306,8 +344,8 @@ export class CartComponent implements OnInit {
             //   this.cartService.cartTemp.push(item)
             // }
             console.log('index', index)
-            console.log('array length', array.length-1)
-            
+            console.log('array length', array.length - 1)
+
             setInterval(
               () => {
                 if (index == array.length - 1) resolve();
@@ -317,11 +355,11 @@ export class CartComponent implements OnInit {
         )
       }
     )
-      
+
     filterCheckout.then(
       () => {
         console.log('cendol', this.tableRows.length)
-        
+
         if (this.tableRows.length != 0) {
           this.navigatePage('/cart/checkout')
         }
@@ -330,7 +368,7 @@ export class CartComponent implements OnInit {
         }
       }
     );
-    
+
   }
 
   successAlert(task) {
