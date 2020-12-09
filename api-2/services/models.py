@@ -95,6 +95,12 @@ class DocumentRequest(models.Model):
     reference_letter_no = models.CharField(max_length=100, null=True)
     ip_no = models.CharField(max_length=100, null=True)
     court_case_no = models.CharField(max_length=100, null=True)
+    officer_name = models.CharField(max_length=100, null=True)
+    officer_designation = models.CharField(max_length=100, null=True)
+    officer_department = models.CharField(max_length=100, null=True)
+    officer_mobile_no = models.CharField(max_length=100, null=True)
+    officer_nric = models.CharField(max_length=100, null=True)
+    officer_official_email = models.CharField(max_length=100, null=True)
 
     official_letter_request = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-request'))
     official_letter_egov = models.FileField(null=True, upload_to=PathAndRename('document-request-official-letter-egov'))

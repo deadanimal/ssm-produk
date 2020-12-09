@@ -324,8 +324,7 @@
 								<span>Channel</span>
 							</ng-template>
 							<ng-template let-row="row" ngx-datatable-cell-template>
-								<!-- {{row.channel}} -->
-								SSM Xcess Portal
+								{{row.channel}}
 							</ng-template>
 						</ngx-datatable-column>
 
@@ -364,7 +363,7 @@
 </div>
 
 <ng-template #editModal>
-	<div class="modal-header bg-default">
+	<div class="modal-header bg-ssm">
 		<h6 class="modal-title text-white my-auto" id="modal-title-default">
 			Update Product
 		</h6>
@@ -379,6 +378,118 @@
 			<div class="form-group">
 				<label class="form-control-label">Product Name</label>
 				<input class="form-control" formControlName="name">
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<div class="form-group">
+						<label class="form-control-label">Fee</label>
+						<input class="form-control" formControlName="fee" type="number">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-3 col-sm-12">
+					<div class="form-group custom-control custom-checkbox">
+						<input 
+							type="checkbox" 
+							id="chekboxCTC" 
+							name="chekboxCTC" 
+							class="custom-control-input"
+							formControlName="ctc"
+						>
+						<label class="custom-control-label" for="chekboxCTC">CTC</label>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-sm-12">
+					<div class="form-group custom-control custom-checkbox">
+						<input 
+							type="checkbox" 
+							id="checkboxROC" 
+							name="checkboxROC" 
+							class="custom-control-input"
+							formControlName="roc"
+						>
+						<label class="custom-control-label" for="checkboxROC">ROC</label>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-sm-12">
+					<div class="form-group custom-control custom-checkbox">
+						<input 
+							type="checkbox" 
+							id="checkboxEnable" 
+							name="checkboxEnable" 
+							class="custom-control-input"
+							formControlName="active"
+						>
+						<label class="custom-control-label" for="checkboxEnable">Enable</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Tax Percentage</label>
+					<input class="form-control" formControlName="tax" type="number">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Tax Start Date</label>
+					<input class="form-control" formControlName="tax_start_date"  type="date">
+				</div>
+
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Tax End Date</label>
+					<input class="form-control" formControlName="tax_end_date" type="date">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Discount Percentage</label>
+					<input class="form-control" formControlName="discount" type="number">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Discount Start Date</label>
+					<input class="form-control" formControlName="discount_start_date" type="date">
+				</div>
+
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Discount End Date</label>
+					<input class="form-control" formControlName="discount_end_date" type="date">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">COA Code</label>
+					<input class="form-control" formControlName="coa_code">
+				</div>
+
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">COA Description</label>
+					<input class="form-control" formControlName="coa_description">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Webservice</label>
+					<input class="form-control" formControlName="webservice">
+				</div>
+
+				<div class="col-lg-6 col-sm-12">
+					<label class="form-control-label">Channel</label>
+					<input class="form-control" formControlName="channel">
+				</div>
 			</div>
 		</form>
 	</div>

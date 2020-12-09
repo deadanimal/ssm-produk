@@ -218,6 +218,12 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_ip_no = request_document_request['ip_no']
         request_court_case_no = request_document_request['court_case_no']
         request_offence = request_document_request['offence']
+        request_officer_name = request_document_request['officer_name']
+        request_officer_designation = request_document_request['officer_designation']
+        request_officer_department = request_document_request['officer_department']
+        request_officer_mobile_no = request_document_request['officer_mobile_no']
+        request_nric = request_document_request['nric']
+        request_official_email = request_document_request['official_email']
         request_user_id = request_document_request['user']
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
@@ -264,6 +270,12 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             official_letter_request=request_official_letter_request,
             official_letter_egov=request_official_letter_egov,
             offence=request_offence,
+            officer_name=request_officer_name,
+            officer_designation=request_officer_designation,
+            officer_department=request_officer_department,
+            officer_mobile_no=request_officer_mobile_no,
+            officer_nric=request_officer_nric,
+            officer_official_email=request_official_email,
             user=request_user
         )
 
@@ -728,6 +740,81 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = EgovernmentRequestSerializer(egovernment_request_)
         return Response(serializer.data)            
+
+    @action(methods=['POST'], detail=False)
+    def generate_report(self, request, *args, **kwargs):
+
+        request_ = json.loads(request.body)
+        request_report_type_ = request_['report_type']
+
+        if request_report_type_ == 'access_statistics':
+            data = {
+                'package_1': 291,
+                'package_2': 211,
+                'package_3': 121,
+                'package_4': 92
+            }
+        elif request_report_type_ == 'usage_statistics':
+            data = {
+                'package_1': 2512,
+                'package_2': 3445,
+                'package_3': 921,
+                'package_4': 813
+            }
+        elif request_report_type_ == 'total_statistics':
+            data = {
+                'package_1': {
+                    'user': 291,
+                    'usage': 2512
+                },
+                'package_2': {
+                    'user': 211,
+                    'usage': 3445
+                },
+                'package_3': {
+                    'user': 121,
+                    'usage': 921
+                },
+                'package_4': {
+                    'user': 92,
+                    'usage': 813
+                },
+            }
+        elif request_report_type_ == 'user_status':
+            data = {
+                'package_1': {
+                    'active': 50,
+                    'expired': 20,
+                    'disabled': 10,
+                    'inactive': 0,
+                    'blocked': 0
+                },
+                'package_2': {
+                    'active': 30,
+                    'expired': 0,
+                    'disabled': 0,
+                    'inactive': 0,
+                    'blocked': 1
+                },
+                'package_3': {
+                    'active': 10,
+                    'expired': 0,
+                    'disabled': 0,
+                    'inactive': 0,
+                    'blocked': 0
+                },
+                'package_4': {
+                    'active': 10,
+                    'expired': 0,
+                    'disabled': 1,
+                    'inactive': 0,
+                    'blocked': 0
+                }
+            }
+        else:
+            data = { 'response': 'No data' }
+        
+        return JsonResponse(data)
 
 
 class EgovernmentMinistryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

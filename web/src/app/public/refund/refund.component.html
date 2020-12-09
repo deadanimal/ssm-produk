@@ -133,7 +133,7 @@
                             <label class="form-control-label"> TARIKH TRANSAKSI
                                 <span class="text-red">*</span>
                             </label>
-                            <input class="form-control" type="date" formControlName="transaction_date">
+                            <input class="form-control" type="text" formControlName="transaction_date" [maxDate]="currentDate" bsDatepicker>
                         </div>
         
                         <div class="form-group">

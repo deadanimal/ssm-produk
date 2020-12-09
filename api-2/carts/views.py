@@ -124,9 +124,31 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     product=product, 
                     image_form_type=image_form_type,
                     image_version_id=image_version_id,
-                    cart= cart,
+                    cart=cart,
                     cart_item_type='PR'
                 )
+
+                # if aaa is None:
+                #     user_id_ = cart_item_request['user']
+
+                #     delta = datetime.timedelta(hours=24)
+                #     current_time = datetime.datetime.now(tz=timezone.utc)
+                #     date_filter = current_time - delta
+
+                #     transactions_ = Transaction.objects.filter(
+                #         created_date__gte=date_filter,
+                #         user=user_id_,
+                #     ).all()
+
+                #     if transactions_:
+
+                #     product_viewing_fee = Product.objects.filter(slug='document_form_viewing_fee').first()
+                #     new_cart_item_viewing_fee = CartItem.object.create(
+                #         product=product_viewing_fee,
+                #         cart=cart,
+                #         cart_item_type='SE'
+                #     )
+
             # Financial historical
             elif year1 and year2:
                 new_cart_item = CartItem.objects.create(

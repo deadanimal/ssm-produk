@@ -70,7 +70,7 @@ export class FocManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initData();
+    // this.initData();
   }
 
   initData() {

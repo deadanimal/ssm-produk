@@ -38,7 +38,7 @@
                 font-size: 15pt;
             }
             .default-template {
-                color: #333;
+                color: rgb(15, 15, 15);
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 13pt;
                 padding-left: 2.5rem !important;
@@ -303,7 +303,7 @@
             <h4 class="font-weight-bold text-center mt-5"><u>BUSINESS TYPE</u></h4>
             <p id="primary">{{data.bizType.description}}</p>
 
-            <h4 class="font-weight-bold text-center mt-5"><u>BRANCH INFORMATION</u></h4>
+            <h4 class="font-weight-bold text-center mt-3"><u>BRANCH INFORMATION</u></h4>
             {% if data.branchInfo|length is 0 %}
             <p id="secondary" class="text-center"> NO BRANCH </p>
             {% endif %}
@@ -331,6 +331,9 @@
                         {{branch.state}}
                     {% endif %}
                 </li>
+                    {% if forloop.counter == 5 %}
+                        <div class="pg-break"></div>
+                    {% endif %}
                 {% endfor %}
             </ol> 
             {% endif %}
