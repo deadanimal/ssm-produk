@@ -110,20 +110,9 @@ export class ProductManagementComponent implements OnInit {
   initForm() {
     this.updateForm = this.fb.group({
       name: new FormControl(),
+      description: new FormControl(),
       fee: new FormControl(),
-      active: new FormControl(),
-      roc: new FormControl(),
-      ctc: new FormControl(),
-      tax: new FormControl(),
-      tax_start_date: new FormControl(),
-      tax_end_date: new FormControl(),
-      discount: new FormControl(),
-      discount_start_date: new FormControl(),
-      discount_end_date: new FormControl(),
-      coa_code: new FormControl(),
-      coa_description: new FormControl(),
-      webservice: new FormControl(),
-      channel: new FormControl()
+      language: new FormControl()
     })
   }
 

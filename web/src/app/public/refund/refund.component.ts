@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TransactionsService } from '../../shared/services/transactions/transactions.service';
 import swal from 'sweetalert2';
-import * as moment from 'moment';
 
 export class FileType {
   name: string
@@ -21,8 +20,6 @@ export class RefundComponent implements OnInit {
   // Checker
   isAgree: boolean = false
   dropdowns: any[] = []
-
-  currentDate: Date = new Date()
 
   // Form
   refundForm: FormGroup
@@ -64,10 +61,6 @@ export class RefundComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
-    let today = new Date()
-    // this.currentDate = moment(today).format('DD/MM/YYYY')
-    console.log(this.currentDate)
-    // console.log(new Date(), '----', new Date().toJSON());
   }
 
   getData() {

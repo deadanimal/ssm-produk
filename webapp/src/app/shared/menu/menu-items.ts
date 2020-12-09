@@ -42,10 +42,9 @@ export const ROUTES: RouteInfo[] = [
       //{ path: 'fee-management', title: 'Fee Management', type: 'link' },
       { path: 'product-management', title: 'Product Management', type: 'link' },
       { path: 'resupply', title: 'Product Resupply', type: 'link' },
-      { path: 'involvement-management', title: 'Personal Involvement Management', type: 'link' },
-      { path: 'foc-management', title: 'F.O.C. Acccount', type: 'link' },
+      { path: 'involvement-management', title: 'Report', type: 'link' },
+      // { path: 'foc-management', title: 'F.O.C. Acccount', type: 'link' },
       { path: 'statistics', title: 'Statistics', type: 'link' },
-      { path: 'report', title: 'Report', type: 'link' },
     ],
   },
   {
@@ -77,7 +76,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'task-management', title: 'Task Management', type: 'link' },
       { path: 'dropdown', title: 'eGov Dropdown', type: 'link' },
       { path: 'user-management', title: 'eGov User Management', type: 'link' },
-      // { path: 'report', title: 'Report', type: 'link'}
+      { path: 'report', title: 'eGov Report', type: 'link'}
     ],
   },  
   {

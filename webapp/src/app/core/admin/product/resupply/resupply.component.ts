@@ -69,7 +69,7 @@ export class ResupplyComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.initData();
+    this.initData();
   }
 
   initData() {

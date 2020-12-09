@@ -1,28 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-
-
-import { ProductsService } from '../../../../shared/services/products/products.service';
-
-import * as moment from 'moment';
-
-export enum SelectionType {
-  single = 'single',
-  multi = 'multi',
-  multiClick = 'multiClick',
-  cell = 'cell',
-  checkbox = 'checkbox',
-}
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import * as am4maps from "@amcharts/amcharts4/maps";
+import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 @Component({
   selector: 'app-involvement-management',
@@ -31,159 +12,87 @@ export enum SelectionType {
 })
 export class InvolvementManagementComponent implements OnInit {
 
+  // Image 
+  imgConstruction = 'assets/img/default/under-construction.png'
+
   // Chart
-  chart: any;
-
-  // Modal
-  modal: BsModalRef;
-  modalConfig = {
-    keyboard: true,
-    class: 'modal-dialog-centered modal-lg',
-  };
-
-  // Table
-  tableEntries: number = 10;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  tableRows: any[] = [];
-  SelectionType = SelectionType;
-  requestList: any;
-
-  updateForm: FormGroup
-
-  isCompleted: boolean = false;
-  isRejected: boolean = false;
-  completedDate: string = ''
-  remarks: string = ''
-  selectedRow;
+  private chart: any
 
   constructor(
-    private modalService: BsModalService,
-    private formBuilder: FormBuilder,
-    private loadingBar: LoadingBarService,
-    private router: Router,
-    private productsService: ProductsService,
-  ) {
-
-  }
+    private zone: NgZone
+  ) { }
 
   ngOnInit() {
-    // this.initData();
+    this.getCharts()
   }
 
-  initData() {
-    this.productsService.getAll().subscribe(
-      (res) => {
-        this.tableRows = res;
-        this.tableRows.forEach(
-          (row) => {
-
-
-            if(row.created_date) {
-              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
-            }
-
-            if(row.modified_date) {
-              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
-            }
-
-          }
-        )        
-      },
-      (err) => {
-
-      },
+  ngOnDestroy() {
+    this.zone.runOutsideAngular(
       () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });        
-        console.log(this.tableTemp)
+        if (this.chart) {
+          console.log('Chart disposed')
+          this.chart.dispose()
+        }
       }
     )
   }
 
-  entriesChange($event) {
-    this.tableEntries = $event.target.value;
+  getCharts() {
+    this.zone.runOutsideAngular(() => {
+      this.getChart()
+    })
   }
 
-  filterTable($event) {
-    let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
-    });
-  }
+  getChart() {
+    let chart = am4core.create("chartdivpro", am4charts.PieChart);
 
-  onSelect({ selected }) {
-    this.tableSelected.splice(0, this.tableSelected.length);
-    this.tableSelected.push(...selected);
-  }
-
-  onActivate(event) {
-    this.tableActiveRow = event.row;
-  }
-  
-  openModal(modalRef: TemplateRef<any>, row) {
-
-    this.selectedRow = row
-    if (row) {
-      if (row.status == 'PG') {
-        this.isCompleted = false
-      }
+    // Add data
+    chart.data = [{
+      "product": "Certificate of Conversion ",
+      "litres": 95
+    }, {
+      "product": " Particulars of Share Capital ",
+      "litres": 120
+    }, {
+      "product": "Financial Comparison - 2 Years ",
+      "litres": 211
+    }, {
+      "product": "Certificate of Change of Company Name",
+      "litres": 161
+    }, {
+      "product": "Financial Historical ",
+      "litres": 139
+    }, {
+      "product": "Financial Comparison - 5 Years ",
+      "litres": 128
+    }, {
+      "product": "Particulars of Shareholders ",
+      "litres": 99
+    }, {
+      "product": "Particulars of Share Capital ",
+      "litres": 99
+    }, {
+      "product": "Attestation of Company Good Standing (ACGS)  ",
+      "litres": 99
+    }, {
+      "product": "Document and Form ",
+      "litres": 121
     }
-    this.modal = this.modalService.show(
-      modalRef, this.modalConfig
-    );
-    // this.modal = this.modalService.show(modalRef, this.modalConfig);
-  } 
+    ];
 
-  closeModal() {
-    this.modal.hide();
-    this.isCompleted = false
-    this.completedDate = ''
-    this.remarks = ''
-  }  
+    // Add and configure Series
+    let pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "litres";
+    pieSeries.dataFields.category = "product";
+    pieSeries.slices.template.stroke = am4core.color("#fff");
+    pieSeries.slices.template.strokeOpacity = 1;
 
-  updateApplication() {
-    this.loadingBar.start()
+    // This creates initial animation
+    pieSeries.hiddenState.properties.opacity = 1;
+    pieSeries.hiddenState.properties.endAngle = -90;
+    pieSeries.hiddenState.properties.startAngle = -90;
 
-    let application_ = this.selectedRow;
-
-    let temp_completed_date = moment(this.completedDate).format('YYYY-MM-DD')
-    temp_completed_date = temp_completed_date + 'T08:00:00.000000Z'
-    this.updateForm.controls['completed_date'].setValue(temp_completed_date)
-
-    let id_ = application_['id']
-    
-    let change_ = {
-      'completed': this.isCompleted,
-    }
-
-    if (this.completedDate != '') {
-      change_['completed_date'] = temp_completed_date
-    }
-    change_['remarks'] = this.remarks;
-    console.log(change_)
-
-    // this.servicesService.markAsCompleteServiceRequest(id_, change_).subscribe(
-    //   (respond)=> {
-    //     console.log(respond)
-    //   },
-    //   (error) => {
-    //     this.closeModal()
-    //   },
-    //   () => {
-    //     this.closeModal()
-    //     this.initData();
-    //   }
-    // )
-
-    
-
-
-  } 
+    chart.hiddenState.properties.radius = am4core.percent(0);
+  }
 
 }
