@@ -37,7 +37,7 @@ import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.com
 import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 import { ProductReportComponent } from './product/product-report/product-report.component';
-
+  // Aduh
 export const AdminRoutes: Routes = [
   {
     path: '',

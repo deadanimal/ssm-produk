@@ -79,7 +79,7 @@ export class ProductManagementComponent implements OnInit {
     this.getData()
     this.initForm()
   }
-
+  // Aduh
   getData() {
     this.loadingBar.start()
     this.productService.getAll().subscribe(

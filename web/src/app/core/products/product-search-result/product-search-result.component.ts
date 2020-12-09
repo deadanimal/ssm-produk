@@ -213,7 +213,7 @@ export class ProductSearchResultComponent implements OnInit {
         )
       }
     )
-
+//   // Aduh
     if (this.entity['type_of_entity'] == 'BS') {
       this.productService.getBranches(branchBody).subscribe(
         (res) => {

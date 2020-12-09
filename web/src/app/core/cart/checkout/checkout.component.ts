@@ -26,7 +26,7 @@ export enum SelectionType {
   cell = 'cell',
   checkbox = 'checkbox',
 }
-
+  // Aduh
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
