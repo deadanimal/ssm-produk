@@ -3,9 +3,9 @@
     <div class="container-fluid">
       <div class="header-body">
         <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
+          <div class="col-lg-8 col-7">
             <h6 class="h2 text-dark d-inline-block mb-0">
-              F.O.C Account
+              Personal Involvement List
             </h6>
   
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
@@ -16,10 +16,10 @@
                   </a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="javascript:void(0)" class="text-dark"> Product </a>
+                  <a href="javascript:void(0)" class="text-dark">Product </a>
                 </li>
                 <li aria-current="page" class="breadcrumb-item active">
-                    F.O.C Account
+                    Personal Involvement List
                 </li>
               </ol>
             </nav>
@@ -34,13 +34,14 @@
       <div class="col">
         <div class="card">
           <div class="card-header bg-secondary">
-            <h3 class="m-0">F.O.C Account List</h3>
+            <h3 class="m-0">Personal Involvement List</h3>
           </div>
 
-          <div class="row text-right pt-4 pr-6">
+          <div class="row text-right pt-4 pr-4">
             <div class="col">
                 <button
                     class="btn btn-ssm rounded-pill"
+                    (click)="openModal(newAcc,row)"
                 >
                     Add New
                 </button>
@@ -61,7 +62,7 @@
               <div class="col-sm-12 col-md-3">
                 <div class="form-group">
                   <label class="form-control-label">Status</label>
-                  <select class="form-control form-control-sm" (change)="filterTable($event, 'status')">
+                  <select class="form-control form-control-sm" (change)="filterTable($event, 'status')"> 
                     <option value="EB">Enabled</option>
                     <option value="DB">Disabled</option>
                   </select>
@@ -115,7 +116,6 @@
                 </ng-template>
 
                   <ng-template
-                    let-rowIndex="rowIndex"
                     let-row="row"
                     ngx-datatable-cell-template
                   >
@@ -127,7 +127,7 @@
                 [width]="180"
                 [sortable]="true"
                 [resizeable]="false"
-                prop="name"
+                prop="rowName"
               >
                 <ng-template ngx-datatable-header-template>
                   <span>Full Name</span>
@@ -243,46 +243,6 @@
                 </ng-template>
               </ngx-datatable-column>                
 
-</div>
-
-<div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <h3 class="m-0">F.O.C Account List</h3>
-        </div>
-        <div class="dataTables_wrapper py-4">
-          <div class="row">
-            <div class="col-sm-12 col-md-6">
-              <div class="dataTables_length" id="datatable_length">
-                <label>
-                  Show
-                  <select name="datatable_length" aria-controls="datatable"
-                    class="form-control form-control-sm custom-select custom-select-sm"
-                    (change)="entriesChange($event)">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="-1">All</option>
-                  </select>
-                  records
-                </label>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-            </div>
-          </div>
-
-          <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-            [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
-            [scrollbarH]="true" (activate)="onActivate($event)">
-            <ngx-datatable-column name="No">
-              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-                <strong>{{ rowIndex + 1 }}</strong>
-              </ng-template>
-            </ngx-datatable-column>
-
 
             </ngx-datatable>
           </div>
@@ -291,92 +251,104 @@
     </div>
   </div>
   
-  <ng-template #editModal>
+<ng-template #newAcc>
     <div class="modal-header bg-default">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update Status
+            Personal Involvement Registration
         </h6>
-  
+
         <button
             aria-label="Close"
             class="close"
             data-dismiss="modal"
             type="button"
             (click)="closeModal()"
-        >
+            >
             <span aria-hidden="true" class="text-white my-auto"> × </span>
         </button>
     </div>
-  
+
     <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
         <form>
             <div class="row">
-              <div class="col-lg-4">
-                <div class="row">
-                  <div class="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-                      <label class="custom-control-label" for="pendingCheck">Pending</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
+                <div class="col col-sm-12">
                     <div class="form-group">
-                      <label class="form-control-label">Pending Date</label>
-                      <input class="form-control" [value]="selectedRow.created_date" disabled>
+                        <label class="form-control-label">Full Name</label>
+                        <input class="form-control" placeholder="Full Name">
                     </div>
-                  </div>
                 </div>
-              </div>
-  
-              <div class="col-lg-4">
-                <div class="row">
-                  <div clas="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="completedCheck">
-                      <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Completed Date</label>
-                      <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
-                    </div>
-                  </div>
-                </div>
-              </div>
-       
-  
-              <div class="col-lg-4">
-                <!--
-                <div class="row mt-2">
-                  <div clas="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-                </div>
-              -->
-              </div>
-            </div>
-  
+            </div> 
+
             <div class="row">
-  
-                  <div class="col">
+                <div class="col col-sm-12">
                     <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                        <label class="form-control-label">ID Type</label>
+                        <select class="form-control">
+                        <option value="IC">NRIC</option>
+                        <option value="PP">Passport</option>
+                        </select>
                     </div>
-                  </div>
-  
+                </div>
             </div>
-            
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Number</label>
+                        <input class="form-control" placeholder="ID Number">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Reason</label>
+                        <textarea class="form-control" maxlength="100" style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Attachment</label>
+                        <div class="custom-file">
+                            <input 
+                                type="file" 
+                                class="custom-file-input cursor-pointer" 
+                                id="files" 
+                                lang="en"
+                                (change)="onFileChange($event)" 
+                                accept=".pdf"
+                            />
+                            <label class="custom-file-label" for="files">Select file</label>
+
+                            <ng-container *ngIf="files.length > 0">
+                                <div *ngFor="let file_ of files">
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile(file_)"
+                                    >
+                                    </i>
+                                    {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Status</label>
+                        <select class="form-control">
+                        <option value="EB">Enabled</option>
+                        <option value="DB">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
   
@@ -384,9 +356,9 @@
         <button 
             class="btn btn-success"
             type="button"
-            (click)="updateApplication()"
+            (click)="addPersonalInvolvement()"
             [disabled]="!isCompleted && remarks=='' && completedDate==''">
-            Update
+            Submit
         </button>
   
         <button
@@ -397,4 +369,126 @@
             Close
         </button>
     </div>
-  </ng-template>
+
+</ng-template>
+
+  
+
+<ng-template #editAcc>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Personal Involvement Registration
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+            >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <form>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Full Name</label>
+                        <input class="form-control" placeholder="Full Name">
+                    </div>
+                </div>
+            </div> 
+
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Type</label>
+                        <select class="form-control">
+                        <option value="IC">NRIC</option>
+                        <option value="PP">Passport</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Number</label>
+                        <input class="form-control" placeholder="ID Number">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Reason</label>
+                        <textarea class="form-control" maxlength="100" style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Attachment</label>
+                        <div class="custom-file">
+                            <input 
+                                type="file" 
+                                class="custom-file-input cursor-pointer" 
+                                id="files" 
+                                lang="en"
+                                (change)="onFileChange($event)" 
+                                accept=".pdf"
+                            />
+                            <label class="custom-file-label" for="files">Select file</label>
+
+                            <ng-container *ngIf="files.length > 0">
+                                <div *ngFor="let file_ of files">
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile(file_)"
+                                    >
+                                    </i>
+                                    {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Status</label>
+                        <select class="form-control">
+                        <option value="EB">Enabled</option>
+                        <option value="DB">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  
+    <div class="modal-footer">
+        <button 
+            class="btn btn-success"
+            type="button"
+            (click)="updateApplication()"
+            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+        </button>
+  
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</ng-template>
