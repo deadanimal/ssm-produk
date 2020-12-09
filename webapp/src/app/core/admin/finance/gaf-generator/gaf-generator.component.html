@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -32,14 +33,14 @@
 			<div class="col">
 				<div class="form-group">
 					<label class="form-control-label">Start Date</label>
-					<input class="form-control" type="date" formControlName="start_date">
+					<input id="start_date" #start_date class="form-control" type="date" formControlName="start_date" (change)="setminDate(start_date.value)">
 				</div>
 			</div>
 	
 			<div class="col">
 				<div class="form-group">
 					<label class="form-control-label">End Date</label>
-					<input class="form-control" type="date" formControlName="end_date">
+					<input id="end_date" #end_date class="form-control" type="date" formControlName="end_date" max="{{maxDate}}" (change)="setmaxDate(end_date.value)">
 				</div>
 			</div>
 		</div>

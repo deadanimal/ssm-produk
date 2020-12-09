@@ -4,7 +4,7 @@
 
         <div *ngIf="!isAgree" class="mb-4">
             <p class="my-0">Nota:</p>
-            <ol class="justify">
+            <ol class="justify" style="text-align: justify;margin-bottom: 2%">
                 <li>
                     Semua permohonan bayaran balik hasil ke Suruhanjaya Syarikat Malaysia (SSM) 
                     hendaklah dibuat melalui Borang Permohonan Bayaran Balik.
@@ -18,7 +18,7 @@
                             Salinan resit rasmi SSM berkaitan transaksi yang dipohon;
                         </li>
                         <li>
-                            Salinan Surat Penolakan / Kueri / Pembatalan Progran yang 
+                            Salinan Surat Penolakan / Kueri yang 
                             dikeluarkan dengan transaksi;
                         </li>
                         <li>
@@ -133,7 +133,7 @@
                             <label class="form-control-label"> TARIKH TRANSAKSI
                                 <span class="text-red">*</span>
                             </label>
-                            <input class="form-control" type="date" formControlName="transaction_date">
+                            <input id="datepicker" class="form-control" type="date" formControlName="transaction_date" max="{{yesterday}}">
                         </div>
         
                         <div class="form-group">
