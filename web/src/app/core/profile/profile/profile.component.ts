@@ -163,7 +163,7 @@ export class ProfileComponent implements OnInit {
         }
 
         let orders = []
-
+  // Aduh
         for (let cart of carts) {
           let cart_modified_date = cart['created_date']
           for (let cart_item of cart['cart_item']) {

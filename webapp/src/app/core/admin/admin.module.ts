@@ -21,7 +21,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { RbacComponent } from "./utility/rbac/rbac.component";
 import { AuditTrailComponent } from "./utility/audit-trail/audit-trail.component";
 import { UsersComponent } from "./utility/users/users.component";
-
+  // Aduh
 import { ReportComponent } from "./report/report.component";
 import { OutstandingTasksComponent } from "./kjakp/outstanding-tasks/outstanding-tasks.component";
 import { ApplicationRequestsComponent } from "./cbid/application-requests/application-requests.component";
