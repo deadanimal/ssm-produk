@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { exit } from 'process';
 
 export enum SelectionType {
   single = 'single',
@@ -55,7 +56,7 @@ export class ProfileEgovComponent implements OnInit {
   tableInvestigationTemp = []
   tableInvestigationActiveRow: any
   tableInvestigationRows: any[] = []
-
+  
   tableRequestEntries: number = 10
   tableRequestSelected: any[] = []
   tableRequestTemp = []
@@ -127,13 +128,38 @@ export class ProfileEgovComponent implements OnInit {
 
   investigationFormMessages = {
     'reference_letter_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'officer_name': [
       { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'designation': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'department_name': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'nric_number': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
     ],
     'ip_no': [
-      { type: 'required', message: 'Don\'t leave this field blank' }
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'phone_number': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'official_email': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'email', message: 'Invalid email'}
+
     ],
     'court_case_no': [
-      { type: 'required', message: 'Don\'t leave this field blank' }
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
     ],
     'official_letter_egov': [
       { type: 'required', message: 'Don\'t leave this field blank' }
@@ -443,13 +469,33 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ])),
       reference_letter_no: new FormControl(null, Validators.compose([
+        Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      officer_name: new FormControl(null, Validators.compose([
         Validators.required
+      ])),
+      designation: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      department_name: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      phone_number: new FormControl(null, Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      nric_number: new FormControl(null, Validators.compose([
+        Validators.minLength(12),
+        Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      official_email: new FormControl(null, Validators.compose([
+        Validators.required,Validators.email
       ])),
       ip_no: new FormControl(null, Validators.compose([
-        Validators.required
+        Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       court_case_no: new FormControl(null, Validators.compose([
-        Validators.required
+        Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       official_letter_egov: new FormControl(null, Validators.compose([
         Validators.required
@@ -524,7 +570,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ]))
     })
-
+   
     this.informationForm.controls['phone_number'].patchValue(this.user['phone_number'])
     this.informationForm.controls['position_or_grade'].patchValue(this.user['position_or_grade'])
     this.informationForm.controls['head_of_department_name'].patchValue(this.user['head_of_department_name'])
@@ -556,9 +602,17 @@ export class ProfileEgovComponent implements OnInit {
     this.renewForm.controls['user'].patchValue(this.user['id'])
 
     this.investigationForm.controls['user'].patchValue(this.user['id'])
-
+  
     let investigForm = this.serviceService.investigationForm
+    
     if (this.isGotInvestigationFormValue) {
+    
+      this.investigationForm.controls['officer_name'].patchValue(investigForm['officer_name'])
+      this.investigationForm.controls['designation'].patchValue(investigForm['officer_designation'])
+      this.investigationForm.controls['department_name'].patchValue(investigForm['officer_department'])
+      this.investigationForm.controls['phone_number'].patchValue(investigForm['officer_mobile_no'])
+      this.investigationForm.controls['nric_number'].patchValue(investigForm['officer_nric'])
+      this.investigationForm.controls['official_email'].patchValue(investigForm['officer_official_email'])
       this.investigationForm.controls['reference_letter_no'].patchValue(investigForm['reference_letter_no'])
       this.investigationForm.controls['ip_no'].patchValue(investigForm['ip_no'])
       this.investigationForm.controls['court_case_no'].patchValue(investigForm['court_case_no'])
@@ -748,6 +802,7 @@ export class ProfileEgovComponent implements OnInit {
 
   submitRequest() {
     this.loadingBar.useRef('http').start()
+    alert("gg");exit;
     this.serviceService.createDocumentRequest(this.investigationForm.value).subscribe(
       (res) => {
         // console.log(res)

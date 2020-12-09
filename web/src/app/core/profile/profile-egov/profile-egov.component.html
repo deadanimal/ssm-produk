@@ -776,8 +776,14 @@
 														<label class="form-control-label">Officer Name
 															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['full_name']" disabled>
+														<input class="form-control" formControlName="officer_name" (change)="onInvestigChange()"
+														[ngClass]="{'is-invalid': investigationForm.controls.officer_name.invalid && investigationForm.controls.officer_name.touched}">
 													</div>
+													<ng-container *ngFor="let message of investigationFormMessages.officer_name">
+														<div *ngIf="investigationForm.get('officer_name').hasError(message.type) && (investigationForm.get('officer_name').dirty || investigationForm.get('officer_name').touched)">
+															<p class="error-message"><span>{{ message.message }}</span></p>
+														</div>
+													</ng-container>
 												</div>
 		
 												<div class="col">
@@ -785,28 +791,45 @@
 														<label class="form-control-label">Designation 
 															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['position_or_grade']" disabled>
+														<input class="form-control" formControlName="designation" (change)="onInvestigChange()"
+														[ngClass]="{'is-invalid': investigationForm.controls.designation.invalid && investigationForm.controls.designation.touched}">
 													</div>
+													<ng-container *ngFor="let message of investigationFormMessages.designation">
+														<div *ngIf="investigationForm.get('designation').hasError(message.type) && (investigationForm.get('designation').dirty || investigationForm.get('designation').touched)">
+															<p class="error-message"><span>{{ message.message }}</span></p>
+														</div>
+													</ng-container>
 												</div>
 											</div>
 		
 											<div class="row">
 												<div class="col">
 													<div class="form-group">
-														<label class="form-control-label">Department 
-															<!-- <span class="text-red">*</span> -->
+														<label class="form-control-label">Department Name
+															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['department_name']" disabled>
+														<input class="form-control" formControlName="department_name" [ngClass]="{'is-invalid': investigationForm.controls.department_name.invalid && investigationForm.controls.department_name.touched}" (change)="onInvestigChange()">
+														<ng-container *ngFor="let message of investigationFormMessages.department_name">
+															<div *ngIf="investigationForm.get('department_name').hasError(message.type) && (investigationForm.get('department_name').dirty || investigationForm.get('department_name').touched)">
+																<p class="error-message"><span>{{ message.message }}</span></p>
+															</div>
+														</ng-container>
 													</div>
 												</div>
 		
 												<div class="col">
 													<div class="form-group">
 														<label class="form-control-label">Mobile No. / Office No.
-															<!-- <span class="text-red">*</span> -->
+															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['phone_number']" disabled>
+														<input class="form-control" formControlName="phone_number"  [ngClass]="{'is-invalid': investigationForm.controls.phone_number.invalid && investigationForm.controls.phone_number.touched}" (change)="onInvestigChange()">
 													</div>
+
+													<ng-container *ngFor="let message of investigationFormMessages.phone_number">
+															<div *ngIf="investigationForm.get('phone_number').hasError(message.type) && (investigationForm.get('phone_number').dirty || investigationForm.get('phone_number').touched)">
+																<p class="error-message"><span>{{ message.message }}</span></p>
+															</div>
+													</ng-container>
 												</div>
 											</div>
 		
@@ -814,18 +837,28 @@
 												<div class="col">
 													<div class="form-group">
 														<label class="form-control-label">NRIC No. / Officer Authority Card
-															<!-- <span class="text-red">*</span> -->
+															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['nric_number']" disabled>
+														<input class="form-control" formControlName="nric_number"  [ngClass]="{'is-invalid': investigationForm.controls.nric_number.invalid && investigationForm.controls.nric_number.touched}" (change)="onInvestigChange()">
+														<ng-container *ngFor="let message of investigationFormMessages.nric_number">
+															<div *ngIf="investigationForm.get('nric_number').hasError(message.type) && (investigationForm.get('nric_number').dirty || investigationForm.get('nric_number').touched)">
+																<p class="error-message"><span>{{ message.message }}</span></p>
+															</div>
+														</ng-container>
 													</div>
 												</div>
 		
 												<div class="col">
 													<div class="form-group">
 														<label class="form-control-label">Official Email Address
-															<!-- <span class="text-red">*</span> -->
+															<span class="text-red">*</span>
 														</label>
-														<input class="form-control" [value]="user['username']" disabled>
+														<input class="form-control" formControlName="official_email" [ngClass]="{'is-invalid': investigationForm.controls.official_email.invalid && investigationForm.controls.official_email.touched}" (change)="onInvestigChange()">
+														<ng-container *ngFor="let message of investigationFormMessages.officer_name">
+															<div *ngIf="investigationForm.get('official_email').hasError(message.type) && (investigationForm.get('official_email').dirty || investigationForm.get('official_email').touched)">
+																<p class="error-message"><span>{{ message.message }}</span></p>
+															</div>
+														</ng-container>
 													</div>
 												</div>
 											</div>
@@ -845,7 +878,7 @@
 													</div>
 
 													<ng-container *ngFor="let message of investigationFormMessages.reference_letter_no">
-														<div *ngIf="investigationForm.get('reference_letter_no').hasError(message.type) && (investigationForm.get('reference_letter_no').dirty || investigationForm.get('reference_letter_no').touched)">
+														<div *ngIf="investigationForm.get('reference_letter_no').hasError(message.type) && (investigationForm.get('reference_letter_no').dirty || investigationForm.get('reference_letter_no').touched)" >
 															<p class="error-message"><span>{{ message.message }}</span></p>
 														</div>
 													</ng-container>
@@ -892,49 +925,6 @@
 														</div>
 													</ng-container>
 												</div>
-											</div>
-			
-											<div class="row">
-												<div class="col-sm-12 col-lg-6">
-													<div class="form-group">
-														<label class="form-control-label">Attachment (Official Letter of Company Information Request)
-															<span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
-														</label>
-														<div class="custom-file">
-															<input 
-																type="file" 
-																class="custom-file-input" 
-																id="files" 
-																lang="en"
-																(change)="onFileChange($event, 'request-letter')" 
-																accept=".pdf"
-																size="5"
-																[ngClass]="{'is-invalid': investigationForm.controls.official_letter_request.invalid && investigationForm.controls.official_letter_request.touched}"
-															/>
-															<label class="custom-file-label" for="files">Select file</label>
-														</div>
-													</div>
-
-													<ng-container *ngIf="investigationForm.value['official_letter_request']">
-														<div>
-															<i 
-																class="fas fa-trash-alt text-warning mr-2"
-																placement="top" 
-																tooltip="Remove attachment"
-																(click)="removeFile('request-letter')"
-															>
-															</i>
-															{{fileNameInvestigReq}} [{{fileSizeInvestigReq/1000000 | number: '1.2-2'}}MB]
-														</div>
-													</ng-container>
-
-													<ng-container *ngFor="let message of investigationFormMessages.official_letter_request">
-														<div *ngIf="investigationForm.get('official_letter_request').hasError(message.type) && (investigationForm.get('official_letter_request').dirty || investigationForm.get('official_letter_request').touched)">
-															<p class="error-message"><span>{{ message.message }}</span></p>
-														</div>
-													</ng-container>
-												</div>
-			
 												<div class="col-sm-12 col-lg-6">
 													<div class="form-group">
 														<label class="form-control-label">Attachment (Official Letter from eGovernment)
@@ -954,7 +944,7 @@
 															<label class="custom-file-label" for="files">Select file</label>
 														</div>
 													</div>
-
+	
 													<ng-container *ngIf="investigationForm.value['official_letter_egov']">
 														<div>
 															<i 
@@ -967,7 +957,7 @@
 															{{fileNameInvestigGov}} [{{fileSizeInvestigGov/1000000 | number: '1.2-2'}}MB]
 														</div>
 													</ng-container>
-
+	
 													<ng-container *ngFor="let message of investigationFormMessages.official_letter_egov">
 														<div *ngIf="investigationForm.get('official_letter_egov').hasError(message.type) && (investigationForm.get('official_letter_egov').dirty || investigationForm.get('official_letter_egov').touched)">
 															<p class="error-message"><span>{{ message.message }}</span></p>
@@ -975,6 +965,7 @@
 													</ng-container>
 												</div>
 											</div>
+			
 	
 											<div class="form-group">
 												<label class="form-control-label">Offence (Please quote the relevent section)
@@ -1007,6 +998,7 @@
 														value="document"
 														[(ngModel)]="searchType"
 														[ngModelOptions]="{standalone: true}"
+														disabled
 													>
 													<label class="custom-control-label" for="radioRequest1">Document</label>
 												</div>
@@ -1021,8 +1013,10 @@
 														[(ngModel)]="searchType"
 														[ngModelOptions]="{standalone: true}"
 														[disabled]="requestToAdd.length >= 1"
+														disabled
 													>
 													<label class="custom-control-label" for="radioRequest2">Personal Involvement</label>
+													&nbsp;(Coming Soon!)
 												</div>
 											</div>
 	

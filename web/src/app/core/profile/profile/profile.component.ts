@@ -165,12 +165,10 @@ export class ProfileComponent implements OnInit {
         let orders = []
 
         for (let cart of carts) {
-          let cart_modified_date = cart['created_date']
-          for (let cart_item of cart['cart_item']) {
-            if (cart_item['product']) {
-              cart_item['created_date'] = cart_modified_date
-              console.log(cart_item)
-              orders.push(cart_item)
+          for (let huhu of cart['cart_item']) {
+            if (huhu['product']) {
+              console.log(huhu)
+              orders.push(huhu)
             } 
           }
         }

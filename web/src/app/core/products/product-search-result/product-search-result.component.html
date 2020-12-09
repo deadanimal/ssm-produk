@@ -1511,6 +1511,54 @@
                                     </div>
                                 </div>
 
+                                <!-- <div class="col-lg-4 col-sm-12">
+                                    <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <h4 class="pb-2">Business Certificate</h4>
+                                            </div>
+                                            
+                                            <form [formGroup]="businessCertForm">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <select 
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                                formControlName="language"
+                                                                (change)="checker(businessCertForm)" 
+                                                            >
+                                                                <option value="MS" selected>BM</option>
+                                                                <option value="EN">EN</option>
+                                                                <option value="BT">Both</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="card-footer-ssm">
+                                            <div class="text-center">
+                                                <button 
+                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(businessCertForm)"
+                                                >
+                                                    <span class="text-sm">
+                                                        Add to cart
+                                                        RM{{businessCertForm.value['fee']/100 | number : '1.2-2'}}
+                                                    </span>
+                                                </button>
+
+                                                <button 
+                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
+                                                    <span class="text-sm">View Sample</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
                                 <div class="col-lg-4 col-sm-12">
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
                                         <div class="card-body">
@@ -1740,17 +1788,18 @@
 
                         <div class="mt-2 mb-4" *ngIf="isProceed">
                             <ngx-datatable 
-                                class="bootstrap"
+                                class="bootstrap selection-cell"
                                 [columnMode]="'force'"
                                 [headerHeight]="50"
                                 [footerHeight]="50"
                                 [rowHeight]="'auto'"
                                 [limit]="tableEntries != -1 ? tableEntries : undefined" 
                                 [rows]="tableTemp"
+                                (activate)="onActivate($event)"
                                 [scrollbarH]="true" 
                             >
                                 <ngx-datatable-column 
-                                    [width]="135" 
+                                    [width]="150" 
                                     [sortable]="true"
                                     prop="formType"
                                 >
@@ -1763,7 +1812,7 @@
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column
-                                    [width]="198"
+                                    [width]="170"
                                     [sortable]="true"
                                     prop="formName"
                                 >
@@ -1776,7 +1825,7 @@
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column 
-                                    [width]="155"
+                                    [width]="150"
                                     [sortable]="true"
                                     prop="humanDate"
                                 >
@@ -1789,7 +1838,7 @@
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column 
-                                    [width]="100"
+                                    [width]="120"
                                     [sortable]="true"
                                     prop="totalPage"
                                 >
@@ -1802,8 +1851,7 @@
                                 </ngx-datatable-column>
 
                                 <ngx-datatable-column 
-                                    [width]="130"
-                                    [sortable]="false"
+                                    [width]="140"
                                 >
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">CTC</span>
@@ -1822,7 +1870,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="110" [sortable]="false">
+                                <ngx-datatable-column maxWidth="150" [sortable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header"></span>
                                     </ng-template>
