@@ -100,7 +100,7 @@ export class EnquiryGeneralComponent implements OnInit {
 
     if (
       file_['size'] > 2000000 ||
-      this.files.length > 5
+      this.files.length > 4
     ) {
       let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
       this.errorAlert(task)

@@ -14,6 +14,7 @@ import { ProductManagementComponent } from './product/product-management/product
 import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
 import { FocManagementComponent } from './product/foc-management/foc-management.component';
 import { FeeManagementComponent } from './product/fee-management/fee-management.component';
+import { PersonalInvolvementComponent} from './product/personal-involvement/personal-involvement.component';
 
 import { StatisticsComponent } from './product/statistics/statistics.component';
 import { CbidAuditTrailComponent } from './cbid/audit-trail/audit-trail.component';
@@ -120,8 +121,13 @@ export const AdminRoutes: Routes = [
             component: FeeManagementComponent
           },
           {
+<<<<<<< HEAD
+            path: 'personal-involvement',
+            component: PersonalInvolvementComponent
+=======
             path: 'report',
             component: ProductReportComponent
+>>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
           }
         ],
       },
