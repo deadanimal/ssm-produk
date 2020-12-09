@@ -39,6 +39,12 @@ export class ConfigurationEnquiryComponent implements OnInit {
   // Instructions & disclaimers
   notes: Note[] = []
 
+  @ViewChild('headerEN', {
+    static: true
+  }) headerEN: QuillViewHTMLComponent
+  @ViewChild('headerBM', {
+    static: true
+  }) headerBM: QuillViewHTMLComponent
   @ViewChild('instructionEN', {
     static: true
   }) instructionEN: QuillViewHTMLComponent
@@ -58,10 +64,14 @@ export class ConfigurationEnquiryComponent implements OnInit {
     static: true
   }) notesBM: QuillViewHTMLComponent
 
-  instructionENForm: FormGroup
-  instructionBMForm: FormGroup
-  disclaimerENForm: FormGroup
-  disclaimerBMForm: FormGroup
+  headerInstructionENForm: FormGroup
+  headerInstructionBMForm: FormGroup
+  bodyInstructionENForm: FormGroup
+  bodyInstructionBMForm: FormGroup
+  headerDisclaimerENForm: FormGroup
+  headerDisclaimerBMForm: FormGroup
+  bodyDisclaimerENForm: FormGroup
+  bodyDisclaimerBMForm: FormGroup
   notesENForm: FormGroup
   notesBMForm: FormGroup
 
@@ -112,7 +122,15 @@ export class ConfigurationEnquiryComponent implements OnInit {
       ]))
     })
 
-    this.instructionENForm = this.fb.group({
+    this.headerInstructionENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+    this.headerInstructionBMForm = this.fb.group({
       id: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -121,7 +139,7 @@ export class ConfigurationEnquiryComponent implements OnInit {
       ]))
     })
 
-    this.instructionBMForm = this.fb.group({
+    this.bodyInstructionENForm = this.fb.group({
       id: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -130,7 +148,7 @@ export class ConfigurationEnquiryComponent implements OnInit {
       ]))
     })
 
-    this.disclaimerENForm = this.fb.group({
+    this.bodyInstructionBMForm = this.fb.group({
       id: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -139,7 +157,33 @@ export class ConfigurationEnquiryComponent implements OnInit {
       ]))
     })
 
-    this.disclaimerBMForm = this.fb.group({
+    this.headerDisclaimerENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.headerDisclaimerBMForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+    this.bodyDisclaimerENForm = this.fb.group({
+      id: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      description: new FormControl(null, Validators.compose([
+        Validators.required
+      ]))
+    })
+
+    this.bodyDisclaimerBMForm = this.fb.group({
       id: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -296,22 +340,27 @@ export class ConfigurationEnquiryComponent implements OnInit {
         // console.log(this.notes)
         for(let note of this.notes) {
           // console.log(note)
-          if (note['slug'] == 'instruction_en') {
+          if (note['slug'] == 'header_instruction_en') {
             console.log(note)
-            this.instructionENForm.controls['description'].setValue(note['description'])
-            this.instructionENForm.controls['id'].setValue(note['id'])
+            this.headerInstructionENForm.controls['description'].setValue(note['description'])
+            this.headerInstructionENForm.controls['id'].setValue(note['id'])
+          }
+          else if (note['slug'] == 'instruction_en') {
+            console.log(note)
+            this.bodyInstructionENForm.controls['description'].setValue(note['description'])
+            this.bodyInstructionENForm.controls['id'].setValue(note['id'])
           }
           else if (note['slug'] == 'instruction_bm') {
-            this.instructionBMForm.controls['description'].setValue(note['description'])
-            this.instructionBMForm.controls['id'].setValue(note['id'])
+            this.bodyInstructionBMForm.controls['description'].setValue(note['description'])
+            this.bodyInstructionBMForm.controls['id'].setValue(note['id'])
           }
           else if (note['slug'] == 'disclaimer_en') {
-            this.disclaimerENForm.controls['description'].setValue(note['description'])
-            this.disclaimerENForm.controls['id'].setValue(note['id'])
+            this.bodyDisclaimerENForm.controls['description'].setValue(note['description'])
+            this.bodyDisclaimerENForm.controls['id'].setValue(note['id'])
           }
           else if (note['slug'] == 'disclaimer_bm') {
-            this.disclaimerBMForm.controls['description'].setValue(note['description'])
-            this.disclaimerBMForm.controls['id'].setValue(note['id'])
+            this.bodyDisclaimerBMForm.controls['description'].setValue(note['description'])
+            this.bodyDisclaimerBMForm.controls['id'].setValue(note['id'])
           }
           else if (note['slug'] == 'notes_en') {
             this.notesENForm.controls['description'].setValue(note['description'])
@@ -407,18 +456,25 @@ export class ConfigurationEnquiryComponent implements OnInit {
   patchNote(noteType: any) {
     let noteBody = {}
 
-    if (noteType == 'instruction-en') {
-      noteBody = this.instructionENForm.value
+    if (noteType == 'header-en'){
+      noteBody = this.headerInstructionENForm.value
+      console.log(noteBody)
+    }
+    else if (noteType == 'header-bm'){
+      noteBody = this.headerInstructionBMForm.value
+    }
+    else if (noteType == 'instruction-en') {
+      noteBody = this.bodyInstructionENForm.value
       console.log(noteBody)
     }
     else if (noteType == 'instruction-bm') {
-      noteBody = this.instructionBMForm.value
+      noteBody = this.bodyInstructionBMForm.value
     }
     else if (noteType == 'disclaimer-en') {
-      noteBody = this.disclaimerENForm.value
+      noteBody = this.bodyDisclaimerENForm.value
     }
     else if (noteType == 'disclaimer-bm') {
-      noteBody = this.disclaimerBMForm.value
+      noteBody = this.bodyDisclaimerBMForm.value
     }
     else if (noteType == 'notes-en') {
       noteBody = this.notesENForm.value

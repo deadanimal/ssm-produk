@@ -60,11 +60,8 @@ import { MasterTableComponent } from './finance/master-table/master-table.compon
 import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.component';
 import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
-<<<<<<< HEAD
 import { PersonalInvolvementComponent } from './product/personal-involvement/personal-involvement.component';
-=======
 import { ProductReportComponent } from './product/product-report/product-report.component';
->>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
 
 @NgModule({
   declarations: [
@@ -107,11 +104,8 @@ import { ProductReportComponent } from './product/product-report/product-report.
     GafGeneratorComponent,
     SummaryReportComponent,
     DetailedReportComponent,
-<<<<<<< HEAD
-    PersonalInvolvementComponent
-=======
+    PersonalInvolvementComponent,
     ProductReportComponent
->>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
   ],
   imports: [
     CommonModule,

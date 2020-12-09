@@ -121,13 +121,12 @@ export const AdminRoutes: Routes = [
             component: FeeManagementComponent
           },
           {
-<<<<<<< HEAD
             path: 'personal-involvement',
             component: PersonalInvolvementComponent
-=======
+          },
+          {
             path: 'report',
             component: ProductReportComponent
->>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
           }
         ],
       },

@@ -26,8 +26,6 @@ export class RefundComponent implements OnInit {
   isAgree: boolean = false
   dropdowns: any[] = []
 
-  currentDate: Date = new Date()
-
   // Form
   refundForm: FormGroup
   refundFormMessages = {

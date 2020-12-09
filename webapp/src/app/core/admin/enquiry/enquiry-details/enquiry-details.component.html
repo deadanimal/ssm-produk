@@ -227,7 +227,7 @@
                         </div>
     
                         <div class="row">
-                            <div class="col text-center">
+                            <div class="col text-center pb-6">
                                 <button
                                     class="btn btn-ssm rounded-pill"
                                     (click)="replyTicket()"
@@ -253,7 +253,74 @@
                     </form>
 
                     <!-- Action -->
-                    <h6 class=" heading-small text-muted mb-4">Ticket Log</h6>
+                    <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'"
+                        [headerHeight]="35" [footerHeight]="50" [rowHeight]="'auto'"
+                        [rows]="ticketLog" [scrollbarH]="true" (activate)="onActivate($event)">
+            
+                        <ngx-datatable-column
+                            [width]="50"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="index"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>No.</span>
+                            </ng-template>
+
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.index}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="date"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Date & Time</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.date}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+
+                        <ngx-datatable-column 
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="status"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>Description</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span>Status: {{row.status}}</span><br>
+                                <span *ngIf="row.message">Response: {{row.message}}</span><br>
+                                <span *ngIf="!row.message">Response: -</span><br>
+                                <span *ngIf="row.response">Remarks: {{row.response}}</span><br>
+                                <span *ngIf="!row.response">Remarks: -</span><br>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column
+                            [width]="180"
+                            [sortable]="true"
+                            [resizeable]="false"
+                            prop="user"
+                        >
+                            <ng-template ngx-datatable-header-template>
+                                <span>User</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.user}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                    </ngx-datatable>
+                    <!-- <h6 class=" heading-small text-muted mb-4">Ticket Log</h6>
                     <table class="table">
                         <thead>
                             <tr>
@@ -270,13 +337,15 @@
                                 <td>{{ticket.date}}</td>
                                 <td>
                                     Status: {{ticket.status}} <br>
-                                    {{ticket.message}} <br>
-                                    {{ticket.response}} <br>
+                                    <span *ngIf="ticket.message">Response: {{ticket.message}}</span>
+                                    <span *ngIf="!ticket.message">Response: -</span><br>
+                                    <span *ngIf="ticket.response">Remarks: {{ticket.response}}</span>
+                                    <span *ngIf="!ticket.response">Remarks: -</span> <br>
                                 </td>
                                 <td>{{ticket.user}}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                 </div>
             </div>
         </div>
