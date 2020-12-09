@@ -355,7 +355,7 @@ def status_of_comp_mapping(temp_status_of_comp):
     elif temp_status_of_comp == 'Y':
         temp_status_of_comp = 'STRUCK-OFF & WINDING-UP VIA COURT ORDER'
     elif temp_status_of_comp == 'F':
-        temp_status_of_comp = 'WINDING UP (UNDER SVA)'
+        temp_status_of_comp = 'WINDING UP (UNDER CVA)'
     elif temp_status_of_comp == 'G':
         temp_status_of_comp = 'EXISTING UNDER JM (UNDER CVA)'
     elif temp_status_of_comp == 'V':

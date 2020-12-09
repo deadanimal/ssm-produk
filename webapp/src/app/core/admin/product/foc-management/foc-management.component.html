@@ -1,33 +1,33 @@
 <ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
-    <div class="container-fluid">
-      <div class="header-body">
-        <div class="row align-items-center py-4">
-          <div class="col-lg-6 col-7">
-            <h6 class="h2 text-dark d-inline-block mb-0">
-              F.O.C Account
-            </h6>
-  
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                <li class="breadcrumb-item">
-                  <a href="javascript:void(0)">
-                    <i class="fas fa-align-left text-dark"></i>
-                  </a>
-                </li>
-                <li class="breadcrumb-item">
-                  <a href="javascript:void(0)" class="text-dark"> Product </a>
-                </li>
-                <li aria-current="page" class="breadcrumb-item active">
-                    F.O.C Account
-                </li>
-              </ol>
-            </nav>
-          </div>
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">
+            F.O.C Account
+          </h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-align-left text-dark"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)" class="text-dark"> Product </a>
+              </li>
+              <li aria-current="page" class="breadcrumb-item active">
+                F.O.C Account
+              </li>
+            </ol>
+          </nav>
         </div>
       </div>
     </div>
   </div>
+<<<<<<< HEAD
   
   <div class="container-fluid mt--6">
     <div class="row">
@@ -242,78 +242,181 @@
                     </a>
                 </ng-template>
               </ngx-datatable-column>                
+=======
+</div>
 
-
-            </ngx-datatable>
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">F.O.C Account List</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select name="datatable_length" aria-controls="datatable"
+                    class="form-control form-control-sm custom-select custom-select-sm"
+                    (change)="entriesChange($event)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="-1">All</option>
+                  </select>
+                  records
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+            </div>
           </div>
+>>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
+
+          <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
+            [scrollbarH]="true" (activate)="onActivate($event)">
+            <ngx-datatable-column name="No">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <strong>{{ rowIndex + 1 }}</strong>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Name</span>
+              </ng-template>
+
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                name
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Email</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                -email
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Section</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                -section
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Department</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                -Department
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Reason</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                -Reason
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                N/A
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Action</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <a (click)="openModal(editModal, row)" style="cursor: pointer">
+                  <button class="btn btn-sm btn-info">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
   </div>
-  
-  <ng-template #editModal>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Update Status
-        </h6>
-  
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
-  
-    <div class="modal-body">
-        <form>
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="row">
-                  <div class="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-                      <label class="custom-control-label" for="pendingCheck">Pending</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Pending Date</label>
-                      <input class="form-control" [value]="selectedRow.created_date" disabled>
-                    </div>
-                  </div>
-                </div>
+</div>
+
+<ng-template #editModal>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Update Status
+    </h6>
+
+    <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="row">
+            <div class="col">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
+                <label class="custom-control-label" for="pendingCheck">Pending</label>
               </div>
-  
-              <div class="col-lg-4">
-                <div class="row">
-                  <div clas="col">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="completedCheck">
-                      <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Completed Date</label>
-                      <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Pending Date</label>
+                <input class="form-control" [value]="selectedRow.created_date" disabled>
               </div>
-       
-  
-              <div class="col-lg-4">
-                <!--
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="row">
+            <div clas="col">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="completedCheck">
+                <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted"
+                  [ngModelOptions]="{standalone: true}">Completed</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Completed Date</label>
+                <input class="form-control" ngDefaultControl [(ngModel)]="completedDate"
+                  [ngModelOptions]="{standalone: true}" type="date">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-4">
+          <!--
                 <div class="row mt-2">
                   <div clas="col">
                     <div class="form-group">
@@ -323,38 +426,31 @@
                   </div>
                 </div>
               -->
-              </div>
-            </div>
-  
-            <div class="row">
-  
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="form-control-label">Remarks</label>
-                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
-                    </div>
-                  </div>
-  
-            </div>
-            
-        </form>
-    </div>
-  
-    <div class="modal-footer">
-        <button 
-            class="btn btn-success"
-            type="button"
-            (click)="updateApplication()"
-            [disabled]="!isCompleted && remarks=='' && completedDate==''">
-            Update
-        </button>
-  
-        <button
-            class="btn btn-outline-danger ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()">
-            Close
-        </button>
-    </div>
-  </ng-template>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Remarks</label>
+            <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="updateApplication()"
+      [disabled]="!isCompleted && remarks=='' && completedDate==''">
+      Update
+    </button>
+
+    <button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+      Close
+    </button>
+  </div>
+</ng-template>

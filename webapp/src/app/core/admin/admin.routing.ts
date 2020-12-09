@@ -36,6 +36,7 @@ import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-drop
 import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.component';
 import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
+import { ProductReportComponent } from './product/product-report/product-report.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -120,8 +121,13 @@ export const AdminRoutes: Routes = [
             component: FeeManagementComponent
           },
           {
+<<<<<<< HEAD
             path: 'personal-involvement',
             component: PersonalInvolvementComponent
+=======
+            path: 'report',
+            component: ProductReportComponent
+>>>>>>> f562b2efb0b36ee430d82fac3fb1338948cf5002
           }
         ],
       },

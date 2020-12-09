@@ -10,7 +10,10 @@ from .mapping import (
     comp_type_mapping, 
     winding_up_mapping, 
     origin_country_mapping,
-    status_of_comp_mapping
+    status_of_comp_mapping,
+    comp_status_mapping,
+    comp_type_mapping,
+    time_mapping
 )
 from datetime import datetime
 from django.utils.timezone import make_aware
@@ -234,12 +237,31 @@ def comp_prof(mdw_1, mdw_2, lang):
                 charge['chargeCreateDate'] = make_aware(datetime.strptime(charge['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
                 # print('tes', charge['chargeCreateDate'])
                 # print(charges_info)
+                if charge['chargeMortgageType'] == 'O':
+                    charge['chargeMortgageTypeString'] = 'OPEN TYPE'
+                elif charge['chargeMortgageType'] == 'F':
+                    charge['chargeMortgageTypeString'] = 'FOREIGN CURRENCY' 
+                elif charge['chargeMortgageType'] == 'A':
+                    charge['chargeMortgageTypeString'] = 'AMOUNT'                
+                elif charge['chargeMortgageType'] == 'M':
+                    charge['chargeMortgageTypeString'] = 'MULTIPLE CURRENCIES'  
                 charges_info.append(charge)
         else:
             charges_info_temp['chargeStatus'] = charge_code(charges_info_temp['chargeStatus'])
             charges_info_temp['chargeAmount'] = float(charges_info_temp['chargeAmount'])
             charges_info_temp['chargeCreateDate'] = make_aware(datetime.strptime(charges_info_temp['chargeCreateDate'], '%Y-%m-%dT%H:%M:%S.000Z')).astimezone(pytz.timezone(time_zone)).strftime(date_format)
+            
+            if charges_info_temp['chargeMortgageType'] == 'O':
+                charges_info_temp['chargeMortgageTypeString'] = 'OPEN TYPE'
+            elif charges_info_temp['chargeMortgageType'] == 'F':
+                charges_info_temp['chargeMortgageTypeString'] = 'FOREIGN CURRENCY' 
+            elif charges_info_temp['chargeMortgageType'] == 'A':
+                charges_info_temp['chargeMortgageTypeString'] = 'AMOUNT'                
+            elif charges_info_temp['chargeMortgageType'] == 'M':
+                charges_info_temp['chargeMortgageTypeString'] = 'MULTIPLE CURRENCIES'
+            
             charges_info.append(charges_info_temp)
+
             # print('ouuuk', charges_info_temp)
     else:
         # print('dee')
@@ -343,7 +365,7 @@ def comp_prof(mdw_1, mdw_2, lang):
             non_current_liability = float(bss_['nonCurrentLiability'])
             fund_reserve = float(bss_['fundAndReserve'])
         else:
-            non_current_liability = float(bss_['nonCurrentLiability'])
+            non_current_liability = float(bss_['longTermLiability'])
             fund_reserve = None
 
         bs_data = {
@@ -461,7 +483,7 @@ def comp_prof(mdw_1, mdw_2, lang):
     if 'wupType' in company_info:
         print('-----------')
         print('HEHEHHKENMJNJ')
-        company_info['wupType'] = winding_up_mapping(company_info['wupType'])
+        # company_info['wupType'] = winding_up_mapping(company_info['wupType'])
         if company_info['statusOfCompany'] == 'E':
             company_info['statusOfCompany'] = winding_up_mapping(company_info['wupType'])
         else:
@@ -470,6 +492,11 @@ def comp_prof(mdw_1, mdw_2, lang):
         print('hellloooooo')
         company_info['statusOfCompany'] = status_of_comp_mapping(company_info['statusOfCompany'])
 
+    if 'llpconvertDate' in company_info:
+        company_info['llpconvertDate'] = time_mapping(company_info['llpconvertDate'])
+
+    company_info['companyStatus'] = comp_status_mapping(company_info['companyStatus'], lang)
+    company_info['companyType'] = comp_type_mapping(company_info['companyType'], lang)
 
     data_ready = {
         'balance_sheet_list': balance_sheet_list,

@@ -141,7 +141,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         transaction_length = Transaction.objects.filter(
             Q(created_date__year=filter_year) &
             Q(created_date__month=filter_month) &
-            Q(created_date__day=filter_day)
+            Q(created_date__day=filter_day) &
+            Q(receipt_no__isnull=False)
         ).count()
         transaction_running_no = "{0:0>6}".format(transaction_length + 1)
 
@@ -227,15 +228,18 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             transaction.payment_status = 'FL'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.payment_method = transaction_method
+            transaction.receipt_no = 'PP' + current_year + current_month + current_day + transaction_running_no
             transaction.save()
 
             cart.cart_status = 'AB'
             cart.save()            
+
         # transaction 2 - pending
         elif transaction_status == '2':
             transaction.payment_status = 'PD'
             transaction.payment_gateway_update_date = datetime.datetime.now(tz=timezone.utc)
             transaction.payment_method = transaction_method
+            transaction.receipt_no = 'PP' + current_year + current_month + current_day + transaction_running_no
             transaction.save()
         
         print('______________')

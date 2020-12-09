@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.views.decorators.csrf import csrf_exempt
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -40,6 +41,7 @@ from django.shortcuts import render
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.settings import OneLogin_Saml2_Settings
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
+from onelogin.saml2.idp_metadata_parser import OneLogin_Saml2_IdPMetadataParser
 # End SSO SAML 
 
 from users.models import (
@@ -157,12 +159,12 @@ def prepare_django_request(request):
         'server_port': request.META['SERVER_PORT'],
         'get_data': request.GET.copy(),
         # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
-        'lowercase_urlencoding': True,
+        # 'lowercase_urlencoding': True,
         'post_data': request.POST.copy()
     }
     return result
 
-
+@csrf_exempt
 def index(request):
     req = prepare_django_request(request)
     auth = init_saml_auth(req)
@@ -173,17 +175,17 @@ def index(request):
     attributes = False
     paint_logout = False
 
-    target_url = 'https:/xcessdev.ssm.com.my/#/home'
-
     if 'sso' in req['get_data']:
-        return HttpResponseRedirect(auth.login(return_to=target_url))
+        # return HttpResponseRedirect(auth.login())
         # If AuthNRequest ID need to be stored in order to later validate it, do instead
-        # sso_built_url = auth.login()
-        # request.session['AuthNRequestID'] = auth.get_last_request_id()
-        # return HttpResponseRedirect(sso_built_url)
+        sso_built_url = auth.login()
+        request.session['AuthNRequestID'] = auth.get_last_request_id()
+        return HttpResponseRedirect(sso_built_url)
+
     elif 'sso2' in req['get_data']:
-        return_to = target_url #OneLogin_Saml2_Utils.get_self_url(req) + reverse('attrs')
-        return HttpResponseRedirect(auth.login(return_to=target_url))
+        return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('attrs')
+        return HttpResponseRedirect(auth.login(return_to))
+
     elif 'slo' in req['get_data']:
         name_id = session_index = name_id_format = name_id_nq = name_id_spnq = None
         if 'samlNameId' in request.session:
@@ -202,14 +204,21 @@ def index(request):
         # slo_built_url = auth.logout(name_id=name_id, session_index=session_index)
         # request.session['LogoutRequestID'] = auth.get_last_request_id()
         # return HttpResponseRedirect(slo_built_url)
+
     elif 'acs' in req['get_data']:
         request_id = None
         if 'AuthNRequestID' in request.session:
             request_id = request.session['AuthNRequestID']
+            print('Request ID: ', request_id)
 
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
         not_auth_warn = not auth.is_authenticated()
+        print('Error: ', errors)
+        print('Not auth warn: ', not_auth_warn)
+        # print('Auth', auth)
+        # print(type(auth))
+        # print('Attr', auth.get_attributes())
 
         if not errors:
             if 'AuthNRequestID' in request.session:
@@ -224,6 +233,8 @@ def index(request):
                 return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
         elif auth.get_settings().is_debug_active():
                 error_reason = auth.get_last_error_reason()
+                print('Error reason (ACS): ', error_reason)
+
     elif 'sls' in req['get_data']:
         request_id = None
         if 'LogoutRequestID' in request.session:
@@ -238,6 +249,7 @@ def index(request):
                 success_slo = True
         elif auth.get_settings().is_debug_active():
             error_reason = auth.get_last_error_reason()
+            print('Error reason (SLS): ', error_reason)
 
     if 'samlUserdata' in request.session:
         paint_logout = True
@@ -266,14 +278,13 @@ def attrs(request):
         paint_logout = True
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
-    return render(
-        request, 
-        'attrs.html',
-        {
-            'paint_logout': paint_logout,
-            'attributes': attributes
-        }
-    )
+            return render(
+                request, 'attrs.html',
+                {
+                    'paint_logout': paint_logout,
+                    'attributes': attributes
+                }
+            )
 
 
 def metadata(request):
