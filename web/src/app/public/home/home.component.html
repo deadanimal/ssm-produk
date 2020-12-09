@@ -1,87 +1,4 @@
-<header class="header-3 bg-white">
-	<div class="cd-section pt-6" id="blogs">
-		<section class="blogs-2">
-			<div class="pt-6 py-3">
-				<div class="row">
-					<div class="col-md-10 mx-auto">
-						<h2 class="title text-ssm text-center font-weight-bold">
-							Get access to most accurate and comprehensive data
-						</h2>
-		<!--   // Aduh -->
-						<div class="row">
-							<div class="col border-right">
-								<div class="row">
-									<div class="col-6">
-										<div class="row">
-											<div class="col-md-7">
-												<p class="text-ssm text-left mb-0">
-													Sole Proprietorship
-												</p>
-											</div>
-											<div class="col-md-5">
-												<p class="text-ssm text-left mb-0">
-													: <b>{{ totalSoleProprietorship }}</b>
-												</p>
-											</div>
-										</div>
-		
-										<div class="row">
-											<div class="col-md-7">
-												<p class="text-ssm text-left mb-0">Partnership</p>
-											</div>
-											<div class="col-md-5">
-												<p class="text-ssm text-left mb-0">
-													: <b>{{ totalPartnership }}</b>
-												</p>
-											</div>
-										</div>
-									</div>
-		
-									<div class="col-6">
-										<h1 class="text-ssm text-center mb-0">
-											<tm-ng-odometer [number]="totalCompanies"></tm-ng-odometer>
-										</h1>
-										<p class="text-center">Business</p>
-									</div>
-								</div>
-							</div>
-		
-							<div class="col">
-								<div class="row">
-									<div class="col-6">
-										<h1 class="text-ssm text-center mb-0">
-											<tm-ng-odometer [number]="totalBusinessess"></tm-ng-odometer>
-										</h1>
-										<p class="text-center">Companies</p>
-									</div>
-		
-									<div class="col-6">
-										<div class="row">
-											<div class="col-md-7">
-												<p class="text-ssm text-left mb-0"> Local </p>
-											</div>
-											<div class="col-md-5">
-												<p class="text-ssm text-left mb-0"> : <b>{{ totalLocal }} </b></p>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-7">
-												<p class="text-ssm text-left mb-0">Foreign</p>
-											</div>
-											<div class="col-md-5">
-												<p class="text-ssm text-left mb-0"> : <b>{{ totalForeign }}</b> </p>
-											</div>
-										</div>
-									</div>									
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
-
+<header class="header-3 bg-dark">
 	<div class="row">
 		<div class="col-md-12 mx-auto">
 			<carousel>
@@ -97,11 +14,90 @@
 			</carousel>
 		</div>
 	</div>
+</header>
 
-
-	<div class="cd-section pt-6" id="blogs">
+<div class="wrapper">
+	<div class="cd-section" id="blogs">
 		<section class="blogs-2">
 			<div class="container-fluid py-6">
+				<div class="row mb-md-5">
+					<div class="col-md-10 mx-auto">
+						<h2 class="title text-ssm text-center font-weight-bold">
+							Get access to most accurate and comprehensive data
+						</h2>
+
+		<!--   // Aduh -->
+						<div class="row">
+							<div class="col border-right">
+								<div class="row">
+									<div class="col-6">
+										<div class="row">
+											<div class="col-md-7">
+												<p class="text-ssm text-left mb-0">
+													Sole Proprietorship
+												</p>
+											</div>
+											<div class="col-md-5">
+												<p class="text-ssm text-left mb-0">
+													: {{ totalSoleProprietorship }}
+												</p>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-7">
+												<p class="text-ssm text-left mb-0">Partnership</p>
+											</div>
+											<div class="col-md-5">
+												<p class="text-ssm text-left mb-0">
+													: {{ totalPartnership }}
+												</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-6">
+										<h1 class="text-ssm text-center mb-0">
+											<tm-ng-odometer [number]="totalCompanies"></tm-ng-odometer>
+										</h1>
+										<p class="text-center">Business</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="col">
+								<div class="row">
+									<div class="col-6">
+										<h1 class="text-ssm text-center mb-0">
+											<tm-ng-odometer [number]="totalBusinessess"></tm-ng-odometer>
+										</h1>
+										<p class="text-center">Companies</p>
+									</div>
+
+									<div class="col-6">
+										<div class="row">
+											<div class="col-md-7">
+												<p class="text-ssm text-left mb-0"> Local </p>
+											</div>
+											<div class="col-md-5">
+												<p class="text-ssm text-left mb-0"> : {{ totalLocal }} </p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-7">
+												<p class="text-ssm text-left mb-0">Foreign</p>
+											</div>
+											<div class="col-md-5">
+												<p class="text-ssm text-left mb-0"> : {{ totalForeign }} </p>
+											</div>
+										</div>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="col-sm-12 col-lg col-md">
 						<div class="card card-blog card-background" data-animation="zooming">
@@ -224,10 +220,4 @@
 			</carousel>
 		</div>
 	</div>
-</header>
-
-<!-- <div class="wrapper">
-	
-
-	
-</div> -->
+</div>

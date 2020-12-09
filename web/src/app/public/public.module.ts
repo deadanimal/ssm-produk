@@ -23,7 +23,6 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { SsoComponent } from './sso/sso.component';
 import { RefundComponent } from './refund/refund.component';
-import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     TmNgOdometerModule,
-    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),

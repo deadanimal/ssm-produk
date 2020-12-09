@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
@@ -16,6 +17,12 @@ import { ProductsService } from '../../../../shared/services/products/products.s
 
 import * as moment from 'moment';
 
+export class FileType {
+  name: string
+  size: number
+  file: string | ArrayBuffer
+}
+
 export enum SelectionType {
   single = 'single',
   multi = 'multi',
@@ -23,13 +30,16 @@ export enum SelectionType {
   cell = 'cell',
   checkbox = 'checkbox',
 }
-
 @Component({
-  selector: 'app-resupply',
-  templateUrl: './resupply.component.html',
-  styleUrls: ['./resupply.component.scss']
+  selector: 'app-personal-involvement',
+  templateUrl: './personal-involvement.component.html',
+  styleUrls: ['./personal-involvement.component.scss']
 })
-export class ResupplyComponent implements OnInit {
+export class PersonalInvolvementComponent implements OnInit {
+
+  // Form
+  personalForm: FormGroup;
+  files: FileType[] = []
 
   // Chart
   chart: any;
@@ -42,7 +52,7 @@ export class ResupplyComponent implements OnInit {
   };
 
   // Table
-  tableEntries: number = 10;
+  tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
@@ -60,7 +70,8 @@ export class ResupplyComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
     private loadingBar: LoadingBarService,
     private router: Router,
     private productsService: ProductsService,
@@ -69,42 +80,62 @@ export class ResupplyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initData();
   }
 
-  initData() {
-    this.productsService.getAll().subscribe(
-      (res) => {
-        this.tableRows = res;
-        this.tableRows.forEach(
-          (row) => {
-
-
-            if(row.created_date) {
-              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
-            }
-
-            if(row.modified_date) {
-              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
-            }
-
-          }
-        )        
-      },
-      (err) => {
-
-      },
-      () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id_index: key+1
-          };
-        });        
-        console.log(this.tableTemp)
-      }
-    )
+  initForm() {
+    this.personalForm = this.fb.group({
+    })
+    
   }
+  onFileChange(event) {
+    let reader = new FileReader();
+    let file_: FileType = {
+      'size': event.target.files[0].size,
+      'name': event.target.files[0].name,
+      'file': null
+    }
+
+    if (
+      file_['size'] > 2000000 ||
+      this.files.length > 5
+    ) {
+      let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
+      this.errorAlert(task)
+    }
+    else if (
+      event.target.files && 
+      event.target.files.length &&
+      file_['size'] < 2000000
+    ) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file)
+      // readAsDataURL(file);
+      // console.log(event.target)
+      // console.log(reader)
+      
+      
+      reader.onload = () => {
+        // console.log(reader['result'])
+        file_ = {
+          'size': event.target.files[0].size,
+          'name': event.target.files[0].name,
+          'file': reader.result
+        }
+        this.files.push(file_)
+        console.log('file: ', this.files)
+        console.log('form', this.personalForm.value)
+        this.personalForm.controls['documents'].patchValue(this.files)
+        // console.log(this.registerForm.value)
+        // console.log('he', this.registerForm.valid)
+        // console.log(this.isAgree)
+        // !registerForm.valid || !isAgree
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
+
 
   entriesChange($event) {
     this.tableEntries = $event.target.value;
@@ -142,9 +173,6 @@ export class ResupplyComponent implements OnInit {
 
   closeModal() {
     this.modal.hide();
-    this.isCompleted = false
-    this.completedDate = ''
-    this.remarks = ''
   }  
 
   updateApplication() {
@@ -180,10 +208,28 @@ export class ResupplyComponent implements OnInit {
     //     this.initData();
     //   }
     // )
-
-    
-
-
   }  
+
+  successAlert(task) {
+    swal.fire({
+      
+    })
+    .then(() => {
+      
+    })
+    // this.navigatePage('/enquiry');
+  }
+
+  errorAlert(task) {
+    swal.fire({
+      
+    })
+    .then(() => {
+      // this.initForm()
+    })
+  }
+
+  
+
 
 }

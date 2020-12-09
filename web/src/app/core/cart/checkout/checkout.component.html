@@ -28,7 +28,7 @@
 											<select 
 												name="datatable_submitted_length" 
 												aria-controls="datatable"
-												class="form-control form-control-sm custom-select custom-select-sm" 
+												class="form-control form-control-sm" 
 												(change)="entriesChange($event)"
 											>
 												<option value="10" [selected]="tableEntries == 10">10</option>
@@ -53,7 +53,6 @@
 								[rows]="tableTemp"
 								[messages]="tableMessages"
 								(activate)="onActivate($event)"
-								#table
 							>
 
 								<ngx-datatable-column 
@@ -129,13 +128,13 @@
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										<div *ngIf="row.product">
-											{{ row.entity.name }}
 											<span *ngIf="row.entity.type_of_entity=='CP'">
 												{{row.entity.company_number_new}} ({{row.entity.company_number}}-{{row.entity.check_digit}})
 											</span>
 											<span *ngIf="row.entity.type_of_entity=='BS'">
 												{{row.entity.registration_number_new}} ({{row.entity.registration_number}}-{{row.entity.check_digit}})
 											</span>
+										 	{{ row.entity.name }}
 										</div>
 										<div *ngIf="!row.product && !row.product_search_criteria">
 											-

@@ -1,191 +1,334 @@
 <div class="header pb-6">
-	<div class="container-fluid">
-		<div class="header-body">
-			<div class="row align-items-center py-4">
-				<div class="col-lg-6 col-7">
-					<h6 class="h2 text-dark d-inline-block mb-0">
-						Product Resupply
-					</h6>
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-dark d-inline-block mb-0">
+              Product Resupply
+            </h6>
+  
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)">
+                    <i class="fas fa-align-left text-dark"></i>
+                  </a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-dark"> Product </a>
+                </li>
+                <li aria-current="page" class="breadcrumb-item active">
+                    Product Resupply
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">Product Resupply List</h3>
+          </div>
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)">
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="-1">All</option>
+                    </select>
+                    records
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+              </div>
+            </div>
+  
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="tableEntries != -1 ? tableEntries : undefined"
+              [rows]="tableTemp"
+              [scrollbarH]="true"
+              (activate)="onActivate($event)"
+            >
+              <ngx-datatable-column name="No">
+                <ng-template
+                  let-rowIndex="rowIndex"
+                  let-row="row"
+                  ngx-datatable-cell-template
+                >
+                  <strong>{{ rowIndex + 1 }}</strong>
+                </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Product</span>
+                </ng-template>
+                
+                <ng-template let-row="row" ngx-datatable-cell-template>                
+                    {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>CTC</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <div *ngIf="row.ctc">CTC</div>
+                  <div *ngIf="!row.ctc">Non-CTC</div>
+                </ng-template>
+              </ngx-datatable-column>            
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>ROB/ROC</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  ROB/ROC
+                </ng-template>
+              </ngx-datatable-column> 
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Version</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div *ngIf="row.language =='EN'">BI</div>
+                    <div *ngIf="row.language =='MS'">BM</div>
+                </ng-template>
+              </ngx-datatable-column> 
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Fee</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.fee /100 | number:'1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column> 
 
-					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-							<li class="breadcrumb-item">
-								<a href="javascript:void(0)">
-									<i class="fas fa-align-left text-dark"></i>
-								</a>
-							</li>
-							<li class="breadcrumb-item">
-								<a href="javascript:void(0)" class="text-dark"> Product </a>
-							</li>
-							<li aria-current="page" class="breadcrumb-item active">
-								Product Resupply
-							</li>
-						</ol>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tax</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>               
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tax Start Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column> 
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tax End Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column> 
 
-<div class="container-fluid mt--6">
-	<div class="row">
-		<div class="col">
-			<div class="card">
-				<div class="card-header bg-secondary">
-					<h3 class="m-0">Product Resupply List</h3>
-				</div>
-				<div class="dataTables_wrapper py-4">
-					<div class="row">
-						<div class="col-sm-12 col-md-6">
-							<div class="dataTables_length" id="datatable_length">
-								<label>
-									Show
-									<select 
-										name="datatable_length" 
-										aria-controls="datatable"
-										class="form-control form-control-sm custom-select custom-select-sm" 
-										(change)="entriesChange($event)"
-									>
-										<option value="5">5</option>
-										<option value="10">10</option>
-										<option value="15">15</option>
-										<option value="-1">All</option>
-									</select>
-									records
-								</label>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-6">
-						</div>
-					</div>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Discount</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>               
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Discount Start Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column> 
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Discount End Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>               
+  
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Additional Charge Type</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>  
 
-					<ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
-						[footerHeight]="50" [rowHeight]="'auto'" [limit]="tableEntries != -1 ? tableEntries : undefined"
-						[rows]="tableTemp" [scrollbarH]="true" (activate)="onActivate($event)">
-						<ngx-datatable-column name="No">
-							<ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-								<strong>{{ rowIndex + 1 }}</strong>
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column>
-							<ng-template ngx-datatable-header-template>
-								<span>Order No.</span>
-							</ng-template>
-
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								{{ row.name }}
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column>
-							<ng-template ngx-datatable-header-template>
-								<span>Product Description</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								<div *ngIf="row.ctc">CTC</div>
-								<div *ngIf="!row.ctc">Non-CTC</div>
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column>
-							<ng-template ngx-datatable-header-template>
-								<span>Entity Name</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								ROB/ROC
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column>
-							<ng-template ngx-datatable-header-template>
-								<span>Resupply Status</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								<div *ngIf="row.language =='EN'">BI</div>
-								<div *ngIf="row.language =='MS'">BM</div>
-							</ng-template>
-						</ngx-datatable-column>
-
-						<ngx-datatable-column>
-							<ng-template ngx-datatable-header-template>
-								<span>Action</span>
-							</ng-template>
-							<ng-template let-row="row" ngx-datatable-cell-template>
-								<a (click)="openModal(editModal, row)" style="cursor: pointer">
-									<button class="btn btn-sm btn-info">
-										<i class="fas fa-edit"></i>
-									</button>
-								</a>
-							</ng-template>
-						</ngx-datatable-column>
-					</ngx-datatable>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<ng-template #editModal>
-	<div class="modal-header bg-default">
-		<h6 class="modal-title text-white my-auto" id="modal-title-default">
-			Update Status
-		</h6>
-
-		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
-			<span aria-hidden="true" class="text-white my-auto"> × </span>
-		</button>
-	</div>
-
-	<div class="modal-body">
-		<form>
-			<div class="row">
-				<div class="col-lg-4">
-					<div class="row">
-						<div class="col">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
-								<label class="custom-control-label" for="pendingCheck">Pending</label>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								<label class="form-control-label">Pending Date</label>
-								<input class="form-control" [value]="selectedRow.created_date" disabled>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4">
-					<div class="row">
-						<div clas="col">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="completedCheck">
-								<label class="custom-control-label" for="completedCheck" ngDefaultControl
-									[(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								<label class="form-control-label">Completed Date</label>
-								<input class="form-control" ngDefaultControl [(ngModel)]="completedDate"
-									[ngModelOptions]="{standalone: true}" type="date">
-							</div>
-						</div>
-					</div>
-				</div>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Total</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>  
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>COA Description</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>   
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>COA Code</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>   
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Webservice</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>  
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Channel</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column> 
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    N/A
+                </ng-template>
+              </ngx-datatable-column>  
+              
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Action</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <a (click)="openModal(editModal, row)" style="cursor: pointer">
+                      <button class="btn btn-sm btn-info">
+                        <i class="fas fa-edit"></i>
+                      </button> 
+                    </a>
+                </ng-template>
+              </ngx-datatable-column>                
 
 
-				<div class="col-lg-4">
-					<!--
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #editModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Update Status
+        </h6>
+  
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+  
+    <div class="modal-body">
+        <form>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="row">
+                  <div class="col">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="pendingCheck" checked disabled>
+                      <label class="custom-control-label" for="pendingCheck">Pending</label>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label">Pending Date</label>
+                      <input class="form-control" [value]="selectedRow.created_date" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-lg-4">
+                <div class="row">
+                  <div clas="col">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="completedCheck">
+                      <label class="custom-control-label" for="completedCheck" ngDefaultControl [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">Completed</label>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label">Completed Date</label>
+                      <input class="form-control" ngDefaultControl [(ngModel)]="completedDate" [ngModelOptions]="{standalone: true}" type="date">
+                    </div>
+                  </div>
+                </div>
+              </div>
+       
+  
+              <div class="col-lg-4">
+                <!--
                 <div class="row mt-2">
                   <div clas="col">
                     <div class="form-group">
@@ -195,32 +338,38 @@
                   </div>
                 </div>
               -->
-				</div>
-			</div>
-
-			<div class="row">
-
-				<div class="col">
-					<div class="form-group">
-						<label class="form-control-label">Remarks</label>
-						<textarea class="form-control" [(ngModel)]="remarks"
-							[ngModelOptions]="{standalone: true}"></textarea>
-					</div>
-				</div>
-
-			</div>
-
-		</form>
-	</div>
-
-	<div class="modal-footer">
-		<button class="btn btn-success" type="button" (click)="updateApplication()"
-			[disabled]="!isCompleted && remarks=='' && completedDate==''">
-			Update
-		</button>
-
-		<button class="btn btn-outline-danger ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
-			Close
-		</button>
-	</div>
-</ng-template>
+              </div>
+            </div>
+  
+            <div class="row">
+  
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label">Remarks</label>
+                      <textarea class="form-control" [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+                  </div>
+  
+            </div>
+            
+        </form>
+    </div>
+  
+    <div class="modal-footer">
+        <button 
+            class="btn btn-success"
+            type="button"
+            (click)="updateApplication()"
+            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+            Update
+        </button>
+  
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()">
+            Close
+        </button>
+    </div>
+  </ng-template>

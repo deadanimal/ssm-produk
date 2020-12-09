@@ -14,6 +14,7 @@ import { ProductManagementComponent } from './product/product-management/product
 import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
 import { FocManagementComponent } from './product/foc-management/foc-management.component';
 import { FeeManagementComponent } from './product/fee-management/fee-management.component';
+import { PersonalInvolvementComponent} from './product/personal-involvement/personal-involvement.component';
 
 import { StatisticsComponent } from './product/statistics/statistics.component';
 import { CbidAuditTrailComponent } from './cbid/audit-trail/audit-trail.component';
@@ -29,6 +30,7 @@ import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
+
 import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
 import { MasterTableComponent } from './finance/master-table/master-table.component';
 import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-dropdowns.component';
@@ -37,6 +39,7 @@ import { SummaryReportComponent } from './finance/summary-report/summary-report.
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 import { ProductReportComponent } from './product/product-report/product-report.component';
   // Aduh
+
 export const AdminRoutes: Routes = [
   {
     path: '',
@@ -120,9 +123,15 @@ export const AdminRoutes: Routes = [
             component: FeeManagementComponent
           },
           {
-            path: 'report',
-            component: ProductReportComponent
-          }
+            path: 'personal-involvement',
+            component: PersonalInvolvementComponent
+          },
+          {
+              path: 'report',
+              component: ProductReportComponent
+          },
+          
+          
         ],
       },
       {

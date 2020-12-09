@@ -305,8 +305,7 @@
 										[rows]="tableOrderTemp"
 									>
 										<ngx-datatable-column
-											[sortable]="false"
-											[width]="30"
+											[sortable]="true"
 											prop="id_index"
 											[resizeable]="false"
 										>
@@ -335,7 +334,7 @@
 										</ngx-datatable-column>
 		
 										<ngx-datatable-column
-											[sortable]="false"
+											[sortable]="true"
 											prop="created_date"
 										>
 											<ng-template ngx-datatable-header-template>
@@ -371,21 +370,12 @@
 		<!--   // Aduh -->
 										<ngx-datatable-column
 											[sortable]="false"
-											[width]="180"
 										>
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Search Criteria</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<span *ngIf="row.entity?.name">
-													{{row.entity?.name}}
-													<span *ngIf="row.entity?.type_of_entity=='CP'">
-														{{row.entity.company_number_new}} ({{row.entity.company_number}}-{{row.entity.check_digit}})
-													</span>
-													<span *ngIf="row.entity?.type_of_entity=='BS'">
-														{{row.entity.registration_number_new}} ({{row.entity.registration_number}}-{{row.entity.check_digit}})
-													</span>
-												</span>
+												{{row.entity?.name}}
 												<span *ngIf="service_request?.service.service_type =='CB'">
 													-
 												</span>
@@ -402,7 +392,7 @@
 										</ngx-datatable-column>
 										
 										<ngx-datatable-column
-											[sortable]="false"
+											[sortable]="true"
 											prop="language"
 										>
 											<ng-template ngx-datatable-header-template>

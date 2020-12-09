@@ -6,6 +6,9 @@ import { ServicesService } from '../../../../shared/services/services/services.s
 
 import * as moment from 'moment';
 import * as xlsx from 'xlsx';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+//import { number } from '@amcharts/amcharts4/core';
 
 export enum SelectionType {
   single = "single",
@@ -227,11 +230,49 @@ export class CbidReportComponent implements OnInit {
   }
 
   export(type: string) {
-    // if (type == 'pdf') {
-    //   this.exportService.save(this.exportAsPDF, 'SSM_Portal_CBID_Report').subscribe(
-    //     // Something
-    //   )
-    // }
+    if (type == 'pdf') {
+        
+        var rows = [];
+
+        rows.push(['ReferenceID', 'ReceiptNo', 'Name','Organisation','ApplicationDate', 'Amount(RM)', 'PhoneNo','Status', 'StatusUpdateDate','PIC','Remarks']);
+
+        this.tableTemp.forEach((x) => {
+              let temp_servicefee = (x.service.fee/100).toFixed(2);
+              var temp_status = "";
+              if (x.pending && !x.in_progress && !x.completed){
+                  temp_status = "Pending";
+              }else if (x.pending && x.in_progress && !x.completed){
+                  temp_status = "In Progress";
+              }else if (x.pending && x.in_progress && x.completed){
+                  temp_status = "Completed";
+              }
+                
+              var temp_pic = "";
+
+              if (!x.completed){
+                  temp_pic = "NA";
+              }else if (x.completed){
+                  temp_pic = "Ali Imran";
+              }
+              
+              rows.push([x.reference_id,x.receipt_no,x.name,x.organisation,x.created_date,temp_servicefee,x.phone_number?x.phone_number:"",temp_status,x.modified_date,temp_pic,x.remarks]);
+
+        });
+        
+        var dd = {
+          content: [           
+            {
+              table: {
+                widths: ['10%', '10%', '10%', '10%','10%','10%','10%','10%','10%','5%','5%'],
+                body: rows
+              }
+            },],
+            defaultStyle: {
+              fontSize: 7,
+            }};
+          (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+          pdfMake.createPdf(dd).download("cbid");
+    }
     // else if (type == 'excel') {
     //   this.exportService.save(this.exportAsExcel, 'SSM_Portal_CBID_Report').subscribe(
     //     // Something

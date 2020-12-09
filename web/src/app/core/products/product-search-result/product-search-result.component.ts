@@ -195,7 +195,6 @@ export class ProductSearchResultComponent implements OnInit {
         this.loadingBar.useRef('http').complete()
       },
       () => {
-        this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
         this.imageList.forEach(
           (img) => {
             this.formTypes.forEach(
