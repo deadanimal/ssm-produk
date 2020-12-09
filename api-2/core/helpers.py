@@ -1,6 +1,7 @@
 import uuid
 import os
 import datetime
+from django.core.mail import send_email
 
 from django.utils.deconstruct import deconstructible
 
@@ -18,3 +19,10 @@ class PathAndRename(object):
         filename = '{}.{}'.format(filename_, ext)
         # return the whole path to the file
         return os.path.join(self.path, filename)
+
+send_email(
+    '',
+    '',
+    '',
+    ''
+)
