@@ -3,7 +3,7 @@
 		<div class="container-fluid pt-6 px-6">
 			<!-- Public wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'PB'">
-				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+				<tabset type="pills" class="nav-fill flex-column flex-md-row">
 					<tab heading="My Account" [active]="accountTabActive">
 						<div class="card">
 							<div class="card-body">
@@ -15,7 +15,8 @@
 										<p class="my-0">Note:</p>
 										<p class="font-smaller mt-0">
 											Any user information changes can be
-											updated at <a href="https://www.ssm4u.com.my" target="_blank">SSM4U</a> portal.
+											updated at <a href="https://www.ssm4u.com.my" target="_blank">SSM4U</a>
+											portal.
 										</p>
 									</div>
 								</div>
@@ -55,7 +56,7 @@
 													<input class="form-control" formControlName="address1" />
 												</div>
 											</div>
-		
+
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">Address line 2</label>
@@ -63,7 +64,7 @@
 												</div>
 											</div>
 										</div>
-		
+
 										<div class="row">
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
@@ -71,7 +72,7 @@
 													<input class="form-control" formControlName="address3" />
 												</div>
 											</div>
-		
+
 											<div class="col-sm-12 col-lg-6">
 												<div class="form-group">
 													<label class="form-control-label">City</label>
@@ -79,7 +80,7 @@
 												</div>
 											</div>
 										</div>
-		
+
 										<div class="row">
 											<div class="col-sm-12 col-lg-4">
 												<div class="form-group">
@@ -87,14 +88,14 @@
 													<input class="form-control" formControlName="postcode" />
 												</div>
 											</div>
-		
+
 											<div class="col-sm-12 col-lg-4">
 												<div class="form-group">
 													<label class="form-control-label">State</label>
 													<input class="form-control" formControlName="state" />
 												</div>
 											</div>
-		
+
 											<div class="col-sm-12 col-lg-4">
 												<div class="form-group">
 													<label class="form-control-label">Country</label>
@@ -131,7 +132,8 @@
 														<i class="fas fa-calendar-alt"> </i>
 													</span>
 												</div>
-												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
+												<input class="form-control" type="date"
+													(change)="filterTableTransactions($event, 'date','start')" />
 											</div>
 										</div>
 									</div>
@@ -145,7 +147,8 @@
 														<i class="far fa-calendar-alt"> </i>
 													</span>
 												</div>
-												<input class="form-control" type="date" (change)="filterTableTransactions($event, 'date')" />
+												<input class="form-control" type="date"
+													(change)="filterTableTransactions($event, 'date','end')" />
 											</div>
 										</div>
 									</div>
@@ -153,22 +156,17 @@
 									<div class="col-sm-6 col-lg-3">
 										<div class="form-group">
 											<label class="form-control-label">Receipt No.</label>
-											<input class="form-control" (keyup)="filterTableTransactions($event, 'invoice')"/>
+											<input class="form-control"
+												(keyup)="filterTableTransactions($event, 'invoice',undefined)" />
 										</div>
 									</div>
 								</div>
 
 								<div class="dataTables_wrapper py-4">
-									<ngx-datatable 
-										class="bootstrap selection-cell"
-										[columnMode]="'force'"
-										[headerHeight]="50"
-										[footerHeight]="50"
-										[rowHeight]="'auto'"
-										[limit]="tableEntries != -1 ? tableEntries : undefined" 
-										[rows]="tableTemp"
-									>
-										<ngx-datatable-column
+									<ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'"
+										[headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+										[limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp">
+										<!-- <ngx-datatable-column
 											[sortable]="true"
 											prop="id_index"
 										>
@@ -178,12 +176,16 @@
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												{{row.id_index}}
 											</ng-template>
+										</ngx-datatable-column> -->
+
+										<ngx-datatable-column name="No">
+											<ng-template let-rowIndex="rowIndex" let-row="row"
+												ngx-datatable-cell-template>
+												<strong>{{ rowIndex + 1 }}</strong>
+											</ng-template>
 										</ngx-datatable-column>
 
-										<ngx-datatable-column
-											[sortable]="true"
-											prop="receipt_no"
-										>
+										<ngx-datatable-column [sortable]="true" prop="receipt_no">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Receipt No.</span>
 											</ng-template>
@@ -191,11 +193,8 @@
 												{{row.receipt_no}}
 											</ng-template>
 										</ngx-datatable-column>
-		
-										<ngx-datatable-column
-											[sortable]="true"
-											prop="payment_gateway_update_date"
-										>
+
+										<ngx-datatable-column [sortable]="true" prop="payment_gateway_update_date">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Date</span>
 											</ng-template>
@@ -203,10 +202,8 @@
 												{{ row.payment_gateway_update_date }}
 											</ng-template>
 										</ngx-datatable-column>
-										
-										<ngx-datatable-column
-											[sortable]="false"
-										>
+
+										<ngx-datatable-column [sortable]="false">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Payment Method</span>
 											</ng-template>
@@ -214,25 +211,22 @@
 												<span *ngIf="row.payment_method == 'CC'">
 													Credit Card
 												</span>
-	
+
 												<span *ngIf="row.payment_method == 'DD'">
 													Direct Debit
 												</span>
-	
+
 												<span *ngIf="row.payment_method == 'WA'">
 													e-Wallet
 												</span>
-	
+
 												<span *ngIf="row.payment_method == 'NA'">
 													NA
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
-		
-										<ngx-datatable-column
-											[sortable]="true"
-											prop="reference_no"
-										>
+
+										<ngx-datatable-column [sortable]="true" prop="reference_no">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Reference</span>
 											</ng-template>
@@ -240,11 +234,8 @@
 												{{row.reference_no}}
 											</ng-template>
 										</ngx-datatable-column>
-										
-										<ngx-datatable-column
-											[sortable]="true"
-											prop="total_amount"
-										>
+
+										<ngx-datatable-column [sortable]="true" prop="total_amount">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Total Price</span>
 											</ng-template>
@@ -252,21 +243,16 @@
 												RM{{row.total_amount/100 | number : '1.2-2'}}
 											</ng-template>
 										</ngx-datatable-column>
-		
+
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Receipt</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<a 
-													class="nav-link nav-link-icon cursor-pointer"
-													(click)="downloadReceipt(row)"
-												>
-													<i 
-														class="fas fa-file-download text-info"
-														placement="top" 
-														tooltip="Download receipt"
-													> 
+												<a class="nav-link nav-link-icon cursor-pointer"
+													(click)="downloadReceipt(row)">
+													<i class="fas fa-file-download text-info" placement="top"
+														tooltip="Download receipt">
 													</i>
 												</a>
 											</ng-template>
@@ -295,21 +281,12 @@
 								</ol>
 
 								<div class="dataTables_wrapper py-4">
-									<ngx-datatable 
-										class="bootstrap"
-										[columnMode]="'force'"
-										[headerHeight]="50"
-										[footerHeight]="50"
-										[rowHeight]="'auto'"
-										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined" 
-										[rows]="tableOrderTemp"
-									>
-										<ngx-datatable-column
-											[sortable]="false"
-											[width]="30"
-											prop="id_index"
-											[resizeable]="false"
-										>
+									<ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
+										[footerHeight]="50" [rowHeight]="'auto'"
+										[limit]="tableOrderEntries != -1 ? tableOrderEntries : undefined"
+										[rows]="tableOrderTemp">
+										<ngx-datatable-column [sortable]="false" [width]="30" prop="id_index"
+											[resizeable]="false">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">No.</span>
 											</ng-template>
@@ -324,7 +301,7 @@
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
 												<!-- {{row.product?.name}} -->
-												
+
 												<span *ngIf="row.product">
 													{{row.order_no}}
 												</span>
@@ -333,11 +310,8 @@
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
-		
-										<ngx-datatable-column
-											[sortable]="false"
-											prop="created_date"
-										>
+
+										<ngx-datatable-column [sortable]="false" prop="created_date">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Datetime</span>
 											</ng-template>
@@ -346,9 +320,7 @@
 											</ng-template>
 										</ngx-datatable-column>
 
-										<ngx-datatable-column
-											[sortable]="false"
-										>
+										<ngx-datatable-column [sortable]="false">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Product</span>
 											</ng-template>
@@ -368,11 +340,8 @@
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
-		<!--   // Aduh -->
-										<ngx-datatable-column
-											[sortable]="false"
-											[width]="180"
-										>
+										<!--   // Aduh -->
+										<ngx-datatable-column [sortable]="false" [width]="180">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Search Criteria</span>
 											</ng-template>
@@ -380,10 +349,12 @@
 												<span *ngIf="row.entity?.name">
 													{{row.entity?.name}}
 													<span *ngIf="row.entity?.type_of_entity=='CP'">
-														{{row.entity.company_number_new}} ({{row.entity.company_number}}-{{row.entity.check_digit}})
+														{{row.entity.company_number_new}}
+														({{row.entity.company_number}}-{{row.entity.check_digit}})
 													</span>
 													<span *ngIf="row.entity?.type_of_entity=='BS'">
-														{{row.entity.registration_number_new}} ({{row.entity.registration_number}}-{{row.entity.check_digit}})
+														{{row.entity.registration_number_new}}
+														({{row.entity.registration_number}}-{{row.entity.check_digit}})
 													</span>
 												</span>
 												<span *ngIf="service_request?.service.service_type =='CB'">
@@ -400,11 +371,8 @@
 												</span>
 											</ng-template>
 										</ngx-datatable-column>
-										
-										<ngx-datatable-column
-											[sortable]="false"
-											prop="language"
-										>
+
+										<ngx-datatable-column [sortable]="false" prop="language">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Language</span>
 											</ng-template>
@@ -420,9 +388,7 @@
 											</ng-template>
 										</ngx-datatable-column>
 
-										<ngx-datatable-column
-											[sortable]="false"
-										>
+										<ngx-datatable-column [sortable]="false">
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Status</span>
 											</ng-template>
@@ -430,17 +396,14 @@
 												<span class="badge badge-success">Success</span>
 											</ng-template>
 										</ngx-datatable-column>
-										
+
 										<ngx-datatable-column>
 											<ng-template ngx-datatable-header-template>
 												<span class="table-header">Action</span>
 											</ng-template>
 											<ng-template let-row="row" ngx-datatable-cell-template>
-												<button 
-													class="btn btn-ssm btn-sm" 
-													(click)="initRequest(row)"
-													*ngIf="!row.service_request || row.quota"
-												>
+												<button class="btn btn-ssm btn-sm" (click)="initRequest(row)"
+													*ngIf="!row.service_request || row.quota">
 													Download
 												</button>
 											</ng-template>
@@ -458,117 +421,78 @@
 
 
 <ng-template #criteria>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Search Criteria
-        </h6>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Search Criteria
+		</h6>
 
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
 
-    <div class="modal-body">
-        <form *ngIf="selectedCriteria">
-            <div class="row">
+	<div class="modal-body">
+		<form *ngIf="selectedCriteria">
+			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Incorp / Reg Date From</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.IncorpFrom"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.IncorpFrom" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Incorp / Reg Date To</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.IncorpTo"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.IncorpTo" type="text">
 					</div>
 				</div>
 			</div>
 
-            <div class="row">
+			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Status</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyStatus"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyStatus" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Type</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyType"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyType" type="text">
 					</div>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="form-control-label">Business Code</label>
-				<input 
-				  class="form-control"
-				  [value]="selectedCriteria.BusinessCode"
-				  type="text"
-				>
+				<input class="form-control" [value]="selectedCriteria.BusinessCode" type="text">
 			</div>
 
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Location</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyLocation"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyLocation" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Origin</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyOrigin"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyOrigin" type="text">
 					</div>
 				</div>
 			</div>
-        </form>
-    </div>
+		</form>
+	</div>
 
-    <div class="modal-footer">
-        <button
-            class="btn btn-outline-ssm ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            Close
-        </button>
-    </div>
+	<div class="modal-footer">
+		<button class="btn btn-outline-ssm ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
 </ng-template>
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fussion" [fullScreen]="true">

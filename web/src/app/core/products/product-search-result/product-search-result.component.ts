@@ -10,9 +10,14 @@ import { ProductsService } from 'src/app/shared/services/products/products.servi
 import { Product } from 'src/app/shared/services/products/products.model';
 import { LocalFilesService } from 'src/app/shared/services/local-files/local-files.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { UsersService } from 'src/app/shared/services/users/users.service';
+import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
+import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
+import { User } from 'src/app/shared/services/users/users.model';
 
 import * as moment from 'moment';
 import { forkJoin } from 'rxjs';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 export enum SelectionType {
   single = 'single',
@@ -38,6 +43,7 @@ export class ProductSearchResultComponent implements OnInit {
   imageList: any[] = []
   availabilityList: any
   branches: any[] = null
+  isEmpty: boolean = true
 
   // Checker
   isProceed: boolean = false
@@ -95,13 +101,19 @@ export class ProductSearchResultComponent implements OnInit {
     // Message to show when array is presented
     // but contains no values
     emptyMessage: 'Empty search',
-  
+
     // Footer total message
     totalMessage: '',
-  
+
     // Footer selected message
     selectedMessage: 'selected'
   }
+
+  // Data
+  currentUser: User
+  cartItems: CartItemExtended[] = []
+  isAuthenticated = false
+  dataRefresher: any;
 
   // Table Branch
   tableBranchEntries: number = 10
@@ -113,17 +125,19 @@ export class ProductSearchResultComponent implements OnInit {
     // Message to show when array is presented
     // but contains no values
     emptyMessage: 'Empty search',
-  
+
     // Footer total message
     totalMessage: '',
-  
+
     // Footer selected message
     selectedMessage: 'selected'
   }
-  
+
   constructor(
     private toastr: ToastrService,
     private productService: ProductsService,
+    private userService: UsersService,
+    private cookieService: CookieService,
     private fileService: LocalFilesService,
     private modalService: BsModalService,
     private router: Router,
@@ -131,6 +145,13 @@ export class ProductSearchResultComponent implements OnInit {
     private cartService: CartsService,
     private loadingBar: LoadingBarService
   ) {
+
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false
+    }
+    this.checkUser()
+    this.refreshData();
+
     // console.log('chec', )
     let checkerValid = this.router.getCurrentNavigation()
     if (checkerValid == null || checkerValid == undefined) {
@@ -153,6 +174,15 @@ export class ProductSearchResultComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.entity)
     this.initForm()
+    this.checkUser();
+  }
+
+  refreshData() {
+    this.dataRefresher =
+      setInterval(() => {
+        this.checkUser();
+        //Passing the false flag would prevent page reset to 1 and hinder user interaction
+      }, 3000);
   }
 
   getData() {
@@ -204,7 +234,7 @@ export class ProductSearchResultComponent implements OnInit {
                   img['formName'] = form.desc_en
                   img['isCtc'] = false
                   img['price'] = 1000
-                  img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')               
+                  img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')
                   this.updateTable()
                 }
               }
@@ -213,7 +243,7 @@ export class ProductSearchResultComponent implements OnInit {
         )
       }
     )
-//   // Aduh
+    //   // Aduh
     if (this.entity['type_of_entity'] == 'BS') {
       this.productService.getBranches(branchBody).subscribe(
         (res) => {
@@ -253,12 +283,12 @@ export class ProductSearchResultComponent implements OnInit {
         }
       }
     )
-    
+
     this.tableBranchRows = this.branches
     this.tableBranchTemp = this.tableBranchRows.map((prop, key) => {
       return {
         ...prop,
-        id_index: key+1
+        id_index: key + 1
       }
     })
 
@@ -286,7 +316,7 @@ export class ProductSearchResultComponent implements OnInit {
       fee: new FormControl(1000)
     })
 
-    this.companyChargesForm = this.fb.group({ 
+    this.companyChargesForm = this.fb.group({
       slug: new FormControl('company_charges'), // Company Charges
       language: new FormControl('MS'),
       isCtc: new FormControl(false),
@@ -327,7 +357,7 @@ export class ProductSearchResultComponent implements OnInit {
       isCtc: new FormControl(false),
       fee: new FormControl(2000),
       year1: new FormControl('2020'),
-      year2: new  FormControl('2019')
+      year2: new FormControl('2019')
     })
 
     this.finComparison2Form = this.fb.group({
@@ -434,7 +464,7 @@ export class ProductSearchResultComponent implements OnInit {
     this.tableTemp = this.tableRows.map((prop, key) => {
       return {
         ...prop,
-        id_index: key+1
+        id_index: key + 1
       }
     })
   }
@@ -484,7 +514,8 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCart(selected) {
-    console.log('clicked', selected.value)
+    console.log('clicked = ', selected.value)
+    console.log('this.products = ', this.products)
     let product_found = false
     let product_found_both = 0
 
@@ -503,7 +534,7 @@ export class ProductSearchResultComponent implements OnInit {
           }
           else if (
             selected.value['slug'] == product['slug'] &&
-            selected.value['isCtc'] == product ['ctc'] &&
+            selected.value['isCtc'] == product['ctc'] &&
             product['language'] == 'EN' &&
             product_found_both != 2
           ) {
@@ -519,6 +550,7 @@ export class ProductSearchResultComponent implements OnInit {
             selected.value['language'] == product['language'] &&
             !product_found
           ) {
+            console.log('qqqqqqqqqqq')
             this.cartForm.controls['product'].setValue(product['id'])
             product_found = true
             this.addItem()
@@ -563,30 +595,62 @@ export class ProductSearchResultComponent implements OnInit {
     let title = 'Success'
     let message = 'Item is added to the cart'
     this.loadingBar.useRef('http').start()
-    console.log('Item to add to cart: ', this.cartForm.value)
-    this.cartService.addItem(this.cartService.cartCurrent.id, this.cartForm.value).subscribe(
-      () => {
-        this.loadingBar.useRef('http').complete()
-        this.refreshCart()
-      },
-      () => {
-        this.loadingBar.useRef('http').complete()
-      },
-      () => {
-        this.toastr.success(message, title)
-        this.cartForm.controls['year1'].setValue(null)
-        this.cartForm.controls['year2'].setValue(null)
-        this.productService.cart = true
-      }
-    )
+
+    let cartItemData
+    let formdata
+
+    cartItemData = this.cartItems
+    formdata = this.cartForm.value
+
+    console.log('formdata = ', formdata);
+    console.log('formdata.product = ', formdata.product)
+    console.log('formdata.entity = ', formdata.entity)
+    console.log('cartItemData = ', cartItemData)
+    console.log('length = ', cartItemData.length)
+
+    let result = 'yes'
+
+    if (cartItemData.length != 0) {
+      cartItemData.forEach(function (loopVal) {
+
+        console.log('condition = ', loopVal.entity.id, '==', formdata.entity, '&&', loopVal.product.id, '==', formdata.product)
+
+        if (loopVal.entity.id == formdata.entity && loopVal.product.id == formdata.product) {
+          // console.log('no')
+          result = 'no'
+        }
+      });
+    }
+
+    console.log(result)
+
+    if (result == 'yes') {
+      cartItemData.length = cartItemData.length + 1
+      console.log('yeayy')
+      this.cartService.addItem(this.cartService.cartCurrent.id, formdata).subscribe(
+        () => {
+          this.loadingBar.useRef('http').complete()
+          this.refreshCart()
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.toastr.success(message, title)
+          this.cartForm.controls['year1'].setValue(null)
+          this.cartForm.controls['year2'].setValue(null)
+          this.productService.cart = true
+        }
+      )
+    }
   }
 
   refreshCart() {
     console.log('Refresh')
     this.cartService.getOne(this.cartService.cartCurrent.id).subscribe(
-      () => {},
-      () => {},
-      () => {}
+      () => { },
+      () => { },
+      () => { }
     )
   }
 
@@ -614,6 +678,63 @@ export class ProductSearchResultComponent implements OnInit {
             selected.controls['fee'].setValue(product['fee'])
           }
         }
+      }
+    )
+  }
+
+  checkUser() {
+    let obtainedUserId = this.cookieService.getCookie('userId')
+
+    if (obtainedUserId) {
+      this.loadingBar.useRef('http').start()
+      this.userService.getOne(obtainedUserId).subscribe(
+        (res: any) => {
+          this.loadingBar.useRef('http').complete()
+          let title = 'Success'
+          let message = 'Logging in...'
+          this.currentUser = this.userService.currentUser
+          this.isAuthenticated = true
+          // this.toastr.success(message, title)
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.checkCart()
+          this.cookieService.saveCookie('userId', this.currentUser.id)
+        }
+      )
+    }
+  }
+
+  checkCart() {
+    this.cartService.checkCart(this.userService.currentUser.id).subscribe(
+      () => {
+        this.cartService.cartCurrent = this.cartService.cart
+        this.cartItems = this.cartService.cart.cart_item
+        console.log('qweqweasdasd = ', this.cartItems)
+      },
+      () => { },
+      () => {
+        if (this.cartItems.length > 0) {
+          this.isEmpty = false
+        }
+        else {
+          this.isEmpty = true
+        }
+        this.cartItems.forEach(
+          (item) => {
+            if (item['image_form_type']) {
+              this.formTypes.forEach(
+                (code) => {
+                  if (code.code == item['image_form_type']) {
+                    item['image_form_type'] = code.desc_en
+                  }
+                }
+              )
+            }
+          }
+        )
       }
     )
   }

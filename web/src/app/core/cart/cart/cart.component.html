@@ -46,16 +46,11 @@
 						</div>
 						<div class="row pb-2 text-right">
 							<div class="col">
-								<button 
-									class="btn btn-default rounded-pill mr-2"
-									(click)="navigatePage('/products/search')"
-								>
+								<button class="btn btn-default rounded-pill mr-2"
+									(click)="navigatePage('/products/search')">
 									Buy Other Product
 								</button>
-								<button 
-									class="btn btn-default rounded-pill" 
-									(click)="emptyCart()"
-								>
+								<button class="btn btn-default rounded-pill" (click)="emptyCart()">
 									Empty Cart
 								</button>
 							</div>
@@ -67,12 +62,9 @@
 									<div class="dataTables_length" id="datatable_submitted_length">
 										<label>
 											Show
-											<select 
-												name="datatable_submitted_length" 
-												aria-controls="datatable"
-												class="custom-select custom-select-sm mx-1" 
-												(change)="entriesChange($event)"
-											>
+											<select name="datatable_submitted_length" aria-controls="datatable"
+												class="custom-select custom-select-sm mx-1"
+												(change)="entriesChange($event)">
 												<option value="10" [selected]="tableEntries == 10">10</option>
 												<option value="25" [selected]="tableEntries == 25">25</option>
 												<option value="50" [selected]="tableEntries == 50">50</option>
@@ -100,59 +92,32 @@
 								</div> -->
 							</div>
 
-							<ngx-datatable 
-								class="bootstrap selection-cell"
-								[columnMode]="'force'"
-								[headerHeight]="50"
-								[footerHeight]="50"
-								[rowHeight]="'auto'"
-								[limit]="tableEntries != -1 ? tableEntries : undefined" 
-								[rows]="tableTemp"
-								[messages]="tableMessages"
-								(activate)="onActivate($event)"
-								#table
-							>
+							<ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
+								[footerHeight]="50" [rowHeight]="'auto'"
+								[limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
+								[messages]="tableMessages" (activate)="onActivate($event)" #table>
 								<ngx-datatable-column maxWidth="60" [sortable]="false">
 									<ng-template ngx-datatable-header-template>
 										<div class="custom-control custom-checkbox">
-											<input 
-												type="checkbox" 
-												class="custom-control-input" 
-												id="tableCheckbox"
-												(change)="selectAllRow()"
-												[(ngModel)]="tableCheckbox"
-											>
-											<label 
-												class="custom-control-label" 
-												for="tableCheckbox"
-											>
+											<input type="checkbox" class="custom-control-input" id="tableCheckbox"
+												(change)="selectAllRow()" [(ngModel)]="tableCheckbox">
+											<label class="custom-control-label" for="tableCheckbox">
 											</label>
 										</div>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
 										<div class="custom-control custom-checkbox">
-											<input 
-												type="checkbox" 
-												class="custom-control-input" 
-												id="customCheck+{{row.id_index}}"
-												(change)="checkRow(row)"
-												[(ngModel)]="row.isTick"
-											>
-											<label 
-												class="custom-control-label" 
-												for="customCheck+{{row.id_index}}"
-											>
+											<input type="checkbox" class="custom-control-input"
+												id="customCheck+{{row.id_index}}" (change)="checkRow(row)"
+												[(ngModel)]="row.isTick">
+											<label class="custom-control-label" for="customCheck+{{row.id_index}}">
 											</label>
 										</div>
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column 
-									maxWidth="80" 
-									[sortable]="true"
-									prop="id_index"
-									[resizeable]="false"
-								>
+								<ngx-datatable-column maxWidth="80" [sortable]="true" prop="id_index"
+									[resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">No.</span>
 									</ng-template>
@@ -161,11 +126,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column 
-									[sortable]="true"
-									prop="product?.name"
-									[resizeable]="false"
-								>
+								<ngx-datatable-column [sortable]="true" prop="product?.name" [resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Product</span>
 									</ng-template>
@@ -182,16 +143,20 @@
 											- {{row?.image_form_type}}
 										</span>
 										<div *ngIf="row.service_request">
-											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='ST'">
+											<span
+												*ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='ST'">
 												{{row.service_request?.service.name}}
 											</span>
-											<span *ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='LS'">
+											<span
+												*ngIf="row.service_request?.service.entities_type =='RB' && row.service_request?.service.product_type =='LS'">
 												{{row.service_request?.service.name}}
 											</span>
-											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='ST'">
+											<span
+												*ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='ST'">
 												{{row.service_request?.service.name}}
 											</span>
-											<span *ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='LS'">
+											<span
+												*ngIf="row.service_request?.service.entities_type =='RC' && row.service_request?.service.product_type =='LS'">
 												{{row.service_request?.service.name}}
 											</span>
 										</div>
@@ -205,11 +170,8 @@
 										</div>
 									</ng-template>
 								</ngx-datatable-column>
-<!--   // Aduh -->
-								<ngx-datatable-column
-									[sortable]="false"
-									[resizeable]="false"
-								>
+								<!--   // Aduh -->
+								<ngx-datatable-column [sortable]="false" [resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Search Criteria</span>
 									</ng-template>
@@ -217,10 +179,12 @@
 										<div *ngIf="row.product">
 											{{ row.entity.name }}
 											<span *ngIf="row.entity.type_of_entity=='CP'">
-												{{row.entity.company_number_new}} ({{row.entity.company_number}}-{{row.entity.check_digit}})
+												{{row.entity.company_number_new}}
+												({{row.entity.company_number}}-{{row.entity.check_digit}})
 											</span>
 											<span *ngIf="row.entity.type_of_entity=='BS'">
-												{{row.entity.registration_number_new}} ({{row.entity.registration_number}}-{{row.entity.check_digit}})
+												{{row.entity.registration_number_new}}
+												({{row.entity.registration_number}}-{{row.entity.check_digit}})
 											</span>
 										</div>
 										<div *ngIf="!row.product && !row.product_search_criteria">
@@ -232,12 +196,8 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column 
-									maxWidth="130"
-									[sortable]="true"
-									prop="language"
-									[resizeable]="false"
-								>
+								<ngx-datatable-column maxWidth="130" [sortable]="true" prop="language"
+									[resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Language</span>
 									</ng-template>
@@ -249,15 +209,11 @@
 										</div>
 										<div *ngIf="!row.product">
 											-
-										</div>										
+										</div>
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column 
-									maxWidth="80"
-									[sortable]="false"
-									[resizeable]="false"
-								>
+								<ngx-datatable-column maxWidth="80" [sortable]="false" [resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Unit</span>
 									</ng-template>
@@ -266,11 +222,7 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column
-									[sortable]="false"
-									[resizeable]="false"
-									maxWidth="130"
-								>
+								<ngx-datatable-column [sortable]="false" [resizeable]="false" maxWidth="130">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header">Total Price</span>
 									</ng-template>
@@ -280,7 +232,7 @@
 										</div>
 										<div *ngIf="row.service_request">
 											<div *ngIf="row.service_request">
-											RM{{row.service_request.service.fee/100 | number : '1.2-2'}}
+												RM{{row.service_request.service.fee/100 | number : '1.2-2'}}
 											</div>
 										</div>
 										<div *ngIf="row.quota">
@@ -292,52 +244,32 @@
 									</ng-template>
 								</ngx-datatable-column>
 
-								<ngx-datatable-column 
-									maxWidth="60"
-									[sortable]="false"
-									[resizeable]="false"
-								>
+								<ngx-datatable-column maxWidth="60" [sortable]="false" [resizeable]="false">
 									<ng-template ngx-datatable-header-template>
 										<span class="table-header"></span>
 									</ng-template>
 									<ng-template let-row="row" ngx-datatable-cell-template>
-										<a 
-											class="nav-link nav-link-icon cursor-pointer"
-											(click)="removeItem(row.id)"
-										>
-											<i 
-												class="fas fa-trash-alt text-danger"
-												placement="top" 
-												tooltip="Remove from cart"
-											> 
+										<a class="nav-link nav-link-icon cursor-pointer" (click)="removeItem(row.id)">
+											<i class="fas fa-trash-alt text-danger" placement="top"
+												tooltip="Remove from cart">
 											</i>
 										</a>
 									</ng-template>
 								</ngx-datatable-column>
 
 								<ngx-datatable-footer>
-									<ng-template 
-										ngx-datatable-footer-template 
-										let-rowCount="rowCount"
-										let-pageSize="pageSize"
-										let-selectedCount="selectedCount"
-										let-curPage="curPage"
-										let-offset="offset"
-									>
-										<datatable-pager
-											[pagerLeftArrowIcon]="'datatable-icon-left'"
+									<ng-template ngx-datatable-footer-template let-rowCount="rowCount"
+										let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage"
+										let-offset="offset">
+										<datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
 											[pagerRightArrowIcon]="'datatable-icon-right'"
 											[pagerPreviousIcon]="'datatable-icon-prev'"
-											[pagerNextIcon]="'datatable-icon-skip'"
-											[page]="curPage"
-											[size]="pageSize"
-											[count]="rowCount"
-											[hidden]="!((rowCount / pageSize) > 1)"
-											(change)="table.onFooterPage($event)"
-										>
+											[pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize"
+											[count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
+											(change)="table.onFooterPage($event)">
 										</datatable-pager>
 									</ng-template>
-								  </ngx-datatable-footer>
+								</ngx-datatable-footer>
 							</ngx-datatable>
 						</div>
 
@@ -356,7 +288,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="col-4">
 									<div class="row">
 										<div class="col">
@@ -389,115 +321,76 @@
 </div>
 
 <ng-template #criteria>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Search Criteria
-        </h6>
+	<div class="modal-header bg-default">
+		<h6 class="modal-title text-white my-auto" id="modal-title-default">
+			Search Criteria
+		</h6>
 
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
+		<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+			<span aria-hidden="true" class="text-white my-auto"> × </span>
+		</button>
+	</div>
 
-    <div class="modal-body">
-        <form *ngIf="selectedCriteria">
-            <div class="row">
+	<div class="modal-body">
+		<form *ngIf="selectedCriteria">
+			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Incorp / Reg Date From</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.IncorpFrom"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.IncorpFrom" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Incorp / Reg Date To</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.IncorpTo"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.IncorpTo" type="text">
 					</div>
 				</div>
 			</div>
 
-            <div class="row">
+			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Status</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyStatus"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyStatus" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Type</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyType"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyType" type="text">
 					</div>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="form-control-label">Business Code</label>
-				<input 
-				  class="form-control"
-				  [value]="selectedCriteria.BusinessCode"
-				  type="text"
-				>
+				<input class="form-control" [value]="selectedCriteria.BusinessCode" type="text">
 			</div>
 
 			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Location</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyLocation"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyLocation" type="text">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label class="form-control-label">Company Origin</label>
-						<input 
-						  class="form-control"
-						  [value]="selectedCriteria.CompanyOrigin"
-						  type="text"
-						>
+						<input class="form-control" [value]="selectedCriteria.CompanyOrigin" type="text">
 					</div>
 				</div>
 			</div>
-        </form>
-    </div>
+		</form>
+	</div>
 
-    <div class="modal-footer">
-        <button
-            class="btn btn-outline-ssm ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            Close
-        </button>
-    </div>
+	<div class="modal-footer">
+		<button class="btn btn-outline-ssm ml-auto" data-dismiss="modal" type="button" (click)="closeModal()">
+			Close
+		</button>
+	</div>
 </ng-template>
