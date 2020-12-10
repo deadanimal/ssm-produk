@@ -24,9 +24,13 @@
             <p class="cursor-pointer" (click)="navigatePage('/enquiry')"><i class="fas fa-angle-double-left"></i> Back to previous page</p>
             <h3 class="title font-weight-bolder">SERVICES / PRODUCTS / OPERATION</h3>
             <h1 class="title font-weight-bolder text-ssm">ENQUIRY FORM</h1>
-            <h5>INSTRUCTION</h5>
+            
 
             <div *ngFor="let note of notes">
+                <div *ngIf="note.slug == header_instruction_en" [innerHTML]="note.description">
+                    <h5>{{note.description}}</h5>
+                </div>
+                
                 <div *ngIf="note.slug == 'instruction_en'" [innerHTML]="note.description">
                     {{note.description}}
                 </div>
@@ -76,7 +80,7 @@
                                 <span class="text-red">*</span>
                             </label>
                             <select class="form-control custom-select" formControlName="topic">
-                                <option>Please Select</option>
+                                <option selected>Please Select</option>
                                 <ng-container *ngFor="let topic of topics">
                                     <option 
                                         *ngIf="topic.category == 'GN' && topic.active" 
@@ -95,7 +99,7 @@
                                 <span class="text-red">*</span>
                             </label>
                             <select class="form-control custom-select" formControlName="subject">
-                                <option>Please Select</option>
+                                <option selected>Please Select</option>
                                 <ng-container *ngFor="let subject of subjects">
                                     <option 
                                         value="{{subject.id}}"

@@ -60,7 +60,7 @@
                             <label class="form-control-label">Package
                                 <span class="text-red">*</span>
                             </label>
-                            <select class="form-control custom-select" formControl="egov_package" disabled>
+                            <select class="form-control custom-select" formControlName="egov_package" disabled>
                                 <option value="1">Package 1</option>
                                 <option value="2">Package 2</option>
                                 <option value="3">Package 3</option>
@@ -77,15 +77,15 @@
                                 <span class="text-red">*</span>
                             </label>
                             <select class="form-control custom-select" formControlName="topic">
-                                <option>Please pick</option>
-                                <ng-template *ngFor="let topic of topics">
+                                <option selected>Please Select</option>
+                                <ng-container *ngFor="let topic of topics">
                                     <option 
                                         *ngIf="topic.category == 'EG' && topic.active" 
                                         value="{{topic.id}}"
                                     >
                                         {{topic.name_en}}
                                     </option>
-                                </ng-template>
+                                </ng-container>
                             </select>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                 <span class="text-red">*</span>
                             </label>
                             <select class="form-control custom-select" formControlName="subject">
-                                <option>Please Select</option>
+                                <option selected>Please Select</option>
                                 <ng-container *ngFor="let subject of subjects">
                                     <option 
                                         value="{{subject.id}}"

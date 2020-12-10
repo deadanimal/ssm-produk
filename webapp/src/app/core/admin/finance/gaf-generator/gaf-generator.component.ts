@@ -5,12 +5,19 @@ import { TransactionsService } from 'src/app/shared/services/transactions/transa
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-gaf-generator',
   templateUrl: './gaf-generator.component.html',
   styleUrls: ['./gaf-generator.component.scss']
 })
 export class GafGeneratorComponent implements OnInit {
+
+  // Date
+  yesterday : Date = new Date();
+  currentDate : Date = new Date();
+  maxDate : string;
+  minDate : string;
 
   // Checker
   isHidden = true
@@ -24,6 +31,8 @@ export class GafGeneratorComponent implements OnInit {
     private fb: FormBuilder
   ) { 
     // this.getData()
+    this.yesterday.setDate(this.currentDate.getDate()-1)
+    this.maxDate = this.yesterday.toISOString().split('T')[0]
   }
 
   ngOnInit() {
@@ -63,8 +72,8 @@ export class GafGeneratorComponent implements OnInit {
 
   generateGaf() {
     this.loadingBar.start()
-    this.searchForm.controls['start_date'].setValue(this.searchForm.value['start_date'] + 'T08:00:00.000000Z')
-    this.searchForm.controls['end_date'].setValue(this.searchForm.value['end_date'] + 'T08:00:00.000000Z')
+    this.searchForm.controls['start_date'].patchValue(this.searchForm.value['start_date'] + 'T08:00:00.000000Z')
+    this.searchForm.controls['end_date'].patchValue(this.searchForm.value['end_date'] + 'T08:00:00.000000Z')
     console.log(this.searchForm.value)
     this.transactionService.generateGaf(this.searchForm.value).subscribe(
       (res) => {
@@ -77,7 +86,7 @@ export class GafGeneratorComponent implements OnInit {
         // window.open(url, '_blank');
         let link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        let fileName = 'xcess-gaf';
+        let fileName = 'xcess-gaf.txt';
         link.download = fileName;
         link.click();
       },
@@ -86,6 +95,24 @@ export class GafGeneratorComponent implements OnInit {
         this.loadingBar.complete()
       }
     )
+  }
+
+  setminDate(e) {
+
+    document.getElementById('end_date').setAttribute('min',e)
+  }
+
+  setmaxDate(e){
+    let year = e.slice(0,4)
+    let month = e.slice(5,7)
+    let day = e.slice(8,10)
+    let daybefore = year + "/" + month + "/" + day
+    let mindate = moment(daybefore,"YYYY/MM/DD").subtract(1,'days')
+    let a = mindate.format("YYYY/MM/DD")
+    
+    console.log(a)
+    console.log(year + " " + month + " " + day)
+    document.getElementById('start_date').setAttribute('max',e)
   }
 
 }

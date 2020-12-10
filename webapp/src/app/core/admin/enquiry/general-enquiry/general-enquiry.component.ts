@@ -77,8 +77,8 @@ export class GeneralEnquiryComponent implements OnInit {
       () => {
         this.tickets.forEach(
           (ticket) => {
-            ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY')
-            ticket['modified_date_'] = moment(ticket['modified_date']).format('DD/MM/YYYY')
+            ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY HH:mm')
+            ticket['modified_date_'] = moment(ticket['modified_date']).format('DD/MM/YYYY HH:mm')
 
             if (ticket['ticket_type'] == 'GN') {
               ticket['ticket_type'] = 'General'

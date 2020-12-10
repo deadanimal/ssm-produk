@@ -15,9 +15,16 @@ export class EnquiryHistoryComponent implements OnInit {
   listTickets: any;
   total: number;
   totaldocument: number;
+  tableEntries: number = 10;
+  tableActiveRow: any
 
   filteredTicket: any[] = []
   ticketTemp: any[] = []
+
+  // Pagination
+  page = 1;
+  pageSize = 10;
+  collectionSize = this.ticketTemp.length;
 
   user: any
 
@@ -34,7 +41,7 @@ export class EnquiryHistoryComponent implements OnInit {
         console.log('Gotcha')
       }
     }
-
+    console.log(" test ",this.ticketService.getAll())
     this.ticketService.getAll().subscribe(
       (res) => {
         console.log(res);
@@ -66,6 +73,13 @@ export class EnquiryHistoryComponent implements OnInit {
   navigatePage(path) {
     this.router.navigate([path])
   }
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  } 
+  
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
 
   viewTicket(row) {
     let extras = {
@@ -90,5 +104,6 @@ export class EnquiryHistoryComponent implements OnInit {
       });
     }
   }
+
 
 }
