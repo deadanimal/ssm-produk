@@ -196,6 +196,13 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">{{data.incorp_date }}</p></td>
                     </tr>
+                    {% if data.company_info.registrationDate %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">REGISTRATION DATE</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">{{data.company_info.registrationDate }}</p></td>
+                        </tr>
+                    {% endif %}
                     <tr style="height:40px;">
                         <td><p id="secondary">TYPE</p></td>
                         <td><p id="secondary">:</p></td>
@@ -386,7 +393,7 @@
                         <th style="width:25%;" id="head-zero"></th> 
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
+                        <td><p id="secondary">TOTAL ISSUED ({{data.company_info.currency}}) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -617,6 +624,9 @@
             
             <hr class="my-3" />
             
+            {% if data.shareholders_data|length == 0 %}
+                <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">NO INFORMATION</h2>
+            {% else %}
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr id="zero">
@@ -625,15 +635,15 @@
                         <th style="width:27%;" id="head-zero"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
                     </tr>
                     {% for shareholder in data.shareholders_data %}
-                        <tr style="height:20px;">
-                            <td>
+                        <tr style="height:40px;">
+                            <td><p id="secondary">
                                 {% if shareholder.idType != 'C' %}
-                                    <p id="secondary">{{ shareholder.id }}</p>
+                                    {{ shareholder.id }}
                                 {% endif %}
                                 {% if shareholder.idType == 'C' %}
-                                    <p id="secondary"> {{ shareholder.companyNo }} ({{ shareholder.id }})</p>
+                                    {{ shareholder.companyNo }} ({{ shareholder.id }})
                                 {% endif %}
-                            </td>
+                            </p></td>
                             <td><p id="secondary">{{ shareholder.name | upper }}</p></td>
                             <td><p id="secondary" class="text-right">{{ shareholder.share | floatformat:0 | intcomma }}</p></td>
                         </tr>
@@ -675,7 +685,7 @@
                     {% endfor %}
                 </table>
             </div>    
-            
+            {% endif %}
             
             <h4 class="font-weight-bold text-center pg-break"><u> COMPANY CHARGES </u></h4>
 
@@ -708,9 +718,9 @@
                 <table class="table text-left borderless">
                     <tr id="zero">
                         <th style="width:5%;" id="head-zero"></th>
-                        <th style="width:25%;" id="head-zero"></th>
+                        <th style="width:44%;" id="head-zero"></th>
                         <th style="width:1%;" id="head-zero"></th>
-                        <th style="width:69%;" id="head-zero"></th>
+                        <th style="width:50%;" id="head-zero"></th>
                     </tr>
                     {% for charge in data.charges_info %}
                         <tr style="height:1px;">
@@ -755,7 +765,7 @@
                             <td><p id="secondary" style="margin-bottom: 2px !important;"></p></td>
                             <td><p id="secondary" style="margin-bottom: 2px !important;">CHARGE STATUS</p></td>
                             <td><p id="secondary" style="margin-bottom: 2px !important;">:</p></td>
-                            <td><p id="secondary" style="margin-bottom: 2px !important;" class="pl-2">{{ charge.chargeStatus }}</p></td>
+                            <td><p id="secondary" class="pl-2" style="margin-bottom: 10px !important;">{{ charge.chargeStatus }}</p></td>
                         </tr>
                         {% if forloop.counter|divisibleby:5 and data.charges_info|length > 5 %}
                             </table>
@@ -864,7 +874,7 @@
                                 {{ data.bs_data.auditFirmTown | upper }} <br>
                             {% endif %}
                             {% if data.bs_data.auditFirmState != None and data.bs_data.auditFirmPostcode != 'NONE' %}
-                                {{ data.bs_data.auditFirmStatez }} <br>
+                                {{ data.bs_data.auditFirmState }} <br>
                             {% endif %}
                         </p></td>
 

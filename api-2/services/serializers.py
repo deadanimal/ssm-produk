@@ -58,7 +58,7 @@ class DocumentRequestItemSerializer(serializers.ModelSerializer):
 
 
 class DocumentRequestSerializer(serializers.ModelSerializer):
-    official_letter_request = PDFBase64File()
+    # official_letter_request = PDFBase64File()
     official_letter_egov = PDFBase64File()
 
     class Meta:
