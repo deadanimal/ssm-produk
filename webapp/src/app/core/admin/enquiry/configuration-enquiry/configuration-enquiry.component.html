@@ -93,8 +93,26 @@
                     <tab heading="Instruction Editor" (selectTab)="onSelectTab($event)">
                         <div class="card mt-2">
                             <div class="card-body">
-                                <h6 class="heading-small text-muted mb-4">Instruction - English</h6>
-                                <form [formGroup]="instructionENForm">
+                                <h6 class="heading-small text-muted mb-4">Header - English</h6>
+                                <form [formGroup]="headerInstructionENForm">
+                                    <quill-editor
+                                        #instructionEN 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('header-en')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                <h6 class="heading-small text-muted mb-4">Body - English</h6>
+                                <form [formGroup]="bodyInstructionENForm">
                                     <quill-editor
                                         #instructionEN 
                                         formControlName="description">
@@ -114,8 +132,27 @@
 
                                 <hr class="my-4" />
 
-                                <h6 class="heading-small text-muted mb-4">Instruction - Bahasa Melayu</h6>
-                                <form [formGroup]="instructionBMForm">
+                                <h6 class="heading-small text-muted mb-4">Header - Bahasa Melayu</h6>
+                                <form [formGroup]="headerInstructionBMForm">
+                                    <quill-editor
+                                        #instructionBM
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('header-bm')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h6 class="heading-small text-muted mb-4">Body - Bahasa Melayu</h6>
+                                <form [formGroup]="bodyInstructionBMForm">
                                     <quill-editor
                                         #instructionBM
                                         formControlName="description">
@@ -139,8 +176,8 @@
                     <tab heading="Disclaimer Editor" (selectTab)="onSelectTab($event)">
                         <div class="card mt-2">
                             <div class="card-body">
-                                <h6 class="heading-small text-muted mb-4">Disclaimer - English</h6>
-                                <form [formGroup]="disclaimerENForm">
+                                <h6 class="heading-small text-muted mb-4">Header - English</h6>
+                                <form [formGroup]="headerDisclaimerENForm">
                                     <quill-editor
                                         #disclaimerEN 
                                         formControlName="description">
@@ -151,7 +188,26 @@
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
-                                            (click)="patchNote('disclaimer-en')"
+                                            (click)="patchNote('header-disclaimer-en')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h6 class="heading-small text-muted mb-4">Body - English</h6>
+                                <form [formGroup]="bodyDisclaimerENForm">
+                                    <quill-editor
+                                        #disclaimerEN 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('body-disclaimer-en')"
                                         >
                                             Save
                                         </button>
@@ -160,8 +216,27 @@
 
                                 <hr class="my-4" />
 
-                                <h6 class="heading-small text-muted mb-4">Disclaimer - Bahasa Melayu</h6>
-                                <form [formGroup]="disclaimerBMForm">
+                                <h6 class="heading-small text-muted mb-4">Header - Bahasa Melayu</h6>
+                                <form [formGroup]="headerDisclaimerBMForm">
+                                    <quill-editor
+                                        #disclaimerEN 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('header-disclaimer-en')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h6 class="heading-small text-muted mb-4">Body - Bahasa Melayu</h6>
+                                <form [formGroup]="bodyDisclaimerBMForm">
                                     <quill-editor
                                         #disclaimerBM 
                                         formControlName="description">
@@ -172,7 +247,7 @@
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
-                                            (click)="patchNote('disclaimer-bm')"
+                                            (click)="patchNote('body-disclaimer-bm')"
                                         >
                                             Save
                                         </button>

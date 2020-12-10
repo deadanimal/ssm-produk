@@ -212,7 +212,7 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['POST'], detail=False)
     def create_request(self, request, *args, **kwargs):
         request_document_request = json.loads(request.body)
-        request_official_letter_request_original = request_document_request['official_letter_request']
+        # request_official_letter_request_original = request_document_request['official_letter_request']
         request_official_letter_egov_original = request_document_request['official_letter_egov']
         request_reference_letter_no = request_document_request['reference_letter_no']
         request_ip_no = request_document_request['ip_no']
@@ -222,8 +222,8 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         request_officer_designation = request_document_request['officer_designation']
         request_officer_department = request_document_request['officer_department']
         request_officer_mobile_no = request_document_request['officer_mobile_no']
-        request_nric = request_document_request['nric']
-        request_official_email = request_document_request['official_email']
+        request_officer_nric = request_document_request['officer_nric']
+        request_official_email = request_document_request['officer_official_email']
         request_user_id = request_document_request['user']
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
@@ -252,10 +252,10 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         request_user = CustomUser.objects.filter(id=str(request_user_id)).first()
 
-        request_official_letter_request_base64 = request_official_letter_request_original.encode('utf-8')
-        format, pdfstr = request_official_letter_request_base64.decode().split(';base64,') 
-        ext = format.split('/')[-1] 
-        request_official_letter_request = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
+        # request_official_letter_request_base64 = request_official_letter_request_original.encode('utf-8')
+        # format, pdfstr = request_official_letter_request_base64.decode().split(';base64,') 
+        # ext = format.split('/')[-1] 
+        # request_official_letter_request = ContentFile(base64.b64decode(pdfstr), name='temp.' + ext)
 
         request_official_letter_egov_base64 = request_official_letter_egov_original.encode('utf-8')
         format, pdfstr = request_official_letter_egov_base64.decode().split(';base64,') 
@@ -267,7 +267,6 @@ class DocumentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             reference_letter_no=request_reference_letter_no,
             ip_no=request_ip_no,
             court_case_no=request_court_case_no,
-            official_letter_request=request_official_letter_request,
             official_letter_egov=request_official_letter_egov,
             offence=request_offence,
             officer_name=request_officer_name,
