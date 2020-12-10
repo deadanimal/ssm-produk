@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import * as moment from 'moment';
+import swal from 'sweetalert2'
 import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
+
+export class FileType {
+  name: string
+  size: number
+  file: string | ArrayBuffer
+}
+
 @Component({
   selector: 'app-enquiry-details',
   templateUrl: './enquiry-details.component.html',
@@ -17,7 +25,10 @@ export class EnquiryDetailsComponent implements OnInit {
   user: any
   ticketLog: any[] = []
   
-  replyForm: FormGroup
+  replyForm: FormGroup;
+  fileToUpload: File = null;
+
+  files: FileType[] = []
 
   isCollapsed = false;
 
@@ -25,6 +36,7 @@ export class EnquiryDetailsComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private fb: FormBuilder,
     private ticketService: TicketsService,
+    private cd: ChangeDetectorRef,
     private router: Router,
     private userService: UsersService
   ) { 
@@ -37,6 +49,7 @@ export class EnquiryDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForm()
     let index_ = 0
     if (this.ticket['ticket_replies']) {
       this.ticket['ticket_replies'].forEach(
@@ -116,6 +129,7 @@ export class EnquiryDetailsComponent implements OnInit {
       message: new FormControl(null),
       remarks: new FormControl(null),
       escalation_email: new FormControl(null),
+      documents: new FormControl(null),
     })
 
     this.replyForm.controls['type'].patchValue(this.ticket['ticket_status'])
@@ -130,6 +144,11 @@ export class EnquiryDetailsComponent implements OnInit {
     this.ticketService.createReply(this.replyForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
+        let message = 'Successfully submitted'
+        this.successAlert(message);
+        // this.replyForm.reset()
+        // this.files = []
+        this.isCollapsed = false;
       },
       () => {
         this.loadingBar.useRef('http').complete()
@@ -152,6 +171,101 @@ export class EnquiryDetailsComponent implements OnInit {
 
   navigatePage(path) {
     this.router.navigate([path])
+  }
+
+  onFileChange(event) {
+    let reader = new FileReader();
+    let file_: FileType = {
+      'size': event.target.files[0].size,
+      'name': event.target.files[0].name,
+      'file': null
+    }
+
+    if (
+      file_['size'] > 2000000 ||
+      this.files.length > 4
+    ) {
+      let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
+      this.errorAlert(task)
+    }
+    else if (
+      event.target.files && 
+      event.target.files.length &&
+      file_['size'] < 2000000
+    ) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file)
+      // readAsDataURL(file);
+      // console.log(event.target)
+      // console.log(reader)
+      
+      
+      reader.onload = () => {
+        // console.log(reader['result'])
+        file_ = {
+          'size': event.target.files[0].size,
+          'name': event.target.files[0].name,
+          'file': reader.result
+        }
+        this.files.push(file_)
+        console.log('file: ', this.files)
+        console.log('form', this.replyForm.value)
+        this.replyForm.controls['documents'].patchValue(this.files)
+        // console.log(this.registerForm.value)
+        // console.log('he', this.registerForm.valid)
+        // console.log(this.isAgree)
+        // !registerForm.valid || !isAgree
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
+  removeFile(row) {
+    this.files.splice(this.files.findIndex(req => req['name'] === row['name']), 1)
+
+    if (this.files.length == 0) {
+      this.replyForm.controls['documents'].patchValue(null)
+    }
+    else {
+      this.replyForm.controls['documents'].patchValue(this.files)
+    }
+  }
+
+  successAlert(task) {
+    swal.fire({
+      title: 'Success',
+      text: task,
+      icon: 'success',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        cancelButton: 'btn btn-outline-success',
+        confirmButton: 'btn btn-success ',
+      },
+    })
+    .then(() => {
+       this.initForm()
+      // this.navigatePage('/enquiry/history')
+    })
+    // this.navigatePage('/enquiry');
+  }
+
+  errorAlert(task) {
+    swal.fire({
+      title: 'Error',
+      text: task,
+      icon: 'warning',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
   }
 
 }

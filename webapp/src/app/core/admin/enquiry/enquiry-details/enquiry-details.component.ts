@@ -18,7 +18,8 @@ export class EnquiryDetailsComponent implements OnInit {
   ticket: any
   user: any
   ticketLog: any[] = []
-  
+  tableActiveRow: any;
+
   replyForm: FormGroup
 
   // Actions
@@ -75,7 +76,7 @@ export class EnquiryDetailsComponent implements OnInit {
           else if (ticket['reply_type'] == 'CR') {
             status_ = 'Closed - Not Related'
           }
-          else if (ticket['reply_type'] == 'C') {
+          else if (ticket['reply_type'] == 'CD') {
             status_ = 'Closed - Not Responded'
           }
           else if (ticket['reply_type'] == 'CO') {
@@ -86,7 +87,7 @@ export class EnquiryDetailsComponent implements OnInit {
           }
 
           this.ticketLog.push({
-            'index': index_,
+            'index': index_ ,
             'date': moment(created_date_).format('DD/MM/YYYY HH:mm'),
             'message': ticket['message'],
             'response': ticket['remarks'],
@@ -201,5 +202,8 @@ export class EnquiryDetailsComponent implements OnInit {
   navigatePage(path) {
     this.router.navigate([path])
   }
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  } 
    /// PUSH REMINDER UNTUK ESCALATION ONLY !!
 }

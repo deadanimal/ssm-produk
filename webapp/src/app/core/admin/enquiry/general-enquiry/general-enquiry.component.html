@@ -241,13 +241,13 @@
                                         [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="created_date_"
+                                        prop="created_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.created_date_}}
+                                            {{row.created_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -255,13 +255,13 @@
                                         [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="modified_date_"
+                                        prop="modified_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.modified_date_}}
+                                            {{row.modified_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -449,21 +449,21 @@
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
-                                        [sortable]="true"
+                                        [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="created_date_"
+                                        prop="created_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.created_date_}}
+                                            {{row.created_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
-                                        [sortable]="true"
+                                        [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
                                         prop="modified_date_"
@@ -472,7 +472,7 @@
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.modified_date_}}
+                                            {{row.modified_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -659,30 +659,30 @@
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
-                                        [resizeable]="false"
+                                        [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="created_date_"
+                                        prop="created_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.created_date_}}
+                                            {{row.created_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
-                                        [resizeable]="false"
+                                        [width]="180"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="modified_date_"
+                                        prop="modified_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.modified_date_}}
+                                            {{row.modified_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -897,30 +897,32 @@
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
+                                        [width]="180"
                                         prop="subject.name_en"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="created_date_"
+                                        prop="created_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Created Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.created_date_}}
+                                            {{row.created_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column
+                                        [width]="180"
                                         prop="subject.name_en"
                                         [sortable]="true"
                                         [resizeable]="false"
-                                        prop="modified_date_"
+                                        prop="modified_date"
                                     >
                                         <ng-template ngx-datatable-header-template>
                                             <span>Modified Date</span>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            {{row.modified_date_}}
+                                            {{row.modified_date | date:'dd/MM/yyyy HH:mm'}}
                                         </ng-template>
                                     </ngx-datatable-column>
 
@@ -1026,10 +1028,10 @@
 					{{row.subject?.name_en}}
 				</td>
 				<td>
-					{{row.created_date_}}
+					{{row.created_date}}
 				</td>
 				<td>
-					{{row.modified_date_}}
+					{{row.modified_date}}
 				</td>
 				<td>
 					{{row.ticket_type}}

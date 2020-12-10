@@ -24,7 +24,23 @@
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">
-                            <button 
+                            <button *ngIf="log.status == 'In Progress - Response Required'"
+                                aria-controls="collapseOne"
+                                class="btn btn-link w-100 text-ssm text-left"
+                                [attr.aria-expanded]="!isCollapsed" 
+                                (click)="isCollapsed = !isCollapsed"
+                                id="collapseOne"
+                                type="button">
+                                <a class="text-danger">
+                                    {{log.date}}
+                                </a>
+                                <a class="text-danger" *ngIf="log.status">
+                                    - {{log.status}}
+                                </a>
+                                
+                                <i class="ni ni-bold-down float-right pt-1"> </i>
+                            </button>
+                            <button *ngIf="log.status != 'In Progress - Response Required'"
                                 aria-controls="collapseOne"
                                 class="btn btn-link w-100 text-ssm text-left"
                                 [attr.aria-expanded]="!isCollapsed" 
@@ -32,10 +48,6 @@
                                 id="collapseOne"
                                 type="button">
                                 {{log.date}} 
-                                <span *ngIf="log.message">
-                                    - {{log.message}}
-                                </span>
-
                                 <span *ngIf="log.status">
                                     - {{log.status}}
                                 </span>
@@ -49,10 +61,10 @@
                         class="show"
                         data-parent="#accordionExample"
                         [isAnimated]="true"
-                        [collapse]="isCollapsed"
+                        [collapse]="!isCollapsed"
                         id="collapseOne">
                         <div class="card-body opacity-8">
-                            {{log.response}}
+                            {{log.message}}
 
                             <div *ngIf="log.status == 'In Progress - Response Required'">
                                 <div class="form-group">
@@ -68,11 +80,12 @@
                                             class="custom-file-input cursor-pointer" 
                                             id="files" 
                                             lang="en"
+                                            (change)="onFileChange($event)"
                                             accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
                                         />
                                         <label class="custom-file-label" for="files">Select file</label>
         
-                                        <!-- <ng-container *ngIf="files.length > 0">
+                                        <ng-container *ngIf="files.length > 0">
                                             <div *ngFor="let file_ of files">
                                                 <i 
                                                     class="fas fa-trash-alt text-warning mr-2"
@@ -83,12 +96,12 @@
                                                 </i>
                                                 {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
                                             </div>
-                                        </ng-container> -->
+                                        </ng-container>
                                     </div>
-                                </div>
+                                
 
-                                <div class="text-right">
-                                    <div class="btn btn-ssm rounded-pill">
+                                <div class="text-right pt-2">
+                                    <div class="btn btn-ssm rounded-pill" (click)="replyTicket()">
                                         Reply
                                     </div>
                                 </div>
