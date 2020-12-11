@@ -264,7 +264,7 @@ export class EgovComponent implements OnInit {
     })
     .then((res) => {
       if (res) {
-        console.log('Confirm')
+        this.navigatePage('/home')
       }
     })
   }
@@ -283,6 +283,7 @@ export class EgovComponent implements OnInit {
     })
     .then((res) => {
       if (res) {
+        //console.log(res);        
         console.log('Confirm')
       }
     })

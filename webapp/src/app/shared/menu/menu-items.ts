@@ -77,7 +77,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'task-management', title: 'Task Management', type: 'link' },
       { path: 'dropdown', title: 'eGov Dropdown', type: 'link' },
       { path: 'user-management', title: 'eGov User Management', type: 'link' },
-      // { path: 'report', title: 'Report', type: 'link'}
+      { path: 'report', title: 'eGov Report', type: 'link'}
     ],
   },  
   {
