@@ -513,9 +513,10 @@
 
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
-                        <label class="form-control-label">Remarks</label>
+                        <label class="form-control-label" id="remarklbl">Remarks</label>
                         <select 
                             class="form-control"
+                            id="remarksdd"
                             [(ngModel)]="eGovRegRemarks"
                             [ngModelOptions]="{standalone: true}"
                             (change)="onRemarksChange($event)"
@@ -1368,15 +1369,15 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">IC No.</label>
-                    <input class="form-control" [value]="" disabled>
+                    <label class="form-control-label">Officer Name</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_name" disabled>
                 </div>
             </div>
 
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Position and Grade</label>
-                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                    <label class="form-control-label">Designation</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_designation" disabled>
                 </div>
             </div>
         </div>
@@ -1384,8 +1385,55 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Mobile / Office No.</label>
-                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_department" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile/Office No</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_mobile_no" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No. / Officer Authority Card</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_nric" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Official Email Address</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_official_email" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Reference Letter No.</label>
+                    <input class="form-control" [value]="selectedTask.item.reference_letter_no" disabled>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IP No.</label>
+                    <input class="form-control" [value]="selectedTask.item.ip_no" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">           
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Court Case No.</label>
+                    <input class="form-control" [value]="selectedTask.item.court_case_no" disabled>
                 </div>
             </div>
         </div>
@@ -1482,7 +1530,7 @@
                 </div>
             </div>
 
-            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+            <div class="col-12" *ngIf="selectedTask.item.official_letter_egov">
                 <button 
                     type="button" 
                     class="btn btn-ssm btn-block"
@@ -1633,6 +1681,7 @@
             class="btn btn-ssm rounded-pill" 
             type="button" 
             (click)="approveInvestigationAll()"
+            [disabled]="selectedTask.status == 'Approved' || selectedTask.status == 'Rejected'"
         >
             Approve for all
         </button>
@@ -1642,6 +1691,8 @@
             data-dismiss="modal" 
             type="button" 
             (click)="rejectInvestigationAll()"
+            [disabled]="selectedTask.status == 'Approved' || selectedTask.status == 'Rejected'"
+
         >
             Reject for all
         </button>

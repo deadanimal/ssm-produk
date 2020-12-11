@@ -3,7 +3,9 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Form } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY , of } from 'rxjs';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 //import { CbidCart } from './cbid-carts.model';
 
 @Injectable({
@@ -42,13 +44,13 @@ export class ServicesService {
     );
   }
 
-  getReport(): any {
+  getReport(): Observable<any> {
     let url = this.servicesURL + 'report/';
     return this.http.get(url).pipe(
       tap((res) => {
-        // console.log('Service Request Report: ', res);
+        //console.log('Service Request Report: ', res);
       })
-    );        
+    )       
   }
 
   patch(id: any, body: any): any {
@@ -74,6 +76,17 @@ export class ServicesService {
     return this.http.get(urlTemp).pipe(
       tap((res) => {
         // console.log('EGov investigations: ', res)
+      })
+    )
+  }
+
+  getEgovReport(type: string): Observable<any> {
+    let urlTemp = this.urlEgovRequest + 'generate_report/'
+  
+    //return  EMPTY.pipe(tap());
+    return this.http.post(urlTemp,{"report_type": type}).pipe(
+      tap((res) => {
+        console.log('EGov requests: ', res)
       })
     )
   }

@@ -30,6 +30,7 @@ import { EgovReportComponent } from './egov/egov-report/egov-report.component';
 import { EgovDropdownComponent } from './egov/egov-dropdown/egov-dropdown.component';
 import { EgovUserManagementComponent } from './egov/egov-user-management/egov-user-management.component';
 import { EgovDashboardComponent } from './egov/egov-dashboard/egov-dashboard.component';
+
 import { EnquiryDetailsComponent } from './enquiry/enquiry-details/enquiry-details.component';
 import { MasterTableComponent } from './finance/master-table/master-table.component';
 import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-dropdowns.component';

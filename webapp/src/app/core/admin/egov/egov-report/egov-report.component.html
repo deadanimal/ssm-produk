@@ -27,3 +27,336 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="container-fluid mt--6">
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<div class="card-header bg-secondary">
+					<div class="text-left">
+						<h3 class="m-0">{{reportTitle}}</h3>
+					</div>
+					<div class="text-right">
+						<div class="my-1 mr-4 dropdown" dropdown placement="bottom-right">
+							<button 
+								class="btn btn-outline-default dropdown-toggle"
+								type="button" 
+								id="dropdownMenuButton" 
+								dropdownToggle
+							>
+								  Export
+							</button>
+							<div  
+								aria-labelledby="dropdownMenuButton" 
+								*dropdownMenu 
+								class="dropdown-menu dropdown-menu-right"
+							>
+								  <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+								  <a class="dropdown-item" (click)="export('pdf')" >PDF</a>
+								  <a class="dropdown-item" (click)="exportCsv()" >CSV</a>
+								 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row px-3 pt-4">
+					<div class="col-sm-12 col-md-3">
+						<div class="form-group">
+							<label class="form-control-label">Report Type</label>						
+							<select class="form-control form-control-sm" (change)="filterTable($event, 'reportType')">
+								<option value="" selected>Select Report Type</option>
+								<option value="access_statistics">Statistik Akses eGOV Yang Telah Diluluskan Mengikut Pakej</option>
+								<option value="usage_statistics">Statistik Penggunaan KJAKP Mengikut Pakej</option>
+								<option value="total_statistics">Statistik KJAKP Mengikut Pakej & Penggunaan</option>								
+							</select>
+						</div>
+					</div>
+
+					<div class="col-sm-12 col-md-3">
+						<div class="form-group">
+							<label class="form-control-label">Start Date</label>
+							<input class="form-control form-control-sm" type="date" id="startdate" (change)="filterTable($event, 'fromdate')">
+						</div>
+					</div>
+
+					<div class="col-sm-12 col-md-3">
+						<div class="form-group">
+							<label class="form-control-label">End Date</label>
+							<input class="form-control form-control-sm" type="date" id="enddate" (change)="filterTable($event, 'todate')">
+						</div>
+					</div>
+<!-- 
+					<div class="col-sm-12 col-md-3">
+						<div class="form-group">
+							<label class="form-control-label">Search</label>
+							<input type="text" class="form-control form-control-sm" (keyup)="filterTable($event, 'text')">
+						</div>
+					</div> -->
+				
+				</div>
+				<div class="dataTables_wrapper pb-4">
+					<!-- <div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="dataTables_length" id="datatable_length">
+								<label>
+									Show
+									<select 
+										name="datatable_length" 
+										aria-controls="datatable"
+										class="form-control form-control-sm" 
+										(change)="entriesChange($event)"
+									>
+										<option value="10">10</option>
+										<option value="25">25</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+										<option value="-1">All</option>
+									</select>
+									records
+								</label>
+							</div>
+						</div>
+					</div> -->
+					<!-- [limit]="tableEntries != -1 ? tableEntries : undefined" -->
+
+					<ngx-datatable
+						class="bootstrap selection-cell"
+						[columnMode]="'force'"
+						[loadingIndicator]="loadingBars"
+						[headerHeight]="50"
+						[footerHeight]="50"
+						[rowHeight]="'auto'"
+						[rows]="tableTemp"
+						[scrollbarH]="true"
+						(activate)="onActivate($event)"
+					>
+						<ngx-datatable-column [sortable]="false">
+							<ng-template ngx-datatable-header-template>
+							<span>Tahun</span>
+							</ng-template>
+							
+							<ng-template let-row="row" ngx-datatable-cell-template>
+							
+							{{row[0]}}  
+			
+							</ng-template>
+						</ngx-datatable-column>
+			
+						<ngx-datatable-column [sortable]="false">
+							<ng-template ngx-datatable-header-template>
+							<span>Bulan</span>
+							</ng-template>
+							
+							<ng-template let-row="row" ngx-datatable-cell-template>
+							
+							{{row[1]}}  
+			
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column
+							[sortable]="false"							
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Minggu</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row[2] }}
+							</ng-template>
+						</ngx-datatable-column>            
+
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="3"
+						>
+							<ng-template ngx-datatable-header-template>
+								<span>Agensi</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row[3] }}
+							</ng-template>
+						</ngx-datatable-column>
+
+						<ngx-datatable-column
+								[sortable]="true"
+								prop="4"
+
+							>
+							<ng-template ngx-datatable-header-template>
+								<span>Pakej 1</span>
+							</ng-template>
+							<ng-template let-row="row" ngx-datatable-cell-template>
+								{{ row[4] }}
+							</ng-template>
+						</ngx-datatable-column>
+						
+						<ngx-datatable-column
+							[sortable]="true"
+							prop="5"
+						>
+						<ng-template ngx-datatable-header-template>
+							<span>Pakej 2</span>
+						</ng-template>
+						<ng-template let-row="row" ngx-datatable-cell-template>
+							{{ row[5] }}
+						</ng-template>
+					</ngx-datatable-column>
+					
+					<ngx-datatable-column
+						[sortable]="true"
+						prop="6"
+					>
+					<ng-template ngx-datatable-header-template>
+						<span>Pakej 3</span>
+					</ng-template>
+					<ng-template let-row="row" ngx-datatable-cell-template>
+						{{ row[6] }}
+					</ng-template>
+				</ngx-datatable-column>
+				
+				<ngx-datatable-column
+					[sortable]="true"
+					prop="7"
+				>
+				<ng-template ngx-datatable-header-template>
+					<span>Pakej 4</span>
+				</ng-template>
+				<ng-template let-row="row" ngx-datatable-cell-template>
+					{{ row[7] }}
+				</ng-template>
+			</ngx-datatable-column>
+			
+			<ngx-datatable-column
+					[sortable]="true"
+					prop="8"
+				>
+				<ng-template ngx-datatable-header-template>
+					<span>Jumlah</span>
+				</ng-template>
+				<ng-template let-row="row" ngx-datatable-cell-template>
+					{{ row[8] }}
+				</ng-template>
+			</ngx-datatable-column>
+
+		</ngx-datatable>
+	</div>
+</div>
+		</div>
+	</div>
+</div>
+<br>
+<br>
+<!-- <div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="chart">
+						<div class="amchart" id="chartdivpro"></div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="table" id="reportTable" [hidden]="isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>TAHUN</th>
+				<th>BULAN</th>
+				<th>MINGGU</th>
+				<th>AGENSI</th>
+				<th>PAKEJ 1</th>
+				<th>PAKEJ 2</th>
+				<th>PAKEJ 3</th>
+				<th>PAKEJ 4</th>
+				<th>JUMLAH</th>	
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row[0]}}  
+				</td>
+				<td>
+					{{row[1]}}  
+				</td>
+				<td>
+					{{row[2]}}
+				</td>
+				<td>
+					{{row[3]}}
+				</td>
+				<td>
+					{{row[4]}}
+				</td>
+				<td>
+					{{row[5]}}
+				</td>
+				<td>
+					{{row[6]}}
+				</td>
+				<td>
+					{{row[7]}}
+				</td>
+				<td>
+					{{row[8]}}
+				</td>		
+					
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="table" id="reportTable" #reportTable *ngIf="!isHidden">
+	<table class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>TAHUN</th>
+				<th>BULAN</th>
+				<th>MINGGU</th>
+				<th>AGENSI</th>
+				<th>PAKEJ 1</th>
+				<th>PAKEJ 2</th>
+				<th>PAKEJ 3</th>
+				<th>PAKEJ 4</th>
+				<th>JUMLAH</th>	
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of tableTemp">
+				<td>
+					{{row[0]}}  
+				</td>
+				<td>
+					{{row[1]}}  
+				</td>
+				<td>
+					{{row[2]}}
+				</td>
+				<td>
+					{{row[3]}}
+				</td>
+				<td>
+					{{row[4]}}
+				</td>
+				<td>
+					{{row[5]}}
+				</td>
+				<td>
+					{{row[6]}}
+				</td>
+				<td>
+					{{row[7]}}
+				</td>
+				<td>
+					{{row[8]}}
+				</td>				
+			</tr>
+		</tbody>
+	</table>
+</div>
