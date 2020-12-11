@@ -141,7 +141,7 @@ export class PersonalInvolvementComponent implements OnInit {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
+  filterTable($event, tests) {
     let val = $event.target.value.toLowerCase();
     this.tableTemp = this.tableRows.filter(function(d) {
       return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
