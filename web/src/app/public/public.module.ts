@@ -23,6 +23,7 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { SsoComponent } from './sso/sso.component';
 import { RefundComponent } from './refund/refund.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { RefundComponent } from './refund/refund.component';
     FormsModule,
     ReactiveFormsModule,
     TmNgOdometerModule,
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
     CarouselModule.forRoot(),
@@ -52,3 +54,4 @@ import { RefundComponent } from './refund/refund.component';
   ]
 })
 export class PublicModule { }
+  // Aduh

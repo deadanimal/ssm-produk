@@ -14,6 +14,7 @@ import { ProductManagementComponent } from './product/product-management/product
 import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
 import { FocManagementComponent } from './product/foc-management/foc-management.component';
 import { FeeManagementComponent } from './product/fee-management/fee-management.component';
+import { PersonalInvolvementComponent} from './product/personal-involvement/personal-involvement.component';
 
 import { StatisticsComponent } from './product/statistics/statistics.component';
 import { CbidAuditTrailComponent } from './cbid/audit-trail/audit-trail.component';
@@ -36,7 +37,8 @@ import { RefundDropdownsComponent } from './finance/refund-dropdowns/refund-drop
 import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.component';
 import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
-
+import { ProductReportComponent } from './product/product-report/product-report.component';
+  // Aduh
 export const AdminRoutes: Routes = [
   {
     path: '',
@@ -118,6 +120,14 @@ export const AdminRoutes: Routes = [
           {
             path: 'fee-management',
             component: FeeManagementComponent
+          },
+          {
+            path: 'personal-involvement',
+            component: PersonalInvolvementComponent
+          },
+          {
+            path: 'report',
+            component: ProductReportComponent
           }
         ],
       },

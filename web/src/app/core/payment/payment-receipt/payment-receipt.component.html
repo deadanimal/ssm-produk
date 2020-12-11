@@ -1,7 +1,7 @@
 <div class="wrapper">
 	<div class="container pt-9">
 		<div class="row">
-			<div class="col-md-10 w-100">
+			<div class="col-md-12 w-100">
 				<div class="card card-invoice" id="receipt" #receipt>
 					<div class="card-header text-center">
 						
@@ -164,7 +164,7 @@
 									<td class="text-center text-white" style="width: 10% !important;">
 										Unit Price (RM)
 									</td>
-									<td class="text-center text-white" style="width: 10% !important;">
+									<td class="text-center text-white text-right" style="width: 10% !important;">
 										Total (RM)
 									</td>
 								</tr>
@@ -177,23 +177,24 @@
 									<td class="text-left" style="word-break:break-all !important;">
 										
 										<div *ngIf="item?.entity">
-											<span *ngIf="item?.entity == 'CP'">
+											{{item?.entity.name}} <br />
+											<span *ngIf="item?.entity.type_of_entity == 'CP'">
 												{{item?.entity.company_number_new}} 
-												({{item?.entity.company_number}}-{{item?.entity.check_digit}}) / 
+												({{item?.entity.company_number}}-{{item?.entity.check_digit}})
 											</span>
 
-											<span *ngIf="item?.entity == 'BS'">
+											<span *ngIf="item?.entity.type_of_entity == 'BS'">
 												{{item?.entity.registration_number_new}} 
-												({{item?.entity.registration_number}}-{{item?.entity.check_digit}}) / 
+												({{item?.entity.registration_number}}-{{item?.entity.check_digit}})
 											</span>
 
-											<span *ngIf="item?.entity == 'AD'">
-												{{item?.entity.audit_firm_number}} / 
+											<span *ngIf="item?.entity.type_of_entity == 'AD'">
+												{{item?.entity.audit_firm_number}}
 											</span>
 										</div>
-
+  <!-- // Aduh -->
 										<span *ngIf="item?.entity">
-											{{item?.entity.name}}
+											
 										</span>
 
 										<span *ngIf="item.product_search_criteria">
@@ -254,7 +255,7 @@
 											{{item.service_request?.service.fee/100 | number: '1.2-2'}}
 										</span>
 									</td>
-									<td class="text-left">
+									<td class="text-right">
 										<span *ngIf="item?.product">
 											{{item?.product.fee/100 | number: '1.2-2'}}
 										</span>
@@ -271,7 +272,7 @@
 								<tr>
 									<th colspan="4"></th>
 									<th class="text-left h4">Total</th>
-									<th class="h4 text-left">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
+									<th class="h4 text-right">{{cart.total_price_before_tax/100 | number: '1.2-2'}}</th>
 								</tr>
 							</tfoot>
 						</table>

@@ -163,16 +163,18 @@ export class ProfileComponent implements OnInit {
         }
 
         let orders = []
-
+        // Aduh
         for (let cart of carts) {
-          for (let huhu of cart['cart_item']) {
-            if (huhu['product']) {
-              console.log(huhu)
-              orders.push(huhu)
-            } 
+          let cart_modified_date = cart['created_date']
+          for (let cart_item of cart['cart_item']) {
+            if (cart_item['product']) {
+              cart_item['created_date'] = cart_modified_date
+              console.log(cart_item)
+              orders.push(cart_item)
+            }
           }
         }
-      
+
         this.orders = orders;
         // console.log(this.orders)
         this.tableOrderRows = this.orders
@@ -180,7 +182,7 @@ export class ProfileComponent implements OnInit {
           (item) => {
             item.created_date = moment(item.created_date).format('DD/MM/YYYY hh:mm:ss')
           }
-        )        
+        )
       },
       () => {
         this.loadingBar.useRef('http').complete()
@@ -189,14 +191,14 @@ export class ProfileComponent implements OnInit {
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
-            id_index: key+1
+            id_index: key + 1
           }
         })
 
         this.tableOrderTemp = this.tableOrderRows.map((prop, key) => {
           return {
             ...prop,
-            id_index: key+1
+            id_index: key + 1
           }
         })
         // console.log(this.tableOrderTemp)        
@@ -224,7 +226,7 @@ export class ProfileComponent implements OnInit {
         // console.log(this.stateCodes)
       }
     )
-    
+
     this.fileService.get('company-origins.json').subscribe(
       (res) => {
         this.companyOrigins = res
@@ -242,13 +244,13 @@ export class ProfileComponent implements OnInit {
 
   initForm() {
     this.addressForm = this.fb.group({
-      address1: new FormControl({value: 'C-3A-12', disabled: true}, Validators.required),
-      address2: new FormControl({value: 'Metropolitan Square (Center Wing)', disabled: true}, Validators.required),
-      address3: new FormControl({value: 'Jalan PJU 8/1', disabled: true}, Validators.required),
-      postcode: new FormControl({value: '42800', disabled: true}, Validators.required),
-      city: new FormControl({value: 'Petaling Jaya', disabled: true}, Validators.required),
-      state: new FormControl({value: 'Selangor', disabled: true}, Validators.required),
-      country: new FormControl({value: 'Malaysia', disabled: true}, Validators.required)
+      address1: new FormControl({ value: 'C-3A-12', disabled: true }, Validators.required),
+      address2: new FormControl({ value: 'Metropolitan Square (Center Wing)', disabled: true }, Validators.required),
+      address3: new FormControl({ value: 'Jalan PJU 8/1', disabled: true }, Validators.required),
+      postcode: new FormControl({ value: '42800', disabled: true }, Validators.required),
+      city: new FormControl({ value: 'Petaling Jaya', disabled: true }, Validators.required),
+      state: new FormControl({ value: 'Selangor', disabled: true }, Validators.required),
+      country: new FormControl({ value: 'Malaysia', disabled: true }, Validators.required)
     })
   }
 
@@ -269,21 +271,27 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  filterTableTransactions($event, type) {
+  filterTableTransactions($event, type, task) {
     let val = $event.target.value.toLowerCase();
     if (type == 'invoice') {
       // console.log(val)
-      this.tableTemp = this.tableRows.filter(function(d, key) {
+      this.tableTemp = this.tableRows.filter(function (d, key) {
         // console.log(d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val)
+        console.log(this.tableTemp)
         return d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val;
       });
     }
     else if (type == 'date') {
-      // console.log(val)
+      console.log('val = ', val)
       let newVal = val
       if (val) {
-        newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        if (task == 'start') {
+          newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        } else {
+          newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        }
       }
+      console.log(newVal)
       this.tableTemp = this.tableRows.filter((d: any, key) => {
         // console.log(d)
         return d.payment_gateway_update_date.toLowerCase().indexOf(newVal) !== -1 || !newVal;
@@ -304,25 +312,25 @@ export class ProfileComponent implements OnInit {
     if (path == 'account') {
       this.accountTabActive = true;
       this.transactionTabActive = false;
-      this.orderTabActive = false;      
-    } 
+      this.orderTabActive = false;
+    }
     else if (path == 'transaction') {
       this.accountTabActive = false;
       this.transactionTabActive = true;
-      this.orderTabActive = false;     
+      this.orderTabActive = false;
     }
     else if (path == 'order') {
       this.accountTabActive = false;
       this.transactionTabActive = false;
-      this.orderTabActive = true;     
+      this.orderTabActive = true;
     }
-    else  {
+    else {
       this.accountTabActive = true;
       this.transactionTabActive = false;
-      this.orderTabActive = false;    
+      this.orderTabActive = false;
     }
   }
-  
+
   initRequest(selected) {
     let lang
     if (selected['product']) {
@@ -470,7 +478,7 @@ export class ProfileComponent implements OnInit {
           window.open(url, '_blank');
         }
       },
-      () => {}
+      () => { }
     )
   }
 
@@ -523,7 +531,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  
+
   openModal(modalRef: TemplateRef<any>, row) {
     let tempIncorpFrom = moment(row['product_search_criteria']['incorp_date_from']).format('DD/MM/YYYY')
     let tempIncorpTo = moment(row['product_search_criteria']['incorp_date_to']).format('DD/MM/YYYY')
@@ -586,5 +594,5 @@ export class ProfileComponent implements OnInit {
     this.modal.hide();
     delete this.selectedCriteria
   }
-  
+
 }

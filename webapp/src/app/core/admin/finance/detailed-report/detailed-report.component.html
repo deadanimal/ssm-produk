@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-
+<!--   // Aduh -->
 <div class="container-fluid mt--6">
    <form [formGroup]="searchForm">
         <div class="row">
@@ -47,14 +47,70 @@
                 </div>
             </div>
 
-            <!-- <div class="col">
+            <div class="col-12">
                 <div class="form-group">
                     <label class="form-control-label">Filter Selection</label>
-                    <select class="form-control custom-select">
-                        <option hidden selected>Please select</option>
-                    </select>
+                    <ng-select [multiple]="true">
+                        <ng-option disabled>Order Information</ng-option>
+                        <ng-option>Name</ng-option>
+                        <ng-option>Email</ng-option>
+                        <ng-option>Phone No.</ng-option>
+                        <ng-option>Address 1</ng-option>
+                        <ng-option>Address 2</ng-option>
+                        <ng-option>Address 3</ng-option>
+                        <ng-option>Postcode</ng-option>
+                        <ng-option>City</ng-option>
+                        <ng-option>State</ng-option>
+                        <ng-option>Country</ng-option>
+                        <ng-option>Product Type</ng-option>
+                        <ng-option>Product Code</ng-option>
+                        <ng-option>Entity Name</ng-option>
+                        <ng-option>Entity No.</ng-option>
+                        <ng-option>Product Fee</ng-option>
+                        <ng-option>Discount / Incentive</ng-option>
+                        <ng-option>Tax Amount</ng-option>
+                        <ng-option>CA Charge</ng-option>
+                        <ng-option>Gross Amount</ng-option>
+
+                        <ng-option disabled>Payment Information</ng-option>
+                        <ng-option>Payment Transaction ID</ng-option>
+                        <ng-option>Transaction Date Time</ng-option>
+                        <ng-option>Transaction </ng-option>
+
+                        <ng-option disabled>PG Information</ng-option>
+                        <ng-option>PG Transaction ID</ng-option>
+                        <ng-option>Transaction Date Time</ng-option>
+                        <ng-option>Payment Mode</ng-option>
+                        <ng-option>Net Amount</ng-option>
+                        <ng-option>Charge Amount</ng-option>
+                        <ng-option>Transaction Status</ng-option>
+
+                        <ng-option disabled>Receipt</ng-option>
+                        <ng-option>Receipt No.</ng-option>
+                        <ng-option>Receipt Date Time</ng-option>
+                        
+                        <ng-option disabled>KJAKP</ng-option>
+                        <ng-option>Ministry Name</ng-option>
+                        <ng-option>Department / Agency Name</ng-option>
+                        <ng-option>Division / Section / Unit Name</ng-option>
+                        <ng-option>Address 1</ng-option>
+                        <ng-option>Address 2</ng-option>
+                        <ng-option>Address 3</ng-option>
+                        <ng-option>Postcode</ng-option>
+                        <ng-option>City</ng-option>
+                        <ng-option>State</ng-option>
+                        <ng-option>KJAKP Email</ng-option>
+                        <ng-option>KJAKP Full Name</ng-option>
+                        <ng-option>KJAKP Position and Grade</ng-option>
+                        <ng-option>KJAKP Tel No.</ng-option>
+                        <ng-option>KJAKP Package</ng-option>
+                        <ng-option>HOD Name</ng-option>
+                        <ng-option>HOD Email</ng-option>
+                        <ng-option>HOD Position</ng-option>
+                        <ng-option>Total Document</ng-option>
+                    </ng-select>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div class="row mb-2">
             <div class="col">

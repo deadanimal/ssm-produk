@@ -57,9 +57,9 @@ export class ProductSearchComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private router: Router,
     private spinner: NgxSpinnerService,
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   query($event) {
     // this.spinner.show()
@@ -83,17 +83,17 @@ export class ProductSearchComponent implements OnInit {
           this.error()
           this.isEmpty = true
           this.isGotResult = false
-          
+
         },
         () => {
           this.tableTemp = this.tableRows.map((prop, key) => {
             return {
               ...prop,
-              id_index: key+1
+              id_index: key + 1
             };
           });
           // console.log(this.tableTemp.length)
-  
+
           if (this.tableTemp.length == 0) {
             this.isEmpty = true
             this.isGotResult = false
@@ -121,17 +121,17 @@ export class ProductSearchComponent implements OnInit {
       this.tableTemp = this.tableRows
     }
     else if (this.searchEntityType == 'AD') {
-      this.tableTemp = this.tableRows.filter(function(d) {
+      this.tableTemp = this.tableRows.filter(function (d) {
         return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'BS') {
-      this.tableTemp = this.tableRows.filter(function(d) {
+      this.tableTemp = this.tableRows.filter(function (d) {
         return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
     else if (this.searchEntityType == 'CP') {
-      this.tableTemp = this.tableRows.filter(function(d) {
+      this.tableTemp = this.tableRows.filter(function (d) {
         return d.type_of_entity.toLowerCase().indexOf(val) !== -1 || !val;
       })
     }
@@ -159,7 +159,7 @@ export class ProductSearchComponent implements OnInit {
       'registration_no': registration_no,
       'entity_type': 'ROC'
     }
-    
+
     this.loadingBar.useRef('http').start()
     this.productService.checkAvailability(availabilityBody).subscribe(
       (res) => {
@@ -175,7 +175,7 @@ export class ProductSearchComponent implements OnInit {
       }
     )
 
-    
+
   }
 
   navigatePage(path: string) {

@@ -71,7 +71,7 @@ export class EnquiryEgovComponent implements OnInit {
   initForm() {
     this.enquiryForm = this.fb.group({
       description: new FormControl(null, Validators.required),
-      ticket_type: new FormControl('GN', Validators.required),
+      ticket_type: new FormControl('EG', Validators.required),
       topic: new FormControl(null, Validators.required),
       subject: new FormControl(null, Validators.required),
       user: new FormControl(null, Validators.required),
@@ -81,11 +81,12 @@ export class EnquiryEgovComponent implements OnInit {
       egov_package: new FormControl(null)
     })
     
+    
     while(!this.user) {
       if (this.userService.currentUser != undefined) {
         this.user = this.userService.currentUser
         this.enquiryForm.controls['user'].patchValue(this.user['id'])
-        this.enquiryForm.controls['phone_number'].patchValue(this.user['phone_number'])
+        //this.enquiryForm.controls['phone_number'].patchValue(this.user['phone_number'])
         this.enquiryForm.controls['egov_package'].patchValue(this.user['egov_package'])
         console.log('Gotcha')
       }
@@ -102,7 +103,7 @@ export class EnquiryEgovComponent implements OnInit {
 
     if (
       file_['size'] > 2000000 ||
-      this.files.length > 5
+      this.files.length > 4
     ) {
       let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
       this.errorAlert(task)

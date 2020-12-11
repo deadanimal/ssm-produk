@@ -28,7 +28,7 @@
     "@fullcalendar/core": "4.4.0",
     "@fullcalendar/daygrid": "4.4.0",
     "@fullcalendar/interaction": "4.4.0",
-    "@ng-select/ng-select": "^5.0.8",
+    "@ng-select/ng-select": "^4.0.4",
     "@ngx-loading-bar/core": "^4.2.0",
     "@swimlane/ngx-datatable": "16.0.3",
     "@types/leaflet.markercluster": "^1.4.2",
@@ -89,4 +89,4 @@
     "tslint": "6.0.0",
     "typescript": "3.7.5"
   }
-}
+} 

@@ -1,3 +1,4 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <div class="header pb-6">
     <div class="container-fluid">
       <div class="header-body">
@@ -35,7 +36,41 @@
           <div class="card-header bg-secondary">
             <h3 class="m-0">F.O.C Account List</h3>
           </div>
-          <div class="dataTables_wrapper py-4">
+
+          <div class="row text-right pt-4 pr-6">
+            <div class="col">
+                <button
+                    class="btn btn-ssm rounded-pill"
+                >
+                    Add New
+                </button>
+            </div>
+          </div>
+
+            <div class="row px-3 pt-2">
+              <div class="col-sm-12 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">ID Type</label>
+                  <select class="form-control form-control-sm" (change)="filterTable($event, 'ID')">
+                    <option value="IC">NRIC</option>
+                    <option value="PP">Passport</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Status</label>
+                  <select class="form-control form-control-sm" (change)="filterTable($event, 'status')">
+                    <option value="EB">Enabled</option>
+                    <option value="DB">Disabled</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+          <div class="dataTables_wrapper pb-4">
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="dataTables_length" id="datatable_length">
@@ -68,74 +103,134 @@
               [limit]="tableEntries != -1 ? tableEntries : undefined"
               [rows]="tableTemp"
               [scrollbarH]="true"
-              (activate)="onActivate($event)"
             >
-              <ngx-datatable-column name="No">
-                <ng-template
-                  let-rowIndex="rowIndex"
-                  let-row="row"
-                  ngx-datatable-cell-template
-                >
-                  <strong>{{ rowIndex + 1 }}</strong>
+              <ngx-datatable-column 
+                [width]="80"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="rowIndex"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>No.</span>
                 </ng-template>
+
+                  <ng-template
+                    let-rowIndex="rowIndex"
+                    let-row="row"
+                    ngx-datatable-cell-template
+                  >
+                    <strong>{{ rowIndex + 1 }}</strong>
+                  </ng-template>
               </ngx-datatable-column>
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="name"
+              >
                 <ng-template ngx-datatable-header-template>
-                  <span>Product</span>
+                  <span>Full Name</span>
                 </ng-template>
                 
                 <ng-template let-row="row" ngx-datatable-cell-template>                
-                    name
+                    Ali bin Abu
                 </ng-template>
               </ngx-datatable-column>
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="true"
+                [resizeable]="false"
+                prop="id_type"
+              >
                 <ng-template ngx-datatable-header-template>
-                  <span>Email</span>
+                  <span>ID Type</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  -email
+                  NRIC
                 </ng-template>
               </ngx-datatable-column>            
   
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="id_number"
+              >
                 <ng-template ngx-datatable-header-template>
-                  <span>Section</span>
+                  <span>ID Number</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  -section
+                  911201-14-4225
                 </ng-template>
               </ngx-datatable-column> 
-  
-              <ngx-datatable-column>
+
+              <ngx-datatable-column
+                  [sortable]="true"
+                  [resizeable]="false"
+                  prop="reason"
+                >
+                  <ng-template ngx-datatable-header-template>
+                    <span>Reason</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    -Reason
+                  </ng-template>
+              </ngx-datatable-column>  
+
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="approved_date"
+              >
                 <ng-template ngx-datatable-header-template>
-                  <span>Department</span>
+                  <span>Approved Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  -Department
+                  01/12/2020
                 </ng-template>
               </ngx-datatable-column> 
-  
-              <ngx-datatable-column>
+              
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="disabled_date"
+              >
                 <ng-template ngx-datatable-header-template>
-                  <span>Reason</span>
+                  <span>Disabled Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  -Reason
+                  01/12/2022
+                </ng-template>
+              </ngx-datatable-column> 
+
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Attachment</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span>
+                    <a href="">View</a>
+                  </span>
                 </ng-template>
               </ngx-datatable-column>  
-              
+
               <ngx-datatable-column>
                 <ng-template ngx-datatable-header-template>
                   <span>Status</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    N/A
+                  <span class="badge badge-success">Active</span>
+                  <!-- <span *ngIf="row.ticket_status == 'EB'">Closed</span> 
+                  <span *ngIf="row.ticket_status == 'DB'">In Progress</span>  -->
                 </ng-template>
               </ngx-datatable-column>  
               
-              <ngx-datatable-column>
+              <ngx-datatable-column
+                [sortable]="false"
+              >
                 <ng-template ngx-datatable-header-template>
                   <span>Action</span>
                 </ng-template>

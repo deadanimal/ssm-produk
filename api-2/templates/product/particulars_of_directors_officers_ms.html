@@ -354,7 +354,7 @@
                     {% for officer in data.current %}
                         {% if forloop.counter < 6 %}
                         <tr id="row">
-                            <td><p id="secondary">
+                            <td><p id="secondary" style="padding-bottom: 10px !important;">
                                 {{ officer.name | upper }}<br>
                                 {{ officer.address1 }}<br>
                                 {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}
@@ -407,7 +407,7 @@
                         {% for officer in data.current %}
                             {% if forloop.counter > 5 and forloop.counter < 11 %}
                                 <tr id="row">
-                                    <td><p id="secondary">
+                                    <td><p id="secondary" style="padding-bottom: 10px !important;">
                                         {{ officer.name | upper }}<br>
                                         {{ officer.address1 }}<br>
                                         {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}
@@ -462,7 +462,7 @@
                     {% for officer in data.previous %}                        
                         {% if forloop.counter < 6 %}
                         <tr id="row">
-                            <td><p id="secondary">
+                            <td><p id="secondary" style="padding-bottom: 10px !important;">
                                 {{ officer.name | upper }}<br>
                                 {{ officer.address1 }}<br>
                                 {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}
@@ -528,7 +528,7 @@
                         {% for officer in data.previous %}                        
                             {% if forloop.counter > 5 and forloop.counter < 11 %}
                             <tr id="row">
-                                <td><p id="secondary">
+                                <td><p id="secondary" style="padding-bottom: 10px !important;">
                                     {{ officer.name | upper }}<br>
                                     {{ officer.address1 }}<br>
                                     {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}

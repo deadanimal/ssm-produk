@@ -38,7 +38,7 @@
                 font-size: 15pt;
             }
             .default-template {
-                color: #333;
+                color: rgb(15, 15, 15);
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 13pt;
                 padding-left: 2.5rem !important;
@@ -196,29 +196,22 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">{{data.incorp_date }}</p></td>
                     </tr>
+                    {% if data.company_info.registrationDate %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">REGISTRATION DATE</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">{{data.company_info.registrationDate }}</p></td>
+                        </tr>
+                    {% endif %}
                     <tr style="height:40px;">
                         <td><p id="secondary">TYPE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">
-                            {% if 'B' in data.company_info.companyType %}
-                                LIMITED BY SHARE AND GUARANTEE
+                            {% if data.company_info.companyType %}
+                                {{data.company_info.companyType}} <br>
                             {% endif %}
-                            {% if 'G' in data.company_info.companyType %}
-                                LIMITED BY GUARANTEE
-                            {% endif %}
-                            {% if 'S' in data.company_info.companyType %}
-                                LIMITED BY SHARES
-                            {% endif %}
-                            {% if 'U' in data.company_info.companyType %}
-                                UNLIMITED
-                            {% endif %}
-                            {% if 'R' in data.company_info.companyStatus %}
-                            <br>
-                                PRIVATE LIMITED
-                            {% endif %}
-                            {% if 'U' in data.company_info.companyStatus %}
-                            <br>
-                                PUBLIC LIMITED
+                            {% if data.company_info.companyStatus %}
+                                {{data.company_info.companyStatus}}
                             {% endif %}
                         </p></td>
                     </tr>
@@ -226,36 +219,59 @@
                         <td><p id="secondary">STATUS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">
-                            {% if data.company_info.wupType %}
-                                {{data.company_info.wupType}}
+                            {% if data.company_info.statusOfCompany %}
+                                {{data.company_info.statusOfCompany}}
                             {% else %}
-                                {% if 'B' in data.company_info.statusOfCompany %}
-                                    DISSOLVED CONVERSION TO LLP
-                                {% endif %}
-                                {% if 'C' in data.company_info.statusOfCompany %}
-                                    CEASED BUSINESS
-                                {% endif %}
-                                {% if 'D' in data.company_info.statusOfCompany %}
-                                    DISSOLVED
-                                {% endif %}
-                                {% if 'E' in data.company_info.statusOfCompany %}
-                                    EXISTING
-                                {% endif %}
-                                {% if 'R' in data.company_info.statusOfCompany %}
-                                    REMOVED
-                                {% endif %}
-                                {% if 'W' in data.company_info.statusOfCompany %}
-                                    WINDING UP
-                                {% endif %}
-                                {% if 'X' in data.company_info.statusOfCompany %}
-                                    NULL AND VOID BY COURT ORDER
-                                {% endif %}
-                                {% if 'Y' in data.company_info.statusOfCompany %}
-                                    STRUCK-OFF & WINDING-UP VIA COURT ORDER
-                                {% endif %}
+                                NIL
                             {% endif %}
                         </p></td>
                     </tr>
+
+                    {% if data.company_info.llpName %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">LLP NAME</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">
+                                {% if data.company_info.llpName %}
+                                    {{data.company_info.llpName}}
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if data.company_info.llpNo %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">REGISTRATION NO.</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">
+                                {% if data.company_info.llpNo %}
+                                    {{data.company_info.llpNo}}
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if data.company_info.llpconvertDate %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">CONVERSION DATE</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">
+                                {% if data.company_info.llpconvertDate %}
+                                    {{data.company_info.llpconvertDate}}
+                                {% else %}
+                                    NIL
+                                {% endif %}
+                                </p>
+                            </td>
+                        </tr>
+                    {% endif %}
+
                     <tr style="height:20px;">
                         <td><p id="secondary">REGISTERED ADDRESS</p></td>
                         <td><p id="secondary">:</p></td>
@@ -377,7 +393,7 @@
                         <th style="width:25%;" id="head-zero"></th> 
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">TOTAL ISSUED (RM) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
+                        <td><p id="secondary">TOTAL ISSUED ({{data.company_info.currency}}) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -518,14 +534,14 @@
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr>
-                        <th style="width:38%; border: 0;"><p id="secondary">NAME / ADDRESS</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">IC / PASSPORT</p></th>
-                        <th style="width:20%; border: 0;"><p id="secondary">DESIGNATION</p></th>
-                        <th style="width:22%; border: 0;"><p id="secondary">DATE OF APPOINTMENT</p></th>
+                        <th style="width:38%" id="head-zero"><p id="secondary">NAME / ADDRESS</p></th>
+                        <th style="width:20%" id="head-zero"><p id="secondary">IC / PASSPORT</p></th>
+                        <th style="width:20%" id="head-zero"><p id="secondary">DESIGNATION</p></th>
+                        <th style="width:22%" id="head-zero"><p id="secondary">DATE OF APPOINTMENT</p></th>
                     </tr>
                     {% for officer in data.officer_info %}
                     <tr style="height:20px;" class="mt-3">
-                        <td><p id="secondary">
+                        <td><p id="secondary" style="padding-bottom: 10px !important;">
                             {{ officer.name | upper }}<br>
                             {{ officer.address1 }}<br>
                             {% if officer.address2 %}{{ officer.address2 }}<br>{% endif %}
@@ -542,7 +558,44 @@
                                 NIL
                             {% endif %}
                         </p></td>
-                    </tr>    
+                    </tr>   
+                    {% if forloop.counter|divisibleby:5 and data.officer_info|length > 5 %}
+                            </table>
+                        </div>
+
+                        <h4 class="font-weight-bold text-center pg-break"><u> DIRECTORS / OFFICERS </u></h4>
+
+                        <div class="table-responsive">
+                            <table class="table text-left" >
+                                <tr>
+                                    <th style="width:30%;" id="head-zero"></th>
+                                    <th style="width:1%;" id="head-zero"></th>
+                                    <th style="width:69%;" id="head-zero"></th>
+                                </tr>
+                                <tr style="height:8px;">
+                                    <td><p id="secondary">NAME</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2">{{ data.company_info.companyName }}</p></td>
+                                </tr>
+                                <tr style="height:8px;">
+                                    <td><p id="secondary">REGISTRATION NO.:</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
+                                </tr>                    
+                            </table>
+                        </div>         
+                        
+                        <hr class="my-3" />
+
+                        <div class="table-responsive">
+                            <table class="table text-left borderless">
+                                <tr id="zero">
+                                    <th style="width:38%;" id="head-zero"><p id="secondary">NAME / ADDRESS</p></th>
+                                    <th style="width:20%;" id="head-zero"><p id="secondary">IC / PASSPORT</p></th>
+                                    <th style="width:20%;" id="head-zero"><p id="secondary">DESIGNATION</p></th>
+                                    <th style="width:22%;" id="head-zero"><p id="secondary">DATE OF APPOINTMENT</p></th>
+                                </tr>
+                        {% endif %} 
                     {% endfor %}
                 </table>
             </div>    
@@ -571,30 +624,68 @@
             
             <hr class="my-3" />
             
+            {% if data.shareholders_data|length == 0 %}
+                <h2 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 16pt;">NO INFORMATION</h2>
+            {% else %}
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr id="zero">
                         <th style="width:33%;" id="head-zero"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
                         <th style="width:40%;" id="head-zero"><p id="secondary">NAME/COMPANY NAME</p></th>
-                        <th style="width:27%;" id="head-zero"><p id="secondary" class="text-right">SHARE</p></th>
+                        <th style="width:27%;" id="head-zero"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
                     </tr>
                     {% for shareholder in data.shareholders_data %}
-                        <tr style="height:20px;">
-                            <td>
+                        <tr style="height:40px;">
+                            <td><p id="secondary">
                                 {% if shareholder.idType != 'C' %}
-                                    <p id="secondary">{{ shareholder.id }}</p>
+                                    {{ shareholder.id }}
                                 {% endif %}
                                 {% if shareholder.idType == 'C' %}
-                                    <p id="secondary"> {{ shareholder.companyNo }} ({{ shareholder.id }})</p>
+                                    {{ shareholder.companyNo }} ({{ shareholder.id }})
                                 {% endif %}
-                            </td>
-                            <td><p id="secondary">{{ shareholder.name }}</p></td>
+                            </p></td>
+                            <td><p id="secondary">{{ shareholder.name | upper }}</p></td>
                             <td><p id="secondary" class="text-right">{{ shareholder.share | floatformat:0 | intcomma }}</p></td>
-                        </tr>    
+                        </tr>
+                        {% if forloop.counter|divisibleby:15 and data.shareholders_data|length > 15 %}
+                            </table>
+                        </div>
+                        <h4 class="font-weight-bold text-center pg-break"><u> SHAREHOLDERS / MEMBERS </u></h4>
+
+                        <div class="table-responsive">
+                            <table class="table text-left" >
+                                <tr>
+                                    <th style="width:30%; border: 0;"></th>
+                                    <th style="width:1%; border: 0;"></th>
+                                    <th style="width:69%; border: 0;"></th>
+                                </tr>
+                                <tr style="height:20px;">
+                                    <td><p id="secondary">NAME</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2">{{ data.company_info.companyName }}</p></td>
+                                </tr>
+                                <tr style="height:20px;">
+                                    <td><p id="secondary">REGISTRATION NO.:</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2"><b>{{data.compNoNew}} ({{data.compNoOld }})</b></p></td>
+                                </tr>                    
+                            </table>
+                        </div>
+                        
+                        <hr class="my-3" />
+
+                        <div class="table-responsive">
+                            <table class="table text-left borderless">
+                                <tr id="zero">
+                                    <th style="width:33%;" id="head-zero"><p id="secondary">IC/PASSPORT/REGISTRATION NO.</p></th>
+                                    <th style="width:40%;" id="head-zero"><p id="secondary">NAME/COMPANY NAME</p></th>
+                                    <th style="width:27%;" id="head-zero"><p id="secondary" class="text-right">TOTAL OF SHARE</p></th>
+                                </tr>
+                        {% endif %}
                     {% endfor %}
                 </table>
             </div>    
-            
+            {% endif %}
             
             <h4 class="font-weight-bold text-center pg-break"><u> COMPANY CHARGES </u></h4>
 
@@ -627,49 +718,91 @@
                 <table class="table text-left borderless">
                     <tr id="zero">
                         <th style="width:5%;" id="head-zero"></th>
-                        <th style="width:25%;" id="head-zero"></th>
+                        <th style="width:44%;" id="head-zero"></th>
                         <th style="width:1%;" id="head-zero"></th>
-                        <th style="width:69%;" id="head-zero"></th>
+                        <th style="width:50%;" id="head-zero"></th>
                     </tr>
                     {% for charge in data.charges_info %}
-                        <tr style="height:10px;">
-                            <td><p id="secondary">{{ forloop.counter }}</p></td>
-                            <td><p id="secondary">CHARGE NUMBER</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary" class="pl-2">{{ charge.chargeNo }}</p></td>
+                        <tr style="height:1px;">
+                            <td><p style="margin-bottom: 2px !important;">{{ forloop.counter }}</p></td>
+                            <td><p style="margin-bottom: 2px !important;">CHARGE NUMBER</p></td>
+                            <td><p style="margin-bottom: 2px !important;">:</p></td>
+                            <td><p style="margin-bottom: 2px !important;" class="pl-2">{{ charge.chargeNo }}</p></td>
                         </tr>  
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">TOTAL OF CHARGE</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary" class="pl-2">{{ charge.chargeAmount | floatformat:2 | intcomma }}</p></td>
+                        <tr style="height:1px;">
+                            <td><p style="margin-bottom: 2px !important;"></p></td>
+                            <td><p style="margin-bottom: 2px !important;">TOTAL OF CHARGE</p></td>
+                            <td><p style="margin-bottom: 2px !important;">:</p></td>
+                            <td><p style="margin-bottom: 2px !important;" class="pl-2">
+                            {% if charge.chargeAmount != 0.00 %}
+                                {{ charge.chargeAmount | floatformat:2 | intcomma }}
+                            {% else %}
+                                {{charge.chargeMortgageTypeString}}
+                            {% endif %}
+                            </p></td>
                         </tr>         
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">DATE OF CREATION</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary" class="pl-2">{{ charge.chargeCreateDate }}</p></td>
+                        <tr style="height:1px;">
+                            <td><p id="secondary" style="margin-bottom: 2px !important;"></p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">DATE OF CREATION</p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">:</p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;" class="pl-2">{{ charge.chargeCreateDate }}</p></td>
                         </tr>                                                 
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">NAME OF CHARGEE</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary" class="pl-2">
+                        <tr style="height:1px;">
+                            <td><p id="secondary" style="margin-bottom: 2px !important;"></p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">NAME OF CHARGEE</p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">:</p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;" class="pl-2">
                                 {% if charge.chargeeName %}
                                     {{ charge.chargeeName }}
                                 {% endif%}
 
                                 {% if charge.chargeeName == None %}
-                                    NIL
+                                    {{charge.chargeeId}}
                                 {% endif%}
                             </p></td>
                         </tr>    
-                        <tr style="height:10px;">
-                            <td><p id="secondary"></p></td>
-                            <td><p id="secondary">CHARGE STATUS</p></td>
-                            <td><p id="secondary">:</p></td>
-                            <td><p id="secondary" class="pl-2">{{ charge.chargeStatus }}</p></td>
-                        </tr>                                                     
+                        <tr style="height:1px;">
+                            <td><p id="secondary" style="margin-bottom: 2px !important;"></p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">CHARGE STATUS</p></td>
+                            <td><p id="secondary" style="margin-bottom: 2px !important;">:</p></td>
+                            <td><p id="secondary" class="pl-2" style="margin-bottom: 10px !important;">{{ charge.chargeStatus }}</p></td>
+                        </tr>
+                        {% if forloop.counter|divisibleby:5 and data.charges_info|length > 5 %}
+                            </table>
+                        </div>    
+                        <h4 class="font-weight-bold text-center pg-break"><u> COMPANY CHARGES </u></h4>
+
+                        <div class="table-responsive">
+                            <table class="table text-left" >
+                                <tr>
+                                    <th style="width:30%; border: 0;"></th>
+                                    <th style="width:1%; border: 0;"></th>
+                                    <th style="width:69%; border: 0;"></th>
+                                </tr>
+                                <tr style="height:20px;">
+                                    <td><p id="secondary">NAME</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2">{{ data.company_info.companyName }}</p></td>
+                                </tr>
+                                <tr style="height:20px;">
+                                    <td><p id="secondary">REGISTRATION NO.</p></td>
+                                    <td><p id="secondary">:</p></td>
+                                    <td><p id="secondary" class="pl-2"><b>{{data.compNoNew}} ({{data.compNoOld }})</p></td>
+                                </tr>                    
+                            </table>
+                        </div>                  
+
+                        <hr class="my-3" />
+
+                        <div class="table-responsive">
+                            <table class="table text-left borderless">
+                                <tr id="zero">
+                                    <th style="width:5%;" id="head-zero"></th>
+                                    <th style="width:25%;" id="head-zero"></th>
+                                    <th style="width:1%;" id="head-zero"></th>
+                                    <th style="width:69%;" id="head-zero"></th>
+                                </tr>
+                        {% endif %}
                     {% endfor %}
                 </table>
             </div>            
@@ -713,7 +846,7 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">
                             {% if data.bs_data.auditor_name %}
-                                {{data.bs_data.auditor_name}} <b>({{data.bs_data.auditor_no}})</b>
+                                {{data.bs_data.auditor_name | upper}} <b>({{data.bs_data.auditor_no}})</b>
                             {% else %}
                                 NIL
                             {% endif %}
@@ -724,21 +857,21 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">
                             {% if data.bs_data.auditFirmAddress1 and data.bs_data.auditFirmAddress1 != 'NONE' %}
-                                {{data.bs_data.auditFirmAddress1}}<br>
+                                {{data.bs_data.auditFirmAddress1 | upper}}<br>
                             {% else %}
                                 NIL
                             {% endif %}
                             {% if data.bs_data.auditFirmAddress2 != None and data.bs_data.auditFirmAddress2 != 'NONE' %}
-                                {{ data.bs_data.auditFirmAddress2 }} <br>
+                                {{ data.bs_data.auditFirmAddress2 | upper }} <br>
                             {% endif %}
                             {% if data.bs_data.auditFirmAddress3 != None and data.bs_data.auditFirmAddress3 != 'NONE' %}
-                                {{ data.bs_data.auditFirmAddress3 }} <br>
+                                {{ data.bs_data.auditFirmAddress3 | upper }} <br>
                             {% endif %}
                             {% if data.bs_data.auditFirmPostcode != None and data.bs_data.auditFirmPostcode != 'NONE' %}
                                 {{ data.bs_data.auditFirmPostcode }} <br>
                             {% endif %}
                             {% if data.bs_data.auditFirmTown != None and data.bs_data.auditFirmPostcode != 'NONE' %}
-                                {{ data.bs_data.auditFirmTown }} <br>
+                                {{ data.bs_data.auditFirmTown | upper }} <br>
                             {% endif %}
                             {% if data.bs_data.auditFirmState != None and data.bs_data.auditFirmPostcode != 'NONE' %}
                                 {{ data.bs_data.auditFirmState }} <br>
@@ -781,7 +914,7 @@
                                 <b>{{data.bs_data.accrualAccType}}</b>
                             {% else %}
                                 NIL
-                            {% endif %}                                
+                            {% endif %}                        
                         </p></td>
                     </tr>
                     <tr style="height:8px;">
@@ -797,16 +930,26 @@
                     </tr>
                         
                     <tr style="height:4px;">
-                        <td colspan="3"><p id="secondary"><b>BALANCE SHEET ITEMS</b></p></td>
+                        <td><p id="secondary"><b>BALANCE SHEET ITEMS</b></p></td>
+                        <td></td>
+                        <td></td>
                     </tr> 
                     <tr style="height:4px;">
                         <td><p id="secondary">NON-CURRENT ASSETS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.bs_data.nonCurrAsset and data.bs_data.nonCurrAsset != 'NONE' %}
-                                {{data.bs_data.nonCurrAsset | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% if data.company_info.localforeignCompany == 'L' %}
+                                {% if data.bs_data.nonCurrAsset %}
+                                    {{data.bs_data.nonCurrAsset | floatformat:2 | intcomma }}
+                                {% elif not data.bs_data.auditor_name %}
+                                    NIL
+                                {% else %}
+                                    0.00
+                                {% endif %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>
                         <td></td>
@@ -815,21 +958,37 @@
                         <td><p id="secondary">CURRENT ASSETS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.bs_data.currentAsset and data.bs_data.currentAsset != 'NONE' %}
-                                {{data.bs_data.currentAsset | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% if data.company_info.localforeignCompany == 'L' %}
+                                {% if data.bs_data.currentAsset %}
+                                    {{data.bs_data.currentAsset | floatformat:2 | intcomma }}
+                                {% elif not data.bs_data.auditor_name %}
+                                    NIL
+                                {% else %}
+                                    0.00
+                                {% endif %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
-                            {% endif %}  
+                            {% else %}
+                                0.00
+                            {% endif %}   
                         </p></td>
                     </tr>
                     <tr style="height:4px;">
                         <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.bs_data.nonCurrentLiability and data.bs_data.nonCurrentLiability != 'NONE' %}
-                                {{data.bs_data.nonCurrentLiability | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% if data.company_info.localforeignCompany == 'L' %}
+                                {% if data.bs_data.nonCurrentLiability %}
+                                    {{data.bs_data.nonCurrentLiability | floatformat:2 | intcomma }}
+                                {% elif not data.bs_data.auditor_name %}
+                                    NIL
+                                {% else %}
+                                    0.00
+                                {% endif %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>
                     </tr>
@@ -837,32 +996,41 @@
                         <td><p id="secondary">CURRENT LIABILITIES</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.bs_data.liability and data.bs_data.liability != 'NONE' %}
+                            {% if data.bs_data.liability and data.company_info.localforeignCompany == 'L' %}
                                 {{data.bs_data.liability | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                                {% else %}
                                 NIL
                             {% endif %}  
                         </p></td>
                     </tr>
+
+                    {% if data.company_info.companyType != 'G' and data.company_info.localforeignCompany == 'L' %}
                     <tr style="height:4px;">
                         <td><p id="secondary">SHARE CAPITAL</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
                             {% if data.bs_data.paidUpCapital and data.bs_data.paidUpCapital != 'NONE' %}
                                 {{data.bs_data.paidUpCapital | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>
                     </tr>
+
                     <tr style="height:4px;">
                         <td><p id="secondary">RESERVE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
                             {% if data.bs_data.reserves and data.bs_data.reserves != 'NONE' %}
                                 {{data.bs_data.reserves | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>
                     </tr>
@@ -872,8 +1040,10 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.bs_data.inappropriateProfit and data.bs_data.inappropriateProfit != 'NONE' %}
                                 {{data.bs_data.inappropriateProfit | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>
                     </tr>
@@ -883,23 +1053,56 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.bs_data.minorityInterest and data.bs_data.minorityInterest != 'NONE' %}
                                 {{data.bs_data.minorityInterest | floatformat:2 | intcomma }}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                            {% else %}
+                                0.00
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    {% endif %}
+
+                    {% if data.company_info.companyType != 'G' and data.company_info.localforeignCompany == 'F' %}
+                    <tr style="height:4px;">
+                        <td><p id="secondary">HEAD OFFICE COUNT</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            NIL 
+                        </p></td>
+                    </tr>
+                    {% endif %}
+
+                    {% if data.company_info.companyType == 'G' %}
+                    <tr style="height:4px;">
+                        <td><p id="secondary">FUND AND RESERVE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.bs_data.fundReserve and data.bs_data.fundReserve != 'NONE' %}
+                                {{data.bs_data.fundReserve | floatformat:2 | intcomma }}
                             {% else %}
                                 NIL
                             {% endif %}  
                         </p></td>
                     </tr>
-                      
+                    {% endif %}
+
                     <tr style="height:4px;">
-                        <td colspan="3"><p id="secondary"><b>INCOME STATEMENT ITEMS</b></p></td>
-                    </tr> 
+                        <td><p id="secondary"><b>INCOME STATEMENT ITEMS</b></p></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    {% if data.company_info.companyType != 'G' and data.company_info.localforeignCompany == 'L' %}
                     <tr style="height:4px;">
                         <td><p id="secondary">REVENUE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
                             {% if data.pl_data.revenue and data.pl_data.revenue != 'NONE' %}
                                 {{data.pl_data.revenue | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>                         
                     </tr>
@@ -909,8 +1112,10 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.pl_data.profitBeforeTax and data.pl_data.profitBeforeTax != 'NONE' %}
                                 {{data.pl_data.profitBeforeTax | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>                       
                     </tr>
@@ -920,8 +1125,10 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.pl_data.profitAfterTax and data.pl_data.profitAfterTax != 'NONE' %}
                                 {{data.pl_data.profitAfterTax | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>                       
                     </tr>
@@ -931,8 +1138,10 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.pl_data.netDividend and data.pl_data.netDividend != 'NONE' %}
                                 {{data.pl_data.netDividend | floatformat:2 | intcomma }}
-                            {% else %}
+                            {% elif not data.bs_data.auditor_name %}
                                 NIL
+                            {% else %}
+                                0.00
                             {% endif %}  
                         </p></td>                 
                     </tr>
@@ -942,11 +1151,96 @@
                         <td><p id="secondary" class="text-right">
                             {% if data.pl_data.minorityInterest and data.pl_data.minorityInterest != 'NONE' %}
                                 {{data.pl_data.minorityInterest | floatformat:2 | intcomma }}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                            {% else %}
+                                0.00
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    {% endif %}
+
+                    {% if data.company_info.companyType != 'G' and data.company_info.localforeignCompany == 'F' %}
+                    <tr style="height:4px;">
+                        <td><p id="secondary">REVENUE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            NIL
+                        </p></td>
+                    </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">PROFIT/(LOSS) BEFORE TAX</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            NIL
+                        </p></td>
+                    </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">PROFIT/(LOSS) AFTER TAX</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            NIL
+                        </p></td>
+                    </tr>
+                    {% endif %}
+
+                    {% if data.company_info.companyType == 'G' %}
+                    <tr style="height:4px;">
+                        <td><p id="secondary">TOTAL INCOME</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.pl_data.totalIncome %}
+                                {{data.pl_data.totalIncome | floatformat:2 | intcomma }}
                             {% else %}
                                 NIL
                             {% endif %}  
                         </p></td>
                     </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">TOTAL EXPENDITURE</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.pl_data.totalExpenditure %}
+                                {{data.pl_data.totalExpenditure | floatformat:2 | intcomma }}
+                            {% else %}
+                                NIL
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">SURPLUS/(DEFICIT) BEFORE TAX</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.pl_data.surplusDeficitBeforeTax %}
+                                {{data.pl_data.surplusDeficitBeforeTax | floatformat:2 | intcomma }}
+                            {% else %}
+                                NIL
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">SURPLUS/(DEFICIT) AFTER TAX</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.pl_data.surplusDeficitAfterTax %}
+                                {{data.pl_data.surplusDeficitAfterTax | floatformat:2 | intcomma }}
+                            {% else %}
+                                NIL
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    <tr style="height:4px;">
+                        <td><p id="secondary">UNAPPROPRIATED PROFIT B/FORWARD</p></td>
+                        <td><p id="secondary">:</p></td>
+                        <td><p id="secondary" class="text-right">
+                            {% if data.pl_data.inappropriateProfitBf %}
+                                {{data.pl_data.inappropriateProfitBf | floatformat:2 | intcomma }}
+                            {% else %}
+                                NIL
+                            {% endif %}  
+                        </p></td>
+                    </tr>
+                    {% endif %}
                 </table>
             </div>            
 

@@ -38,7 +38,7 @@
                 font-size: 15pt;
             }
             .default-template {
-                color: #333;
+                color: rgb(15, 15, 15);
                 font-family: "Courier New", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 13pt;
                 padding-left: 2.5rem !important;
@@ -332,6 +332,9 @@
                         {{branch.state}}
                     {% endif %}
                 </li>
+                    {% if forloop.counter == 5 %}
+                        <div class="pg-break"></div>
+                    {% endif %}
                 {% endfor %}
             </ol> 
             {% endif %}

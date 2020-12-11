@@ -22,15 +22,20 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = [
     'ssm-product-api.pipe.my',
     '127.0.0.1',
+    '10.200.22.127',
     'localhost',
     'afeezaziz.ngrok.io',
     'syafiqbasri.ngrok.io',
-    'identitypro.ssm.com.my'
+    'identitypro.ssm.com.my',
+    '*'
 ]
+
+USE_X_FORWARDED_PORT = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    # 'core.middleware.MultipleProxyMiddleware',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',  #
     'corsheaders',
+    'drf_yasg',
     'phonenumber_field',
     'rest_framework',
     'rest_framework.authtoken',
@@ -176,13 +182,15 @@ CORS_ORIGIN_WHITELIST = [
     'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
     'http://localhost',
-    'https://identitypro.ssm.com.my'
+    'https://identitypro.ssm.com.my',
+    'http://10.200.22.127:8000'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
     'http://localhost',
-    'https://identitypro.ssm.com.my'
+    'https://identitypro.ssm.com.my',
+    'http://10.200.22.127:8000'
 ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

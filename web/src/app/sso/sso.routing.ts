@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AcsComponent } from './acs/acs.component';
+import { LoginComponent } from './login/login.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { SlsComponent } from './sls/sls.component';
 
@@ -18,6 +19,10 @@ export const SsoRouters: Routes = [
             {
                 path: 'sls',
                 component: SlsComponent
+            },
+            {
+                path: 'login',
+                component: LoginComponent
             }
         ]
     }

@@ -50,11 +50,10 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(companyProfileForm)" 
-                                                            >
+                                                                (change)="checker(companyProfileForm)">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -65,15 +64,10 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCompanyProfile"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(companyProfileForm)"
-                                                                />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCompanyProfile" formControlName="isCtc"
+                                                                    (change)="checker(companyProfileForm)" />
+                                                                <label class="custom-control-label text-dark"
                                                                     for="checkCompanyProfile">
                                                                     CTC (+RM10.00)
                                                                 </label>
@@ -86,10 +80,8 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(companyProfileForm)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(companyProfileForm)">
                                                     <span class="text-sm">
                                                         Add to cart
                                                         RM{{companyProfileForm.value['fee']/100 | number : '1.2-2'}}
@@ -115,22 +107,19 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
                                                                 (change)="checker(companyChargesForm)"
-                                                                *ngIf="availabilityList?.info_charges"
-                                                            >
+                                                                *ngIf="availabilityList?.info_charges">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                disabled
-                                                                *ngIf="!availabilityList?.info_charges"
-                                                            >
+                                                                disabled *ngIf="!availabilityList?.info_charges">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -141,32 +130,20 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox"
-                                                                    class="custom-control-input"
-                                                                    id="checkCompanyCharges" 
-                                                                    formControlName="isCtc"
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCompanyCharges" formControlName="isCtc"
                                                                     (change)="checker(companyChargesForm)"
-                                                                    *ngIf="availabilityList['info_charges']"
-                                                                />
-                                                                <input 
-                                                                    type="checkbox"
-                                                                    class="custom-control-input"
-                                                                    id="checkCompanyCharges"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList['info_charges']"
-                                                                />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkCompanyCharges"
-                                                                >
+                                                                    *ngIf="availabilityList['info_charges']" />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCompanyCharges" disabled
+                                                                    *ngIf="!availabilityList['info_charges']" />
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkCompanyCharges">
                                                                     <span *ngIf="availabilityList['info_charges']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['info_charges']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span *ngIf="!availabilityList['info_charges']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -179,27 +156,19 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(companyChargesForm)"
-                                                    [disabled]="!availabilityList['info_charges']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['info_charges']"
-                                                    >
+                                                    [disabled]="!availabilityList['info_charges']">
+                                                    <span class="text-sm" *ngIf="availabilityList['info_charges']">
                                                         Add to cart
                                                         RM{{companyChargesForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
-                                                    <span 
-                                                        *ngIf="!availabilityList['info_charges']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['info_charges']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
                                                     (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
@@ -218,22 +187,18 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                formControlName="language"
-                                                                (change)="checker(acgsForm)" 
-                                                                *ngIf="availabilityList?.acgs"
-                                                            >
+                                                                formControlName="language" (change)="checker(acgsForm)"
+                                                                *ngIf="availabilityList?.acgs">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                disabled
-                                                                *ngIf="!availabilityList?.acgs"
-                                                            >
+                                                                disabled *ngIf="!availabilityList?.acgs">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -246,21 +211,13 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(acgsForm)"
-                                                    [disabled]="!availabilityList['acgs']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['acgs']" 
-                                                    >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(acgsForm)" [disabled]="!availabilityList['acgs']">
+                                                    <span class="text-sm" *ngIf="availabilityList['acgs']">
                                                         Add to cart
                                                         RM{{acgsForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
-                                                    <span
-                                                        *ngIf="!availabilityList['acgs']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['acgs']">
                                                         Not available
                                                     </span>
                                                 </button>
@@ -294,59 +251,44 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(certIncorpForm)" 
-                                                                *ngIf="availabilityList['info_incorp_reg']"
-                                                            >
+                                                                (change)="checker(certIncorpForm)"
+                                                                *ngIf="availabilityList['info_incorp_reg']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
-    
-                                                            <select 
+
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                formControlName="language"
-                                                                disabled
-                                                                *ngIf="!availabilityList['info_incorp_reg']"
-                                                            >
+                                                                formControlName="language" disabled
+                                                                *ngIf="!availabilityList['info_incorp_reg']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
                                                         </div>
                                                     </div>
-    
+
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCertIncorp"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(certIncorpForm)" 
-                                                                    *ngIf="availabilityList['info_incorp_reg']"
-                                                                />
-                                                                <input 
-                                                                        type="checkbox"
-                                                                        class="custom-control-input"
-                                                                        id="checkCertIncorp"
-                                                                        disabled
-                                                                        *ngIf="!availabilityList['info_incorp_reg']"
-                                                                    />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkCertIncorp"
-                                                                >
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertIncorp" formControlName="isCtc"
+                                                                    (change)="checker(certIncorpForm)"
+                                                                    *ngIf="availabilityList['info_incorp_reg']" />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertIncorp" disabled
+                                                                    *ngIf="!availabilityList['info_incorp_reg']" />
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkCertIncorp">
                                                                     <span *ngIf="availabilityList['info_incorp_reg']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['info_incorp_reg']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span *ngIf="!availabilityList['info_incorp_reg']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -359,29 +301,20 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(certIncorpForm)"
-                                                    [disabled]="!availabilityList['info_incorp_reg']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['info_incorp_reg']" 
-                                                    >
+                                                    [disabled]="!availabilityList['info_incorp_reg']">
+                                                    <span class="text-sm" *ngIf="availabilityList['info_incorp_reg']">
                                                         Add to cart
                                                         RM{{certIncorpForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span
-                                                        *ngIf="!availabilityList['info_incorp_reg']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['info_incorp_reg']">
                                                         Not available
                                                     </span>
                                                 </button>
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -400,23 +333,20 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(certChangeNameForm)" 
-                                                                *ngIf="availabilityList?.is_name_changed"
-                                                            >
+                                                                (change)="checker(certChangeNameForm)"
+                                                                *ngIf="availabilityList?.is_name_changed">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                formControlName="language"
-                                                                disabled
-                                                                *ngIf="!availabilityList?.is_name_changed"
-                                                            >
+                                                                formControlName="language" disabled
+                                                                *ngIf="!availabilityList?.is_name_changed">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -427,33 +357,21 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCertChangeName"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(certChangeNameForm)" 
-                                                                    *ngIf="availabilityList?.is_name_changed"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertChangeName" formControlName="isCtc"
+                                                                    (change)="checker(certChangeNameForm)"
+                                                                    *ngIf="availabilityList?.is_name_changed" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCertChangeName"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList?.is_name_changed"
-                                                                />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkCertChangeName"
-                                                                >
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertChangeName" disabled
+                                                                    *ngIf="!availabilityList?.is_name_changed" />
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkCertChangeName">
                                                                     <span *ngIf="availabilityList['is_name_changed']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['is_name_changed']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span *ngIf="!availabilityList['is_name_changed']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -466,30 +384,21 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(certChangeNameForm)"
-                                                    [disabled]="!availabilityList['is_name_changed']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['is_name_changed']" 
-                                                    >
+                                                    [disabled]="!availabilityList['is_name_changed']">
+                                                    <span class="text-sm" *ngIf="availabilityList['is_name_changed']">
                                                         Add to cart
                                                         RM{{certChangeNameForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['is_name_changed']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['is_name_changed']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -508,22 +417,20 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(certConversionForm)" 
-                                                                *ngIf="availabilityList?.is_company_converted"
-                                                            >
+                                                                (change)="checker(certConversionForm)"
+                                                                *ngIf="availabilityList?.is_company_converted">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                disabled 
-                                                                *ngIf="!availabilityList?.is_company_converted"
-                                                            >
+                                                                disabled
+                                                                *ngIf="!availabilityList?.is_company_converted">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -534,34 +441,24 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCertConversion"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(certConversionForm)" 
-                                                                    *ngIf="availabilityList?.is_company_converted"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertConversion" formControlName="isCtc"
+                                                                    (change)="checker(certConversionForm)"
+                                                                    *ngIf="availabilityList?.is_company_converted" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCertConversion"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList?.is_company_converted"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCertConversion" disabled
+                                                                    *ngIf="!availabilityList?.is_company_converted" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkCertConversion"
-                                                                >
-                                                                    <span *ngIf="availabilityList['is_company_converted']">
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkCertConversion">
+                                                                    <span
+                                                                        *ngIf="availabilityList['is_company_converted']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['is_company_converted']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span
+                                                                        *ngIf="!availabilityList['is_company_converted']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -574,30 +471,22 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(certConversionForm)"
-                                                    [disabled]="!availabilityList['is_company_converted']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['is_company_converted']" 
-                                                    >
+                                                    [disabled]="!availabilityList['is_company_converted']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['is_company_converted']">
                                                         Add to cart
                                                         RM{{certConversionForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['is_company_converted']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['is_company_converted']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -625,22 +514,20 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
                                                                 (change)="checker(finHistoricalForm)"
-                                                                *ngIf="availabilityList['financial_year']['years']"
-                                                            >
+                                                                *ngIf="availabilityList['financial_year']['years']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 disabled
-                                                                *ngIf="!availabilityList['financial_year']['years']"
-                                                            >
+                                                                *ngIf="!availabilityList['financial_year']['years']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -651,33 +538,23 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkFinHistorical"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(finHistoricalForm)" 
-                                                                    *ngIf="availabilityList['financial_year']['years']"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkFinHistorical" formControlName="isCtc"
+                                                                    (change)="checker(finHistoricalForm)"
+                                                                    *ngIf="availabilityList['financial_year']['years']" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkFinHistorical"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList['financial_year']['years']"
-                                                                />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkFinHistorical"
-                                                                >
-                                                                    <span *ngIf="availabilityList['financial_year']['years']">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkFinHistorical" disabled
+                                                                    *ngIf="!availabilityList['financial_year']['years']" />
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkFinHistorical">
+                                                                    <span
+                                                                        *ngIf="availabilityList['financial_year']['years']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['financial_year']['years']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span
+                                                                        *ngIf="!availabilityList['financial_year']['years']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -689,27 +566,24 @@
                                                 <div class="row mt-2">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <select 
-                                                                class="form-control form-control-sm custom-select custom-select-sm" 
+                                                            <select
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="year1"
-                                                                *ngIf="availabilityList['financial_year']['years']"
-                                                            >
+                                                                *ngIf="availabilityList['financial_year']['years']">
                                                                 <option hidden selected value="">Year 1</option>
                                                                 <ng-container
-                                                                    *ngFor="let year of availabilityList['financial_year']['years']"
-                                                                >
+                                                                    *ngFor="let year of availabilityList['financial_year']['years']">
                                                                     <option value="{{year | date: 'yyyy'}}">
                                                                         {{year | date: 'yyyy'}}
                                                                     </option>
                                                                 </ng-container>
                                                             </select>
 
-                                                            <select 
-                                                                class="form-control form-control-sm custom-select custom-select-sm" 
+                                                            <select
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="year1"
                                                                 *ngIf="!availabilityList['financial_year']['years']"
-                                                                disabled
-                                                            >
+                                                                disabled>
                                                                 <option hidden selected>Please select</option>
                                                             </select>
                                                         </div>
@@ -717,27 +591,24 @@
 
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <select 
-                                                                class="form-control form-control-sm custom-select custom-select-sm" 
+                                                            <select
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="year2"
-                                                                *ngIf="availabilityList['financial_year']['years']"
-                                                            >
+                                                                *ngIf="availabilityList['financial_year']['years']">
                                                                 <option hidden selected value="">Year 2</option>
                                                                 <ng-container
-                                                                    *ngFor="let year of availabilityList['financial_year']['years']"
-                                                                >
+                                                                    *ngFor="let year of availabilityList['financial_year']['years']">
                                                                     <option value="{{year | date: 'yyyy'}}">
                                                                         {{year | date: 'yyyy'}}
                                                                     </option>
                                                                 </ng-container>
                                                             </select>
 
-                                                            <select 
-                                                                class="form-control form-control-sm custom-select custom-select-sm" 
+                                                            <select
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="year1"
                                                                 *ngIf="!availabilityList['financial_year']['years']"
-                                                                disabled
-                                                            >
+                                                                disabled>
                                                                 <option hidden selected>Please select</option>
                                                             </select>
                                                         </div>
@@ -748,30 +619,22 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCartFinHistorical(finHistoricalForm)"
-                                                    [disabled]="!availabilityList['financial_year']['years']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['financial_year']['years']" 
-                                                    >
+                                                    [disabled]="!availabilityList['financial_year']['years']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['years']">
                                                         Add to cart
                                                         RM{{finHistoricalForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['financial_year']['years']" 
-                                                    >   
+                                                    <span *ngIf="!availabilityList['financial_year']['years']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -783,97 +646,73 @@
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
                                         <div class="card-body">
                                             <h4 class="pb-2">Financial Comparison</h4>
-                                            
+
                                             <form>
                                                 <div class="row">
                                                     <div class="col">
                                                         <!-- Available -->
-                                                        <button
-                                                            class="btn btn-ssm btn-round mr-1"
-                                                            *ngIf="finComparisonYear == 2 && availabilityList['financial_year']['year2']"
-                                                        >
+                                                        <button class="btn btn-ssm btn-round mr-1"
+                                                            *ngIf="finComparisonYear == 2 && availabilityList['financial_year']['year2']">
                                                             <small>2</small>
                                                         </button>
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="finComparisonYear != 2 && availabilityList['financial_year']['year2']"
-                                                            (click)="checkerFin(2)"
-                                                        >
+                                                            (click)="checkerFin(2)">
                                                             <small class="text-ssm">2</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-ssm btn-round mr-1"
-                                                            *ngIf="finComparisonYear == 3 && availabilityList['financial_year']['year3']"
-                                                        >
+                                                        <button class="btn btn-ssm btn-round mr-1"
+                                                            *ngIf="finComparisonYear == 3 && availabilityList['financial_year']['year3']">
                                                             <small>3</small>
                                                         </button>
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="finComparisonYear != 3 && availabilityList['financial_year']['year3']"
-                                                            (click)="checkerFin(3)"
-                                                        >
+                                                            (click)="checkerFin(3)">
                                                             <small class="text-ssm">3</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-ssm btn-round mr-1"
-                                                            *ngIf="finComparisonYear == 5 && availabilityList['financial_year']['year5']"
-                                                        >
+                                                        <button class="btn btn-ssm btn-round mr-1"
+                                                            *ngIf="finComparisonYear == 5 && availabilityList['financial_year']['year5']">
                                                             <small>5</small>
                                                         </button>
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="finComparisonYear != 5 && availabilityList['financial_year']['year5']"
-                                                            (click)="checkerFin(5)"
-                                                        >
+                                                            (click)="checkerFin(5)">
                                                             <small class="text-ssm">5</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-ssm btn-round mr-1"
-                                                            *ngIf="finComparisonYear == 10 && availabilityList['financial_year']['year10']"
-                                                        >
+                                                        <button class="btn btn-ssm btn-round mr-1"
+                                                            *ngIf="finComparisonYear == 10 && availabilityList['financial_year']['year10']">
                                                             <small>10</small>
                                                         </button>
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="finComparisonYear != 10 && availabilityList['financial_year']['year10']"
-                                                            (click)="checkerFin(10)"
-                                                        >
+                                                            (click)="checkerFin(10)">
                                                             <small class="text-ssm">10</small>
                                                         </button>
 
                                                         <!-- NA -->
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="!availabilityList['financial_year']['year2']"
-                                                            disabled
-                                                        >
+                                                            disabled>
                                                             <small>2</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="!availabilityList['financial_year']['year3']"
-                                                            disabled
-                                                        >
+                                                            disabled>
                                                             <small>3</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="!availabilityList['financial_year']['year5']"
-                                                            disabled
-                                                        >
+                                                            disabled>
                                                             <small>5</small>
                                                         </button>
 
-                                                        <button
-                                                            class="btn btn-white btn-round mr-1"
+                                                        <button class="btn btn-white btn-round mr-1"
                                                             *ngIf="!availabilityList['financial_year']['year10']"
-                                                            disabled
-                                                        >
+                                                            disabled>
                                                             <small class="text-ssm">10</small>
                                                         </button>
                                                     </div>
@@ -883,74 +722,78 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCartFin()"
                                                     [disabled]="!availabilityList['financial_year']['year2']"
-                                                    *ngIf="finComparisonYear == 2"
-                                                >
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year2']">
+                                                    *ngIf="finComparisonYear == 2">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year2']">
                                                         Add to cart
                                                     </span>
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year2']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year2']">
                                                         RM{{finComparison2Form.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span class="text-sm" *ngIf="!availabilityList['financial_year']['year2']">
+                                                    <span class="text-sm"
+                                                        *ngIf="!availabilityList['financial_year']['year2']">
                                                         Not Available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCartFin()"
                                                     [disabled]="!availabilityList['financial_year']['year3']"
-                                                    *ngIf="finComparisonYear == 3"
-                                                >
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year3']">
+                                                    *ngIf="finComparisonYear == 3">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year3']">
                                                         Add to cart
                                                     </span>
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year3']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year3']">
                                                         RM{{finComparison3Form.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span class="text-sm" *ngIf="!availabilityList['financial_year']['year3']">
+                                                    <span class="text-sm"
+                                                        *ngIf="!availabilityList['financial_year']['year3']">
                                                         Not Available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCartFin()"
                                                     [disabled]="!availabilityList['financial_year']['year5']"
-                                                    *ngIf="finComparisonYear == 5"
-                                                >
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year5']">
+                                                    *ngIf="finComparisonYear == 5">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year5']">
                                                         Add to cart
                                                     </span>
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year5']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year5']">
                                                         RM{{finComparison5Form.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span class="text-sm" *ngIf="!availabilityList['financial_year']['year5']">
+                                                    <span class="text-sm"
+                                                        *ngIf="!availabilityList['financial_year']['year5']">
                                                         Not Available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCartFin()"
                                                     [disabled]="!availabilityList['financial_year']['year10']"
-                                                    *ngIf="finComparisonYear == 10"
-                                                >
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year10']">
+                                                    *ngIf="finComparisonYear == 10">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year10']">
                                                         Add to cart
                                                     </span>
-                                                    <span class="text-sm" *ngIf="availabilityList['financial_year']['year10']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['financial_year']['year10']">
                                                         RM{{finComparison10Form.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span class="text-sm" *ngIf="!availabilityList['financial_year']['year10']">
+                                                    <span class="text-sm"
+                                                        *ngIf="!availabilityList['financial_year']['year10']">
                                                         Not Available
                                                     </span>
                                                 </button>
@@ -984,11 +827,10 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(partiDirOfficerForm)" 
-                                                            >
+                                                                (change)="checker(partiDirOfficerForm)">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -999,15 +841,10 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiDirectors"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(partiDirOfficerForm)" 
-                                                                />
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiDirectors" formControlName="isCtc"
+                                                                    (change)="checker(partiDirOfficerForm)" />
+                                                                <label class="custom-control-label text-dark"
                                                                     for="checkPartiDirectors">
                                                                     CTC (+RM10.00)
                                                                 </label>
@@ -1020,20 +857,16 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(partiDirOfficerForm)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(partiDirOfficerForm)">
                                                     <span class="text-sm">
                                                         Add to cart
                                                         RM{{partiDirOfficerForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1052,22 +885,19 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(partiShareCapForm)" 
-                                                                *ngIf="availabilityList?.share_capital"
-                                                            >
+                                                                (change)="checker(partiShareCapForm)"
+                                                                *ngIf="availabilityList?.share_capital">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                disabled
-                                                                *ngIf="!availabilityList?.share_capital"
-                                                            >
+                                                                disabled *ngIf="!availabilityList?.share_capital">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1078,34 +908,22 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiShareCapital"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(partiShareCapForm)" 
-                                                                    *ngIf="availabilityList?.share_capital"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiShareCapital" formControlName="isCtc"
+                                                                    (change)="checker(partiShareCapForm)"
+                                                                    *ngIf="availabilityList?.share_capital" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiShareCapital"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList?.share_capital"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiShareCapital" disabled
+                                                                    *ngIf="!availabilityList?.share_capital" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkPartiShareCapital"
-                                                                >
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkPartiShareCapital">
                                                                     <span *ngIf="availabilityList['share_capital']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['share_capital']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span *ngIf="!availabilityList['share_capital']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -1118,30 +936,21 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(partiShareCapForm)"
-                                                    [disabled]="!availabilityList['share_capital']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['share_capital']" 
-                                                    >
+                                                    [disabled]="!availabilityList['share_capital']">
+                                                    <span class="text-sm" *ngIf="availabilityList['share_capital']">
                                                         Add to cart
                                                         RM{{partiShareCapForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['share_capital']" 
-                                                    >
+                                                    <span *ngIf="!availabilityList['share_capital']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1160,22 +969,19 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(partiShareholderForm)" 
-                                                                *ngIf="availabilityList?.shareholders"
-                                                            >
+                                                                (change)="checker(partiShareholderForm)"
+                                                                *ngIf="availabilityList?.shareholders">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
-                                                                disabled
-                                                                *ngIf="!availabilityList?.shareholders"
-                                                            >
+                                                                disabled *ngIf="!availabilityList?.shareholders">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1186,34 +992,22 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiShare"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(partiShareholderForm)" 
-                                                                    *ngIf="availabilityList?.shareholders"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiShare" formControlName="isCtc"
+                                                                    (change)="checker(partiShareholderForm)"
+                                                                    *ngIf="availabilityList?.shareholders" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiShare"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList?.shareholders"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiShare" disabled
+                                                                    *ngIf="!availabilityList?.shareholders" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkPartiShare"
-                                                                >
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkPartiShare">
                                                                     <span *ngIf="availabilityList['shareholders']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['shareholders']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span *ngIf="!availabilityList['shareholders']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -1226,30 +1020,21 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(partiShareholderForm)"
-                                                    [disabled]="!availabilityList['shareholders']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['shareholders']" 
-                                                    >
+                                                    [disabled]="!availabilityList['shareholders']">
+                                                    <span class="text-sm" *ngIf="availabilityList['shareholders']">
                                                         Add to cart
                                                         RM{{partiShareholderForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['shareholders']" 
-                                                    >
+                                                    <span *ngIf="!availabilityList['shareholders']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1268,11 +1053,10 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(partiCompSecForm)" 
-                                                            >
+                                                                (change)="checker(partiCompSecForm)">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1283,16 +1067,11 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkCompSec"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(partiCompSecForm)" 
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkCompSec" formControlName="isCtc"
+                                                                    (change)="checker(partiCompSecForm)" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
+                                                                <label class="custom-control-label text-dark"
                                                                     for="checkCompSec">
                                                                     CTC (+RM10.00)
                                                                 </label>
@@ -1305,20 +1084,16 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(partiCompSecForm)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(partiCompSecForm)">
                                                     <span class="text-sm">
                                                         Add to cart
                                                         RM{{partiCompSecForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1337,22 +1112,20 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(partiRegAddrForm)" 
-                                                                *ngIf="availabilityList['list_address_changes_year']"
-                                                            >
+                                                                (change)="checker(partiRegAddrForm)"
+                                                                *ngIf="availabilityList['list_address_changes_year']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 disabled
-                                                                *ngIf="!availabilityList['list_address_changes_year']"
-                                                            >
+                                                                *ngIf="!availabilityList['list_address_changes_year']">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1363,34 +1136,24 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiRegAddr"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(partiRegAddrForm)" 
-                                                                    *ngIf="availabilityList['list_address_changes_year']"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiRegAddr" formControlName="isCtc"
+                                                                    (change)="checker(partiRegAddrForm)"
+                                                                    *ngIf="availabilityList['list_address_changes_year']" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkPartiRegAddr"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList['list_address_changes_year']"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkPartiRegAddr" disabled
+                                                                    *ngIf="!availabilityList['list_address_changes_year']" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkPartiRegAddr"
-                                                                >
-                                                                    <span *ngIf="availabilityList['list_address_changes_year']">
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkPartiRegAddr">
+                                                                    <span
+                                                                        *ngIf="availabilityList['list_address_changes_year']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['list_address_changes_year']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span
+                                                                        *ngIf="!availabilityList['list_address_changes_year']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -1403,30 +1166,22 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(partiRegAddrForm)"
-                                                    [disabled]="!availabilityList['list_address_changes_year']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['list_address_changes_year']" 
-                                                    >
+                                                    [disabled]="!availabilityList['list_address_changes_year']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['list_address_changes_year']">
                                                         Add to cart
                                                         RM{{partiRegAddrForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['list_address_changes_year']" 
-                                                    >
+                                                    <span *ngIf="!availabilityList['list_address_changes_year']">
                                                         Not available
                                                     </span>
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1440,7 +1195,8 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <p class="mt-2 font-weight-bold text-title">Profile, Certificates and Expiry Confirmation Letter</p>
+                                    <p class="mt-2 font-weight-bold text-title">Profile, Certificates and Expiry
+                                        Confirmation Letter</p>
                                     <hr class="w-100 my-0" />
                                 </div>
                             </div>
@@ -1457,11 +1213,10 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(businessProfileForm)" 
-                                                            >
+                                                                (change)="checker(businessProfileForm)">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1472,16 +1227,11 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkBusinessProfile"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(businessProfileForm)" 
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkBusinessProfile" formControlName="isCtc"
+                                                                    (change)="checker(businessProfileForm)" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
+                                                                <label class="custom-control-label text-dark"
                                                                     for="checkBusinessProfile">
                                                                     CTC (+RM5.00)
                                                                 </label>
@@ -1511,54 +1261,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="col-lg-4 col-sm-12">
-                                    <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h4 class="pb-2">Business Certificate</h4>
-                                            </div>
-                                            
-                                            <form [formGroup]="businessCertForm">
-                                                <div class="row">
-                                                    <div class="col-md-5">
-                                                        <div class="form-group">
-                                                            <select 
-                                                                class="form-control form-control-sm custom-select custom-select-sm"
-                                                                formControlName="language"
-                                                                (change)="checker(businessCertForm)" 
-                                                            >
-                                                                <option value="MS" selected>BM</option>
-                                                                <option value="EN">EN</option>
-                                                                <option value="BT">Both</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="card-footer-ssm">
-                                            <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(businessCertForm)"
-                                                >
-                                                    <span class="text-sm">
-                                                        Add to cart
-                                                        RM{{businessCertForm.value['fee']/100 | number : '1.2-2'}}
-                                                    </span>
-                                                </button>
-
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
-                                                    <span class="text-sm">View Sample</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
                                 <div class="col-lg-4 col-sm-12">
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
                                         <div class="card-body">
@@ -1570,22 +1272,20 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 formControlName="language"
-                                                                (change)="checker(businessTerminateForm)" 
-                                                                *ngIf="availabilityList?.info_termination_list"
-                                                            >
+                                                                (change)="checker(businessTerminateForm)"
+                                                                *ngIf="availabilityList?.info_termination_list">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
                                                             </select>
 
-                                                            <select 
+                                                            <select
                                                                 class="form-control form-control-sm custom-select custom-select-sm"
                                                                 disabled
-                                                                *ngIf="!availabilityList?.info_termination_list"
-                                                            >
+                                                                *ngIf="!availabilityList?.info_termination_list">
                                                                 <option value="MS" selected>BM</option>
                                                                 <option value="EN">EN</option>
                                                                 <option value="BT">Both</option>
@@ -1596,34 +1296,24 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkBusinessTerminate"
-                                                                    formControlName="isCtc"
-                                                                    (change)="checker(businessTerminateForm)" 
-                                                                    *ngIf="availabilityList?.info_termination_list"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkBusinessTerminate" formControlName="isCtc"
+                                                                    (change)="checker(businessTerminateForm)"
+                                                                    *ngIf="availabilityList?.info_termination_list" />
 
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    class="custom-control-input"
-                                                                    id="checkBusinessTerminate"
-                                                                    disabled
-                                                                    *ngIf="!availabilityList?.info_termination_list"
-                                                                />
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkBusinessTerminate" disabled
+                                                                    *ngIf="!availabilityList?.info_termination_list" />
 
-                                                                <label 
-                                                                    class="custom-control-label text-dark"
-                                                                    for="checkBusinessTerminate"
-                                                                >
-                                                                    <span *ngIf="availabilityList['info_termination_list']">
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkBusinessTerminate">
+                                                                    <span
+                                                                        *ngIf="availabilityList['info_termination_list']">
                                                                         CTC (+RM10.00)
                                                                     </span>
-                                                                    <span 
-                                                                        *ngIf="!availabilityList['info_termination_list']" 
-                                                                        class="text-muted"
-                                                                    >   
+                                                                    <span
+                                                                        *ngIf="!availabilityList['info_termination_list']"
+                                                                        class="text-muted">
                                                                         CTC (+RM10.00)
                                                                     </span>
                                                                 </label>
@@ -1636,22 +1326,16 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button 
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
                                                     (click)="addCart(businessTerminateForm)"
-                                                    [disabled]="!availabilityList['info_termination_list']"
-                                                >
-                                                    <span 
-                                                        class="text-sm"
-                                                        *ngIf="availabilityList['info_termination_list']" 
-                                                    >
+                                                    [disabled]="!availabilityList['info_termination_list']">
+                                                    <span class="text-sm"
+                                                        *ngIf="availabilityList['info_termination_list']">
                                                         Add to cart
                                                         RM{{businessTerminateForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
 
-                                                    <span 
-                                                        *ngIf="!availabilityList['info_termination_list']" 
-                                                    >
+                                                    <span *ngIf="!availabilityList['info_termination_list']">
                                                         Not available
                                                     </span>
                                                 </button>
@@ -1686,11 +1370,10 @@
                                             <div class="row">
                                                 <div class="col-md-5">
                                                     <div class="form-group">
-                                                        <select 
+                                                        <select
                                                             class="form-control form-control-sm custom-select custom-select-sm"
                                                             formControlName="language"
-                                                            (change)="checker(auditProfileForm)" 
-                                                        >
+                                                            (change)="checker(auditProfileForm)">
                                                             <option value="MS" selected>BM</option>
                                                             <option value="EN">EN</option>
                                                             <option value="BT">Both</option>
@@ -1701,18 +1384,12 @@
                                                 <div class="col-md-7">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input 
-                                                                type="checkbox" 
-                                                                class="custom-control-input"
-                                                                id="checkAuditProfile"
-                                                                formControlName="isCtc"
-                                                                (change)="checker(auditProfileForm)" 
-                                                            />
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="checkAuditProfile" formControlName="isCtc"
+                                                                (change)="checker(auditProfileForm)" />
 
-                                                            <label 
-                                                                class="custom-control-label text-dark"
-                                                                for="checkAuditProfile"
-                                                            >
+                                                            <label class="custom-control-label text-dark"
+                                                                for="checkAuditProfile">
                                                                 CTC (+RM10.00)
                                                             </label>
                                                         </div>
@@ -1723,20 +1400,16 @@
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">
-                                                <button
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
-                                                    (click)="addCart(auditProfileForm)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer mb-2"
+                                                    (click)="addCart(auditProfileForm)">
                                                     <span class="text-sm">
                                                         Add to cart
                                                         RM{{auditProfileForm.value['fee']/100 | number : '1.2-2'}}
                                                     </span>
                                                 </button>
 
-                                                <button
-                                                    class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)"
-                                                >
+                                                <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
+                                                    (click)="openModalSample(productSample)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1763,46 +1436,24 @@
                                 </div>
                             </div>
                             <div class="custom-control custom-checkbox mb-3">
-                                <input 
-                                    class="custom-control-input"
-                                    id="customCheckx" 
-                                    type="checkbox"
-                                    [(ngModel)]="isAgree" 
-                                />
-                                <label 
-                                    class="custom-control-label" 
-                                    for="customCheckx"
-                                >
+                                <input class="custom-control-input" id="customCheckx" type="checkbox"
+                                    [(ngModel)]="isAgree" />
+                                <label class="custom-control-label" for="customCheckx">
                                     I accept the Terms and Condition above.
                                 </label>
                             </div>
-                            <button 
-                                class="btn btn-ssm rounded-pill"
-                                type="button"
-                                (click)="proceed()" 
-                                [disabled]="!isAgree"
-                            >
+                            <button class="btn btn-ssm rounded-pill" type="button" (click)="proceed()"
+                                [disabled]="!isAgree">
                                 Proceed
                             </button>
                         </div>
 
                         <div class="mt-2 mb-4" *ngIf="isProceed">
-                            <ngx-datatable 
-                                class="bootstrap selection-cell"
-                                [columnMode]="'force'"
-                                [headerHeight]="50"
-                                [footerHeight]="50"
-                                [rowHeight]="'auto'"
-                                [limit]="tableEntries != -1 ? tableEntries : undefined" 
-                                [rows]="tableTemp"
-                                (activate)="onActivate($event)"
-                                [scrollbarH]="true" 
-                            >
-                                <ngx-datatable-column 
-                                    [width]="150" 
-                                    [sortable]="true"
-                                    prop="formType"
-                                >
+                            <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                                [footerHeight]="50" [rowHeight]="'auto'"
+                                [limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
+                                [scrollbarH]="true">
+                                <ngx-datatable-column [width]="135" [sortable]="true" prop="formType">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Type</span>
                                     </ng-template>
@@ -1810,12 +1461,8 @@
                                         {{row.formType}}
                                     </ng-template>
                                 </ngx-datatable-column>
-
-                                <ngx-datatable-column
-                                    [width]="170"
-                                    [sortable]="true"
-                                    prop="formName"
-                                >
+                                <!--   // Aduh -->
+                                <ngx-datatable-column [width]="198" [sortable]="true" prop="formName">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Description</span>
                                     </ng-template>
@@ -1824,11 +1471,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="150"
-                                    [sortable]="true"
-                                    prop="humanDate"
-                                >
+                                <ngx-datatable-column [width]="155" [sortable]="true" prop="humanDate">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Date</span>
                                     </ng-template>
@@ -1837,11 +1480,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="120"
-                                    [sortable]="true"
-                                    prop="totalPage"
-                                >
+                                <ngx-datatable-column [width]="100" [sortable]="true" prop="totalPage">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Total Page</span>
                                     </ng-template>
@@ -1850,35 +1489,26 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="140"
-                                >
+                                <ngx-datatable-column [width]="130" [sortable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">CTC</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="custom-control custom-checkbox">
-                                            <input 
-                                                type="checkbox" 
-                                                class="custom-control-input" 
-                                                id="{{row.id_index}}"
-                                                [(ngModel)]="row.isCtc"
-                                                (change)="checkCtcImg(row)" 
-                                            >
-                                            <label class="custom-control-label" for="{{row.id_index}}">CTC (+RM10.00)</label>
+                                            <input type="checkbox" class="custom-control-input" id="{{row.id_index}}"
+                                                [(ngModel)]="row.isCtc" (change)="checkCtcImg(row)">
+                                            <label class="custom-control-label" for="{{row.id_index}}">CTC
+                                                (+RM10.00)</label>
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column maxWidth="150" [sortable]="false">
+                                <ngx-datatable-column [width]="110" [sortable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header"></span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <button
-                                            class="btn btn-ssm btn-sm"
-                                            (click)="addCartDocument(row)"
-                                        >
+                                        <button class="btn btn-ssm btn-sm" (click)="addCartDocument(row)">
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
                                     </ng-template>
@@ -1890,22 +1520,12 @@
                     <tab *ngIf="branches">
                         <ng-template tabHeading> Business Certificate </ng-template>
                         <div class="mt-2 mb-4">
-                            <ngx-datatable 
-                                class="bootstrap"
-                                [columnMode]="'force'"
-                                [headerHeight]="50"
-                                [footerHeight]="50"
-                                [rowHeight]="'auto'"
-                                [limit]="tableBranchEntries != -1 ? tableBranchEntries : undefined" 
-                                [rows]="tableBranchTemp"
-                                [scrollbarH]="true" 
-                            >
-                                <ngx-datatable-column 
-                                    [width]="60" 
-                                    [sortable]="true"
-                                    [resizeable]="false"
-                                    prop="branchType"
-                                >
+                            <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                                [footerHeight]="50" [rowHeight]="'auto'"
+                                [limit]="tableBranchEntries != -1 ? tableBranchEntries : undefined"
+                                [rows]="tableBranchTemp" [scrollbarH]="true">
+                                <ngx-datatable-column [width]="60" [sortable]="true" [resizeable]="false"
+                                    prop="branchType">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Type</span>
                                     </ng-template>
@@ -1914,30 +1534,26 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column
-                                    [width]="200"
-                                    [sortable]="true"
-                                    [resizeable]="false"
-                                    prop="formName"
-                                >
+                                <ngx-datatable-column [width]="200" [sortable]="true" [resizeable]="false"
+                                    prop="formName">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Address</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <span *ngIf="row.vchaddress">
-                                            {{row.vchaddress}}, 
+                                            {{row.vchaddress}},
                                         </span>
                                         <span *ngIf="row.vchaddress1">
-                                            {{row.vchaddress1}}, 
+                                            {{row.vchaddress1}},
                                         </span>
                                         <span *ngIf="row.vchaddress2">
-                                            {{row.vchaddress2}}, 
+                                            {{row.vchaddress2}},
                                         </span>
                                         <span *ngIf="row.vchpostcode">
-                                            {{row.vchpostcode}}, 
+                                            {{row.vchpostcode}},
                                         </span>
                                         <span *ngIf="row.vchtown">
-                                            {{row.vchtown}}, 
+                                            {{row.vchtown}},
                                         </span>
                                         <span *ngIf="row.chrstate">
                                             {{row.vchaddress}}
@@ -1945,38 +1561,25 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="80"
-                                    [sortable]="false"
-                                    [resizeable]="false"
-                                >
+                                <ngx-datatable-column [width]="80" [sortable]="false" [resizeable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Sample</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <button
-                                            class="btn btn-outline-ssm btn-sm"
-                                        >
+                                        <button class="btn btn-outline-ssm btn-sm">
                                             Sample
                                         </button>
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="60"
-                                    [sortable]="false"
-                                    [resizeable]="false"
-                                >
+                                <ngx-datatable-column [width]="60" [sortable]="false" [resizeable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Language</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="form-group">
-                                            <select 
-                                                class="form-control form-control-sm custom-select custom-select-sm" 
-                                                id="{{row.id_index}}"
-                                                [(ngModel)]="row.language"
-                                            >
+                                            <select class="form-control form-control-sm custom-select custom-select-sm"
+                                                id="{{row.id_index}}" [(ngModel)]="row.language">
                                                 <option value="BM">BM</option>
                                                 <option value="EN">EN</option>
                                                 <option value="BT">BOTH</option>
@@ -1986,39 +1589,26 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="100"
-                                    [resizeable]="false"
-                                >
+                                <ngx-datatable-column [width]="100" [resizeable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">CTC</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="custom-control custom-checkbox">
-                                            <input 
-                                                type="checkbox" 
-                                                class="custom-control-input" 
-                                                id="{{row.id_index}}"
-                                                checked
-                                                disabled
-                                            >
-                                            <label class="custom-control-label" for="{{row.id_index}}">CTC (+RM10.00)</label>
+                                            <input type="checkbox" class="custom-control-input" id="{{row.id_index}}"
+                                                checked disabled>
+                                            <label class="custom-control-label" for="{{row.id_index}}">CTC
+                                                (+RM10.00)</label>
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column 
-                                    [width]="80"
-                                    [resizeable]="false"
-                                    [sortable]="false"
-                                >
+                                <ngx-datatable-column [width]="80" [resizeable]="false" [sortable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header"></span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <button
-                                            class="btn btn-ssm btn-sm"
-                                        >
+                                        <button class="btn btn-ssm btn-sm">
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
                                     </ng-template>
