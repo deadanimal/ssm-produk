@@ -1,0 +1,494 @@
+<ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
+<div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-8 col-7">
+            <h6 class="h2 text-dark d-inline-block mb-0">
+              Personal Involvement List
+            </h6>
+  
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)">
+                    <i class="fas fa-align-left text-dark"></i>
+                  </a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-dark">Product </a>
+                </li>
+                <li aria-current="page" class="breadcrumb-item active">
+                    Personal Involvement List
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-secondary">
+            <h3 class="m-0">Personal Involvement List</h3>
+          </div>
+
+          <div class="row text-right pt-4 pr-4">
+            <div class="col">
+                <button
+                    class="btn btn-ssm rounded-pill"
+                    (click)="openModal(newAcc,row)"
+                >
+                    Add New
+                </button>
+            </div>
+          </div>
+
+            <div class="row px-3 pt-2">
+              <div class="col-sm-12 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">ID Type</label>
+                  <select class="form-control form-control-sm" (change)="filterTable($event, 'ID')">
+                    <option value="IC">NRIC</option>
+                    <option value="PP">Passport</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Status</label>
+                  <select class="form-control form-control-sm" (change)="filterTable($event, 'status')"> 
+                    <option value="EB">Enabled</option>
+                    <option value="DB">Disabled</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+          <div class="dataTables_wrapper pb-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)">
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="-1">All</option>
+                    </select>
+                    records
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+              </div>
+            </div>
+  
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="tableEntries != -1 ? tableEntries : undefined"
+              [rows]="tableTemp"
+              [scrollbarH]="true"
+            >
+              <ngx-datatable-column 
+                [width]="80"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="rowIndex"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>No.</span>
+                </ng-template>
+
+                  <ng-template
+                    let-row="row"
+                    ngx-datatable-cell-template
+                  >
+                    <strong>{{ rowIndex + 1 }}</strong>
+                  </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="rowName"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>Full Name</span>
+                </ng-template>
+                
+                <ng-template let-row="row" ngx-datatable-cell-template>                
+                    Ali bin Abu
+                </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column
+                [sortable]="true"
+                [resizeable]="false"
+                prop="id_type"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>ID Type</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  NRIC
+                </ng-template>
+              </ngx-datatable-column>            
+  
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="id_number"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>ID Number</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  911201-14-4225
+                </ng-template>
+              </ngx-datatable-column> 
+
+              <ngx-datatable-column
+                  [sortable]="true"
+                  [resizeable]="false"
+                  prop="reason"
+                >
+                  <ng-template ngx-datatable-header-template>
+                    <span>Reason</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    -Reason
+                  </ng-template>
+              </ngx-datatable-column>  
+
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="approved_date"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>Approved Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  01/12/2020
+                </ng-template>
+              </ngx-datatable-column> 
+              
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="disabled_date"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>Disabled Date</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  01/12/2022
+                </ng-template>
+              </ngx-datatable-column> 
+
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Attachment</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span>
+                    <a href="">View</a>
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>  
+
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span class="badge badge-success">Active</span>
+                  <!-- <span *ngIf="row.ticket_status == 'EB'">Closed</span> 
+                  <span *ngIf="row.ticket_status == 'DB'">In Progress</span>  -->
+                </ng-template>
+              </ngx-datatable-column>  
+              
+              <ngx-datatable-column
+                [sortable]="false"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>Action</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <a (click)="openModal(editModal, row)" style="cursor: pointer">
+                      <button class="btn btn-sm btn-info">
+                        <i class="fas fa-edit"></i>
+                      </button> 
+                    </a>
+                </ng-template>
+              </ngx-datatable-column>                
+
+
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<ng-template #newAcc>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Personal Involvement Registration
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+            >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <form>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Full Name</label>
+                        <input class="form-control" placeholder="Full Name">
+                    </div>
+                </div>
+            </div> 
+
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Type</label>
+                        <select class="form-control">
+                        <option value="IC">NRIC</option>
+                        <option value="PP">Passport</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Number</label>
+                        <input class="form-control" placeholder="ID Number">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Reason</label>
+                        <textarea class="form-control" maxlength="100" style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Attachment</label>
+                        <div class="custom-file">
+                            <input 
+                                type="file" 
+                                class="custom-file-input cursor-pointer" 
+                                id="files" 
+                                lang="en"
+                                (change)="onFileChange($event)" 
+                                accept=".pdf"
+                            />
+                            <label class="custom-file-label" for="files">Select file</label>
+
+                            <ng-container *ngIf="files.length > 0">
+                                <div *ngFor="let file_ of files">
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile(file_)"
+                                    >
+                                    </i>
+                                    {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Status</label>
+                        <select class="form-control">
+                        <option value="EB">Enabled</option>
+                        <option value="DB">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  
+    <div class="modal-footer">
+        <button 
+            class="btn btn-success"
+            type="button"
+            (click)="addPersonalInvolvement()"
+            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+            Submit
+        </button>
+  
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()">
+            Close
+        </button>
+    </div>
+
+</ng-template>
+
+  
+
+<ng-template #editAcc>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Personal Involvement Registration
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+            >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+        <form>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Full Name</label>
+                        <input class="form-control" placeholder="Full Name">
+                    </div>
+                </div>
+            </div> 
+
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Type</label>
+                        <select class="form-control">
+                        <option value="IC">NRIC</option>
+                        <option value="PP">Passport</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">ID Number</label>
+                        <input class="form-control" placeholder="ID Number">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Reason</label>
+                        <textarea class="form-control" maxlength="100" style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Attachment</label>
+                        <div class="custom-file">
+                            <input 
+                                type="file" 
+                                class="custom-file-input cursor-pointer" 
+                                id="files" 
+                                lang="en"
+                                (change)="onFileChange($event)" 
+                                accept=".pdf"
+                            />
+                            <label class="custom-file-label" for="files">Select file</label>
+
+                            <ng-container *ngIf="files.length > 0">
+                                <div *ngFor="let file_ of files">
+                                    <i 
+                                        class="fas fa-trash-alt text-warning mr-2"
+                                        placement="top" 
+                                        tooltip="Remove attachment"
+                                        (click)="removeFile(file_)"
+                                    >
+                                    </i>
+                                    {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Status</label>
+                        <select class="form-control">
+                        <option value="EB">Enabled</option>
+                        <option value="DB">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  
+    <div class="modal-footer">
+        <button 
+            class="btn btn-success"
+            type="button"
+            (click)="updateApplication()"
+            [disabled]="!isCompleted && remarks=='' && completedDate==''">
+        </button>
+  
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</ng-template>

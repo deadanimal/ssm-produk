@@ -1,0 +1,242 @@
+[
+    {
+        "parent": "Order Information",
+        "text": "Customer Name",
+        "value": "name"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Email",
+        "value": "email"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Phone No.",
+        "value": "phone"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Address 1",
+        "value": "address_1"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Address 2",
+        "value": "address_2"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Address 3",
+        "value": "address_3"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer Postcode",
+        "value": "postcode"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer City",
+        "value": "city"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Customer State",
+        "value": "state"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Product Type",
+        "value": "product_type"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Product Code",
+        "value": "product_code"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Entity Name",
+        "value": "entity_name"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Entity No.",
+        "value": "entity_no"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Product Fee",
+        "value": "product_fee"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Discount Amount",
+        "value": "discount"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Tax Amount",
+        "value": "tax"
+    },
+    {
+        "parent": "Order Information",
+        "text": "Gross Amount",
+        "value": "gross_amount"
+    },
+    {
+        "parent": "Payment Information",
+        "text": "Transaction Date",
+        "value": "transaction_date"
+    },
+    {
+        "parent": "Payment Information",
+        "text": "Transaction ID",
+        "value": "transaction_id"
+    },
+    {
+        "parent": "Payment Information",
+        "text": "Transaction Type",
+        "value": "transaction_type"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Transaction ID",
+        "value": "pg_id"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Transaction Date",
+        "value": "pg_date"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Payment Mode",
+        "value": "pg_payment_mode"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Net Amount",
+        "value": "pg_net_amount"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Charge Amount",
+        "value": "pg_charge_amount"
+    },
+    {
+        "parent": "PG Information",
+        "text": "PG Transaction Status",
+        "value": "transaction_status"
+    },
+    {
+        "parent": "Receipt",
+        "text": "Receipt No.",
+        "value": "receipt_no"
+    },
+    {
+        "parent": "Receipt",
+        "text": "Receipt Date",
+        "value": "receipt_date"
+    },
+    {
+        "parent": "eGov",
+        "text": "Ministry Name",
+        "value": "ministry_name"
+    },
+    {
+        "parent": "eGov",
+        "text": "Department / Agency Name",
+        "value": "department_name"
+    },
+    {
+        "parent": "eGov",
+        "text": "Division / Section / Unit Name",
+        "value": "division_name"
+    },
+    {
+        "parent": "eGov",
+        "text": "Address 1",
+        "value": "egov_address_1"
+    },
+    {
+        "parent": "eGov",
+        "text": "Address 2",
+        "value": "egov_address_2"
+    },
+    {
+        "parent": "eGov",
+        "text": "Address 3",
+        "value": "egov_address_3"
+    },
+    {
+        "parent": "eGov",
+        "text": "Postcode",
+        "value": "egov_postcode"
+    },
+    {
+        "parent": "eGov",
+        "text": "City",
+        "value": "egov_city"
+    },
+    {
+        "parent": "eGov",
+        "text": "State",
+        "value": "egov_state"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Email",
+        "value": "egov_email"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Email",
+        "value": "egov_email"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Email",
+        "value": "egov_email"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Full Name",
+        "value": "egov_full_name"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Position and Grade",
+        "value": "egov_position_grade"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Tel No.",
+        "value": "egov_tel_no"
+    },
+    {
+        "parent": "eGov",
+        "text": "eGov Package",
+        "value": "egov_package"
+    },
+    {
+        "parent": "eGov",
+        "text": "HOD Name",
+        "value": "egov_hod_name"
+    },
+    {
+        "parent": "eGov",
+        "text": "HOD Email",
+        "value": "egov_hod_email"
+    },
+    {
+        "parent": "eGov",
+        "text": "HOD Position",
+        "value": "egov_hod_position"
+    },
+    {
+        "parent": "eGov",
+        "text": "Total Document",
+        "value": "egov_total_document"
+    }
+]
