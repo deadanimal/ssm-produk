@@ -146,13 +146,13 @@ export class EnquiryDetailsComponent implements OnInit {
   replyTicket() {
     this.loadingBar.useRef('http').start()
     this.ticket['ticket_status'] = 'IC'
-    this.replyForm.controls['type'].patchValue(this.ticket['ticket_status']) 
+    this.replyForm.controls['type'].patchValue(this.ticket['ticket_status'])
+    console.log('Check replyForm: ', this.replyForm.value)
     this.ticketService.createReply(this.replyForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
         let message = 'Successfully submitted'
         this.successAlert(message);
-        this.replyForm.reset()
         this.files = []
         this.isCollapsed = false;
       },
@@ -171,7 +171,7 @@ export class EnquiryDetailsComponent implements OnInit {
       () => {},
       () => {},
       () => {
-
+        this.replyForm.reset()
       }
     )
   }
