@@ -211,13 +211,18 @@ export class ProductSearchEgovComponent implements OnInit {
           
         },
         () => {
-          this.tableTemp = this.tableRows.map((prop, key) => {
-            return {
-              ...prop,
-              id_index: key+1
-            };
+          this.tableTemp = this.tableRows.filter(function(p){
+              if (p.type_of_entity != "AD"){
+                  return true;
+              }
+              return false;
+          }).map((prop, key) => {         
+              return {
+                ...prop,
+                id_index: key+1
+              };
           });
-          // console.log(this.tableTemp.length)
+          
   
           if (this.tableTemp.length == 0) {
             this.isEmpty = true

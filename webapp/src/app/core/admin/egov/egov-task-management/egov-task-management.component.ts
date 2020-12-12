@@ -23,6 +23,7 @@ import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
+import { count } from 'console';
 
 export enum SelectionType {
   single = 'single',
@@ -223,14 +224,21 @@ export class EgovTaskManagementComponent implements OnInit {
           (request) => {
             let status_overall_ = 'Approved'
             let type_ = 'Investigation Document Request'
+            let processed = 0;
             request['document_request_item'].forEach(
               (item) => {
-                if (item['document_status'] == 'PD') {
-                  status_overall_ = 'Pending'
+                if (item['document_status'] == 'AP' || item['document_status'] == 'RJ') {
+                  processed = 1;
                 }
                 // console.log('pending')
               }
             )
+            if (processed == 1){
+                status_overall_ = 'Processed'
+            }
+            else{
+                status_overall_ = 'Pending'
+            }
 
             let user_name_ = null
             let user_email_ = null
@@ -313,6 +321,7 @@ export class EgovTaskManagementComponent implements OnInit {
             }
             this.tasks.push(add_)
           }
+       
         )
       },
       (fail) => {
@@ -328,6 +337,10 @@ export class EgovTaskManagementComponent implements OnInit {
           id_index: key+1
         };
       });
+      let tt = this.tableTemp;
+      this.tableTemp = [];
+      this.tableTemp = [...tt]; 
+      
       console.log('Task management: ', this.tableTemp)
       }
     )
@@ -552,49 +565,88 @@ export class EgovTaskManagementComponent implements OnInit {
   approveInvestigationAll() {
     this.tableItemRows.forEach(
       (req) => {
-        this.approveInvestigation(req.document_request, req)
+        if (req.document_status == "PD"){
+          this.approveInvestigation(req.document_request, req,'all')
+        }
       }
     )
+    this.modal.hide()
   }
 
   rejectInvestigationAll() {
     this.tableItemRows.forEach(
       (req) => {
-        this.rejectInvestigation(req.document_request, req)
+        if (req.document_status == "PD"){
+            this.rejectInvestigation(req.document_request, req,'all')
+        }
       }
     )
+    this.modal.hide()
   }
   
 
-  approveInvestigation(id: string, item) {
+  approveInvestigation(id: string, item,flag) {
     this.loadingBar.start()
     let body = {
       'item': item.id,
       'approver': this.currentUser.id
     }
+    let succ = 0;
     this.serviceService.approveDocReqItem(id, body).subscribe(
       () => {this.loadingBar.complete()
-        this.successfullAlert('Successfully approved investigation request')
+        if(flag == "all"){
+          this.successfullAlert('Successfully approved investigation request')
+        }
+        succ = 1;
       },
       () => {this.loadingBar.complete()
         this.failedAlert('Please try again later')
       },
       () => {
+        if (succ == 1){
+            item.document_status = "AP"
+            this.updateForInvest()
+        }
         this.getData()
       }
     )
   }
 
-  rejectInvestigation(id: string, item) {
+  updateForInvest(){
+            let touch_count = 0;
+            this.tableItemTemp.forEach((x)=>{
+              if (x.document_status != "PD"){
+                touch_count = touch_count + 1;
+              }  
+            });
+            if (this.tableItemTemp.length == touch_count){
+              this.selectedTask.status = "Processed";
+            }
+  }
+
+  rejectInvestigation(id: string, item,flag) {
     this.loadingBar.start()
     let body = {
       'item': item.id,
       'approver': this.currentUser.id
     }
+    let succ = 0;
+
     this.serviceService.rejectDocReqItem(id, body).subscribe(
-      () => {this.loadingBar.complete()},
-      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()
+        if (flag == "all"){
+          this.successfullAlert('Successfully rejected investigation request')
+        }
+        succ = 1;
+      },
+      () => {this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
       () => {
+        if (succ == 1){
+          item.document_status = "RJ"
+          this.updateForInvest();
+        }
         this.getData()
       }
     )
@@ -681,6 +733,7 @@ export class EgovTaskManagementComponent implements OnInit {
           id_index: key+1
         };
       })
+ 
     }
   }
 

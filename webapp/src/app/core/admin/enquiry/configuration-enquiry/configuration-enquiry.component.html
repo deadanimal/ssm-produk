@@ -260,8 +260,8 @@
                     <tab heading="Notes Editor" (selectTab)="onSelectTab($event)">
                         <div class="card mt-2">
                             <div class="card-body">
-                                <h6 class="heading-small text-muted mb-4">Notes - English</h6>
-                                <form [formGroup]="notesENForm">
+                                <h6 class="heading-small text-muted mb-4">Header - English</h6>
+                                <form [formGroup]="headerNotesENForm">
                                     <quill-editor
                                         #notesEN 
                                         formControlName="description">
@@ -272,7 +272,26 @@
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
-                                            (click)="patchNote('notes-en')"
+                                            (click)="patchNote('header-notes-en')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h6 class="heading-small text-muted mb-4">Body - English</h6>
+                                <form [formGroup]="bodyNotesENForm">
+                                    <quill-editor
+                                        #notesEN 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('body-notes-en')"
                                         >
                                             Save
                                         </button>
@@ -281,8 +300,8 @@
 
                                 <hr class="my-4" />
 
-                                <h6 class="heading-small text-muted mb-4">Notes - Bahasa Melayu</h6>
-                                <form [formGroup]="notesBMForm">
+                                <h6 class="heading-small text-muted mb-4">Header - Bahasa Melayu</h6>
+                                <form [formGroup]="headerNotesBMForm">
                                     <quill-editor
                                         #notesBM 
                                         formControlName="description">
@@ -293,7 +312,26 @@
                                     <div class="col">
                                         <button
                                             class="btn btn-ssm rounded-pill"
-                                            (click)="patchNote('notes-bm')"
+                                            (click)="patchNote('header-notes-bm')"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h6 class="heading-small text-muted mb-4">Body - Bahasa Melayu</h6>
+                                <form [formGroup]="bodyNotesBMForm">
+                                    <quill-editor
+                                        #notesBM 
+                                        formControlName="description">
+                                    </quill-editor>
+                                </form>
+
+                                <div class="row text-right mt-2">
+                                    <div class="col">
+                                        <button
+                                            class="btn btn-ssm rounded-pill"
+                                            (click)="patchNote('body-notes-bm')"
                                         >
                                             Save
                                         </button>

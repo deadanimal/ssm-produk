@@ -181,7 +181,7 @@ export class ProfileEgovComponent implements OnInit {
       ],
       'head_of_department_email': [
         { type: 'required', message: 'Don\'t leave this field blank' },
-        { type: 'email', message: 'Invalid Field' },
+        { type: 'pattern', message: 'Invalid Email' },
 
       ],
       'ministry_name': [
@@ -580,7 +580,7 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.email
+        Validators.pattern("[a-zA-Z]*@gov.my$")
       ])),
       ministry_name: new FormControl(null, Validators.compose([
         Validators.required
@@ -761,12 +761,24 @@ export class ProfileEgovComponent implements OnInit {
   }
 
   requestRenew(){
-    console.log("boleh"); 
+
     this.loadingBar.useRef('http').start()
-    this.loadingBar.useRef('http').complete()
+    this.serviceService.submitRenewAcc(this.renewForm.value).subscribe(
+      () => {
+        // Success
+        this.loadingBar.useRef('http').complete()
         this.successAlert()
-        this.closeModal();
-        //this.disableEdit() 
+      },
+      () => {
+        // failed
+        this.loadingBar.useRef('http').complete()
+        this.failedAlert()
+      },
+      () => {
+      }
+    )    
+      this.closeModal();
+
   }
 
   onFileChange(event, type) {

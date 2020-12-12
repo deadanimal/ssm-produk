@@ -203,9 +203,13 @@
                                     *ngIf="replyForm.value['type'] != 'EC'"
                                 />
                                 <input
+                                    id="emailform"
+                                    #emailform
                                     class="form-control"
+                                    type="email"
                                     *ngIf="replyForm.value['type'] == 'EC'"
                                     formControlName="escalation_email"
+                                    (change)="onChangeEmail($event.target.value)"
                                 />
                             </div>
                         </div>
@@ -298,10 +302,10 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span>Status: {{row.status}}</span><br>
-                                <span *ngIf="row.message">Response: {{row.message}}</span><br>
-                                <span *ngIf="!row.message">Response: -</span><br>
-                                <span *ngIf="row.response">Remarks: {{row.response}}</span><br>
-                                <span *ngIf="!row.response">Remarks: -</span><br>
+                                <span *ngIf="row.message">Response: {{row.message}}<br></span>
+                                <span *ngIf="!row.message">Response: -<br></span>
+                                <span *ngIf="row.response">Remarks: {{row.response}}<br></span>
+                                <span *ngIf="!row.response">Remarks: -<br></span>
                             </ng-template>
                         </ngx-datatable-column>
 

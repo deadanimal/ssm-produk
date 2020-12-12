@@ -172,9 +172,10 @@ export class EgovEnquiryComponent implements OnInit {
     this.router.navigate([path], extras as any)
   }
 
-  exportExcel() {
-    let fileName = 'Enquiry_EGOV.xlsx'
-    let element = document.getElementById('reportTable'); 
+  exportExcel(e) {
+    if( e == "reportAllTable"){
+      let fileName = 'All_EGOV_Enquiry.xlsx'
+      let element = document.getElementById(e); 
     const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
 
     /* generate workbook and add the worksheet */
@@ -183,6 +184,41 @@ export class EgovEnquiryComponent implements OnInit {
 
     /* save to file */
     xlsx.writeFile(wb, fileName);
+    }else if( e == "reportClosedTable"){
+      let fileName = 'Closed_EGOV_Enquiry.xlsx'
+      let element = document.getElementById(e); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+      
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
+    }else if( e == "reportPendingTable"){
+      let fileName = 'Pending_EGOV_Enquiry.xlsx'
+      let element = document.getElementById(e); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
+    }else if( e == "reportInProgressTable"){
+      let fileName = 'InProgress_EGOV_Enquiry.xlsx'
+      let element = document.getElementById(e); 
+    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    xlsx.writeFile(wb, fileName);
+    }
+    
   }
 
 }

@@ -121,6 +121,7 @@ export class TicketsService {
     else if (body['type'] == 'AS') {
       urlTemp = urlTemp + body['ticket'] + '/status_assign/'
     }
+    console.log('full path', urlTemp)
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         // console.log('Topics: ', res)

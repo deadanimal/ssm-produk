@@ -151,7 +151,9 @@ export class EnquiryGeneralComponent implements OnInit {
 
   submit() {
     console.log(this.enquiryForm.value);
-    this.loadingBar.useRef('http').start()
+    if(this.enquiryForm.valid){
+      this.loadingBar.useRef('http').start()
+      // console.log("Masuk")
     this.ticketService.create(this.enquiryForm.value).subscribe(
       (res) => {
         this.loadingBar.useRef('http').complete()
@@ -170,6 +172,10 @@ export class EnquiryGeneralComponent implements OnInit {
         console.log(err);
       }
     );
+    }else{
+    this.errorSubmitAlert()
+    // console.log("Fill in mandatory fields")
+    }
   }
 
   successAlert(task) {
@@ -196,6 +202,22 @@ export class EnquiryGeneralComponent implements OnInit {
     swal.fire({
       title: 'Error',
       text: task,
+      icon: 'warning',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
+  }
+
+  errorSubmitAlert() {
+    swal.fire({
+      title: 'Error',
+      html: 'Please ensure all mandatory (<span class="text-red">*</span>) field has been filled ',
       icon: 'warning',
       buttonsStyling: false,
       confirmButtonText: 'Close',
