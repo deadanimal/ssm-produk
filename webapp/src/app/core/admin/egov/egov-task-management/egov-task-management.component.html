@@ -222,6 +222,13 @@
                                 >
                                     {{row.status}}
                                 </span>
+
+                                <span 
+                                class="badge badge-primary"
+                                *ngIf="row.status == 'Processed'"
+                            >
+                                    {{row.status}}
+                            </span>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -281,6 +288,15 @@
                                     <button 
                                         class="btn btn-sm btn-ssm"
                                         *ngIf="row.task_type == 'Investigation Document Request'"
+                                        (click)="openModal(investigationRequest, row)"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+                                <a style="cursor: pointer">
+                                    <button 
+                                        class="btn btn-sm btn-ssm"
+                                        *ngIf="row.task_type == 'Renew Account'"
                                         (click)="openModal(investigationRequest, row)"
                                     >
                                         <i class="fas fa-edit"></i>
@@ -1550,7 +1566,7 @@
                 [footerHeight]="50" 
                 [rowHeight]="'auto'" 
                 [limit]="tableItemEntries != -1 ? tableItemEntries : undefined"
-                [rows]="tableItemTemp" 
+                [rows]="tableItemTemp"
                 [scrollbarH]="true" 
             >
                 <ngx-datatable-column
@@ -1629,14 +1645,14 @@
 
                         <span 
                             class="badge badge-danger"
-                            *ngIf="row.document_status == 'Rejected'"
+                            *ngIf="row.document_status == 'RJ'"
                         >
                             Rejected
                         </span>
 
                         <span 
                             class="badge badge-success"
-                            *ngIf="row.document_status == 'Approved'"
+                            *ngIf="row.document_status == 'AP'"
                         >
                             Approved
                         </span>
@@ -1681,7 +1697,7 @@
             class="btn btn-ssm rounded-pill" 
             type="button" 
             (click)="approveInvestigationAll()"
-            [disabled]="selectedTask.status == 'Approved' || selectedTask.status == 'Rejected'"
+            [disabled]="selectedTask.status == 'Processed'"
         >
             Approve for all
         </button>
@@ -1691,7 +1707,7 @@
             data-dismiss="modal" 
             type="button" 
             (click)="rejectInvestigationAll()"
-            [disabled]="selectedTask.status == 'Approved' || selectedTask.status == 'Rejected'"
+            [disabled]="selectedTask.status == 'Processed'"
 
         >
             Reject for all

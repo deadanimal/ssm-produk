@@ -191,6 +191,7 @@ export class EgovReportComponent implements OnInit {
                 ]
               }
             ];
+            console.log(res);
             var total_total = 0;
             var agency_total = 0;
             var p1 = 0;
