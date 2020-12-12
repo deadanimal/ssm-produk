@@ -238,6 +238,8 @@ class EnquiryTicketReply(models.Model):
         default='IP'
     )
 
+    read = models.BooleanField(default=False)
+
     message = models.TextField(null=True, blank=True)
     remarks = models.TextField(null=True, blank=True)
 
@@ -247,7 +249,7 @@ class EnquiryTicketReply(models.Model):
         ordering = ['-created_date']
     
     def __str__(self):
-        return self.ticket
+        return self.id
 
 
 class EnquiryTicketSelection(models.Model):

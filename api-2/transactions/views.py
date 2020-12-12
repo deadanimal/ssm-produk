@@ -175,6 +175,9 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 if item.cart_item_type == 'PR':
                     item.order_no = 'PD' + current_year + current_month + current_day + order_running_no
                     item.save()
+                # else item.cart_item_type == 'EG':
+                #     item.order_no = 'EGOV' + current_year + current_month + current_day + order_running_no
+                #     item.save()
 
             data_loaded = {
                 'transaction': transaction,
@@ -361,6 +364,8 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         report_start_date = table_request['start_date']
         report_end_date = table_request['end_date']
 
+        report_filter = table_request['filter']
+
         date_format = '%-d-%m-%Y '
         time_zone = 'Asia/Kuala_Lumpur'
 
@@ -390,7 +395,6 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                         new_row = [
                             transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
-                            'Online',
                             transaction_.name,
                             transaction_.email_address,
                             transaction_.phone_number,
@@ -447,7 +451,6 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             csv_writer = csv.writer(response)   
             csv_writer.writerow([
                 'Date', 
-                'Channel', 
                 'Customer Name', 
                 'Customer Email Address',
                 'Customer Phone No.',
@@ -523,7 +526,6 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                         new_row = [
                             transaction_.created_date.astimezone(pytz.timezone(time_zone)).strftime('%d-%m-%Y %-H:%M:%S'),
-                            'Online',
                             transaction_.name,
                             transaction_.email_address,
                             transaction_.phone_number,
@@ -582,7 +584,6 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
             data_ = [[
                 'Date', 
-                'Channel', 
                 'Customer Name', 
                 'Customer Email Address',
                 'Customer Phone No.',
@@ -682,7 +683,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             end_date_new_.astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
             datetime.datetime.now().astimezone(pytz.timezone(time_zone)).strftime('%d/%m/%Y'),
             'XCESS',
-            'GAFv1.0.0'
+            'GAFv1.0.1'
         ])
         index_1 = 1
         for transaction_row in filtered_table:
