@@ -66,48 +66,57 @@ def get_info_financial_year(url, headers, registration_number):
         year_info = parsed_response['rocFinancialYearInfos']['rocFinancialYearInfos']
         year_length = len(year_info)
         years = []
+        print('hehehehe', year_info)
+        if isinstance(year_info, list):
+            for year_ in year_info:
+                years.append(year_['financialYearEndDate'])
 
-        for year_ in year_info:
-            years.append(year_['financialYearEndDate'])
-
-        if year_length > 1 and year_length < 3:
-            return {
-                'year2': True,
-                'year3': False,
-                'year5': False,
-                'year10': False,
-                'years': years
-            }
-        elif year_length > 1 and year_length < 5:
-            return {
-                'year2': True,
-                'year3': True,
-                'year5': False,
-                'year10': False,
-                'years': years
-            }
-        elif year_length > 1 and year_length < 10:
-            return {
-                'year2': True,
-                'year3': True,
-                'year5': True,
-                'year10': False,
-                'years': years
-            }
-        elif year_length > 9:
-            return {
-                'year2': True,
-                'year3': True,
-                'year5': True,
-                'year10': True,
-                'years': years
-            }
+            if year_length > 1 and year_length < 3:
+                return {
+                    'year2': True,
+                    'year3': False,
+                    'year5': False,
+                    'year10': False,
+                    'years': years
+                }
+            elif year_length > 1 and year_length < 5:
+                return {
+                    'year2': True,
+                    'year3': True,
+                    'year5': False,
+                    'year10': False,
+                    'years': years
+                }
+            elif year_length > 1 and year_length < 10:
+                return {
+                    'year2': True,
+                    'year3': True,
+                    'year5': True,
+                    'year10': False,
+                    'years': years
+                }
+            elif year_length > 9:
+                return {
+                    'year2': True,
+                    'year3': True,
+                    'year5': True,
+                    'year10': True,
+                    'years': years
+                }
+            else:
+                return {
+                    'year2': True,
+                    'year3': False,
+                    'year5': False,
+                    'year10': False
+                }
         else:
+            years.append(year_info['financialYearEndDate'])
             return {
-                'year2': True,
-                'year3': False,
-                'year5': False,
-                'year10': False
+                    'year2': True,
+                    'year3': False,
+                    'year5': False,
+                    'year10': False,
+                    'years': years
             }
-    
     
