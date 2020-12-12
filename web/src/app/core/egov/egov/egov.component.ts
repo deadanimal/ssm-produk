@@ -186,13 +186,14 @@ export class EgovComponent implements OnInit {
         Validators.required
       ]))
     })
+    
     this.registerForm.controls['user'].setValue(this.user.id)
   }
 
   // SB start
 
-  getUser() {
-    if (this.userService.currentUser) {
+  getUser() { 
+    if (this.userService.currentUser) {      
       this.user = this.userService.currentUser
     }
     if (this.user && this.user['user_type'] == 'EG') {
@@ -264,7 +265,7 @@ export class EgovComponent implements OnInit {
     })
     .then((res) => {
       if (res) {
-        this.navigatePage('/home')
+        this.navigatePage('/egov/home')
       }
     })
   }
