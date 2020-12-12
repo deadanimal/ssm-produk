@@ -71,6 +71,7 @@ export class EgovTaskManagementComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: 'modal-dialog-centered modal-xl',
+   
   };
 
   // Form
@@ -138,6 +139,7 @@ export class EgovTaskManagementComponent implements OnInit {
     // });
 
     // this.initData();
+  
     this.initForm()
   }
 
@@ -333,8 +335,8 @@ export class EgovTaskManagementComponent implements OnInit {
     
   }
 
-  onRemarksChange($event) {
-    console.log(this.isRemarksOthers)
+  onRemarksChange($event) {   
+
     if (this.eGovRegRemarks == 'Others') {
       this.isRemarksOthers = true
     }
@@ -571,8 +573,12 @@ export class EgovTaskManagementComponent implements OnInit {
       'approver': this.currentUser.id
     }
     this.serviceService.approveDocReqItem(id, body).subscribe(
-      () => {this.loadingBar.complete()},
-      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()
+        this.successfullAlert('Successfully approved investigation request')
+      },
+      () => {this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
       () => {
         this.getData()
       }
@@ -595,8 +601,9 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   openAttachment() {
-    if (this.selectedTask['item']['attachment_letter']) {
-      let url = this.selectedTask['item']['attachment_letter']
+    
+    if (this.selectedTask.item.official_letter_egov) {
+      let url = this.selectedTask.item.official_letter_egov
       window.open(
         url, '_blank'
       )
@@ -632,13 +639,41 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   openModal(modalRef: TemplateRef<any>, row) {
+    var close = 0;
+    console.log(row);
+    
+    if (row.remarks == null || row.remarks == ""){
+      this.eGovRegRemarks = "null";
+      this.registrationForm.controls['remarks'].patchValue("")
+      this.isRemarksOthers = false;
+      this.registrationForm.controls['package'].patchValue("null");
+
+    }else{
+    if (row.remarks != "Attachment incomplete" && row.remarks != "Head of department details"){
+      
+      this.isRemarksOthers = true;
+      this.eGovRegRemarks = "Others";
+      this.registrationForm.controls['remarks'].patchValue(row.remarks);
+      close = 1;
+      this.registrationForm.controls['remarks'].disable();
+
+    }else{
+      this.eGovRegRemarks = "null";
+      this.registrationForm.controls['remarks'].patchValue("")
+      this.isRemarksOthers = false;
+    }  
+   } 
+    
     this.selectedTask = row
     this.currentUser = this.userService.currentUser
+    
     this.modal = this.modalService.show(modalRef, this.modalConfig);
+    close == 1 ? document.getElementById("remarksdd").hidden = true : "";
+    close == 1 ? document.getElementById("remarklbl").hidden = true : "";
 
     if (this.selectedTask.task_type == 'Investigation Document Request') {
       this.requestItemList = this.selectedTask.item.document_request_item
-      console.log(this.requestItemList)
+    
       this.tableItemRows = this.requestItemList
       this.tableItemTemp = this.tableItemRows.map((prop, key) => {
         return {
@@ -650,7 +685,15 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   closeModal() {
-    this.modal.hide();
+    this.eGovRegRemarks = "null";
+    this.registrationForm.controls['remarks'].patchValue("")
+    this.isRemarksOthers = false;
+    if (this.modal == undefined){
+
+    } else{
+       this.modal.hide();
+    }   
+   
   }
 
   confirm() {

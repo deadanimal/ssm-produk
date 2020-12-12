@@ -202,6 +202,13 @@
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="pl-2">{{data.incorp_date }}</p></td>
                     </tr>
+                    {% if data.company_info.registrationDate %}
+                        <tr style="height:20px;">
+                            <td><p id="secondary">TARIKH PENDAFTARAN</p></td>
+                            <td><p id="secondary">:</p></td>
+                            <td><p id="secondary" class="pl-2">{{data.company_info.registrationDate }}</p></td>
+                        </tr>
+                    {% endif %}
                     <tr style="height:40px;">
                         <td><p id="secondary">JENIS</p></td>
                         <td><p id="secondary">:</p></td>
@@ -398,7 +405,7 @@
                         <th style="width:25%;" id="head-zero"></th> 
                     </tr>
                     <tr style="height:20px;">
-                        <td><p id="secondary">JUMLAH DITERBITKAN (RM) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
+                        <td><p id="secondary">JUMLAH DITERBITKAN ({{data.company_info.currency}}) {{data.total_issued | floatformat:4 | intcomma}}</p></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -633,6 +640,9 @@
             
             <hr class="my-3" />
             
+            {% if data.shareholders_data|length == 0 %}
+                <h4 class="font-weight-bold text-center" style="margin-top: 160px; font-size: 14pt;">TIADA MAKLUMAT</h4>
+            {% else %}
             <div class="table-responsive">
                 <table class="table text-left borderless">
                     <tr id="zero">
@@ -690,8 +700,8 @@
                         {% endif %}
                     {% endfor %}
                 </table>
-            </div>    
-            
+            </div>
+            {% endif %}
             
             <h4 class="font-weight-bold text-center pg-break"><u> MAKLUMAT GADAIAN </u></h4>
 
@@ -965,7 +975,7 @@
                         <td><p id="secondary">CURRENT ASSETS</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.company_info.localforeignCompany == 'L' %}
+                            {% if data.company_info.localforeignCompany == 'L' or data.company_info.localforeignCompany == 'F' %}
                                 {% if data.bs_data.currentAsset %}
                                     {{data.bs_data.currentAsset | floatformat:2 | intcomma }}
                                 {% elif not data.bs_data.auditor_name %}
@@ -984,7 +994,7 @@
                         <td><p id="secondary">NON-CURRENT LIABILITIES</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.company_info.localforeignCompany == 'L' %}
+                            {% if data.company_info.localforeignCompany == 'L' or data.company_info.localforeignCompany == 'F' %}
                                 {% if data.bs_data.nonCurrentLiability %}
                                     {{data.bs_data.nonCurrentLiability | floatformat:2 | intcomma }}
                                 {% elif not data.bs_data.auditor_name %}
@@ -1003,7 +1013,7 @@
                         <td><p id="secondary">CURRENT LIABILITIES</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            {% if data.bs_data.liability and data.company_info.localforeignCompany == 'L' %}
+                            {% if data.bs_data.liability %}
                                 {{data.bs_data.liability | floatformat:2 | intcomma }}
                             {% elif not data.bs_data.auditor_name %}
                                 NIL
@@ -1074,7 +1084,7 @@
                         <td><p id="secondary">HEAD OFFICE COUNT</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            NIL 
+                            {{data.bs_data.headOfficeAccount}} 
                         </p></td>
                     </tr>
                     {% endif %}
@@ -1172,21 +1182,39 @@
                         <td><p id="secondary">REVENUE</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            NIL
+                            {% if data.pl_data.revenue and data.pl_data.revenue != 'NONE' %}
+                                {{data.pl_data.revenue | floatformat:2 | intcomma }}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                            {% else %}
+                                0.00
+                            {% endif %}  
                         </p></td>
                     </tr>
                     <tr style="height:4px;">
                         <td><p id="secondary">PROFIT/(LOSS) BEFORE TAX</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            NIL
+                            {% if data.pl_data.profitBeforeTax and data.pl_data.profitBeforeTax != 'NONE' %}
+                                {{data.pl_data.profitBeforeTax | floatformat:2 | intcomma }}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                            {% else %}
+                                0.00
+                            {% endif %}  
                         </p></td>
                     </tr>
                     <tr style="height:4px;">
                         <td><p id="secondary">PROFIT/(LOSS) AFTER TAX</p></td>
                         <td><p id="secondary">:</p></td>
                         <td><p id="secondary" class="text-right">
-                            NIL
+                            {% if data.pl_data.profitAfterTax and data.pl_data.profitAfterTax != 'NONE' %}
+                                {{data.pl_data.profitAfterTax | floatformat:2 | intcomma }}
+                            {% elif not data.bs_data.auditor_name %}
+                                NIL
+                            {% else %}
+                                0.00
+                            {% endif %}  
                         </p></td>
                     </tr>
                     {% endif %}
