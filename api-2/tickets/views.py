@@ -505,6 +505,17 @@ class EnquiryTicketReplyViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = EnquiryTicketReplySerializer(ticket_reply)
         return Response(serializer.data)
+    
+    @action(methods=['GET'], detail=True)
+    def read_reply(self, request, *args, **kwargs):
+        ticket_reply = self.get_object()
+
+        ticket_reply.read = True
+        ticket_reply.save()
+
+        serializer = EnquiryTicketReplySerializer(ticket_reply)
+        return Response(serializer.data)   
+
 
 
 class EnquiryTicketSelectionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

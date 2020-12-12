@@ -27,7 +27,7 @@
             
 
             <div *ngFor="let note of notes">
-                <div *ngIf="note.slug == header_instruction_en" [innerHTML]="note.description">
+                <div *ngIf="note.slug == 'header_instruction_en'" [innerHTML]="note.description">
                     <h5>{{note.description}}</h5>
                 </div>
                 
@@ -169,15 +169,20 @@
                     </p>
                     
                     <div class="notes p-3 mb-2">
-                        <b>Notes</b>
+                        <b><span *ngFor="let note of notes">
+                            <span *ngIf="note.slug == 'header_notes_en'" [innerHTML]="note.description">
+                                {{note.description}}
+                            </span>
+                        </span></b>
                         <span *ngFor="let note of notes">
                             <span *ngIf="note.slug == 'notes_en'" [innerHTML]="note.description">
                                 {{note.description}}
                             </span>
                         </span>
                     </div>
-
-                    <b>Disclaimer</b>
+                    <span *ngFor="let note of notes">
+                    <b><span *ngIf="note.slug == 'header_disclaimer_en'" [innerHTML]="note.description">{{note.description}}</span></b>
+                    </span>
                     <br />
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="disclaimer">
@@ -194,7 +199,7 @@
 
             <div class="row">
                 <div class="col">
-                    <p class="">* Mandatory fields.</p>
+                    <span class="text-red">* </span><span>Mandatory fields.</span>
                 </div>
             </div>
 
@@ -202,7 +207,7 @@
                 <button 
                     class="btn btn-ssm rounded-pill" 
                     (click)="submit()"
-                    [disabled]="!enquiryForm.valid"
+                    
                 >
                     Submit
                 </button>

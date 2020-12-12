@@ -38,6 +38,7 @@ export class EnquiryHistoryComponent implements OnInit {
     while(!this.user) {
       if (this.userService.currentUser != undefined) {
         this.user = this.userService.currentUser
+        console.log('User: ', this.user)
         console.log('Gotcha')
       }
     }
@@ -49,9 +50,11 @@ export class EnquiryHistoryComponent implements OnInit {
 
         this.listTickets.forEach(
           (ticket) => {
-            if (ticket['user']['id'] == this.user['id']) {
-              ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY HH:mm')
-              this.filteredTicket.push(ticket)
+            if(ticket['user']) {
+              if (ticket['user']['id'] == this.user['id']) {
+                ticket['created_date_'] = moment(ticket['created_date']).format('DD/MM/YYYY HH:mm')
+                this.filteredTicket.push(ticket)
+              }
             }
           }
         )

@@ -67,43 +67,51 @@
                             {{log.message}}
 
                             <div *ngIf="log.status == 'In Progress - Response Required'">
-                                <div class="form-group">
-                                    <label class="form-control-label">Response</label>
-                                    <textarea class="form-control"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-control-label">Attachment</label>
-                                    <div class="custom-file">
-                                        <input 
-                                            type="file" 
-                                            class="custom-file-input cursor-pointer" 
-                                            id="files" 
-                                            lang="en"
-                                            (change)="onFileChange($event)"
-                                            accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
-                                        />
-                                        <label class="custom-file-label" for="files">Select file</label>
-        
-                                        <ng-container *ngIf="files.length > 0">
-                                            <div *ngFor="let file_ of files">
-                                                <i 
-                                                    class="fas fa-trash-alt text-warning mr-2"
-                                                    placement="top" 
-                                                    tooltip="Remove attachment"
-                                                    (click)="removeFile(file_)"
-                                                >
-                                                </i>
-                                                {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
-                                            </div>
-                                        </ng-container>
+                                <form [formGroup]="replyForm">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Response</label>
+                                        <span *ngIf=""class="text-red"> * </span>
+                                        <textarea class="form-control" formControlName="message"></textarea>
                                     </div>
-                                
+
+                                    <div class="form-group">
+                                        <label class="form-control-label">Attachment</label>
+                                        <span class="text-red"> * </span>
+                                        <div class="custom-file">
+                                            <input 
+                                                type="file" 
+                                                class="custom-file-input cursor-pointer" 
+                                                id="files" 
+                                                lang="en"
+                                                (change)="onFileChange($event)"
+                                                accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
+                                            />
+                                            <label class="custom-file-label" for="files">Select file</label>
+            
+                                            <ng-container *ngIf="files.length > 0">
+                                                <div *ngFor="let file_ of files">
+                                                    <i 
+                                                        class="fas fa-trash-alt text-warning mr-2"
+                                                        placement="top" 
+                                                        tooltip="Remove attachment"
+                                                        (click)="removeFile(file_)"
+                                                    >
+                                                    </i>
+                                                    {{file_['name']}} [{{file_['size']/1000000 | number: '1.2-2'}}MB]
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </form>
+                                    
 
                                 <div class="text-right pt-2">
-                                    <div class="btn btn-ssm rounded-pill" (click)="replyTicket()">
+                                    <button class="btn btn-ssm rounded-pill"
+                                        (click)="replyTicket(); clicked=true"
+                                        [disabled]="!replyForm.valid || clicked"
+                                    >
                                         Reply
-                                    </div>
+                                </button>
                                 </div>
                             </div>
                         </div>
