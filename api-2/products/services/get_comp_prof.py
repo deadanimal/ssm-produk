@@ -1,6 +1,8 @@
 import requests
 import json
 import xmltodict
+import pytz
+from datetime import datetime
 
 def get_comp_prof(url, headers, registration_number, entity_type):
 
@@ -12,7 +14,7 @@ def get_comp_prof(url, headers, registration_number, entity_type):
             <header>
                 <customerId>SSMProduk</customerId>
                 <customerReferenceNo></customerReferenceNo>
-                <customerRequestDate></customerRequestDate>
+                <customerRequestDate>""" + str(datetime.now(tz=pytz.timezone('Asia/Kuala_Lumpur'))) + """</customerRequestDate>
             </header>
             <request>
                 <supplyCompReq>
