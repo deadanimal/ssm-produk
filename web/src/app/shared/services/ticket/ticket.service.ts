@@ -91,6 +91,7 @@ export class TicketsService {
 
   updateStatus(body: any): Observable<any> {
     let urlTemp = this.urlTicket
+    console.log('service body:', body)
     if (body['type'] == 'IQ') {
       urlTemp = urlTemp + body['ticket'] + '/status_ip_required/'
     }

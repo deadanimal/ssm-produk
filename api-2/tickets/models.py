@@ -117,7 +117,10 @@ class Ticket(models.Model):
         ordering = ['-ticket_no']
     
     def __str__(self):
-        return self.ticket_no
+        if self.ticket_no:
+            return self.ticket_no
+        else:
+            return self.title
 
 
 class TicketCBID(models.Model):
