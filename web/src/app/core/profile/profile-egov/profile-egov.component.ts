@@ -98,7 +98,8 @@ export class ProfileEgovComponent implements OnInit {
       { type: 'required', message: 'Don\'t leave this field blank' }
     ],
     'head_of_department_email': [
-      { type: 'required', message: 'Don\'t leave this field blank' }
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid email'}
     ],
     'ministry_name': [
       { type: 'required', message: 'Don\'t leave this field blank' }
@@ -154,7 +155,7 @@ export class ProfileEgovComponent implements OnInit {
     ],
     'officer_official_email': [
       { type: 'required', message: 'Don\'t leave this field blank' },
-      { type: 'email', message: 'Invalid email'}
+      { type: 'pattern', message: 'Invalid email'}
 
     ],
     'court_case_no': [
@@ -284,9 +285,9 @@ export class ProfileEgovComponent implements OnInit {
     ) {
       if (this.user['egov_quota'] <= 100) {
         this.isQuotaLow = true
-        console.log('Quota')
-        console.log(this.isQuotaLow)
-        console.log(this.user['user_package'])
+        // console.log('Quota')
+        // console.log(this.isQuotaLow)
+        // console.log(this.user['user_package'])
       }
     }
 
@@ -473,7 +474,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
-        Validators.required
+        Validators.required, Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
       ])),
       head_of_department_position: new FormControl(null, Validators.compose([
         Validators.required
@@ -534,7 +535,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       officer_official_email: new FormControl(null, Validators.compose([
-        Validators.required,Validators.email
+        Validators.required,Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
       ])),
       ip_no: new FormControl(null, Validators.compose([
         Validators.pattern("^[0-9]*$"),Validators.required
@@ -580,7 +581,7 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.pattern("[a-zA-Z]*@gov.my$")
+        Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
       ])),
       ministry_name: new FormControl(null, Validators.compose([
         Validators.required
