@@ -297,7 +297,7 @@
                                     <button 
                                         class="btn btn-sm btn-ssm"
                                         *ngIf="row.task_type == 'Renew Account'"
-                                        (click)="openModal(investigationRequest, row)"
+                                        (click)="openModal(renewAcc, row)"
                                     >
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -1274,24 +1274,11 @@
         </div>
 
         <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
-        <form [formGroup]="quotaForm">
+        <form [formGroup]="renewForm">
             <div class="row">
-                <div class="col-lg-6 col-sm-12">
-                    <div class="form-group">
-                        <label class="form-control-label">Quota</label>
-                        <input 
-                            class="form-control" 
-                            formControlName="quota"
-                            [ngClass]="{'is-invalid': quotaForm.controls.quota.invalid && quotaForm.controls.quota.touched}"
-                        >
-
-                        <ng-container *ngFor="let message of quotaFormMessages.quota">
-                            <div *ngIf="quotaForm.get('quota').hasError(message.type) && (quotaForm.get('quota').dirty || quotaForm.get('position_or_grade').touched)">
-                                <p class="error-message"><span>{{ message.message }}</span></p>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
+                <!-- <div class="col-lg-6 col-sm-12">
+                   
+                </div> -->
 
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
@@ -1326,7 +1313,7 @@
         <button 
             class="btn btn-ssm rounded-pill" 
             type="button" 
-            (click)="approveUpdate()"
+            (click)="approveRenew()"
             [disabled]="!updateForm.valid || selectedTask['item']['request_status'] != 'PD'">
             Approve
         </button>
@@ -1335,7 +1322,7 @@
             class="btn btn-outline-ssm ml-1 rounded-pill" 
             data-dismiss="modal" 
             type="button" 
-            (click)="rejectUpdate()"
+            (click)="rejectRenew()"
             [disabled]="!updateForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
         >
             Reject
