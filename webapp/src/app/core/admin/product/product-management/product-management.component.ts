@@ -88,15 +88,15 @@ export class ProductManagementComponent implements OnInit {
         this.tableRows = res;
         this.tableRows.forEach(
           (row) => {
-            if(row.created_date) {
+            if (row.created_date) {
               row.created_date = moment(row.created_date).format('DD/MM/YYYY')
             }
 
-            if(row.modified_date) {
+            if (row.modified_date) {
               row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
             }
           }
-        )        
+        )
       },
       (err) => {
         this.loadingBar.complete()
@@ -105,9 +105,9 @@ export class ProductManagementComponent implements OnInit {
         this.tableTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
-            id_index: key+1
+            id_index: key + 1
           };
-        });        
+        });
         console.log(this.tableTemp)
       }
     )
@@ -144,7 +144,7 @@ export class ProductManagementComponent implements OnInit {
     let val = $event.target.value.toLowerCase();
     if (type == 'product') {
       console.log(val)
-      this.tableTemp = this.tableRows.filter(function(d) {
+      this.tableTemp = this.tableRows.filter(function (d) {
         return d.name.toLowerCase().indexOf(val) !== -1 || !val;
       });
     }
@@ -155,7 +155,7 @@ export class ProductManagementComponent implements OnInit {
         this.tableRows.forEach(
           (item) => {
             if (
-              !item['roc'] 
+              !item['roc']
 
             ) {
               this.tableTemp.push(item)
@@ -170,7 +170,7 @@ export class ProductManagementComponent implements OnInit {
           (item) => {
             if (
               !item['rob'] &&
-              item['roc'] 
+              item['roc']
             ) {
               this.tableTemp.push(item)
             }
@@ -185,8 +185,8 @@ export class ProductManagementComponent implements OnInit {
 
   filterTableAll($event) {
     let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
+    this.tableTemp = this.tableRows.filter(function (d) {
+      return d.title.toLowerCase().indexOf(val)! == -1 || !val;
     });
   }
 
@@ -194,35 +194,35 @@ export class ProductManagementComponent implements OnInit {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
   }
-  
+
   openModal(modalRef: TemplateRef<any>, row) {
 
     this.selectedRow = row
     let truectc = true
-    let num = this.selectedRow['fee']/100
+    let num = this.selectedRow['fee'] / 100
     this.ssmfee = num.toFixed(2)
     this.updateForm.controls['name'].setValue(this.selectedRow['name'])
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
     // this.modal = this.modalService.show(modalRef, this.modalConfig);
-  } 
+  }
 
-  openAddModal(modalRef: TemplateRef<any>){
+  openAddModal(modalRef: TemplateRef<any>) {
     this.title = "Add New Product"
     this.isSave = true
-    
+
     this.modal = this.modalService.show(
-    modalRef, this.modalConfig
+      modalRef, this.modalConfig
     );
   }
 
   closeModal() {
     this.modal.hide();
-  }  
+  }
 
-  save(){
-    
+  save() {
+
     this.loadingBar.start()
     this.productService.create(this.updateForm).subscribe(
       () => {
@@ -254,12 +254,12 @@ export class ProductManagementComponent implements OnInit {
         this.getData()
       }
     )
-  }  
+  }
 
   exportExcel() {
     let fileName = 'Product_List.xlsx'
-    let element = document.getElementById('productTable'); 
-    const ws: xlsx.WorkSheet =xlsx.utils.table_to_sheet(element);
+    let element = document.getElementById('productTable');
+    const ws: xlsx.WorkSheet = xlsx.utils.table_to_sheet(element);
 
     /* generate workbook and add the worksheet */
     const wb: xlsx.WorkBook = xlsx.utils.book_new();
@@ -269,7 +269,7 @@ export class ProductManagementComponent implements OnInit {
     xlsx.writeFile(wb, fileName);
   }
 
-  setTax($event, e){
+  setTax($event, e) {
     let val = parseInt($event.target.value)
     let fee = parseInt(e.target.value)
     console.log(fee)

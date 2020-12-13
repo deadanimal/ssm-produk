@@ -28,8 +28,14 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/admin/dashboard',
     title: 'Dashboard',
-    type: 'link',
+    type: 'sub',
     icontype: 'fas fa-home text-primary',
+    collapse: 'product',
+    isCollapsed: true,
+    children: [
+      { path: 'dashboard-default', title: 'Dashboard', type: 'link' },
+      { path: 'dashboard-product', title: 'Dashboard Product', type: 'link' },
+    ]
   },
   {
     path: '/admin/product',
@@ -45,7 +51,14 @@ export const ROUTES: RouteInfo[] = [
       { path: 'involvement-management', title: 'Personal Involvement Management', type: 'link' },
       { path: 'foc-management', title: 'F.O.C. Acccount', type: 'link' },
       { path: 'statistics', title: 'Statistics', type: 'link' },
-      { path: 'report', title: 'Report', type: 'link' },
+      {
+        path: 'report', title: 'Report', type: 'sub', collapse: 'product', isCollapsed: true, children: [
+          // { path: 'report-dashboard', title: 'Product Report', type: 'link' },
+          { path: 'hasil-upp-summary', title: 'Hasil UPP Summary', type: 'link' },
+          { path: 'hasil-upp-details', title: 'Hasil UPP Details', type: 'link' },
+          { path: 'product-sp-ranking', title: 'Product SP Ranking', type: 'link' },
+        ]
+      },
     ],
   },
   {
@@ -64,7 +77,7 @@ export const ROUTES: RouteInfo[] = [
       //{ path: 'audit-trail', title: 'CBID Audit Trail', type: 'link' },
       { path: 'report', title: 'CBID Report', type: 'link' },
     ],
-  },  
+  },
   {
     path: '/admin/egov',
     title: 'eGov',
@@ -79,7 +92,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'user-management', title: 'eGov User Management', type: 'link' },
       // { path: 'report', title: 'Report', type: 'link'}
     ],
-  },  
+  },
   {
     path: '/admin/enquiry',
     title: 'Enquiry',
@@ -102,10 +115,12 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'finance',
     isCollapsed: true,
     children: [
-      { path: 'master-transaction-table', title: 'Master Transaction Table', type: 'sub', children: [
-        { path: 'summary-report', title: 'Summary Report', type: 'link' },
-        { path: 'detailed-report', title: 'Detailed Report', type: 'link' }
-      ]},
+      {
+        path: 'master-transaction-table', title: 'Master Transaction Table', type: 'sub', children: [
+          { path: 'summary-report', title: 'Summary Report', type: 'link' },
+          { path: 'detailed-report', title: 'Detailed Report', type: 'link' }
+        ]
+      },
       { path: 'refund-dropdowns', title: 'Refund Dropdowns', type: 'link' },
       { path: 'gaf-generator', title: 'GAF Generator', type: 'link' },
     ],
@@ -130,7 +145,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'rbac', title: 'RBAC', type: 'link' },
       { path: 'audit-trail', title: 'Audit Trail', type: 'link' },
     ],
-  },  
+  },
   // {
   //   path: '/admin/super-admin',
   //   title: 'Super Admin',
