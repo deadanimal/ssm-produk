@@ -45,6 +45,8 @@ export class EgovComponent implements OnInit {
   
   // Modal
   modal: BsModalRef;
+  modalTemp: BsModalRef;
+  modalname: ''
   modalConfig = {
     keyboard: true,
     class: 'modal-dialog-centered',
@@ -333,11 +335,41 @@ export class EgovComponent implements OnInit {
   
   // SB end
 
-  openModal(modalRef: TemplateRef<any>) {
-    this.modal = this.modalService.show(
-      modalRef,
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
+  // openModal(modalRef: TemplateRef<any>) {
+  //   this.modal = this.modalService.show(
+  //     modalRef,
+  //     Object.assign({}, { class: 'gray modal-lg' })
+  //   );
+  // }
+
+  openModal(modalRef: TemplateRef<any>,name) {
+    if (name != "ss"){
+      this.modalname = name;
+      this.modal = this.modalService.show(
+        modalRef,
+        Object.assign({}, { class: 'gray modal-lg' })
+      );
+    }else{
+      this.modalTemp = this.modal;
+      this.modal = this.modalService.show(
+        modalRef,
+        Object.assign({}, { class: 'gray modal-lg' })
+      );
+    }   
+    
+    
+  }
+
+  closeModal(flag) {
+    if (flag != "ss"){
+      this.modal.hide();
+    }else{
+      this.modal.hide();
+      this.modal = this.modalTemp;
+    }
+    
+    
+    // this.editAppReqForm.reset();
   }
 
   openModalSm(modalRef: TemplateRef<any>) {
@@ -347,9 +379,9 @@ export class EgovComponent implements OnInit {
     );
   }
 
-  closeModal() {
-    this.modal.hide();
-    // this.editAppReqForm.reset();
-  }
+  // closeModal() {
+  //   this.modal.hide();
+  //   // this.editAppReqForm.reset();
+  // }
 
 }
