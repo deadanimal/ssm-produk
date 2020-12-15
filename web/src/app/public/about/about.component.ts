@@ -9,6 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class AboutComponent implements OnInit {
 
   // Modal
+  modalname : ''
   modalSample: BsModalRef
   modalConfig = {
     keyboard: true,
@@ -26,6 +27,10 @@ export class AboutComponent implements OnInit {
     this.modalSample = this.modalService.show(modalRef, this.modalConfig);
   }
 
+  openModalSample2(modalRef: TemplateRef<any>,name) {
+    this.modalname = name;
+    this.modalSample = this.modalService.show(modalRef, this.modalConfig);
+  }
   closeModalSample() {
     this.modalSample.hide()
   }

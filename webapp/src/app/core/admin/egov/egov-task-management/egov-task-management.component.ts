@@ -354,11 +354,15 @@ export class EgovTaskManagementComponent implements OnInit {
   onRemarksChange($event) {   
 
     if (this.eGovRegRemarks == 'Others') {
+      //console.log("inside");
+      
       this.isRemarksOthers = true
     }
     else {
       this.isRemarksOthers = false
     }
+    console.log(this.isRemarksOthers);
+    
   }
 
   approveRegistration() {
@@ -511,6 +515,7 @@ export class EgovTaskManagementComponent implements OnInit {
         this.failedAlert('Please try again later')
       },
       () => {
+        this.closeModal()
         this.getData()
       }
     )
@@ -664,6 +669,11 @@ export class EgovTaskManagementComponent implements OnInit {
       window.open(
         url, '_blank'
       )
+    }else if(this.selectedTask.item.attachment_letter){
+      let url = this.selectedTask.item.attachment_letter
+      window.open(
+        url, '_blank'
+      )
     }
   }
 
@@ -699,7 +709,7 @@ export class EgovTaskManagementComponent implements OnInit {
     var close = 0;
     console.log(row);
     
-    if (row.remarks == null || row.remarks == ""){
+    if (row.remarks == null || row.remarks == "" || row.remarks == "null"){
       this.eGovRegRemarks = "null";
       this.registrationForm.controls['remarks'].patchValue("")
       this.isRemarksOthers = false;
@@ -725,12 +735,11 @@ export class EgovTaskManagementComponent implements OnInit {
     this.currentUser = this.userService.currentUser
     
     this.modal = this.modalService.show(modalRef, this.modalConfig);
-    close == 1 ? document.getElementById("remarksdd").hidden = true : "";
-    close == 1 ? document.getElementById("remarklbl").hidden = true : "";
 
     if (this.selectedTask.task_type == 'Investigation Document Request') {
+
       this.requestItemList = this.selectedTask.item.document_request_item
-    
+      
       this.tableItemRows = this.requestItemList
       this.tableItemTemp = this.tableItemRows.map((prop, key) => {
         return {
@@ -740,6 +749,8 @@ export class EgovTaskManagementComponent implements OnInit {
       })
  
     }
+    close == 1 ? document.getElementById("remarksdd").hidden = true : "";
+    close == 1 ? document.getElementById("remarklbl").hidden = true : "";
   }
 
   closeModal() {

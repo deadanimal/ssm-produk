@@ -6,8 +6,8 @@
                 <div class="header-body text-center mb-9">
                     <div class="row justify-content-center">
                         <div class="col">
-                            <h1 class="text-ssm font-weight-bolder">ABOUT SSM PRODUCT</h1>
-                        </div>`
+                            <h1 class="text-ssm font-weight-bolder mb-0" style="font-size: 3.0rem;">ABOUT SSM PRODUCT</h1>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -17,16 +17,16 @@
     <div class="container mt--9">
         <div class="row">
             <div class="col-md-12 ml-auto">
-                <h2 class="mb-3 text-ssm text-center text-title">Company Information</h2>
+                <h2 class="mb-3 text-ssm text-center font-weight-bolder text-title">Company Information</h2>
 
                 <div class="my-5">
-                    <h4 class="title">Company Profile</h4>
+                    <h3 class="title">Company Profile</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 A current report that contains basic information of a company, 
-                                (such of a company, name, company number, incorporation date, 
-                                company type, company status, registered address business address 
+                                (such as company name, company number, incorporation date, 
+                                company type, company status, registered address, business address 
                                 and nature of business), share capital, directors/officers, 
                                 shareholders, charges (if any) and financial information.
                             </p>
@@ -44,7 +44,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample(companyprofile)"
                         >
                             View Sample
                         </button>
@@ -54,10 +54,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Financial Comparison</h4>
+                    <h3 class="title">Financial Comparison</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 A comparative information on the audited financial statements of a company. 
                                 Comparison can be made for 2 years, 3 years, 5 years and 10 years.
                             </p>
@@ -79,7 +79,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'FINANCIALCOMPARISON')"
                         >
                             View Sample
                         </button>
@@ -89,10 +89,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Financial Historical</h4>
+                    <h3 class="title">Financial Historical</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Comparison of audited financial statement information for a 
                                 company by selected year.
                             </p>
@@ -110,7 +110,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'FINANCIALHISTORICAL')"
                         >
                             View Sample
                         </button>
@@ -120,44 +120,43 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Attestation of Company Good Standing (ACGS)</h4>
+                    <h3 class="title">Attestation of Company Good Standing (ACGS)</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 ACGS is a document issued by SSM to confirm the existence
                                 of a company and that it has met the statutory requirements
                                 by the Companies Act 2016 (Act 777). Below are the criteria
                                 for the requirements of ACGS to a company:
                             </p>
                             <ul>
-                                <li>
-                                    The company has been incorporated for at 
+                                <li align="justify" style="text-align:justify">The company has been incorporated for at 
                                     least 18 months from the date of the ACGS;
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company has lodged its latest Annual 
                                     Return and Audited Financial Statements or 
                                     its latest Exempt Private Company (EPC) certificate;
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company’s status is ‘existing’ and is not in the
                                     process of being wound or struck off or dissolved;
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company is not dormant as per nature of business;
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company has a registered address;
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company or its directors do not 
                                     have any outstanding compound with SSM; and
                                 </li>
-                                <li>
+                                <li align="justify" style="text-align:justify">
                                     The company or its directors do not have 
                                     pending prosecution case with SSM.
                                 </li>
-                            </ul> 
+                            </ul>
                         </div>
                         <div class="col-lg-3 text-right">
                             <p>Non-CTC</p>
@@ -172,7 +171,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'acgs')"
                         >
                             View Sample
                         </button>
@@ -182,13 +181,18 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Digitally Certified True Copy Document</h4>
+                    <h3 class="title">Digitally Certified True Copy Document</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Digitally certified true copy document is a 
                                 certified document provided to the public in
-                                relation to a copy of document image lodged to SSM.
+                                relation to a copy of document image lodged to SSM.</p>
+                                <p align="justify" style="text-align:justify">These documents have been digitally certified true
+                                copy by MSC Trustgate.Com Sdn Bhd. (478231-X) a
+                                company authorized as a Certified Authority in
+                                Malaysia under Section 8, the Digital Signature Act
+                                1997 and the Digital Signature Regulations 1998.
                             </p>
                         </div>
                         <div class="col-lg-3 text-right">
@@ -203,6 +207,7 @@
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
                             (click)="openModalSample(productSample)"
+                            disabled
                         >
                             View Sample
                         </button>
@@ -212,10 +217,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Certificate of Incorporation/Registration of a Company</h4>
+                    <h3 class="title">Certificate of Incorporation/Registration of a Company</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Under the Companies Act 2016, a notice of incorporation of 
                                 a company will be issued to the customer after incorporation. 
                                 However, a certificate of incorporation/registration of a company 
@@ -235,7 +240,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'CERTIFICATEOFINCORPORATION')"
                         >
                             View Sample
                         </button>
@@ -245,10 +250,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Certificate of Change of Company Name</h4>
+                    <h3 class="title">Certificate of Change of Company Name</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Under the Companies Act 2016, a notice to certify 
                                 the change of company name will be issued to the 
                                 customer after the changes have been made. However,
@@ -269,7 +274,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'CERTIFICATEOFCHANGEOFNAME')"
                         >
                             View Sample
                         </button>
@@ -279,10 +284,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Certificate of Conversion of Company</h4>
+                    <h3 class="title">Certificate of Conversion of Company</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Under the Companies Act 2016, a notice to certify 
                                 the conversion of a company will be issued to the 
                                 customer after the conversion has been made. However, 
@@ -303,8 +308,8 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
-                        >
+                            (click)="openModalSample2(sampleDoc,'CERTIFICATEOFCONVERSION')">
+                        
                             View Sample
                         </button>
                     </div>
@@ -313,10 +318,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Particulars of Directors/Officers</h4>
+                    <h3 class="title">Particulars of Directors/Officers</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 An information extracted from Form 49 (Return giving
                                 particulars in Register of Directors, 
                                 Managers and Secretaries and changes 
@@ -325,6 +330,12 @@
                                 the Register of Directors, Managers and Secretaries) 
                                 under the Companies Act 2016 which has been lodged by 
                                 customers in SSM.
+                            </p>
+                            <p align="justify" style="text-align:justify">
+                                It consists of 3 segments ie. the company's basic
+                                information, the company's current director's/officer's
+                                information and previous information of the company's
+                                directors/officers for the last 15 years.
                             </p>
                         </div>
                         <div class="col-lg-3 text-right">
@@ -340,7 +351,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'PARTICULARSOFDIRECTORS')"
                         >
                             View Sample
                         </button>
@@ -350,10 +361,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Particulars of Registered Address</h4>
+                    <h3 class="title">Particulars of Registered Address</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 An information extracted from Section 46 (Notification for 
                                 change in the registered address) under the Companies Act 
                                 2016 which has been lodged by customers to SSM. It consists 
@@ -375,7 +386,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'PARTICULARSOFREGISTEREDADDRESS')"
                         >
                             View Sample
                         </button>
@@ -385,10 +396,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Particulars of Share Capital</h4>
+                    <h3 class="title">Particulars of Share Capital</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 An information extracted from Section 78 
                                 (Return of allotment of shares) under the 
                                 Companies Act 2016 which has been lodged by 
@@ -421,10 +432,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Particulars of Shareholder</h4>
+                    <h3 class="title">Particulars of Shareholder</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 An information extracted from Section 51 
                                 (Notification of changes in the Register of Members) 
                                 under the Companies Act 2016 which has been lodged by 
@@ -446,7 +457,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'PSHARH')"
                         >
                             View Sample
                         </button>
@@ -456,10 +467,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Particulars of Company Secretary</h4>
+                    <h3 class="title">Particulars of Company Secretary</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Particulars of company secretary contains the 
                                 company's basic information, current company secretary 
                                 information and previous company secretary information.
@@ -488,10 +499,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Audit Firm Profile</h4>
+                    <h3 class="title">Audit Firm Profile</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 This product describes the information of a firm of 
                                 auditors registered with SSM which contains detail of 
                                 the firm's auditor, branch of the firm's auditor, current 
@@ -521,10 +532,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Company Charges</h4>
+                    <h3 class="title">Company Charges</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 An information of the latest charges containing 
                                 company name, company number, charge number, name 
                                 of chargee, address charge, charge status, charge amount, 
@@ -544,7 +555,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample(companycharges)"
                         >
                             View Sample
                         </button>
@@ -554,10 +565,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Statutory Document Image</h4>
+                    <h3 class="title">Statutory Document Image</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Image of statutory document lodged by 
                                 the public to SSM relating to the company.
                             </p>
@@ -577,7 +588,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'IMEJ2')"
                         >
                             View Sample
                         </button>
@@ -587,10 +598,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Personal Involvement</h4>
+                    <h3 class="title">Personal Involvement - Coming Soon</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Information relating to involvement of directors, 
                                 shareholders, secretary, auditor or liquidator 
                                 in any company obtained through IC or passport searching. 
@@ -610,6 +621,7 @@
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
                             (click)="openModalSample(productSample)"
+                            disabled
                         >
                             View Sample
                         </button>
@@ -619,10 +631,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Customized Data</h4>
+                    <h3 class="title">Customized Data</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Consists of four (4) packages which extracted according to the Criteria 
                                 based on customer requirements.
                             </p>
@@ -650,10 +662,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Company and Business Information Data (CBID)</h4>
+                    <h3 class="title">Company and Business Information Data (CBID)</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Bulk purchased of company and business 
                                 information according to the customer requirements 
                                 i.e. nature of business, geographical and etc. 
@@ -673,6 +685,7 @@
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
                             (click)="openModalSample(productSample)"
+                            disabled
                         >
                             View Sample
                         </button>
@@ -681,16 +694,16 @@
 
                 <hr class="my-0" />
 
-                <h2 class="mb-3 mt-5 text-ssm text-center text-title">Business Information</h2>
+                <h2 class="mb-3 text-ssm text-center font-weight-bolder text-title">Business Information</h2>
 
                 <div class="my-5">
-                    <h4 class="title">Business Profile</h4>
+                    <h3 class="title">Business Profile</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 A report which contains the latest information of a business (such as business name, 
-                                registration number, registration date, registration export date, business form, nusiness status, 
-                                business address, business type, business branch information (if any), information of the current and previous owner)
+                                registration number, registration date, registration expiry date, business form, business status, 
+                                business address, business type, business branch information (if any)), information of the current and previous owner.
                             </p>
                         </div>
                         <div class="col-lg-3 text-right">
@@ -706,7 +719,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample(businessprofile)"
                         >
                             View Sample
                         </button>
@@ -716,10 +729,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Copy of a Business Registration Certificate</h4>
+                    <h3 class="title">Copy of a Business Registration Certificate</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 A copy of business registration certificate can 
                                 be provided if there is an application by the customer.
                             </p>
@@ -747,10 +760,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Business Expiry Confirmation Letter</h4>
+                    <h3 class="title">Business Expiry Confirmation Letter</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Business expiry confirmation letter is a supporting document confirming the 
                                 expiry status of a business registration. The status of the business 
                                 registration must already be expired at the time of the application is being made 
@@ -770,7 +783,7 @@
                         <button
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
-                            (click)="openModalSample(productSample)"
+                            (click)="openModalSample2(sampleDoc,'CERTIFICATEOFEXPIRYBUSINESS')"
                         >
                             View Sample
                         </button>
@@ -780,10 +793,10 @@
                 <hr class="my-0" />
 
                 <div class="my-5">
-                    <h4 class="title">Personal Involvement</h4>
+                    <h3 class="title">Personal Involvement - Coming Soon</h3>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>
+                            <p align="justify" style="text-align:justify">
                                 Information relating to involvement of 
                                 business owner in any business obtained through IC searching.
                             </p>
@@ -802,6 +815,7 @@
                             class="btn btn-ssm btn-round mr-1"
                             type="button"
                             (click)="openModalSample(productSample)"
+                            disabled
                         >
                             View Sample
                         </button>
@@ -816,9 +830,9 @@
 
 <ng-template #productSample>
     <div class="modal-header bg-ssm">
-        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+        <h3 class="modal-title text-white my-auto" id="modal-title-default">
             Product Sample
-        </h4>
+        </h3>
 
         <button
             aria-label="Close"
@@ -834,4 +848,115 @@
     <div class="modal-body px-auto">
         <img style="width: 85%;" class="d-flex mx-auto" src="assets/img/default/sample.png">
     </div>
+</ng-template>
+
+<ng-template #companyprofile>
+    <div class="modal-header bg-ssm">
+        <h3 class="modal-title text-white my-auto" id="modal-title-default">
+            Company Profile Sample
+        </h3>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModalSample()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/companyprofile.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #companycharges>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Company Charges Sample
+        </h4>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/companycharges.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #businessprofile>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Business Profile Sample
+        </h4>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/businessprofile.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #sampleDoc>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'acgs'">
+            ACGS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+            CERTIFICATE OF CHANGE OF NAME Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+            CERTIFICATE OF INCORPORATION OF NAME Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+            PARTICULARS OF DIRECTORS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALHISTORICAL'">
+            FINANCIAL HISTORICAL Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+            CERTIFICATE OF EXPIRY BUSINESS Sample
+        </h4>          
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALCOMPARISON'">
+            FINANCIAL COMPARISON Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">
+            CERTIFICATE OF CONVERSION Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">
+            PARTICULARS OF REGISTERED ADDRESS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'IMEJ2'">
+            STATUTORY DOCUMENT IMAGE Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PSHARH'">
+            PARTICULARS OF SHAREHOLDERS Sample
+        </h4>         
+        
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+        <embed src="assets/img/docs/ACGS.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'acgs'">
+        <embed src="assets/img/docs/CERTIFICATEOFCHANGEOFNAME.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+        <embed src="assets/img/docs/CERTIFICATEOFINCORPORATION.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+        <embed src="assets/img/docs/PARTICULARSOFDIRECTORS.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+        <embed src="assets/img/docs/FINANCIALHISTORICAL.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALHISTORICAL'">
+        <embed src="assets/img/docs/CERTIFICATEOFEXPIRYBUSINESS.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+        <embed src="assets/img/docs/FINANCIALCOMPARISON.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALCOMPARISON'">
+        <embed src="assets/img/docs/CERTIFICATEOFCONVERSION.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">           
+        <embed src="assets/img/docs/PARTICULARSOFREGISTEREDADDRESS.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">           
+        <embed src="assets/img/docs/IMEJ2.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'IMEJ2'">           
+        <embed src="assets/img/docs/PSHARH.pdf" class="d-flex mx-auto" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PSHARH'">           
+   
+     </div>
 </ng-template>

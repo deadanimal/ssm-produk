@@ -89,7 +89,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample(companyprofile)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -169,7 +169,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample(companycharges)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -223,7 +223,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'acgs')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -314,7 +314,7 @@
                                                     </span>
                                                 </button>
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'CERTIFICATEOFINCORPORATION')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -398,7 +398,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'CERTIFICATEOFCHANGEOFNAME')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -486,7 +486,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'CERTIFICATEOFCONVERSION')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -634,7 +634,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'FINANCIALHISTORICAL')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -799,7 +799,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'FINANCIALCOMPARISON')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -866,7 +866,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'PARTICULARSOFDIRECTORS')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1034,7 +1034,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'PSHARH')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1181,7 +1181,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'PARTICULARSOFREGISTEREDADDRESS')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1253,7 +1253,7 @@
                                                 </button>
 
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample(businessprofile)">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1340,7 +1340,7 @@
                                                     </span>
                                                 </button>
                                                 <button class="btn btn-ssm btn-block btn-sm cursor-pointer"
-                                                    (click)="openModalSample(productSample)">
+                                                    (click)="openModalSample2(sampleDoc,'CERTIFICATEOFEXPIRYBUSINESS')">
                                                     <span class="text-sm">View Sample</span>
                                                 </button>
                                             </div>
@@ -1637,6 +1637,108 @@
     </div>
 
     <div class="modal-body px-auto">
-        <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" />
+        <img style="width: 85%;" class="d-flex mx-auto" src="assets/img/default/sample.png">
     </div>
 </ng-template>
+
+<ng-template #companyprofile>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Company Profile Sample
+        </h4>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/companyprofile.pdf" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #companycharges>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Company Charges Sample
+        </h4>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/companycharges.pdf" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #businessprofile>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Business Profile Sample
+        </h4>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/businessprofile.pdf" frameborder="0" width="100%" height="550px">
+    </div>
+</ng-template>
+
+<ng-template #sampleDoc>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'acgs'">
+            ACGS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+            CERTIFICATE OF CHANGE OF NAME Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+            CERTIFICATE OF INCORPORATION OF NAME Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+            PARTICULARS OF DIRECTORS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALHISTORICAL'">
+            FINANCIAL HISTORICAL Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+            CERTIFICATE OF EXPIRY BUSINESS Sample
+        </h4>          
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALCOMPARISON'">
+            FINANCIAL COMPARISON Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">
+            CERTIFICATE OF CONVERSION Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">
+            PARTICULARS OF REGISTERED ADDRESS Sample
+        </h4>
+        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PSHARH'">
+            PARTICULARS OF SHAREHOLDERS Sample
+        </h4>    
+        
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <embed src="assets/img/docs/ACGS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'acgs'">
+        <embed src="assets/img/docs/CERTIFICATEOFCHANGEOFNAME.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+        <embed src="assets/img/docs/CERTIFICATEOFINCORPORATION.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+        <embed src="assets/img/docs/PARTICULARSOFDIRECTORS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+        <embed src="assets/img/docs/FINANCIALHISTORICAL.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALHISTORICAL'">
+        <embed src="assets/img/docs/CERTIFICATEOFEXPIRYBUSINESS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+        <embed src="assets/img/docs/FINANCIALCOMPARISON.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALCOMPARISON'">
+        <embed src="assets/img/docs/CERTIFICATEOFCONVERSION.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">           
+        <embed src="assets/img/docs/PARTICULARSOFREGISTEREDADDRESS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">           
+        <embed src="assets/img/docs/PSHARH.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PSHARH'">           
+                
+        </div>
+</ng-template>
+

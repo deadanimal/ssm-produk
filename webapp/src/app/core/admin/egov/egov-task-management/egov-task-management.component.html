@@ -1156,7 +1156,7 @@
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-control-label">Position and Grade</label>
-                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                    <input class="form-control" [value]="selectedTask['item']['user']['position_or_grade']" disabled>
                 </div>
             </div>
         </div>
@@ -1165,7 +1165,7 @@
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-control-label">Mobile / Office No.</label>
-                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                    <input class="form-control" [value]="selectedTask['item']['user']['phone_number']" disabled>
                 </div>
             </div>
         </div>
@@ -1223,7 +1223,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="form-control-label">Address Line 1</label>
-                    <input class="form-control" [value]="selectedTask.user.item.address_1" disabled>
+                    <input class="form-control" [value]="selectedTask.item.user.address_1" disabled>
                 </div>
             </div>
 
@@ -1262,7 +1262,7 @@
                 </div>
             </div>
 
-            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+            <div class="col-12" *ngIf="selectedTask.item.attachment_letter">
                 <button 
                     type="button" 
                     class="btn btn-ssm btn-block"
@@ -1314,7 +1314,7 @@
             class="btn btn-ssm rounded-pill" 
             type="button" 
             (click)="approveRenew()"
-            [disabled]="!updateForm.valid || selectedTask['item']['request_status'] != 'PD'">
+            [disabled]="selectedTask.item.request_status != 'PD'">
             Approve
         </button>
 
@@ -1323,7 +1323,7 @@
             data-dismiss="modal" 
             type="button" 
             (click)="rejectRenew()"
-            [disabled]="!updateForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
+            [disabled]="!renewForm.controls['remarks'].status == 'VALID' || selectedTask.item.request_status != 'PD'"
         >
             Reject
         </button>
