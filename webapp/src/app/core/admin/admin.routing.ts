@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportComponent } from './report/report.component';
 import { UsersComponent } from './utility/users/users.component';
 import { RbacComponent } from './utility/rbac/rbac.component';
@@ -14,7 +13,7 @@ import { ProductManagementComponent } from './product/product-management/product
 import { InvolvementManagementComponent } from './product/involvement-management/involvement-management.component';
 import { FocManagementComponent } from './product/foc-management/foc-management.component';
 import { FeeManagementComponent } from './product/fee-management/fee-management.component';
-import { PersonalInvolvementComponent} from './product/personal-involvement/personal-involvement.component';
+import { PersonalInvolvementComponent } from './product/personal-involvement/personal-involvement.component';
 
 import { StatisticsComponent } from './product/statistics/statistics.component';
 import { CbidAuditTrailComponent } from './cbid/audit-trail/audit-trail.component';
@@ -38,14 +37,28 @@ import { GafGeneratorComponent } from './finance/gaf-generator/gaf-generator.com
 import { SummaryReportComponent } from './finance/summary-report/summary-report.component';
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 import { ProductReportComponent } from './product/product-report/product-report.component';
-  // Aduh
+import { ProductReportHasilUppSummaryComponent } from './product/product-report-hasil-upp-summary/product-report-hasil-upp-summary.component';
+import { ProductReportHasilUppDetailsComponent } from './product/product-report-hasil-upp-details/product-report-hasil-upp-details.component';
+import { ProductReportSpByRankingComponent } from './product/product-report-sp-by-ranking/product-report-sp-by-ranking.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { DashboardProductComponent } from './dashboard/dashboard-product/dashboard-product.component';
+
+// Aduh
 export const AdminRoutes: Routes = [
   {
     path: '',
     children: [
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        children: [
+          {
+            path: "dashboard-default",
+            component: DashboardComponent,
+          }, {
+            path: "dashboard-product",
+            component: DashboardProductComponent,
+          },
+        ]
       },
       {
         path: 'report',
@@ -83,7 +96,7 @@ export const AdminRoutes: Routes = [
             path: 'task-management',
             component: EgovTaskManagementComponent,
           },
-          
+
           {
             path: 'user-management',
             component: EgovUserManagementComponent,
@@ -127,7 +140,24 @@ export const AdminRoutes: Routes = [
           },
           {
             path: 'report',
-            component: ProductReportComponent
+            children: [
+              {
+                path: 'report-dashboard',
+                component: ProductReportComponent
+              },
+              {
+                path: 'hasil-upp-summary',
+                component: ProductReportHasilUppSummaryComponent
+              },
+              {
+                path: 'hasil-upp-details',
+                component: ProductReportHasilUppDetailsComponent
+              },
+              {
+                path: 'product-sp-ranking',
+                component: ProductReportSpByRankingComponent
+              }
+            ]
           }
         ],
       },

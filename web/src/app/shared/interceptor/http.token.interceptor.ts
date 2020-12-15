@@ -11,13 +11,15 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { JwtService } from '../handler/jwt/jwt.service';
 import { NotifyService } from '../handler/notify/notify.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
     constructor(
         private handlerNotification: NotifyService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private cookieService: CookieService
     ){ }
 
     private handleError(error: HttpErrorResponse) {
@@ -33,7 +35,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
                 this.handlerNotification.openToastrConnection()
             } else {
                 // Handle Http Error (error.status === 403, 404...)
-                this.handlerNotification.openToastrHttp(error.status, error.statusText)
+                // this.handlerNotification.openToastrHttp(error.status, error.statusText)
             }
         } else {
             // Handle Client Error (Angular Error, ReferenceError...)     
@@ -45,24 +47,24 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const headersConfig = {
-            'Content-Type': 'application/json',
+            'Content-Type': '*/*',
             'Accept': '*/*'
         };
 
-        const token = this.jwtService.getToken('accessToken');
-
+        // const token = this.jwtService.getToken('accessToken');
+        let token = this.cookieService.get('access');
         if (token) {
             headersConfig['Authorization'] = `Bearer ${token}`;
             // console.log(headersConfig)
         }
 
-        console.log('Intercepting...')
+        // console.log('Intercepting...')
 
         const request = req.clone({ setHeaders: headersConfig });
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                    console.log('Event: ', event);
+                    // console.log('Event: ', event);
                 }
                 return event;
             }),

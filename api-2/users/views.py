@@ -1,17 +1,32 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+# from rest_framework
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
+from datetime import timedelta
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-
         token['username'] = user.username
         token['email'] = user.email
         token['user_type'] = user.user_type
-        # print('Hello ni token', token)
+        # print('Access', token.access_token)
+        # print('Refresh', token)
         return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # print('Access')
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        return data
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -63,7 +78,7 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'list':
-            permission_classes = [AllowAny]
+            permission_classes = [IsAuthenticated] # IsAuthenticated AllowAny
         else:
             permission_classes = [AllowAny]
 
@@ -71,23 +86,27 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     
     def get_queryset(self):
-        queryset = CustomUser.objects.all()
+        user = self.request.user
+        # queryset = CustomUser.objects.all()
 
-        """
-        if self.request.user.is_anonymous:
-            queryset = Company.objects.none()
-
+        if user.user_type == 'EG':
+            queryset = CustomUser.objects.filter(
+                id = user.id
+            )
+        elif user.user_type == 'PB':
+            queryset = CustomUser.objects.filter(
+                id = user.id
+            )
+        elif user.user_type == 'AD':
+            queryset = CustomUser.objects.all()              
         else:
-            user = self.request.user
-            company_employee = CompanyEmployee.objects.filter(employee=user)
-            company = company_employee[0].company
-            
-            if company.company_type == 'AD':
-                queryset = User.objects.all()
-            else:
-                queryset = User.objects.filter(company=company.id)
-        """
-        return queryset    
+            queryset = CustomUser.objects.none()
+
+        return queryset 
+
+    # @action(methods=['GET'], detail=False)
+    # def get_self_info(self, request, *args, **kwargs):
+
 
     @action(methods=['GET'], detail=False)
     def get_egov_users(self, request, *args, **kwargs): 
@@ -222,8 +241,8 @@ def index(request):
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
         not_auth_warn = not auth.is_authenticated()
-        print('Error: ', errors)
-        print('Not auth warn: ', not_auth_warn)
+        # print('Error: ', errors)
+        # print('Not auth warn: ', not_auth_warn)
         # print('Auth', auth)
         # print(type(auth))
         # print('Attr', auth.get_attributes())
@@ -238,7 +257,64 @@ def index(request):
             request.session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
             request.session['samlSessionIndex'] = auth.get_session_index()
             if 'RelayState' in req['post_data'] and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
-                return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
+                # return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
+                # return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
+                user_ = CustomUser.objects.filter(username=request.session['samlNameId']).first()
+
+                user_email_ = request.session['samlUserdata']['Email'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_office_no_ = request.session['samlUserdata']['Office_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_name_id_ = request.session['samlUserdata']['NameID'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_fullname_ = request.session['samlUserdata']['Fullname'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_identification_ = request.session['samlUserdata']['Identification_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_address_1_ = request.session['samlUserdata']['Address_1'][0] if len(request.session['samlUserdata']['Address_1']) > 0 else None
+                user_address_2_ = request.session['samlUserdata']['Address_2'][0] if len(request.session['samlUserdata']['Address_2']) > 0 else None
+                user_address_3_ = request.session['samlUserdata']['Address_3'][0] if len(request.session['samlUserdata']['Address_3']) > 0 else None
+                user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                user_city_ = request.session['samlUserdata']['City'][0] if len(request.session['samlUserdata']['City']) > 0 else None
+                user_state_ = request.session['samlUserdata']['State'][0] if len(request.session['samlUserdata']['State']) > 0 else None
+                user_country_ = request.session['samlUserdata']['Country'][0] if len(request.session['samlUserdata']['Country']) > 0 else None
+                user_home_no_ = request.session['samlUserdata']['Home_No'][0] if len(request.session['samlUserdata']['Home_No']) > 0 else None
+                user_nationality_ = request.session['samlUserdata']['Nationality'][0] if len(request.session['samlUserdata']['Nationality']) > 0 else None
+                user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                user_mobile_no_ = request.session['samlUserdata']['Mobile_No'][0] if len(request.session['samlUserdata']['Mobile_No']) > 0 else None
+                user_username_ = request.session['samlUserdata']['Username'][0] if len(request.session['samlUserdata']['Username']) > 0 else None
+                user_identification_type_ = request.session['samlUserdata']['Identification_Type'][0] if len(request.session['samlUserdata']['Identification_Type']) > 0 else None
+                    
+                if user_:
+                    print(request.session['samlUserdata'])
+                    returned_token = MyTokenObtainPairSerializer.get_token(user_)
+                    # print('Returned token', returned_token)
+                    # print('Access token', returned_token.access)
+                else:
+                    user_email_ = request.session['samlUserdata']['Email'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                    user_office_no_ = request.session['samlUserdata']['Office_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                    user_name_id_ = request.session['samlUserdata']['NameID'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                    user_fullname_ = request.session['samlUserdata']['Fullname'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                    user_identification_ = request.session['samlUserdata']['Identification_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                    user_address_1_ = request.session['samlUserdata']['Address_1'][0] if len(request.session['samlUserdata']['Address_1']) > 0 else None
+                    user_address_2_ = request.session['samlUserdata']['Address_2'][0] if len(request.session['samlUserdata']['Address_2']) > 0 else None
+                    user_address_3_ = request.session['samlUserdata']['Address_3'][0] if len(request.session['samlUserdata']['Address_3']) > 0 else None
+                    user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                    user_city_ = request.session['samlUserdata']['City'][0] if len(request.session['samlUserdata']['City']) > 0 else None
+                    user_state_ = request.session['samlUserdata']['State'][0] if len(request.session['samlUserdata']['State']) > 0 else None
+                    user_country_ = request.session['samlUserdata']['Country'][0] if len(request.session['samlUserdata']['Country']) > 0 else None
+                    user_home_no_ = request.session['samlUserdata']['Home_No'][0] if len(request.session['samlUserdata']['Home_No']) > 0 else None
+                    user_nationality_ = request.session['samlUserdata']['Nationality'][0] if len(request.session['samlUserdata']['Nationality']) > 0 else None
+                    user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                    user_mobile_no_ = request.session['samlUserdata']['Mobile_No'][0] if len(request.session['samlUserdata']['Mobile_No']) > 0 else None
+                    user_username_ = request.session['samlUserdata']['Username'][0] if len(request.session['samlUserdata']['Username']) > 0 else None
+                    user_identification_type_ = request.session['samlUserdata']['Identification_Type'][0] if len(request.session['samlUserdata']['Identification_Type']) > 0 else None
+                    
+
+                # print('User data: ', request.session['samlUserdata'])
+                # print('Email: ', request.session['samlNameId'])
+                resp = HttpResponseRedirect(auth.redirect_to('http://192.168.43.113:4200/#/home/'))
+                max_age = 3600 * 24
+                expires = datetime.strftime(datetime.utcnow() + timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+                resp.set_cookie('userEmail', request.session['samlNameId'], max_age=max_age, expires=expires,domain='192.168.43.113')
+                resp.set_cookie('refresh', returned_token, max_age=max_age, expires=expires,domain='192.168.43.113')
+                resp.set_cookie('access', returned_token.access_token, max_age=max_age, expires=expires,domain='192.168.43.113')
+                return resp
         elif auth.get_settings().is_debug_active():
                 error_reason = auth.get_last_error_reason()
                 print('Error reason (ACS): ', error_reason)
