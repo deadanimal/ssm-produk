@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { CartsService } from '../../shared/services/carts/carts.service';
-import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
+import { CookiezService } from 'src/app/shared/handler/cookie/cookie.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 
@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private cartService: CartsService,
-    private cookieService: CookieService,
+    private cookieService: CookiezService,
     private productService: ProductsService,
     private userService: UsersService,
     private loadingBar: LoadingBarService,
@@ -62,31 +62,53 @@ export class NavbarComponent implements OnInit {
         // console.log(this.formTypes)
       }
     )
+    // this.checkCookies()
+  }
+
+  checkCookies() {
+    console.log('Cookie: ',  window.localStorage)
   }
 
   checkUser() {
-    let obtainedUserId = this.cookieService.getCookie('userId')
+    this.loadingBar.useRef('http').start()
+    this.userService.getAll().subscribe(
+      (res) => {
+        console.log('hello', res)
+        this.loadingBar.useRef('http').complete()
+        this.userService.currentUser = this.userService.users[0]
+        this.currentUser = this.userService.users[0]
+        this.isAuthenticated = true
+      },
+      (err) => {
+        console.log(err)
+        this.loadingBar.useRef('http').complete()
+      },
+      () => {
+        this.checkCart()
+      }
+    )
+    // let obtainedUserId = this.cookieService.getCookie('userId')
 
-    if (obtainedUserId) {
-      this.loadingBar.useRef('http').start()
-      this.userService.getOne(obtainedUserId).subscribe(
-        (res: any) => {
-          this.loadingBar.useRef('http').complete()
-          let title = 'Success'
-          let message = 'Logging in...'
-          this.currentUser = this.userService.currentUser
-          this.isAuthenticated = true
-          // this.toastr.success(message, title)
-        },
-        () => {
-          this.loadingBar.useRef('http').complete()
-        },
-        () => {
-          this.checkCart()
-          this.cookieService.saveCookie('userId', this.currentUser.id)
-        }
-      )
-    }
+    // if (obtainedUserId) {
+    //   this.loadingBar.useRef('http').start()
+    //   this.userService.getOne(obtainedUserId).subscribe(
+    //     (res: any) => {
+    //       this.loadingBar.useRef('http').complete()
+    //       let title = 'Success'
+    //       let message = 'Logging in...'
+    //       this.currentUser = this.userService.currentUser
+    //       this.isAuthenticated = true
+    //       // this.toastr.success(message, title)
+    //     },
+    //     () => {
+    //       this.loadingBar.useRef('http').complete()
+    //     },
+    //     () => {
+    //       this.checkCart()
+    //       this.cookieService.saveCookie('userId', this.currentUser.id)
+    //     }
+    //   )
+    // }
   }
 
   getData(choice) {
@@ -251,11 +273,17 @@ export class NavbarComponent implements OnInit {
   ssoLogin() {
     // this.authService.ssoLogin().subscribe()
     // const sso = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8000/SSOLogin/?sso';
+    const url = 'http://192.168.43.113:8000/SSOLogin/?sso';
     // sso.open('GET', url, true);
     // sso.withCredentials = true;
     // // sso.onreadystatechange = handler;
     // sso.send(); 
-    window.open(url)
+    window.open(url, '_self')
   }
+
+  checkCookie() {
+
+  }
+
+
 }

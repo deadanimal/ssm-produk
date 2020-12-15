@@ -17,11 +17,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterModule } from "@angular/router";
 import { AdminRoutes } from "./admin.routing";
 // Page Module
-import { DashboardComponent } from "./dashboard/dashboard.component";
 import { RbacComponent } from "./utility/rbac/rbac.component";
 import { AuditTrailComponent } from "./utility/audit-trail/audit-trail.component";
 import { UsersComponent } from "./utility/users/users.component";
-  // Aduh
+// Aduh
 import { ReportComponent } from "./report/report.component";
 import { OutstandingTasksComponent } from "./kjakp/outstanding-tasks/outstanding-tasks.component";
 import { ApplicationRequestsComponent } from "./cbid/application-requests/application-requests.component";
@@ -62,6 +61,11 @@ import { SummaryReportComponent } from './finance/summary-report/summary-report.
 import { DetailedReportComponent } from './finance/detailed-report/detailed-report.component';
 import { PersonalInvolvementComponent } from './product/personal-involvement/personal-involvement.component';
 import { ProductReportComponent } from './product/product-report/product-report.component';
+import { ProductReportHasilUppSummaryComponent } from './product/product-report-hasil-upp-summary/product-report-hasil-upp-summary.component';
+import { ProductReportHasilUppDetailsComponent } from './product/product-report-hasil-upp-details/product-report-hasil-upp-details.component';
+import { ProductReportSpByRankingComponent } from './product/product-report-sp-by-ranking/product-report-sp-by-ranking.component';
+import { DashboardProductComponent } from './dashboard/dashboard-product/dashboard-product.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +109,11 @@ import { ProductReportComponent } from './product/product-report/product-report.
     SummaryReportComponent,
     DetailedReportComponent,
     PersonalInvolvementComponent,
-    ProductReportComponent
+    ProductReportComponent,
+    ProductReportHasilUppSummaryComponent,
+    ProductReportHasilUppDetailsComponent,
+    ProductReportSpByRankingComponent,
+    DashboardProductComponent
   ],
   imports: [
     CommonModule,
@@ -125,4 +133,4 @@ import { ProductReportComponent } from './product/product-report/product-report.
     RouterModule.forChild(AdminRoutes),
   ],
 })
-export class AdminModule {}
+export class AdminModule { }
