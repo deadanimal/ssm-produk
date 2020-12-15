@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
@@ -6,11 +6,11 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert2'
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
+import { UsersService } from '../../../../shared/services/users/users.service'
 
 import { ProductsService } from '../../../../shared/services/products/products.service';
 
@@ -22,6 +22,12 @@ export enum SelectionType {
   multiClick = 'multiClick',
   cell = 'cell',
   checkbox = 'checkbox',
+}
+
+export class FileType {
+  name: string
+  size: number
+  file: string | ArrayBuffer
 }
 
 
@@ -42,6 +48,8 @@ export class FocManagementComponent implements OnInit {
     class: 'modal-dialog-centered modal-lg',
   };
 
+  user: any;
+
   // Table
   tableEntries: number = 10;
   tableSelected: any[] = [];
@@ -52,6 +60,7 @@ export class FocManagementComponent implements OnInit {
   requestList: any;
 
   updateForm: FormGroup
+  fileToUpload: File = null;
 
   isCompleted: boolean = false;
   isRejected: boolean = false;
@@ -59,9 +68,13 @@ export class FocManagementComponent implements OnInit {
   remarks: string = ''
   selectedRow;
 
+  files: FileType[]=[]
+
   constructor(
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
+    private userService: UsersService,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
     private loadingBar: LoadingBarService,
     private router: Router,
     private productsService: ProductsService,
@@ -69,8 +82,29 @@ export class FocManagementComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void{
+    while(!this.user) {
+      if (this.userService.currentUser != undefined) {
+        this.user = this.userService.currentUser
+        console.log('User: ', this.user)
+        console.log('user type' , this.user['user_type'])
+        console.log('Gotcha')
+      }
+    }
     // this.initData();
+    this.initForm();
+
+  }
+
+  initForm(){
+    this.updateForm = this.fb.group({
+      name: new FormControl(null,Validators.required),
+      id_type: new FormControl(null),
+      id_number: new FormControl(null, Validators.required),
+      reason: new FormControl(null),
+      files: new FormControl(null),
+      status: new FormControl(null)
+    })
   }
 
   initData() {
@@ -107,6 +141,10 @@ export class FocManagementComponent implements OnInit {
     )
   }
 
+  // getUser(){
+  //   this.usersService.getOne().subscribe()
+  // }
+
   entriesChange($event) {
     this.tableEntries = $event.target.value;
   }
@@ -126,6 +164,68 @@ export class FocManagementComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
+
+  onFileChange(event) {
+    let reader = new FileReader();
+    let file_: FileType = {
+      'size': event.target.files[0].size,
+      'name': event.target.files[0].name,
+      'file': null
+    }
+
+    if (
+      file_['size'] > 2000000 ||
+      this.files.length > 4
+    ) {
+      let task = 'Maximum number of attachments is 5. Maximum size for each 2MB file (file format: .DOC, .DOCX, .JPG, .JPEG, .PNG, .PDF)'
+      this.errorAlert(task)
+    }
+    else if (
+      event.target.files && 
+      event.target.files.length &&
+      file_['size'] < 2000000
+    ) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file)
+      // readAsDataURL(file);
+      // console.log(event.target)
+      // console.log(reader)
+      
+      
+      reader.onload = () => {
+        // console.log(reader['result'])
+        file_ = {
+          'size': event.target.files[0].size,
+          'name': event.target.files[0].name,
+          'file': reader.result
+        }
+        this.files.push(file_)
+        console.log('file: ', this.files)
+        // console.log(this.updateForm.controls['message'])
+        this.updateForm.controls['files'].patchValue(this.files)
+        console.log('form: ', this.updateForm.value)
+        console.log('tic: ', this.updateForm)
+        
+        // console.log(this.registerForm.value)
+        // console.log('he', this.registerForm.valid)
+        // console.log(this.isAgree)
+        // !registerForm.valid || !isAgree
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
+  removeFile(row) {
+    this.files.splice(this.files.findIndex(req => req['name'] === row['name']), 1)
+
+    if (this.files.length == 0) {
+      this.updateForm.controls['files'].patchValue(null)
+    }
+    else {
+      this.updateForm.controls['files'].patchValue(this.files)
+    }
+  }
   
   openModal(modalRef: TemplateRef<any>, row) {
 
@@ -135,6 +235,13 @@ export class FocManagementComponent implements OnInit {
         this.isCompleted = false
       }
     }
+    this.modal = this.modalService.show(
+      modalRef, this.modalConfig
+    );
+    // this.modal = this.modalService.show(modalRef, this.modalConfig);
+  } 
+
+  openAddModal(modalRef: TemplateRef<any>,) {
     this.modal = this.modalService.show(
       modalRef, this.modalConfig
     );
@@ -181,10 +288,32 @@ export class FocManagementComponent implements OnInit {
     //     this.initData();
     //   }
     // )
-
-    
-
-
   }  
+  errorAlert(task) {
+    swal.fire({
+      title: 'Error',
+      text: task,
+      type: 'error',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning', 
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
+  }
+  
+  submit(){
+    console.log(this.updateForm.value)
+    this.productsService.create(this.updateForm.value).subscribe(
+      ()=>{
+        
+      }
+    )
+
+  }
+
 
 }

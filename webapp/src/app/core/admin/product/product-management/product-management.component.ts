@@ -33,6 +33,11 @@ export class ProductManagementComponent implements OnInit {
   // Tax and Discount
   tax: number;
   discount: number;
+  taxtype: any;
+  discounttype: any;
+  ctcfee: number;
+  fee: number;
+
   // Chart
   chart: any;
 
@@ -254,7 +259,11 @@ export class ProductManagementComponent implements OnInit {
         this.getData()
       }
     )
-  }  
+  }
+
+  clearCTC(){
+    this.ctcfee = 0
+  }
 
   exportExcel() {
     let fileName = 'Product_List.xlsx'
@@ -269,11 +278,78 @@ export class ProductManagementComponent implements OnInit {
     xlsx.writeFile(wb, fileName);
   }
 
-  setTax($event, e){
-    let val = parseInt($event.target.value)
-    let fee = parseInt(e.target.value)
+  setTax(e,a,t){
+    let val = parseInt(e)
+    let fee = parseInt(a)
     console.log(fee)
     console.log(val)
+    console.log(t)
+    if(t == 'val'){
+      this.taxtype = 'val'
+      let totalfee = fee + val
+      this.tax = val
+      console.log(totalfee)
+    }else if(t == '%'){
+      this.taxtype = '%'
+      let taxfee = fee * (val/100)
+      this.tax = taxfee
+      let totalfee = fee + taxfee
+      console.log('totalfee: ',totalfee,' taxfee: ',taxfee)
+    }
+  }
+
+
+  setDiscount(e,a,t){
+    let val = parseInt(e)
+    this.fee = parseInt(a)
+    console.log(this.fee)
+    console.log(val)
+    console.log(t)
+    if(t == 'val'){
+      this.discounttype = 'val'
+      this.discount = val
+      let totalfee = this.fee - val
+
+      console.log(totalfee)
+    }else if(t == '%'){
+      this.discounttype = '%'
+      let discountfee = this.fee * (val/100)
+      this.discount = discountfee
+      let totalfee = this.fee - discountfee
+      console.log('fee ',this.fee,'totalfee: ',totalfee,' discountfee: ',discountfee)
+    }
+    // this.setTotal(this.fee,this.discount, this.tax, this.discounttype, this.taxtype)
+  }
+
+  setTotal(fee,discount, tax, discounttype, taxtype,ctcfee){
+    let total: number;
+    if(discounttype == 'val' && taxtype == 'val'){
+      
+      // totaldiscount = parseInt(discount).toFixed(2)
+      // totaltax = parseInt(tax).toFixed(2)
+      total = fee + tax - discount
+      console.log('val val')
+      console.log('total: ',total,' fee: ',fee,' totaltax: ',tax,' totaldiscount: ',discount,' ctcfee: ',ctcfee)
+    }
+    else if(discounttype == 'val' && taxtype == '%'){
+      // totaldiscount = parseInt(discount).toFixed(2)
+      total = fee + tax - discount
+      console.log('val %')
+      console.log('total: ',total,' fee: ',fee,' totaltax: ',tax,' totaldiscount: ',discount,' ctcfee: ',ctcfee)
+    }
+    else if(discounttype == '%' && taxtype == 'val'){
+      // totaltax = parseInt(tax).toFixed(2)
+      total = fee + tax - discount
+      console.log('% val')
+      console.log('total: ',total,' fee: ',fee,' totaltax: ',tax,' totaldiscount: ',discount,' ctcfee: ',ctcfee)
+    }
+    else if(discounttype == '%' && taxtype == '%'){
+      total = fee + tax - discount
+      console.log('% %')
+      console.log('total: ',total,' fee: ',fee,' totaltax: ',tax,' totaldiscount: ',discount,' ctcfee: ',ctcfee)
+    }
+    
+    console.log('discount: ',discount,'tax: ' ,tax)
   }
 
 }
