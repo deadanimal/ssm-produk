@@ -273,7 +273,7 @@ export class NavbarComponent implements OnInit {
   ssoLogin() {
     // this.authService.ssoLogin().subscribe()
     // const sso = new XMLHttpRequest();
-    const url = 'http://192.168.43.113:8000/SSOLogin/?sso';
+    const url = 'https://ssm-product-api.pipe.my/SSOLogin/?sso';
     // sso.open('GET', url, true);
     // sso.withCredentials = true;
     // // sso.onreadystatechange = handler;

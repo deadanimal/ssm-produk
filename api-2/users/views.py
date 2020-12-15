@@ -78,7 +78,7 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'list':
-            permission_classes = [IsAuthenticated] # IsAuthenticated AllowAny
+            permission_classes = [AllowAny] # IsAuthenticated AllowAny
         else:
             permission_classes = [AllowAny]
 
@@ -87,20 +87,20 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        # queryset = CustomUser.objects.all()
+        queryset = CustomUser.objects.all()
 
-        if user.user_type == 'EG':
-            queryset = CustomUser.objects.filter(
-                id = user.id
-            )
-        elif user.user_type == 'PB':
-            queryset = CustomUser.objects.filter(
-                id = user.id
-            )
-        elif user.user_type == 'AD':
-            queryset = CustomUser.objects.all()              
-        else:
-            queryset = CustomUser.objects.none()
+        # if user.user_type == 'EG':
+        #     queryset = CustomUser.objects.filter(
+        #         id = user.id
+        #     )
+        # elif user.user_type == 'PB':
+        #     queryset = CustomUser.objects.filter(
+        #         id = user.id
+        #     )
+        # elif user.user_type == 'AD':
+        #     queryset = CustomUser.objects.all()              
+        # else:
+        #     queryset = CustomUser.objects.none()
 
         return queryset 
 
@@ -311,9 +311,10 @@ def index(request):
                 resp = HttpResponseRedirect(auth.redirect_to('https://xcessdev.ssm.com.my/#/home/'))
                 max_age = 3600 * 24
                 expires = datetime.strftime(datetime.utcnow() + timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-                resp.set_cookie('userEmail', request.session['samlNameId'], max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
-                resp.set_cookie('refresh', returned_token, max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
-                resp.set_cookie('access', returned_token.access_token, max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
+                resp.set_cookie('userEmail', request.session['samlNameId'], max_age=max_age, expires=expires,domain='.ssm.com.my')
+                resp.set_cookie('refresh', returned_token, max_age=max_age, expires=expires,domain='.ssm.com.my')
+                resp.set_cookie('access', returned_token.access_token, max_age=max_age, expires=expires,domain='.ssm.com.my')
+                print('RESP: ', resp)
                 return resp
         elif auth.get_settings().is_debug_active():
                 error_reason = auth.get_last_error_reason()
