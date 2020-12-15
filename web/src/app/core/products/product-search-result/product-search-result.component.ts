@@ -585,10 +585,15 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCartDocument(row) {
-    this.cartForm.controls['image_form_type'].setValue(row.formType)
-    this.cartForm.controls['image_version_id'].setValue(row.verId)
-    this.documentForm.controls['isCtc'].setValue(row.isCtc)
-    this.addCart(this.documentForm)
+    console.log(row);
+    if (row.hasOwnProperty("branchType") == true){
+        this.addCart(row)
+    }else{
+      this.cartForm.controls['image_form_type'].setValue(row.formType)
+        this.cartForm.controls['image_version_id'].setValue(row.verId)
+        this.documentForm.controls['isCtc'].setValue(row.isCtc)
+        this.addCart(this.documentForm)
+    } 
 
     console.log(this.cartForm.value['image_form_type'])
   }
