@@ -27,7 +27,7 @@
                                 <i class="fas fa-check"></i> 
                                 <span class="ml-2">
                                     Company Profile without Company
-                                    Charges and Financial charges
+                                    Charges and Financial Information
                                 </span>
                             </p>
                             <p class="text-white font-small my-1">
@@ -42,7 +42,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product1')">
                                     View Sample
                                 </button>
                             </div>
@@ -55,7 +55,7 @@
                             <h4 class="mt-0 text-white">view only</h4>
                             <p class="text-white font-small my-1">
                                 <i class="fas fa-check"></i> Company Profile without Company
-                                Charges and Financial charges
+                                Charges and Financial Information
                             </p>
                             <p class="text-white font-small my-1">
                                 <i class="fas fa-check"></i> Business Profile
@@ -69,7 +69,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product1')">
                                     View Sample
                                 </button>
                             </div>
@@ -97,7 +97,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product2')">
                                     View Sample
                                 </button>
                             </div>
@@ -123,7 +123,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product2')">
                                     View Sample
                                 </button>
                             </div>
@@ -146,11 +146,11 @@
                                 <i class="fas fa-check"></i> Statutory Document Images
                             </p>
                             <p class="text-white font-small my-1">
-                                <i class="fas fa-check"></i> Personal Involvement
+                                <i class="fas fa-check"></i> Personal Involvement <b>(COMING SOON)</b>
                             </p>
-                            <p class="text-white font-weight-bold text-center font-small mt-2">
-                                (COMING SOON)
-                            </p>
+                            <!-- <p class="text-white font-weight-bold text-center font-small mt-2">
+                                
+                            </p> -->
 
                             <img class="icon-size img-center mt-4 fixed-bottom bottom-6" src="assets/img/icons/statistics.svg" />
 
@@ -160,7 +160,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product3')">
                                     View Sample
                                 </button>
                             </div>
@@ -181,11 +181,11 @@
                                 <i class="fas fa-check"></i> Statutory Document Images
                             </p>
                             <p class="text-white font-small my-1">
-                                <i class="fas fa-check"></i> Personal Involvement
+                                <i class="fas fa-check"></i> Personal Involvement <b>(COMING SOON)</b>
                             </p>
-                            <p class="text-white font-weight-bold text-center font-small mt-2">
-                                (COMING SOON)
-                            </p>
+                            <!-- <p class="text-white font-weight-bold text-center font-small mt-2">
+                                COMING SOON
+                            </p> -->
 
                             <img class="icon-size img-center mt-4 fixed-bottom bottom-6" src="assets/img/icons/statistics.svg" />
 
@@ -195,7 +195,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product3')">
                                     View Sample
                                 </button>
                             </div>
@@ -225,7 +225,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product4')">
                                     View Sample
                                 </button>
                             </div>
@@ -253,7 +253,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product4')">
                                     View Sample
                                 </button>
                             </div>
@@ -322,10 +322,57 @@
                 <button class="btn btn-ssm">ROC</button>
             </div>
             <div class="col text-center">
-                <button class="btn btn-ssm">ROB</button>
+                <button class="btn btn-ssm" (click)="openModal(rob, 'ss')">ROB</button>
             </div>
         </div>
-        <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" />
+        <embed src="assets/img/docs/companyprofilepkg1.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/companyprofilepkg2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+            <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
+    </div>
+</ng-template>
+
+<ng-template #rob>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Registration Of Business
+        </h4>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal('ss')">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+      
+        <embed src="assets/img/docs/rob1n2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/rob1n2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/rob3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/rob3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+        <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
+    </div>
+</ng-template>
+
+<ng-template #roc>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Registration Of Company
+        </h4>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal('ss')">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+      
+        <embed src="assets/img/docs/companyprofilepkg1.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/companyprofilepkg2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+        <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
     </div>
 </ng-template>
 

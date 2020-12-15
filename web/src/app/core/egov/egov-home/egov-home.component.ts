@@ -14,7 +14,8 @@ export class EgovHomeComponent implements OnInit {
 
   // Data
   user: User
-
+  modalname: ''
+  mode: ''
   // Slider
   slider1 = 'assets/img/banner/banner portal-01.png';
   slider2 = 'assets/img/banner/banner portal-02.png';
@@ -23,6 +24,7 @@ export class EgovHomeComponent implements OnInit {
 
    // Modal
    modal: BsModalRef;
+   modalTemp: BsModalRef;
    modalConfig = {
      keyboard: true,
      class: 'modal-dialog-centered',
@@ -58,15 +60,33 @@ export class EgovHomeComponent implements OnInit {
     }
   }
 
-  openModal(modalRef: TemplateRef<any>) {
-    this.modal = this.modalService.show(
-      modalRef,
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
+  openModal(modalRef: TemplateRef<any>,name) {
+    if (name != "ss"){
+      this.modalname = name;
+      this.modal = this.modalService.show(
+        modalRef,
+        Object.assign({}, { class: 'gray modal-lg' })
+      );
+    }else{
+      this.modalTemp = this.modal;
+      this.modal = this.modalService.show(
+        modalRef,
+        Object.assign({}, { class: 'gray modal-lg' })
+      );
+    }   
+    
+    
   }
 
-  closeModal() {
-    this.modal.hide();
+  closeModal(flag) {
+    if (flag != "ss"){
+      this.modal.hide();
+    }else{
+      this.modal.hide();
+      this.modal = this.modalTemp;
+    }
+    
+    
     // this.editAppReqForm.reset();
   }
 

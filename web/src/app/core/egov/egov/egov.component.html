@@ -517,7 +517,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product1')">
                                     View Sample
                                 </button>
                             </div>
@@ -545,7 +545,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product2')">
                                     View Sample
                                 </button>
                             </div>
@@ -567,9 +567,9 @@
                             <p class="text-white font-small my-1">
                                 <i class="fas fa-check"></i> Statutory Document Images
                             </p>
-                            <!-- <p class="text-white font-small my-1">
+                            <p class="text-white font-small my-1">
                                 <i class="fas fa-check"></i> Personal Involvement
-                            </p> -->
+                            </p>
                             <p class="text-white font-weight-bold text-center font-small mt-2">
                                 (COMING SOON)
                             </p>
@@ -582,7 +582,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product3')">
                                     View Sample
                                 </button>
                             </div>
@@ -613,7 +613,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-link text-ssm btn-round" type="button"
-                                    (click)="openModal(productSample)">
+                                    (click)="openModal(productSample,'product4')">
                                     View Sample
                                 </button>
                             </div>
@@ -625,7 +625,7 @@
     </div>
 </div>
 
-<ng-template #productSample>
+<!-- <ng-template #productSample>
     <div class="modal-header bg-ssm">
         <h4 class="modal-title text-white my-auto" id="modal-title-default">
             Product Sample
@@ -645,6 +645,76 @@
             </div>
         </div>
         <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" />
+    </div>
+</ng-template> -->
+
+<ng-template #productSample>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Product Sample
+        </h4>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+        <div class="row mt-2 mb-3">
+            <div class="col text-center">
+                <button class="btn btn-ssm" >ROC</button>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-ssm" (click)="openModal(rob, 'ss')">ROB</button>
+            </div>
+        </div>
+        <embed src="assets/img/docs/companyprofilepkg1.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/companyprofilepkg2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+            <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
+    </div>
+</ng-template>
+
+<ng-template #rob>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Registration Of Business
+        </h4>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal('ss')">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+      
+        <embed src="assets/img/docs/rob1n2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/rob1n2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/rob3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/rob3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+        <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
+    </div>
+</ng-template>
+
+<ng-template #roc>
+    <div class="modal-header bg-ssm">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default">
+            Registration Of Company
+        </h4>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal('ss')">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body px-auto">
+      
+        <embed src="assets/img/docs/companyprofilepkg1.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product1'">
+        <embed src="assets/img/docs/companyprofilepkg2.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product2'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product3'">
+        <embed src="assets/img/docs/companyprofilepkg3n4.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'product4'">
+
+        <!-- <img style="width: 85%" class="d-flex mx-auto" src="assets/img/default/sample.png" /> -->
     </div>
 </ng-template>
 

@@ -46,6 +46,8 @@ export class CartComponent implements OnInit {
   tableEntries: number = 10
   tableSelected: any[] = []
   tableTemp = []
+  tableTemp2 = []
+  originalTotal: number = 0
   tableActiveRow: any
   tableRows: any[] = []
   SelectionType = SelectionType
@@ -116,6 +118,7 @@ export class CartComponent implements OnInit {
     setTimeout(
       () => {
         this.getData()
+        console.log("running init")
       }, 2000
     )
   }
@@ -205,9 +208,23 @@ export class CartComponent implements OnInit {
             ...prop,
             id_index: key + 1
           }
-        })
+        }) 
         this.totaldocument = this.tableRows.length
+        if (this.tableTemp2.length > 0){
+            this.tableTemp.forEach(element => {
+                this.tableTemp2.forEach(element2 => {
+                    if (element2.id == element.id && element2.isTick == false){
+                       
+                      element.isTick = false;
+                      this.totaldocument = this.totaldocument - 1;
+                      this.total = this.total - element.product.fee;
+                    }
+                });
+            });
+        }       
+        this.originalTotal = this.totaldocument
         this.updatePrice()
+        this.tableCheckbox = true;
       }
     )
   }
@@ -224,6 +241,7 @@ export class CartComponent implements OnInit {
     let body = {
       "cart_item_id": id
     }
+    this.tableTemp2 = [...this.tableTemp];
     this.cartService.removeItem(this.cartService.cartCurrent.id, body).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
@@ -238,19 +256,27 @@ export class CartComponent implements OnInit {
   }
 
   checkRow(selected) {
-
+    // console.log("hi");
+    // console.log(selected['id']);
+    //console.log(this.table);
+    console.log("checkrow");
+    
     this.total = 0
     this.totaldocument = 0
-    console.log(this.tableRows)
-    this.tableRows.forEach(
+   
+    this.tableTemp.forEach(
       (item) => {
-        if (item['id'] === selected['id']) {
-          item['isTick'] = !item['isTick']
-          this.tableCheckbox = false
+        // if (item['id'] == selected['id']) {       
+        //   console.log(item['isTick']);
+          
+        //   item['isTick'] = !item['isTick']
+          //this.tableCheckbox = false
           // console.log(item)
           // console.log(this.tableRows)
-        }
-
+        // }        
+        
+        console.log(item['isTick']);
+        
         if (item['isTick'] == true) {
           if (item.product) {
             this.total += item.product.fee
@@ -268,17 +294,30 @@ export class CartComponent implements OnInit {
         }
       }
     )
+  
+    if (this.originalTotal == this.totaldocument){
+      console.log("tick the box");
+      
+      this.tableCheckbox = true;
+    }
+
+    if (this.originalTotal != this.totaldocument && this.tableCheckbox == true){
+        this.tableCheckbox = false;
+    }
+    
+    
   }
 
   selectAllRow() {
-    console.log('qweqwe')
+    console.log('masuk')
     this.totaldocument = 0
-    this.total = 0
+    this.total = 0 
+
     this.tableTemp.forEach(
       (item) => {
-        console.log(item)
+        //console.log(item)
         item['isTick'] = this.tableCheckbox
-        console.log(item['isTick'])
+       console.log(item['isTick'])
         if (item['isTick'] == false) {
           console.log('qweqwe')
           if (item.product) {
@@ -311,7 +350,18 @@ export class CartComponent implements OnInit {
           this.totaldocument = this.totaldocument + 1
         }
       }
+     
+      
     )
+    // if (this.tableCheckbox == true){
+    //   this.tableCheckbox = false;
+    // }
+    // else{
+    //   this.tableCheckbox = true;
+    // }
+console.log(this.tableCheckbox);
+
+    //  console.log(this.tableTemp);
   }
 
   emptyCart() {
@@ -335,6 +385,7 @@ export class CartComponent implements OnInit {
   proceed() {
     let filterCheckout = new Promise(
       (resolve, reject) => {
+        this.tableRows = [...this.tableTemp];
         this.tableRows.forEach(
           (item, index, array) => {
             if (!item['isTick']) {
@@ -470,7 +521,7 @@ export class CartComponent implements OnInit {
 
   filterTable($event) {
     let val = $event.target.value;
-    this.tableTemp = this.tableRows.filter(function (d) {
+    this.tableTemp = this.tableTemp.filter(function (d) {
       for (var key in d) {
         if (d[key].toLowerCase().indexOf(val) !== -1) {
           return true;

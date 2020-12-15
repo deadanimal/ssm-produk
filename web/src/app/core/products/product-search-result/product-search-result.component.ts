@@ -44,6 +44,7 @@ export class ProductSearchResultComponent implements OnInit {
   availabilityList: any
   branches: any[] = null
   isEmpty: boolean = true
+  modalname = ''
 
   // Checker
   isProceed: boolean = false
@@ -764,6 +765,11 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   openModalSample(modalRef: TemplateRef<any>) {
+    this.modalSample = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  openModalSample2(modalRef: TemplateRef<any>,name) {
+    this.modalname = name;
     this.modalSample = this.modalService.show(modalRef, this.modalConfig);
   }
 
