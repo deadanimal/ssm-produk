@@ -41,6 +41,7 @@
             <div class="col">
                 <button
                     class="btn btn-ssm rounded-pill"
+                    (click)=openAddModal(addModal)
                 >
                     Add New
                 </button>
@@ -141,13 +142,13 @@
               <ngx-datatable-column
                 [sortable]="true"
                 [resizeable]="false"
-                prop="id_type"
+                prop="email"
               >
                 <ng-template ngx-datatable-header-template>
-                  <span>ID Type</span>
+                  <span>Email</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  NRIC
+                  Email
                 </ng-template>
               </ngx-datatable-column>            
   
@@ -155,26 +156,26 @@
                 [width]="180"
                 [sortable]="true"
                 [resizeable]="false"
-                prop="id_number"
+                prop="section"
               >
                 <ng-template ngx-datatable-header-template>
-                  <span>ID Number</span>
+                  <span>Section</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  911201-14-4225
+                  Section
                 </ng-template>
               </ngx-datatable-column> 
 
               <ngx-datatable-column
                   [sortable]="true"
                   [resizeable]="false"
-                  prop="reason"
+                  prop="department"
                 >
                   <ng-template ngx-datatable-header-template>
-                    <span>Reason</span>
+                    <span>Department</span>
                   </ng-template>
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    -Reason
+                    Department
                   </ng-template>
               </ngx-datatable-column>  
 
@@ -185,13 +186,27 @@
                 prop="approved_date"
               >
                 <ng-template ngx-datatable-header-template>
-                  <span>Approved Date</span>
+                  <span>Reason</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  Reason
+                </ng-template>
+              </ngx-datatable-column> 
+              
+              <ngx-datatable-column
+                [width]="180"
+                [sortable]="true"
+                [resizeable]="false"
+                prop="approval_date"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <span>Approval Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   01/12/2020
                 </ng-template>
               </ngx-datatable-column> 
-              
+
               <ngx-datatable-column
                 [width]="180"
                 [sortable]="true"
@@ -202,7 +217,7 @@
                   <span>Disabled Date</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  01/12/2022
+                  01/12/2021
                 </ng-template>
               </ngx-datatable-column> 
 
@@ -250,6 +265,123 @@
       </div>
     </div>
   </div>
+
+
+  <ng-template #addModal>
+    <div class="modal-header bg-default">
+      <h6 class="modal-title text-white my-auto" id="modal-title-default">
+          F.O.C Account Registration
+      </h6>
+
+      <button
+          aria-label="Close"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+          (click)="closeModal()"
+          >
+          <span aria-hidden="true" class="text-white my-auto"> × </span>
+      </button>
+  </div>
+
+  <div class="modal-body">
+      <h6 class="heading-small text-muted mb-4">Applicant Personal Information</h6>
+      <form [formGroup]="updateForm">
+          <div class="row">
+              <div class="col col-sm-12">
+                  <div class="form-group">
+                      <label class="form-control-label">Full Name</label>
+                      <input class="form-control" placeholder="Full Name" formControlName="name">
+                  </div>
+              </div>
+          </div> 
+
+          <div class="row">
+              <div class="col col-sm-12">
+                  <div class="form-group">
+                      <label class="form-control-label">ID Type</label>
+                      <select class="form-control" formControlName="id_type">
+                      <option value="IC">NRIC</option>
+                      <option value="PP">Passport</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col col-sm-12">
+                  <div class="form-group">
+                      <label class="form-control-label">ID Number</label>
+                      <input class="form-control" placeholder="ID Number" formControlName="id_number">
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col col-sm-12">
+                  <div class="form-group">
+                      <label class="form-control-label">Reason</label>
+                      <textarea class="form-control" maxlength="100" style="resize: none" formControlName="reason"></textarea>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="user.user_type == 'AD'" class="row">
+              <div class="col col-sm-12">
+                  <div class="form-group">
+                      <label class="form-control-label">FOC Account Endorsement</label>
+                      <select class="form-control" formControlName="status">
+                      <option selected value="-">--</option>
+                      <option value="AP">Approve</option>
+                      <option value="RJ">Reject</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="user.user_type == 'SAD'" class="row">
+            <div class="col col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">FOC Account Approval</label>
+                    <select class="form-control" formControlName="status">
+                    <option selected value="-">--</option>
+                    <option value="AP">Approve</option>
+                    <option value="RJ">Reject</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+      </form>
+  </div>
+
+  <div class="modal-footer">
+      <button *ngIf="user.user_type == 'AD'"
+          class="btn btn-success"
+          type="button"
+          (click)="submitAdmin()"
+      >
+      Submit
+      </button>
+      <button *ngIf="user.user_type == 'SAD'"
+          class="btn btn-success"
+          type="button"
+          (click)="submitSuperAdmin()"
+      >
+      Submit
+      </button>
+      <button *ngIf="user.user_type == 'PRD'"
+          class="btn btn-success"
+          type="button"
+          (click)="submitPRDAdmin()"
+      >
+      Submit
+      </button>
+
+      <button
+          class="btn btn-outline-danger ml-auto"
+          data-dismiss="modal"
+          type="button"
+          (click)="closeModal()">
+          Close
+      </button>
+  </div>
+  </ng-template>
   
   <ng-template #editModal>
     <div class="modal-header bg-default">

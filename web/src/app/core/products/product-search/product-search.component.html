@@ -1,6 +1,6 @@
 <ngx-loading-bar ref="http" height="4px" color="#fff"></ngx-loading-bar>
 <header class="header-2 skew-separator">
-	<div class="page-header">
+	<div class="page-header mb--3" >
 		<div class="page-header-image" style="background-image: url('assets/img/background/menara_ssm.jpg')"></div>
 		<div class="container">
 			<div class="cd-section">
@@ -73,8 +73,8 @@
 	</div>
 </header>
 
-<div class="wrapper mt--8 bg-white">
-	<div class="container pt-4">
+<div class="wrapper bg-white mb-2" >
+	<div class="container pt--10">
 		<div class="row">
 			<div class="col">
 				<div class="card" *ngIf="!isEmpty && isGotResult">
@@ -209,7 +209,7 @@
 			</div>
 		</div>
 
-		<div class="row text-center pb-4">
+		<div class="row text-center pt--8 pb-4">
 			<div class="col cursor-pointer" (click)="navigatePage('/products/custom-data')">
 				<img src="assets/img/icons/12.jpg" style="width: 150px; height: 150px" [tooltip]="tooltip1" />
 				

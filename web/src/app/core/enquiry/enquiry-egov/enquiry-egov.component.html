@@ -198,7 +198,8 @@
             <div class="text-right">
                 <button 
                     class="btn btn-ssm rounded-pill" 
-                    (click)="submit()"
+                    (click)="submit(); clicked=true"
+                    [disabled]="!enquiryForm.valid || clicked" 
                 >
                     Submit
                 </button>
