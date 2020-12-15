@@ -1449,11 +1449,11 @@
                         </div>
 
                         <div class="mt-2 mb-4" *ngIf="isProceed">
-                            <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
+                            <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="'auto'"
                                 [limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
                                 [scrollbarH]="true">
-                                <ngx-datatable-column [width]="135" [sortable]="true" prop="formType">
+                                <ngx-datatable-column [width]="135" [sortable]="true" [resizable]="false" prop="formType">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Type</span>
                                     </ng-template>
@@ -1462,7 +1462,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <!--   // Aduh -->
-                                <ngx-datatable-column [width]="198" [sortable]="true" prop="formName">
+                                <ngx-datatable-column [width]="198" [sortable]="true" [resizable]="false" prop="formName">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Description</span>
                                     </ng-template>
@@ -1471,7 +1471,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="155" [sortable]="true" prop="humanDate">
+                                <ngx-datatable-column [width]="155" [sortable]="true" [resizable]="false" prop="humanDate">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Date</span>
                                     </ng-template>
@@ -1480,7 +1480,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="100" [sortable]="true" prop="totalPage">
+                                <ngx-datatable-column [width]="100" [sortable]="true" [resizable]="false" prop="totalPage">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Total Page</span>
                                     </ng-template>
@@ -1489,7 +1489,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="130" [sortable]="false">
+                                <ngx-datatable-column [width]="130" [sortable]="false" [resizable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">CTC</span>
                                     </ng-template>
@@ -1503,7 +1503,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="110" [sortable]="false">
+                                <ngx-datatable-column [width]="180" [sortable]="false" [resizable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header"></span>
                                     </ng-template>
