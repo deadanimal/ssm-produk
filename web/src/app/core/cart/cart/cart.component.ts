@@ -301,7 +301,7 @@ export class CartComponent implements OnInit {
           }
           this.totaldocument = this.totaldocument + 1
         }
-        row = row + 1
+        // row = row + 1
       }
     )
   
