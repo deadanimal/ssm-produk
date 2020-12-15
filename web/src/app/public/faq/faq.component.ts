@@ -15,6 +15,10 @@ export class FaqComponent implements OnInit {
   isCollapsed2 = true;
   isCollapsed3 = true;
   isCollapsed4 = true;
+  isCollapsed5 = true;
+  isCollapsed6 = true;
+  isCollapsed7 = true;
+  isCollapsed8 = true;
 
   constructor() { }
 
