@@ -29,6 +29,7 @@ export class EnquiryEgovComponent implements OnInit {
   // Form
   enquiryForm: FormGroup;
   fileToUpload: File = null;
+  clicked = false;
 
   user: any
 

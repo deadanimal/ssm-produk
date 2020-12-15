@@ -28,16 +28,17 @@
                                 aria-controls="collapseOne"
                                 class="btn btn-link w-100 text-ssm text-left"
                                 [attr.aria-expanded]="!isCollapsed" 
-                                (click)="isCollapsed = !isCollapsed"
+                                (click)="collapse(); updateRead()"
                                 id="collapseOne"
                                 type="button">
-                                <a class="text-danger">
-                                    {{log.date}}
-                                </a>
-                                <a class="text-danger" *ngIf="log.status">
-                                    - {{log.status}}
-                                </a>
+                                <span id="text_response" #text_response *ngIf="!log.read" class="text-danger">
+                                    {{log.date}} - {{log.status}}
+                                </span>
+                                <span *ngIf="log.read" >
+                                    {{log.date}} - {{log.status}}
+                                </span>
                                 
+                            
                                 <i class="ni ni-bold-down float-right pt-1"> </i>
                             </button>
                             <button *ngIf="log.status != 'In Progress - Response Required'"
@@ -70,15 +71,27 @@
                                 <form [formGroup]="replyForm">
                                     <div class="form-group">
                                         <label class="form-control-label">Response</label>
-                                        <span *ngIf=""class="text-red"> * </span>
-                                        <textarea class="form-control" formControlName="message"></textarea>
+                                        <span class="text-red"> * </span>
+                                        <span *ngIf="log.read == true"><textarea class="form-control" formControlName="message" disabled></textarea></span>
+                                        <span *ngIf="log.read == false"><textarea class="form-control" formControlName="message" ></textarea></span>
+                                    </div>
+                                    <div class="form-group" hidden>
+                                        <input class="form-control" formControlName="reply_id" >{{log.id}}
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label">Attachment</label>
                                         <span class="text-red"> * </span>
                                         <div class="custom-file">
-                                            <input 
+                                            <input *ngIf="log.read == true"
+                                                type="file" 
+                                                class="custom-file-input cursor-pointer" 
+                                                id="files" 
+                                                lang="en"
+                                                (change)="onFileChange($event)"
+                                                accept=".doc, .docx, .jpg, .jpeg, .png, .pdf"
+                                            disabled/>
+                                            <input *ngIf="log.read == false"
                                                 type="file" 
                                                 class="custom-file-input cursor-pointer" 
                                                 id="files" 
@@ -107,7 +120,7 @@
 
                                 <div class="text-right pt-2">
                                     <button class="btn btn-ssm rounded-pill"
-                                        (click)="replyTicket(); clicked=true"
+                                        (click)="replyTicket(log.index); clicked=true"
                                         [disabled]="!replyForm.valid || clicked"
                                     >
                                         Reply

@@ -33,6 +33,11 @@ export class ProductManagementComponent implements OnInit {
   // Tax and Discount
   tax: number;
   discount: number;
+  taxtype: any;
+  discounttype: any;
+  ctcfee: number;
+  fee: number;
+
   // Chart
   chart: any;
 
@@ -224,7 +229,7 @@ export class ProductManagementComponent implements OnInit {
   save() {
 
     this.loadingBar.start()
-    this.productService.create(this.updateForm).subscribe(
+    this.productService.create(this.updateForm.value).subscribe(
       () => {
         this.loadingBar.complete()
       },
@@ -241,7 +246,7 @@ export class ProductManagementComponent implements OnInit {
 
   update() {
     this.loadingBar.start()
-    this.productService.patch(this.selectedRow.id, this.updateForm).subscribe(
+    this.productService.patch(this.selectedRow.id, this.updateForm.value).subscribe(
       () => {
         this.loadingBar.complete()
       },
@@ -269,11 +274,98 @@ export class ProductManagementComponent implements OnInit {
     xlsx.writeFile(wb, fileName);
   }
 
-  setTax($event, e) {
-    let val = parseInt($event.target.value)
-    let fee = parseInt(e.target.value)
-    console.log(fee)
-    console.log(val)
+  setCtc(e){
+    let val = parseFloat(e)
+    this.ctcfee = val
   }
+
+  // setTax(e,a,t){
+  //   let val = parseInt(e)
+  //   this.fee = parseInt(a)
+  //   console.log(this.fee)
+  //   console.log(val)
+  //   console.log(t)
+  //   if(t == 'val'){
+  //     this.taxtype = 'val'
+  //     let totalfee = this.fee + val
+  //     this.tax = val
+  //     console.log(totalfee)
+  //   }else if(t == '%'){
+  //     this.taxtype = '%'
+  //     let taxfee = (this.fee + this.ctcfee) * (val/100)
+  //     this.tax = taxfee
+  //     let totalfee = this.fee + taxfee
+  //     console.log('totalfee: ',totalfee,' taxfee: ',taxfee)
+  //   }
+  // }
+
+
+  // setDiscount(e,a,t){
+  //   let val = parseInt(e)
+  //   this.fee = parseInt(a)
+  //   console.log(this.fee)
+  //   console.log(val)
+  //   console.log(t)
+  //   if(t == 'val'){
+  //     this.discounttype = 'val'
+  //     this.discount = val
+  //     let totalfee = this.fee - val
+  //     console.log(totalfee)
+  //   }else if(t == '%'){
+  //     this.discounttype = '%'
+  //     let discountfee = (this.fee + this.ctcfee) * (val/100)
+  //     this.discount = discountfee
+  //     let totalfee = this.fee - discountfee
+  //     console.log('fee ',this.fee,'totalfee: ',totalfee,' discountfee: ',discountfee)
+  //   }
+  //   // this.setTotal(this.fee,this.discount, this.tax, this.discounttype, this.taxtype)
+  // }
+
+  setTotal(ssmfee, taxfee, discountfee, taxtype, discounttype){
+    let total: number;
+    console.log('ssmfee: ',ssmfee, ' taxfee: ',taxfee, ' discountfee: ', discountfee)
+    discountfee = parseFloat(discountfee) 
+    taxfee = parseFloat(taxfee)
+    ssmfee = parseFloat(ssmfee)
+    this.discount = discountfee
+    this.tax = taxfee
+    this.fee = ssmfee
+
+    if(discounttype == 'val' && taxtype == 'val'){
+      total = this.fee + this.tax - this.discount + this.ctcfee
+      total = Math.round((total + Number.EPSILON) * 100) / 100
+      console.log('val val')
+      console.log('total: ',total,' fee: ',this.fee,' totaltax: ',this.tax,' totaldiscount: ',this.discount,' ctcfee: ',this.ctcfee)
+    }
+    else if(discounttype == 'val' && taxtype == '%'){
+      this.tax = (this.fee + this.ctcfee) * (this.tax/100)
+     // this.tax = Math.round((this.tax + Number.EPSILON) * 100) / 100
+      total = this.fee + this.tax - this.discount + this.ctcfee
+      total = Math.round((total + Number.EPSILON) * 100) / 100
+      console.log('val %')
+      console.log('total: ',total,' fee: ',this.fee,' totaltax: ',this.tax,' totaldiscount: ',this.discount,' ctcfee: ',this.ctcfee)
+    }
+    else if(discounttype == '%' && taxtype == 'val'){
+      this.discount = (this.fee + this.ctcfee) * (this.discount/100)
+     // this.discount = Math.round((this.discount + Number.EPSILON) * 100) / 100
+      total = this.fee + this.tax - this.discount + this.ctcfee
+      total = Math.round((total + Number.EPSILON) * 100) / 100
+      console.log('% val')
+      console.log('total: ',total,' fee: ',this.fee,' totaltax: ',this.tax,' totaldiscount: ',this.discount,' ctcfee: ',this.ctcfee)
+    }
+    else if(discounttype == '%' && taxtype == '%'){
+      this.tax = (this.fee + this.ctcfee) * (this.tax/100)
+     // this.tax = Math.round((this.tax + Number.EPSILON) * 100) / 100
+      this.discount = (this.fee + this.ctcfee) * (this.discount/100)
+     //this.discount = Math.round((this.discount + Number.EPSILON) * 100) / 100
+      total = this.fee + this.tax - this.discount + this.ctcfee
+      total = Math.round((total + Number.EPSILON) * 100) / 100
+      console.log('% %')
+      console.log('total: ',total,' fee: ',this.fee,' totaltax: ',this.tax,' totaldiscount: ',this.discount,' ctcfee: ',this.ctcfee)
+    }
+    
+    console.log('discount: ',this.discount,'tax: ' ,this.tax)
+  }
+
 
 }

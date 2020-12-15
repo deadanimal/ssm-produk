@@ -131,6 +131,16 @@ export class TicketsService {
     )
   }
 
+  updateRead(body: any): Observable<any> {
+    let urlTemp = this.replyURL + body['reply_id'] + '/read_reply/'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+      // console.log('Topics: ', res)
+      // this.reply = res
+    })
+  )
+  }
+
   // Notes
   getNotes(): Observable<any[]> {
     return this.http.get<any[]>(this.urlNote).pipe(
