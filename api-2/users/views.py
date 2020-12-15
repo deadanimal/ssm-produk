@@ -308,12 +308,12 @@ def index(request):
 
                 # print('User data: ', request.session['samlUserdata'])
                 # print('Email: ', request.session['samlNameId'])
-                resp = HttpResponseRedirect(auth.redirect_to('http://192.168.43.113:4200/#/home/'))
+                resp = HttpResponseRedirect(auth.redirect_to('https://xcessdev.ssm.com.my/#/home/'))
                 max_age = 3600 * 24
                 expires = datetime.strftime(datetime.utcnow() + timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-                resp.set_cookie('userEmail', request.session['samlNameId'], max_age=max_age, expires=expires,domain='192.168.43.113')
-                resp.set_cookie('refresh', returned_token, max_age=max_age, expires=expires,domain='192.168.43.113')
-                resp.set_cookie('access', returned_token.access_token, max_age=max_age, expires=expires,domain='192.168.43.113')
+                resp.set_cookie('userEmail', request.session['samlNameId'], max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
+                resp.set_cookie('refresh', returned_token, max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
+                resp.set_cookie('access', returned_token.access_token, max_age=max_age, expires=expires,domain='xcessdev.ssm.com.my')
                 return resp
         elif auth.get_settings().is_debug_active():
                 error_reason = auth.get_last_error_reason()
