@@ -188,6 +188,9 @@ export class EgovTaskManagementComponent implements OnInit {
 
     this.renewForm = this.fb.group({
       request_type: new FormControl('renew'),
+      request_status: new FormControl(null),
+      remarks: new FormControl(null),
+      approver: new FormControl(null),
       head_of_department_name: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -202,7 +205,7 @@ export class EgovTaskManagementComponent implements OnInit {
       ]))
     })
 
-    console.log(this.renewForm)
+  
   }
 
   getData() {
@@ -467,7 +470,7 @@ export class EgovTaskManagementComponent implements OnInit {
   approveUpdate() {
     this.updateForm.controls['approver'].patchValue(this.currentUser.id)
     this.updateForm.controls['request_type'].patchValue('UI')
-
+    
     if (!this.isRemarksOthers) {
       this.updateForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
@@ -514,15 +517,17 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   approveRenew() {
+    
     this.renewForm.controls['approver'].patchValue(this.currentUser.id)
     this.renewForm.controls['request_status'].patchValue('AP')
 
     if (!this.isRemarksOthers) {
       this.renewForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
-
+   // console.log(this.selectedTask);
+    
     this.loadingBar.start()
-    this.serviceService.approveEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+    this.serviceService.approveEgovRequest(this.selectedTask.item.id, this.renewForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully approved an update request')
@@ -547,7 +552,7 @@ export class EgovTaskManagementComponent implements OnInit {
     }
 
     this.loadingBar.start()
-    this.serviceService.rejectEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+    this.serviceService.rejectEgovRequest(this.selectedTask.item.id, this.renewForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully rejected an update request')

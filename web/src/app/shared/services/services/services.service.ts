@@ -62,7 +62,7 @@ export class ServicesService {
   }
 
   submitRenewAcc(body): Observable<any> {  
-    return this.http.post(this.urlEgovRequest,body).pipe(
+    return this.http.post(this.urlEgovRequest+"add_request/",body).pipe(
     tap((res) => {
       // console.log('EGov requests: ', res)
     })
