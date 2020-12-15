@@ -262,23 +262,23 @@ def index(request):
                 user_ = CustomUser.objects.filter(username=request.session['samlNameId']).first()
 
                 user_email_ = request.session['samlUserdata']['Email'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
-                    user_office_no_ = request.session['samlUserdata']['Office_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
-                    user_name_id_ = request.session['samlUserdata']['NameID'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
-                    user_fullname_ = request.session['samlUserdata']['Fullname'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
-                    user_identification_ = request.session['samlUserdata']['Identification_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
-                    user_address_1_ = request.session['samlUserdata']['Address_1'][0] if len(request.session['samlUserdata']['Address_1']) > 0 else None
-                    user_address_2_ = request.session['samlUserdata']['Address_2'][0] if len(request.session['samlUserdata']['Address_2']) > 0 else None
-                    user_address_3_ = request.session['samlUserdata']['Address_3'][0] if len(request.session['samlUserdata']['Address_3']) > 0 else None
-                    user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
-                    user_city_ = request.session['samlUserdata']['City'][0] if len(request.session['samlUserdata']['City']) > 0 else None
-                    user_state_ = request.session['samlUserdata']['State'][0] if len(request.session['samlUserdata']['State']) > 0 else None
-                    user_country_ = request.session['samlUserdata']['Country'][0] if len(request.session['samlUserdata']['Country']) > 0 else None
-                    user_home_no_ = request.session['samlUserdata']['Home_No'][0] if len(request.session['samlUserdata']['Home_No']) > 0 else None
-                    user_nationality_ = request.session['samlUserdata']['Nationality'][0] if len(request.session['samlUserdata']['Nationality']) > 0 else None
-                    user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
-                    user_mobile_no_ = request.session['samlUserdata']['Mobile_No'][0] if len(request.session['samlUserdata']['Mobile_No']) > 0 else None
-                    user_username_ = request.session['samlUserdata']['Username'][0] if len(request.session['samlUserdata']['Username']) > 0 else None
-                    user_identification_type_ = request.session['samlUserdata']['Identification_Type'][0] if len(request.session['samlUserdata']['Identification_Type']) > 0 else None
+                user_office_no_ = request.session['samlUserdata']['Office_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_name_id_ = request.session['samlUserdata']['NameID'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_fullname_ = request.session['samlUserdata']['Fullname'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_identification_ = request.session['samlUserdata']['Identification_No'][0] if len(request.session['samlUserdata']['Email']) > 0 else None
+                user_address_1_ = request.session['samlUserdata']['Address_1'][0] if len(request.session['samlUserdata']['Address_1']) > 0 else None
+                user_address_2_ = request.session['samlUserdata']['Address_2'][0] if len(request.session['samlUserdata']['Address_2']) > 0 else None
+                user_address_3_ = request.session['samlUserdata']['Address_3'][0] if len(request.session['samlUserdata']['Address_3']) > 0 else None
+                user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                user_city_ = request.session['samlUserdata']['City'][0] if len(request.session['samlUserdata']['City']) > 0 else None
+                user_state_ = request.session['samlUserdata']['State'][0] if len(request.session['samlUserdata']['State']) > 0 else None
+                user_country_ = request.session['samlUserdata']['Country'][0] if len(request.session['samlUserdata']['Country']) > 0 else None
+                user_home_no_ = request.session['samlUserdata']['Home_No'][0] if len(request.session['samlUserdata']['Home_No']) > 0 else None
+                user_nationality_ = request.session['samlUserdata']['Nationality'][0] if len(request.session['samlUserdata']['Nationality']) > 0 else None
+                user_gender_ = request.session['samlUserdata']['Gender'][0] if len(request.session['samlUserdata']['Gender']) > 0 else None
+                user_mobile_no_ = request.session['samlUserdata']['Mobile_No'][0] if len(request.session['samlUserdata']['Mobile_No']) > 0 else None
+                user_username_ = request.session['samlUserdata']['Username'][0] if len(request.session['samlUserdata']['Username']) > 0 else None
+                user_identification_type_ = request.session['samlUserdata']['Identification_Type'][0] if len(request.session['samlUserdata']['Identification_Type']) > 0 else None
                     
                 if user_:
                     print(request.session['samlUserdata'])
