@@ -210,6 +210,7 @@ export class CartComponent implements OnInit {
           }
         }) 
         this.totaldocument = this.tableRows.length
+        
         if (this.tableTemp2.length > 0){
             this.tableTemp.forEach(element => {
                 this.tableTemp2.forEach(element2 => {
@@ -224,7 +225,12 @@ export class CartComponent implements OnInit {
         }       
         this.originalTotal = this.totaldocument
         this.updatePrice()
-        this.tableCheckbox = true;
+        if (this.tableRows.length == this.originalTotal){
+            this.tableCheckbox = true;
+        }else{
+            this.tableCheckbox = false;
+        }
+      
       }
     )
   }
