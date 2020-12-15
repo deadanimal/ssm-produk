@@ -12,7 +12,7 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
-import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
+import { CookiezService } from 'src/app/shared/handler/cookie/cookie.service';
 import { User } from 'src/app/shared/services/users/users.model';
 
 import * as moment from 'moment';
@@ -137,7 +137,7 @@ export class ProductSearchResultComponent implements OnInit {
     private toastr: ToastrService,
     private productService: ProductsService,
     private userService: UsersService,
-    private cookieService: CookieService,
+    private cookieService: CookiezService,
     private fileService: LocalFilesService,
     private modalService: BsModalService,
     private router: Router,

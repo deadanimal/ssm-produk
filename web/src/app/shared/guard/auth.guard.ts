@@ -5,7 +5,7 @@ import {
   CanActivate, 
   Router
 } from '@angular/router';
-import { CookieService } from '../handler/cookie/cookie.service';
+import { CookiezService } from '../handler/cookie/cookie.service';
 import { AuthService } from '../services/auth/auth.service';
 import { UsersService } from '../services/users/users.service';
 
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private userService: UsersService,
     private activatedRoute: ActivatedRoute,
-    private cookieService: CookieService
+    private cookieService: CookiezService
   ){ }
   
   canActivate(route: ActivatedRouteSnapshot){

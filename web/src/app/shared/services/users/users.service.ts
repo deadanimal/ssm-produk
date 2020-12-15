@@ -33,7 +33,8 @@ export class UsersService {
   getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.urlUser).pipe(
       tap((res) => {
-        // console.log('Users: ', res);
+        this.users = res
+        console.log('Users: ', res);
       })
     );
   }
