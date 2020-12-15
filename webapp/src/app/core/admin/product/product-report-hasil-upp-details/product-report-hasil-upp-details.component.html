@@ -1,0 +1,141 @@
+<div class="header pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-dark d-inline-block mb-0">Report</h6>
+
+                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">
+                                    <i class="fas fa-align-left text-dark"></i>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)" class="text-dark"> Product </a>
+                            </li>
+                            <li aria-current="page" class="breadcrumb-item active">
+                                Report
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <div class="text-right">
+                        <div class="dropdown" dropdown placement="bottom-right">
+                            <button class="btn btn-outline-default dropdown-toggle" type="button"
+                                id="dropdownMenuButton" dropdownToggle>
+                                Export
+                            </button>
+                            <div aria-labelledby="dropdownMenuButton" *dropdownMenu
+                                class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-striped" id="productReportTable">
+                        <thead style="border-bottom: 2px solid black;">
+                            <tr>
+                                <th rowspan="2" class="text-center">No
+                                </th>
+                                <th rowspan="2" class="text-center">
+                                    Product Name</th>
+                                <th rowspan="2" class="text-center">CTC / NON-CTC
+                                </th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">Januari</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">February</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">March</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">April</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">May</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">June</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">July</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">August</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">September</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">October</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">November</th>
+                                <th colspan="2" class="text-center" style="background-color: #edca3b;">December</th>
+                                <th colspan="2" class="text-center" style="background-color: #fff83b;">Jumlah
+                                    Keseluruhan</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #edca3b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #edca3b;">Hasil (RM)</th>
+                                <th class="text-center" style="background-color: #fff83b;">Transaksi</th>
+                                <th class="text-center" style="background-color: #fff83b;">Hasil (RM)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of listData; let i= index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.proName}}</td>
+                                <td>{{data.ctc}}</td>
+                                <td>{{data.janTransac}}</td>
+                                <td>{{data.janValue}}</td>
+                                <td>{{data.febTransac}}</td>
+                                <td>{{data.febValue}}</td>
+                                <td>{{data.marTransac}}</td>
+                                <td>{{data.marValue}}</td>
+                                <td>{{data.aprTransac}}</td>
+                                <td>{{data.aprValue}}</td>
+                                <td>{{data.mayTransac}}</td>
+                                <td>{{data.mayValue}}</td>
+                                <td>{{data.junTransac}}</td>
+                                <td>{{data.junValue}}</td>
+                                <td>{{data.julTransac}}</td>
+                                <td>{{data.julValue}}</td>
+                                <td>{{data.augTransac}}</td>
+                                <td>{{data.augValue}}</td>
+                                <td>{{data.sepTransac}}</td>
+                                <td>{{data.sepValue}}</td>
+                                <td>{{data.octTransac}}</td>
+                                <td>{{data.octValue}}</td>
+                                <td>{{data.novTransac}}</td>
+                                <td>{{data.novValue}}</td>
+                                <td>{{data.decTransac}}</td>
+                                <td>{{data.decValue}}</td>
+                                <td>{{data.allTransac}}</td>
+                                <td>{{data.allValue}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
