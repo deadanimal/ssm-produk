@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/services/users/users.model';
 import { UsersService } from 'src/app/shared/services/users/users.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+
 
 @Component({
   selector: 'app-egov-home',
@@ -19,9 +21,18 @@ export class EgovHomeComponent implements OnInit {
   slider3 = 'assets/img/banner/banner portal-03.png';
   slider4 = 'assets/img/banner/banner portal-04.png';
 
+   // Modal
+   modal: BsModalRef;
+   modalConfig = {
+     keyboard: true,
+     class: 'modal-dialog-centered',
+   };
+
   constructor(
     private userService: UsersService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService,
+
   ) { 
     this.user = this.userService.currentUser
     // console.log(this.user)
@@ -45,6 +56,18 @@ export class EgovHomeComponent implements OnInit {
     else {
       this.router.navigate([path]);
     }
+  }
+
+  openModal(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(
+      modalRef,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+  }
+
+  closeModal() {
+    this.modal.hide();
+    // this.editAppReqForm.reset();
   }
 
 }

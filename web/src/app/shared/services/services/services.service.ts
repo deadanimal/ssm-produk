@@ -61,6 +61,14 @@ export class ServicesService {
     );
   }
 
+  submitRenewAcc(body): Observable<any> {  
+    return this.http.post(this.urlEgovRequest+"add_request/",body).pipe(
+    tap((res) => {
+      // console.log('EGov requests: ', res)
+    })
+  )
+}
+
   // Get particular service
   getOne(id: string): Observable<Service> {
     let urlTemp = this.urlServices + id + '/'

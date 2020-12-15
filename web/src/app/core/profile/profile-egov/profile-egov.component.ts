@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { exit } from 'process';
 
 export enum SelectionType {
   single = 'single',
@@ -55,7 +56,7 @@ export class ProfileEgovComponent implements OnInit {
   tableInvestigationTemp = []
   tableInvestigationActiveRow: any
   tableInvestigationRows: any[] = []
-
+  
   tableRequestEntries: number = 10
   tableRequestSelected: any[] = []
   tableRequestTemp = []
@@ -127,13 +128,38 @@ export class ProfileEgovComponent implements OnInit {
 
   investigationFormMessages = {
     'reference_letter_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'officer_name': [
       { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'officer_designation': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'officer_department': [
+      { type: 'required', message: 'Don\'t leave this field blank' }
+    ],
+    'officer_nric': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
     ],
     'ip_no': [
-      { type: 'required', message: 'Don\'t leave this field blank' }
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'officer_mobile_no': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
+    ],
+    'officer_official_email': [
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'email', message: 'Invalid email'}
+
     ],
     'court_case_no': [
-      { type: 'required', message: 'Don\'t leave this field blank' }
+      { type: 'required', message: 'Don\'t leave this field blank' },
+      { type: 'pattern', message: 'Invalid field' }
     ],
     'official_letter_egov': [
       { type: 'required', message: 'Don\'t leave this field blank' }
@@ -144,6 +170,51 @@ export class ProfileEgovComponent implements OnInit {
     'offence': [
       { type: 'required', message: 'Don\'t leave this field blank' }
     ]
+  }
+
+  renewFormMessages = {
+    'head_of_department_name': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+      ],
+      'head_of_department_position': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+      ],
+      'head_of_department_email': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+        { type: 'pattern', message: 'Invalid Email' },
+
+      ],
+      'ministry_name': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+
+      ],
+      'department_name': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+
+      ],
+      'division_name': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+
+      ],
+      'address_1': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+
+      ],
+      'postcode': [
+        { type: 'required', message: 'Don\'t leave this field blank' },
+        { type: 'pattern', message: 'Invalid field' },
+        { type: 'minLength', message: 'Invalid field' },
+        { type: 'maxLength', message: 'Invalid field' },
+      ],
+      'city': [
+        { type: 'required', message: 'Don\'t leave this field blank'},
+      ],
+      'state': [
+        { type: 'required', message: 'Don\'t leave this field blank'},
+      ],
+      'attachment_letter': [
+        { type: 'required', message: 'Don\'t leave this field blank'},
+      ],  
   }
 
   // Modal
@@ -443,13 +514,33 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ])),
       reference_letter_no: new FormControl(null, Validators.compose([
+        Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      officer_name: new FormControl(null, Validators.compose([
         Validators.required
+      ])),
+      officer_designation: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      officer_department: new FormControl(null, Validators.compose([
+        Validators.required
+      ])),
+      officer_mobile_no: new FormControl(null, Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      officer_nric: new FormControl(null, Validators.compose([
+        Validators.minLength(12),
+        Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
+      ])),
+      officer_official_email: new FormControl(null, Validators.compose([
+        Validators.required,Validators.email
       ])),
       ip_no: new FormControl(null, Validators.compose([
-        Validators.required
+        Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       court_case_no: new FormControl(null, Validators.compose([
-        Validators.required
+        Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       official_letter_egov: new FormControl(null, Validators.compose([
         Validators.required
@@ -478,9 +569,9 @@ export class ProfileEgovComponent implements OnInit {
       request_type: new FormControl('RN', Validators.compose([
         Validators.required
       ])),
-      position_or_grade: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
+      // position_or_grade: new FormControl(null, Validators.compose([
+      //   Validators.required
+      // ])),
       head_of_department_name: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -489,7 +580,7 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.email
+        Validators.pattern("[a-zA-Z]*@gov.my$")
       ])),
       ministry_name: new FormControl(null, Validators.compose([
         Validators.required
@@ -524,7 +615,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ]))
     })
-
+   
     this.informationForm.controls['phone_number'].patchValue(this.user['phone_number'])
     this.informationForm.controls['position_or_grade'].patchValue(this.user['position_or_grade'])
     this.informationForm.controls['head_of_department_name'].patchValue(this.user['head_of_department_name'])
@@ -556,15 +647,23 @@ export class ProfileEgovComponent implements OnInit {
     this.renewForm.controls['user'].patchValue(this.user['id'])
 
     this.investigationForm.controls['user'].patchValue(this.user['id'])
-
+  
     let investigForm = this.serviceService.investigationForm
+    
     if (this.isGotInvestigationFormValue) {
+    
+      this.investigationForm.controls['officer_name'].patchValue(investigForm['officer_name'])
+      this.investigationForm.controls['officer_designation'].patchValue(investigForm['officer_designation'])
+      this.investigationForm.controls['officer_department'].patchValue(investigForm['officer_department'])
+      this.investigationForm.controls['officer_mobile_no'].patchValue(investigForm['officer_mobile_no'])
+      this.investigationForm.controls['officer_nric'].patchValue(investigForm['officer_nric'])
+      this.investigationForm.controls['officer_official_email'].patchValue(investigForm['officer_official_email'])
       this.investigationForm.controls['reference_letter_no'].patchValue(investigForm['reference_letter_no'])
       this.investigationForm.controls['ip_no'].patchValue(investigForm['ip_no'])
       this.investigationForm.controls['court_case_no'].patchValue(investigForm['court_case_no'])
       this.investigationForm.controls['official_letter_egov'].patchValue(investigForm['official_letter_egov'])
       this.investigationForm.controls['official_letter_request'].patchValue(investigForm['official_letter_request'])
-      this.investigationForm.controls['offence'].patchValue(investigForm['offence'])
+      this.investigationForm.controls['offence'].patchValue(investigForm['offence'])  
 
       this.fileSizeInvestigGov = this.serviceService.investigationFileSizeGov
       this.fileNameInvestigGov = this.serviceService.investigationFileNameGov
@@ -608,6 +707,8 @@ export class ProfileEgovComponent implements OnInit {
       }
     )
   }
+
+  
 
   enableEdit() {
     this.isEnableEdit = true
@@ -659,15 +760,39 @@ export class ProfileEgovComponent implements OnInit {
     )
   }
 
+  requestRenew(){
+
+    this.loadingBar.useRef('http').start()
+    this.serviceService.submitRenewAcc(this.renewForm.value).subscribe(
+      () => {
+        // Success
+        this.loadingBar.useRef('http').complete()
+        this.successAlert()
+      },
+      () => {
+        // failed
+        this.loadingBar.useRef('http').complete()
+        this.failedAlert()
+      },
+      () => {
+      }
+    )    
+      this.closeModal();
+
+  }
+
   onFileChange(event, type) {
     let reader = new FileReader();
     this.fileSize = event.target.files[0].size
     this.fileName = event.target.files[0].name
+    
     if (
       event.target.files && 
       event.target.files.length &&
       this.fileSize < 5000000
     ) {
+      
+      
       const [file] = event.target.files;
       reader.readAsDataURL(file)
       // readAsDataURL(file);
@@ -684,6 +809,11 @@ export class ProfileEgovComponent implements OnInit {
         }
         else if (type == 'egovernment-letter') {
           this.investigationForm.controls['official_letter_egov'].setValue(reader.result)
+          this.fileSizeInvestigGov = this.fileSize
+          this.fileNameInvestigGov = this.fileName
+        }
+        else if (type == 'renew') {
+          this.renewForm.controls['attachment_letter'].setValue(reader.result)
           this.fileSizeInvestigGov = this.fileSize
           this.fileNameInvestigGov = this.fileName
         }
@@ -721,9 +851,17 @@ export class ProfileEgovComponent implements OnInit {
 
   removeFile(type) {
      if (type == 'update') {
+      this.fileSize = 0;
+      this.fileName = null;
+      console.log(this.renewForm);
+      
+      this.renewForm.value['attachment_letter'] = null;
+      this.renewForm.controls['attachment_letter'].setValue(null)
       this.informationForm.controls['attachment_letter'].setValue(null)
       this.fileSizeInformation = null
       this.fileNameInformation = null
+      //this.cd.markForCheck();
+      //this.cd.detectChanges();
     }
     else if (type == 'egovernment-letter') {
       this.fileSizeInvestigGov = null
@@ -748,6 +886,52 @@ export class ProfileEgovComponent implements OnInit {
 
   submitRequest() {
     this.loadingBar.useRef('http').start()
+
+    if (this.investigationForm.get('officer_name').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('officer_designation').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('officer_department').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('officer_mobile_no').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('officer_nric').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('officer_official_email').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('reference_letter_no').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('ip_no').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('court_case_no').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('official_letter_egov').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    if (this.investigationForm.get('offence').errors){
+      alert("Please Complete The Form With Correct Details.")
+      return;
+    }
+    
     this.serviceService.createDocumentRequest(this.investigationForm.value).subscribe(
       (res) => {
         // console.log(res)

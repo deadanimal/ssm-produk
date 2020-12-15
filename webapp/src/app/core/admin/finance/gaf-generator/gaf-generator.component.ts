@@ -72,8 +72,8 @@ export class GafGeneratorComponent implements OnInit {
 
   generateGaf() {
     this.loadingBar.start()
-    this.searchForm.controls['start_date'].patchValue(this.searchForm.value['start_date'] + 'T08:00:00.000000Z')
-    this.searchForm.controls['end_date'].patchValue(this.searchForm.value['end_date'] + 'T08:00:00.000000Z')
+    this.searchForm.controls['start_date'].patchValue(this.searchForm.value['start_date'] + 'T00:00:00.000000Z')
+    this.searchForm.controls['end_date'].patchValue(this.searchForm.value['end_date'] + 'T23:59:59.000000Z')
     console.log(this.searchForm.value)
     this.transactionService.generateGaf(this.searchForm.value).subscribe(
       (res) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
@@ -19,7 +19,6 @@ export class EnquiryDetailsComponent implements OnInit {
   user: any
   ticketLog: any[] = []
   tableActiveRow: any;
-
   replyForm: FormGroup
 
   // Actions
@@ -139,7 +138,7 @@ export class EnquiryDetailsComponent implements OnInit {
       ])),
       message: new FormControl(null),
       remarks: new FormControl(null),
-      escalation_email: new FormControl(null),
+      escalation_email: new FormControl("",Validators.compose([Validators.required,this.sepEmail])),
     })
 
     this.replyForm.controls['type'].patchValue(this.ticket['ticket_status'])
@@ -205,5 +204,17 @@ export class EnquiryDetailsComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   } 
+
+  onChangeEmail(e){
+    let a = e.split(',')
+    console.log(a)
+  }
    /// PUSH REMINDER UNTUK ESCALATION ONLY !!
+   
+   sepEmail = (control: AbstractControl) : { [key: string]: any } | null => {
+     const emails = control.value.split(', ');
+     const forbidden = emails.some(email => Validators.email(new FormControl(email)));
+     console.log(forbidden);
+     return forbidden ? { value : control.value} : null;
+   }
 }

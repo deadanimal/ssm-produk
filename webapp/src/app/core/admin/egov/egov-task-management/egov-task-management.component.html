@@ -222,6 +222,13 @@
                                 >
                                     {{row.status}}
                                 </span>
+
+                                <span 
+                                class="badge badge-primary"
+                                *ngIf="row.status == 'Processed'"
+                            >
+                                    {{row.status}}
+                            </span>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -282,6 +289,15 @@
                                         class="btn btn-sm btn-ssm"
                                         *ngIf="row.task_type == 'Investigation Document Request'"
                                         (click)="openModal(investigationRequest, row)"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+                                <a style="cursor: pointer">
+                                    <button 
+                                        class="btn btn-sm btn-ssm"
+                                        *ngIf="row.task_type == 'Renew Account'"
+                                        (click)="openModal(renewAcc, row)"
                                     >
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -513,9 +529,10 @@
 
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
-                        <label class="form-control-label">Remarks</label>
+                        <label class="form-control-label" id="remarklbl">Remarks</label>
                         <select 
                             class="form-control"
+                            id="remarksdd"
                             [(ngModel)]="eGovRegRemarks"
                             [ngModelOptions]="{standalone: true}"
                             (change)="onRemarksChange($event)"
@@ -1257,24 +1274,11 @@
         </div>
 
         <h6 class="heading-small text-muted mb-4 mt-2">Admin Action</h6>
-        <form [formGroup]="quotaForm">
+        <form [formGroup]="renewForm">
             <div class="row">
-                <div class="col-lg-6 col-sm-12">
-                    <div class="form-group">
-                        <label class="form-control-label">Quota</label>
-                        <input 
-                            class="form-control" 
-                            formControlName="quota"
-                            [ngClass]="{'is-invalid': quotaForm.controls.quota.invalid && quotaForm.controls.quota.touched}"
-                        >
-
-                        <ng-container *ngFor="let message of quotaFormMessages.quota">
-                            <div *ngIf="quotaForm.get('quota').hasError(message.type) && (quotaForm.get('quota').dirty || quotaForm.get('position_or_grade').touched)">
-                                <p class="error-message"><span>{{ message.message }}</span></p>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
+                <!-- <div class="col-lg-6 col-sm-12">
+                   
+                </div> -->
 
                 <div class="col-lg-6 col-sm-12">
                     <div class="form-group">
@@ -1309,7 +1313,7 @@
         <button 
             class="btn btn-ssm rounded-pill" 
             type="button" 
-            (click)="approveUpdate()"
+            (click)="approveRenew()"
             [disabled]="!updateForm.valid || selectedTask['item']['request_status'] != 'PD'">
             Approve
         </button>
@@ -1318,7 +1322,7 @@
             class="btn btn-outline-ssm ml-1 rounded-pill" 
             data-dismiss="modal" 
             type="button" 
-            (click)="rejectUpdate()"
+            (click)="rejectRenew()"
             [disabled]="!updateForm.controls['remarks'].status == 'VALID' || selectedTask['item']['request_status'] != 'PD'"
         >
             Reject
@@ -1368,15 +1372,15 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">IC No.</label>
-                    <input class="form-control" [value]="" disabled>
+                    <label class="form-control-label">Officer Name</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_name" disabled>
                 </div>
             </div>
 
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Position and Grade</label>
-                    <input class="form-control" [value]="selectedTask.item.user.position_or_grade" disabled>
+                    <label class="form-control-label">Designation</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_designation" disabled>
                 </div>
             </div>
         </div>
@@ -1384,8 +1388,55 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-                    <label class="form-control-label">Mobile / Office No.</label>
-                    <input class="form-control" [value]="selectedTask.item.user.phone_number" disabled>
+                    <label class="form-control-label">Department Name</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_department" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Mobile/Office No</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_mobile_no" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IC No. / Officer Authority Card</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_nric" disabled>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Official Email Address</label>
+                    <input class="form-control" [value]="selectedTask.item.officer_official_email" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Reference Letter No.</label>
+                    <input class="form-control" [value]="selectedTask.item.reference_letter_no" disabled>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">IP No.</label>
+                    <input class="form-control" [value]="selectedTask.item.ip_no" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">           
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label class="form-control-label">Court Case No.</label>
+                    <input class="form-control" [value]="selectedTask.item.court_case_no" disabled>
                 </div>
             </div>
         </div>
@@ -1482,7 +1533,7 @@
                 </div>
             </div>
 
-            <div class="col-12" *ngIf="selectedTask['item']['attachment_letter']">
+            <div class="col-12" *ngIf="selectedTask.item.official_letter_egov">
                 <button 
                     type="button" 
                     class="btn btn-ssm btn-block"
@@ -1502,7 +1553,7 @@
                 [footerHeight]="50" 
                 [rowHeight]="'auto'" 
                 [limit]="tableItemEntries != -1 ? tableItemEntries : undefined"
-                [rows]="tableItemTemp" 
+                [rows]="tableItemTemp"
                 [scrollbarH]="true" 
             >
                 <ngx-datatable-column
@@ -1581,14 +1632,14 @@
 
                         <span 
                             class="badge badge-danger"
-                            *ngIf="row.document_status == 'Rejected'"
+                            *ngIf="row.document_status == 'RJ'"
                         >
                             Rejected
                         </span>
 
                         <span 
                             class="badge badge-success"
-                            *ngIf="row.document_status == 'Approved'"
+                            *ngIf="row.document_status == 'AP'"
                         >
                             Approved
                         </span>
@@ -1633,6 +1684,7 @@
             class="btn btn-ssm rounded-pill" 
             type="button" 
             (click)="approveInvestigationAll()"
+            [disabled]="selectedTask.status == 'Processed'"
         >
             Approve for all
         </button>
@@ -1642,6 +1694,8 @@
             data-dismiss="modal" 
             type="button" 
             (click)="rejectInvestigationAll()"
+            [disabled]="selectedTask.status == 'Processed'"
+
         >
             Reject for all
         </button>
