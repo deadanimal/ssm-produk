@@ -150,7 +150,7 @@ export class ProductSearchResultComponent implements OnInit {
       return false
     }
     this.checkUser()
-    this.refreshData();
+    // this.refreshData();
 
     // console.log('chec', )
     let checkerValid = this.router.getCurrentNavigation()
@@ -180,7 +180,8 @@ export class ProductSearchResultComponent implements OnInit {
   refreshData() {
     this.dataRefresher =
       setInterval(() => {
-        this.checkUser();
+        console.log('refresh data')
+        this.checkUser2();
         //Passing the false flag would prevent page reset to 1 and hinder user interaction
       }, 3000);
   }
@@ -643,6 +644,7 @@ export class ProductSearchResultComponent implements OnInit {
         }
       )
     }
+    this.refreshData()
   }
 
   refreshCart() {
@@ -713,6 +715,63 @@ export class ProductSearchResultComponent implements OnInit {
         this.cartService.cartCurrent = this.cartService.cart
         this.cartItems = this.cartService.cart.cart_item
         console.log('qweqweasdasd = ', this.cartItems)
+      },
+      () => { },
+      () => {
+        if (this.cartItems.length > 0) {
+          this.isEmpty = false
+        }
+        else {
+          this.isEmpty = true
+        }
+        this.cartItems.forEach(
+          (item) => {
+            if (item['image_form_type']) {
+              this.formTypes.forEach(
+                (code) => {
+                  if (code.code == item['image_form_type']) {
+                    item['image_form_type'] = code.desc_en
+                  }
+                }
+              )
+            }
+          }
+        )
+      }
+    )
+  }
+
+  checkUser2() {
+    let obtainedUserId = this.cookieService.getCookie('userId')
+
+    if (obtainedUserId) {
+      // this.loadingBar.useRef('http').start()
+      this.userService.getOne(obtainedUserId).subscribe(
+        (res: any) => {
+          // this.loadingBar.useRef('http').complete()
+          // let title = 'Success'
+          // let message = 'Logging in...'
+          this.currentUser = this.userService.currentUser
+          this.isAuthenticated = true
+          // this.toastr.success(message, title)
+        },
+        () => {
+          // this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.checkCart2()
+          this.cookieService.saveCookie('userId', this.currentUser.id)
+        }
+      )
+    }
+  }
+
+  checkCart2() {
+    this.cartService.checkCart(this.userService.currentUser.id).subscribe(
+      () => {
+        this.cartService.cartCurrent = this.cartService.cart
+        this.cartItems = this.cartService.cart.cart_item
+        // console.log('qweqweasdasd = ', this.cartItems)
       },
       () => { },
       () => {

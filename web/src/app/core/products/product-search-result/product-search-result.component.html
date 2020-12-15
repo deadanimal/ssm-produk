@@ -1519,6 +1519,8 @@
 
                     <tab *ngIf="branches">
                         <ng-template tabHeading> Business Certificate </ng-template>
+
+                        <!-- <form [formGroup]="businessCertForm"> -->
                         <div class="mt-2 mb-4">
                             <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="'auto'"
@@ -1615,6 +1617,7 @@
                                 </ngx-datatable-column>
                             </ngx-datatable>
                         </div>
+                        <!-- </form> -->
                     </tab>
                 </tabset>
             </div>

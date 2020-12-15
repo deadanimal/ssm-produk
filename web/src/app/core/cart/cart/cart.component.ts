@@ -87,6 +87,7 @@ export class CartComponent implements OnInit {
   sum: number = 0
   total: number = 0
   totaldocument: number = 0
+  dataRefresher: any;
 
   // Checker
   isEmpty: boolean = false
@@ -103,6 +104,7 @@ export class CartComponent implements OnInit {
     private router: Router
   ) {
     this.getMapping()
+    this.refreshData();
   }
 
   ngOnInit(): void {
@@ -237,21 +239,32 @@ export class CartComponent implements OnInit {
     )
   }
 
+  refreshData() {
+    this.dataRefresher =
+      setInterval(() => {
+        //Passing the false flag would prevent page reset to 1 and hinder user interaction
+      }, 1000);
+  }
+
   checkRow(selected) {
 
     this.total = 0
     this.totaldocument = 0
-    console.log(this.tableRows)
+    let row = 1
+    console.log('selected = ', selected)
+    console.log('this.tableTemp = ', this.tableTemp)
     this.tableRows.forEach(
       (item) => {
-        if (item['id'] === selected['id']) {
+        console.log('istick = ', row, '=', item['isTick'])
+
+        if (item['id'] == selected['id']) {
           item['isTick'] = !item['isTick']
           this.tableCheckbox = false
           // console.log(item)
           // console.log(this.tableRows)
         }
 
-        if (item['isTick'] == true) {
+        if (item['isTick']) {
           if (item.product) {
             this.total += item.product.fee
           }
@@ -266,6 +279,7 @@ export class CartComponent implements OnInit {
           }
           this.totaldocument = this.totaldocument + 1
         }
+        row = row + 1
       }
     )
   }

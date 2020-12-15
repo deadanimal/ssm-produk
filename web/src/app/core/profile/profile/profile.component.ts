@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit {
 
   /// Form
   addressForm: FormGroup
+  filterForm: FormGroup
 
   // eGov Form
   requestForm: FormGroup
@@ -252,6 +253,44 @@ export class ProfileComponent implements OnInit {
       state: new FormControl({ value: 'Selangor', disabled: true }, Validators.required),
       country: new FormControl({ value: 'Malaysia', disabled: true }, Validators.required)
     })
+
+    // flter data
+    this.filterForm = this.fb.group({
+      start_date: new FormControl(),
+      end_date: new FormControl(),
+      invoice: new FormControl(),
+    })
+  }
+
+  filterData() {
+
+    console.log('filter form = ', this.filterForm.value)
+
+    let start_date = this.filterForm.value.start_date
+    let end_date = this.filterForm.value.end_date
+    let invoice = this.filterForm.value.invoice
+    let allTableData = this.tableTemp
+    let tableTest = []
+    console.log('temp', this.tableTemp)
+    allTableData.forEach(function (loopVal) {
+
+      let created_date = moment(loopVal.created_date, 'YYYY-MM-DD').format('YYYY-MM-DD')
+      console.log(created_date, '>=', start_date, ' && ', created_date, '<', end_date)
+
+      if (invoice) {
+        if (loopVal.receipt_no == invoice) {
+          tableTest.push(loopVal)
+        }
+      } else if (start_date || end_date) {
+        if (created_date >= start_date && created_date <= end_date) {
+          console.log('heeeee', loopVal)
+          tableTest.push(loopVal)
+        }
+      }
+
+
+    })
+    this.tableTemp = tableTest
   }
 
   entriesChange($event) {
@@ -277,12 +316,12 @@ export class ProfileComponent implements OnInit {
       // console.log(val)
       this.tableTemp = this.tableRows.filter(function (d, key) {
         // console.log(d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val)
-        console.log(this.tableTemp)
+        // console.log(this.tableTemp)
         return d.invoice_no.toLowerCase().indexOf(val) !== -1 || !val;
       });
     }
     else if (type == 'date') {
-      console.log('val = ', val)
+      // console.log('val = ', val)
       let newVal = val
       if (val) {
         if (task == 'start') {
@@ -291,7 +330,7 @@ export class ProfileComponent implements OnInit {
           newVal = moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY')
         }
       }
-      console.log(newVal)
+      // console.log(newVal)
       this.tableTemp = this.tableRows.filter((d: any, key) => {
         // console.log(d)
         return d.payment_gateway_update_date.toLowerCase().indexOf(newVal) !== -1 || !newVal;
