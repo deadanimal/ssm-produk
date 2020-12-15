@@ -4,6 +4,10 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as xlsx from 'xlsx';
+import * as moment from 'moment';
+
+import { ProductsService } from '../../../../shared/services/products/products.service';
 
 @Component({
   selector: 'app-product-report',
@@ -15,12 +19,17 @@ export class ProductReportComponent implements OnInit {
   // Image 
   imgConstruction = 'assets/img/default/under-construction.png'
 
+  tableTemp = []
+
   // Chart
   private chart: any
 
   constructor(
-    private zone: NgZone
-  ) { }
+    private zone: NgZone,
+    private productService: ProductsService,
+  ) {
+    this.getData()
+  }
 
   ngOnInit() {
     this.getCharts()
@@ -241,77 +250,77 @@ export class ProductReportComponent implements OnInit {
     // Data for both series
     let data = [
       {
-      "year": "Jan",
-      "income": 0,
-      "expenses": 0
-    }, 
-    {
-      "year": "Feb",
-      "income": 0,
-      "expenses": 0
-    }, 
-    {
-      "year": "Mar",
-      "income": 0,
-      "expenses": 0
-    }, 
-    {
-      "year": "Apr",
-      "income": 0,
-      "expenses": 0
-    }, 
-    {
-      "year": "May",
-      "income": 0,
-      "expenses": 0,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Jun",
-      "income": 0,
-      "expenses": 0,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Jul",
-      "income": 0,
-      "expenses": 0,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Aug",
-      "income": 3210,
-      "expenses": 2910,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Sep",
-      "income": 5021,
-      "expenses": 4210,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Oct",
-      "income": 10210,
-      "expenses": 11200,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Nov",
-      "income": 15001,
-      "expenses": 20110,
-      "lineDash": "5,5",
-    }, 
-    {
-      "year": "Dec",
-      "income": 0,
-      "expenses": 0,
-      "strokeWidth": 1,
-      "columnDash": "5,5",
-      "fillOpacity": 0.2,
-      "additional": "(projection)"
-    }
-  ];
+        "year": "Jan",
+        "income": 0,
+        "expenses": 0
+      },
+      {
+        "year": "Feb",
+        "income": 0,
+        "expenses": 0
+      },
+      {
+        "year": "Mar",
+        "income": 0,
+        "expenses": 0
+      },
+      {
+        "year": "Apr",
+        "income": 0,
+        "expenses": 0
+      },
+      {
+        "year": "May",
+        "income": 0,
+        "expenses": 0,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Jun",
+        "income": 0,
+        "expenses": 0,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Jul",
+        "income": 0,
+        "expenses": 0,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Aug",
+        "income": 3210,
+        "expenses": 2910,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Sep",
+        "income": 5021,
+        "expenses": 4210,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Oct",
+        "income": 10210,
+        "expenses": 11200,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Nov",
+        "income": 15001,
+        "expenses": 20110,
+        "lineDash": "5,5",
+      },
+      {
+        "year": "Dec",
+        "income": 0,
+        "expenses": 0,
+        "strokeWidth": 1,
+        "columnDash": "5,5",
+        "fillOpacity": 0.2,
+        "additional": "(projection)"
+      }
+    ];
 
     /* Create axes */
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -354,6 +363,74 @@ export class ProductReportComponent implements OnInit {
 
     chart.data = data;
 
+  }
+
+  // exportExcel() {
+  //   let fileName = 'Product_report.xlsx'
+  //   let element = document.getElementById('productReportTable');
+
+  //   console.log(element)
+  //   const ws: xlsx.WorkSheet = xlsx.utils.table_to_sheet(element);
+
+  //   /* generate workbook and add the worksheet */
+  //   const wb: xlsx.WorkBook = xlsx.utils.book_new();
+  //   xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  //   /* save to file */
+  //   xlsx.writeFile(wb, fileName);
+  // }
+
+  // Aduh
+  getData() {
+    // this.loadingBar.start()
+    this.productService.getAll().subscribe(
+      (res) => {
+        // this.loadingBar.complete()
+        this.tableTemp = res;
+        this.tableTemp.forEach(
+          (row) => {
+            if (row.created_date) {
+              row.created_date = moment(row.created_date).format('DD/MM/YYYY')
+            }
+
+            if (row.modified_date) {
+              row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
+            }
+          }
+        )
+      },
+      () => {
+      },
+      () => {
+        // this.tableTemp = this.tableRows.map((prop, key) => {
+        //   return {
+        //     ...prop,
+        //     id_index: key + 1
+        //   };
+        // });
+        // console.log(this.tableTemp)
+      }
+    )
+  }
+
+  exportExcel() {
+    let newArray: any[] = [];
+    console.log('this.tableTemp = ', this.tableTemp)
+    let data = Object.values(this.tableTemp);
+    Object.keys(data).forEach((key, index) => {
+      newArray.push({
+        'Ind. ID': data[key].individual_id,
+        'HH ID': data[key].hh_id
+      })
+    })
+
+
+    const ws: xlsx.WorkSheet = xlsx.utils.json_to_sheet(newArray);
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'All Ind. Searched Data Export');
+
+    /* save to file */
+    xlsx.writeFile(wb, 'ExportAllData_Ind.xlsx');
   }
 
 }

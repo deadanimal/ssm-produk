@@ -8,6 +8,7 @@ export const environment = {
    baseUrl: 'https://ssm-product-api.pipe.my/',
   // baseUrl: 'https://syafiqbasriapi.ngrok.io/',
   //baseUrl: 'http://127.0.0.1:8000/'
+  // baseUrl: 'http://192.168.43.113:8000/'
 };
 
 /*
