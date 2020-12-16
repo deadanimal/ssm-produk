@@ -91,6 +91,7 @@ export class TicketsService {
 
   updateStatus(body: any): Observable<any> {
     let urlTemp = this.urlTicket
+    console.log('service body:', body)
     if (body['type'] == 'IQ') {
       urlTemp = urlTemp + body['ticket'] + '/status_ip_required/'
     }
@@ -121,12 +122,23 @@ export class TicketsService {
     else if (body['type'] == 'AS') {
       urlTemp = urlTemp + body['ticket'] + '/status_assign/'
     }
+    console.log('full path', urlTemp)
     return this.http.post<any>(urlTemp, body).pipe(
       tap((res) => {
         // console.log('Topics: ', res)
         // this.reply = res
       })
     )
+  }
+
+  updateRead(body: any): Observable<any> {
+    let urlTemp = this.replyURL + body['reply_id'] + '/read_reply/'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+      // console.log('Topics: ', res)
+      // this.reply = res
+    })
+  )
   }
 
   // Notes

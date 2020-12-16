@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import swal from 'sweetalert2'
 import { TicketsService } from 'src/app/shared/services/ticket/ticket.service';
 import { UsersService } from 'src/app/shared/services/users/users.service';
+import { Observable } from 'rxjs';
 
 export class FileType {
   name: string
@@ -24,12 +25,15 @@ export class EnquiryDetailsComponent implements OnInit {
   ticket: any
   user: any
   ticketLog: any[] = []
+  reply
   
   replyForm: FormGroup;
   fileToUpload: File = null;
 
   files: FileType[] = []
 
+  isRead: boolean;
+  clicked = false;
   isCollapsed = false;
 
   constructor(
@@ -93,13 +97,16 @@ export class EnquiryDetailsComponent implements OnInit {
           }
 
           this.ticketLog.push({
+            'id': ticket['id'],
             'index': index_,
             'date': moment(created_date_).format('DD/MM/YYYY HH:mm'),
             'message': ticket['message'],
             'response': ticket['remarks'],
+            'read': ticket['read'],
             'status': status_,
             'user': ticket['user']['full_name']
           })
+          
         }
       )
     }
@@ -126,28 +133,39 @@ export class EnquiryDetailsComponent implements OnInit {
       type: new FormControl(null, Validators.compose([
         Validators.required
       ])),
-      message: new FormControl(null),
+      read: new FormControl(null),
+      message: new FormControl(null, Validators.required),
       remarks: new FormControl(null),
       escalation_email: new FormControl(null),
-      documents: new FormControl(null),
+      documents: new FormControl(null, Validators.required),
+      reply_id: new FormControl(null),
     })
 
+
+    this.replyForm.controls['read'].patchValue(this.ticket['read'])
     this.replyForm.controls['type'].patchValue(this.ticket['ticket_status'])
     this.replyForm.controls['ticket'].patchValue(this.ticket['id'])
     this.replyForm.controls['user'].patchValue(this.user['id'])
-
+    console.log(this.ticket['ticket_status'] = 'IC')
+    console.log(this.ticket)
     console.log('<', this.replyForm.value)
+    
   }
 
-  replyTicket() {
+  replyTicket(e) {
     this.loadingBar.useRef('http').start()
+    this.ticket['ticket_status'] = 'IC'
+    console.log(this.ticketLog[e-1])
+    this.replyForm.controls['reply_id'].patchValue(this.ticketLog[e-1]['id'])
+    this.replyForm.controls['type'].patchValue(this.ticket['ticket_status'])
+    console.log('Check replyForm: ', this.replyForm.value)
+    document.getElementById('text_response').setAttribute('class','')
     this.ticketService.createReply(this.replyForm.value).subscribe(
       () => {
         this.loadingBar.useRef('http').complete()
         let message = 'Successfully submitted'
         this.successAlert(message);
-        // this.replyForm.reset()
-        // this.files = []
+        this.files = []
         this.isCollapsed = false;
       },
       () => {
@@ -160,11 +178,14 @@ export class EnquiryDetailsComponent implements OnInit {
   }
 
   changeStatus() {
+    // console.log(this.replyForm.value['type'])
     this.ticketService.updateStatus(this.replyForm.value).subscribe(
-      () => {},
+      () => {
+        this.ticketService.updateRead(this.replyForm.value).subscribe()
+      },
       () => {},
       () => {
-
+        this.replyForm.reset()
       }
     )
   }
@@ -209,8 +230,11 @@ export class EnquiryDetailsComponent implements OnInit {
         }
         this.files.push(file_)
         console.log('file: ', this.files)
-        console.log('form', this.replyForm.value)
+        console.log(this.replyForm.controls['message'])
         this.replyForm.controls['documents'].patchValue(this.files)
+        console.log('form: ', this.replyForm.value)
+        console.log('tic: ', this.replyForm)
+        
         // console.log(this.registerForm.value)
         // console.log('he', this.registerForm.valid)
         // console.log(this.isAgree)
@@ -266,6 +290,14 @@ export class EnquiryDetailsComponent implements OnInit {
     .then(() => {
       // this.initForm()
     })
+  }
+
+  collapse(){
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  updateRead(){
+    this.ticket['read'] = true;
   }
 
 }

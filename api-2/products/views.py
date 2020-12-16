@@ -416,6 +416,9 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         ctc_ = product_request_json['ctc']
         registration_ = product_request_json['registration_no']
         entity_type_ = product_request_json['entity_type']
+        
+        # if 'order_no' in product_request_json:
+        #     order_no_ = product_request_json['order_no']
 
         information_url = 'http://integrasistg.ssm.com.my/InfoService/1'
         listing_url = 'http://integrasistg.ssm.com.my/ListingService/1'

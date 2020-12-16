@@ -19,7 +19,6 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.conf import settings
 
-
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
@@ -815,6 +814,20 @@ class EgovernmentRequestViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         
         return JsonResponse(data)
 
+    @action(methods=['POST'], detail=False)
+    def get_attachments(self, request, *args, **kwargs):
+        request_ = json.loads(request.body)
+        request_user_id_ = request_['user']
+
+        user = CustomUser.objects.filter(id=str(request_user_id_)).first()
+
+        egov_requests_ = EgovernmentRequest.filter(
+            Q(user=user),
+            Q(attachment_letter__isnull=False)
+        ).all
+
+        serializer = EgovernmentRequestSerializer(egov_requests_)
+        return Response(serializer.data)       
 
 class EgovernmentMinistryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = EgovernmentMinistry.objects.all()

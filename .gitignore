@@ -5,6 +5,7 @@ misc
 *.pyc
 
 *.DS_Store
+*/.DS_Store
 
 Archive.zip
 */seed

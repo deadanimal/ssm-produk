@@ -23,6 +23,7 @@ import { QuotasService } from 'src/app/shared/services/quotas/quotas.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
+// import { count } from 'console';
 
 export enum SelectionType {
   single = 'single',
@@ -71,6 +72,7 @@ export class EgovTaskManagementComponent implements OnInit {
   modalConfig = {
     keyboard: true,
     class: 'modal-dialog-centered modal-xl',
+   
   };
 
   // Form
@@ -138,6 +140,7 @@ export class EgovTaskManagementComponent implements OnInit {
     // });
 
     // this.initData();
+  
     this.initForm()
   }
 
@@ -185,6 +188,9 @@ export class EgovTaskManagementComponent implements OnInit {
 
     this.renewForm = this.fb.group({
       request_type: new FormControl('renew'),
+      request_status: new FormControl(null),
+      remarks: new FormControl(null),
+      approver: new FormControl(null),
       head_of_department_name: new FormControl(null, Validators.compose([
         Validators.required
       ])),
@@ -199,7 +205,7 @@ export class EgovTaskManagementComponent implements OnInit {
       ]))
     })
 
-    console.log(this.renewForm)
+  
   }
 
   getData() {
@@ -221,14 +227,21 @@ export class EgovTaskManagementComponent implements OnInit {
           (request) => {
             let status_overall_ = 'Approved'
             let type_ = 'Investigation Document Request'
+            let processed = 0;
             request['document_request_item'].forEach(
               (item) => {
-                if (item['document_status'] == 'PD') {
-                  status_overall_ = 'Pending'
+                if (item['document_status'] == 'AP' || item['document_status'] == 'RJ') {
+                  processed = 1;
                 }
                 // console.log('pending')
               }
             )
+            if (processed == 1){
+                status_overall_ = 'Processed'
+            }
+            else{
+                status_overall_ = 'Pending'
+            }
 
             let user_name_ = null
             let user_email_ = null
@@ -311,6 +324,7 @@ export class EgovTaskManagementComponent implements OnInit {
             }
             this.tasks.push(add_)
           }
+       
         )
       },
       (fail) => {
@@ -326,6 +340,10 @@ export class EgovTaskManagementComponent implements OnInit {
           id_index: key+1
         };
       });
+      let tt = this.tableTemp;
+      this.tableTemp = [];
+      this.tableTemp = [...tt]; 
+      
       console.log('Task management: ', this.tableTemp)
       }
     )
@@ -333,14 +351,18 @@ export class EgovTaskManagementComponent implements OnInit {
     
   }
 
-  onRemarksChange($event) {
-    console.log(this.isRemarksOthers)
+  onRemarksChange($event) {   
+
     if (this.eGovRegRemarks == 'Others') {
+      //console.log("inside");
+      
       this.isRemarksOthers = true
     }
     else {
       this.isRemarksOthers = false
     }
+    console.log(this.isRemarksOthers);
+    
   }
 
   approveRegistration() {
@@ -452,7 +474,7 @@ export class EgovTaskManagementComponent implements OnInit {
   approveUpdate() {
     this.updateForm.controls['approver'].patchValue(this.currentUser.id)
     this.updateForm.controls['request_type'].patchValue('UI')
-
+    
     if (!this.isRemarksOthers) {
       this.updateForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
@@ -493,21 +515,24 @@ export class EgovTaskManagementComponent implements OnInit {
         this.failedAlert('Please try again later')
       },
       () => {
+        this.closeModal()
         this.getData()
       }
     )
   }
 
   approveRenew() {
+    
     this.renewForm.controls['approver'].patchValue(this.currentUser.id)
     this.renewForm.controls['request_status'].patchValue('AP')
 
     if (!this.isRemarksOthers) {
       this.renewForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
-
+   // console.log(this.selectedTask);
+    
     this.loadingBar.start()
-    this.serviceService.approveEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+    this.serviceService.approveEgovRequest(this.selectedTask.item.id, this.renewForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully approved an update request')
@@ -532,7 +557,7 @@ export class EgovTaskManagementComponent implements OnInit {
     }
 
     this.loadingBar.start()
-    this.serviceService.rejectEgovRequest(this.selectedTask['item']['id'], this.renewForm.value).subscribe(
+    this.serviceService.rejectEgovRequest(this.selectedTask.item.id, this.renewForm.value).subscribe(
       () => {
         this.loadingBar.complete()
         this.successfullAlert('Successfully rejected an update request')
@@ -550,53 +575,102 @@ export class EgovTaskManagementComponent implements OnInit {
   approveInvestigationAll() {
     this.tableItemRows.forEach(
       (req) => {
-        this.approveInvestigation(req.document_request, req)
+        if (req.document_status == "PD"){
+          this.approveInvestigation(req.document_request, req,'all')
+        }
       }
     )
+    this.modal.hide()
   }
 
   rejectInvestigationAll() {
     this.tableItemRows.forEach(
       (req) => {
-        this.rejectInvestigation(req.document_request, req)
+        if (req.document_status == "PD"){
+            this.rejectInvestigation(req.document_request, req,'all')
+        }
       }
     )
+    this.modal.hide()
   }
   
 
-  approveInvestigation(id: string, item) {
+  approveInvestigation(id: string, item,flag) {
     this.loadingBar.start()
     let body = {
       'item': item.id,
       'approver': this.currentUser.id
     }
+    let succ = 0;
     this.serviceService.approveDocReqItem(id, body).subscribe(
-      () => {this.loadingBar.complete()},
-      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()
+        if(flag == "all"){
+          this.successfullAlert('Successfully approved investigation request')
+        }
+        succ = 1;
+      },
+      () => {this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
       () => {
+        if (succ == 1){
+            item.document_status = "AP"
+            this.updateForInvest()
+        }
         this.getData()
       }
     )
   }
 
-  rejectInvestigation(id: string, item) {
+  updateForInvest(){
+            let touch_count = 0;
+            this.tableItemTemp.forEach((x)=>{
+              if (x.document_status != "PD"){
+                touch_count = touch_count + 1;
+              }  
+            });
+            if (this.tableItemTemp.length == touch_count){
+              this.selectedTask.status = "Processed";
+            }
+  }
+
+  rejectInvestigation(id: string, item,flag) {
     this.loadingBar.start()
     let body = {
       'item': item.id,
       'approver': this.currentUser.id
     }
+    let succ = 0;
+
     this.serviceService.rejectDocReqItem(id, body).subscribe(
-      () => {this.loadingBar.complete()},
-      () => {this.loadingBar.complete()},
+      () => {this.loadingBar.complete()
+        if (flag == "all"){
+          this.successfullAlert('Successfully rejected investigation request')
+        }
+        succ = 1;
+      },
+      () => {this.loadingBar.complete()
+        this.failedAlert('Please try again later')
+      },
       () => {
+        if (succ == 1){
+          item.document_status = "RJ"
+          this.updateForInvest();
+        }
         this.getData()
       }
     )
   }
 
   openAttachment() {
-    if (this.selectedTask['item']['attachment_letter']) {
-      let url = this.selectedTask['item']['attachment_letter']
+    
+    if (this.selectedTask.item.official_letter_egov) {
+      let url = this.selectedTask.item.official_letter_egov
+      window.open(
+        url, '_blank'
+      )
+    }else if(this.selectedTask.item.attachment_letter){
+      let url = this.selectedTask.item.attachment_letter
       window.open(
         url, '_blank'
       )
@@ -632,13 +706,40 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   openModal(modalRef: TemplateRef<any>, row) {
+    var close = 0;
+    console.log(row);
+    
+    if (row.remarks == null || row.remarks == "" || row.remarks == "null"){
+      this.eGovRegRemarks = "null";
+      this.registrationForm.controls['remarks'].patchValue("")
+      this.isRemarksOthers = false;
+      this.registrationForm.controls['package'].patchValue("null");
+
+    }else{
+    if (row.remarks != "Attachment incomplete" && row.remarks != "Head of department details"){
+      
+      this.isRemarksOthers = true;
+      this.eGovRegRemarks = "Others";
+      this.registrationForm.controls['remarks'].patchValue(row.remarks);
+      close = 1;
+      this.registrationForm.controls['remarks'].disable();
+
+    }else{
+      this.eGovRegRemarks = "null";
+      this.registrationForm.controls['remarks'].patchValue("")
+      this.isRemarksOthers = false;
+    }  
+   } 
+    
     this.selectedTask = row
     this.currentUser = this.userService.currentUser
+    
     this.modal = this.modalService.show(modalRef, this.modalConfig);
 
     if (this.selectedTask.task_type == 'Investigation Document Request') {
+
       this.requestItemList = this.selectedTask.item.document_request_item
-      console.log(this.requestItemList)
+      
       this.tableItemRows = this.requestItemList
       this.tableItemTemp = this.tableItemRows.map((prop, key) => {
         return {
@@ -646,11 +747,22 @@ export class EgovTaskManagementComponent implements OnInit {
           id_index: key+1
         };
       })
+ 
     }
+    close == 1 ? document.getElementById("remarksdd").hidden = true : "";
+    close == 1 ? document.getElementById("remarklbl").hidden = true : "";
   }
 
   closeModal() {
-    this.modal.hide();
+    this.eGovRegRemarks = "null";
+    this.registrationForm.controls['remarks'].patchValue("")
+    this.isRemarksOthers = false;
+    if (this.modal == undefined){
+
+    } else{
+       this.modal.hide();
+    }   
+   
   }
 
   confirm() {

@@ -6,7 +6,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import swal from 'sweetalert2';
+import swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import { Router, ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -141,7 +141,7 @@ export class PersonalInvolvementComponent implements OnInit {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
+  filterTable($event, tests) {
     let val = $event.target.value.toLowerCase();
     this.tableTemp = this.tableRows.filter(function(d) {
       return d.title.toLowerCase().indexOf(val) ! == -1 || !val;
@@ -222,7 +222,14 @@ export class PersonalInvolvementComponent implements OnInit {
 
   errorAlert(task) {
     swal.fire({
-      
+      title: 'Error',
+      text: task,
+      type: 'error',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning', 
+      },
     })
     .then(() => {
       // this.initForm()

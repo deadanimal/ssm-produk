@@ -62,7 +62,7 @@
                                 <label>
                                     Show
                                     <select name="datatable_length" aria-controls="datatable"
-                                        class="form-control form-control-sm"
+                                        class="form-control form-control-sm custom-select custom-select-sm"
                                         (change)="entriesChange($event)">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
@@ -140,13 +140,13 @@
                                 <span *ngIf="row.ticket_status == 'US'">In Progress</span> 
                                 <span *ngIf="row.ticket_status == 'IP'">In Progress</span> 
                                 <span *ngIf="row.ticket_status == 'IQ'">In Progress - Response Required</span> 
-                                <span *ngIf="row.ticket_status == 'IC'">In Progress - Response Received</span> 
-                                <span *ngIf="row.ticket_status == 'AS'">Assigned</span> 
-                                <span *ngIf="row.ticket_status == 'EC'">Escalation</span> 
-                                <span *ngIf="row.ticket_status == 'CA'">Closed - Assigned</span> 
-                                <span *ngIf="row.ticket_status == 'CR'">Closed - Not Related</span> 
-                                <span *ngIf="row.ticket_status == 'CD'">Closed - Not Responded</span> 
-                                <span *ngIf="row.ticket_status == 'CO'">Closed - Resolved</span> 
+                                <span *ngIf="row.ticket_status == 'IC'">In Progress </span> 
+                                <span *ngIf="row.ticket_status == 'AS'">In Progress</span> 
+                                <span *ngIf="row.ticket_status == 'EC'">In Progress</span> 
+                                <span *ngIf="row.ticket_status == 'CA'">Closed </span> 
+                                <span *ngIf="row.ticket_status == 'CR'">Closed </span> 
+                                <span *ngIf="row.ticket_status == 'CD'">Closed </span> 
+                                <span *ngIf="row.ticket_status == 'CO'">Closed </span> 
                                 <span *ngIf="row.ticket_status == 'CL'">Closed</span> 
                             </ng-template>
                         </ngx-datatable-column>

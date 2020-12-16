@@ -46,8 +46,8 @@
 				</a>
 				
 				<label class="custom-toggle">
-					<input type="checkbox" checked="" />
-					<span class="custom-toggle-slider rounded-circle" data-label-off="BM" data-label-on="EN"></span>
+					<!-- <input type="checkbox" checked="" /> -->
+					<span class="custom-toggle-slider rounded-circle" data-label-off="EN"></span>
 				</label>
 
 				<!-- <li class="nav-item dropdown" *ngIf="isAuthenticated">
@@ -306,12 +306,18 @@
 						<a class="dropdown-item" (click)="userLogin(6)">
 							As eGov 4
 						</a>
-						<!-- <a class="dropdown-item" (click)="navigatePage('/faq')">
+						<a class="dropdown-item" (click)="navigatePage('/faq')">
 							As eGovernment
-						</a> -->
+						</a>
 					</div>
 				</li>
-
+				
+				<!-- <li class="nav-item" *ngIf="!isAuthenticated">
+					<a class="nav-link cursor-pointer" (click)="ssoLogin()">
+						<i class="ni ni-tablet-button d-lg-none"> </i>
+						<span class="nav-link-inner--text"> Login </span>
+					</a>
+				</li>  -->
 				<!-- <li class="nav-item">
 					<a class="nav-link cursor-pointer" (click)="ssoLogin()">
 						<i class="ni ni-tablet-button d-lg-none"> </i>

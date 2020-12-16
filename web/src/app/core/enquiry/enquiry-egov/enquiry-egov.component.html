@@ -191,15 +191,15 @@
 
             <div class="row">
                 <div class="col">
-                    <p class="">* Mandatory fields.</p>
+                    <span class="text-red">* </span><span>Mandatory fields.</span>
                 </div>
             </div>
 
             <div class="text-right">
                 <button 
                     class="btn btn-ssm rounded-pill" 
-                    (click)="submit()"
-                    [disabled]="!enquiryForm.valid"
+                    (click)="submit(); clicked=true"
+                    [disabled]="!enquiryForm.valid || clicked" 
                 >
                     Submit
                 </button>

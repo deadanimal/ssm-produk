@@ -434,18 +434,26 @@
 
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
-					<span *ngIf="selectedRow.language == 'EN'">
 					<label class="form-control-label">Version</label>
-					<input class="form-control" value="BI">
-					</span>
-					<span *ngIf="selectedRow.language == 'MS'">
-					<label class="form-control-label">Version</label>
-					<input class="form-control" value="BM">
-					</span>
-					<span *ngIf="!selectedRow.language">
-					<label class="form-control-label">Version</label>
-					<input class="form-control" [value]="">
-					</span>
+					<div class="input-group">
+						<select class="form-control custom-select" >
+							<ng-container *ngIf="selectedRow.language == 'EN'">
+								<option value="-">--</option>
+								<option value="MS">BM</option>
+								<option value="EN" selected>BI</option>
+							</ng-container>	
+							<ng-container *ngIf="selectedRow.language == 'MS'">
+								<option value="-">--</option>
+								<option value="MS" selected>BM</option>
+								<option value="EN">BI</option>
+							</ng-container>	
+							<ng-container *ngIf="!selectedRow.language">
+								<option value="-" selected>-</option>
+								<option value="MS">BM</option>
+								<option value="EN" >BI</option>
+							</ng-container>	
+						</select>
+					</div>
                 </div>
             </div>
         </div>
@@ -669,7 +677,13 @@
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
 					<label class="form-control-label">Version</label>
-					<input class="form-control" [value]="">
+					<div class="input-group">
+						<select class="form-control custom-select" >
+							<option value="-">--</option>
+							<option value="MS">BM</option>
+							<option value="EN">BI</option>
+						</select>
+					</div>
                 </div>
             </div>
         </div>
@@ -696,11 +710,11 @@
 					<label class="form-control-label">CTC / Non-CTC</label>
                     <div class="form-check">
 						<div class="form-check-inline">
-						<input class="form-check-input" type="radio" name="ctcRadioOptions" id="ctcRadio1" #ctcRadio value="CTC">
+						<input class="form-check-input" type="radio" [(ngModel)]="ctcRadioOptions" name="ctcRadioOptions" id="ctcRadio1" value="CTC" >
 						<label class="form-check-label" for="ctcRadio1">CTC</label>
 					  	</div>
 					  	<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="ctcRadioOptions" id="ctcRadio2" value="Non-CTC">
+						<input class="form-check-input" type="radio" [(ngModel)]="ctcRadioOptions" name="ctcRadioOptions" id="ctcRadio2" value="Non-CTC" (click)="clearCTC()" >
 						<label class="form-check-label" for="ctcRadio2">Non-CTC</label>
 						</div>
 					</div>
@@ -712,14 +726,14 @@
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">
                     <label class="form-control-label">SSM Fee (RM)</label>
-                    <input class="form-control" [value]="">
+                    <input type="number" step=".01" class="form-control" #ssmfee [value]="">
                 </div>
 			</div>	
-			
-			<div class="col-lg-6 col-sm-12">
+
+			<div class="col-lg-6 col-sm-12" *ngIf="ctcRadioOptions == 'CTC'">
 				<div class="form-group">
 					<label class="form-control-label">SSM CTC Fee (RM)</label>
-					<input class="form-control" [value]="">
+					<input type="number" step=".01" class="form-control" name="ctcfee" #ctcfee (keyup)="setCtc($event.target.value)" [value]="" >
 				</div>
 			</div>
 		</div>
@@ -729,9 +743,9 @@
                 <div class="form-group">
 					<label class="form-control-label">Tax Percentage / Value</label>
 					<div class="input-group">
-						<input class="form-control" (keyup)="setTax($event,selectedRow.fee)" [value]="">
+						<input type="number" step=".01" class="form-control" #taxfee [value]="">
 							<div class="input-group-append">
-								<select class="form-control custom-select" >
+								<select #taxtype class="form-control custom-select" >
 									<option value="%">%</option>
 									<option value="val">Value</option>
 								</select>
@@ -763,9 +777,9 @@
                 <div class="form-group">
 					<label class="form-control-label">Discount Percentage / Value</label>
 					<div class="input-group">
-						<input class="form-control" [value]="">
+						<input type="number" step=".01"  class="form-control" #discountfee  [value]="">
 							<div class="input-group-append">
-								<select class="form-control custom-select" >
+								<select #discounttype class="form-control custom-select" >
 									<option value="%">%</option>
 									<option value="val">Value</option>
 								</select>
@@ -848,12 +862,12 @@
             Save
         </button>
 		</span>
-		<span *ngIf = "!isSave">
+		<span>
 			<button 
 			class="btn btn-primary ml-1 rounded-pill" 
             data-dismiss="modal" 
 			type="button" 
-			(click)="update()"
+			(click)="setTotal(ssmfee.value,taxfee.value,discountfee.value,taxtype.value,discounttype.value)"
         >
             Update
         </button>

@@ -54,22 +54,23 @@ export class HomeComponent implements OnInit, OnDestroy {
         res.forEach(
           (item) => {
             if (item['slug'] == 'companies') {
-              this.totalCompanies = item['value']
+              //this.totalCompanies = item['value']
+              this.totalCompanies = item['value'];
             }
             else if (item['slug'] == 'business') {
-              this.totalBusinessess = item['value']
+              this.totalBusinessess = item['value'];
             }
             else if (item['slug'] == 'local') {
-              this.totalLocal = item['value']
+              this.totalLocal = item['value'];
             }
             else if (item['slug'] == 'foreign') {
-              this.totalForeign = item['value']
+              this.totalForeign = item['value'];
             }
             else if (item['slug'] == 'sole_proprietorshop') {
-              this.totalSoleProprietorship = item['value']
+              this.totalSoleProprietorship = item['value'];
             }
             else if (item['slug'] == 'partnership') {
-              this.totalPartnership = item['value']
+              this.totalPartnership = item['value'];
             }
           }
         )

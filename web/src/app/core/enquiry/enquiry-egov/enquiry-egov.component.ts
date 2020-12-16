@@ -29,6 +29,7 @@ export class EnquiryEgovComponent implements OnInit {
   // Form
   enquiryForm: FormGroup;
   fileToUpload: File = null;
+  clicked = false;
 
   user: any
 
@@ -154,6 +155,7 @@ export class EnquiryEgovComponent implements OnInit {
 
   submit() {
     console.log(this.enquiryForm.value);
+    if(this.enquiryForm.valid){
     this.loadingBar.useRef('http').start()
     this.ticketService.create(this.enquiryForm.value).subscribe(
       (res) => {
@@ -173,6 +175,9 @@ export class EnquiryEgovComponent implements OnInit {
         console.log(err);
       }
     );
+    }else{
+      this.errorSubmitAlert()
+    }
   }
 
   successAlert(task) {
@@ -199,6 +204,21 @@ export class EnquiryEgovComponent implements OnInit {
     swal.fire({
       title: 'Error',
       text: task,
+      icon: 'warning',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
+  }
+  errorSubmitAlert() {
+    swal.fire({
+      title: 'Error',
+      html: 'Please ensure all mandatory (<span class="text-red">*</span>) field has been filled ',
       icon: 'warning',
       buttonsStyling: false,
       confirmButtonText: 'Close',

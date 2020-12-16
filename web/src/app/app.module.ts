@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -31,7 +31,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { CoreLayoutComponent } from './layouts/core-layout/core-layout.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { CookieService } from './shared/handler/cookie/cookie.service';
+import { CookiezService } from './shared/handler/cookie/cookie.service';
+
+import { CookieService } from 'ngx-cookie-service';
+import { HttpTokenInterceptor } from './shared/interceptor/http.token.interceptor';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -103,7 +106,11 @@ const cookieConfig: NgcCookieConsentConfig = {
     NgcCookieConsentModule.forRoot(cookieConfig),
   ],
   providers: [
-    CookieService
+    CookiezService,
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

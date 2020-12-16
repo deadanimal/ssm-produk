@@ -12,7 +12,7 @@ import { LocalFilesService } from 'src/app/shared/services/local-files/local-fil
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UsersService } from 'src/app/shared/services/users/users.service';
 import { CartItemExtended } from 'src/app/shared/services/carts/carts.model';
-import { CookieService } from 'src/app/shared/handler/cookie/cookie.service';
+import { CookiezService } from 'src/app/shared/handler/cookie/cookie.service';
 import { User } from 'src/app/shared/services/users/users.model';
 
 import * as moment from 'moment';
@@ -44,6 +44,7 @@ export class ProductSearchResultComponent implements OnInit {
   availabilityList: any
   branches: any[] = null
   isEmpty: boolean = true
+  modalname = ''
 
   // Checker
   isProceed: boolean = false
@@ -137,7 +138,7 @@ export class ProductSearchResultComponent implements OnInit {
     private toastr: ToastrService,
     private productService: ProductsService,
     private userService: UsersService,
-    private cookieService: CookieService,
+    private cookieService: CookiezService,
     private fileService: LocalFilesService,
     private modalService: BsModalService,
     private router: Router,
@@ -584,10 +585,15 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCartDocument(row) {
-    this.cartForm.controls['image_form_type'].setValue(row.formType)
-    this.cartForm.controls['image_version_id'].setValue(row.verId)
-    this.documentForm.controls['isCtc'].setValue(row.isCtc)
-    this.addCart(this.documentForm)
+    console.log(row);
+    if (row.hasOwnProperty("branchType") == true){
+        this.addCart(row)
+    }else{
+      this.cartForm.controls['image_form_type'].setValue(row.formType)
+        this.cartForm.controls['image_version_id'].setValue(row.verId)
+        this.documentForm.controls['isCtc'].setValue(row.isCtc)
+        this.addCart(this.documentForm)
+    } 
 
     console.log(this.cartForm.value['image_form_type'])
   }
@@ -823,6 +829,11 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   openModalSample(modalRef: TemplateRef<any>) {
+    this.modalSample = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  openModalSample2(modalRef: TemplateRef<any>,name) {
+    this.modalname = name;
     this.modalSample = this.modalService.show(modalRef, this.modalConfig);
   }
 
