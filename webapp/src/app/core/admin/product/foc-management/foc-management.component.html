@@ -37,7 +37,7 @@
             <h3 class="m-0">F.O.C Account List</h3>
           </div>
 
-          <div class="row text-right pt-4 pr-6">
+          <div class="row text-right pt-4 pr-4">
             <div class="col">
                 <button
                     class="btn btn-ssm rounded-pill"
@@ -51,11 +51,8 @@
             <div class="row px-3 pt-2">
               <div class="col-sm-12 col-md-3">
                 <div class="form-group">
-                  <label class="form-control-label">ID Type</label>
-                  <select class="form-control form-control-sm" (change)="filterTable($event, 'ID')">
-                    <option value="IC">NRIC</option>
-                    <option value="PP">Passport</option>
-                  </select>
+                  <label class="form-control-label">Name</label>
+                  <input class="form-control form-control-sm" (change)="filterTable($event, 'name')">
                 </div>
               </div>
 
@@ -102,7 +99,7 @@
               [footerHeight]="50"
               [rowHeight]="'auto'"
               [limit]="tableEntries != -1 ? tableEntries : undefined"
-              [rows]="tableTemp"
+              [rows]="tablefocTemp"
               [scrollbarH]="true"
             >
               <ngx-datatable-column 
