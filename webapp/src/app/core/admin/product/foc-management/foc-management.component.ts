@@ -54,6 +54,7 @@ export class FocManagementComponent implements OnInit {
   tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
+  tablefocTemp = [];
   tableActiveRow: any;
   tableRows: any[] = [];
   SelectionType = SelectionType;
@@ -91,7 +92,7 @@ export class FocManagementComponent implements OnInit {
         console.log('Gotcha')
       }
     }
-    // this.initData();
+    this.initData();
     this.initForm();
 
   }
@@ -99,6 +100,7 @@ export class FocManagementComponent implements OnInit {
   initForm(){
     this.updateForm = this.fb.group({
       name: new FormControl(null,Validators.required),
+      slug: new FormControl('free_of_charge'),
       id_type: new FormControl(null),
       id_number: new FormControl(null, Validators.required),
       reason: new FormControl(null),
@@ -123,6 +125,11 @@ export class FocManagementComponent implements OnInit {
               row.modified_date = moment(row.modified_date).format('DD/MM/YYYY')
             }
 
+            if(row['slug'] == 'free_of_charge'){
+              this.tablefocTemp.push(row)
+              
+            }
+
           }
         )        
       },
@@ -130,13 +137,13 @@ export class FocManagementComponent implements OnInit {
 
       },
       () => {
-        this.tableTemp = this.tableRows.map((prop, key) => {
+        this.tablefocTemp = this.tableRows.map((prop, key) => {
           return {
             ...prop,
             id_index: key+1
           };
         });        
-        console.log(this.tableTemp)
+        console.log(this.tablefocTemp)
       }
     )
   }
