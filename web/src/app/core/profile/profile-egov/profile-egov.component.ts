@@ -474,7 +474,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
-        Validators.required, Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
+        Validators.required, Validators.pattern("[a-zA-Z0-9_.]*@[a-zA-Z0-9]*.gov.my$")
       ])),
       head_of_department_position: new FormControl(null, Validators.compose([
         Validators.required
@@ -581,7 +581,7 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
+        Validators.pattern("[a-zA-Z0-9_.]*@[a-zA-Z0-9]*.gov.my$")
       ])),
       ministry_name: new FormControl(null, Validators.compose([
         Validators.required
@@ -719,7 +719,8 @@ export class ProfileEgovComponent implements OnInit {
     this.isEnableEdit = false
   }
 
-  requestQuota() {
+  requestQuotaz() {
+    
     this.loadingBar.useRef('http').start()
     this.quotaForm.controls['user'].patchValue(this.user.id)
     this.serviceService.requestEgov(this.quotaForm.value).subscribe(
@@ -827,6 +828,7 @@ export class ProfileEgovComponent implements OnInit {
           this.quotaForm.controls['attachment_letter'].setValue(reader.result)
         }
         
+        
         // console.log(this.registerForm.value)
         // console.log('he', this.registerForm.valid)
         // console.log(this.isAgree)
@@ -854,8 +856,8 @@ export class ProfileEgovComponent implements OnInit {
      if (type == 'update') {
       this.fileSize = 0;
       this.fileName = null;
-      console.log(this.renewForm);
-      
+      this.quotaForm.value['attachment_letter'] = null;
+      this.quotaForm.controls['attachment_letter'].setValue(null)
       this.renewForm.value['attachment_letter'] = null;
       this.renewForm.controls['attachment_letter'].setValue(null)
       this.informationForm.controls['attachment_letter'].setValue(null)
