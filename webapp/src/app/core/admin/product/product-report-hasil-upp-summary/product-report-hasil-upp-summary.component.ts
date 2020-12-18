@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, TemplateRef, OnDestroy } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
@@ -6,6 +6,7 @@ import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow"
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import * as xlsx from 'xlsx';
 import * as moment from 'moment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 import { ProductsService } from '../../../../shared/services/products/products.service';
 
@@ -18,6 +19,13 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
 
   // Image 
   imgConstruction = 'assets/img/default/under-construction.png'
+
+  // Modal
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: 'modal-dialog-centered',
+  }
 
   tableTemp = []
   listData: any = [
@@ -107,6 +115,7 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
   constructor(
     private zone: NgZone,
     private productService: ProductsService,
+    private modalService: BsModalService,
   ) {
     this.getData()
   }
@@ -208,5 +217,13 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
   //   /* save to file */
   //   xlsx.writeFile(wb, 'ExportAllData_Ind.xlsx');
   // }
+
+  openModal(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  closeModal() {
+    this.modal.hide();
+  }
 
 }
