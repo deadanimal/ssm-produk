@@ -36,11 +36,11 @@ export class AppComponent implements OnInit {
   checkUser() {
     // let obtainedUserId = this.cookieService.getCookie('userId')
     this.loadingBar.useRef('http').start()
-    this.userService.getAll().subscribe(
+    this.userService.getOne('15a13a0a-d93f-462b-ac5b-a94e8d3b1517').subscribe(
       (res) => {
         console.log('hello', res)
         this.loadingBar.useRef('http').complete()
-        this.userService.currentUser = this.userService.users[0]
+        // this.userService.currentUser = this.userService.user
       },
       (err) => {
         console.log(err)

@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
         ('AD', 'Admin'),
         ('EG', 'eGovernment'),
         ('PB', 'Public'),
+        ('FOC', 'FOC Account'),
 
         ('NA', 'Not Available'),        
     ]
