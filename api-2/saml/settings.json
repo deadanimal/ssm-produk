@@ -2,13 +2,13 @@
     "strict": false,
     "debug": true,
     "sp": {
-        "entityId": "http://192.168.43.113:8000/SSOLogin/metadata/",
+        "entityId": "https://ssm-product-api.pipe.my/SSOLogin/metadata/",
         "assertionConsumerService": {
-            "url": "http://192.168.43.113:8000/SSOLogin/?acs",
+            "url": "https://ssm-product-api.pipe.my/SSOLogin/?acs",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
         },
         "singleLogoutService": {
-            "url": "http://192.168.43.113:8000/SSOLogin/?sls",
+            "url": "https://ssm-product-api.pipe.my/SSOLogin/?sls",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
         },
         "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",

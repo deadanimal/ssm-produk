@@ -27,7 +27,8 @@ ALLOWED_HOSTS = [
     'afeezaziz.ngrok.io',
     'syafiqbasri.ngrok.io',
     'identitypro.ssm.com.my',
-    '*'
+    '*',
+    'ssm.com.my'
 ]
 
 USE_X_FORWARDED_PORT = True
@@ -248,6 +249,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # SSO SAML
+SESSION_COOKIE_DOMAIN = '.ssm.com.my'
 SAML_FOLDER = os.path.join(BASE_DIR, 'saml')
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 # SSO SAML
