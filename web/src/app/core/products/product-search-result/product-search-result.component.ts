@@ -435,14 +435,14 @@ export class ProductSearchResultComponent implements OnInit {
     this.businessCertForm = this.fb.group({
       slug: new FormControl('business_certificate'), // Business Certificate
       language: new FormControl('MS'),
-      isCtc: new FormControl(false),
+      isCtc: new FormControl(true),
       fee: new FormControl(1000)
     })
 
     this.businessTerminateForm = this.fb.group({
       slug: new FormControl('business_termination_letter'), // Business Termination Letter (BTL)
       language: new FormControl('MS'),
-      isCtc: new FormControl(false),
+      isCtc: new FormControl(true),
       fee: new FormControl(1000)
     })
 

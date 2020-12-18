@@ -1520,7 +1520,7 @@
                     <tab *ngIf="branches">
                         <ng-template tabHeading> Business Certificate </ng-template>
 
-                        <!-- <form [formGroup]="businessCertForm"> -->
+                        <form [formGroup]="businessCertForm">
                         <div class="mt-2 mb-4">
                             <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="'auto'"
@@ -1581,7 +1581,7 @@
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="form-group">
                                             <select class="form-control form-control-sm custom-select custom-select-sm"
-                                                id="{{row.id_index}}" [(ngModel)]="row.language">
+                                                id="{{row.id_index}}" [(ngModel)]="row.language" formControlName="language">
                                                 <option value="BM">BM</option>
                                                 <option value="EN">EN</option>
                                                 <option value="BT">BOTH</option>
@@ -1597,7 +1597,7 @@
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="{{row.id_index}}"
+                                            <input formControlName="isCtc" type="checkbox" class="custom-control-input" id="{{row.id_index}}"
                                                 checked disabled>
                                             <label class="custom-control-label" for="{{row.id_index}}">CTC
                                                 (+RM10.00)</label>
@@ -1610,14 +1610,14 @@
                                         <span class="table-header"></span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <button class="btn btn-ssm btn-sm" (click)="addCartDocument(row)">
+                                        <button (click)="addCart(businessCertForm)" class="btn btn-ssm btn-sm">
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
                                     </ng-template>
                                 </ngx-datatable-column>
                             </ngx-datatable>
                         </div>
-                        <!-- </form> -->
+                        </form>
                     </tab>
                 </tabset>
             </div>
