@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 
     'carts',
     'entities',
+    'forecast_renevue',
     'freeforms',
     'organisations',
     'products',
