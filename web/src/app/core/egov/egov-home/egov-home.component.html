@@ -14,9 +14,29 @@
 
     <div class="section mt--9">
         <div class="container">
-            <h3 class="title font-weight-bolder">eGOV</h3>
+            <!-- <h3 class="title font-weight-bolder">eGOV</h3> -->
+            
+            <div class="text-center">
+                <button 
+                    class="btn btn-ssm rounded-pill mr-2"
+                    (click)="navigatePage('/products/search-egov')"
+                >
+                    <span *ngIf="user.egov_package == 1 || user.egov_package == 2">
+                        Search Company
+                    </span>
+                    <span *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4">
+                        Investigation Request
+                    </span>
+                </button>
+    
+                <button 
+                    class="btn btn-ssm rounded-pill"
+                    (click)="navigatePage('/enquiry/egov')"
+                >
+                    eGov Enquiry
+                </button>
+            </div>
             <h1 class="title font-weight-bolder text-ssm">PACKAGE</h1>
-
             <div class="row pt-3">
                 <div class="col-lg-3 col-md-6">
                     <div class="card card-project bg-ssm p-1 package-active" *ngIf="user['egov_package'] == 1">
@@ -263,26 +283,7 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <button 
-                class="btn btn-ssm rounded-pill mr-2"
-                (click)="navigatePage('/products/search-egov')"
-            >
-                <span *ngIf="user['egov_package'] == 1 || user['egov_package'] == 2">
-                    Search Company
-                </span>
-                <span *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4">
-                    Investigation Request
-                </span>
-            </button>
-
-            <button 
-                class="btn btn-ssm rounded-pill"
-                (click)="navigatePage('/enquiry/egov')"
-            >
-                eGov Enquiry
-            </button>
-        </div>
+   
     </div>
 
     <div class="row">

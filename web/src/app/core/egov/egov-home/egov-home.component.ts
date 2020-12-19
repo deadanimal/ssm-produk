@@ -35,9 +35,9 @@ export class EgovHomeComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
 
-  ) { 
+  ){ 
     this.user = this.userService.currentUser
-    // console.log(this.user)
+    console.log(this.user)
   }
 
   ngOnInit(): void {
