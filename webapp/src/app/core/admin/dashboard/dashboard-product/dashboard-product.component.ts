@@ -24,8 +24,8 @@ export class DashboardProductComponent implements OnInit {
   transactionData = [
     {
       "month": "Jan",
-      "dataCount": 1120,
-      "expenses": 2123
+      "dataCount": 2000,
+      "expenses": 2000
     },
     {
       "month": "Feb",
@@ -79,8 +79,8 @@ export class DashboardProductComponent implements OnInit {
     },
     {
       "month": "Dec",
-      "dataCount": 4232,
-      "expenses": 3920
+      "dataCount": 4210,
+      "expenses": 4210
     },
   ];
   // Chart
@@ -124,78 +124,43 @@ export class DashboardProductComponent implements OnInit {
     chart.scrollbarX = new am4core.Scrollbar();
 
     // Add data
-    chart.data = [
-      {
-        "country": "Jan",
-        "visits": 1120
-      },
-      {
-        "country": "Feb",
-        "visits": 2819
-      },
-      {
-        "country": "mar",
-        "visits": 2192
-      },
-      {
-        "country": "Apr",
-        "visits": 2821
-      },
-      {
-        "country": "May",
-        "visits": 712
-      },
-      {
-        "country": "Jun",
-        "visits": 2412
-      },
-      {
-        "country": "Jul",
-        "visits": 4721
-      },
-      {
-        "country": "Aug",
-        "visits": 4265
-      },
-      {
-        "country": "Sep",
-        "visits": 1990
-      },
-      {
-        "country": "Oct",
-        "visits": 3212
-      },
-      {
-        "country": "Nov",
-        "visits": 891
-      },
-      {
-        "country": "Dec",
-        "visits": 4232
-      },
-    ];
+    chart.data = this.transactionData
 
     prepareParetoData();
 
     function prepareParetoData() {
-      let total = 0;
 
-      for (var i = 0; i < chart.data.length; i++) {
-        let valueSum = chart.data[i].visits;
-        total += valueSum;
-      }
-
-      let sum = 0;
-      for (var i = 0; i < chart.data.length; i++) {
-        let valueSum = chart.data[i].visits;
-        sum += valueSum;
-        chart.data[i].pareto = sum / total * 100;
-      }
+      let i = 0
+      chart.data.forEach(function (qwe) {
+        // console.log('qwe.expenses = ', qwe.expenses)
+        chart.data[i].pareto = (qwe.expenses / 100) * 2;
+        i++
+      })
     }
+
+    // prepareParetoData();
+
+    // function prepareParetoData() {
+    //   let total = 0;
+
+    //   for (var i = 0; i < chart.data.length; i++) {
+    //     let valueSum = chart.data[i].dataCount;
+    //     total += valueSum;
+    //   }
+
+    //   let sum = 0;
+    //   for (var i = 0; i < chart.data.length; i++) {
+    //     let valueSum = chart.data[i].dataCount;
+    //     sum += valueSum;
+    //     chart.data[i].pareto = sum / total * 100;
+    //   }
+    // }
+
+    console.log('chart.data = ', chart.data)
 
     // Create axes
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "country";
+    categoryAxis.dataFields.category = "month";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 60;
     categoryAxis.tooltip.disabled = true;
@@ -208,8 +173,8 @@ export class DashboardProductComponent implements OnInit {
     // Create series
     let series = chart.series.push(new am4charts.ColumnSeries());
     series.sequencedInterpolation = true;
-    series.dataFields.valueY = "visits";
-    series.dataFields.categoryX = "country";
+    series.dataFields.valueY = "dataCount";
+    series.dataFields.categoryX = "month";
     series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
     series.columns.template.strokeWidth = 0;
 
@@ -242,9 +207,9 @@ export class DashboardProductComponent implements OnInit {
 
     let paretoSeries = chart.series.push(new am4charts.LineSeries())
     paretoSeries.dataFields.valueY = "pareto";
-    paretoSeries.dataFields.categoryX = "country";
+    paretoSeries.dataFields.categoryX = "month";
     paretoSeries.yAxis = paretoValueAxis;
-    paretoSeries.tooltipText = "sasaran: {valueY.formatNumber('#.0')}%[/]";
+    paretoSeries.tooltipText = "Target: {valueY.formatNumber('#.0')}%[/]";
     paretoSeries.bullets.push(new am4charts.CircleBullet());
     paretoSeries.strokeWidth = 2;
     paretoSeries.stroke = new am4core.InterfaceColorSet().getFor("alternativeBackground");
