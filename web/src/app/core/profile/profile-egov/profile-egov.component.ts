@@ -14,7 +14,6 @@ import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { exit } from 'process';
 
 export enum SelectionType {
   single = 'single',
@@ -1028,17 +1027,12 @@ export class ProfileEgovComponent implements OnInit {
       this.requestTabActive = 2
       this.isShowForm = true 
     }else if (path == 'account' || path == 'account2'){  
-      this.requestTabActive = 5
-      console.log(this.requestTabActive);
-      //this.requestTabActive = 3;
-      // document.getElementById("invtab").className.replace("active", "");
-      // document.getElementById("accounttab").className += "active";
-      // document.getElementById("reqtab").className.replace("active", "");
-
-      // this.requestTabActive = true;
-      // this.requestTabActive = false;
-      // this.accountTabActive = false 
-      // this.accountTabActive = true
+      
+           this.requestTabActive = 9
+            setTimeout(() => {
+              this.closeModal()
+              this.requestTabActive = 3
+            },100);  
     }
   }
 

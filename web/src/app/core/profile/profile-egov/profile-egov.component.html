@@ -1,12 +1,12 @@
 <div class="wrapper">
     <div class="section">
         <div class="container-fluid pt-6 px-6">
-            <!-- eGov wrapper -->
+			<!-- eGov wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
-				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+				<tabset type="pills" class="nav-fill flex-column flex-md-row">
 				
 					<!-- Information tab -->
-					<tab heading="My Account" id="accounttab">
+					<tab heading="My Account" index="1" [active]="requestTabActive == 3">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="heading mb-4">
@@ -582,9 +582,9 @@
 					</tab>
 					<!-- Investigation document tab -->
                     <tab 
-                        heading="Request Investigation Document" 
+                        heading="Request Investigation Document"					
+						index="2"
 						[active]="requestTabActive == 2"
-						id="invtab"
                         *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
                     >
 						<div class="card">
@@ -1158,10 +1158,10 @@
 						</div>
 					</tab>
 					<!-- Request tab -->
-                    <tab 
-                        heading="My Request"
+					<tab 					
+						heading="My Request"						
 						*ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
-						id="reqtab"
+						index="3"
                     >
 						<div class="card">
 							<div class="card-body">
