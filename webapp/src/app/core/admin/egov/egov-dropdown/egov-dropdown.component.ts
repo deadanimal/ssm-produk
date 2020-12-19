@@ -2,9 +2,11 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import * as moment from 'moment';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { forkJoin } from 'rxjs';
 import { ServicesService } from 'src/app/shared/services/services/services.service';
+import swal from 'sweetalert2';
 
 export enum SelectionType {
   single = 'single',
@@ -55,6 +57,7 @@ export class EgovDropdownComponent implements OnInit {
   };
 
   constructor(
+    private loadingBar: LoadingBarService,
     private serviceService: ServicesService,
     private fb: FormBuilder,
     private modalService: BsModalService
@@ -151,13 +154,13 @@ export class EgovDropdownComponent implements OnInit {
     if (type == 'department') {
       let val = $event.target.value.toLowerCase();
       this.tableDepartmentTemp = this.tableDepartmentRows.filter(function(d) {
-        return d.title.toLowerCase().indexOf(val) !== -1 || !val;
+        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
       });
     }
     else if (type == 'ministry') {
       let val = $event.target.value.toLowerCase();
       this.tableMinistryTemp = this.tableMinistryRows.filter(function(d) {
-        return d.title.toLowerCase().indexOf(val) !== -1 || !val;
+        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
       });
     }
   }
@@ -195,15 +198,20 @@ export class EgovDropdownComponent implements OnInit {
   }
 
   updateDep() {
+    this.loadingBar.start()
     console.log(this.selectedRow['id'])
     console.log(this.departmentUpdateForm.value)
     // console.log('jiji')
     this.serviceService.patchDepartment(this.selectedRow['id'], this.departmentUpdateForm.value).subscribe(
       () => {},
       () => {
+        this.loadingBar.complete()
         this.closeModal()
       },
       () => {
+        this.loadingBar.complete()
+        let message = 'Department Updated' 
+        this.successAlert(message)
         this.getData()
         this.closeModal()
       }
@@ -211,15 +219,20 @@ export class EgovDropdownComponent implements OnInit {
   }
 
   updateMin() {
+    this.loadingBar.start()
     console.log(this.selectedRow['id'])
     console.log(this.ministryUpdateForm.value)
     // console.log('jiji')
     this.serviceService.patchMinistry(this.selectedRow['id'], this.ministryUpdateForm.value).subscribe(
       () => {},
       () => {
+        this.loadingBar.complete()
         this.closeModal()
       },
       () => {
+        this.loadingBar.complete()
+        let message = 'Ministry Updated' 
+        this.successAlert(message);
         this.getData()
         this.closeModal()
       }
@@ -227,12 +240,18 @@ export class EgovDropdownComponent implements OnInit {
   }
 
   addDep() {
+    this.loadingBar.start()
     this.serviceService.createDepartment(this.departmentAddForm.value).subscribe(
       () => {},
       () => {
+        this.loadingBar.complete()
         this.closeModal()
       },
       () => {
+        this.loadingBar.complete()
+        let message = 'Department Added' 
+        this.successAlert(message)
+        this.departmentAddForm.reset()
         this.getData()
         this.closeModal()
       }
@@ -240,16 +259,61 @@ export class EgovDropdownComponent implements OnInit {
   }
 
   addMin() {
+    this.loadingBar.start()
     this.serviceService.createMinistry(this.ministryAddForm.value).subscribe(
       () => {},
       () => {
+        this.loadingBar.complete()
+        let message = 'Ministry Added' 
+        this.successAlert(message);
+        this.ministryAddForm.reset()
+        this.getData();
         this.closeModal()
       },
       () => {
+        this.loadingBar.complete()
         this.getData()
         this.closeModal()
-      }
+      },
+
     )
+    
+  }
+
+  successAlert(task) {
+    swal.fire({
+      title: 'Success',
+      text: task,
+      type: 'success',
+      // showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        cancelButton: 'btn btn-outline-success',
+        confirmButton: 'btn btn-success ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+      
+    })
+    // this.navigatePage('/enquiry');
+  }
+
+  errorAlert(task) {
+    swal.fire({
+      title: 'Error',
+      text: task,
+      type: 'warning',
+      buttonsStyling: false,
+      confirmButtonText: 'Close',
+      customClass: {
+        confirmButton: 'btn btn-warning ',
+      },
+    })
+    .then(() => {
+      // this.initForm()
+    })
   }
 
 }
