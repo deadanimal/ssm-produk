@@ -57,8 +57,8 @@ import { QuillModule } from 'ngx-quill';
     // ExportAsModule
   ],
   declarations: [
-    AppComponent, 
-    AdminLayoutComponent, 
+    AppComponent,
+    AdminLayoutComponent,
     AuthLayoutComponent
   ],
   providers: [
@@ -70,4 +70,4 @@ import { QuillModule } from 'ngx-quill';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

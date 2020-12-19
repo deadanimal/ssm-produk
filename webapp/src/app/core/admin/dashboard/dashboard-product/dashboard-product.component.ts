@@ -83,6 +83,20 @@ export class DashboardProductComponent implements OnInit {
       "expenses": 4210
     },
   ];
+
+  chartJan: number = 0
+  chartFeb: number = 0
+  chartMar: number = 0
+  chartApr: number = 0
+  chartMay: number = 0
+  chartJun: number = 0
+  chartJul: number = 0
+  chartAug: number = 0
+  chartSep: number = 0
+  chartOct: number = 0
+  chartNov: number = 0
+  chartDec: number = 0
+
   // Chart
   private chart: any
 
@@ -91,8 +105,8 @@ export class DashboardProductComponent implements OnInit {
     private productService: ProductsService,
     private transactionsService: TransactionsService
   ) {
-    this.getProductData()
-    // this.getTransactionData()
+    // this.getProductData()
+    this.getTransactionData()
   }
 
   ngOnInit() {
@@ -155,8 +169,6 @@ export class DashboardProductComponent implements OnInit {
     //     chart.data[i].pareto = sum / total * 100;
     //   }
     // }
-
-    console.log('chart.data = ', chart.data)
 
     // Create axes
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
@@ -228,53 +240,55 @@ export class DashboardProductComponent implements OnInit {
     chart.data = [
       {
         "country": "Jan",
-        "visits": 1120
+        "visits": this.chartJan
       },
       {
         "country": "Feb",
-        "visits": 2819
+        "visits": this.chartFeb
       },
       {
         "country": "mar",
-        "visits": 2192
+        "visits": this.chartMar
       },
       {
         "country": "Apr",
-        "visits": 2821
+        "visits": this.chartApr
       },
       {
         "country": "May",
-        "visits": 712
+        "visits": this.chartMay
       },
       {
         "country": "Jun",
-        "visits": 2412
+        "visits": this.chartJun
       },
       {
         "country": "Jul",
-        "visits": 4721
+        "visits": this.chartJul
       },
       {
         "country": "Aug",
-        "visits": 4265
+        "visits": this.chartAug
       },
       {
         "country": "Sep",
-        "visits": 1990
+        "visits": this.chartSep
       },
       {
         "country": "Oct",
-        "visits": 3212
+        "visits": this.chartOct
       },
       {
         "country": "Nov",
-        "visits": 891
+        "visits": this.chartNov
       },
       {
         "country": "Dec",
-        "visits": 4232
+        "visits": this.chartDec
       },
     ];
+
+    console.log('chart.data getChart1 = ', chart.data)
 
     prepareParetoData();
 
@@ -476,42 +490,108 @@ export class DashboardProductComponent implements OnInit {
 
     let currentYear = (new Date()).getFullYear()
 
-    let janCount = 0
-    let febCount = 0
-    let marCount = 0
-    let aprCount = 0
-    let mayCount = 0
-    let junCount = 0
-    let julCount = 0
-    let augCount = 0
-    let sepCount = 0
-    let octCount = 0
-    let novCount = 0
-    let decCount = 0
+    this.chartJan = 0
+    this.chartFeb = 0
+    this.chartMar = 0
+    this.chartApr = 0
+    this.chartMay = 0
+    this.chartJun = 0
+    this.chartJul = 0
+    this.chartAug = 0
+    this.chartSep = 0
+    this.chartOct = 0
+    this.chartNov = 0
+    this.chartDec = 0
+
+    let chartDataJan = 0
+    let chartDataFeb = 0
+    let chartDataMar = 0
+    let chartDataApr = 0
+    let chartDataMay = 0
+    let chartDataJun = 0
+    let chartDataJul = 0
+    let chartDataAug = 0
+    let chartDataSep = 0
+    let chartDataOct = 0
+    let chartDataNov = 0
+    let chartDataDec = 0
+
     this.transactionsService.getTransactions().subscribe(
       (res) => {
         // this.loadingBar.complete()
         res.forEach(function (loopVal) {
 
-          let created_date = moment(loopVal.created_date, 'YYYY-MM-DD').format('YYYY-MM-DD')
-          // console.log(created_date, " >= ", currentYear + '-11-01', " && ", created_date, " <= ", currentYear + '-11-31')
+          // console.log('createdDate', loopVal.created_date)
+          var createdDate = moment(loopVal.created_date, 'DD-MM-YYYY')
+          // console.log('format(MM-DD-YYYY) = ', createdDate.format('MM'))
 
-          if (created_date >= '2020-01-01' && created_date <= '2020-01-31') {
-            janCount = janCount + 1
-          } else if (created_date >= '2020-02-01' && created_date <= '2020-02-29') {
-            febCount = febCount + 1
-          } else if (created_date >= '2020-11-01' && created_date <= '2020-11-30') {
-            novCount = novCount + 1
+          let checkerDate = moment(loopVal.created_date)
+
+          let checkerDateMonth = checkerDate.month()
+          console.log('createdDate = ', createdDate, 'checkerDateMonth = ', checkerDateMonth)
+
+          if (checkerDateMonth == 0) {
+            chartDataJan += 1
           }
+          else if (checkerDateMonth == 1) {
+            chartDataFeb += 1
+          }
+          else if (checkerDateMonth == 2) {
+            chartDataMar += 1
+          }
+          else if (checkerDateMonth == 3) {
+            chartDataApr += 1
+          }
+          else if (checkerDateMonth == 4) {
+            chartDataMay += 1
+          }
+          else if (checkerDateMonth == 5) {
+            chartDataJun += 1
+          }
+          else if (checkerDateMonth == 6) {
+            chartDataJul += 1
+          }
+          else if (checkerDateMonth == 7) {
+            chartDataAug += 1
+          }
+          else if (checkerDateMonth == 8) {
+            chartDataSep += 1
+          }
+          else if (checkerDateMonth == 9) {
+            chartDataOct += 1
+          }
+          else if (checkerDateMonth == 10) {
+            chartDataNov += 1
+          }
+          else if (checkerDateMonth == 11) {
+            chartDataDec += 1
+          }
+
         })
       }
     )
-    console.log('janCount = ', janCount, '-', febCount, "-", novCount)
-    this.transactionData['janCount'] = janCount
-    this.transactionData['febCount'] = febCount
-    this.transactionData[10]['novCount'] = novCount
 
-    console.log('this.transactionData = ', this.transactionData)
+    this.chartJan = chartDataJan
+    this.chartFeb = chartDataFeb
+    this.chartMar = chartDataMar
+    this.chartApr = chartDataApr
+    this.chartMay = chartDataMay
+    this.chartJun = chartDataJun
+    this.chartJul = chartDataJul
+    this.chartAug = chartDataAug
+    this.chartSep = chartDataSep
+    this.chartOct = chartDataOct
+    this.chartNov = chartDataNov
+    this.chartDec = chartDataDec
+
+    console.log(this.chartJan, '=', chartDataJan, '--', this.chartDec, '=', chartDataDec, '--', this.chartNov, '--', this.chartOct)
+
+    // this.zone.runOutsideAngular(() => {
+    // this.getChart()
+    this.getChart1()
+    // this.getChart2()
+    // })
+
   }
 
   getProductData() {
@@ -524,6 +604,10 @@ export class DashboardProductComponent implements OnInit {
           (row) => {
             if (row.created_date) {
               row.created_date = moment(row.created_date).format('DD/MM/YYYY')
+              let qweqwe = moment(row.created_date).format('MM/DD/YYYY')
+
+              console.log('created_date = ', row.created_date)
+              console.log('qweqwe = ', qweqwe)
             }
 
             if (row.modified_date) {
