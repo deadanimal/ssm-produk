@@ -5,6 +5,7 @@ import datetime
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.db.models import Q
+from django.utils import timezone
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -119,6 +120,16 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
             # Document and image
             if image_version_id:
+                delta_ = datetime.timedelta(hours=24)
+                current_time_ = datetime.datetime.now(tz=timezone.utc)
+                date_filter_ = current_time_ - delta_
+
+                user_id_ = cart_item_request['user']
+
+                product_viewing_fee = Product.objects.filter(
+                    slug='document_form_viewing_fee'
+                ).first()
+
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
                     product=product, 
@@ -127,6 +138,58 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     cart=cart,
                     cart_item_type='PR'
                 )
+                # dah bayar?
+                # in 24 jam
+                # company sama?
+
+                condition_paid = False
+                condition_not_paid = False
+
+                paid_carts = Cart.objects.filter(
+                    user=user_id_,
+                    paid=True,
+                    modified_date__gte=date_filter
+                ).all()
+
+                if paid_carts:
+                    for paid_cart in paid_carts:
+                        paid_cart_item = CartItem.objects.filter(
+                            user=user_id_,
+                            entity=entity,
+                            product=product_viewing_fee,
+                            cart=paid_cart
+                        ).first()
+                
+                    if paid_cart_item:
+                        condition_paid = True
+
+                not_paid_cart = Cart.objects.filter(
+                    user=user_id_,
+                    paid=False
+                ).first()
+
+                if not_paid_cart:
+                    not_paid_cart_item = CartItem.objects.filter(
+                        user=user_id_,
+                        entity=entity,
+                        product=product_viewing_fee,
+                        cart=not_paid_cart
+                    ).first()
+
+                    if not_paid_cart_item:
+                        condition_not_paid = True
+                
+
+                if condition_paid and condition_not_paid:
+                    new_cart_item_viewing_fee = CartItem.object.create(
+                        product=product_viewing_fee,
+                        cart=cart,
+                        cart_item_type='SE',
+                        entity=entity
+                    )
+                else:
+                    print('viewing fee ada')
+
 
                 # if aaa is None:
                 #     user_id_ = cart_item_request['user']

@@ -14,7 +14,8 @@ from entities.models import (
 )
 
 from products.models import (
-    Product, ProductSearchCriteria
+    Product, 
+    ProductSearchCriteria
 )
 
 from quotas.models import (
@@ -34,6 +35,8 @@ class Cart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     active = models.BooleanField(default=True)
+    paid = models.BooleanField(default=True)
+
     total_price_before_tax = models.IntegerField(default=0)
     total_tax = models.IntegerField(default=0)
     total_tax_after_tax = models.IntegerField(default=0)
@@ -54,7 +57,6 @@ class Cart(models.Model):
 
     class meta:
         ordering = ['-created_date']
-    
 
 
 class CartItem(models.Model):
