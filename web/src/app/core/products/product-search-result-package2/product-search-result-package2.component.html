@@ -99,7 +99,7 @@
         <div class="col">
             <label class="font-weight-bolder title-transform">Type</label>
             <p>
-                <span *ngIf="entity_data['company_info']['companyType'] =='B'">
+                <!-- <span *ngIf="entity_data['company_info']['companyType'] =='B'">
                     LIMITED BY SHARE AND GUARANTEE 
                 </span>
 
@@ -117,7 +117,8 @@
                 </span>
                 <span *ngIf="entity_data['company_info']['companyStatus'] =='U'">
                     (PUBLIC LIMITED) 
-                </span>
+                </span> -->
+                {{ entity_data['company_info']['companyType'] }} , {{ entity_data['company_info']['companyStatus'] }}
             </p>
         </div>
 
@@ -128,7 +129,7 @@
         <div class="col">
             <label class="font-weight-bolder title-transform">Status</label>
             <p>
-                <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'E'">
+                <!-- <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'E'">
                     Existing
                 </span>
                 <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'W'">
@@ -163,19 +164,20 @@
                 </span>
                 <span *ngIf="entity_data['company_info']['statusOfCompany'] == 'J'">
                     Existing (Under JM)
-                </span>
+                </span> -->
+                {{ entity_data['company_info']['statusOfCompany'] }}
             </p>
         </div>    
 
         <div class="col">
             <label class="font-weight-bolder title-transform">Origin</label>
             <p>
-                <span *ngIf="entity_data['company_info']['companyCountry'] == 'MAL'">
+                <!-- <span *ngIf="entity_data['company_info']['companyCountry'] == 'MAL'">
                     MALAYSIA
-                </span>
+                </span> -->
+                {{ entity_data['company_info']['companyCountry'] }}
             </p>
         </div>
-
     </div>   
     
     <div class="row">

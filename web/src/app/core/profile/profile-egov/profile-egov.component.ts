@@ -156,7 +156,6 @@ export class ProfileEgovComponent implements OnInit {
     'officer_official_email': [
       { type: 'required', message: 'Don\'t leave this field blank' },
       { type: 'pattern', message: 'Invalid email'}
-
     ],
     'court_case_no': [
       { type: 'required', message: 'Don\'t leave this field blank' },
@@ -241,7 +240,7 @@ export class ProfileEgovComponent implements OnInit {
   fileSizeInvestigReq = null
   fileNameInvestigReq = null
 
-  requestTabActive = false
+  requestTabActive = 3
 
   constructor(
     private fileService: LocalFilesService,
@@ -257,7 +256,7 @@ export class ProfileEgovComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) { 
     this.activatedRoute.queryParams.subscribe(
-      (path: any) => {
+      (path: any) => {          
         // console.log(path['tab'])
         this.tabChecker(path['tab'])
       }
@@ -265,7 +264,14 @@ export class ProfileEgovComponent implements OnInit {
     this.getData()
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.activatedRoute.queryParams.subscribe(
+      (path: any) => {     
+           if (path['tab'] == "account"){
+              this.tabChecker(path['tab'])
+           }      
+      }
+    )
     this.initForm()
     this.getMapping()
   }
@@ -474,7 +480,7 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
-        Validators.required, Validators.pattern("[a-zA-Z0-9_.]*@[a-zA-Z0-9]*.gov.my$")
+        Validators.required, Validators.pattern("[a-zA-Z0-9_.]+@[a-zA-Z0-9]+.gov.my$")
       ])),
       head_of_department_position: new FormControl(null, Validators.compose([
         Validators.required
@@ -509,13 +515,11 @@ export class ProfileEgovComponent implements OnInit {
         Validators.required
       ]))
     });
-
+    //Validators.pattern("^[0-9]*$"),
     this.investigationForm = this.fb.group({
-      user: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
+      user: new FormControl(null),
       reference_letter_no: new FormControl(null, Validators.compose([
-        Validators.pattern("^[0-9]*$"),Validators.required
+       Validators.required
       ])),
       officer_name: new FormControl(null, Validators.compose([
         Validators.required
@@ -535,20 +539,18 @@ export class ProfileEgovComponent implements OnInit {
         Validators.maxLength(12),Validators.pattern("^[0-9]*$"),Validators.required
       ])),
       officer_official_email: new FormControl(null, Validators.compose([
-        Validators.required,Validators.pattern("[a-zA-Z0-9_.]*@gov.my$")
+        Validators.pattern("[a-zA-Z0-9_.]+@[a-zA-Z0-9]+.gov.my$"),Validators.required
       ])),
       ip_no: new FormControl(null, Validators.compose([
-        Validators.pattern("^[0-9]*$"),Validators.required
+        Validators.required
       ])),
       court_case_no: new FormControl(null, Validators.compose([
-        Validators.pattern("^[0-9]*$"),Validators.required
+        Validators.required
       ])),
       official_letter_egov: new FormControl(null, Validators.compose([
         Validators.required
       ])),
-      official_letter_request: new FormControl(null, Validators.compose([
-        Validators.required
-      ])),
+      official_letter_request: new FormControl(null),
       offence: new FormControl(null, Validators.compose([
         Validators.required
       ]))
@@ -581,7 +583,7 @@ export class ProfileEgovComponent implements OnInit {
       ])),
       head_of_department_email: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.pattern("[a-zA-Z0-9_.]*@[a-zA-Z0-9]*.gov.my$")
+        Validators.pattern("[a-zA-Z0-9_.]+@[a-zA-Z0-9]+.gov.my$")
       ])),
       ministry_name: new FormControl(null, Validators.compose([
         Validators.required
@@ -934,6 +936,7 @@ export class ProfileEgovComponent implements OnInit {
       alert("Please Complete The Form With Correct Details.")
       return;
     }
+    console.log(this.investigationForm);
     
     this.serviceService.createDocumentRequest(this.investigationForm.value).subscribe(
       (res) => {
@@ -1016,13 +1019,26 @@ export class ProfileEgovComponent implements OnInit {
   }
 
   tabChecker(path: string) {
+    
     if (path == 'request') {
-      this.requestTabActive = true
-      this.isShowForm = true  
+      this.requestTabActive = 2
+      this.isShowForm = true 
     }
     else if (path == 'request-doc') {
-      this.requestTabActive = true
-      this.isShowForm = true  
+      this.requestTabActive = 2
+      this.isShowForm = true 
+    }else if (path == 'account' || path == 'account2'){  
+      this.requestTabActive = 5
+      console.log(this.requestTabActive);
+      //this.requestTabActive = 3;
+      // document.getElementById("invtab").className.replace("active", "");
+      // document.getElementById("accounttab").className += "active";
+      // document.getElementById("reqtab").className.replace("active", "");
+
+      // this.requestTabActive = true;
+      // this.requestTabActive = false;
+      // this.accountTabActive = false 
+      // this.accountTabActive = true
     }
   }
 
@@ -1034,7 +1050,7 @@ export class ProfileEgovComponent implements OnInit {
     this.selectedTask = row
     this.modal = this.modalService.show(modalRef, this.modalConfig);
     this.requestItemList = this.selectedTask.item.document_request_item
-    console.log(this.requestItemList)
+    console.log(this.selectedTask)
     this.tableItemRows = this.requestItemList
     this.tableItemTemp = this.tableItemRows.map((prop, key) => {
       return {

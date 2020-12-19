@@ -141,7 +141,12 @@ export class ProductSearchResultPackage2Component implements OnInit {
             }
           }
         )
+        console.log("entity:");
+        console.log(this.entity_data);
+        
       }
+      
+
     )    
   }
 
