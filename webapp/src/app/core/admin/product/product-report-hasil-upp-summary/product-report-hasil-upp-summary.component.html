@@ -33,6 +33,9 @@
             <div class="card">
                 <div class="card-header bg-secondary">
                     <div class="text-right">
+                        <button class="btn btn-default" (click)="openModal(updateSasaran)">
+                            Update Sasaran
+                        </button>
                         <div class="dropdown" dropdown placement="bottom-right">
                             <button class="btn btn-outline-default dropdown-toggle" type="button"
                                 id="dropdownMenuButton" dropdownToggle>
@@ -98,3 +101,135 @@
         </div>
     </div>
 </div>
+
+<ng-template #updateSasaran>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Update Sasaran
+        </h6>
+
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModal()">
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">Select Year</label>
+                    <select class="form-control">
+                        <option>2020</option>
+                        <option>2019</option>
+                        <option>2018</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">January</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">February</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">March</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">April</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">May</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">June</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">July</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">August</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">September</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">October</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">November</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label">December</label>
+                    <input class="form-control" type="number">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer text-center">
+        <button class="btn btn-outline-ssm" (click)="SubmitSasaran()">
+            Submit
+        </button>
+        <button class="btn btn-outline-ssm" data-dismiss="modal" type="button" (click)="closeModal()">
+            Close
+        </button>
+    </div>
+</ng-template>

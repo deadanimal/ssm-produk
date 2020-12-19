@@ -1605,18 +1605,18 @@
 								(change)="onFileChange($event, 'quota')" 
 								accept=".pdf"
 								data-max-size="5000000"
-								[ngClass]="{'is-invalid': requestQuotaForm.controls.attachment_letter.invalid && requestQuotaForm.controls.attachment_letter.touched}"
+								[ngClass]="{'is-invalid': quotaForm.controls.attachment_letter.invalid && quotaForm.controls.attachment_letter.touched}"
 							/>
 							<label class="custom-file-label" for="files">Select file</label>
 						</div>
 
-						<ng-container *ngIf="requestQuotaForm.value['attachment_letter']">
+						<ng-container *ngIf="quotaForm.value['attachment_letter']">
 							<div>
 								<i 
 									class="fas fa-trash-alt text-warning mr-2"
 									placement="top" 
 									tooltip="Remove attachment"
-									(click)="removeFile('quota')"
+									(click)="removeFile('update')"
 								>
 								</i>
 								{{fileName}} [{{fileSize/1000000 | number: '1.2-2'}}MB]
@@ -1631,7 +1631,8 @@
 	<div class="modal-footer text-right">
 		<button 
 			class="btn bg-ssm rounded-pill"
-			(click)="requestQuota()"
+			(click)="requestQuotaz()"
+			[disabled]="quotaForm.controls.attachment_letter.invalid"
 		>
 			<span class="text-white">Submit</span>
 		</button>

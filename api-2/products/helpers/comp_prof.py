@@ -312,7 +312,7 @@ def comp_prof(mdw_1, mdw_2, lang):
 
     # sorted(officer_info, key=get_designation)
 
-    if mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L'  or mdw_1['rocCompanyInfo']['localforeignCompany'] == 'F' and len(balance_sheet_list) > 0:
+    if (mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L' or mdw_1['rocCompanyInfo']['localforeignCompany'] == 'F') and len(balance_sheet_list) > 0:
         if len(balance_sheet_list) == 1:
             bss_ = balance_sheet_list[0]
             pll_ =  profit_loss_list[0]
@@ -359,7 +359,7 @@ def comp_prof(mdw_1, mdw_2, lang):
         financial_year_end_new = None
         date_of_tabling_new = None
 
-    if mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L' or mdw_1['rocCompanyInfo']['localforeignCompany'] == 'F' and len(balance_sheet_list) > 0:
+    if (mdw_1['rocCompanyInfo']['localforeignCompany'] == 'L' or mdw_1['rocCompanyInfo']['localforeignCompany'] == 'F') and len(balance_sheet_list) > 0:
 
         if mdw_1['rocCompanyInfo']['companyType'] == 'G':
             non_current_liability = float(bss_['nonCurrentLiability'])

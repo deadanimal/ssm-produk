@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
       }
     )
     // this.cartz = this.productService.cart
-    this.checkUser()
+    // this.checkUser()
   }
 
   ngOnInit() {
@@ -75,8 +75,8 @@ export class NavbarComponent implements OnInit {
       (res) => {
         console.log('hello', res)
         this.loadingBar.useRef('http').complete()
-        this.userService.currentUser = this.userService.users[0]
-        this.currentUser = this.userService.users[0]
+        this.userService.currentUser = this.userService.user
+        this.currentUser = this.userService.user
         this.isAuthenticated = true
       },
       (err) => {
@@ -87,28 +87,6 @@ export class NavbarComponent implements OnInit {
         this.checkCart()
       }
     )
-    // let obtainedUserId = this.cookieService.getCookie('userId')
-
-    // if (obtainedUserId) {
-    //   this.loadingBar.useRef('http').start()
-    //   this.userService.getOne(obtainedUserId).subscribe(
-    //     (res: any) => {
-    //       this.loadingBar.useRef('http').complete()
-    //       let title = 'Success'
-    //       let message = 'Logging in...'
-    //       this.currentUser = this.userService.currentUser
-    //       this.isAuthenticated = true
-    //       // this.toastr.success(message, title)
-    //     },
-    //     () => {
-    //       this.loadingBar.useRef('http').complete()
-    //     },
-    //     () => {
-    //       this.checkCart()
-    //       this.cookieService.saveCookie('userId', this.currentUser.id)
-    //     }
-    //   )
-    // }
   }
 
   getData(choice) {
@@ -273,7 +251,7 @@ export class NavbarComponent implements OnInit {
   ssoLogin() {
     // this.authService.ssoLogin().subscribe()
     // const sso = new XMLHttpRequest();
-    const url = 'http://192.168.43.113:8000/SSOLogin/?sso';
+    const url = 'https://ssm-product-api.pipe.my/SSOLogin/?sso';
     // sso.open('GET', url, true);
     // sso.withCredentials = true;
     // // sso.onreadystatechange = handler;
