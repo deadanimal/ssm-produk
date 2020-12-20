@@ -47,21 +47,20 @@ export class EgovTaskManagementComponent implements OnInit {
   egovRequests: any[] []
   egovInvestigations: any[]
   tasks: any[] = []
-
+  
 
   // Table
   tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
+  tableTemp2 = [];
   tableActiveRow: any;
   tableRows: any[] = [];
-
   tableItemEntries: number = 10;
   tableItemSelected: any[] = [];
   tableItemTemp = [];
   tableItemActiveRow: any;
   tableItemRows: any[] = [];
-
 
   SelectionType = SelectionType;
   requestList: any;
@@ -114,7 +113,12 @@ export class EgovTaskManagementComponent implements OnInit {
   // Renew
   renewForm: FormGroup
   renewFormMessages = {
-    
+    quota: [
+      { type: 'required', message: 'Quota is required' }
+    ],
+    expired_date: [
+      { type: 'required', message: 'Expiry date is required'}
+    ]
   }
   
   constructor(
@@ -202,7 +206,13 @@ export class EgovTaskManagementComponent implements OnInit {
       ])),
       attachment_letter: new FormControl(null, Validators.compose([
         Validators.required
-      ]))
+      ])),
+      quota: new FormControl(1000, Validators.compose([
+        Validators.required
+      ])), 
+      expired_date: new FormControl(null, Validators.compose([
+        Validators.required
+      ])), 
     })
 
   
@@ -230,6 +240,7 @@ export class EgovTaskManagementComponent implements OnInit {
             let processed = 0;
             request['document_request_item'].forEach(
               (item) => {
+                item['action']="Reject"
                 if (item['document_status'] == 'AP' || item['document_status'] == 'RJ') {
                   processed = 1;
                 }
@@ -257,10 +268,10 @@ export class EgovTaskManagementComponent implements OnInit {
             let add_ = {
               task_type: type_,
               reference_no: request['reference_no'],
-              created_at: moment(request['created_date']).format('DD/MM/YYYY'),
+              created_at: moment(request['created_date']).toDate(),
               email_address: user_email_,
               name: user_name_,
-              modified_at: moment(request['modified_at']).format('DD/MM/YYYY'),
+              modified_at: moment(request['modified_date']).toDate(),
               approver: approver_name_,
               status: status_overall_,
               remarks: '',
@@ -313,10 +324,10 @@ export class EgovTaskManagementComponent implements OnInit {
             let add_ = {
               task_type: type_,
               reference_no: item['reference_no'],
-              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
+              created_at: moment(item['created_date']).toDate(),
               email_address: user_email_,
               name: user_name_,
-              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
+              modified_at: moment(item['modified_date']).toDate(),
               approver: approver_name_,
               status: status_,
               remarks: item['remarks'],
@@ -417,6 +428,7 @@ export class EgovTaskManagementComponent implements OnInit {
         this.failedAlert('Please try again later')
       },
       () => {
+        this.closeModal()
         this.getData()
       }
     )
@@ -466,6 +478,7 @@ export class EgovTaskManagementComponent implements OnInit {
         this.failedAlert('Please try again later')
       },
       () => {
+        this.closeModal()
         this.getData()
       }
     )
@@ -522,10 +535,11 @@ export class EgovTaskManagementComponent implements OnInit {
   }
 
   approveRenew() {
-    
+    let expiry_date = this.renewForm.value['expired_date']+ 'T08:00:00.000000Z'
+    this.renewForm.controls['expired_date'].patchValue(expiry_date)
     this.renewForm.controls['approver'].patchValue(this.currentUser.id)
     this.renewForm.controls['request_status'].patchValue('AP')
-
+    console.log(this.renewForm.value)
     if (!this.isRemarksOthers) {
       this.renewForm.controls['remarks'].patchValue(this.eGovRegRemarks)
     }
@@ -567,6 +581,7 @@ export class EgovTaskManagementComponent implements OnInit {
         this.failedAlert('Please try again later')
       },
       () => {
+        this.closeModal()
         this.getData()
       }
     )
@@ -617,6 +632,7 @@ export class EgovTaskManagementComponent implements OnInit {
             item.document_status = "AP"
             this.updateForInvest()
         }
+        
         this.getData()
       }
     )
@@ -657,6 +673,7 @@ export class EgovTaskManagementComponent implements OnInit {
           item.document_status = "RJ"
           this.updateForInvest();
         }
+        
         this.getData()
       }
     )
@@ -801,11 +818,38 @@ export class EgovTaskManagementComponent implements OnInit {
     this.tableEntries = $event.target.value;
   }
 
-  filterTable($event) {
+  filterTable($event,type) {
     let val = $event.target.value.toLowerCase();
-    this.tableTemp = this.tableRows.filter(function(d) {
-      return d.title.toLowerCase().indexOf(val) !== -1 || !val;
-    });
+    if(type == 'email'){
+      this.tableTemp = this.tableRows.filter(function(d) {
+        return d.email_address.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+    }
+    else if(type == 'status'){
+      if(val == 'approved'){
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.status.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+      }
+      else if(val == 'rejected'){
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.status.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+      }
+      else if(val == 'processed'){
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.status.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+      }
+      else if(val == 'pending'){
+        this.tableTemp = this.tableRows.filter(function(d) {
+          return d.status.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+      }
+      else {
+        this.tableTemp = this.tableRows
+      }
+    }
   }
 
   onSelect({ selected }) {
@@ -851,10 +895,10 @@ export class EgovTaskManagementComponent implements OnInit {
             let add_ = {
               task_type: 'Investigation Document',
               reference_no: '',
-              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
+              created_at: moment(item['created_date']).toDate(),
               email_address: item['user']['email'],
               name: item['user']['full_name'],
-              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
+              modified_at: moment(item['modified_date']).toDate(),
               approver: '',
               status: status_,
               remarks: '',
@@ -884,10 +928,10 @@ export class EgovTaskManagementComponent implements OnInit {
             let add_ = {
               task_type: 'New Registration',
               reference_no: '',
-              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
+              created_at: moment(item['created_date']).toDate(),
               email_address: user_email_,
               name: user_name_,
-              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
+              modified_at: moment(item['modified_date']).toDate(),
               approver: '',
               status: status_,
               remarks: '',
@@ -910,10 +954,10 @@ export class EgovTaskManagementComponent implements OnInit {
             let add_ = {
               task_type: 'Add Quota',
               reference_no: '',
-              created_at: moment(item['created_date']).format('DD/MM/YYYY'),
+              created_at: moment(item['created_date']).toDate(),
               email_address: item['user']['email'],
               name: item['user']['full_name'],
-              modified_at: moment(item['modified_at']).format('DD/MM/YYYY'),
+              modified_at: moment(item['modified_date']).toDate(),
               approver: '',
               status: status_,
               remarks: '',
@@ -940,6 +984,138 @@ export class EgovTaskManagementComponent implements OnInit {
         console.log(this.tableTemp)
       }
     )
+  }
+
+  seeVal(e){
+    console.log(e)
+  }
+
+  submitInvestigation(){
+    let filterCheckout = new Promise(
+      (resolve, reject) => {
+        this.tableRows = [...this.tableItemTemp];
+        this.tableRows.forEach(
+          (item, index, array) => {
+            if (item['action'] == "Reject") {
+              this.removeItem(item.id)
+            }
+            // else {
+            //   this.cartService.cartTemp.push(item)
+            // }
+            console.log('index', index)
+            console.log('array length', array.length - 1)
+
+            setInterval(
+              () => {
+                if (index == array.length - 1) resolve();
+              }, 1000
+            )
+          }
+        )
+      }
+    )
+
+    filterCheckout.then(
+      () => {
+        console.log('cendol', this.tableRows.length)
+
+        if (this.tableRows.length != 0) {
+          
+            this.tableRows.forEach(
+              (req) => {
+                if (req.document_status == "PD" && req.action == 'Approve'){
+                  this.loadingBar.start()
+                  let body = {
+                    'item': req.id,
+                    'approver': this.currentUser.id
+                  }
+                  let succ = 0;
+                  this.serviceService.approveDocReqItem(req.document_request, body).subscribe(
+                    () => {this.loadingBar.complete()
+                      // if(flag == "all"){
+                      //   this.successfullAlert('Successfully approved investigation request')
+                      // }
+                      succ = 1;
+                    },
+                    () => {this.loadingBar.complete()
+                      // this.failedAlert('Please try again later')
+                    },
+                    () => {
+                      if (succ == 1){
+                          req.document_status = "AP"
+                          this.updateForInvest()
+                      }
+                      
+                      this.getData()
+                    }
+                  )
+                  // this.approveInvestigation(req.document_request, req,'all')
+                }
+              }
+            )
+            // this.modal.hide()
+          // this.navigatePage('/cart/checkout')
+        }
+        else {
+          // this.navigatePage('/products/search')
+        }
+      }
+    );
+    this.successfullAlert('Successfully submitted investigation request application form')
+    this.closeModal()
+  }
+
+  removeItem(id: string) {
+    // // this.loadingBar.useRef('http').start()
+    // let body = {
+    //   "document__request_id": id
+    // }
+    this.tableTemp2 = [...this.tableItemTemp];
+    console.log(this.tableTemp2);
+    this.tableTemp2.forEach(
+      (req) => {
+        if (req.document_status == "PD" && req.action == "Reject"){
+          this.loadingBar.start()
+          let body = {
+            'item': req.id,
+            'approver': this.currentUser.id
+          }
+          let succ = 0;
+
+          this.serviceService.rejectDocReqItem(id, body).subscribe(
+            () => {this.loadingBar.complete()
+              // if (flag == "all"){
+              //   this.successfullAlert('Successfully rejected investigation request')
+              // }
+              succ = 1;
+            },
+            () => {this.loadingBar.complete()
+              // this.failedAlert('Please try again later')
+            },
+            () => {
+              if (succ == 1){
+                req.document_status = "RJ"
+                this.updateForInvest();
+              }
+              
+              this.getData()
+            }
+          )
+            // this.rejectInvestigation(req.document_request, req,'all')
+        }
+      }
+    )
+    // this.cartService.removeItem(this.cartService.cartCurrent.id, body).subscribe(
+    //   () => {
+    //     this.loadingBar.useRef('http').complete()
+    //   },
+    //   () => {
+    //     this.loadingBar.useRef('http').complete()
+    //   },
+    //   () => {
+    //     this.getData()
+    //   }
+    // )
   }
 
 }
