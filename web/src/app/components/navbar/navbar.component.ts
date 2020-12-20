@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-
 import { CartsService } from '../../shared/services/carts/carts.service';
 import { CookiezService } from 'src/app/shared/handler/cookie/cookie.service';
 import { ProductsService } from 'src/app/shared/services/products/products.service';
@@ -244,6 +243,11 @@ export class NavbarComponent implements OnInit {
       return this.router.navigate(['profile'], { queryParams: { tab: 'order' } })
     }
     else {
+      if (this.router.url == '/profile/egov' || this.router.url == '/profile/egov?tab=account2' || this.router.url == '/profile/egov?tab=request-doc'){
+        return this.router.navigate([path],{ queryParams: { tab: 'account' } })
+      }else if(this.router.url == '/profile/egov?tab=account'){
+        return this.router.navigate([path],{ queryParams: { tab: 'account2' } })
+      }
       return this.router.navigate([path])
     }
   }

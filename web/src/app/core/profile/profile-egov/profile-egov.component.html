@@ -1,11 +1,12 @@
 <div class="wrapper">
     <div class="section">
         <div class="container-fluid pt-6 px-6">
-            <!-- eGov wrapper -->
+			<!-- eGov wrapper -->
 			<div class="nav-wrapper" *ngIf="user?.user_type == 'EG'">
-				<tabset type="pills" class="nav-fill flex-column flex-md-row" >
+				<tabset type="pills" class="nav-fill flex-column flex-md-row">
+				
 					<!-- Information tab -->
-					<tab heading="My Account">
+					<tab heading="My Account" index="1" [active]="requestTabActive == 3">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="heading mb-4">
@@ -581,8 +582,9 @@
 					</tab>
 					<!-- Investigation document tab -->
                     <tab 
-                        heading="Request Investigation Document" 
-                        [active]="requestTabActive"
+                        heading="Request Investigation Document"					
+						index="2"
+						[active]="requestTabActive == 2"
                         *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
                     >
 						<div class="card">
@@ -855,7 +857,7 @@
 															<span class="text-red">*</span>
 														</label>
 														<input class="form-control" formControlName="officer_official_email" [ngClass]="{'is-invalid': investigationForm.controls.officer_official_email.invalid && investigationForm.controls.officer_official_email.touched}" (change)="onInvestigChange()">
-														<ng-container *ngFor="let message of investigationFormMessages.officer_name">
+														<ng-container *ngFor="let message of investigationFormMessages.officer_official_email">
 															<div *ngIf="investigationForm.get('officer_official_email').hasError(message.type) && (investigationForm.get('officer_official_email').dirty || investigationForm.get('officer_official_email').touched)">
 																<p class="error-message"><span>{{ message.message }}</span></p>
 															</div>
@@ -928,7 +930,7 @@
 												</div>
 												<div class="col-sm-12 col-lg-6">
 													<div class="form-group">
-														<label class="form-control-label">Attachment (Official Letter from eGovernment)
+														<label class="form-control-label">Attachment (Official Letter from Government)
 															<span class="text-red"> *PDF format ONLY, 5MB maximum.</span>
 														</label>
 														<div class="custom-file">
@@ -1004,7 +1006,7 @@
 													>
 													<label class="custom-control-label" for="radioRequest1">Document</label>
 												</div>
-
+												<!-- [disabled]="requestToAdd.length >= 1" -->
 												<div class="custom-control custom-radio custom-control-inline">
 													<input 
 														type="radio" 
@@ -1014,7 +1016,7 @@
 														value="personal-involvement"
 														[(ngModel)]="searchType"
 														[ngModelOptions]="{standalone: true}"
-														[disabled]="requestToAdd.length >= 1"
+														
 														disabled
 													>
 													<label class="custom-control-label" for="radioRequest2">Personal Involvement</label>
@@ -1104,6 +1106,22 @@
 														</div>
 													</ng-template>
 												</ngx-datatable-column>
+
+												<ngx-datatable-column
+												[sortable]="true"
+												[resizeable]="false"
+												prop="documentDate"
+												>
+												<ng-template ngx-datatable-header-template>
+													<span>Document Date</span>
+												</ng-template>
+												<ng-template let-row="row" ngx-datatable-cell-template>
+													<div>
+														{{row.documentDate}}
+													</div>
+												</ng-template>
+												</ngx-datatable-column>
+												
 					
 												<ngx-datatable-column 
 													[sortable]="false"
@@ -1129,7 +1147,7 @@
 											</ngx-datatable>
 					
 											<div class="text-right py-3">
-												<button class="btn btn-ssm btn-icon btn-round" (click)="submitRequest()">
+												<button class="btn btn-ssm btn-icon btn-round" [disabled]="!investigationForm.valid" (click)="submitRequest()">
 													<span class="btn-inner--text"> Submit </span>
 												</button>
 											</div>
@@ -1140,9 +1158,10 @@
 						</div>
 					</tab>
 					<!-- Request tab -->
-                    <tab 
-                        heading="My Request"
-                        *ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
+					<tab 					
+						heading="My Request"						
+						*ngIf="user['egov_package'] == 3 || user['egov_package'] == 4"
+						index="3"
                     >
 						<div class="card">
 							<div class="card-body">
@@ -1737,23 +1756,24 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-12 col-lg-6">
+				<!-- <div class="col-sm-12 col-lg-6">
 					<button
 						class="btn btn-ssm btn-block"
 						(click)="openAttachment(selectedTask['official_letter_request'])"
+						disabled
 					>
 						Company Information Request Letter
 					</button>
-				</div>
+				</div> -->
 
-				<div class="col-sm-12 col-lg-6">
+				<!-- <div class="col-sm-12 col-lg-6"> -->
 					<button
 						class="btn btn-ssm btn-block"
-						(click)="openAttachment(selectedTask['official_letter_egov'])"
+						(click)="openAttachment(selectedTask['item']['official_letter_egov'])"
 					>
-						eGovernment Letter
+						Government Letter
 					</button>
-				</div>
+				<!-- </div> -->
 			</div>
 		</form>
 
