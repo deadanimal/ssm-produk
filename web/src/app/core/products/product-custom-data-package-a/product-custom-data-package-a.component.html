@@ -168,7 +168,7 @@
                                 Change Package
                             </button>
                             
-                            <p class="text-red">*You have {{quota?.quota}} remaining searches.</p>
+                            <p class="text-red">*You have {{calculateQuota}} remaining searches.</p>
                         </div>
                     </form>
                 </div>
@@ -279,9 +279,9 @@
                                 RM0.00/company
                             </div>
                             <div *ngIf="!row.errorMsg">
-                                RM4.00/company
+                                RM3.00/company
                             </div> -->
-                            RM4.00/company
+                            RM3.00/company
                         </ng-template>
                     </ngx-datatable-column>
 
