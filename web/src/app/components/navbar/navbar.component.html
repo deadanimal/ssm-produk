@@ -180,11 +180,11 @@
 													- CTC
 												</span>
 
-												<span *ngIf="item.product.language == 'EN'">
+												<span *ngIf="item.product?.language == 'EN' && item.product?.slug != 'document_form_viewing_fee'">
 													- EN
 												</span>
 
-												<span *ngIf="item.product.language == 'MS'">
+												<span *ngIf="item.product?.language == 'MS' && item.product?.slug != 'document_form_viewing_fee'">
 													- BM
 												</span>
 											</small>

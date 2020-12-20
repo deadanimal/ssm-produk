@@ -178,6 +178,12 @@ export class ProductSearchResultComponent implements OnInit {
     this.checkUser();
   }
 
+  ngOnDestroy() {
+    if (this.dataRefresher) {
+      clearInterval(this.dataRefresher)
+    }
+  }
+
   refreshData() {
     this.dataRefresher =
       setInterval(() => {
@@ -218,35 +224,36 @@ export class ProductSearchResultComponent implements OnInit {
       }
     )
 
-    this.productService.generateImage(imageBody).subscribe(
-      (res) => {
-        this.loadingBar.useRef('http').complete()
-        this.imageList = res
-      },
-      () => {
-        this.loadingBar.useRef('http').complete()
-      },
-      () => {
-        this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
-        this.imageList.forEach(
-          (img) => {
-            this.formTypes.forEach(
-              (form) => {
-                if (img.formType == form.code) {
-                  img['formName'] = form.desc_en
-                  img['isCtc'] = false
-                  img['price'] = 1000
-                  img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')
-                  this.updateTable()
+    if (this.entity['type_of_entity'] == 'CP') {
+      this.productService.generateImage(imageBody).subscribe(
+        (res) => {
+          this.loadingBar.useRef('http').complete()
+          this.imageList = res
+        },
+        () => {
+          this.loadingBar.useRef('http').complete()
+        },
+        () => {
+          this.imageList.sort((a, b) => new Date(b.dateFiler).getTime() - new Date(a.dateFiler).getTime())
+          this.imageList.forEach(
+            (img) => {
+              this.formTypes.forEach(
+                (form) => {
+                  if (img.formType == form.code) {
+                    img['formName'] = form.desc_en
+                    img['isCtc'] = false
+                    img['price'] = 1000
+                    img['humanDate'] = moment(img.dateFiler).format('DD-MM-YYYY')
+                    this.updateTable()
+                  }
                 }
-              }
-            )
-          }
-        )
-      }
-    )
-    //   // Aduh
-    if (this.entity['type_of_entity'] == 'BS') {
+              )
+            }
+          )
+        }
+      )
+    }
+    else if (this.entity['type_of_entity'] == 'BS') {
       this.productService.getBranches(branchBody).subscribe(
         (res) => {
           this.branches = res
@@ -308,7 +315,8 @@ export class ProductSearchResultComponent implements OnInit {
       year1: new FormControl(''),
       year2: new FormControl(''),
       image_form_type: new FormControl(false),
-      image_version_id: new FormControl(false)
+      image_version_id: new FormControl(false),
+      user: new FormControl(null)
     })
 
     this.companyProfileForm = this.fb.group({ // Company Profile
@@ -520,7 +528,7 @@ export class ProductSearchResultComponent implements OnInit {
     console.log('this.products = ', this.products)
     let product_found = false
     let product_found_both = 0
-
+    this.cartForm.controls['user'].setValue(this.userService.currentUser.id)
     this.products.forEach(
       (product) => {
         if (selected.value['language'] == 'BT' && product_found_both != 2) {
@@ -649,6 +657,12 @@ export class ProductSearchResultComponent implements OnInit {
           this.productService.cart = true
         }
       )
+    }
+    else {
+      let dupliMessage = 'You already added that to your cart'
+      let dupliTitle = 'Hm'
+
+      this.toastr.warning(dupliMessage, dupliTitle)
     }
     this.refreshData()
   }
