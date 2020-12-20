@@ -106,7 +106,7 @@ export class CartComponent implements OnInit {
     private router: Router
   ) {
     this.getMapping()
-    this.refreshData();
+    // this.refreshData();
   }
 
   ngOnInit(): void {
@@ -399,7 +399,7 @@ console.log(this.tableCheckbox);
   }
 
   proceed() {
-    let filterCheckout = new Promise(
+    let filterCheckout = new Promise<void>(
       (resolve, reject) => {
         this.tableRows = [...this.tableTemp];
         this.tableRows.forEach(

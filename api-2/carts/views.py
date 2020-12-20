@@ -96,11 +96,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def add_item_to_cart(self, request, *args, **kwargs):    
 
         cart_item_request = json.loads(request.body)   
-        # print('cit', cart_item_request)
 
-        # Post.objects.filter(user=request.user)
-        # product_length = CartItem.objects.filter(cart_item_type = 'PR').count()
-        # print("{0:0>6}".format(product_length))
         # Item product
         if cart_item_request['item_type'] == 'product':
             entity_id = cart_item_request['entity']
@@ -130,6 +126,8 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     slug='document_form_viewing_fee'
                 ).first()
 
+                print('prddd', product_viewing_fee)
+
                 new_cart_item = CartItem.objects.create(
                     entity=entity, 
                     product=product, 
@@ -138,9 +136,6 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     cart=cart,
                     cart_item_type='PR'
                 )
-                # dah bayar?
-                # in 24 jam
-                # company sama?
 
                 condition_paid = False
                 condition_not_paid = False
@@ -148,13 +143,12 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 paid_carts = Cart.objects.filter(
                     user=user_id_,
                     paid=True,
-                    modified_date__gte=date_filter
+                    modified_date__gte=date_filter_
                 ).all()
 
                 if paid_carts:
                     for paid_cart in paid_carts:
                         paid_cart_item = CartItem.objects.filter(
-                            user=user_id_,
                             entity=entity,
                             product=product_viewing_fee,
                             cart=paid_cart
@@ -180,37 +174,18 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                         condition_not_paid = True
                 
 
-                if condition_paid and condition_not_paid:
-                    new_cart_item_viewing_fee = CartItem.object.create(
+                if not condition_paid or not condition_not_paid:
+                    CartItem.objects.create(
                         product=product_viewing_fee,
                         cart=cart,
-                        cart_item_type='SE',
                         entity=entity
                     )
+                    print('Viewing fee not found')
                 else:
-                    print('viewing fee ada')
-
-
-                # if aaa is None:
-                #     user_id_ = cart_item_request['user']
-
-                #     delta = datetime.timedelta(hours=24)
-                #     current_time = datetime.datetime.now(tz=timezone.utc)
-                #     date_filter = current_time - delta
-
-                #     transactions_ = Transaction.objects.filter(
-                #         created_date__gte=date_filter,
-                #         user=user_id_,
-                #     ).all()
-
-                #     if transactions_:
-
-                #     product_viewing_fee = Product.objects.filter(slug='document_form_viewing_fee').first()
-                #     new_cart_item_viewing_fee = CartItem.object.create(
-                #         product=product_viewing_fee,
-                #         cart=cart,
-                #         cart_item_type='SE'
-                #     )
+                    # print('Viewing fee found')
+                    # print('Paid', condition_paid)
+                    # print('Not paid', condition_not_paid)
+                    pass
 
             # Financial historical
             elif year1 and year2:
@@ -222,6 +197,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     cart= cart,
                     cart_item_type='PR'
                 )
+            
             # Products
             else:
                 new_cart_item = CartItem.objects.create(
@@ -230,6 +206,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                     cart= cart,
                     cart_item_type='PR'
                 )
+        
         # Item service
         elif cart_item_request['item_type'] == 'service':
             service_request_id = str(cart_item_request['service_request_id'])
@@ -241,7 +218,8 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 service_request=service_request, 
                 cart= cart,
                 cart_item_type='SE'
-            )     
+            )
+
         # Item quota
         elif cart_item_request['item_type'] == 'quota':
             quota_id = str(cart_item_request['quota_id'])
@@ -255,6 +233,7 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 cart_item_type='QU'
             )  
 
+        # Item search criteria
         elif cart_item_request['item_type'] == 'product_search_criteria':
             
             product_search_criteria_id = str(cart_item_request['product_search_criteria_id'])
@@ -267,6 +246,8 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 cart= cart,
                 cart_item_type='PS'
             )                                             
+        
+        # None the above
         else:
             pass
 
@@ -280,7 +261,6 @@ class CartViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         for item in cart_item_request_:
             pass
-        print('Hello')
 
     @action(methods=['POST'], detail=True)
     def remove_item_from_cart(self, request, *args, **kwargs):  

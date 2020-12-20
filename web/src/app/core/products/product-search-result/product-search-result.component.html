@@ -1363,40 +1363,42 @@
                                 <div class="col-lg-4 col-sm-12">
                                     <div class="card-product-ssm card-lift--hover border-ssm rounded-extra">
                                         <div class="card-body">
-                                            <h4 class="pb-2">Audit Firm Profile</h4>
-                                        </div>
+                                            <div class="card-title">
+                                                <h4 class="pb-2">Audit Firm Profile</h4>
+                                            </div>
 
-                                        <form [formGroup]="auditProfileForm">
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <div class="form-group">
-                                                        <select
-                                                            class="form-control form-control-sm custom-select custom-select-sm"
-                                                            formControlName="language"
-                                                            (change)="checker(auditProfileForm)">
-                                                            <option value="MS" selected>BM</option>
-                                                            <option value="EN">EN</option>
-                                                            <option value="BT">Both</option>
-                                                        </select>
+                                            <form [formGroup]="auditProfileForm">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <select
+                                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                                formControlName="language"
+                                                                (change)="checker(auditProfileForm)">
+                                                                <option value="MS" selected>BM</option>
+                                                                <option value="EN">EN</option>
+                                                                <option value="BT">Both</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="col-md-7">
-                                                    <div class="form-group">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="checkAuditProfile" formControlName="isCtc"
-                                                                (change)="checker(auditProfileForm)" />
-
-                                                            <label class="custom-control-label text-dark"
-                                                                for="checkAuditProfile">
-                                                                CTC (+RM10.00)
-                                                            </label>
+    
+                                                    <div class="col-md-7">
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="checkAuditProfile" formControlName="isCtc"
+                                                                    (change)="checker(auditProfileForm)" />
+    
+                                                                <label class="custom-control-label text-dark"
+                                                                    for="checkAuditProfile">
+                                                                    CTC (+RM10.00)
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
 
                                         <div class="card-footer-ssm">
                                             <div class="text-center">

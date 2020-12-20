@@ -22,6 +22,9 @@ import subprocess
 import io
 import xlsxwriter
 
+import img2pdf
+import base64
+
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -642,7 +645,17 @@ class ProductViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             version_id = int(product_request_json['version_id'])
             middleware_data = get_image(document_url, request_headers, registration_, entity_type_, check_digit, version_id)
-            data_ = middleware_data['docContent']
+
+            # Decode base64
+            data_base64_ = middleware_data['docContent']
+            data_base64_decoded_ = base64.b64decode(data_base64_)
+
+            # Convert to pdf
+            file_name_ = 'image_.pdf'
+            data_converted_ = img2pdf.convert(data_base64_decoded_)
+
+            # Encode pdf
+            data_ = base64.b64encode(data_converted_)
         
         return Response(data_)
 
