@@ -35,7 +35,7 @@ class Cart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     active = models.BooleanField(default=True)
-    paid = models.BooleanField(default=True)
+    paid = models.BooleanField(default=False)
 
     total_price_before_tax = models.IntegerField(default=0)
     total_tax = models.IntegerField(default=0)

@@ -187,7 +187,7 @@ export class ProductSearchResultComponent implements OnInit {
   refreshData() {
     this.dataRefresher =
       setInterval(() => {
-        console.log('refresh data')
+        // console.log('Refresh data')
         this.checkUser2();
         //Passing the false flag would prevent page reset to 1 and hinder user interaction
       }, 3000);
