@@ -428,7 +428,7 @@ export class ProfileComponent implements OnInit {
         'entity_type': 'ROC',
         'version_id': selected.image_version_id
       }
-      this.downloadRequestImg(body)
+      this.downloadRequestImg(body, selected['order_no'])
     }
     else if (
       selected['cart_item_type'] == 'PR' &&
@@ -456,13 +456,19 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  downloadRequestImg(body) {
+  downloadRequestImg(body, reference_no) {
     this.spinner.show()
     this.productService.generateImage(body).subscribe(
       (res: any) => {
         this.spinner.hide()
-        let url = 'data:image/tiff;base64,' + res
-        window.open(url, '_blank');
+        let url = 'data:application/pdf;base64,' + res
+        let downloadLink = document.createElement('a')
+        let fileName = reference_no + '.pdf'
+
+        downloadLink.href = url;
+        downloadLink.download = fileName
+        downloadLink.click()
+        // window.open(url, '_blank');
         // console.log(res)
       },
       () => {

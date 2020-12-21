@@ -342,7 +342,7 @@ export class ProfileEgovComponent implements OnInit {
         this.departments = res[1]
         this.loadingBar.useRef('http').complete()
         
-        let waitRes =  new Promise(
+        let waitRes =  new Promise<void>(
           (resolve, reject) => {
             res[2].forEach(
               (request, index, array) => {
@@ -1143,17 +1143,23 @@ export class ProfileEgovComponent implements OnInit {
         body['entity_type'] = 'ROC'
         body['registration_no'] = Number(selected['item']['entity']['company_number'])
       }
-      this.downloadRequestImg(body)
+      this.downloadRequestImg(body, selected['item']['reference_no'])
     }
   }
 
-  downloadRequestImg(body) {
+  downloadRequestImg(body, reference_no) {
     this.spinner.show()
     this.productService.generateImage(body).subscribe(
       (res: any) => {
         this.spinner.hide()
-        let url = 'data:image/tiff;base64,' + res
-        window.open(url, '_blank');
+        let url = 'data:application/pdf;base64,' + res
+        let downloadLink = document.createElement('a')
+        let fileName = reference_no + '.pdf'
+
+        downloadLink.href = url;
+        downloadLink.download = fileName
+        downloadLink.click()
+        // window.open(url, '_blank');
         // console.log(res)
       },
       () => {
