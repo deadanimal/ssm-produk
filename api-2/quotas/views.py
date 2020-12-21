@@ -50,6 +50,16 @@ class QuotaViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Quota.objects.all()
 
+        user = self.request.query_params.get('user', None)
+        quota_type = self.request.query_params.get('quota_type', None)
+        if user is not None and quota_type is not None:
+            # To get quota from requested user and quota more than 0 and created_date under 24 hour
+            delta_ = datetime.timedelta(hours=24)
+            current_time_ = datetime.datetime.now(tz=timezone.utc)
+            date_filter_ = current_time_ - delta_
+            
+            queryset = queryset.filter(user=user).filter(created_date__gte=date_filter_).filter(quota_type=quota_type).filter(quota__gte=0)
+
         return queryset
 
     @action(methods=['POST'], detail=False)
