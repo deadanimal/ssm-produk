@@ -296,15 +296,15 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
                 if item.product:
                     item.product.fee = format(item.product.fee/100, '.2f')
-                    print('he')
+                    # print('he')
                 elif item.product_search_criteria:
                     item.product_search_criteria.total_price = format(
                         item.product_search_criteria.total_price/100, '.2f')
-                    print('he')
+                    # print('he')
                 elif item.service_request:
                     item.service_request.service.fee = format(
                         item.service_request.service.fee/100, '.2f')
-                    print('he')
+                    # print('he')
 
             total_amount_original = data_loaded['transaction'].total_amount
 
@@ -359,10 +359,126 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         print('______________')
         # portal.ssm.prototype.com.my
-        # url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + reference
-        url = 'https://xcessdev.ssm.com.my/#/payment/return?transactionId=' + reference
+        url = 'https://portal.ssm.prototype.com.my/#/payment/return?transactionId=' + reference
+        # url = 'localhost:4200/#/payment/return?transactionId=' + reference
+        # url = 'https://xcessdev.ssm.com.my/#/payment/return?transactionId=' + reference
         return redirect(url)
 
+    @ action(methods=['POST'], detail=False)
+    def callback(self, request, *args, **kwargs):
+
+        reference = request.POST.get("PaymentID", "")
+        pg_transaction_id = request.POST.get("TxnID", "")
+        transaction_method = request.POST.get("PymtMethod", "")
+        transaction_status = request.POST.get("TxnStatus", "")[0]
+        pg_transaction_type = request.POST.get('TransactionType', '')
+        pg_transaction_payment_method = request.POST.get('PymtMethod', '')
+        pg_transaction_message = request.POST.get('TxnMessage', '')
+        pg_transaction_card_holder = request.POST.get('CardHolder', '')
+        pg_transaction_card_no_mask = request.POST.get('CardNoMask', '')
+        # print('tt', request.POST.get("PymtMethod", ""))
+        print('______________')
+        print('Reference', reference)
+        print('PG Transaction ID', pg_transaction_id)
+
+        transaction = Transaction.objects.filter(reference=reference).first()
+
+        print('\n')
+        print(transaction.cart)
+        cart = Cart.objects.filter(id=transaction.cart.id).first()
+        print(cart.cart_status)
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+
+        current_year = str(datetime.datetime.now(timezone_).year)
+        current_month = str(datetime.datetime.now(timezone_).month)
+        current_day = str(datetime.datetime.now(timezone_).day)
+
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        filter_month = datetime.datetime.now(tz=timezone.utc).month
+        filter_day = datetime.datetime.now(tz=timezone.utc).day
+
+        transaction.transaction_id = pg_transaction_id
+        transaction_id_unix = str(
+            int(transaction.created_date.timestamp()))[-6:]
+        # print('ori', int(transaction.created_date.timestamp()))
+        # print('edite', transaction_id_unix)
+
+        transaction.transaction_type = pg_transaction_type
+        transaction.payment_method = pg_transaction_payment_method
+        transaction.transaction_message = pg_transaction_message
+        transaction.card_holder = pg_transaction_card_holder
+        transaction.card_no_mask = pg_transaction_card_no_mask
+
+        transaction.reference_no = 'P' + current_year + \
+            current_month + transaction_id_unix
+        transaction_length = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=filter_month) &
+            Q(created_date__day=filter_day) &
+            Q(receipt_no__isnull=False)
+        ).count()
+        transaction_running_no = "{0:0>6}".format(transaction_length + 1)
+
+        # transaction 0 - successful
+        if transaction_status == '0':
+            transaction.payment_status = 'OK'
+            transaction.payment_gateway_update_date = datetime.datetime.now(
+                timezone_)
+
+            transaction.receipt_no = 'PP' + current_year + \
+                current_month + current_day + transaction_running_no
+
+            cart.cart_status = 'CM'
+
+            cart_items = CartItem.objects.filter(cart=cart.id)
+
+            for item in cart_items:
+                product_length = CartItem.objects.filter(
+                    Q(cart_item_type='PR') &
+                    Q(order_no__isnull=False) &
+                    Q(created_date__year=filter_year) &
+                    Q(created_date__month=filter_month) &
+                    Q(created_date__day=filter_day)
+                ).count()
+                order_running_no = "{0:0>6}".format(product_length + 1)
+                print('running > ', order_running_no)
+
+                if item.cart_item_type == 'PR':
+                    item.order_no = 'PD' + current_year + \
+                        current_month + current_day + order_running_no
+                    item.save()
+
+            transaction.save()
+            cart.save()
+
+        # transaction 1 - failed
+        elif transaction_status == '1':
+            transaction.payment_status = 'FL'
+            transaction.payment_gateway_update_date = datetime.datetime.now(
+                tz=timezone.utc)
+            transaction.payment_method = transaction_method
+            transaction.receipt_no = 'PP' + current_year + \
+                current_month + current_day + transaction_running_no
+            transaction.save()
+
+            cart.cart_status = 'AB'
+            cart.save()
+
+        # transaction 2 - pending
+        elif transaction_status == '2':
+            transaction.payment_status = 'PD'
+            transaction.payment_gateway_update_date = datetime.datetime.now(
+                tz=timezone.utc)
+            transaction.payment_method = transaction_method
+            transaction.receipt_no = 'PP' + current_year + \
+                current_month + current_day + transaction_running_no
+            transaction.save()
+
+        serializer = TransactionSerializer(transaction)
+        return Response(serializer.data)
+
+    
     @ action(methods=['POST'], detail=True)
     def encode(self, request, *args, **kwargs):
 
@@ -392,6 +508,7 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             + 'SM2'
             + payment_id
             + encode_request['merchantReturnUrl']
+            + encode_request['merchantCallbackUrl']
             + encode_request['amount']
             + encode_request['currencyCode']
             + encode_request['custIP']

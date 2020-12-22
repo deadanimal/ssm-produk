@@ -63,7 +63,7 @@ export class PaymentToConfirmComponent implements OnInit {
         + '&OrderNumber=' + this.paymentInfo.orderNumber
         + '&PaymentDesc=' + this.paymentInfo.paymentDesc
         + '&MerchantReturnURL=' + environment.baseUrl + 'v1/transactions/pg_return/'
-        // + '&MerchantCallbackURL=' + this.paymentInfo.merchantCallbackUrl
+        + '&MerchantCallbackURL=' + environment.baseUrl + 'v1/transactions/callback/'
         + '&Amount=' + this.paymentInfo.amount
         + '&CurrencyCode=' + this.paymentInfo.currencyCode
         + '&CustIP=' + this.paymentInfo.custIP

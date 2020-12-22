@@ -28,7 +28,9 @@ ALLOWED_HOSTS = [
     'syafiqbasri.ngrok.io',
     'identitypro.ssm.com.my',
     '*',
-    'ssm.com.my'
+    'ssm.com.my',
+    '.ssm.com.my'
+    'xcessdev.ssm.com.my'
 ]
 
 USE_X_FORWARDED_PORT = True
@@ -185,14 +187,16 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1',
     'http://localhost',
     'https://identitypro.ssm.com.my',
-    'http://10.200.22.127:8000'
+    'http://10.200.22.127:8000',
+    'https://xcessdev.ssm.com.my'
 ]
 CORS_ORIGIN_REGEX_WHITELIST = [
     'https://ssm-product-api.pipe.my',
     'http://127.0.0.1',
     'http://localhost',
     'https://identitypro.ssm.com.my',
-    'http://10.200.22.127:8000'
+    'http://10.200.22.127:8000',
+    'https://xcessdev.ssm.com.my'
 ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -251,6 +255,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # SSO SAML
 SESSION_COOKIE_DOMAIN = '.ssm.com.my'
+SESSION_COOKIE_NAME = "ssmcookie"
 SAML_FOLDER = os.path.join(BASE_DIR, 'saml')
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 # SSO SAML

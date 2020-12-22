@@ -163,6 +163,7 @@ export class PaymentComponent implements OnInit {
       paymentDesc: 'PaymentDescription',
       merchantName: 'SSM',
       merchantReturnUrl: environment.baseUrl + 'v1/transactions/pg_return/',
+      merchantCallbackUrl: environment.baseUrl + 'v1/transactions/callback/',
       amount: ((this.cartService.cart.total_price_before_tax/100).toFixed(2)).toString(),
       currencyCode: 'MYR',
       custIP: this.clientIP.ip,
