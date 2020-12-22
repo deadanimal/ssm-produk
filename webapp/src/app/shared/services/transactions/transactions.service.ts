@@ -15,10 +15,21 @@ export class TransactionsService {
   public dropdownsURL: string = environment.baseUrl + 'v1/refund-dropdowns/';
   public tableURL: string = environment.baseUrl + 'v1/transactions/generate_report_table/';
   public gafURL: string = environment.baseUrl + 'v1/transactions/generate_gaf/'
+  public chartURL: string = environment.baseUrl + 'v1/transactions/transaction_by_month/'
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Transactions
+
+  getChartData(): Observable<any> {
+    let urlTemp = this.chartURL
+    return this.http.get<any>(urlTemp).pipe(
+      tap((res) => {
+        // console.log('Topics: ', res)
+        // this.tickets = res
+      })
+    )
+  }
   getTransactions(): Observable<any> {
     let urlTemp = this.transactionsURL + '?ordering=-created_date'
     return this.http.get<any>(urlTemp).pipe(
@@ -69,7 +80,7 @@ export class TransactionsService {
   }
 
   generateTable(body: any): Observable<any> {
-    return this.http.post<any>(this.tableURL, body, {responseType: 'blob' as 'json'}).pipe(
+    return this.http.post<any>(this.tableURL, body, { responseType: 'blob' as 'json' }).pipe(
       tap((res) => {
         console.log('F: ', res)
         // console.log('Topics: ', res)
@@ -79,7 +90,7 @@ export class TransactionsService {
   }
 
   generateGaf(body): Observable<any> {
-    return this.http.post<any>(this.gafURL, body, {responseType: 'blob' as 'json'}).pipe(
+    return this.http.post<any>(this.gafURL, body, { responseType: 'blob' as 'json' }).pipe(
       tap((res) => {
         console.log('F: ', res)
         // console.log('Topics: ', res)

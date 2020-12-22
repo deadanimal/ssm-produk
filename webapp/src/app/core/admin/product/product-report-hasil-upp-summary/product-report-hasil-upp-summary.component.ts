@@ -7,8 +7,15 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import * as xlsx from 'xlsx';
 import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-
 import { ProductsService } from '../../../../shared/services/products/products.service';
+import { ForecastRevenueService } from 'src/app/shared/services/forecast-revenue/forecast-revenue.service';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-product-report-hasil-upp-summary',
@@ -27,6 +34,7 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
     class: 'modal-dialog-centered',
   }
 
+  forecastRevenueForm: FormGroup
   tableTemp = []
   listData: any = [
     {
@@ -116,11 +124,30 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
     private zone: NgZone,
     private productService: ProductsService,
     private modalService: BsModalService,
+    private forecastRevenueService: ForecastRevenueService,
+    private formBuilder: FormBuilder,
+    private loadingBar: LoadingBarService
   ) {
     this.getData()
   }
 
   ngOnInit() {
+    this.forecastRevenueForm = this.formBuilder.group({
+      target_year: new FormControl(),
+      target_jan: new FormControl(),
+      target_feb: new FormControl(),
+      target_mar: new FormControl(),
+      target_apr: new FormControl(),
+      target_may: new FormControl(),
+      target_jun: new FormControl(),
+      target_jul: new FormControl(),
+      target_aug: new FormControl(),
+      target_sep: new FormControl(),
+      target_oct: new FormControl(),
+      target_nov: new FormControl(),
+      target_dec: new FormControl(),
+      created_by: new FormControl()
+    })
     // this.getCharts()
   }
 
@@ -131,6 +158,23 @@ export class ProductReportHasilUppSummaryComponent implements OnInit {
           console.log('Chart disposed')
           this.chart.dispose()
         }
+      }
+    )
+  }
+
+  createNewForecast() {
+
+    console.log('forecastRevenueForm', this.forecastRevenueForm.value)
+
+    this.loadingBar.start()
+    this.forecastRevenueService.create(this.forecastRevenueForm.value).subscribe(
+      (res) => {
+        this.loadingBar.complete()
+      },
+      (err) => {
+      },
+      () => {
+        // console.log(this.tableTemp)
       }
     )
   }

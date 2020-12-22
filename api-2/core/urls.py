@@ -71,6 +71,16 @@ organisations_router = router.register(
     'organisations', OrganisationViewSet
 )
 
+# forecast app
+
+from forecast_renevue.views import (
+    ForecastRevenueViewSet
+)
+
+forecast_renevue_router = router.register(
+    'forecast_revenue', ForecastRevenueViewSet
+)
+
 
 # Products app
 

@@ -246,6 +246,7 @@ export class ProductSearchResultComponent implements OnInit {
       }
     )
     //   // Aduh
+    console.log('type_of_entity = ', this.entity['type_of_entity'])
     if (this.entity['type_of_entity'] == 'BS') {
       this.productService.getBranches(branchBody).subscribe(
         (res) => {
@@ -275,12 +276,14 @@ export class ProductSearchResultComponent implements OnInit {
       (branch) => {
         if (branch['addressId'] == '0') {
           branch['branchType'] = 'Main'
-          branch['language'] = 'EN'
+          branch['language'] = 'MS'
+          branch['isCtc'] = false
           branch['price'] = 1000
         }
         else {
           branch['branchType'] = 'Branch'
-          branch['language'] = 'EN'
+          branch['language'] = 'MS'
+          branch['isCtc'] = false
           branch['price'] = 1000
         }
       }
@@ -348,7 +351,7 @@ export class ProductSearchResultComponent implements OnInit {
 
     this.certConversionForm = this.fb.group({
       slug: new FormControl('certificate_of_conversion'), // Certificate of Conversion
-      language: new FormControl('MS'),
+      language: new FormControl('EN'),
       isCtc: new FormControl(false),
       fee: new FormControl(2000)
     })
@@ -526,36 +529,49 @@ export class ProductSearchResultComponent implements OnInit {
         if (selected.value['language'] == 'BT' && product_found_both != 2) {
           if (
             selected.value['slug'] == product['slug'] &&
-            selected.value['isCtc'] == product['ctc'] &&
             product['language'] == 'MS' &&
             product_found_both != 2
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
             product_found_both = product_found_both + 1
             this.addItem()
+            console.log('FOUND1!!!!!!!')
           }
           else if (
             selected.value['slug'] == product['slug'] &&
-            selected.value['isCtc'] == product['ctc'] &&
             product['language'] == 'EN' &&
             product_found_both != 2
           ) {
             this.cartForm.controls['product'].setValue(product['id'])
             product_found_both = product_found_both + 1
             this.addItem()
+            console.log('FOUND2!!!!!!!')
           }
         }
         else {
+          // console.log(selected.value['slug'], " == ", product['slug'], " && ",
+          //   selected.value['isCtc'], " == ", product['ctc'], " && ",
+          //   selected.value['language'], " == ", product['language'], " && ",
+          //   !product_found)
           if (
             selected.value['slug'] == product['slug'] &&
             selected.value['isCtc'] == product['ctc'] &&
             selected.value['language'] == product['language'] &&
             !product_found
           ) {
-            console.log('qqqqqqqqqqq')
+            console.log('FOUND3!!!!!!!')
             this.cartForm.controls['product'].setValue(product['id'])
             product_found = true
             this.addItem()
+          }
+          else {
+            // console.log('NOT FOUND')
+            // console.log('E Slug ', selected.value['slug'])
+            // console.log('Slug ', product['slug'])
+            // console.log('E CTC? ', selected.value['isCtc'])
+            // console.log('CTC? ', product['ctc'])
+            // console.log('E Lang ', selected.value['language'])
+            // console.log('Lang ', product['language'])
           }
         }
       }
@@ -585,15 +601,19 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   addCartDocument(row) {
-    console.log(row);
-    if (row.hasOwnProperty("branchType") == true){
-        this.addCart(row)
-    }else{
+    console.log('addCartDocument = ', row);
+    if (row.hasOwnProperty("branchType") == true) {
+      console.log('atas', row.language, '==', row.isCtc)
+      this.businessCertForm.value.isCtc = row.isCtc
+      this.businessCertForm.value.language = row.language
+      this.addCart(this.businessCertForm)
+    } else {
+      console.log('bawah')
       this.cartForm.controls['image_form_type'].setValue(row.formType)
-        this.cartForm.controls['image_version_id'].setValue(row.verId)
-        this.documentForm.controls['isCtc'].setValue(row.isCtc)
-        this.addCart(this.documentForm)
-    } 
+      this.cartForm.controls['image_version_id'].setValue(row.verId)
+      this.documentForm.controls['isCtc'].setValue(row.isCtc)
+      this.addCart(this.documentForm)
+    }
 
     console.log(this.cartForm.value['image_form_type'])
   }
@@ -638,6 +658,7 @@ export class ProductSearchResultComponent implements OnInit {
         () => {
           this.loadingBar.useRef('http').complete()
           this.refreshCart()
+          this.checkUser2()
         },
         () => {
           this.loadingBar.useRef('http').complete()
@@ -650,7 +671,6 @@ export class ProductSearchResultComponent implements OnInit {
         }
       )
     }
-    this.refreshData()
   }
 
   refreshCart() {
@@ -688,6 +708,39 @@ export class ProductSearchResultComponent implements OnInit {
         }
       }
     )
+  }
+
+  checker2(selected) {
+    console.log('selected = ', selected)
+    console.log('language = ', selected.language)
+    this.products.forEach(
+      (product) => {
+        if (selected.language == 'BT') {
+          // console.log(selected.slug)
+          // console.log(product['slug'])
+          if (
+            selected.slug == product['slug'] &&
+            selected.isCtc == product['ctc']
+          ) {
+            selected.fee.setValue(product['fee'] * 2)
+          }
+          selected['price'] = 2000
+        }
+        else {
+          // console.log(selected.slug)
+          // console.log(product['slug'])
+          if (
+            selected.slug == product['slug'] &&
+            selected.isCtc == product['ctc'] &&
+            selected.language == product['language']
+          ) {
+            selected.fee.setValue(product['fee'])
+          }
+          selected['price'] = 1000
+        }
+      }
+    )
+    console.log('selected = ', selected)
   }
 
   checkUser() {
@@ -805,12 +858,24 @@ export class ProductSearchResultComponent implements OnInit {
   }
 
   checkCtcImg(row) {
+    console.log('qqqqqqqq')
     if (row['isCtc']) {
       row['price'] = 2000
     }
     else {
       row['price'] = 1000
     }
+  }
+
+  checkCtcImg2(row) {
+    console.log('xxxxxxxx', row);
+    if (row['isCtc']) {
+      row['price'] = 2000
+    }
+    else {
+      row['price'] = 1000
+    }
+    console.log("row['price']", row['price']);
   }
 
   checkerFin(selected) {
@@ -832,7 +897,7 @@ export class ProductSearchResultComponent implements OnInit {
     this.modalSample = this.modalService.show(modalRef, this.modalConfig);
   }
 
-  openModalSample2(modalRef: TemplateRef<any>,name) {
+  openModalSample2(modalRef: TemplateRef<any>, name) {
     this.modalname = name;
     this.modalSample = this.modalService.show(modalRef, this.modalConfig);
   }

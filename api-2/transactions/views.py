@@ -8,7 +8,7 @@ import csv
 import io
 
 from django.utils.timezone import make_aware
-
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
@@ -92,103 +92,298 @@ class TransactionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def transaction_by_month(self, request, *args, **kwargs):
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
-        current_year = str(datetime.datetime.now(timezone_).year)
 
         filter_year = datetime.datetime.now(tz=timezone.utc).year
         filter_month = datetime.datetime.now(tz=timezone.utc).month
-
-        print('current_year = ', current_year)
+        prev_year = filter_year-1
+        print('filter_year = ', filter_year)
+        print('filter_year past = ', filter_year-1)
         print('filter_month = ', filter_month)
 
-        transaction_dec = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=12)
-        ).count()
-
-        transaction_nov = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=11)
-        ).count()
-
-        transaction_oct = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=10)
-        ).count()
-
-        transaction_sep = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=9)
-        ).count()
-
-        transaction_aug = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=8)
-        ).count()
-
-        transaction_jul = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=7)
-        ).count()
-
-        transaction_jun = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=6)
-        ).count()
-
-        transaction_may = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=5)
-        ).count()
-
-        transaction_apr = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=4)
-        ).count()
-
-        transaction_mac = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=3)
-        ).count()
-
-        transaction_feb = Transaction.objects.filter(
-            Q(created_date__year=filter_year) &
-            Q(created_date__month=2)
-        ).count()
-
+        # get current year data
+        # Januari data
         transaction_jan = Transaction.objects.filter(
             Q(created_date__year=filter_year) &
             Q(created_date__month=1)
         ).count()
+        cum_transaction_jan = transaction_jan
+        jan_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=1)
+        ).aggregate(Sum("total_amount"))
 
-        print("transaction_dec = ", transaction_dec)
-        print("transaction_nov = ", transaction_nov)
-        print("transaction_oct = ", transaction_oct)
-        print("transaction_sep = ", transaction_sep)
-        print("transaction_aug = ", transaction_aug)
-        print("transaction_jul = ", transaction_jul)
-        print("transaction_jun = ", transaction_jun)
-        print("transaction_may = ", transaction_may)
-        print("transaction_apr = ", transaction_apr)
-        print("transaction_mac = ", transaction_mac)
-        print("transaction_feb = ", transaction_feb)
-        print("transaction_jan = ", transaction_jan)
+        if jan_amount['total_amount__sum'] == None:
+            jan_amount['total_amount__sum'] = 0
 
-        chart_data = {
-            'jan': transaction_jan,
-            'feb': transaction_feb,
-            'mac': transaction_mac,
-            'apr': transaction_apr,
-            'may': transaction_may,
-            'jun': transaction_jun,
-            'jul': transaction_jul,
-            'aug': transaction_aug,
-            'sep': transaction_sep,
-            'oct': transaction_oct,
-            'nov': transaction_nov,
-            'dec': transaction_dec
-        }
+        cum_amount_jan = jan_amount['total_amount__sum']
 
-        return JsonResponse(chart_data)
+        # feb data
+        transaction_feb = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=2)
+        ).count()
+        cum_transaction_feb = cum_transaction_jan + transaction_feb
+        feb_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=2)
+        ).aggregate(Sum("total_amount"))
+
+        if feb_amount['total_amount__sum'] == None:
+            feb_amount['total_amount__sum'] = 0
+
+        cum_amount_feb = feb_amount['total_amount__sum'] + cum_amount_jan
+
+        # mar data
+        transaction_mar = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=3)
+        ).count()
+        cum_transaction_mar = cum_transaction_feb + transaction_mar
+        mar_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=3)
+        ).aggregate(Sum("total_amount"))
+
+        if mar_amount['total_amount__sum'] == None:
+            mar_amount['total_amount__sum'] = 0
+
+        cum_amount_mar = mar_amount['total_amount__sum'] + cum_amount_feb
+
+        # apr data
+        transaction_apr = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=4)
+        ).count()
+        cum_transaction_apr = cum_transaction_mar + transaction_apr
+        apr_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=4)
+        ).aggregate(Sum("total_amount"))
+
+        if apr_amount['total_amount__sum'] == None:
+            apr_amount['total_amount__sum'] = 0
+
+        cum_amount_apr = apr_amount['total_amount__sum'] + cum_amount_mar
+
+        # may data
+        transaction_may = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=5)
+        ).count()
+        cum_transaction_may = cum_transaction_apr + transaction_may
+        may_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=5)
+        ).aggregate(Sum("total_amount"))
+
+        if may_amount['total_amount__sum'] == None:
+            may_amount['total_amount__sum'] = 0
+
+        cum_amount_may = may_amount['total_amount__sum'] + cum_amount_apr
+
+        # jun data
+        transaction_jun = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=6)
+        ).count()
+        cum_transaction_jun = cum_transaction_may + transaction_jun
+        jun_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=6)
+        ).aggregate(Sum("total_amount"))
+
+        if jun_amount['total_amount__sum'] == None:
+            jun_amount['total_amount__sum'] = 0
+
+        cum_amount_jun = jun_amount['total_amount__sum'] + cum_amount_may
+
+        # jul data
+        transaction_jul = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=7)
+        ).count()
+        cum_transaction_jul = cum_transaction_jun + transaction_jul
+        jul_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=7)
+        ).aggregate(Sum("total_amount"))
+
+        if jul_amount['total_amount__sum'] == None:
+            jul_amount['total_amount__sum'] = 0
+
+        cum_amount_jul = jul_amount['total_amount__sum'] + cum_amount_jun
+
+        # aug data
+        transaction_aug = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=8)
+        ).count()
+        cum_transaction_aug = cum_transaction_jul + transaction_aug
+        aug_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=8)
+        ).aggregate(Sum("total_amount"))
+
+        if aug_amount['total_amount__sum'] == None:
+            aug_amount['total_amount__sum'] = 0
+
+        cum_amount_aug = aug_amount['total_amount__sum'] + cum_amount_jul
+
+        # sep data
+        transaction_sep = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=9)
+        ).count()
+        cum_transaction_sep = cum_transaction_aug + transaction_sep
+        sep_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=9)
+        ).aggregate(Sum("total_amount"))
+
+        if sep_amount['total_amount__sum'] == None:
+            sep_amount['total_amount__sum'] = 0
+
+        cum_amount_sep = sep_amount['total_amount__sum'] + cum_amount_aug
+
+        # oct data
+        transaction_oct = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=10)
+        ).count()
+        cum_transaction_oct = cum_transaction_sep + transaction_oct
+        oct_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=10)
+        ).aggregate(Sum("total_amount"))
+
+        if oct_amount['total_amount__sum'] == None:
+            oct_amount['total_amount__sum'] = 0
+
+        cum_amount_oct = oct_amount['total_amount__sum'] + cum_amount_sep
+
+        # nov data
+        transaction_nov = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=11)
+        ).count()
+        cum_transaction_nov = cum_transaction_oct + transaction_nov
+        nov_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=11)
+        ).aggregate(Sum("total_amount"))
+
+        if nov_amount['total_amount__sum'] == None:
+            nov_amount['total_amount__sum'] = 0
+
+        cum_amount_nov = nov_amount['total_amount__sum'] + cum_amount_oct
+
+        # dec data
+        transaction_dec = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=12)
+        ).count()
+        cum_transaction_dec = cum_transaction_nov + transaction_dec
+        dec_amount = Transaction.objects.filter(
+            Q(created_date__year=filter_year) &
+            Q(created_date__month=12)
+        ).aggregate(Sum("total_amount"))
+
+        if dec_amount['total_amount__sum'] == None:
+            dec_amount['total_amount__sum'] = 0
+
+        cum_amount_dec = dec_amount['total_amount__sum'] + cum_amount_nov
+
+        # get current year data
+
+        chart_data = [
+            {
+                'month':"January",
+                'transaction_count': transaction_jan,
+                'cum_count':cum_transaction_jan,
+                'transaction_amount':jan_amount['total_amount__sum'],
+                'cum_amount':cum_amount_jan
+            },
+            {
+                'month':"February",
+                'transaction_count': transaction_feb,
+                'cum_count':cum_transaction_feb,
+                'transaction_amount':feb_amount['total_amount__sum'],
+                'cum_amount':cum_amount_feb
+            },
+            {
+                'month':"March",
+                'transaction_count': transaction_mar,
+                'cum_count':cum_transaction_mar,
+                'transaction_amount':mar_amount['total_amount__sum'],
+                'cum_amount':cum_amount_mar
+            },
+            {
+                'month':"April",
+                'transaction_count': transaction_apr,
+                'cum_count':cum_transaction_apr,
+                'transaction_amount':apr_amount['total_amount__sum'],
+                'cum_amount':cum_amount_apr
+            },
+            {
+                'month':'May',
+                'transaction_count': transaction_may,
+                'cum_count':cum_transaction_may,
+                'transaction_amount':may_amount['total_amount__sum'],
+                'cum_amount':cum_amount_may
+            },
+            {
+                'month':'Jun',
+                'transaction_count': transaction_jun,
+                'cum_count':cum_transaction_jun,
+                'transaction_amount':jun_amount['total_amount__sum'],
+                'cum_amount':cum_amount_jun
+            },
+            {
+                'month':'July',
+                'transaction_count': transaction_jul,
+                'cum_count':cum_transaction_jul,
+                'transaction_amount':jul_amount['total_amount__sum'],
+                'cum_amount':cum_amount_jul
+            },
+            {
+                'month':'August',
+                'transaction_count': transaction_aug,
+                'cum_count':cum_transaction_aug,
+                'transaction_amount':aug_amount['total_amount__sum'],
+                'cum_amount':cum_amount_aug
+            },
+            {
+                'month':'September',
+                'transaction_count': transaction_sep,
+                'cum_count':cum_transaction_sep,
+                'transaction_amount':sep_amount['total_amount__sum'],
+                'cum_amount':cum_amount_sep
+            },
+            {
+                'month':'October',
+                'transaction_count': transaction_oct,
+                'cum_count':cum_transaction_oct,
+                'transaction_amount':oct_amount['total_amount__sum'],
+                'cum_amount':cum_amount_oct
+            },
+            {
+                'month':'November',
+                'transaction_count': transaction_nov,
+                'cum_count':cum_transaction_nov,
+                'transaction_amount':nov_amount['total_amount__sum'],
+                'cum_amount':cum_amount_nov
+            },
+            {
+                'month':'December',
+                'transaction_count': transaction_dec,
+                'cum_count':cum_transaction_dec,
+                'transaction_amount':dec_amount['total_amount__sum'],
+                'cum_amount':cum_amount_dec
+            }
+        ]
+        # print('chart_data = ',chart_data)
+
+        return Response(chart_data)
 
     @ action(methods=['POST'], detail=False)
     def pg_return(self, request, *args, **kwargs):

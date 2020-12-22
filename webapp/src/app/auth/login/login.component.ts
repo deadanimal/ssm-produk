@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   loginFormMessages = {
     'username': [
       { type: 'required', message: 'Email is required' },
-      { type: 'email', message: 'Please enter a valid email'}
+      { type: 'email', message: 'Please enter a valid email' }
     ],
     'password': [
       { type: 'required', message: 'Password is required' },
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
       },
       () => {
         // 
-        this.navigatePage('/admin/dashboard')
+        this.navigatePage('/admin/dashboard/dashboard-default')
       }
     )
   }

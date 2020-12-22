@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import dj_database_url
 import os
 from decouple import config
 from datetime import timedelta
@@ -93,7 +94,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates') # for reporting template
+            os.path.join(BASE_DIR, 'templates')  # for reporting template
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -111,7 +112,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',#'django_multitenant.backends.postgresql',#'django.contrib.gis.db.backends.postgis',
+        # 'django_multitenant.backends.postgresql',#'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'DISABLE_SERVER_SIDE_CURSORS': True
     }
@@ -143,8 +145,8 @@ DATABASES = {
 # }
 
 
-import dj_database_url
-db_from_env = dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=500)
+db_from_env = dj_database_url.config(
+    default=config('DATABASE_URL'), conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 if any(db_from_env):
@@ -209,12 +211,12 @@ SITE_ID = 1
 REST_USE_JWT = True
 
 REST_FRAMEWORK = {
-    
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        
+
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
-    
+
 }
 
 SIMPLE_JWT = {
@@ -270,7 +272,8 @@ SAML2_AUTH = {
 
     # Optional settings below
     # 'DEFAULT_NEXT_URL': '/auth/login',  # Custom target redirect URL after the user get logged in. Default to /admin if not set. This setting will be overwritten if you have parameter ?next= specificed in the login URL.
-    'CREATE_USER': 'TRUE', # Create a new Django user when a new user logs in. Defaults to True.
+    # Create a new Django user when a new user logs in. Defaults to True.
+    'CREATE_USER': 'TRUE',
     'NEW_USER_PROFILE': {
         'USER_GROUPS': [],  # The default group name when a new user logs in
         'ACTIVE_STATUS': True,  # The default active status for new users
@@ -297,9 +300,13 @@ SAML2_AUTH = {
         'CREATE_USER': 'rest_auth.registration.urls',
         # 'BEFORE_LOGIN': 'path.to.your.login.hook.method',
     },
-    'ASSERTION_URL': 'https://xcessdev.ssm.com.my/#/sso/acs', # Custom URL to validate incoming SAML requests against
+    # Custom URL to validate incoming SAML requests against
+    'ASSERTION_URL': 'https://xcessdev.ssm.com.my/#/sso/acs',
     # 'ENTITY_ID': 'SSMProduk', # Populates the Issuer element in authn request
-    'NAME_ID_FORMAT': 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified', # Sets the Format property of authn NameIDPolicy element
-    'USE_JWT': True, # Set this to True if you are running a Single Page Application (SPA) with Django Rest Framework (DRF), and are using JWT authentication to authorize client users
-    'FRONTEND_URL': 'https://xcessdev.ssm.com.my/#/home' # Redirect URL for the client if you are using JWT auth with DRF. See explanation below
+    # Sets the Format property of authn NameIDPolicy element
+    'NAME_ID_FORMAT': 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
+    # Set this to True if you are running a Single Page Application (SPA) with Django Rest Framework (DRF), and are using JWT authentication to authorize client users
+    'USE_JWT': True,
+    # Redirect URL for the client if you are using JWT auth with DRF. See explanation below
+    'FRONTEND_URL': 'https://xcessdev.ssm.com.my/#/home'
 }

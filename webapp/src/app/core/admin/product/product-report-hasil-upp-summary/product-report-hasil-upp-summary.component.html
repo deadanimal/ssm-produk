@@ -114,118 +114,124 @@
     </div>
 
     <div class="modal-body">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">Select Year</label>
-                    <select class="form-control">
-                        <option>2020</option>
-                        <option>2019</option>
-                        <option>2018</option>
-                    </select>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">January</label>
-                    <input class="form-control" type="number">
+        <form [formGroup]="forecastRevenueForm">
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">Select Year</label>
+                        <select class="form-control" formControlName="target_year">
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">February</label>
-                    <input class="form-control" type="number">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">January</label>
+                        <input class="form-control" formControlName="target_jan" type="number">
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">March</label>
-                    <input class="form-control" type="number">
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">April</label>
-                    <input class="form-control" type="number">
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">May</label>
-                    <input class="form-control" type="number">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">February</label>
+                        <input class="form-control" formControlName="target_feb" type="number">
+                    </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">June</label>
-                    <input class="form-control" type="number">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">March</label>
+                        <input class="form-control" formControlName="target_mar" type="number">
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">July</label>
-                    <input class="form-control" type="number">
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">August</label>
-                    <input class="form-control" type="number">
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">September</label>
-                    <input class="form-control" type="number">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">April</label>
+                        <input class="form-control" formControlName="target_apr" type="number">
+                    </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">October</label>
-                    <input class="form-control" type="number">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">May</label>
+                        <input class="form-control" formControlName="target_may" type="number">
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">November</label>
-                    <input class="form-control" type="number">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">June</label>
+                        <input class="form-control" formControlName="target_jun" type="number">
+                    </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-control-label">December</label>
-                    <input class="form-control" type="number">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">July</label>
+                        <input class="form-control" formControlName="target_jul" type="number">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">August</label>
+                        <input class="form-control" formControlName="target_aug" type="number">
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">September</label>
+                        <input class="form-control" formControlName="target_sep" type="number">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">October</label>
+                        <input class="form-control" formControlName="target_oct" type="number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">November</label>
+                        <input class="form-control" formControlName="target_nov" type="number">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-control-label">December</label>
+                        <input class="form-control" formControlName="target_dec" type="number">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
     </div>
 
     <div class="modal-footer text-center">
-        <button class="btn btn-outline-ssm" (click)="SubmitSasaran()">
+        <button class="btn btn-outline-ssm" (click)="createNewForecast()">
             Submit
         </button>
         <button class="btn btn-outline-ssm" data-dismiss="modal" type="button" (click)="closeModal()">

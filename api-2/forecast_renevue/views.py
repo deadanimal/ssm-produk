@@ -10,11 +10,11 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from forecast_revenue.models import (
+from forecast_renevue.models import (
     ForecastRevenue
 )
 
-from forecast_revenue.serializers import (
+from forecast_renevue.serializers import (
     ForecastRevenueSerializer
 )
 

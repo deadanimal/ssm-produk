@@ -9,12 +9,12 @@ from rest_framework import serializers
 from django.utils.timezone import now
 
 from .models import (
-    Organisation
+    ForecastRevenue
 )
 
 
 class ForecastRevenueSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = forecast_revenue
+        model = ForecastRevenue
         fields = '__all__'

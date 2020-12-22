@@ -84,18 +84,19 @@ export class DashboardProductComponent implements OnInit {
     },
   ];
 
-  chartJan: number = 0
-  chartFeb: number = 0
-  chartMar: number = 0
-  chartApr: number = 0
-  chartMay: number = 0
-  chartJun: number = 0
-  chartJul: number = 0
-  chartAug: number = 0
-  chartSep: number = 0
-  chartOct: number = 0
-  chartNov: number = 0
-  chartDec: number = 0
+  transacData: []
+  transactionCountJan: number = 0
+  transactionCountFeb: number = 0
+  transactionCountMar: number = 0
+  transactionCountApr: number = 0
+  transactionCountMay: number = 0
+  transactionCountJun: number = 0
+  transactionCountJul: number = 0
+  transactionCountAug: number = 0
+  transactionCountSep: number = 0
+  transactionCountOct: number = 0
+  transactionCountNov: number = 0
+  transactionCountDec: number = 0
 
   // Chart
   private chart: any
@@ -106,11 +107,11 @@ export class DashboardProductComponent implements OnInit {
     private transactionsService: TransactionsService
   ) {
     // this.getProductData()
-    this.getTransactionData()
   }
 
   ngOnInit() {
-    this.getCharts()
+    this.getTransactionData()
+    // this.getCharts()
   }
 
   ngOnDestroy() {
@@ -125,20 +126,21 @@ export class DashboardProductComponent implements OnInit {
   }
 
   getCharts() {
+    console.log('---getCharts---')
     this.zone.runOutsideAngular(() => {
       this.getChart()
-      this.getChart1()
-      this.getChart2()
+      // this.getChart1()
+      // this.getChart2()
     })
   }
 
-
   getChart() {
+    console.log('---chart1---')
     let chart = am4core.create("chartdivpro", am4charts.XYChart);
     chart.scrollbarX = new am4core.Scrollbar();
 
     // Add data
-    chart.data = this.transactionData
+    chart.data = this.transacData
 
     prepareParetoData();
 
@@ -146,11 +148,12 @@ export class DashboardProductComponent implements OnInit {
 
       let i = 0
       chart.data.forEach(function (qwe) {
-        // console.log('qwe.expenses = ', qwe.expenses)
-        chart.data[i].pareto = (qwe.expenses / 100) * 2;
+        console.log('qwe.jan_transaction_count = ', qwe['jan_transaction_count'])
+        chart.data[i].pareto = (qwe['jan_transaction_count'] / 100) * 2;
         i++
       })
     }
+    console.log('chart.data = ', chart.data)
 
     // prepareParetoData();
 
@@ -240,51 +243,51 @@ export class DashboardProductComponent implements OnInit {
     chart.data = [
       {
         "country": "Jan",
-        "visits": this.chartJan
+        "visits": this.transactionCountJan
       },
       {
         "country": "Feb",
-        "visits": this.chartFeb
+        "visits": this.transactionCountFeb
       },
       {
         "country": "mar",
-        "visits": this.chartMar
+        "visits": this.transactionCountMar
       },
       {
         "country": "Apr",
-        "visits": this.chartApr
+        "visits": this.transactionCountApr
       },
       {
         "country": "May",
-        "visits": this.chartMay
+        "visits": this.transactionCountMay
       },
       {
         "country": "Jun",
-        "visits": this.chartJun
+        "visits": this.transactionCountJun
       },
       {
         "country": "Jul",
-        "visits": this.chartJul
+        "visits": this.transactionCountJul
       },
       {
         "country": "Aug",
-        "visits": this.chartAug
+        "visits": this.transactionCountAug
       },
       {
         "country": "Sep",
-        "visits": this.chartSep
+        "visits": this.transactionCountSep
       },
       {
         "country": "Oct",
-        "visits": this.chartOct
+        "visits": this.transactionCountOct
       },
       {
         "country": "Nov",
-        "visits": this.chartNov
+        "visits": this.transactionCountNov
       },
       {
         "country": "Dec",
-        "visits": this.chartDec
+        "visits": this.transactionCountDec
       },
     ];
 
@@ -486,111 +489,63 @@ export class DashboardProductComponent implements OnInit {
   }
 
   getTransactionData() {
+    console.log('---getTransactionData---')
     // this.loadingBar.start()
 
     let currentYear = (new Date()).getFullYear()
 
-    this.chartJan = 0
-    this.chartFeb = 0
-    this.chartMar = 0
-    this.chartApr = 0
-    this.chartMay = 0
-    this.chartJun = 0
-    this.chartJul = 0
-    this.chartAug = 0
-    this.chartSep = 0
-    this.chartOct = 0
-    this.chartNov = 0
-    this.chartDec = 0
+    let tCJan: number = 0
+    let tCFeb: number = 0
+    let tCMar: number = 0
+    let tCApr: number = 0
+    let tCMay: number = 0
+    let tCJun: number = 0
+    let tCJul: number = 0
+    let tCAug: number = 0
+    let tCSep: number = 0
+    let tCOct: number = 0
+    let tCNov: number = 0
+    let tCDec: number = 0
 
-    let chartDataJan = 0
-    let chartDataFeb = 0
-    let chartDataMar = 0
-    let chartDataApr = 0
-    let chartDataMay = 0
-    let chartDataJun = 0
-    let chartDataJul = 0
-    let chartDataAug = 0
-    let chartDataSep = 0
-    let chartDataOct = 0
-    let chartDataNov = 0
-    let chartDataDec = 0
-
-    this.transactionsService.getTransactions().subscribe(
+    this.transactionsService.getChartData().subscribe(
       (res) => {
         // this.loadingBar.complete()
+        this.transacData = res
+        console.log('this.transacData = ', this.transacData)
         res.forEach(function (loopVal) {
 
-          // console.log('createdDate', loopVal.created_date)
-          var createdDate = moment(loopVal.created_date, 'DD-MM-YYYY')
-          // console.log('format(MM-DD-YYYY) = ', createdDate.format('MM'))
+          console.log('loopVal = ', loopVal)
 
-          let checkerDate = moment(loopVal.created_date)
-
-          let checkerDateMonth = checkerDate.month()
-          console.log('createdDate = ', createdDate, 'checkerDateMonth = ', checkerDateMonth)
-
-          if (checkerDateMonth == 0) {
-            chartDataJan += 1
-          }
-          else if (checkerDateMonth == 1) {
-            chartDataFeb += 1
-          }
-          else if (checkerDateMonth == 2) {
-            chartDataMar += 1
-          }
-          else if (checkerDateMonth == 3) {
-            chartDataApr += 1
-          }
-          else if (checkerDateMonth == 4) {
-            chartDataMay += 1
-          }
-          else if (checkerDateMonth == 5) {
-            chartDataJun += 1
-          }
-          else if (checkerDateMonth == 6) {
-            chartDataJul += 1
-          }
-          else if (checkerDateMonth == 7) {
-            chartDataAug += 1
-          }
-          else if (checkerDateMonth == 8) {
-            chartDataSep += 1
-          }
-          else if (checkerDateMonth == 9) {
-            chartDataOct += 1
-          }
-          else if (checkerDateMonth == 10) {
-            chartDataNov += 1
-          }
-          else if (checkerDateMonth == 11) {
-            chartDataDec += 1
-          }
-
+          tCJan = loopVal.jan_transaction_count
+          tCFeb = loopVal.feb_transaction_count
+          tCMar = loopVal.mar_transaction_count
+          tCApr = loopVal.apr_transaction_count
+          tCMay = loopVal.may_transaction_count
+          tCJun = loopVal.jun_transaction_count
+          tCJul = loopVal.jul_transaction_count
+          tCAug = loopVal.aug_transaction_count
+          tCSep = loopVal.sep_transaction_count
+          tCOct = loopVal.oct_transaction_count
+          tCNov = loopVal.nov_transaction_count
+          tCDec = loopVal.dec_transaction_count
         })
+
+        this.getCharts()
       }
     )
 
-    this.chartJan = chartDataJan
-    this.chartFeb = chartDataFeb
-    this.chartMar = chartDataMar
-    this.chartApr = chartDataApr
-    this.chartMay = chartDataMay
-    this.chartJun = chartDataJun
-    this.chartJul = chartDataJul
-    this.chartAug = chartDataAug
-    this.chartSep = chartDataSep
-    this.chartOct = chartDataOct
-    this.chartNov = chartDataNov
-    this.chartDec = chartDataDec
-
-    console.log(this.chartJan, '=', chartDataJan, '--', this.chartDec, '=', chartDataDec, '--', this.chartNov, '--', this.chartOct)
-
-    // this.zone.runOutsideAngular(() => {
-    // this.getChart()
-    this.getChart1()
-    // this.getChart2()
-    // })
+    this.transactionCountJan = tCJan
+    this.transactionCountFeb = tCFeb
+    this.transactionCountMar = tCMar
+    this.transactionCountApr = tCApr
+    this.transactionCountMay = tCMay
+    this.transactionCountJun = tCJun
+    this.transactionCountJul = tCJul
+    this.transactionCountAug = tCAug
+    this.transactionCountSep = tCSep
+    this.transactionCountOct = tCOct
+    this.transactionCountNov = tCNov
+    this.transactionCountDec = tCDec
 
   }
 

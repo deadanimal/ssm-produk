@@ -1453,7 +1453,8 @@
                                 [footerHeight]="50" [rowHeight]="'auto'"
                                 [limit]="tableEntries != -1 ? tableEntries : undefined" [rows]="tableTemp"
                                 [scrollbarH]="true">
-                                <ngx-datatable-column [width]="135" [sortable]="true" [resizable]="false" prop="formType">
+                                <ngx-datatable-column [width]="135" [sortable]="true" [resizable]="false"
+                                    prop="formType">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Type</span>
                                     </ng-template>
@@ -1462,7 +1463,8 @@
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <!--   // Aduh -->
-                                <ngx-datatable-column [width]="198" [sortable]="true" [resizable]="false" prop="formName">
+                                <ngx-datatable-column [width]="198" [sortable]="true" [resizable]="false"
+                                    prop="formName">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Description</span>
                                     </ng-template>
@@ -1471,7 +1473,8 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="155" [sortable]="true" [resizable]="false" prop="humanDate">
+                                <ngx-datatable-column [width]="155" [sortable]="true" [resizable]="false"
+                                    prop="humanDate">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Document Date</span>
                                     </ng-template>
@@ -1480,7 +1483,8 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="100" [sortable]="true" [resizable]="false" prop="totalPage">
+                                <ngx-datatable-column [width]="100" [sortable]="true" [resizable]="false"
+                                    prop="totalPage">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Total Page</span>
                                     </ng-template>
@@ -1520,7 +1524,6 @@
                     <tab *ngIf="branches">
                         <ng-template tabHeading> Business Certificate </ng-template>
 
-                        <form [formGroup]="businessCertForm">
                         <div class="mt-2 mb-4">
                             <ngx-datatable class="bootstrap" [columnMode]="'force'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="'auto'"
@@ -1562,7 +1565,7 @@
                                         </span>
                                     </ng-template>
                                 </ngx-datatable-column>
-<!-- 
+                                <!-- 
                                 <ngx-datatable-column [width]="80" [sortable]="false" [resizeable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">Sample</span>
@@ -1581,8 +1584,9 @@
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="form-group">
                                             <select class="form-control form-control-sm custom-select custom-select-sm"
-                                                id="{{row.id_index}}" [(ngModel)]="row.language" formControlName="language">
-                                                <option value="BM">BM</option>
+                                                id="{{row.id_index}}" [(ngModel)]="row.language"
+                                                (change)="checker2(row)">
+                                                <option value="MS">BM</option>
                                                 <option value="EN">EN</option>
                                                 <option value="BT">BOTH</option>
                                             </select>
@@ -1591,33 +1595,32 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="100" [resizeable]="false">
+                                <ngx-datatable-column [width]="130" [sortable]="false" [resizable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header">CTC</span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
                                         <div class="custom-control custom-checkbox">
-                                            <input formControlName="isCtc" type="checkbox" class="custom-control-input" id="{{row.id_index}}"
-                                                checked disabled>
-                                            <label class="custom-control-label" for="{{row.id_index}}">CTC
+                                            <input type="checkbox" class="custom-control-input" id="bc_{{row.id_index}}"
+                                                [(ngModel)]="row.isCtc" (change)="checkCtcImg2(row)">
+                                            <label class="custom-control-label" for="bc_{{row.id_index}}">CTC
                                                 (+RM10.00)</label>
                                         </div>
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [width]="80" [resizeable]="false" [sortable]="false">
+                                <ngx-datatable-column [width]="180" [sortable]="false" [resizable]="false">
                                     <ng-template ngx-datatable-header-template>
                                         <span class="table-header"></span>
                                     </ng-template>
                                     <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <button (click)="addCart(businessCertForm)" class="btn btn-ssm btn-sm">
+                                        <button class="btn btn-ssm btn-sm" (click)="addCartDocument(row)">
                                             Add to cart RM{{row.price/100 | number: '1.2-2'}}
                                         </button>
                                     </ng-template>
                                 </ngx-datatable-column>
                             </ngx-datatable>
                         </div>
-                        </form>
                     </tab>
                 </tabset>
             </div>
@@ -1694,34 +1697,40 @@
         <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'acgs'">
             ACGS Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
             CERTIFICATE OF CHANGE OF NAME Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
             CERTIFICATE OF INCORPORATION OF NAME Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
             PARTICULARS OF DIRECTORS Sample
         </h4>
         <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALHISTORICAL'">
             FINANCIAL HISTORICAL Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
             CERTIFICATE OF EXPIRY BUSINESS Sample
-        </h4>          
+        </h4>
         <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'FINANCIALCOMPARISON'">
             FINANCIAL COMPARISON Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">
             CERTIFICATE OF CONVERSION Sample
         </h4>
-        <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">
+        <h4 class="modal-title text-white my-auto" id="modal-title-default"
+            *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">
             PARTICULARS OF REGISTERED ADDRESS Sample
         </h4>
         <h4 class="modal-title text-white my-auto" id="modal-title-default" *ngIf="modalname == 'PSHARH'">
             PARTICULARS OF SHAREHOLDERS Sample
-        </h4>    
-        
+        </h4>
+
         <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="closeModalSample()">
             <span aria-hidden="true" class="text-white my-auto"> × </span>
         </button>
@@ -1729,16 +1738,24 @@
 
     <div class="modal-body">
         <embed src="assets/img/docs/ACGS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'acgs'">
-        <embed src="assets/img/docs/CERTIFICATEOFCHANGEOFNAME.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
-        <embed src="assets/img/docs/CERTIFICATEOFINCORPORATION.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
-        <embed src="assets/img/docs/PARTICULARSOFDIRECTORS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
-        <embed src="assets/img/docs/FINANCIALHISTORICAL.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALHISTORICAL'">
-        <embed src="assets/img/docs/CERTIFICATEOFEXPIRYBUSINESS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
-        <embed src="assets/img/docs/FINANCIALCOMPARISON.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'FINANCIALCOMPARISON'">
-        <embed src="assets/img/docs/CERTIFICATEOFCONVERSION.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">           
-        <embed src="assets/img/docs/PARTICULARSOFREGISTEREDADDRESS.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">           
-        <embed src="assets/img/docs/PSHARH.pdf" frameborder="0" width="100%" height="550px" *ngIf="modalname == 'PSHARH'">           
-                
-        </div>
-</ng-template>
+        <embed src="assets/img/docs/CERTIFICATEOFCHANGEOFNAME.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'CERTIFICATEOFCHANGEOFNAME'">
+        <embed src="assets/img/docs/CERTIFICATEOFINCORPORATION.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'CERTIFICATEOFINCORPORATION'">
+        <embed src="assets/img/docs/PARTICULARSOFDIRECTORS.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'PARTICULARSOFDIRECTORS'">
+        <embed src="assets/img/docs/FINANCIALHISTORICAL.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'FINANCIALHISTORICAL'">
+        <embed src="assets/img/docs/CERTIFICATEOFEXPIRYBUSINESS.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'CERTIFICATEOFEXPIRYBUSINESS'">
+        <embed src="assets/img/docs/FINANCIALCOMPARISON.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'FINANCIALCOMPARISON'">
+        <embed src="assets/img/docs/CERTIFICATEOFCONVERSION.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'CERTIFICATEOFCONVERSION'">
+        <embed src="assets/img/docs/PARTICULARSOFREGISTEREDADDRESS.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'PARTICULARSOFREGISTEREDADDRESS'">
+        <embed src="assets/img/docs/PSHARH.pdf" frameborder="0" width="100%" height="550px"
+            *ngIf="modalname == 'PSHARH'">
 
+    </div>
+</ng-template>
